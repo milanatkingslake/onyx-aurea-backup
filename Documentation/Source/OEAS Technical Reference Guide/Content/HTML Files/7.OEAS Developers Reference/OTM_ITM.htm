@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="771" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Using the Internal Transaction Manager</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>
+            <MadCap:keyword term="Internal Transaction Manager" />
+            <MadCap:keyword term="Using" />Using the Internal Onyx Transaction Manager</h4>
+        <p>The Internal Onyx Transaction Manager (OTM) exists to provide a mechanism 
+ for step components to call back into the system without having to incur 
+ the overhead of security validation, XML parsing, and interface optimizations 
+ intended for remote and scripted client applications.</p>
+        <p>The general behavior and execution of the Internal OTM is similar to 
+ the standard OTM in many ways: it uses the OED cache to get the list of 
+ steps for a method, it supports COM+ transactions, and it checks for a 
+ stop message after each step component executes. The Internal OTM differs 
+ from the standard OTM primarily in that: it bypasses the security infrastructure 
+ completely, and its Execute method has a different list of input arguments.</p>
+        <p>The Internal OTM is accessible through separate interfaces from the 
+ standard OTM. During setup, these separate interfaces, <a href="OTM_IntTM_Iface.htm">IInternalTransactionManager</a> 
+ and <a href="IInternalStringTransactionManager_interface.htm">IInternalStringTransactionManager</a>, 
+ are given COM+ security settings that block access to it by client applications. 
+ Because the Internal OTM bypasses the OEAS security mechanisms, it is 
+ intended only for use by step components. The Internal OTM assumes the 
+ caller is cleared to access whatever business object method the step component 
+ calls.</p>
+        <p>While the <a href="TM_Execute.htm">Execute method</a> of the standard 
+ OTM accepts a string of unparsed XML that contains the parameters for 
+ the business object method, the IInternalTransactionManager.Execute method 
+ accepts a complete step package accessible through an instance of the 
+ IXMLDOMDocument interface, and the IInternalStringTransactionManager.Execute 
+ method accepts the step package as a string. The latter is <a href="onyx_step_components_and_the_net_framework.htm">used 
+ for .NET</a> compatibility. The calling step component can pass the same 
+ document instance or string it received from the OTM, but it will most 
+ likely build a new step package in a separate document instance or string 
+ and pass it to the Internal OTM. For information about the structure of 
+ the step package, see <a href="OTM_Step_Pkg.htm">Using the Step Package</a>.</p>
+        <p>The Internal OTM is subject to the same rules as the standard OTM regarding 
+ nested COM+ transactions, but since the Internal OTM executes in a separate 
+ context, it is possible to create a separate transaction stream during 
+ method execution. For example, in the following diagram the step component 
+ within the first transaction uses the Internal OTM to call a business 
+ object method that contains transaction steps. The Internal OTM creates 
+ a second transaction stream and executes normally. At first glance, this 
+ appears to be a nested transaction, but the two streams are in fact independent 
+ of one another. If either transaction were to fail, the other would be 
+ unaffected.</p>
+        <p class="Image">
+            <img src="../../Resources/Images/IOTM_Trans3.jpg" style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <p>Once the Internal OTM Execute method completes, 
+ execution control returns to the step component inside the first transaction. 
+ </p>
+    </body>
+</html>

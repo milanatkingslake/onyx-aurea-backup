@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="5" MadCap:lastHeight="754" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Configuring the manual assignment of incidents</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>Configuring the manual assignment of incidents</h3>
+        <p>In the Object Designer, you can change the default behavior of the incident 
+ update process through the step additional data. The XPath statement outlined 
+ in red in the following graphic shows the <span style="font-weight: bold;">executeCondition</span> 
+ element. This element enables you to change the criteria used by the incident 
+ update method to call the OPM 
+ process for the manual assignment of incidents. For overview information, 
+ see <a href="../2.OEAS Features/AR_CA_AssignStudioManualassignmentincidents.htm">Manual assignment 
+ of incidents</a>.</p>
+        <p class="Image">
+            <img src="../../Resources/Images/AR_onyxtmuser2.jpg" style="border: none;width: 850px;height: 360px;float: none;border-style: none;border-style: none;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" width="850" height="360" border="0" />
+        </p>
+        <p>The following example demonstrates how to change this behavior by configuring 
+ OEAS to call 
+ OPM when the 
+ status of an incident is set to "closed.” For this example “closed” 
+ is assumed to have a reference value of 151.</p>
+        <p class="ProcedureHeading">To change the criteria on which the incident update method 
+ calls OPM:</p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li>Open the Object Designer and expand the incident 
+ business object.</li>
+            <li>Under the incident update method, select the <span style="font-weight: bold;">territoryAssociation</span> 
+ step. </li>
+        </ol>
+        <p class="Indent1">The step's properties appear in the edit area. In the <span style="font-weight: bold;">Additional 
+ Data</span> box, the <span style="font-weight: bold;">executeCondition</span> 
+ element determines how OPM 
+ is called during the incident update process. Changing this data involves 
+ writing any valid XPath statement. If the XPath statement returns a node, 
+ then the step executes and calls OPM.</p>
+        <p class="Indent1">In this example, the XPath statement is changed to call the OPM 
+ process when the status of an incident is "closed" (reference 
+ value of 151 in this example). </p>
+        <ol style="list-style: decimal;list-style-type: decimal;" MadCap:continue="true">
+            <li>Change the existing XPath statement to: <span style="font-style: italic;">executeCondition=parameters/incident[statusId=’151’] 
+ </span></li>
+            <li>Click <span style="font-weight: bold;">Save</span>, 
+ <span style="font-weight: bold;">Validate</span>, and then <span style="font-weight: bold;">Publish</span>. 
+ </li>
+        </ol>
+    </body>
+</html>

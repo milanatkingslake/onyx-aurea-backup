@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="790" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Property Constraints</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>
+            <MadCap:keyword term="Property constraints" />Property constraints</h5>
+        <p>Property constraints are rules that are placed on a particular property 
+ to enforce requirements or limitations on the data that the property can 
+ contain. To obtain the current property constraints for a specified property, 
+ use the <a href="GetPropertyConstraints.htm">GetPropertyConstraints</a> 
+ method.</p>
+        <p>OEAS currently supports four constraints:
+
+</p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Constraint</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">required</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The property is required (for insert methods) and must 
+ contain a value; the property cannot hold a NULL value in the database. 
+ See also the details below.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">min</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The minimum value (inclusive) used for range checking 
+ on numeric and date data types.</p>
+                        <p class="Table_Text">For strings, a minimum length.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">max</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The maximum value &#160;(inclusive) 
+ used for range checking on numeric and date data types. </p>
+                        <p class="Table_Text">For strings, a maximum length.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">default</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The value persisted to the database if a value is not 
+ provided on input. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h6>Details on the "required" property constraint </h6>
+        <p>
+            <MadCap:keyword term="Properties" />The "required" constraint is placed on properties that cannot 
+ be persisted to the database with a NULL value. Therefore, the "required" 
+ property constraint is handled somewhat differently for insert and update 
+ methods.</p>
+        <p>For insert methods, properties with the "required" 
+ constraint must be present in the input XML, and the properties must contain 
+ a value except when:</p>
+        <ul style="list-style: disc;" type="disc">
+            <li>the value of the property is generated automatically 
+ by the database (as is the case for key properties, such as secondaryID)</li>
+            <li>a default value is also provided for the property, 
+ in which case the OnyxDataValidationStep component applies the default 
+ value (if it is not included in the input XML)</li>
+        </ul>
+        <p>For update methods, it is acceptable to omit properties with the "required" 
+ constraint from the input XML when the intent is to <span style="font-style: italic;">not 
+ update</span> the value of the property. Attempting to set a required 
+ property to NULL (with null="1") causes an error, however, because 
+ required properties are not allowed to be NULL.</p>
+        <p>The following example shows the XML for the required constraint, as 
+ it appears in the OED. Note that the value of the required constraint, 
+ as defined in the OED, is set to 1. </p>
+        <p>
+            View XML example
+        </p>
+        <p>The following XML fragment illustrates that the primaryId property is 
+ required.</p>
+        <p Class="Code" class="code">&lt;properties&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;property&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;id&gt;5324DF38-215C-4DE0-97DF-DFD3630EAB1B&lt;/id&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;name&gt;primaryId&lt;/name&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;.</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;.</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;.</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;propertyConstraints&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;propertyConstraint&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;id&gt;7CBAB5C5-7C5A-42F9-9933-F1EEA378083B&lt;/id&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;type&gt;required&lt;/type&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;value&gt;1&lt;/value&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;installedBy&gt;Onyx&lt;/installedBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/propertyConstraint&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/propertyConstraints&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/property&gt;</p>
+        <p Class="Code" class="code">&lt;/properties&gt;</p>
+    </body>
+</html>

@@ -1,0 +1,153 @@
+///////////////////////////////////////////////////////////////////////////
+function _InstallBefore(szComponent,szName,listToRun)
+INT nResult;
+STRING szResult;
+begin
+	//check Misc of component to see if it should be run.
+	if(ComponentGetData (BASE_MEDIA,szComponent,COMPONENT_FIELD_MISC,nResult,szResult) =0 )then
+		StrToUpper(szResult,szResult);
+		if(szResult = "INSTALL BEFORE")then
+			ListAddString(listToRun,szName,AFTER);
+			return TRUE;
+		endif;
+	endif;
+	return FALSE;
+end;
+
+///////////////////////////////////////////////////////////////////////////
+function _RunInstallBefore(listToRun)
+INT nLoop,nTemp,nLen,nReturn;
+STRING szItem,szDrive,szUNC,szPath,szMsg,szTemp;
+begin
+	//run items in list.
+	nLoop = ListGetFirstString(listToRun,szItem);
+	while(nLoop != END_OF_LIST)
+		//look for know things to run;
+		if(szItem % REQ_DCOM)then
+			_InstallDCOM();
+		elseif(szItem % REQ_COMCTL32)then
+			_InstallCOMCTL32();
+		elseif(szItem % REQ_MMC)then
+			_InstallSetupRoot("IMMC*.EXE");
+		elseif(szItem % REQ_MDAC)then
+			_InstallSetupRoot("MDAC*.exe");
+		endif;
+	
+		nLoop = ListGetNextString(listToRun,szItem);
+	endwhile;
+
+	//next determine if Reboot is needed.
+	OIsRebootNeeded();
+	if( g_structSetupMode.nDebug = 22)then
+		//force reboot if in this debug mode.
+		BATCH_INSTALL=TRUE;
+	endif;
+	
+	if(BATCH_INSTALL)then
+		//rig setup to run after reboot.
+		g_structSetupMode.bRebooted = TRUE;		//not use
+//		OSaveOperationMode("Rebooted","YES");	//used to trigger recovery on reboot
+
+		szPath = SRCDIR;
+
+		//if run from launcher, remove last dir to get to launcher dir.
+		if(g_structLauncher.bIsChild = TRUE)then
+			szTemp = szPath;
+			StrRemoveLastSlash(szTemp);
+			ParsePath(szTemp,szTemp,PATH);
+			//verify a setup.exe exists.
+			if(Is(FILE_EXISTS,szTemp^"setup.exe")=TRUE)then
+				szPath = szTemp;
+			endif;
+		endif;
+		
+		// Check to see of the path is of the form ?:\ or \\
+		ODebugDsp("Path before conversion: "+szPath,2);
+		if(OGetUNCPath(szPath,nReturn) = FALSE)then
+			szMsg = @RUN_BEFORE1;
+			MessageBox(szMsg ,WARNING);
+			OLog(gszMsg);
+		endif;
+		ODebugDsp("Path after conversion: "+szPath,2);
+		
+		//make reg entry to rerun setup on reboot
+		RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+		RegDBSetKeyValueEx("Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce","ZZZOnyxSetup", REGDB_STRING, szPath ^ "setup.exe", -1);
+		
+		//set files for reboot copy.
+		CommitSharedFiles(0);
+		OLogStore();
+
+		//exit time.
+	 	if(g_structLauncher.bIsChild = FALSE)then
+			SdFinishReboot(@MSG_REBOOT_BEFORE,@PROMPT_REBOOT1,SYS_BOOTMACHINE,"",0);
+		else
+			//set reg value to tell launcher to reboot.
+			RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+			szTemp = "Software\\ONYX\\SetupLauncher";
+			RegDBSetKeyValueEx(szTemp,"RebootNeeded",REGDB_STRING,"YES",-1);
+		endif;
+			
+		abort;
+	endif;
+end;
+
+//////////////////////////////////////////////////////////////////////////////
+// installs DCOM by running a specific plugin.
+//////////////////////////////////////////////////////////////////////////////
+function _InstallDCOM()
+begin
+	//run begin setup plugin.
+	OPlugin(COMP_CR_BEGIN_PLUGIN);
+end;
+
+//////////////////////////////////////////////////////////////////////////////
+// installs ComCtl32.dll at beginning of setup.  Not logged for uninstallation
+//////////////////////////////////////////////////////////////////////////////fs
+function _InstallCOMCTL32()
+INT nReturn;
+STRING szMsg;
+begin
+	//xcopy file from windows/sys dir.
+	VarSave(SRCTARGETDIR);
+	SRCDIR = SRCDIR ^ "windows\\system\\win95";
+	TARGETDIR = WINSYSDIR;
+	OXCopyFileTryAgain("comctl32.dll","",COMP_UPDATE_VERSION | SHAREDFILE | LOCKEDFILE | SELFREGISTER);
+	VarRestore(SRCTARGETDIR);
+end;
+
+//////////////////////////////////////////////////////////////////////////////
+// installs a setup from the root of the setup image sourcedir.
+//////////////////////////////////////////////////////////////////////////////
+function _InstallSetupRoot(szEXE)
+STRING szCmdLine,szFname,szTemp;
+INT nReturn;
+begin
+
+   	if(FindAllFiles(SRCDIR,szEXE, szFname, RESET ) = 0)then
+		//run begin setup plugin.
+		nReturn = OPluginReadIni(szFname,szCmdLine);
+		if(nReturn = 1)then
+			//copy the file down first
+			ParsePath(szTemp,szFname,FILENAME);
+			VarSave(SRCTARGETDIR);
+			TARGETDIR = SUPPORTDIR;
+			if(OCopyFileWithStatus(szTemp,szTemp) = 0)then
+				//run the puppy
+				szFname = SUPPORTDIR^szTemp;
+				LaunchAppAndWait(szFname,szCmdLine,WAIT);
+			endif;
+			VarRestore(SRCTARGETDIR);			
+	   	endif;
+    endif;
+end;
+
+
+
+
+
+
+
+
+
+

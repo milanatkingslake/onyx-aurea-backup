@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="595" MadCap:lastWidth="1198" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+		<title>Setting database error information</title>
+    </head>
+    <body>
+               <h5>
+            <MadCap:keyword term="Error information" />
+            <MadCap:keyword term="database" />
+            <MadCap:keyword term="Setting:database" />Returning database error information</h5>
+        <p>Database error information may be returned using the database_code column 
+ described in <a href="customizingOEDB_result_set_interpretation.htm">result 
+ set intperpretation</a><MadCap:keyword term="database:Setting" /><MadCap:keyword term="Setting" /> by setting the appropriate variables. The following 
+ sample shows how an error might be raised from a retrieveList procedure: 
+ </p>
+        <p Class="Code" class="code"><span style="font-weight: normal;">IF 
+ @return_code &lt;= 0</span>
+        </p>
+        <p Class="Code" class="code">BEGIN</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;SQL 
+ statement&gt;</p>
+        <p Class="Code" class="code">&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;SET 
+ @error = @@error</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;IF 
+ @error &gt; 0 SET @return_code = 1</p>
+        <p Class="Code" class="code">END</p>
+        <p>Errors may also be trapped using the TRY/CATCH 
+ functionality that has been introduced &#160;in 
+ SQL Server 2005. Here is an example:</p>
+        <p Class="Code" class="code"><span style="font-weight: normal;">BEGIN 
+ TRY</span>
+        </p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;SQL 
+ statement&gt;</p>
+        <p Class="Code" class="code">END TRY</p>
+        <p Class="Code" class="code">BEGIN CATCH</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;SET 
+ @error = @@error</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;SET 
+ @return_code = 1</p>
+        <p Class="Code" class="code">END CATCH</p>
+    </body>
+</html>

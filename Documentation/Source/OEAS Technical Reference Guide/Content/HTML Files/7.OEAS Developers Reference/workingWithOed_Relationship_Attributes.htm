@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="733.1339" MadCap:lastWidth="968">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_3.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Relationship Attributes</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h6>
+            <MadCap:keyword term="relationship creation:attributes" />
+            <MadCap:keyword term="Relationship Attributes" />Relationship attributes</h6>
+        <p>
+            <MadCap:keyword term="Relationships" />The relationship attributes define a given relationship. In general 
+ you use relationships for ensuring data integrity. For transactional objects, 
+ SQL generation constructs concurrency control code based on the relationships 
+ you specify. The relationship you define between transaction objects is 
+ also used to cascade (or restrict) delete actions from parent objects 
+ to child objects.</p>
+        <p>You must know how to construct the metadata to describe the relationship 
+ you want. To determine the types of realtionships required by your customization, 
+ ask yourself the following questions:</p>
+        <ul>
+            <li>Is one or more of the related objects a domain 
+ object? (domain)</li>
+            <li>Does this object associate two other objects? 
+ (association)</li>
+            <li>Is there an owner or parent - child or master 
+ - detail situation involving this object?</li>
+        </ul>
+        <ul style="list-style-type: circle;">
+            <li class="Sec_List">Are different types of parents allowed? (linkObject)</li>
+            <li class="Sec_List">Is it possible for the child to be a collection? 
+ (masterDetail)</li>
+            <li class="Sec_List">Is this a straightforward relationship between 
+ transactional objects? (direct)</li>
+        </ul>
+        <ul>
+            <li>Is this a relationship between equals? Is the 
+ type of object at one end of the relationship allowed to vary? (variableDirect)</li>
+            <li>What do you want to happen when a delete is performed?</li>
+        </ul>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Table_3.css');" class="TableStyle-Aptean_Table_3" cellspacing="0">
+            <col class="TableStyle-Aptean_Table_3-Column-Column1" style="width: 5cm;" />
+            <col class="TableStyle-Aptean_Table_3-Column-Column1" style="width: 12cm;" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_3-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_3-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">If you want to...</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_3-HeadD-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Set cascade type to...</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_3-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">prevent the deletion when related data exists</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_3-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">restrict</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_3-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">dissolve the relationship</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_3-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">null</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_3-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_3-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">propagate the deletion from parent to child</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_3-BodyA-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">delete</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Remember that object relationships are set up like foreign keys in a 
+ database. When specifying the object properties that define the relationship, 
+ you must use the primary key properties for one of the objects. That object 
+ is the "primary object" in the relationship and the other object 
+ is the "secondary object." The relationship is always defined 
+ on the secondary object in Object Designer.</p>
+    </body>
+</html>

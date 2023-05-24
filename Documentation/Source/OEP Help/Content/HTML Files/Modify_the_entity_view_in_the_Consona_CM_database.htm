@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:conditions="Primary.PrintOnly" MadCap:lastBlockDepth="4" MadCap:lastHeight="545" MadCap:lastWidth="644" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="../SkinSupport/MadCap.css" rel="stylesheet" type="text/css" /><title>Modifying Entity View in Database</title>
+        <link href="../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" />
+    </head>
+    <body>
+        <H4 class="Heading">Modifying Entity View in Database</H4>
+        <p class="BodyText">Modify the desired entity view to add a new field. You can modify a default view, or a custom view that you created for a new entity. For a list of the default views available, refer to <a href="Reference_lists.htm">Entity Views</a>.</p>
+        <p class="TaskHeading">To modify the entity view:</p>
+        <ol>
+            <li class="ListBullet_1" value="1">In the <span class="CCM variablesTier - database">Onyx database</span>, identify the table columns to include in the view.</li>
+        </ol>
+        <p class="BodyTextIndent_2">Be sure to include those table columns in the view that are required to perform any operation for the entity in <span class="CCM variablesProduct - CCM Suite (abbrev)">Onyx</span>.</p>
+        <ol MadCap:continue="true">
+            <li class="ListBullet_1" value="2">Expand <b>Views</b>.</li>
+            <li class="ListBullet_1" value="3">Right-click the view that you want to modify, and select <b>Script View As &gt;ALTER To &gt;New Query Editor Window</b>.</li>
+            <li class="ListBullet_1" value="4">Add the custom fields for the selected view at the end of the fields list in the SELECT statement, in the following format:</li>
+        </ol>
+        <p class="BodyTextIndent_2">[TableAlias].[field_name] AS [FieldAlias],</p>
+        <p class="BodyTextIndent_2">For example, c.company_id AS primaryId, where the field_name company_id from the Company table is displayed as the primary ID.</p>
+        <ol MadCap:continue="true">
+            <li class="ListBullet_1" value="5">If the custom field that you are adding is a reference field, then you must include one more line in the view, in the following format:</li>
+        </ol>
+        <p class="BodyTextIndent_2">[ReferenceTableAlias].[field_name] AS [FieldAlias]Sort</p>
+        <p class="BodyTextIndent_2">This will enable the selected Sort By option to be saved when the query is saved.</p>
+        <ol MadCap:continue="true">
+            <li class="ListBullet_1" value="6">Execute the modified view against the <span class="CCM variablesTier - database">Onyx database</span>.</li>
+        </ol>
+    </body>
+</html>

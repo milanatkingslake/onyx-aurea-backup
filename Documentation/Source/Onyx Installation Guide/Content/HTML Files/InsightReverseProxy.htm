@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="838" MadCap:lastWidth="624">
+    <head>
+    </head>
+    <body>
+        <h1><a name="top"></a>IIS Reverse Proxy Configuration</h1>
+        <p class="ProcedureHeading">To Configure IIS Reverse Proxy for Onyx Insight</p>
+        <ol>
+            <li>Launch IIS Manager using one of the following methods:</li>
+        </ol>
+        <ul>
+            <li class="BulletList2">Click <b>Start</b> &gt; <b>Administrative Tools</b>, and then double-click <b>Internet Information Services Manager</b>.</li>
+            <li class="BulletList2">Click <b>Start</b> &gt; <b>Run</b> program. In the Run dialog box, type <b>InetMgr</b> and click <b>OK</b>.</li>
+        </ul>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;"> You need to install Application Request Routing and URL Rewrite modules before
+configuring IIS Reverse Proxy. Click the following link to install these extensions:
+<a href="https://www.iis.net/downloads/microsoft/application-request-routing">Application Request Routing and URL Rewrite download</a>.</p>
+        <ol start="2">
+            <li>Configure the <b>Application Request Routing</b> settings.</li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="BulletList2">Select your server, and in the <b>IIS</b> section, double-click <b>Application Request Routing
+Cache</b>.
+</li>
+        </ol>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/ReverseProxy1.png" />
+        </p>
+        <ol style="list-style-type: lower-alpha;" MadCap:continue="true">
+            <li class="BulletList2">In the Actions pane, click <b>Server Proxy Settings</b>.</li>
+        </ol>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/ReverseProxy2.png" />
+        </p>
+        <ol style="list-style-type: lower-alpha;" MadCap:continue="true">
+            <li class="BulletList2">Select <b>Enable Proxy</b> and click <b>Apply</b> from the right pane.</li>
+            <li class="BulletList2">In the Actions pane, click <b>URL Rewrite</b>.</li>
+        </ol>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/IIS_Proxy_4.png" style="border-left-style: solid;border-left-width: 1px;border-left-color: ;border-right-style: solid;border-right-width: 1px;border-right-color: ;border-top-style: solid;border-top-width: 1px;border-top-color: ;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: ;" />
+        </p>
+        <ol style="list-style-type: lower-alpha;" MadCap:continue="true">
+            <li class="BulletList2">In the Actions pane, click <b>Add Rule(s)</b>.</li>
+        </ol>
+        <p class="Indent3">The <b>Add Rule (s)</b> window appears.</p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/ReverseProxy5.png" />
+        </p>
+        <ol style="list-style-type: lower-alpha;" MadCap:continue="true">
+            <li class="BulletList2">Select <b>Blank rule</b>, and click <b>OK</b>.</li>
+        </ol>
+        <p class="Indent3">The <b>Edit Inbound Rule</b> window appears.</p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/ReverseProxy6.png" />
+        </p>
+        <ol style="list-style-type: lower-alpha;" MadCap:continue="true">
+            <li class="BulletList2">In the <b>Name</b> field, type <code>insight</code>.</li>
+            <li class="BulletList2">In the <b>Pattern</b> field, type <code>^insight/(.*)$</code>.</li>
+        </ol>
+        <p class="Note1" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">You can copy / paste the values given in the <b>Name</b> and <b>Pattern</b> fields. Ensure
+that you do not copy the period given at the end of the sentence.
+</p>
+        <ol style="list-style-type: lower-alpha;" MadCap:continue="true">
+            <li class="BulletList2">In the <b>Action</b> section of the <b>Edit Inbound Rule</b> screen, select <b>Rewrite</b> from the <b>Action type</b> drop-down list.</li>
+        </ol>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/IIS_Proxy_5.png" />
+        </p>
+        <ol style="list-style-type: lower-alpha;" MadCap:continue="true">
+            <li class="BulletList2">In the <b>Rewrite</b> URL text box under <b>Action Properties</b>, specify the following URL: <code>http://&lt;Insight server IP&gt;:8080/{R:1}</code></li>
+        </ol>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Ensure that the <b>Append query string</b> check box is selected.</p>
+        <ol style="list-style-type: lower-alpha;" MadCap:continue="true">
+            <li class="BulletList2">Click <b>Apply</b> in the <b>Actions</b> pane.</li>
+        </ol>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/IIS_Proxy_6.png" />
+        </p>
+        <ol style="list-style-type: lower-alpha;" MadCap:continue="true">
+            <li class="BulletList2">Click <b>Back to Rules</b> in the <b>Actions</b> pane.</li>
+        </ol>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/IIS_Proxy_7.png" />
+        </p>
+        <ol style="list-style-type: lower-alpha;" MadCap:continue="true">
+            <li class="BulletList2">Select <b>Blank Rule</b> <b>from Outbound rules</b> in the <b>Add Rule(s)</b> window and click <b>OK</b>.</li>
+        </ol>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/IIS_Proxy_8.png" />
+        </p>
+        <ol style="list-style-type: lower-alpha;" MadCap:continue="true">
+            <li class="BulletList2">Type <b>Insight</b> <b>– update session cookie</b> in the <b>Name</b> field of the <b>Edit Outbound Rule</b> screen.</li>
+        </ol>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/IIS_Proxy_9.png" style="border-left-style: solid;border-left-width: 1px;border-left-color: ;border-right-style: solid;border-right-width: 1px;border-right-color: ;border-top-style: solid;border-top-width: 1px;border-top-color: ;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: ;" />
+        </p>
+        <ol style="list-style-type: lower-alpha;" MadCap:continue="true">
+            <li class="BulletList2">Select <b>Server Variable</b> from Matching Scope drop down list under the <b>Match</b> section of the <b>Edit Outbound Rule</b> screen.</li>
+            <li class="BulletList2">Enter <code>RESPONSE_Set_Cookie</code> in the <b>Variable Name</b> field.</li>
+            <li class="BulletList2">Enter <code>^(.*; path=)/api$</code> in the <b>Pattern</b> field. </li>
+            <li class="BulletList2">Enter <code>{R:1}/insight/api</code> in the <b>Value</b>field of  <b>Action Properties</b>.  </li>
+            <li class="BulletList2">Click <b>Apply</b> in the <b>Actions</b> pane.</li>
+        </ol>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/IIS_Proxy_10.png" />
+        </p>
+        <ol style="list-style-type: lower-alpha;" MadCap:continue="true">
+            <li class="BulletList2">Reset IIS.</li>
+            <li class="BulletList2">Close the IIS&#160;Manager.</li>
+        </ol>
+        <h2>Adding OEP server IP to Insight server WhiteList:</h2>
+        <p class="ProcedureHeading">To Add to Wildfly Server White List</p>
+        <ol>
+            <li>Open the WildFly server console.</li>
+            <li>Select <b>Configuration</b>.</li>
+            <li>From <b>General Configuration</b> select <b>System Properties</b> and click <b>Add</b>. The <b>Create System Property</b> dialog is displayed.</li>
+        </ol>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/IIS_Proxy_11.png" />
+        </p>
+        <ol MadCap:continue="true">
+            <li>Enter <code>com.knova.whitelist&lt;n&gt;</code> in the <b>Name</b> field where n=1,2,3....</li>
+            <li>Enter the Host IPAddresss in the <b>Value</b> field.</li>
+            <li>Click <b>Save</b> and restart the wildfly service. The OEP server IP is added to the Insight server WhiteList.</li>
+        </ol>
+        <h2>Increasing Query String Max Length from Request Filtering IIS:</h2>
+        <ol>
+            <li>Open IIS Manager.</li>
+            <li>Select the Server.</li>
+            <li>Double click <b>Request Filtering</b> in the IIS window.</li>
+        </ol>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/IIS_Proxy_12.png" style="border-left-style: solid;border-left-width: 1px;border-left-color: ;border-right-style: solid;border-right-width: 1px;border-right-color: ;border-top-style: solid;border-top-width: 1px;border-top-color: ;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: ;" />
+        </p>
+        <ol MadCap:continue="true">
+            <li>Click <b>Edit Feature Settings</b> in the <b>Actions</b> pane .</li>
+        </ol>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/IIS_Proxy_13.png" style="border-left-style: solid;border-left-width: 1px;border-left-color: ;border-right-style: solid;border-right-width: 1px;border-right-color: ;border-top-style: solid;border-top-width: 1px;border-top-color: ;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: ;" />
+        </p>
+        <ol MadCap:continue="true">
+            <li>Edit the values in <b>Request Filtering Settings</b> dialog for maximum query string.</li>
+        </ol>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/IIS_Proxy_14.png" style="border-left-style: solid;border-left-width: 1px;border-left-color: ;border-right-style: solid;border-right-width: 1px;border-right-color: ;border-top-style: solid;border-top-width: 1px;border-top-color: ;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: ;" />
+        </p>
+        <ol MadCap:continue="true">
+            <li>	Click <b>OK</b> and click <b>Save</b> to save the settings.</li>
+        </ol>
+        <h2>Insight Configuration</h2>
+        <p class="ProcedureHeading">To configure Insight</p>
+        <ol>
+            <li>Configure IIS reverse proxy. For more details see <MadCap:xref href="#top">IIS Reverse Proxy Configuration on page&#160;1</MadCap:xref>.</li>
+            <li>Change the parameter value for the parameter code <code>InsightWebService</code> in OES - System Parameter Administration page.
+</li>
+            <li>Make necessary changes to the parameter value <code>http://&lt;ServerName&gt;/insight/api/v1</code> after configuring reverse proxy. </li>
+            <li>Shut down the COM+ application.</li>
+            <li>Configure OGS. For more details see <MadCap:xref href="#OGS">OGS Configuration on page&#160;1</MadCap:xref>.</li>
+            <li>Copy the css file: <code>&lt;InstallerLocation&gt;\Platform Components\Web Server\Onyx Insight\custom_styles.css</code> to the following location:&#160;</li>
+        </ol>
+        <p class="Indent1"><code>&lt;InsightInstalledLocation&gt;\wildfly-8.2.0.Final\modules\insight\webcontent\extensions\</code>
+        </p>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">This css file contains the basic html design for standalone insight tiles and list view grid.</p>
+        <ol MadCap:continue="true">
+            <li>Copy the config file: <code>&lt;InstallerLocation&gt;\Platform Components\Web Server\Onyx Insight\default_config.xml</code> to this location: <code>&lt;InsightInstalledLocation&gt;\wildfly-8.2.0.Final\modules\insight\main\</code>.</li>
+            <li>Remove the existing data source from wildfly console under  <b>Datasources</b>  &gt;  <b>JDBC Datasources</b> &gt; <b>Available Datasources</b> in <code>http://&lt;SERVERNAME&gt;:9990/console/App.html#datasources</code>. Refer <i>Configuring WildFly</i> in the <i>Insight Installation Guide</i> for creating the datasources.</li>
+            <li>Restart the following Insight services from <code>services.msc</code>.</li>
+        </ol>
+        <ol style="list-style-type: lower-roman;">
+            <li class="List_Indent">Insight Manifold</li>
+            <li class="List_Indent">Insight Solr</li>
+            <li class="List_Indent">Insight Wildfly</li>
+        </ol>
+        <h2><a name="OGS"></a>OGS Configuration</h2>
+        <p class="ProcedureHeading">To Configure OGS</p>
+        <ol>
+            <li>Take back up of the file: <code>&lt;InsightInstalledLocation&gt;\wildfly-8.2.0.Final\standalone\configuration\standalone-full.xml</code></li>
+            <li>Replace the entire security-domain node:</li>
+        </ol>
+        <p><code>&lt;security-domain name="KnovaLiteServices" cache-type="default"&gt;</code>
+        </p>
+        <p><code>
+&lt;/security-domain&gt;</code><![CDATA[
+]]></p>
+        <p>with</p><pre xml:space="preserve"><p><code>&lt;security-domain name="KnovaLiteServices" cache-type="default"&gt;
+                    &lt;authentication&gt;
+                        &lt;login-module code="com.knova.lite.addons.OnyxLoginModule" flag="required"&gt;
+                            &lt;module-option name="baseURL" value="http://&lt;SERVERNAME&gt;:&lt;PORTNUMBER&gt;/ServiceGateway/Authenticate?param="/&gt;
+                            &lt;module-option name="appId" value="onyx"/&gt;
+                            &lt;module-option name="siteId" value="1"/&gt;
+                            &lt;module-option name="language" value="ENG"/&gt;
+                            &lt;module-option name="authMode" value="0"/&gt;
+                            &lt;module-option name="appType" value="17"/&gt;
+                            &lt;module-option name="clientUTCOffSet" value="-330"/&gt;
+                        &lt;/login-module&gt;
+                    &lt;/authentication&gt;
+                    &lt;mapping&gt;
+                        &lt;mapping-module code="SimpleRoles" type="role"&gt;
+                            &lt;module-option name="sa" value="ADMIN"/&gt;
+                        &lt;/mapping-module&gt;
+                    &lt;/mapping&gt;
+                &lt;/security-domain&gt;
+</code></p></pre>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">By default “sa” user is made ADMIN. To change user "sa" or add a new userid, edit as follows:<br /><code>&lt;module-option name="sa" value="ADMIN"/&gt;
+<br />&lt;module-option name="userx" value="ADMIN"/&gt;</code></p>
+    </body>
+</html>

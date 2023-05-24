@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+    </head>
+    <body>
+        <h3>Navigator Search Types</h3>
+        <p>The Navigator search works in two ways:</p>
+        <ul>
+            <li>View</li>
+            <li>Stored Procedure</li>
+        </ul>
+        <p>The Stored Procedure search is introduced from Onyx 7.9. The stored procedure search is available for all entities, but out of the box the stored procedure is available only for the incident search. If you want to search other entities using Stored Procedures, you need to create your custom Stored Procedures for the intended entities.</p>
+        <h3>Enabling the Stored Procedure or View Search</h3>
+        <p class="ProcedureHeading">To enable the Stored Procedure or View Search</p>
+        <ol>
+            <li>Connect to Persistence database.</li>
+            <li>Open <b>Navigator_entity_master</b> table.</li>
+            <li>Set the <b>SearchExecuteMode</b> column value to <b>1</b> to search using Stored Procedure or <b>0</b> to search using View for the entities based on your organization's preferences.</li>
+        </ol>
+        <p><b>Example</b>
+        </p>
+        <p>The following script is an example of enabling the Stored Procedure for Sales Opportunity:</p>
+        <p><code>Update Navigator_entity_master set SearchExecuteMode=1 where entity_name='SalesOpportunity'</code>
+        </p>
+        <p>The <b>RetriveMethodName</b> column in the LboObject Table in Persistence Database, contains the LboObject names. You can update the name of the LboObjects from this location.</p>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; ">The parameters and naming conventions passed to the Stored Procedures should match the Views and vice versa.</p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">To add or remove the fields, contact your system administrator.</p>
+        <p>&#160;</p>
+    </body>
+</html>

@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="858" MadCap:lastWidth="624">
+    <head><title>retrieveSSRSFolderInfo</title>
+    </head>
+    <body>
+        <h2>retrieveSSRSFolderInfo Method</h2>
+        <p>This method retrieves data from&#160; SSRS reports by executing a series of method calls using the OTM. This is a custom method whose functionality will be implemented in a custom Step component called SSRSReports. This step component will retrieve the list of available reports and folders.</p>
+        <ul style="list-style-type: disc;margin-left: 36pt;">
+            <li>The webServiceURL paremeter contains the URL of the SSRS web service from which to retrieve the list of available reports and folders.</li>
+            <li>The folderNames parameter contains a semi colon separated list of folders from which the available reports and folders should be fetched.</li>
+            <li>If there are no reports available then the custom step component will not return any reports list.</li>
+        </ul>
+        <h3>Parameters</h3>
+        <table>
+            <col />
+            <col />
+            <col />
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Direction</th>
+                    <th>Data Type</th>
+                    <th>Object Type</th>
+                    <th>Content Type <p>(keysOnly, all, partial, any)</p></th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">webServiceURL</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">in</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">String</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">all</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies SSRS web service URL to connect.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">folderNames</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">in</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">String</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">all</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies list of comma separated paths from where the SSRS reports can be retrieved</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Steps</h4>
+        <table>
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Step data</th>
+                    <th>Step type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OnyxDataValidationStep.DataValidation</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">data validation step</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OnyxSSRSReportStep.Reports</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">businessIntelligence.retrieveSSRSFolderInfo which will retrieve the report data from the SSRS Server.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Example</h3>
+        <p>InputXML Sample</p>
+        <p><samp>&lt;parameters&gt;<br></br>&#160;&#160;&#160;&#160;&#160; &lt;folderName&gt;/consonaReports&lt;/folderName&gt;<br></br>&#160;&#160;&#160;&#160;&#160; &lt;webServiceURL&gt;http://localhost/reportserver/reportservice2005.asmx&lt;/webServiceURL&gt;<br></br>&lt;/parameters&gt;</samp>
+        </p>
+        <p>OutputXML Sample</p>
+        <p class="C_Code">&lt;root&gt;</p>
+        <p class="C_Code">&lt;items&gt;</p>
+        <p class="C_Code">&lt;item&gt;</p>
+        <p class="C_Code">&lt;name&gt;CSR Support Incident&lt;/name&gt;</p>
+        <p class="C_Code">&lt;searchPath&gt;/ConsonaReports/CSR Support Incident&lt;/searchPath&gt;</p>
+        <p class="C_Code">&lt;type&gt;report&lt;/type&gt;</p>
+        <p class="C_Code">&lt;/item&gt;</p>
+        <p class="C_Code">&lt;item&gt;</p>
+        <p class="C_Code">&lt;name&gt;Enterprise Pipeline - Matrix&lt;/name&gt;</p>
+        <p class="C_Code">&lt;searchPath&gt;/ConsonaReports/Enterprise Pipeline - Matrix&lt;/searchPath&gt;</p>
+        <p class="C_Code">&lt;type&gt;report&lt;/type&gt;</p>
+        <p class="C_Code">&lt;/item&gt;</p>
+        <p class="C_Code">&lt;/items&gt;</p>
+        <p class="C_Code">&lt;/root&gt;</p>
+    </body>
+</html>

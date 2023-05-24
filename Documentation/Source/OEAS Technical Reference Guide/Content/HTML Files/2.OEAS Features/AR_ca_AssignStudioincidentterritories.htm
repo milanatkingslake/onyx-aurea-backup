@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="782" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Creating incident territories</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>Creating incident territories</h4>
+        <p>For the routing of incidents, you can define the following 
+ types of incident territories: </p>
+        <ul style="list-style: disc;" type="disc">
+            <li>Incident only territory</li>
+            <li>Combined territory</li>
+        </ul>
+        <h5>Incident only territory</h5>
+        <p>Incident territories contain one to many incident conditions and zero 
+ customer conditions. The first condition that evaluates to true determines 
+ which territory an incident is associated with. You can create an incident 
+ territory when your business rules for routing incidents do not include 
+ properties of the company or individual objects. </p>
+        <p>For example, a sales representative requires the ability to track incoming 
+ incidents on a daily basis. The business rules do not include customer 
+ data for the tracking of incidents. The administrator creates an incident 
+ territory and enables only the incident insert process. The incident update 
+ process is not used.</p>
+        <p>The new incident territory does the following:</p>
+        <ul style="list-style: disc;" type="disc">
+            <li>Associates incident records with the appropriate 
+ territory</li>
+            <li>Creates internal contacts for incidents</li>
+            <li>Assigns incidents</li>
+        </ul>
+        <p>During the insert of an incident record, the system evaluates the conditions 
+ to see if any internal contacts should be created for the incident or 
+ if the incident should be assigned to a particular user.</p>
+        <h5>Combined territory</h5>
+        <p>A combined territory contains one to many incident conditions <span style="text-decoration: underline;">and</span> 
+ one to many company/individual conditions. Incident conditions in a combined 
+ territory are only evaluated if the incident's owner is also associated 
+ with the territory. The first condition that evaluates to true determines 
+ which territory the record is associated with. You can create a combined 
+ territory when your business rules for routing incidents include properties 
+ of the company or individual object in addition to the incident object.</p>
+        <p>For example, a support representative is assigned 
+ to resolve incoming support incidents whose company owners are in the 
+ High Tech sector. The business rules iarar_ca_anclude customer and incident data. 
+ The administrator creates a combined territory to do the following:</p>
+        <ul style="list-style: disc;" type="disc">
+            <li>Associate individual, company, and incident records 
+ with the appropriate territories created for the High Tech sector.</li>
+            <li>Create internal contacts for customers and incidents.</li>
+            <li>Assign incidents to support engineers in the High 
+ Tech sector.</li>
+        </ul>
+        <p>During the insert of individual, company, and incident records, the 
+ system evaluates the conditions to see if the inserted record should be 
+ associated with the designated territories. The system also creates the 
+ correct internal contact records and for incident records, assigns incidents 
+ to the appropriate support representatives.</p>
+        <h5>Considerations</h5>
+        <p>When you define incident territories, consider the 
+ following:</p>
+        <ul style="list-style: disc;" type="disc">
+            <li>Incident territories are evaluated by the system 
+ according to the hierarchy defined in the Assignment Tree. 
+ A high-priority incident condition, such as an important sales opportunity 
+ will be processed before other incident conditions if it evaluates to 
+ true and is at the top of the hierarchy.</li>
+            <li>OPM processes are used for the insert and update 
+ of incidents, companies, and individuals. You must enable these steps 
+ to call whatever processes are appropriate for your business.</li>
+            <li>Combined territories require that an incident's 
+ owning customer record be associated with the same territory.</li>
+        </ul>
+    </body>
+</html>

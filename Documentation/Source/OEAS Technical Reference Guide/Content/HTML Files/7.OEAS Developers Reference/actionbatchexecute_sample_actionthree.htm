@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="2267" MadCap:lastWidth="1020" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>(ActionBatchExecute) process third action</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>
+            <MadCap:keyword term="ActionBatchExecute" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />Process third action: worknote.insert</h5>
+        <p>The third action creates a work note for the incident created in the 
+ second action, incident.insert. For each <span style="font-weight: normal;"><a href="actionBatchXml_sourceListMap.htm">sourceListMap</a></span> in the 
+ actionBatchXml the value pointed to by the <a href="actionBatchXml_sourceListMap_sourceElementPath.htm">sourceElementPath</a><span style="font-weight: bold;"> <![CDATA[ ]]></span>value is applied to <span style="font-weight: normal;"><a href="actionBatchXml_sourceListMap_targetElementPath.htm">targetElementPath</a></span>. 
+ In this case the companyName element from the <span style="font-weight: normal;"><a href="actionBatchXML_sourceList.htm">sourceList</a></span> is mapped to 
+ the methodInputs/parameters/workNote/workNoteText element.</p>
+        <p Class="Code" class="code">&lt;sourceListMaps&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&lt;sourceListMap&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&lt;sourceElementPath&gt;companyName&lt;/sourceElementPath&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&lt;targetElementPath&gt;parameters/workNote/workNoteText&lt;/targetElementPath&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&lt;/sourceListMap&gt;</p>
+        <p Class="Code" class="code">&lt;/sourceListMaps&gt;</p>
+        <p>For each <a href="actionBatchXml_actionReturnMap.htm">actionReturnMap</a><span style="font-weight: normal;"> <![CDATA[ ]]></span>the value pointed to by the <span style="font-weight: normal;"><a href="actionBatchXml_actionReturnMap_sourceElementPath.htm">sourceElementPath</a></span> 
+ value is applied to the <span style="font-weight: normal;"><a href="actionBatchXml_actionReturnMap_targetElementPath.htm">targetElementPath</a></span>. 
+ In this case the incident.primaryId returned from the <a href="actionBatchExecute_sample_actionTwo.htm">incident.insert</a> 
+ action is mapped to the workNote.ownerId to be used in the workNote.insert 
+ action.</p>
+        <p Class="Code" class="code">&lt;actionReturnMaps&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&lt;actionReturnMap&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sourceActionId&gt;a&lt;/sourceActionId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sourceElementPath&gt;parametersReturn/incident/primaryId&lt;/sourceElementPath&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;targetElementPath&gt;parameters/workNote/ownerId&lt;/targetElementPath&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&lt;/actionReturnMap&gt;</p>
+        <p Class="Code" class="code">&lt;/actionReturnMaps&gt;</p>
+        <p>Using the updated <span style="font-weight: normal;"><a href="actionBatchXml_methodInputs.htm">methodInputs</a> <a href="actionBatchXml_parameters.htm">parameters</a></span>, the method 
+ call is made on the object that<span style="font-weight: normal;"><a href="actionBatchXml_logicalObjectName.htm">logicalObjectName </a></span>and 
+ <span style="font-weight: normal;"><a href="actionBatchXml_logicalMethodName.htm">logicalMethodName</a></span> 
+ point to. In this case worknote.insert is called to insert a new worknote 
+ using the incident ID of the newly inserted incident from the previous 
+ action. <a href="actionBatchExecute_ErrorHandling.htm">Error-handling</a> 
+ behavior is determined by the value of <a href="actionBatchXml_onFailure.htm">onFailure</a>.</p>
+        <p>XML for workNote.insert action</p>
+        <p Class="Code" class="code">&lt;action&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;onFailure&gt;stop&lt;/onFailure&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;id&gt;b&lt;/id&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;logicalObjectName&gt;workNote&lt;/logicalObjectName&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;logicalMethodName&gt;insert&lt;/logicalMethodName&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;methodInputs&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;parameters&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;workNote objectType="workNote"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;seqNum/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerId/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerType&gt;6&lt;/ownerType&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;logMark&gt;1&lt;/logMark&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;enteredBy/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;entryDate/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;publishBitmask&gt;1&lt;/publishBitmask&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;workNoteText&gt;This incident was created using actionBatch.execute!&lt;/workNoteText&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;user1/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;user2/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;user3/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;user4/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;user5/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;user6/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;user7/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;user8/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;user9/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;user10/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/workNote&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/parameters&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;customData/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/methodInputs&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;actionReturnMaps&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;actionReturnMap&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sourceActionId&gt;a&lt;/sourceActionId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sourceElementPath&gt;parametersReturn/incident/primaryId&lt;/sourceElementPath&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;targetElementPath&gt;parameters/workNote/ownerId&lt;/targetElementPath&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/actionReturnMap&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/actionReturnMaps&gt;</p>
+        <p Class="Code" class="code">&lt;/action&gt; </p>
+    </body>
+</html>

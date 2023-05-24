@@ -1,0 +1,173 @@
+
+// prototype for local function
+prototype _ListSearchString(LIST, STRING);
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//   Function Name: OAskOptionsList
+//
+//     Description: This dialog is an enhancemanet to MyAskOptionsList from InstallSite.org
+//					which is based upon the original SdAskOptionsList.
+//					MyAskOptionList added:  Component size information can be suppressed
+//					OAskOptionList added:
+//						1) Takes a string list instead a media component for selecting.
+//						2) Only Exclusive is used, ie only one item is returned as selected.
+//						3) No option for component size anymore.
+//
+////////////////////////////////////////////////////////////////////////////////
+
+function OAskOptionsList(szTitle, szMsg, listComponents, szItemSelected)
+STRING  szDlg, svString[MAX_STRING], szTemp[MAX_STRING];
+BOOL    bDone, bSelected;
+INT     hwndDlg;
+NUMBER  nResult, nId, nIndex,nLoop;
+
+begin
+	if(ListCount(listComponents) = 0)then
+		//nothing to list
+		return -1;
+	endif;
+	
+   	szDlg = "MyAskOptionsList";
+	
+
+   	// record data produced by this dialog
+   	if (MODE=SILENTMODE) then
+    	SdMakeName(szAppKey, szDlg, szTitle, nMyAskOptionsList);
+     	SilentReadData(szAppKey, "Result", DATA_NUMBER, szTemp, nId);
+     	if ((nId != BACK) && (nId != CANCEL)) then
+       		SilentReadData(szAppKey, "Component", DATA_STRING, szItemSelected, nMyAskOptionsList);
+     	endif;
+		return nId;
+	endif;
+
+   	// ensure general initialization is complete
+   	if (!bSdInit) then
+      	SdInit();
+   	endif;
+
+   	if (EzDefineDialog(szDlg, "", "", DLG_MYASKOPTIONSLIST2) = DLG_ERR) then
+   		return -1;
+   	endif;
+
+   	// Loop in dialog until the user selects a standard button
+   	bDone = FALSE;
+
+	Enable(BACKBUTTON);
+
+   	while (!bDone)
+     	nId = WaitOnDialog(szDlg);
+
+     	switch(nId)
+     	case DLG_INIT:
+       		hwndDlg = CmdGetHwndDlg(szDlg);
+
+       		if( szMsg != "" ) then
+         		SdSetStatic(szDlg, SD_STA_MSG, szMsg);
+       		endif;
+
+       		SdGeneralInit(szDlg, hwndDlg, STYLE_NORMAL, szSdProduct);
+
+       		if (szTitle != "") then
+         		SetWindowText(hwndDlg, szTitle);
+       		endif;
+
+       		if (CtrlSetList(szDlg, IDC_OPTIONSLIST,listComponents) < 0) then
+        		return -1;
+       		endif;
+
+       		// select first item if no component is specified in this EXCLUSIVE mode
+       		nLoop = ListGetFirstString(listComponents, svString);
+       		if(szItemSelected = "")then
+				CtrlSetCurSel(szDlg, IDC_OPTIONSLIST, svString);
+			else
+				while (nLoop != END_OF_LIST)
+					if(svString = szItemSelected)then
+						CtrlSetCurSel(szDlg, IDC_OPTIONSLIST, svString);
+					endif;
+					nLoop = ListGetNextString(listComponents, svString);
+				endwhile;
+			endif;
+            		CtrlSetText(szDlg, 1, @BUTTON_NEXT);
+            		CtrlSetText(szDlg, 9, @BUTTON_CANCEL);
+            		CtrlSetText(szDlg, 12, @BUTTON_BACK);
+       		
+     	case OK:
+			CtrlGetCurSel(szDlg, IDC_OPTIONSLIST, szItemSelected);
+
+       		nId    = NEXT;
+       		bDone  = TRUE;
+
+     	case BACK:
+       		nId    = BACK;
+       		bDone  = TRUE;
+
+     	case DLG_ERR:
+       		SdError(-1, "MyAskOptionsList");
+       		nId    = -1;
+       		bDone  = TRUE;
+
+     	case DLG_CLOSE:
+       		SdCloseDlg(hwndDlg, nId, bDone);
+
+     	default:
+       		// check standard handling
+       		if (SdIsStdButton(nId) && SdDoStdButton(nId)) then
+         		bDone = TRUE;
+       		endif;
+     	endswitch;
+
+   	endwhile;
+
+   	EndDialog(szDlg);
+   	ReleaseDialog(szDlg);
+
+   	SdUnInit();
+
+   	// record data produced by this dialog
+   	SdMakeName(szAppKey, szDlg, szTitle, nMyAskOptionsList);
+   	SilentWriteData(szAppKey, "Component", DATA_STRING, szItemSelected, nMyAskOptionsList);
+   	SilentWriteData(szAppKey, "Result", DATA_NUMBER, "", nId);
+
+   	return nId;
+end;
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//   Function Name: _ListSearchString
+//
+//     Description: This function searchs a string in a string list and returns
+//                  the index if the string was found, otherwise -1.
+//
+////////////////////////////////////////////////////////////////////////////////
+
+function _ListSearchString(listID, szSearchString)
+  STRING szCompareString[MAX_STRING];
+  NUMBER nReturn, nResult, nPos;
+ begin
+
+   nReturn = -1;
+   nPos = 0;
+
+   nResult = ListSetIndex(listID, nPos);
+
+   while ((nResult = 0) && (nReturn = -1))
+     ListCurrentString(listID, szCompareString);
+     if (szCompareString = szSearchString) then
+       nReturn = nPos;
+     else
+       nPos = nPos + 1;
+       nResult = ListSetIndex(listID, nPos);
+     endif;
+   endwhile;
+
+   return nReturn;
+ end;
+
+
+
+
+
+
+

@@ -1,0 +1,374 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:lastBlockDepth="6" MadCap:lastHeight="837" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>retrieveListByExternalAppointment (appointmentAssociation)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="retrieveListByExternalAppointment" />retrieveListByExternalAppointment method</h2>
+        <p>The retrieveListByExternalAppointment method of the <a href="appointmentAssociation_object.htm"><MadCap:keyword term="appointmentAssociation" />appointmentAssociation</a> 
+ object returns a list of appointmentAssociation records that match the 
+ supplied input criteria. </p>
+        <h3>Parameters</h3>
+        <table>
+            <col style="width: 4cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 4cm;" />
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Direction</th>
+                    <th>Data type</th>
+                    <th>Content type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>externalAppointmentId</td>
+                    <td>in</td>
+                    <td>string</td>
+                    <td>n/a</td>
+                    <td>The unique identifier of the external appointment</td>
+                </tr>
+                <tr>
+                    <td>rowSet</td>
+                    <td>out</td>
+                    <td>object</td>
+                    <td>all</td>
+                    <td>Contains rowSet column definitions and the 
+ appointmentAssociation records in the database that match the specified 
+ search criteria</td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="BodyText" style="font-weight: bold;">
+            Columns returned in the rowSet object
+        </p>
+        <p>The contents of each row in result set are dependent on the type of 
+ object whose data is returned. If the object does not have the property 
+ referenced, the column is empty.</p>
+        <table>
+            <col style="width: 5cm;" />
+            <col style="width: 5cm;" />
+            <col style="width: 7cm;" />
+            <thead>
+                <tr>
+                    <th>columnOrdinal</th>
+                    <th>columnName</th>
+                    <th>Physical column</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>primaryId</td>
+                    <td>appointment_association.appointment_association_id</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>appointmentPrimaryId</td>
+                    <td>appointment.appointment_id</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>associatedWithPrimaryId</td>
+                    <td>company.company_id or individual.individual_id or incident.incident_id</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>associatedWithSecondaryId</td>
+                    <td>company.secondary_id or individual.secondary_id or incident.secondary_id</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>associatedWithType</td>
+                    <td>appointment_association.associated_with_type_enum</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>individualPrimaryId</td>
+                    <td>individual.individual_id</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>individualSecondaryId</td>
+                    <td>individual.secondary_id</td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>companyPrimaryId</td>
+                    <td>company.company_id</td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>companySecondaryId</td>
+                    <td>company.secondary_id</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>salutation</td>
+                    <td>individual.salutation</td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>firstname</td>
+                    <td>individual.first_name or company.contact_first_name</td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>middleName</td>
+                    <td>individual.first_name</td>
+                </tr>
+                <tr>
+                    <td>13</td>
+                    <td>lastName</td>
+                    <td>individual.last_name or company.contact_last_name</td>
+                </tr>
+                <tr>
+                    <td>14</td>
+                    <td>suffix</td>
+                    <td>individual.suffix</td>
+                </tr>
+                <tr>
+                    <td>15</td>
+                    <td>companyName</td>
+                    <td>company.company_name</td>
+                </tr>
+                <tr>
+                    <td>16</td>
+                    <td>incidentDescription</td>
+                    <td>incident.incident_desc1</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Steps</h3>
+        <table>
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Step data</th>
+                    <th>Step type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">OnyxDataValidationStep.DataValidation</td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">com</td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">Validates input parameters</td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">OnyxDM.DataManager</td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">com</td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">Retrieve list of appointmentAssociation objects 
+ based on the supplied criteria</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Example </h3>
+        <p>
+            Parameters
+        </p>
+        <p Class="Code" class="C_Code">&lt;parameters&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&lt;externalAppointmentId&gt;00000000804D0706A55CD311BAE50000D1D5A2B00700835A4249EAC9D211BACA0000D1D5A2B0000001E2E310000095C5AE3B161BF246880F5A52958BCEBF0000493357370000&lt;/externalAppointmentId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/parameters&gt;</p>
+        <p>
+            parametersReturn
+        </p>
+        <p Class="Code" class="C_Code">&lt;parametersReturn&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&lt;rowSet objectType="rowSet" rowCount="1" columnCount="16" pageSize=""&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&lt;columnDefinitions collection="1" objectType="columnDefinition"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnHeading&gt;Primary ID&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnName&gt;primaryId&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;1&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnFlags&gt;24&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnSize&gt;16&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnHeading&gt;Appointment Primary ID&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnName&gt;appointmentPrimaryId&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;2&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnFlags&gt;24&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnSize&gt;16&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnHeading&gt;Associated With ID&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnName&gt;associatedWithPrimaryId&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;3&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnFlags&gt;24&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnSize&gt;16&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnHeading&gt;Associated With Secondary ID&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnName&gt;associatedWithSecondaryId&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;4&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnFlags&gt;120&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnHeading&gt;Associated With Type&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnName&gt;associatedWithType&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;5&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnFlags&gt;24&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnHeading&gt;Inividual ID&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnName&gt;individualPrimaryId&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;6&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnFlags&gt;120&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnSize&gt;16&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnHeading&gt;Individual Secondary ID&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnName&gt;individualSecondaryId&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;7&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnFlags&gt;120&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnHeading&gt;Company ID&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnName&gt;companyPrimaryId&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;8&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnFlags&gt;120&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnSize&gt;16&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnHeading&gt;Company Secondary ID&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnName&gt;companySecondaryId&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;9&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnFlags&gt;120&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnHeading&gt;Salutation&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnName&gt;salutation&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;10&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnFlags&gt;104&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnSize&gt;510&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnHeading&gt;First Name&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnName&gt;firstName&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;11&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnFlags&gt;104&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnSize&gt;510&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnHeading&gt;Middle Name&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnName&gt;middleName&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;12&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnFlags&gt;104&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnSize&gt;510&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnHeading&gt;Last Name&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnName&gt;lastName&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;13&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnFlags&gt;104&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnSize&gt;510&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnHeading&gt;Suffix&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnName&gt;suffix&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;14&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnFlags&gt;104&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnSize&gt;510&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnHeading&gt;Company Name&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnName&gt;companyName&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;15&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnFlags&gt;104&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnSize&gt;510&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnHeading&gt;Description&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnName&gt;incidentDescription&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;16&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnFlags&gt;104&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnSize&gt;510&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&lt;/columnDefinitions&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&lt;rows collection="1" objectType="row"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;row&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;c0&gt;02ABC369-EF4A-41F4-A25F-6F265F2DBE7B&lt;/c0&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;c1&gt;B287A6DA-ADB6-41FD-93A9-98D97B9C6C02&lt;/c1&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;c2&gt;29FAB2F8-5CAE-476B-8FD2-A551E3EF7B03&lt;/c2&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;c3&gt;2&lt;/c3&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;c4&gt;1&lt;/c4&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;c5&gt;29FAB2F8-5CAE-476B-8FD2-A551E3EF7B03&lt;/c5&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;c6&gt;2&lt;/c6&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;c7 null="1"&gt;&lt;/c7&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;c8 null="1"&gt;&lt;/c8&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;c9 null="1"&gt;&lt;/c9&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;c10&gt;Able&lt;/c10&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;c11 null="1"&gt;&lt;/c11&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;c12&gt;Baker&lt;/c12&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;c13 null="1"&gt;&lt;/c13&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;c14&gt;Widgets Galore&lt;/c14&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;c15 null="1"&gt;&lt;/c15&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;/row&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&lt;/rows&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&lt;/rowSet&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/parametersReturn&gt;</p>
+    </body>
+</html>

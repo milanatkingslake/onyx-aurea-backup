@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="5" MadCap:lastHeight="854" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <p>The first is near the beginning of the file where the server-side ASP files are included. This code includes the script file that contains the function to add the button to the toolbar. </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>...</code>
+                    </p>
+                    <p><code>&lt;!-- #INCLUDE FILE="../common/include/CSPathtoRoot.asp" --&gt;</code>
+                    </p>
+                    <p><code>&lt;!-- CSBegin custom button include file --&gt;</code>
+                    </p>
+                    <p><code>&lt;!-- #include file="../Examples/Toolbar/drawcustombutton.asp" --&gt;</code>
+                    </p>
+                    <p><code>&lt;!-- CSEnd custom button include file --&gt;</code>
+                    </p>
+                    <p><code>&lt;!-- #INCLUDE FILE="../application/onyxapplicationconstants.asp" --&gt;</code>
+                    </p>
+                    <p><code>...</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>The second change is just below the first where the client-side scripting files are included. These files contain the functions that perform the actions of the customization. The code is broken into two parts, the main function and a resource file. </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>...</code>
+                    </p>
+                    <p><code>&lt;script language="javascript"</code> <code>src="../onyxcommon/common/javascript/xmlcommon.js"&gt;&lt;/script&gt;</code></p>
+                    <p><code>&lt;!-- CSBegin custom button script files --&gt;</code>
+                    </p>
+                    <p><code>&lt;script language="javascript" src="../Examples/Toolbar/customaction_res.js"&gt;&lt;/script&gt;</code>
+                    </p>
+                    <p><code>&lt;script language="javascript" src="../Examples/Toolbar/customaction.js"&gt;&lt;/script&gt;</code>
+                    </p>
+                    <p><code>&lt;!-- CSEnd custom button script files --&gt;</code>
+                    </p>
+                    <p><code>...</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>The final change is near the bottom of the file and just below the HTML that generates the refresh button. This is a function call to the code within drawcustombutton.asp. This is the function that creates the IMG element for the button. The function checks the current customer type. If the customer is an individual, the function does not output HTML and the button does not appear on the toolbar. </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>...</code>
+                    </p>
+                    <p><code>&lt;!-- CSBegin custom button rendering --&gt;</code>
+                    </p>
+                    <p><code>&lt;img id="iconCustom" src="../images/icons/iconpapclip_clear0.gif" onClick="jsCustomAction()" alt="Custom Action" enableThis = "true" &lt;%vbWriteImageEvents(true)%&gt;&gt;&amp;nbsp;</code>
+                    </p>
+                    <p><code>&lt;!-- CSEnd custom button rendering --&gt;</code>
+                    </p>
+                    <p><code>&lt;IMG id="idClearIcon" src="../images/icons/iconerase0.gif" onclick="javascript:jsClearSurvey()" alt="&lt;%=res_Clear_Survey%&gt;" enableThis = "true" &lt;%vbWriteImageEvents(true)%&gt;&gt;&amp;nbsp;</code>
+                    </p>
+                    <p><code>...</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>After the files are in place, you should be able to test the customization by opening a company record on the PowerPage. For information about the underlying code, see the next topic, <a href="How the Customization Works.htm#top">How the customization works</a>.</p>
+    </body>
+</html>

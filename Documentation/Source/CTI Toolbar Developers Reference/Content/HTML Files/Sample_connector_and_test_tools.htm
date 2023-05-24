@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" class="" MadCap:lastBlockDepth="4" MadCap:lastHeight="809" MadCap:lastWidth="624">
+    <head><title>Sample connector and test tools</title>
+        <script language="JavaScript">
+        </script>
+        <link href="../Resources/Stylesheets/Aptean_word.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body onload="onyxOnload()">
+        <script type="text/javascript" language="JavaScript1.2">
+        </script>
+        <H1 class="Heading">Sample connector and test tools</H1>
+        <p class="BodyText">This section describes Onyx CTI's sample connector and test tools (driver 
+ and applet). You can use the sample connector to simulate a functioning 
+ connector, providing the communication between Onyx CTI and the simulated 
+ CTI system components (test driver and test applet). </p>
+        <p class="BodyText">The following diagram depicts a high-level view of the architecture 
+ of the sample connector, test applet, and test driver, and illustrates 
+ their interactions with Onyx CTI. </p>
+        <p class="Image">
+            <img src="../Resources/Images/SampleConnectorTestToolsDiagram.gif" style="border: none;width: 567px;height: 264px;float: none;border-style: none;border-style: none;border-left-style: solid;border-left-width: 1px;border-left-color: ;border-right-style: solid;border-right-width: 1px;border-right-color: ;border-top-style: solid;border-top-width: 1px;border-top-color: ;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: ;" width="567" height="264" border="0" />
+        </p>
+        <p class="Strong">Sample connector</p>
+        <p class="BodyText">The Onyx CTI sample connector provides the communication between Onyx 
+ CTI and the simulated CTI system components (the Onyx CTI test applet 
+ and the Onyx CTI test driver) through the ICTIConnector interface. All 
+ <a href="ICTIConnector_interface.htm">methods in the ICTIConnector interface</a> 
+ are implemented by the sample connector. Business logic in the sample 
+ connector code file explains how to control agent states and call states 
+ based on users' actions. </p>
+        <p class="BodyText">We recommend that you use a copy of the sample connector code file as 
+ your starting point when building a new connector. The business logic 
+ in the file contains code comments to facilitate removal of select fragments 
+ and other customization tasks. </p>
+        <p class="BodyText">Full path of the sample connector code file: <code style="font-style: italic;">YourOEPwebsite</code><code>\cti\test\cticonnector.js</code> 
+ where <span style="font-style: italic;"><code>YourOEPwebsite</code> <![CDATA[ ]]></span>is your 
+ OEP installation directory. </p>
+        <p class="Strong">Test applet</p>
+        <p class="BodyText">The Onyx CTI test applet is a JavaScript class that simulates a CTI 
+ system's client-side applet, and that provides the mechanism for the Onyx 
+ CTI test driver to communicate with the Onyx CTI sample connector. The 
+ test applet acts as the <a href="Building_custom_CTI_connectors.htm#Logic-synchr-asynchr">synchronous 
+ CTI system</a>. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">The Onyx CTI test applet represents a simulated CTI system 
+ that leverages a Java applet for the client-side components of the system. 
+ The test applet is not an actual Java applet. </p>
+        <p class="BodyText">The test applet maintains the agent’s state and the agent's collection 
+ of calls. Logic in the test applet determines how to execute events in 
+ the sample connector, and how to set and retrieve data for the agent, 
+ calls, lists, and CTI system information. Full path of the test applet 
+ file: <code>YourOEPwebsite\cti\test\ctiapplet.js</code> 
+ where <span style="font-style: italic;"><code style="font-style: normal;">YourOEPwebsite</code> <![CDATA[ ]]></span>is your 
+ OEP installation directory. </p>
+        <p class="BodyText">Onyx CTI does not have specific client-side requirements for your CTI 
+ system beyond the implementation of the ICTIConnector interface required 
+ to <a href="Building_custom_CTI_connectors.htm">build your custom connector</a>. 
+ The test applet is provided for simulation purposes only. </p>
+        <p class="Strong">Test driver </p>
+        <p class="BodyText">The Onyx CTI test driver provides an HTML-based interface that simulates 
+ the functionality of an Automatic Call Distributor (ACD) server system 
+ for a single user or agent. This interface includes controls for changing 
+ the state of an agent, creating new ACD calls, providing the CTI system 
+ summary and detail information, and creating sample lists of agents, queue 
+ sequences, and available phone numbers. Path of the test driver <code>files 
+ (ctitester*.*): </code><code style="font-style: normal;">YourOEPwebsite</code><code>\cti\test\</code> 
+ where <span style="font-style: italic;"><code style="font-style: normal;">YourOEPwebsite</code> <![CDATA[ ]]></span>is your 
+ OEP installation directory. </p>
+        <p class="BodyText"><![CDATA[
+            ]]></p>
+        <MadCap:pageBreak />
+        <p class="BodyText">View an example of the test driver interface
+</p>
+        <p class="Image">
+            <img src="../Resources/Images/CTI Test Driver.png" style="border: none;width: 600px;height: 609px;float: none;border-style: none;border-style: none;border-left-style: solid;border-left-width: 1px;border-left-color: ;border-right-style: solid;border-right-width: 1px;border-right-color: ;border-top-style: solid;border-top-width: 1px;border-top-color: ;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: ;" width="600" height="609" border="0" />
+        </p>
+        <p class="To">To display the test driver interface: </p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li class="ListBullet">Install Onyx CTI using the <span style="font-style: italic;">Onyx 
+ Computer Telephony Integration Implementation Guide</span>. </li>
+            <p class="BodyText">The sample connector and test tools are automatically installed. 
+ </p>
+            <li class="ListBullet">Click the <span class="UIElement">Open CTI Test 
+ Driver</span> button on the Onyx CTI toolbar displayed in OEP. </li>
+        </ol>
+    </body>
+</html>

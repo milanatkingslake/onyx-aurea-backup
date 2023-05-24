@@ -1,0 +1,292 @@
+////////////////////////////////////////////////////////////////////////
+//
+//Writes specified data to the registry for use during recovery.
+//if subkey is blank, just make data=value inside recovery key.
+//
+////////////////////////////////////////////////////////////////////////
+function ORecoveryStoreString(szSubKey,szData,szValue,nDirection)
+
+STRING szKey;
+NUMBER nvSize;
+
+begin
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	
+	if(szSubKey="")then
+//		szKey = RECOVERY_KEY;
+		szKey = "Software\\ONYX\\"+gszProductName+"\\"+gszProductVersion+"\\Setup\\Recovery";
+	else
+		szKey = "Software\\ONYX\\"+gszProductName+"\\"+gszProductVersion+"\\Setup\\Recovery\\"+szSubKey;
+	endif;
+
+	if(nDirection=NEXT)then
+		//make entries going forward.
+		RegDBSetKeyValueEx(szKey, szData, REGDB_STRING, szValue, nvSize);
+	elseif(nDirection=BACK)then
+		//clean up going backwards.
+		RegDBDeleteValue(szKey, szData);
+	endif;
+	
+	OLog("Recovery Data Stored: "+szData+"="+szValue);
+	
+end;
+
+////////////////////////////////////////////////////////////////////////
+//
+//Reads specified data from the registry for use during recovery.
+//if subkey is blank, just get data=value inside recovery key.
+//
+////////////////////////////////////////////////////////////////////////
+function ORecoveryGetString(szSubKey,szData,szValue)
+
+STRING szKey;
+NUMBER nvType,nvSize;
+
+begin
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	
+	if(szSubKey="")then
+//		szKey = RECOVERY_KEY;
+		szKey = "Software\\ONYX\\"+gszProductName+"\\"+gszProductVersion+"\\Setup\\Recovery";
+	else
+//		szKey = RECOVERY_KEY+"\\"+szSubKey;
+		szKey = "Software\\ONYX\\"+gszProductName+"\\"+gszProductVersion+"\\Setup\\Recovery\\"+szSubKey;
+	endif;
+
+	RegDBGetKeyValueEx(szKey, szData, nvType, szValue, nvSize);
+	
+	OLog("Recovery Data Read: "+szData+"="+szValue);
+end;
+
+
+////////////////////////////////////////////////////////////////////////
+//
+//Checks to see if in Recovery mode.  If so, check object calling
+//with recovery reg entry "CurrentPU" to see if object should be skipped.
+//If not, then just record the object as the "CurrentPU".
+//
+////////////////////////////////////////////////////////////////////////
+function ORecoveryEvaluation(szValue)
+
+STRING szKey,szData,szTemp;
+NUMBER nvSize,nvType;
+
+begin
+	szData = "CurrentPU";
+	szKey = "Software\\ONYX\\"+gszProductName+"\\"+gszProductVersion+"\\Setup\\Recovery";
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);	
+	
+	if(gbRecovery)then
+		//check for a match with "CurrentPU"
+	 	RegDBGetKeyValueEx(szKey, szData, nvType, szTemp, nvSize);
+		if(szValue = szTemp)then
+			//found current PU.  Reset recovery
+			gbRecovery = 0;
+			OSaveOperationMode("Recovery","NO");
+			return FALSE;  //proceed as normal
+		else
+			//return 1 to skip action
+			return TRUE;
+		endif;
+	else
+		//store entry in Reg
+		RegDBSetKeyValueEx(szKey, szData, REGDB_STRING, szValue, nvSize);
+		OLog("Processing Unit: "+szValue);
+		return FALSE;
+	endif;
+end;
+	
+	
+////////////////////////////////////////////////////////////////////////
+//
+//Looks in registry to see if setup was left in recovery mode.
+//
+////////////////////////////////////////////////////////////////////////
+function ORecoveryMode()
+
+STRING szMsg,szKey,szValue;
+
+begin
+	OLog("Executing: ORecoveryMode");
+	szKey = "Software\\ONYX\\"+gszProductName+"\\"+gszProductVersion+"\\Setup\\Recovery";
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);	
+	if(RegDBKeyExist(szKey) = 1)then
+//OFS 		OGetOperationMode("Rebooted",szValue);
+		if(szValue = "YES")then
+			//setup has been auto started after a reboot.
+			gbRecovery = TRUE;
+			OLog("Recovery = YES");
+			OLog("Rebooted execution = YES");
+		else
+			szMsg = @RECOVERY1;
+			OLog(szMsg);
+			if(AskYesNo(szMsg,YES)=YES)then
+				gbRecovery = TRUE;
+				OLog("Recovery = YES");
+			else
+				//remove old recovery data.
+				gbRecovery = FALSE;
+				OLog("Recovery = NO");
+				ORecoveryDelete();
+			endif;
+		endif;
+	endif;
+end;
+
+////////////////////////////////////////////////////////////////////////
+//
+//Removes the RECOVERY key from the registry.  Only on successful completion of setup.
+//
+////////////////////////////////////////////////////////////////////////
+function ORecoveryDelete()
+
+STRING szKey;
+begin
+	OLog("Executing: ORecoveryDelete");
+	if(g_structSetupMode.bNoReg = TRUE)then
+//		szKey = PRODUCT_NAME_KEY;
+		szKey = "Software\\ONYX\\"+gszProductName;
+	else
+//		szKey = SETUP_KEY;
+		szKey = "Software\\ONYX\\"+gszProductName+"\\"+gszProductVersion+"\\Setup";
+	endif;
+	
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);	
+	if(RegDBDeleteKey(szKey) <0)then
+		gszMsg = @ERROR_RECOVERY_DEL+"\n\n"+szKey;
+		MessageBox(gszMsg,SEVERE);
+		OLog(gszMsg);	
+	endif;
+end;
+
+/*
+////////////////////////////////////////////////////////////////////////
+//
+//Reads all global variables from the registry for use during recovery.
+//
+////////////////////////////////////////////////////////////////////////
+function OLoadGlobalData()
+begin
+	
+end;
+*/
+
+// ------------------------------------------------------------------------------------------
+// Function Name:  ORecoverySaveComponents
+//    Parameters:  szParentComponent (STRING) - Root component to start copying from
+//       Returns:
+//   Description:  Saves all components selected in the component tree and all
+//                 sub-tree of the Media library.  It does
+//                 this by iterating through szSourceMedia's components starting at
+//                 szParentComponent and recursing downward.
+// ------------------------------------------------------------------------------------------
+function ORecoverySaveComponents(szMedia,szParentComponent,nDirection)
+    STRING szComponent,szKeyName;
+    NUMBER nResult;
+    LIST   listCompList;
+    NUMBER nComp;
+begin
+    listCompList = ListCreate( STRINGLIST );
+	szKeyName = "SelectedComponents\\"+szMedia;
+
+    // This is our little loop to recurse down through the component tree, building
+    // listCompList as we go so that, in the end, listCompList will contain all of the
+    // components under COMP_SETUP.  We're forced to do this little song-and-dance because
+    // ComponentListItems only returns the immediate child components of a specified parent
+    // (in other words, it doesn't return the entire tree).
+    OAddChildComponentsToList( szMedia, szParentComponent, listCompList );
+
+    nComp = 1;
+    while (nComp <= ListCount(listCompList))
+        ListSetIndex(listCompList, nComp - 1);
+        ListCurrentString(listCompList, szComponent);
+        OAddChildComponentsToList( szMedia, szComponent, listCompList );
+        nComp = nComp + 1;
+    endwhile;
+
+	//SdShowInfoList("Components Stored","All Components inside szMedia being saved to the Registry for recovery.",listCompList);
+
+    // At this point, listCompList contains the entire COMP_SETUP sub-tree.  We can now
+    // move through this list, adding each SELECTED component in it to our BASE_MEDIA.
+    nResult = ListGetFirstString( listCompList, szComponent );
+    while ( nResult != END_OF_LIST )
+
+        // For each component, add it to .
+        if (ComponentIsItemSelected(szMedia, szComponent) = TRUE) then
+			ORecoveryStoreString(szKeyName,szComponent,"YES",nDirection);
+		else
+			ORecoveryStoreString(szKeyName,szComponent,"NO",nDirection);
+        endif;
+        nResult = ListGetNextString( listCompList, szComponent );
+
+    endwhile;
+
+    ListDestroy(listCompList);
+end;
+
+// ------------------------------------------------------------------------------------------
+// Function Name:  ORecoveryGetComponents
+//    Parameters:  szParentComponent (STRING) - Root component to start looking from
+//       Returns:
+//   Description:  Sets all components selected in the component tree and all
+//                 sub-tree of the Media library, based on saved info in registry.  It does
+//                 this by iterating through szSourceMedia's components starting at
+//                 szParentComponent and recursing downward.
+// ------------------------------------------------------------------------------------------
+function ORecoveryGetComponents(szMedia,szParentComponent)
+    STRING szComponent,szValue,szKeyName;
+    NUMBER nResult;
+    LIST   listCompList;
+    NUMBER nComp;
+begin
+    listCompList = ListCreate( STRINGLIST );
+	szKeyName = "SelectedComponents\\"+szMedia;
+	
+    // This is our little loop to recurse down through the component tree, building
+    // listCompList as we go so that, in the end, listCompList will contain all of the
+    // components under COMP_SETUP.  We're forced to do this little song-and-dance because
+    // ComponentListItems only returns the immediate child components of a specified parent
+    // (in other words, it doesn't return the entire tree).
+    OAddChildComponentsToList( szMedia, szParentComponent, listCompList );
+
+    nComp = 1;
+    while (nComp <= ListCount(listCompList))
+        ListSetIndex(listCompList, nComp - 1);
+        ListCurrentString(listCompList, szComponent);
+        OAddChildComponentsToList( szMedia, szComponent, listCompList );
+        nComp = nComp + 1;
+    endwhile;
+
+	//SdShowInfoList("Components Retrieved","All Components retrieved from the recovery registry data and to be set in the MEDIA.",listCompList);
+
+    // At this point, listCompList contains the entire COMP_SETUP sub-tree.  We can now
+    // move through this list, adding each SELECTED component in it to our BASE_MEDIA.
+    nResult = ListGetFirstString( listCompList, szComponent );
+    while ( nResult != END_OF_LIST )
+
+		ORecoveryGetString(szKeyName,szComponent,szValue);
+		if(szValue = "YES")then
+			ComponentSelectItem(szMedia,szComponent,1);
+		else
+			ComponentSelectItem(szMedia,szComponent,0);
+		endif;
+        nResult = ListGetNextString( listCompList, szComponent );
+
+    endwhile;
+
+    ListDestroy(listCompList);
+end;
+
+
+
+
+
+
+
+
+
+
+
+
+
+

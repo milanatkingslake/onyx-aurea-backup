@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="783" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>onyxTimestamp</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="onyxTimestamp" />onyxTimestamp property</h2>
+        <p>The onyxTimestamp property of an object enables optimistic concurrency 
+ control within the OEAS platform.</p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">
+            <MadCap:keyword term="Properties" />This is a generic topic that applies to all properties with 
+ the same name. The remarks section may contain details specific to a given 
+ object.</p>
+        <h3>Data type</h3>
+        <p>string</p>
+        <h3>Access</h3>
+        <p>Read-only; for more information, &#160;see <i>Read Only attribute</i>.</p>
+        <h3>Remarks</h3>
+        <p>While all database tables include an onyx_timestamp column, not all 
+ logical business objects include the onyxTimestamp property. Onyx includes 
+ the onyxTimestamp for certain business objects by default. You enable 
+ optimistic concurrency control by including the onyxTimestamp property 
+ in the logical business object definition. OEAS supports an ignore attribute 
+ on the onyxTimestamp property which disables concurrency control for a 
+ specific instance of a method call. Unless a method call includes the 
+ ignore attribute, OEAS enforces concurrency control for objects with this 
+ property. For more information on concurrency control, see <i>Important 
+ concepts</i>.</p>
+        <p>The database generates the value for onyxTimestamp when you initially 
+ insert the object into the database. On subsequent attempts to update 
+ or delete the record, it compares the value of the onyxTimestamp property 
+ with the value stored in the database, and if they are different, the 
+ update or delete fails. If the values match, it allows the update or delete 
+ to proceed, and it regenerates the value in the database.</p>
+        <p>For tightly-coupled objects (such as the forecast 
+ parent object and the forecastLine child objects), only the parent objects 
+ contain the onyxTimestamp property and therefore only one onyxTimestamp 
+ value exists. For loosely-coupled objects (such as the customer parent 
+ object and the phone child object), both the parent and the child objects 
+ contain this property. </p>
+    </body>
+</html>

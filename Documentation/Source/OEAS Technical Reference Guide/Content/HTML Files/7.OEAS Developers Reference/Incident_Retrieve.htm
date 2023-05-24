@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="858" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>retrieve (incident)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="retrieve" />retrieve method</h2>
+        <p>The retrieve method of the <a href="incident_object.htm">incident</a> 
+ object searches the database based on the properties defined by the object's 
+ primary objectKey entry and returns an object instance.</p>
+        <p><a href="standard_retrieve.htm">retrieve standard method information</a>
+        </p>
+        <h3>Steps</h3>
+        <table>
+            <col style="width: 5cm;" />
+            <col style="width: 5cm;" />
+            <col style="width: 7cm;" />
+            <thead>
+                <tr>
+                    <th>Step data</th>
+                    <th>Step type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OnyxDataValidationStep.DataValidation</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Validates input parameters</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OnyxDM.DataManager</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Retrieve the specified incident object from the database</p>
+                        <p class="Table_Text">Uses a database function mapped to the alertId property 
+ to return an alertId value</p>
+                        <p class="Table_Text">Uses a database function mapped to the ownerName property 
+ to return an ownerName value based on ownerId</p>
+                        <p class="Table_Text" style="margin-bottom: 0;">Uses a database function mapped to the tags
+ property to return a delimited list of tag values</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Example</h3>
+        <p>Input Parameter:
+        </p>
+        <p Class="Code" class="C_Code">&lt;parameters&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;incident&#160;objectType="incident"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;886B2CED-ADD2-459F-8F19-8B2BA8FA50E0&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;/incident&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/parameters&gt;</p>
+        <p>Output Parameter:
+        </p>
+        <p Class="Code" class="C_Code">&lt;parametersReturn&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;incident&#160;objectType="incident"&#160;content="all"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;886B2CED-ADD2-459F-8F19-8B2BA8FA50E0&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;secondaryId&gt;myIncidentID&lt;/secondaryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerId&gt;7E5B28A7-5979-45A7-B578-B4265BF03D7E&lt;/ownerId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerType&gt;2&lt;/ownerType&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;contactId&#160;null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;categoryId&gt;1&lt;/categoryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;typeId&gt;101527&lt;/typeId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;assignedId&#160;null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;trackingId&#160;null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;serialNumber&#160;null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;productId&#160;null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;description1&#160;null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;description2&#160;null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;keyWords&#160;null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;sourceId&#160;null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;statusId&#160;null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;priorityId&#160;null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;code1&#160;null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;code2&#160;null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;code3&#160;null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;code4&#160;null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;totalTime&#160;null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;totalLabor&#160;null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;image&#160;null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;assignedTo&gt;guest&lt;/assignedTo&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy&gt;guest&lt;/insertBy&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate&gt;2001-06-12&#160;15:39:15&lt;/insertDate&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateBy&gt;guest&lt;/updateBy&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateDate&gt;2001-06-12&#160;15:39:15&lt;/updateDate&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;onyxTimestamp&gt;0000082A1D8511F1&lt;/onyxTimestamp&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;privateAccess&gt;0&lt;/privateAccess&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;readOnlyAccess&gt;0&lt;/readOnlyAccess&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;user1&#160;null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;user2&#160;null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;user3&#160;null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;user4&#160;null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;user5&#160;null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;user6&#160;null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;user7&#160;null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;user8&#160;null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;user9&#160;null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;user10&#160;null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;locked&#160;null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;lockedBy&#160;null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;alertId&#160;null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;/incident&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/parametersReturn&gt;</p>
+    </body>
+</html>

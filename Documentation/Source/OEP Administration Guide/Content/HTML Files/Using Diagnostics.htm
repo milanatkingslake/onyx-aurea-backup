@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="866" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2><a name="top"></a>Using Diagnostics</h2>
+        <p>OEP includes a set of diagnostic ASP files that output the contents of the application's caches for review. For security reasons these files are restricted to access only by the Administrator and OEP.Administrator roles. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Onyx Product Support currently does not support the use of diagnostics. </p>
+        <h4>Loading the diagnostic pages</h4>
+        <p>To load the initial diagnostics page, click the Diagnostics link on the Navigation Bar (the default settings on installation provide this link to all users who have the proper permissions), or open a new browser instance and connect to http://YourOEPwebsite/Diagnostics. Connecting to the diagnostics pages by typing the URL in an active OEP session will cause the current session to expire and force the user to login again. Once you are connected, the starting diagnostics page displays general server information. Below the server data are links to different sections of important OEP application data. Information about the links appears in the list below. </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Link</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Application cache</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Lists the contents of the Web server's application cache</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Client side diagnostics</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Contains links that display different types of data cached on the client</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Context cache</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Lists the contents of the context cache for the active user ID</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Server variables</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Lists the complete collection of server variables (from the ASP Request.ServerVariables collection)</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Version checks</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Lists version information for the OEP server and client software. The table that appears shows the minimum required version and the version currently in use.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Cache flushing</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Loads tools for clearing and reloading portions of the system caches</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">User list</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Lists the user IDs that have logged onto the OEP system since the application was last started.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Attachment diagnostics</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Indicates whether the basic requirements for the attachment server have been met.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Configuring security</h4>
+        <p>The default security settings limit access to the files by members of the OEP Administrators role. The files are restricted through security resources that are installed during OEAS setup.</p>
+        <p>The resources that control access to the diagnostics are:</p>
+        <ul>
+            <li>UI:OEP.diagnostics.frontPage</li>
+            <li>UI:OEP.diagnostics.frontPage.pathDetails</li>
+            <li>UI:OEP.diagnostics.appCache</li>
+            <li>UI:OEP.diagnostics.contextCache</li>
+            <li>UI:OEP.diagnostics.serverVariables</li>
+            <li>UI:OEP.diagnostics.cacheFlush</li>
+            <li>UI:OEP.diagnostics.userList</li>
+        </ul>
+        <p>All of the resources must exist for the default diagnostic page to load without error. You can assign individual user accounts to the resources to grant access to the different information areas.</p>
+        <p>There are no resource requirements for the version checking tools. This page (versionchecks.asp) can be opened by anyone needing information regarding the versions of server and client software in use.</p>
+        <h4>Flushing the application caches</h4>
+        <p>One of the diagnostic tools enables you to clear the caches on the server as needed. By using the diagnostic tools, you can update the server without having to restart IIS each time you make minor changes to OEP system settings.</p>
+        <h4>Cache flush page</h4>
+        <p>The cache flush page is divided into four sections. </p>
+        <p><b>Section one:</b> The first section, in the upper-left corner, contains the URLs of the servers that will have their caches cleared. To add a server, type the server URL and the root directory for OEP. Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Advanced Configuration Examples.png" style="width: 23px;height: 22px;" />to add the server to the list. Continue adding servers as needed (if you are running in a multiple-server environment). To remove a server from the list, select it and click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Using Diagnostics.png" style="width: 23px;height: 22px;" />.</p>
+        <p><b>Section two:</b> The second section, in the upper right, is for user log on. The only username and password that is accepted here is the one that OEP uses to connect to OEAS. This username is specified during setup and stored in otm_security.asp. Type the username and password and click<img src="../Resources/Images/ONYX 77 OEP Administration Guide/Using Diagnostics_1.png" style="width: 23px;height: 22px;" />. A message box that contains result XML appears and explains the success or failure of each cache clearing operation.</p>
+        <p><b>Section three:</b> The third section, in the lower right, contains the caches that can be cleared and reloaded. Check the box for each cache to reload.</p>
+        <p><b>Section four:</b> The final section, in the lower left, contains the caches that can be flushed. These caches are not automatically reloaded, but are left clear until some portion of the application requests the data. On a busy system this will only be a few minutes at most. </p>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; &#160;">These operations should only take place when the system is not experiencing heavy load, especially in a multiple-server environment. Users should not experience any issues with data or session loss, but for best results restrict use of this tool to times when the number of concurrent users is relatively low. </p>
+    </body>
+</html>

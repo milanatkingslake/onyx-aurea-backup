@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="1548.134" MadCap:lastWidth="908" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Note_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+    </head>
+    <body>
+        <head><title>saveCollection (workNoteDetail)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="saveCollection" />saveCollection method</h2>
+        <p>The saveCollection method of the <a href="workNoteDetail_object.htm"><MadCap:keyword term="workNoteDetail" />workNoteDetail</a> 
+ object performs multiple actions at once: inserting, updating, and deleting 
+ object instances, as appropriate.</p>
+        <p><a href="standard_saveCollection.htm">saveCollection standard method 
+ information</a>
+        </p>
+        <h3>Steps</h3>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Table_1.css');" class="TableStyle-Aptean_Table_1" cellspacing="0">
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 5cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 5cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 7cm;" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_1-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Step data</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Step type</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadD-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Description</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">OnyxDataValidationStep.DataValidation</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">com</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Validates input parameters</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">OnyxWorkNoteDetailStep.workNoteDetail</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">com</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Performs multiple actions with workNoteDetail 
+ object instances</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Remarks</h4>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Note_Table_1.css');width: 80%;" class="TableStyle-Aptean_Note_Table_1" cellspacing="2">
+            <col style="width: 0.7cm;" class="TableStyle-Aptean_Note_Table_1-Column-Column1" />
+            <col class="TableStyle-Aptean_Note_Table_1-Column-Column1" style="width: 15.50cm;" />
+            <tbody>
+                <tr class="TableStyle-Aptean_Note_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyB-Column1-Body1" style="text-align: right;">
+                        <p>
+                            <img src="../../Resources/Images/Common/note_image.png" />
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText"><b>Note</b>: This saveCollection method does not support an update action.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>When the logMarkSequenceNumber is NULL and logMark is 1, the insert 
+ action takes the logMarkSequenceNumber value generated by OEAS for the 
+ first inserted object instance in the input XML and applies that value 
+ to all other objects in the workNoteDetails collection tagged with the 
+ action="insert" attribute. If the initial insert action in a 
+ saveCollection method fails, the remaining actions in the saveCollection 
+ are aborted.</p>
+        <p>When the logMarkSequenceNumber is NULL and logMark is 0, how OEAS determines 
+ the logMarkSequenceNumber depends on whether a previous insert caused 
+ the generation of a new logMarkSequenceNumber or if an insert is part 
+ of a series of inserts using the same OEAS-generated logMarkSequenceNumber.</p>
+        <p>When a previous insert caused the generation of a 
+ new logMarkSequenceNumber:</p>
+        <ul>
+            <li>OEAS uses the logMarkSequenceNumber from the previous 
+ insert, replacing the NULL with a value from the last OEAS-generated insert.</li>
+            <li>OEAS increments the maximum sequenceNumber that 
+ exists for the logMarkSequenceNumber from the previous insert.</li>
+        </ul>
+        <p>When an insert is part of a series of inserts using 
+ the same OEAS-generated logMarkSequenceNumber:</p>
+        <ul>
+            <li>OEAS uses the maximum logMarkSequenceNumber for 
+ the workNoteHeader (in most cases this is the current editing session) 
+ and appends the new workNoteDetail to that logMarkSequenceNumber group.</li>
+        </ul>
+        <h3>Example</h3>
+        <p>
+            View parameters
+        </p>
+        <p Class="Code" class="code">&lt;parameters&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;workNoteDetails objectType="workNoteDetail" collection="1"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;workNoteDetail objectType="workNoteDetail" action="delete"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;418FACA0-770B-46B3-BF29-2161FA68A210&lt;/primaryId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onyxTimestamp&gt;00000000059D691F&lt;/onyxTimestamp&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/workNoteDetail&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;workNoteDetail objectType="workNoteDetail" action="insert"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerId&gt;298E56DE-5CD9-43CE-871A-A2A767D26DEE&lt;/ownerId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;logMark&gt;0&lt;/logMark&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;logMarkSequenceNumber/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sequenceNumber/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;publishBitmask&gt;1&lt;/publishBitmask&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;text&gt;&lt;![CDATA[ Training sessions scheduled for Tuesday. Should take &lt; 15 minutes per session. ]]&gt;&lt;/text&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateBy/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateDate/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onyxTimestamp/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/workNoteDetail&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/workNoteDetails&gt;</p>
+        <p Class="Code" class="code">&lt;/parameters&gt;</p>
+        <p>
+            ParametersRetrun
+        </p>
+        <p Class="Code" class="code">&lt;parametersReturn&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;workNoteDetails collection="1" objectType="workNoteDetail"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;workNoteDetail objectType="workNoteDetail" content="keysOnly" action="delete"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;418FACA0-770B-46B3-BF29-2161FA68A210&lt;/primaryId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/workNoteDetail&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;workNoteDetail objectType="workNoteDetail" content="keysOnly" action="insert"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;D366FDA0-095A-4263-A10C-26558F776AC9&lt;/primaryId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/workNoteDetail&gt;</p>
+        <p Class="Code" class="code">&lt;/parametersReturn&gt;</p>
+    </body>
+</html>

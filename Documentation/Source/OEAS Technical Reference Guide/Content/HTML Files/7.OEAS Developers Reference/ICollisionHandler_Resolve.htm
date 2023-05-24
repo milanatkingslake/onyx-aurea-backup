@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="964" MadCap:lastWidth="1198" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <body>
+        <head><title>resolve (ICollisionHandler)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>
+            <MadCap:keyword term="Resolving" />Resolve</h5>
+        <p>
+            <MadCap:keyword term="Resolve method" />The Resolve method attempts to resolve data collisions that occur during 
+ the upsync of data from the OEP-Offline client to the OEDB.</p>
+        <h3>Syntax</h3>
+        <p style="font-family: 'Courier New';"><b>IDL</b>
+        </p>
+        <p Class="Code" class="code" style="font-family: 'Courier New';">HRESULT&#160;Resolve(&#160;</p>
+        <p Class="Code" class="code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;[in]&#160;BSTR&#160;CompareXML,</p>
+        <p Class="Code" class="code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;[out,&#160;retval]&#160;BSTR*&#160;ResultXml);</p>
+        <p style="font-weight: bold;"><b>Visual Basic</b>
+        </p>
+        <p Class="Code" class="code">Function&#160;Resolve(</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;CompareXML&#160;As&#160;String)</p>
+        <h3>Remarks</h3>
+        <p>The input parameter for this method is a single string that contains 
+ contextual information (such as the application name and site ID) about 
+ the call, the type of action that the user is attempting to persist, three 
+ copies of the record that is in collision (one copy from the OEDB, another 
+ from the OEP-Offline client, and a third [the baseline record] that is 
+ a copy of the record that was originally downsynced to OEP-Offline), as 
+ well as some configurable data that denotes which collision algorithm 
+ should be used and which properties can be ignored.</p>
+        <p>The input parameter must follow the structure of <span style="color: #0000ff;">C</span>ompareXML.</p>
+        <p>The return parameter for this method is a single string that contains 
+ the status of the collision handling (that is, whether or not the collision 
+ could be resolved), the action that should be performed by the synchronization 
+ service, and a copy of the record that is to be saved to the OEDB.</p>
+        <p>The ouput parameter follows the structure of <span style="color: #0000ff;">R</span>esultXML.</p>
+        <p>The collision handler is a DLL that resides on the OPS server and on 
+ the OEP-Offline machines. It is not a COM+ component.</p>
+        <p>The collision handler is selected as both a single threaded (STA) and 
+ a multi-threaded (MTA) DLL.</p>
+        <p>The server-side collision handler is instantiated only when called upon 
+ by the OPS synchronization service, on a per-thread basis. Because the 
+ synchronization service may be running as an MTA service itself, however, 
+ the collision handler has been designed to accommodate both STA and MTA 
+ environments.</p>
+        <h3>Examples</h3>
+        <p>
+            <MadCap:keyword term="ICollisionHandler" />The following samples show the headers for the Resolve method of the 
+ ICollisionHandler interface in Visual Basic and C++. This is how the code 
+ should look after the interface code has been imported into, or referenced 
+ by, your project.</p>
+        <p style="font-weight: bold;">Visual Basic sample header</p>
+        <p Class="Code" class="code" style="font-family: 'Courier New';">Private&#160;Function&#160;ICollisionHandler_Resolve(&#160;_</p>
+        <p Class="Code" class="code" style="font-family: 'Courier New';">&#160;&#160;ByVal&#160;sCompareXML&#160;As&#160;String,&#160;_)</p>
+        <p style="font-weight: bold;">C++ sample header</p>
+        <p Class="Code" class="code">STDMETHODIMP&#160;CollisionHandler::Resolve(</p>
+        <p Class="Code" class="code">&#160;&#160;BSTR&#160;CompareXML,&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;BSTR&#160;*ResultXml)</p>
+    </body>
+</html>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="497" MadCap:lastWidth="1020" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Object Keys</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>
+            <MadCap:keyword term="object keys" />Object Keys</h5>
+        <p>The object keys collection is a container that holds groups of properties 
+ that make up keys for a business object. In general, each business object 
+ has one primary key that is used to uniquely identify a specific instance 
+ of an object. The primary key is either a single property or a combination 
+ of properties. Business objects in the OEAS may also have alternate keys 
+ - some property or combination of properties different from the primary 
+ key, but still unique for each instance of the object.</p>
+        <p>Each object keys collection has an optional attribute called a "uniqueness 
+ constraint." This attribute, if present, identifies one object key 
+ in the object keys collection. Either a primary or an alternate key may 
+ be employed as a uniqueness constraint. When present, this constraint 
+ is employed by the SQL Generation engine in the business tier to confirm 
+ uniqueness after a saveCollection method.</p>
+        <p>This capability is typically used to embody specialized business rules 
+ in the middle-tier. An example of a business rule employed through a uniqueness 
+ constraint using an alternate key might be "an individual may only 
+ have one phone of each type." In this example the alternate key on 
+ the phone object is comprised of "owner ID" and "phone 
+ type." A uniqueness constraint on just ownerId would not do the right 
+ thing. That would prevent a customer from having more than one phone record, 
+ regardless of type. You could not assign a home phone and a work phone 
+ to the same customer. By including both the ownerId and phoneTypeId properties 
+ in the uniqueness constraint, the constraint does not apply unless two 
+ records match in both of those fields. A customer can have both a home 
+ phone and a work phone (since the two have different phoneTypeIds), but 
+ one customer cannot have two home phones (same ownerId, same phoneTypeId). 
+ </p>
+        <p>The uniqueness constraints defined in the OED are unrelated to the SQL 
+ uniqueness constraints that a SQL Server administrator can define for 
+ a particular database table, and they therefore behave very differently 
+ from those defined directly in the database tables. While SQL uniqueness 
+ constraints are enforced after any Data Manipulation Language (DML) statement 
+ such as insert, update or delete, OED uniqueness constraints are enforced 
+ only at the completion of a saveCollection method, and they ignore logically 
+ delete records. &#160;</p>
+    </body>
+</html>

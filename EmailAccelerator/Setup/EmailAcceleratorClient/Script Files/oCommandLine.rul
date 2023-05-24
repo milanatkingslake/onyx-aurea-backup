@@ -1,0 +1,133 @@
+function OParseCommandLine( )
+
+STRING szCmdLine, szTemp1, szTemp2, szTemp,szDebug;
+NUMBER nTemp1, nTemp2, nByte, nNextChar;
+
+begin
+	OLog("Executing: OParseCommandLine");
+	
+//MessageBox(CMDLINE,WARNING);
+	szCmdLine = CMDLINE;
+	OParseMacros( szCmdLine );
+
+	szDebug = "Command line switch data is: ";
+	OLog(szDebug+szCmdLine);
+	szDebug = szDebug + "\n\n";
+
+	StrToUpper( szCmdLine, szCmdLine );
+	if ( szCmdLine % "-?" || szCmdLine % "/?" ||
+		 szCmdLine % "-H" || szCmdLine % "/H" ) then
+		_DisplayHelp();
+	endif;
+
+	// Insure that "FindNextBlankChar" functions as intended on the last parameter
+	szCmdLine = szCmdLine + "     ";
+
+	// Look for a '-O' or '/O' switch
+	nTemp1 = StrFind( szCmdLine, "-O" );
+	nTemp2 = StrFind( szCmdLine, "/O" );
+	while ( nTemp1 >= 0 || nTemp2 >= 0 )
+		// Make sure nTemp1 is the first parameter.
+		if ( ( nTemp2 >= 0 ) && ( ( nTemp1 > nTemp2 ) || nTemp1 < 0 ) ) then
+			nTemp1 = nTemp2;
+		endif;
+		nTemp1 = nTemp1 + 2; //account for -O
+		StrSub( szCmdLine, szCmdLine, nTemp1, StrLength( szCmdLine ) - nTemp1 );
+		GetByte( nByte, szCmdLine, 0 );
+		
+		nNextChar = _FindNextBlankChar( szCmdLine, 2 );
+		StrSub(szTemp,szCmdLine,nTemp1,nNextChar-2);
+		switch( nByte )
+			case 63:			 //  ? - HelpScreen.
+				_DisplayHelp();
+			case 66:			 //  B - DataBase name.
+				g_structCmdLine.szDataBaseName = szTemp;
+				g_structDatabase.szDatabase = szTemp;
+			case 68:			 //  D - Destination Path
+				g_structCmdLine.szTargetDir = szTemp;
+			case 69:			 //  E - Encryption off on DB server
+				g_structCmdLine.szEncryption = szTemp;
+			case 71:			 //  G - Module name to select
+				g_structCmdLine.szAutoUpgradeSelect = szTemp;
+			case 77:			 //  M - Debug Mode.
+				g_structCmdLine.szDebug = TRUE;
+			case 78:			 //  N - Setup Location
+				g_structCmdLine.szSourceDir = szTemp;
+			case 79:			 //  O - Omit module name.
+				g_structCmdLine.szAutoUpgradeDeselect = szTemp;
+			case 80:			 //  P - DB Password.
+				g_structCmdLine.szPassword = szTemp;
+				g_structDatabase.szPassword = szTemp;
+			case 82:			//   R - Disable requirements checks
+				g_structCmdLine.bDisableReqCheck = TRUE;
+			case 83:			 //  S - DB Server.
+				g_structCmdLine.szServer = szTemp;
+				g_structDatabase.szServer = szTemp;
+			case 84:			 //  T - Simulation Mode.
+				g_structCmdLine.szSimulation = TRUE;
+			case 85:			 //  U - User Name
+				g_structCmdLine.szUserName = szTemp;
+				g_structDatabase.szLogin = szTemp;
+			default:			 //  ? - Everything else.
+				_DisplayHelp();
+		endswitch;
+
+		szDebug = szDebug + szTemp + "\n";
+
+		StrSub( szCmdLine, szCmdLine, nNextChar + 1, StrLength( szCmdLine ) - nNextChar - 1 );
+		nTemp1 = StrFind( szCmdLine, "-O" );
+		nTemp2 = StrFind( szCmdLine, "/O" );
+	endwhile;
+
+//	MessageBox(szDebug,WARNING);
+	
+	//if(CMDLINE="yeahbaby!")then EasterEgg();endif;
+end;
+
+/////////////////////////////////////////////////////////
+function _FindNextBlankChar( szCmdLine, nStartHere )
+
+NUMBER	nIndex;
+STRING	szTemp1;
+
+begin
+	nIndex = nStartHere;
+	while ( szTemp1 != " " && ( nIndex < StrLength( szCmdLine ) ) )
+		StrSub( szTemp1, szCmdLine, nIndex, 1 );
+		nIndex = nIndex + 1;
+	endwhile;
+	if ( szTemp1 = " " ) then
+		return nIndex - 1;
+	else
+		return -1;
+	endif;
+end;
+
+/////////////////////////////////////////////////////////
+function _DisplayHelp()
+STRING szTitle,szHelp[512];
+begin
+	szTitle = "Onyx Setup Help";
+	SetDialogTitle (DLG_MSG_INFORMATION, szTitle);
+
+	szHelp = @HELP_COMMANDLINE;
+	szHelp = szHelp + @HELP_COMMANDLINE2+"  "+@HELP_COMMANDLINE3+"\n\n";
+	szHelp = szHelp + "/oB	"+@HELP_B+"\n";
+	szHelp = szHelp + "/oD	"+@HELP_D+"\n";
+	szHelp = szHelp + "/oG	"+@HELP_G+"\n";
+	szHelp = szHelp + "/oM	"+@HELP_M+"\n";
+	szHelp = szHelp + "/oN	"+@HELP_N+"\n";
+	szHelp = szHelp + "/oO	"+@HELP_O+"\n";
+	szHelp = szHelp + "/oP	"+gszHelpPassword+"\n";
+	szHelp = szHelp + "/oR 	"+@HELP_R+"\n";
+	szHelp = szHelp + "/oS	"+@HELP_S+"\n";
+	szHelp = szHelp + "/oU	"+gszHelpUser+"\n";
+	
+	MessageBox(szHelp,INFORMATION);
+	abort;
+end;
+
+
+
+
+

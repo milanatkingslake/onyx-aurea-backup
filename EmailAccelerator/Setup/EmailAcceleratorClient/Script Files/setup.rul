@@ -1,0 +1,2810 @@
+////////////////////////////////////////////////////////////////////////////////
+//
+//  IIIIIII SSSSSS
+//    II    SS                          InstallShield (R)
+//    II    SSSSSS      (c) 1996-1997, InstallShield Software Corporation
+//    II        SS      (c) 1990-1996, InstallShield Corporation
+//  IIIIIII SSSSSS                     All Rights Reserved.
+//
+////////////////////////////////////////////////////////////////////////////////
+
+#define SETUP_VERSION	5.10.02
+
+/////////////////////////////////////////////////////////////////
+// Revision history:
+//		5.00	Magellan
+//		5.00.03	Commented out "installbefore" functions.
+//		5.00.04	Website stuff.
+//		5.00.05 default install dir now available in setup.ini
+//		5.00.06	Config Middle Tier plus fixes for OCP setup.
+//		5.00.07 More Config Middle Tier.
+//		5.00.08 Bug fixes for Neal O (running outside launcher and setup reg footprint).
+//		5.00.09	Mag Enterprise Studio
+//		5.00.10	New IsUser.dll, which has a revised database login and a new OnyxSA account dialog
+//		5.00.11 Final touches for all setups before droping phase IV setups into the build.
+//		5.00.12 New COM+ functionality (selecting Roles in componenets and interfaces.)
+//		5.00.13 New OnyxQE settings, and DB version check fixes
+//		5.00.14 Switched Unencrypted SQL files to be done before Encrypted ones.
+//		5.00.15 New dialog.  Domain, user, password with authentication
+//		5.00.16 Check for ANSI chars only added.  Website dialog now prompts for site id also for global.asa
+//		5.00.17 Added full uninstall for COM+ and IIS items.
+//		5.00.18	Bugs for post code complete
+//		5.00.19 More bug fixes
+//		5.00.20	OnyxIns.dll version 1.4 (rc3).  This version has exported function names, so no more ISOnyxIns.dll
+//				All interfaces to OnyxIns.dll now have an "A" at the end indicating ANSI interface.
+//				All old calls to ISonyxIns.dll have been commented out if they are needed.
+//		5.00.21	Mag build 236
+//		5.00.22	Mag build 237
+//		5.10.00 Waterloo (Based on Magellan 240 or RC1 and OEP setup)
+/////////////////////////////////////////////////////////////////
+
+#define _DEBUG 0
+
+// Include header files
+	#include "oCommon.h"
+	#include "oSQL.h"
+	#include "oDialogs.h"
+	#include "oProductFunctions.h"
+	#include "oRequirements.h"
+	#include "oNTServices.h"
+	#include "oMTSAdmin.h"
+    #include "sdlang.h"
+    #include "sddialog.h"
+    #include "oAskOptionsList.h"
+    #include "oProcessRegFile.h"
+    #include "ODlgSetupType.h"
+    #include "ODlgOperation.h"
+//    #include "..\include\dialogs.h"
+	#include "ODlgOnyxSA.h"
+//ef    #include "oExtraFiles.h"	
+//r    #include "oRecovery.h"
+	#include "setup.h"
+//4.00.21	#include "oDCOM.h"
+	#include "oDlgUserPassword.h"
+	#include "oODBC.h"
+	#include "oCommandLine.h"
+	#include "oInstallBefore.h"
+	#include "winsub.h"
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//   MAIN PROGRAM
+//
+//      The setup begins here by hiding the visible setup
+//      window.  This is done to allow all the titles, images, etc. to
+//      be established before showing the main window.  The setup is
+//      then performed in a series of calls to script defined functions,
+//      with error checking at each step.
+//
+///////////////////////////////////////////////////////////////////////////////
+program
+	Handler(EXIT, Exit_Handler);
+    Disable( BACKGROUND );
+
+	//do not display status if launched from another setup.
+	DetectLauncher();
+	if(g_structLauncher.bIsChild = FALSE)then
+    	SdShowMsg(@MSG_INIT_SETUP, TRUE);
+    endif;
+
+//OInstallMTSPackages();
+
+	SetupInit();
+	SetupInstall();
+
+	glistServicesToStart = ListCreate(STRINGLIST);	//services to shutdown and restart
+	glistOfOldVersions = ListCreate(STRINGLIST);	//old versions to remove from reg at end.
+	glistOfOldPackages = ListCreate(STRINGLIST);	//list of existing MTS package files
+	
+   	oCheckRequirements();
+
+   	_EstablishDefaultDir(gszDir);
+	TARGETDIR = gszDir;
+
+    SetupScreen();
+    SdShowMsg("", FALSE);
+
+    if(OIsComponentSelected(COMP_LOOK_FOR_PRODUCT) = TRUE) then
+		g_structSetupMode.szType = "OPERATION1"; //default to a Operation1.
+		OLookForProduct(gszOperationComponent,NEXT);
+	endif;
+
+	//promt the user for all needed data
+    if (ShowDialogs()<0) goto end_install;
+	
+	//install the product
+	SdShowMsg("", FALSE);
+	SdShowMsg(@MSG_PREPARE_INSTALL, TRUE);
+    if (ProcessBeforeDataMove()<0) goto end_install;
+    SdShowMsg("", FALSE);
+    if (MoveFileData()<0) goto end_install;
+
+	//update the system.
+	SdShowMsg("", FALSE);
+	SdShowMsg(@MSG_UPDATE_SYSTEM, TRUE);
+    if (ProcessAfterDataMove()<0) goto end_install;
+    if (SetupRegistry()<0) goto end_install;
+    if (SetupFolders()<0) goto end_install;
+	SdShowMsg("", TRUE);
+	
+	goto end_install:
+
+ 	Exit_Handler:
+ 		gszTemp = @EXIT_HANDLER1+"\n\n"+@EXIT_HANDLER2+"\n\n"+@EXIT_HANDLER3;
+		if(AskYesNo(gszTemp,NO)=YES)then
+			bInstallAborted = TRUE;
+			CleanUpInstall();
+			abort;		
+    	endif;
+		return;
+
+    end_install:
+	    CleanUpInstall();
+
+    	// If an unrecoverable error occurred, clean up
+    	// the partial installation. Otherwise, exit normally.
+    	if (bInstallAborted) then
+        	OAbort();
+    	endif;
+
+endprogram
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function:  ShowDialogs
+//
+//  Purpose:  This function manages the display and navigation of
+//            the standard dialogs that exist in a setup.
+//
+///////////////////////////////////////////////////////////////////////////////
+function ShowDialogs()
+    NUMBER  nResult;
+    NUMBER  bSelected;
+    STRING  svInfo;
+    STRING  gszOperationComponent;
+    NUMBER  nDialog;
+    BOOL    bDone;
+begin
+
+    // Set the Setup Type to the "Base Setup" type.  This is the "internal" type
+    // used to drive the main setup process itself.
+	Enable( DIALOGCACHE );
+    gszOperationComponent = COMP_OPERATION_OPERATION1;
+
+    nDialog = 0;
+    nResult = NEXT;
+    bDone = FALSE;
+    while (!bDone)
+        switch (nDialog)
+
+        case 0:
+            if (OIsComponentSelected(COMP_WELCOME) = TRUE) then
+                nResult = DialogShowSdWelcome();
+            endif;
+
+        case 1:
+            if (OIsComponentSelected(COMP_LICENSE) = TRUE) then
+                nResult = DialogShowSdLicense();
+            endif;
+
+        case 2:
+            if (OIsComponentSelected(COMP_REGISTER_USER) = TRUE) then
+                nResult = DialogShowSdRegisterUserEx();
+            endif;
+
+        case 3:
+            if (OIsComponentSelected(COMP_SHUTDOWN) = TRUE) then
+				nResult = DialogShowShutdownServices(nResult);
+            endif;
+
+        case 4:
+            if (OIsComponentSelected(COMP_DLG) = TRUE) then
+				nResult = OShowPromptDialogs(nResult);
+            endif;
+
+        case 5:
+            if (OIsComponentSelected(COMP_OPERATIONS) = TRUE) then
+                nResult = ODialogShowOperations( gszOperationComponent,nResult);
+            endif;
+
+        // -----------------------------------------------------------------
+        // Branch out for each different installation operation.
+        // -----------------------------------------------------------------
+
+        case 6:
+            if (gszOperationComponent = COMP_OPERATION_OPERATION1) then
+                nResult = OShowOperation1Dialogs(nResult);
+            endif;
+
+        case 7:
+            if (gszOperationComponent = COMP_OPERATION_OPERATION2) then
+                nResult = OShowOperation2Dialogs(nResult);
+            endif;
+
+        case 8:
+            if (gszOperationComponent = COMP_OPERATION_OPERATION3) then
+                nResult = OShowOperation3Dialogs(nResult);
+            endif;
+
+        case 9:
+            if (gszOperationComponent = COMP_OPERATION_OPERATION4) then
+                nResult = OShowOperation4Dialogs(nResult);
+            endif;
+
+        // -----------------------------------------------------------------
+        // End of branch for each different installation operation.
+        // -----------------------------------------------------------------
+
+        default:
+           bDone = TRUE;
+        endswitch;
+
+        if (nResult = NEXT) then
+            nDialog++;
+        else
+            nDialog--;
+        endif;
+
+    endwhile;
+	Disable( DIALOGCACHE );
+    return 0;
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function:  OShowDataBaseDialogs
+//
+//  Purpose:  This function manages the display and navigation of
+//            SQL Dialogs that exist in this subgroup.
+//
+///////////////////////////////////////////////////////////////////////////////
+function OShowDataBaseDialogs( nResult )
+    NUMBER  nDialog;
+    BOOL    bDone;
+begin
+    if ( nResult = BACK ) then
+        nDialog = 1;
+    else
+        nDialog = 0;
+    endif;
+
+    bDone = FALSE;
+    while (!bDone)
+        switch (nDialog)
+        case 0:
+			nResult = ODataBaseDialogs( COMP_DB_SQL_LOGIN, 1, nResult );
+		case 1:
+			nResult = ODataBaseDialogs(COMP_DB_SQL_LOGIN2, 2, nResult );
+        default:
+           bDone = TRUE;
+        endswitch;
+
+        if (nResult = NEXT) then
+            nDialog++;
+        else
+            nDialog--;
+        endif;
+    endwhile;
+
+    return nResult;
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function:  OOperation1DataBaseDialogs
+//
+//  Purpose:  This function manages the display and navigation of
+//            SQL Dialogs that exist in the Operations1 group.
+//
+///////////////////////////////////////////////////////////////////////////////
+function OOperation1DataBaseDialogs(nResult)
+    NUMBER  nDialog;
+    BOOL    bDone;
+begin
+    if ( nResult = BACK ) then
+        nDialog = 3;
+    else
+        nDialog = 0;
+    endif;
+
+    bDone = FALSE;
+    while (!bDone)
+        switch (nDialog)
+        case 0:
+			nResult = ODataBaseDialogs( COMP_O1_DB_SQL_LOGIN, 1, nResult );
+		case 1:
+//			nResult = ODataBaseDialogs(COMP_O1_DB_SQL_LOGIN2, 2, nResult );
+        default:
+           bDone = TRUE;
+        endswitch;
+
+        if (nResult = NEXT) then
+            nDialog++;
+        else
+            nDialog--;
+        endif;
+    endwhile;
+
+    return nResult;
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function:  ODataBaseDialogs
+//
+//  Purpose:  This function manages the display and navigation of
+//            SQL Dialogs that exist in this subgroup.
+//
+///////////////////////////////////////////////////////////////////////////////
+function ODataBaseDialogs( szComponent, nDB, nResult )
+    NUMBER  nDialog;
+    BOOL    bDone;
+    STRING  szErr;
+begin
+	if (OIsComponentSelected(szComponent) = TRUE) then
+		
+		//First ensure named pipes for DB connection.
+		if (OIsComponentSelected(COMP_DB_NAMED_PIPES) = TRUE) then
+			OSwitchDSQuery("DBNMPNTW"); //switch to named pipes if not already.
+		endif;
+
+        switch (nDB)
+        case 1:
+ 			//populate vars if they are empty
+			if (nResult = NEXT) then //only when going forward
+				if (g_structDatabase.szLogin = "" &&
+					g_structDatabase.szDatabase = "" &&
+					g_structDatabase.szServer = "") then
+				
+					OGetSQLValuesFromINI(&g_structDatabase, "SQL1");
+	        	endif;
+	        	
+	        	bDone = FALSE;
+	        	while bDone = FALSE
+					//Test the current connection
+           			SdShowMsg(@PROMPT_VALIDATING_CONNECTION, TRUE);
+           			if (ODBValidate(&g_structDatabase, szErr) = FALSE) then
+               			bDone = FALSE;
+					else
+						bDone = TRUE;
+					endif;
+           			SdShowMsg(@PROMPT_VALIDATING_CONNECTION, FALSE);
+	        		
+	        		if bDone = FALSE then
+	        			//prompt user for login.
+	        			nResult = ODialogShowDatabaseInfo(&g_structDatabase,nResult);
+	        		endif;
+					if nResult = BACK then
+						bDone = TRUE;
+					endif;
+				endwhile;
+			endif;
+
+	   	case 2:
+ 			//populate vars if they are empty
+			if (nResult = NEXT) then //only when going forward
+				OGetSQLValuesFromReg(&g_structDatabase2, COMP_DATABASE,"Customer Center");
+				OGetSQLValuesFromINI(&g_structDatabase2, "SQL2");
+			endif;
+
+	        //prompt user for login.
+	        nResult = ODialogShowDatabaseInfo(&g_structDatabase2,nResult);
+	   	endswitch;
+	endif;
+
+    return nResult;
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function:  OShowPromptDialogs
+//
+//  Purpose:  This function manages the display and navigation of
+//            various dialogs that prompt the user for data.
+//
+///////////////////////////////////////////////////////////////////////////////
+function OShowPromptDialogs( nResult )
+NUMBER  nDialog,nTemp,nAllowPath,nCharChecks,nANSIonly,nAccountExists,nLoopAccount,nSpaceOk;
+BOOL    bDone,bLoop,bGoBack;
+STRING	szTemp[512],szTitle,szEntry,szOldPassword,szComment;
+begin
+	nANSIonly = FALSE; //any char by default
+	nSpaceOk = FALSE; //for all dialogs.
+
+    if ( nResult = BACK ) then
+        nDialog = 13;
+    else
+        nDialog = 0;
+    endif;
+
+    bDone = FALSE;
+    while (!bDone)
+        switch (nDialog)
+		case 0:
+			//needs to be used inconjuction with COMP_DLG_SELECT_APP below
+        	if (OIsComponentSelected(COMP_DLG_REMOTE_SERVER) = TRUE) then
+        		
+        		//only prompt if no local registry entry of middle tier apps.
+        		szTemp = "SOFTWARE\\ONYX\\AppServer\\Applications";
+        		if(RegDBKeyExist(szTemp) < 0)then;
+        			nResult = ODialogShowRemoteServerReg(szEntry);
+        		endif;
+        		
+        	endif;
+        	
+		case 1:
+			//can be used inconjuction with COMP_DLG_REMOTE_SERVER above
+			szTemp = "SOFTWARE\\ONYX\\AppServer\\Applications";
+				if(nResult = BACK && RegDBKeyExist(szTemp) < 0)then
+				//force back to previous dialog to get a reg basekey
+			else
+	        	if (OIsComponentSelected(COMP_DLG_SELECT_APP) = TRUE) then
+					nResult = ODialogShowSelectApp(szTemp,nResult);
+					//drop remote reg if it was used (above).
+//					if (OIsComponentSelected(COMP_DLG_REMOTE_SERVER) = TRUE)then
+					if(g_structAppData.szAppServer != "")then
+						//need to drop remote connection for rest of setup.
+						RegDBDisConnectRegistry(0);
+					endif;
+				endif;
+			endif;
+        	
+        case 2:
+			szTitle = "";
+
+/*
+        	if (OIsComponentSelected(COMP_DLG_APPNAME) = TRUE) then
+//			    gszFirstDialog = "ODialogShowGetEntry";
+				nResult = ODialogShowGetAppName();
+			else
+				//get default product App Name out of setup.ini
+				OGetValueFromINI("Application Configuration","Name",szTemp);
+				if(szTemp != "")then
+					g_structAppName.szLogin = szTemp;
+				endif;
+        	endif;
+*/        	
+		case 3:
+            if (OIsComponentSelected(COMP_DATABASE) = TRUE) then
+				nResult = ODataBaseDialogs( COMP_DB_SQL_LOGIN, 1, nResult );
+            endif;
+
+/*			//can be used to be used inconjuction with COMP_DLG_REMOTE_SERVER above
+        	if (OIsComponentSelected(COMP_DLG_REMOTE_PROXY) = TRUE) then
+        		nResult = ODialogShowGetProxy(nResult);
+        	endif;
+*/        	
+        case 4:
+
+			szTitle = "";
+
+        case 5:
+        	if (OIsComponentSelected(COMP_DLG_VWS_SITEID) = TRUE) then
+				nResult = ODialogShowGetSiteID(&g_structVWS3,"SiteId");
+        	endif;
+ 		case 6:
+			if (OIsComponentSelected(COMP_DLG_SQL) = TRUE) then
+				//get default value out of setup.ini
+				if(nResult = NEXT)then  //only if going forward
+					OGetValueFromINI("Setup","SQLAccount",szTemp);
+					g_structSQLEUAccount.szLogin = szTemp;
+				endif;
+
+				//to always use the same account name.
+				OGetValueFromINI("Setup","SQLAccountLogon",szTemp);
+				StrToUpper(szTemp,szTemp);
+				if(szTemp = "LOCK")then
+					g_structSQLEUAccount.bLockName = TRUE;
+				endif;
+			
+				//Limit characters to ANSI chars
+				OGetValueFromINI("Setup","SQLAccountANSIOnly",szTemp);
+				StrToUpper(szTemp,szTemp);
+				if(szTemp = "YES")then
+					nANSIonly = 1;
+				endif;
+				
+				//set message
+				szTemp = "";
+                OGetValueFromINI("DSN","Account",szTemp);
+				StrToUpper(szTemp,szTemp);
+                if(szTemp = "VERIFY")then
+                	//ask for account to use to verify a DSN to a db
+                	szTitle = @MTS_SQL_ACCOUNT_VERIFY;
+                else
+                	//ask for account to create on db
+                	szTitle = @PROMPT_SQL_ACCOUNT;
+                endif;
+                szTemp="";
+                OGetValueFromINI("SQLAccount","Message",szTemp);
+                if(szTemp != "")then
+                	szTitle = szTemp;
+                endif;
+                				
+                nLoopAccount = 0;
+				while (nLoopAccount = 0)
+					nResult = ODialogShowAccountInfo(@INFO_SQL_ACCOUNT,szTitle,&g_structSQLEUAccount,0,nCharChecks,nANSIonly,TRUE);
+					if(nResult = NEXT)then		
+						nTemp = StrLength (g_structSQLEUAccount.szPassword);
+						if (nTemp > 20 ) then
+							nLoopAccount=0;
+							Sprintf ( gszMsg, @ERROR_STRING_TO_LONG, nTemp, 20);
+							MessageBox(gszMsg,WARNING);
+						else
+							//Encrypt the password using OSLF
+							OSLFEncryptPassword(g_structSQLEUAccount.szLogin,g_structSQLEUAccount.szPassword,szTemp);
+        	       	    	g_structSQLEUAccount.szEncryptedPassword = szTemp;			
+							//OEPEncrypt for the OEP login info must be done after the
+							// OEPEncrypt.dll is copied to the destination machine
+
+							nLoopAccount = 1;  //force exit.  Do not want to prompt for a new account name.
+	 						gszMsg = "";
+						endif;
+					else
+						nLoopAccount = 1;
+					endif;
+				endwhile;
+
+				//encrypt the password
+				if(nResult = BACK)then
+	       	    	g_structSQLEUAccount.szLogin = "";
+        	    	g_structSQLEUAccount.szPassword = "";
+				else
+	               	//encrypt the password
+//    	           	OSLFEncryptPassword("sa",g_structSQLEUAccount.szPassword,szTemp);
+    	           	OSLFEncryptPassword(g_structSQLEUAccount.szLogin,g_structSQLEUAccount.szPassword,szTemp);
+        	       	g_structSQLEUAccount.szEncryptedPassword = szTemp;	
+        	    endif;
+
+            endif;
+
+        case 7:
+        	if (OIsComponentSelected(COMP_DLG_VWS) = TRUE) then
+				nResult = ODialogShowGetVirtualDir(&g_structVWS1,"WebSite1",nResult);
+        	endif;
+
+        case 8:
+        	//Commented by ashish in case of oepwebsite we no need to create 2nd website
+        	if (OIsComponentSelected(COMP_DLG_VWS) = TRUE) then
+	        	/*bLoop = 0;
+	        	while(bLoop = 0)
+					nResult = ODialogShowGetVirtualDir(&g_structVWS2,"WebSite2",nResult);
+					if(g_structVWS1.szName = g_structVWS2.szName && nResult = NEXT)then
+						Sprintf(gszMsg,@ERROR_VWS1,g_structVWS2.szTitle,g_structVWS1.szTitle);
+						MessageBox(gszMsg,WARNING);
+						nResult = BACK;
+					else
+						bLoop = 1;
+					endif;
+				endwhile;*/
+        	endif;
+
+		case 9:
+			NumToStr(szTemp ,nDialog);
+		/*
+        // new lm_user code
+        // COMP_DLG_LMUSER is now deselected, no LM user is necessary anymore
+			if (OIsComponentSelected(COMP_DLG_LMUSER) = TRUE) then
+				//get default value out of setup.ini
+				if(nResult = NEXT)then  //only if going forward
+					if (g_structLMAccount.szLogin = "" ) then
+						OGetValueFromINI("Setup","LMAccount",szTemp);
+						g_structLMAccount.szLogin = szTemp;
+					endif;
+				endif;
+
+				//to always use the same account name.
+				OGetValueFromINI("Setup","LMAccountLogon",szTemp);
+				StrToUpper(szTemp,szTemp);
+				if(szTemp = "LOCK" || gszOperationComponent = COMP_OPERATION_OPERATION3
+					|| gszOperationComponent = COMP_OPERATION_OPERATION2) then
+					g_structLMAccount.bLockName = TRUE;
+				endif;
+			
+				//Limit characters to ANSI chars
+				OGetValueFromINI("Setup","LMAccountANSIOnly",szTemp);
+				StrToUpper(szTemp,szTemp);
+				if(szTemp = "YES")then
+					nANSIonly = 1;
+				else
+					nANSIonly = 0;
+				endif;
+				
+				nLoopAccount = 0;
+				szTitle = @PROMPT_LM_ACCOUNT;
+				while (nLoopAccount = 0)
+					nResult = ODialogShowAccountInfo(@INFO_LM_ACCOUNT,szTitle,&g_structLMAccount,0,nCharChecks,nANSIonly);
+					if ( nResult = NEXT ) then
+						//if ( _CheckOracleName ( g_structLMAccount.szLogin, "Login", szErr ) = FALSE ) then
+						//	MessageBox ( szErr, INFORMATION);
+						//	nLoopAccount = 0;
+						//  elseif
+						if ( g_structLMAccount.szPassword = "" ) then
+							Sprintf(szTemp, @ERROR_BLANK_ENTRY, "Password");
+							MessageBox (szTemp, INFORMATION);
+							nLoopAccount = 0;
+						//elseif (_CheckOracleName ( g_structLMAccount.szPassword, "Password", szErr) = FALSE ) then
+						//	MessageBox ( szErr, INFORMATION);
+						//	nLoopAccount = 0;
+						//else	
+						//	OCheckOracleAccount( &g_structDatabase, &g_structLMAccount, nTemp);
+					
+						//	switch (nTemp)
+						//		case CHECK_ORA_ACCOUNT_PASSWORD_BAD:
+						//			Sprintf( szMsg, @ERROR_PASSWORD_BAD);
+						//			MessageBox ( szMsg, WARNING);
+						//			nLoopAccount = 0;
+						
+						//		case CHECK_ORA_ACCOUNT_PASSWORD_OK:
+						//			nLoopAccount =1;
+																			
+						//		case CHECK_ORA_ACCOUNT_NOT_EXISTS:
+						//			if ( gszOperationComponent = COMP_OPERATION_OPERATION3 ) then
+						//				Sprintf ( szMsg, @ERROR_PASSWORD_BAD);
+						//				MessageBox ( szMsg, WARNING);
+						//				nLoopAccount = 0;
+						//			else
+						//				nLoopAccount = 1;
+						//			endif;
+						//		default:
+						//	endswitch;	
+						//endif;
+						else
+							nLoopAccount = 1;
+						endif;
+					else
+						nLoopAccount=1;
+					endif;
+				endwhile;	
+		
+				//encrypt the password
+				if(nResult = BACK)then
+	       	    	g_structLMAccount.szLogin = "";
+        	    	g_structLMAccount.szPassword = "";
+        	    endif;
+        	
+            endif;
+			*/
+		case 10:
+			if (OIsComponentSelected(COMP_DLG_ONYXSA) = TRUE) then
+				//get default value out of setup.ini
+				if(nResult = NEXT)then  //only if going forward
+					OGetValueFromINI("Setup","OnyxSAAccount",szTemp);
+					if(szTemp !="")then
+						g_structOnyxSA.szLogin = szTemp;
+					endif;
+				endif;
+
+				//to always use the same account name.
+				OGetValueFromINI("Setup","OnyxSAAccountLogon",szTemp);
+				StrToUpper(szTemp,szTemp);
+				if(szTemp = "LOCK")then
+					g_structOnyxSA.bLockName = TRUE;
+				endif;
+               	nResult = ODialogShowOnyxSA(&g_structOnyxSA,2,1,nResult); //nAllowPath,nANSIonly
+
+               	//encrypt the password
+               	OSLFEncryptPassword("sa",g_structOnyxSA.szPassword,szTemp);
+               	g_structOnyxSA.szEncryptedPassword = szTemp;
+				
+				//values to be used later (oparsemacros) when running SQL commands onto db.
+				//The szLogin (domain account name) will be put into the NetWorkUser table
+				//The szEncryptedPassword will be put into the ExtendedUser table
+               	
+            endif;
+
+        case 11:
+ 			if (OIsComponentSelected(COMP_DLG_DSN) = TRUE) then
+				OGetValueFromINI("DSN","Name",szTemp);
+				g_structDSN.szName = szTemp;
+				OGetValueFromINI("DSN","Description",szTemp);
+				g_structDSN.szDesc = szTemp;
+				OGetValueFromINI("DSN","NameOnly",szTemp);
+				nResult = ODialogShowGetDSNEntry(@DSN_NAME,@DSN_NAME_MSG,&g_structDSN,szTemp);
+
+//OCreateDSNEntry(g_structDSN.szName,g_structDSN.szDesc,g_structDSN.szServer,g_structDSN.szDatabase,g_structSQLAccount.szLogin,g_structSQLAccount.szPassword);
+
+            endif;
+		case 12:
+			//Domain account, with authentication.
+        	if (OIsComponentSelected(COMP_DLG_DOMAIN_ACCOUNT) = TRUE) then
+				
+				//get default, only if a value hasn't already been entered.
+				if(g_structDomainAccount.szLogin = "")then
+					OGetValueFromINI("Setup","DomainAccountLogin",szTemp);
+					g_structDomainAccount.szLogin = szTemp;
+				endif;
+
+				//to always use the same account name.
+				OGetValueFromINI("Setup","DomainAccountLogon",szTemp);
+				StrToUpper(szTemp,szTemp);
+				if(szTemp = "LOCK")then
+					g_structDomainAccount.bLockName = TRUE;
+				endif;        		
+
+				//no spaces in password
+				g_structDomainAccount.nSpaceOkInPW = FALSE;
+				
+				szTitle = @INFO_DOMAIN_ACCOUNT;
+				szTemp = @PROMPT_MTS_DOMAIN_ACCOUNT;
+				
+				//ODlgShowDomainAccountInfo(szTitle,szMsg,gstruct,nSpaceOkInPW)
+				nResult = ODlgShowDomainAccountInfo(szTitle,szTemp,&g_structDomainAccount);
+
+				//if going back, clear data so defaults will be used again.
+				if(nResult = BACK)then
+					g_structDomainAccount.szDomain = "";
+					g_structDomainAccount.szLogin = "";
+					g_structDomainAccount.szPassword = "";
+				endif;
+        	endif;
+		case 13:	
+			//nt account
+        	if (OIsComponentSelected(COMP_DLG_NTACCOUNT) = TRUE) then
+//			    gszFirstDialog = "ODialogShowAccountInfo";
+				if(nResult = NEXT)then
+					OGetValueFromINI("Setup","NTAccount",szTemp);
+					g_structNTAccount.szLogin = szTemp;
+				endif;
+
+				//to always use the same account name.
+				OGetValueFromINI("Setup","NTAccountLogon",szTemp);
+				StrToUpper(szTemp,szTemp);
+				if(szTemp = "LOCK")then
+					g_structNTAccount.bLockName = TRUE;
+				endif;
+				
+				//Check to allow path char in username, like for a domain/username account.
+				OGetValueFromINI("Setup","NTDomainAccount",szTemp);
+				StrToUpper(szTemp,szTemp);
+				if(szTemp = "YES")then
+					nAllowPath = 2; //force check for \ char in entry
+					szTemp = @PROMPT_MTS_DOMAIN_ACCOUNT;
+					szTitle = @INFO_DOMAIN_ACCOUNT;
+				else
+					szTemp = @PROMPT_MTS_NT_ACCOUNT;
+					szTitle = @LABEL_NT_ACCOUNT;
+				endif;
+		
+				bLoop = 0;
+				while (bLoop = 0)
+					nResult = ODialogShowAccountInfo(szTitle,szTemp,&g_structNTAccount,1,nAllowPath,nANSIonly,TRUE);
+					bGoBack = FALSE;
+					if(OCheckForSpaceChar(g_structNTAccount.szLogin,@LABEL_LOGIN) = FALSE)then //False if no space
+						bGoBack = TRUE;
+					endif;
+					if(OCheckForSpaceChar(g_structNTAccount.szPassword,@LABEL_PASSWORD) = FALSE)then //False if no space
+						bGoBack = TRUE;
+					endif;
+					
+					if(bGoBack = FALSE)then
+						if(nResult = NEXT)then	
+							nTemp = OCheckLocalAccount(g_structNTAccount.szLogin,nAccountExists);
+		
+							if(nAccountExists = 1)then
+							 	//GetUserAccountInfo always returns a NULL in szOldPassword
+								gszMsg = @ERROR_NT_ACCOUNT_CREATE4;
+		 						if(AskYesNo(gszMsg,YES)=YES)then
+									bLoop = 1;  //force exit.  Do not want to prompt for a new account name.
+		 						endif;
+	 							gszMsg = "";
+							else
+								bLoop = 1;  //force exit.
+							endif;
+						else
+							//going BACK so clear.
+							g_structNTAccount.szLogin="";
+							g_structNTAccount.szPassword="";
+							bLoop = 1;  //force exit.
+						endif;
+					endif;
+				endwhile;
+			
+        	endif;
+		
+		default:
+           bDone = TRUE;
+        endswitch;
+
+        if (nResult = NEXT) then
+            nDialog++;
+        else
+            nDialog--;
+        endif;
+    endwhile;
+
+    return nResult;
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function:  OShowOperation1Dialogs
+//
+//  Purpose:  This function manages the display and navigation of
+//            the standard dialogs that exist in a setup.
+//
+///////////////////////////////////////////////////////////////////////////////
+function OShowOperation1Dialogs( nResult )
+NUMBER  nDialog;
+BOOL    bDone, bTest;
+STRING  szTemp, szEntry;
+begin
+
+//	OSaveOperationMode("Operation","Operation1");
+	
+    if ( nResult = BACK ) then
+        nDialog = 10;
+    else
+        nDialog = 0;
+    endif;
+
+    bDone = FALSE;
+    while (!bDone)
+        switch (nDialog)
+        case 0:
+            if (OIsComponentSelected(COMP_O1_ASK_SETUP_TYPE) = TRUE) then
+         		nResult = DialogShowSdSetupType(COMP_O1_ASK_SETUP_TYPE);
+            else
+				if(nResult = NEXT)then
+	            	//default to production if setup type is not selected for use.
+    	            gszSetupType = OEP_SETUP_TYPE_PRODUCTION;
+                endif;
+            endif;
+
+        case 1:
+
+			//prompt for an nt group to create.
+			// login = name, password = description
+		
+
+            if (OIsComponentSelected(COMP_O1_ASK_GROUP) = TRUE && gszSetupType = OEP_SETUP_TYPE_DEV) then		     	
+		     	szTemp = "";
+				OGetValueFromINI("Setup","NTGroupCreate",szTemp);
+				
+				if(szTemp = "")then
+					g_structNTGroup.szLogin = "Onyx UCW Users";
+				else
+					g_structNTGroup.szLogin = szTemp;
+				endif;
+	
+				szEntry = g_structNTGroup.szLogin;
+	        	nResult = ODialogShowGetEntry(@LABEL_NT_GROUP,@PROMPT_UCW_NT_GROUP,szEntry,@LABEL_NAME,FALSE,FALSE,FALSE);
+				g_structNTGroup.szLogin = szEntry;
+				
+				szTemp="";
+				OGetValueFromINI("Setup","NTGroupCreateDesc",szTemp);
+				if(szTemp != "")then
+					g_structNTGroup.szPassword = szTemp;
+        		endif;
+				ComponentSelectItem (BASE_MEDIA, COMP_CREATE_NT_GROUP, TRUE);
+			else;
+				ComponentSelectItem (BASE_MEDIA, COMP_CREATE_NT_GROUP, FALSE);
+				//Make sure the group name is blank
+				g_structNTGroup.szPassword = "";
+				g_structNTGroup.szLogin = "";
+				endif;
+
+			bTest = OIsComponentSelected(COMP_CREATE_NT_GROUP);
+
+		case 2:
+            if (OIsComponentSelected(COMP_O1_ASK_PATH) = TRUE) then
+                nResult = DialogShowSdAskDestPath(nResult);
+            else
+            	//no prompt, so set var.
+            	g_structSetupMode.bNoPrompt = TRUE;
+            endif;
+
+
+        case 3:
+            if (OIsComponentSelected(COMP_O1_ASK_COMPONENTS) = TRUE && OIsSetupTypeCustom(gszSetupType)) then
+                nResult = DialogShowSdComponentDialog2();
+            endif;
+
+            //check to see if any components need to be checked for existing files
+			if(nResult = NEXT)then
+				OCheckForExistingComponents(SCOMP_O1_HELP,"Portal.hhk");  //this needs to be expanded to read from setup.ini
+			endif;
+
+       	//new case.  Reads in any additional file groups here, and displays the list of groups to the user.
+        case 4:
+            if (OIsComponentSelected(COMP_O1_FIND_ADDITIONAL_FILES)= TRUE) then
+//ef				nResult = OFindExtraFiles();
+            endif;
+
+		case 5:
+            if (OIsComponentSelected(COMP_O1_DATABASE) = TRUE) then
+				nResult = OOperation1DataBaseDialogs(nResult);
+            endif;
+
+        case 6:
+            if (OIsComponentSelected(COMP_O1_ASK_FOLDER) = TRUE) then
+                nResult = DialogShowSdSelectFolder();
+            endif;
+
+        case 7:
+        	if (OIsComponentSelected(COMP_O1_VERIFY) = TRUE) then
+                nResult = DialogShowSdStartCopy();
+
+        	endif;
+
+    	case 8:
+		    if (OIsComponentSelected(COMP_O1_COPY_FILES) = TRUE) then
+		 		gbCopyFiles = TRUE;  //handled in MoveFileData();
+
+				OLog("Extrafiles disabled");
+//ef			if (OIsComponentSelected(COMP_O1_COPY_ADDITIONAL_FILES) = TRUE && bExtraFiles = TRUE) then
+//ef				gbCopyExtraFiles = TRUE;  //handled in MoveFileData();
+//ef			endif;
+
+			    if (OIsComponentSelected(COMP_O1_PROCESS_REG_FILES) = TRUE) then
+			 		gbRegFiles = TRUE;  //handled in MoveFileData();
+				endif;
+				
+		 	endif;
+
+		case 9:
+		 	if (OIsComponentSelected( COMP_O1_RUN_SQL )) then
+		 		gbRunSQL = TRUE;
+		 	endif;
+
+		case 10:
+		 	if (OIsComponentSelected( COMP_O1_SHOW_SQL_RESULTS )) then
+		 		gbSQLResults = TRUE;
+		 	endif;
+
+        case 11:
+            if (OIsComponentSelected(COMP_O1_SYSTEM_PARMS) = TRUE) then
+                gbSystemParms = TRUE;
+            endif;
+		 	
+        default:
+           bDone = TRUE;
+        endswitch;
+
+        if (nResult = NEXT) then
+            nDialog++;
+        else
+            nDialog--;
+        endif;
+
+    endwhile;
+
+    return nResult;
+
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function:  OShowOperation2Dialogs
+//
+//  Purpose:  This function manages the display and navigation of
+//            the standard dialogs that exist in a setup.
+//
+///////////////////////////////////////////////////////////////////////////////
+function OShowOperation2Dialogs( nResult )
+NUMBER  nDialog,nTemp;
+BOOL    bDone;
+STRING	szResult;
+begin
+//	OSaveOperationMode("Operation","Operation2");
+
+//r    if(ORecoveryEvaluation("OShowOperation2Dialogs"))then
+//r    	nResult = NEXT;
+//r    endif;
+	
+    if ( nResult = BACK ) then
+        nDialog = 8;
+    else
+        nDialog = 0;
+    endif;
+
+    bDone = FALSE;
+    while (!bDone)
+        switch (nDialog)
+
+        case 0:
+            if (OIsComponentSelected(COMP_O2_ASK_SETUP_TYPE) = TRUE) then
+         		nResult = DialogShowSdSetupType(COMP_O2_ASK_SETUP_TYPE);
+            else
+            	//default to complete upgrade if setup type is not selected for use.
+                gszSetupType = "Operation2 - Complete";
+                ComponentSetupTypeSet( MEDIA, gszSetupType );
+            endif;
+
+        case 1:
+            if (OIsComponentSelected(COMP_O2_MSG) = TRUE) then
+         		nResult = DialogShowOperation2CodeWarning();
+	        endif;
+
+		//use Operation1 stuff
+		case 2:
+       		if (OIsComponentSelected(COMP_O1_ASK_PATH) = FALSE) then
+	           	//no prompt, so set var.
+            	g_structSetupMode.bNoPrompt = TRUE;
+            endif;
+        case 3:
+            if (OIsComponentSelected(COMP_O1_SYSTEM_PARMS) = TRUE) then
+                nResult = DialogShowSetSystemParameters();
+            endif;
+
+        case 4:
+        	if (OIsComponentSelected(COMP_O1_VERIFY) = TRUE) then
+                nResult = DialogShowSdStartCopy();
+        	endif;
+		//end of Operation1 stuff
+    	case 5:
+		    if (OIsComponentSelected(COMP_O2_COPY_FILES) = TRUE) then
+		 		gbCopyFiles = TRUE;  //handled in MoveFileData();
+				
+				//see if other file set is to be used.
+				ComponentGetData (BASE_MEDIA,COMP_O2_COPY_FILES,COMPONENT_FIELD_MISC,nTemp,szResult);
+				if(szResult = "Operation1")then
+	                gszSetupType = "Operation2 - Complete";
+    	            ComponentSetupTypeSet( MEDIA, gszSetupType );
+    	        endif;					
+		 	endif;
+
+		case 6:
+				OLog("No Extrafiles");
+//ef			if (OIsComponentSelected(COMP_O2_COPY_ADDITIONAL_FILES) = TRUE && bExtraFiles = TRUE) then
+//ef		 		gbCopyExtraFiles = TRUE;  //handled in MoveFileData();
+//ef		 	endif;
+		
+		case 7:
+		 	if (OIsComponentSelected( COMP_O2_RUN_SQL )) then
+		 		gbRunSQL = TRUE;
+		 	endif;
+
+		case 8:
+		 	if (OIsComponentSelected( COMP_O2_SHOW_SQL_RESULTS )) then
+		 		gbSQLResults = TRUE;
+		 	endif;
+		 	
+        default:
+           bDone = TRUE;
+        endswitch;
+
+        if (nResult = NEXT) then
+            nDialog++;
+        else
+            nDialog--;
+        endif;
+
+    endwhile;
+
+	return nResult;
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function:  OShowOperation3Dialogs
+//
+//  Purpose:  This function manages the display and navigation of
+//            the standard dialogs that exist in a setup.
+//
+///////////////////////////////////////////////////////////////////////////////
+function OShowOperation3Dialogs( nResult )
+NUMBER  nDialog;
+BOOL    bDone;
+begin
+//r	OSaveOperationMode("Operation","Operation3");
+//r    if(ORecoveryEvaluation("OShowOperation3Dialogs"))then
+//r    	nResult = NEXT;
+//r    endif;
+
+	//no choices here, just select the rebuild code "setup type".
+    gszSetupType = "Operation3";
+    ComponentSetupTypeSet( MEDIA, gszSetupType );
+		
+    if ( nResult = BACK ) then
+        nDialog = 6;
+    else
+        nDialog = 0;
+    endif;
+
+    bDone = FALSE;
+    while (!bDone)
+        switch (nDialog)
+
+		case 0:
+       		if (OIsComponentSelected(COMP_O1_ASK_PATH) = FALSE) then
+	           	//no prompt, so set var.
+            	g_structSetupMode.bNoPrompt = TRUE;
+            endif;
+
+        case 1:
+            if (OIsComponentSelected(COMP_O3_VERIFY) = TRUE) then
+         		nResult = DialogShowSdStartCopy();
+	        endif;
+		
+		case 2:
+            if (OIsComponentSelected(COMP_O3_MSG) = TRUE) then
+         		nResult = DialogShowRebuildCodeWarning();
+	        endif;
+    	
+    	case 3:
+		    if (OIsComponentSelected(COMP_O3_COPY_FILES) = TRUE) then
+		 		gbCopyFiles = TRUE;  //handled in MoveFileData();
+		 	endif;
+
+		case 4:
+				OLog("No Extrafiles");
+//ef			if (OIsComponentSelected(COMP_O3_COPY_ADDITIONAL_FILES) = TRUE && bExtraFiles = TRUE) then
+//ef		 		gbCopyExtraFiles = TRUE;  //handled in MoveFileData();
+//ef		 	endif;
+
+		case 5:
+		 	if (OIsComponentSelected( COMP_O3_RUN_SQL )) then
+		 		gbRunSQL = TRUE;
+		 	endif;
+
+		case 6:
+		 	if (OIsComponentSelected( COMP_O3_SHOW_SQL_RESULTS )) then
+		 		gbSQLResults = TRUE;
+		 	endif;
+		 	
+        default:
+           bDone = TRUE;
+        endswitch;
+
+        if (nResult = NEXT) then
+            nDialog++;
+        else
+            nDialog--;
+        endif;
+
+    endwhile;
+
+	return nResult;
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function:  OShowOperation4Dialogs
+//
+//  Purpose:  This function manages the display and navigation of
+//            the standard dialogs that exist in a setup.
+//
+///////////////////////////////////////////////////////////////////////////////
+function OShowOperation4Dialogs( nResult )
+NUMBER  nDialog;
+BOOL    bDone;
+begin
+//r	OSaveOperationMode("Operation","Operation4");
+//r    if(ORecoveryEvaluation("OShowOperation4Dialogs"))then
+//r    	nResult = NEXT;
+//r    endif;
+
+	//no choices here, just select the rebuild code "setup type".
+    gszSetupType = "Operation4";
+    ComponentSetupTypeSet( MEDIA, gszSetupType );
+		
+    if ( nResult = BACK ) then
+        nDialog = 6;
+    else
+        nDialog = 0;
+    endif;
+
+    bDone = FALSE;
+    while (!bDone)
+        switch (nDialog)
+
+		case 0:
+       		if (OIsComponentSelected(COMP_O1_ASK_PATH) = FALSE) then
+	           	//no prompt, so set var.
+            	g_structSetupMode.bNoPrompt = TRUE;
+            endif;
+
+        case 1:
+            if (OIsComponentSelected(COMP_O4_VERIFY) = TRUE) then
+         		nResult = DialogShowSdStartCopy();
+	        endif;
+		
+		case 2:
+            if (OIsComponentSelected(COMP_O4_MSG) = TRUE) then
+         		nResult = DialogShowRebuildCodeWarning();
+	        endif;
+    	
+    	case 3:
+		    if (OIsComponentSelected(COMP_O4_COPY_FILES) = TRUE) then
+		 		gbCopyFiles = TRUE;  //handled in MoveFileData();
+		 	endif;
+
+		case 4:
+				OLog("No Extrafiles");
+//ef			if (OIsComponentSelected(COMP_O4_COPY_ADDITIONAL_FILES) = TRUE && bExtraFiles = TRUE) then
+//ef		 		gbCopyExtraFiles = TRUE;  //handled in MoveFileData();
+//ef		 	endif;
+
+		case 5:
+		 	if (OIsComponentSelected( COMP_O4_RUN_SQL )) then
+		 		gbRunSQL = TRUE;
+		 	endif;
+
+		case 6:
+		 	if (OIsComponentSelected( COMP_O4_SHOW_SQL_RESULTS )) then
+		 		gbSQLResults = TRUE;
+		 	endif;
+		 	
+        default:
+           bDone = TRUE;
+        endswitch;
+
+        if (nResult = NEXT) then
+            nDialog++;
+        else
+            nDialog--;
+        endif;
+
+    endwhile;
+
+	return nResult;
+end;
+/*
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function:  OShowUpdateLicensingDialogs
+//
+//  Purpose:  This function manages the display and navigation of
+//            the standard dialogs that exist in a setup.
+//
+///////////////////////////////////////////////////////////////////////////////
+function OShowLicensingDialogs( nResult )
+NUMBER  bSelected;
+STRING  svInfo;
+begin
+//r    if(ORecoveryEvaluation("OShowLicensingDialogs")=0)then
+
+    	MessageBox("Licensing Operation dialogs would normally appear here.  Press OK to go BACK.", WARNING);
+    	return BACK;
+
+//r    else //in recovery mode
+//r    	nResult = NEXT;
+//r    endif;
+
+    return nResult;
+end;
+*/
+
+/*
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function:  OShowRecoverDialogs
+//
+//  Purpose:  This function manages the display and navigation of
+//            the standard dialogs that exist in a setup.
+//
+///////////////////////////////////////////////////////////////////////////////
+function OShowRecoverDialogs( nResult )
+NUMBER  bSelected;
+STRING  svInfo;
+begin
+//r    if(ORecoveryEvaluation("OShowRecoverDialogs")=0)then
+    	MessageBox("Recover Operation dialogs would normally appear here.  Press OK to go BACK.", WARNING);
+    	return BACK;
+//r    else //in recovery mode
+//r    	nResult = NEXT;
+//r    endif;
+
+    return nResult;
+
+
+end;
+*/
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function: ProcessBeforeDataMove
+//
+//  Purpose: This function performs any necessary operations prior to the
+//           actual file transfer.
+//
+///////////////////////////////////////////////////////////////////////////////
+function ProcessBeforeDataMove()
+NUMBER nResult;
+begin
+	OLog("Executing: ProcessBeforeDataMove");
+	
+	nResult=ComponentSetTarget(MEDIA,"<IISROOT>","C:"^"inetpub"^"wwwroot");
+	//modified by ashishFiles - IISROOT OnyxEmailAccelrator
+	nResult = ComponentSelectItem(MEDIA,SCOMP_OPERATION1_ROOT + "\\Files - IISROOT OnyxEmailAccelerator",TRUE);
+	nResult = ComponentSelectItem(MEDIA,SCOMP_OPERATION1_ROOT + "\\Program Files\\Uninstall",TRUE);
+	
+	
+//    OActionValidate();
+
+    _InitUninstall();
+	
+	//delete any old MTS packages
+	ODeleteOldPackages(glistOfOldPackages);
+
+    return 0;
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Function:  MoveFileData
+//
+//  Purpose:  This function handles the file transfer for
+//            the setup.
+//
+///////////////////////////////////////////////////////////////////////////////
+function MoveFileData()
+NUMBER nResult, nDisk;
+STRING szTemp;
+begin
+	//this is where the files are copied.
+	OLog("Executing: MoveFileData");
+	
+	//can't run here when files are compressed.
+//	OPluginEndOperation();
+
+	if(gbCopyFiles)then
+		//backup files
+		OBackupFilesListedInINI();    	
+
+    	nDisk = 1;
+    	Sprintf(gszMsg,@COMPONENT_MOVEFILE2,gszProductName);
+    	SetStatusWindow( 0, gszMsg);
+    	Disable(DIALOGCACHE);
+    	Disable(FEEDBACK_FULL);
+    	Enable(STATUS);
+    	StatusUpdate( ON, 100 );
+
+		//delete all files in target dir if bool is set.
+		if (g_structSetupMode.sDeleteFiles != "")then
+			if (Is(PATH_EXISTS,g_structSetupMode.sDeleteFiles) = TRUE )then
+//no deleteing				DeleteDir(g_structSetupMode.sDeleteFiles,ALLCONTENTS);
+			endif;
+		endif;
+
+    	
+    	// Enable batch method to queue self-registering files.
+   		Enable ( SELFREGISTERBATCH );
+
+    	//this function copies the files to the TARGETDIR
+    	nResult = ComponentMoveData( MEDIA, nDisk, 0 );
+
+	    HandleMoveDataError( nResult );
+	    Disable( STATUS );
+	
+		// Register the files, check for errors.	
+	    SdShowMsg(@MSG_SELF_REG, TRUE);
+    	if Do ( SELFREGISTRATIONPROCESS ) < 0 then
+    		gszMsg = @ERROR_FILE_REGISTRY + ERRORFILENAME;
+    		MessageBox (gszMsg, WARNING);
+    		OLog(gszMsg);
+		endif;
+   		Disable ( SELFREGISTERBATCH );
+   	    SdShowMsg("",FALSE);
+	
+		//manually install Logging files
+		VarSave(SRCTARGETDIR);
+		if(g_structSystemData.szOS_Version = "5.0")then
+			//win2k
+			SRCDIR = SUPPORTDIR ^ "LoggingWin2k";
+		else
+			//winNT
+			SRCDIR = SUPPORTDIR ^ "LoggingNT";
+		endif;
+		XCopyFile("OnyxLog.dll","OnyxLog.dll", COMP_UPDATE_VERSION | SELFREGISTER);
+		VarRestore(SRCTARGETDIR);
+	
+	endif;
+
+	if(gbRegFiles)then
+		OGetValueFromINI("Setup","RegFile",szTemp);
+		StrToUpper(szTemp,szTemp);
+		if(szTemp = "REGEDIT")then
+			OProcessRegFiles(TRUE);	//use regedit to import reg files
+		else
+			OProcessRegFiles(FALSE);//read in reg file and create using IS to enable entries to be removed during uninstall.
+		endif;
+	endif;
+		
+//r		ORecoveryStoreString("","DialogShowSdStartCopy","Files Copied and Registered",nResult);
+	
+	//new lines.  copies files found earlier in OFindExtraFiles.
+	if(gbCopyExtraFiles)then
+		Enable(STATUS);
+		OLog("Executing: CopyExtraFiles");
+//ef		OCopyExtraFiles();
+		Disable( STATUS );
+	endif;
+
+	//copy data files for product.  These files not logged for uninstall.
+	Disable(LOGGING);
+//	_CopyDataFiles();
+//  	OExtraStuff();	//Performs any special functions specific to this install
+	
+	//copy the uninstaller to the windows dir if it exists in the temp dir.
+	if(Is(FILE_EXISTS,SUPPORTDIR^"isuninst.exe") = TRUE)then
+		VarSave(SRCTARGETDIR);
+		SRCDIR = SUPPORTDIR;
+		TARGETDIR = WINDIR;
+		CopyFile("IsUninst.exe","IsUninst.exe");
+		VarRestore(SRCTARGETDIR);
+	endif;
+	Enable(LOGGING);
+	//Comented by ashish not required
+	//run dos  command by ashish
+	
+//	#define APPLICATION SUPPORTDIR^"SetIIS32Bit.bat"
+	// Launch the Windows Batch application to run
+
+  // if (LaunchApp (APPLICATION,"") < 0) then
+
+    //  MessageBox ("Unable to launch "+APPLICATION+".", SEVERE);
+
+  // endif;
+	
+	
+    // Set the following boolean to TRUE to indicate that we've successfully
+    // installed the files onto the target machine.  The plugin routines use
+    // this to determine whether or not they need to manually copy plugin
+    // components from the CD-ROM.
+    g_bCompletedFileTransfer = TRUE;
+
+	//run plugin's first
+	OPluginEndOperation();
+
+    return nResult;
+
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function: HandleMoveDataError
+//
+//  Purpose: This function handles the error (if any) during the file transfer
+//           operation.
+//
+///////////////////////////////////////////////////////////////////////////////
+function HandleMoveDataError( nResult )
+STRING szErrMsg[1024], svComponent , svFileGroup , svFile, szDesc;
+begin
+
+    svComponent = "";
+    svFileGroup = "";
+    svFile = "";
+
+    switch (nResult)
+        case 0:
+            return 0;
+        default:
+            ComponentError ( MEDIA , svComponent , svFileGroup , svFile , nResult );
+//            szErrMsg = @ERROR_MOVEDATA  + "\n\n" +
+//                @ERROR_COMPONENT + " " + svComponent + "\n" +
+//                @ERROR_FILEGROUP + " " + svFileGroup + "\n" +
+//                @ERROR_FILE      + " " + svFile;
+
+            switch(nResult)
+            	case -106:
+            		szDesc = @ERROR_MOVEDATA1;	//Unable to decompress a file.
+				case -108:
+					szDesc = @ERROR_MOVEDATA2;	//Out of disk space.
+				case -113:
+					szDesc = @ERROR_MOVEDATA3;	//Specified file cannot be opened as read-only.
+				case -117:
+					szDesc = @ERROR_MOVEDATA4;	//Cannot read the specified file.
+				case -121:
+					szDesc = @ERROR_MOVEDATA5;	//Unable to write to a file.
+				case -136:
+					szDesc = @ERROR_MOVEDATA6;	//Unable to allocate memory.
+				case -145:
+					szDesc = @ERROR_MOVEDATA7;	//Target path for the component cannot be found.
+				case -148:
+					szDesc = @ERROR_MOVEDATA8;	//Data cannot be read from the internet.
+				case -149:
+					szDesc = @ERROR_MOVEDATA9;	//Internet has been disconnected.
+				case -623:
+					szDesc = @ERROR_MOVEDATA10;	//Error renaming a file.
+            endswitch;
+			
+			Sprintf(szErrMsg,@ERROR_MOVEDATA,nResult);
+			szErrMsg = szErrMsg+"\n"+szDesc+"\n"+
+				@ERROR_COMPONENT + " " + svComponent + "\n" +
+                @ERROR_FILEGROUP + " " + svFileGroup + "\n" +
+                @ERROR_FILE      + " " + svFile;
+
+			SprintfBox(SEVERE,@TITLE_CAPTIONBAR,szErrMsg, nResult );
+            OLog(szErrMsg);
+
+            bInstallAborted = TRUE;
+            return nResult;
+    endswitch;
+
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function: ProcessAfterDataMove
+//
+//  Purpose: This function performs any necessary operations needed after
+//           all files have been transferred.
+//
+///////////////////////////////////////////////////////////////////////////////
+function ProcessAfterDataMove()
+STRING szReferenceFile,szKey,szMsg, szUserName, szGroupName, szUcfDir, szTemp[1024];
+INT nResult;
+BOOL bResult;
+begin
+	OLog("Executing: ProcessAfterDataMove");
+
+    // TO DO : update self-registered files and other processes that
+    //        should be performed after the files have been transferred.
+
+    // DeinstallSetReference specifies a file to be checked before
+    // uninstallation. If the file is in use, uninstallation will not proceed.
+
+	if(gbCopyFiles)then
+		ORegTypeLibraries();
+		RegisterDotNetComponents();
+	endif;
+
+	//uninstall info.
+    szReferenceFile = gszDir ^ gszProductKey;
+    DeinstallSetReference( szReferenceFile );
+
+	//OEPEncrypt the db username and password
+	//Encrypt the password using OEPEncrypt
+	//Commented by ashish
+	//OEPEncryptString(g_structSQLEUAccount.szPassword,szTemp);
+   // g_structSQLEUAccount.szOEPEncryptedPassword = szTemp;			
+	//Encrypt the login using OEPEncrypt
+	//OEPEncryptString(g_structSQLEUAccount.szLogin,szTemp);
+ 	//g_structSQLEUAccount.szOEPEncryptedLogin = szTemp;	
+	
+	/*if(gbRunSQL)then
+		ComponentGetData (BASE_MEDIA,COMP_O1_RUN_SQL,COMPONENT_FIELD_MISC,nResult,szKey);
+		if(szKey = "")then
+			szKey = "key"; //default key if not one specified.
+		endif;
+
+		//runs all files on one or more databases.  Looks in setup.ini for runorder file order.
+		if (OIsComponentSelected(COMP_DB_ERROR_ABORT) = TRUE) then
+			ORunAllSQLItems(szKey,TRUE);
+		else
+			ORunAllSQLItems(szKey,FALSE);
+		endif;
+		
+		//if creating a SQL account,indicate complete in reg for shared info.
+		if (OIsComponentSelected(COMP_DLG_SQL) = TRUE)then
+			OMuteDialogSetStatus(@INFO_SQL_ACCOUNT,"COMPLETE");
+		endif;
+		
+    endif;*/
+
+	if(gbSQLResults)then
+        Disable(BACKBUTTON);
+        if(OIsFileEmpty(SUPPORTDIR ^ "sql.log") = FALSE)then
+        	nResult = DialogShowSdShowInfoList(SUPPORTDIR ^ "sql.log", @TITLE_SQL, @STATUS_SQL_RESULTS);
+			if(nResult <0)then
+    			Sprintf(gszMsg,@ERROR_INFOLIST,SUPPORTDIR ^ "sql.log",nResult);
+				OLog(gszMsg);
+				MessageBox(gszMsg,WARNING);        	
+			endif;
+        endif;
+        Enable(BACKBUTTON);
+    endif;
+
+	if(gbSystemParms)then
+		nResult = DialogShowSetSystemParameters();
+	endif;
+
+	//If the setup type is development...
+//	if(gszSetupType = OEP_SETUP_TYPE_DEV)then
+		//Create the OnyxUCWUsers NT group - Should be done in OShowPromptDialogs
+		OBreakPoint();
+			
+		//Find out the name of the website anonymous user
+		OGetVWSAnonymousUser(g_structVWS1.szName, szUserName);
+		
+		//Add the website anonymous user to the group
+		//szGroupName = g_structNTGroup.szLogin;
+		//OGetValueFromINI("Setup","NTGroupCreate",szGroupName);
+		//OAddUserToGroup(szUserName ,szGroupName);
+		
+		//Add permissions to the UCF data directories for OnyxUCWUsers
+	//	OSetUCFDirectoryPermissions(szGroupName);
+	//else
+		//Set the website to a production environment
+	//	bResult = OSetProductionEnv();
+	//	if bResult = FALSE then
+	//		MessageBox(@ERROR_PRODUCTION,WARNING);
+	//	endif;
+	//endif;
+	OAddFileAccessRights(szUserName, TARGETDIR);
+	GiveUserReadPermission();
+	//Create the event log
+	OCreateEventLog(UCF_EVENT_LOG);
+
+//	OPluginEndOperation();
+//    OPlugin( COMP_O1_END_PLUGIN );
+/*
+	// Register the files, check for errors.	
+    SdShowMsg(@MSG_SELF_REG, TRUE);
+   	if Do ( SELFREGISTRATIONPROCESS ) < 0 then
+   		szMsg = @ERROR_SELF_REG+"\n\n" + ERRORFILENAME;
+   		MessageBox (szMsg, WARNING);
+	endif;
+	Disable ( SELFREGISTERBATCH );
+    SdShowMsg("",FALSE);
+*/
+    return 0;
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function: SetupRegistry
+//
+//  Purpose: This function makes the registry entries for this setup.
+//
+///////////////////////////////////////////////////////////////////////////////
+function SetupRegistry()
+NUMBER nResult;
+begin
+	OLog("Executing: SetupRegistry");
+	
+    // TO DO : Add all your registry entry keys here.
+    // Call registry functions and/or create keys from
+    // the InstallShield IDE's Resources pane.
+
+    nResult = CreateRegistrySet( "" );
+
+	//add reg entries for help files in targetdir
+//	_RegHelpFiles();
+
+	//add DCOM security Reg entries.  For both KBSearch.exe and KBISSLib.exe
+//4.00.21	ORegDCOMSecurity();  //gets file info from setup.ini		
+
+    return nResult;
+
+ end;
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function: SetupFolders
+//
+//  Purpose: This function creates all the folders and shortcuts for the
+//           setup.  This includes program groups and items for Windows 3.1.
+//
+///////////////////////////////////////////////////////////////////////////////
+function SetupFolders()
+NUMBER nResult;
+begin
+    // TO DO : Add all your folders (or program groups) along with shortcuts (or
+    // program items). Call CreateProgramFolder and AddFolderIcon, and/or create
+    // shortcuts etc. from the InstallShield IDE's Resources pane.
+    //
+    // Note : for 16-bit setups you should add an uninstaller icon pointing to
+    //        your log file.  Under 32-bit this is automatically done by Windows.
+	
+	if(SHELL_OBJECT_FOLDER != "")then
+		if(CreateProgramFolder(SHELL_OBJECT_FOLDER) <0 )then
+			gszMsg = @ERROR_SETUP_FOLDERS+" "+SHELL_OBJECT_FOLDER;
+			MessageBox(gszMsg,WARNING);
+			OLog(gszMsg);
+		endif;
+	endif;
+    nResult = CreateShellObjects( "" );
+
+    return nResult;
+ end;
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function: CleanUpInstall
+//
+//  Purpose: This cleans up the setup.  Anything that should
+//           be released or deleted at the end of the setup should
+//           be done here.
+//
+///////////////////////////////////////////////////////////////////////////////
+function CleanUpInstall()
+STRING szTemp;
+LIST listTemp;
+begin
+	OLog("Executing: CleanUpInstall");
+
+	//restore SQL protocol.
+	if (OIsComponentSelected(COMP_DB_NAMED_PIPES) = TRUE) then
+		ORestoreDSQuery(g_structSetupMode.szSQLProtocol);
+	endif;
+
+	//remove setup keys
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	RegDBDeleteKey("Software\\Onyx\\Setup");
+	if(gszProductName != "")then
+		//the company/product version key entry by "installation info" isn't needed either.
+		szTemp = "Software\\Onyx\\"+gszProductNameEnglish + "\\" + gszProductVersion;
+		RegDBDeleteKey(szTemp);
+		
+		//get rid of root company named key only if it is empty.
+		//mainly for localized versions where the localized entry from "installation info" isn't needed.
+		szTemp = "Software\\Onyx";
+		ORegDBDeleteKeyIfEmpty(szTemp);
+		
+	endif;
+
+	if(g_structLauncher.bIsChild = FALSE && g_structLauncher.bShareData = FALSE)then
+		RegDBDeleteKey("Software\\Onyx\\SetupPass");
+	endif;
+
+    if (!bInstallAborted) then
+
+    	if (OIsComponentSelected(COMP_EXIT_LOGFILES)) then
+        	DialogLogFiles();
+    	endif;
+//		if (OIsComponentSelected(COMP_EXIT_PLUGIN)) then
+//    	    OPlugin(COMP_EXIT_PLUGIN);
+//	    endif;
+
+		//updated installed version info into setup reg location.
+		if(!g_structSetupMode.bNoSetupReg)then
+			_SetPreviousVersionInReg(gszProductNameEnglish,TARGETDIR,gszProductVersion);
+		endif;
+
+	endif;
+	
+	//restart any NT services shutdown by setup.
+	ORestartServices();
+	OLogStore();		
+	
+    if (bInstallAborted) then
+    	if(g_structLauncher.bIsChild)then
+    		//tell launcher to shutdown
+    		RegDBSetKeyValueEx("Software\\Onyx\\SetupLauncher","Exit",REGDB_STRING,"YES",-1);
+    	endif;
+        return 0;
+    endif;
+
+    if (OIsComponentSelected(COMP_EXIT_FINISH_DLG)) then
+        DialogShowSdFinishReboot();  //will reboot if needed.  will also do CommitSharedFiles if reboot
+    endif;
+
+    if (BATCH_INSTALL) then // ensure locked files are properly transferred
+        CommitSharedFiles(0);
+    endif;
+
+//	NOTE:  if the temp dir is left behind, one cause is some of the temp files are READ ONLY which causes the delete to fail.
+    return 0;
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function: SetupInstall
+//
+//  Purpose: This will initialize the setup.  Any general initialization
+//           needed for the installation should be performed here.
+//
+///////////////////////////////////////////////////////////////////////////////
+function SetupInstall()
+INT nResult;
+begin
+	OLog("Executing: SetupInstall");
+
+    Enable( CORECOMPONENTHANDLING );
+
+    bInstallAborted = FALSE;
+
+//	_EstablishDefaultDir(gszDir);
+//	TARGETDIR = gszDir;
+
+    SdProductName( gszProductName );
+
+//    Enable( DIALOGCACHE );
+
+    // Initialize Globals
+    g_bCompletedFileTransfer = FALSE;
+
+    // Initialize BASE_MEDIA, which drives the setup script.
+    ComponentSetupTypeSet(MEDIA, SETUP_TYPE_BASE);
+    OCreateNewMedia( MEDIA, COMP_SETUP, BASE_MEDIA, TRUE );  // was FALSE
+
+    return 0;
+end;
+
+////////////////////////////////////////////////////////////////////////
+//establish the default destination dir.
+//if nothing specified, use hard coded windows standard default
+//override 1:  ask path functional component misc field
+//override 2:  setup.ini [Setup] InstallDir = entry
+//override 3:  previous product dir (from requirements checking)
+//for the overrides: if entire path provided, use that, if only subdir
+//supplied, then append it to default.
+////////////////////////////////////////////////////////////////////////
+function _EstablishDefaultDir(szPath)
+INT nResult;
+STRING szDefault,szValue;
+begin
+	//default set first.
+	szDefault = PROGRAMFILES ^ @COMPANY_NAME_ONLY;
+	szPath = szDefault ^ gszProductName;
+	
+	//override 1:
+	ComponentGetData(MEDIA,COMP_O1_ASK_PATH,COMPONENT_FIELD_MISC,nResult,szValue);
+	if(szValue != "")then
+		//resolve any macro assignments.  Returns a blank string if substitue value is blank.
+		OParseMacros(szValue);
+		ODebugDsp("Default path override from ASK_PATH in media: "+szValue,3);
+	endif;
+
+	//override 2:
+	OGetValueFromINI("Setup","InstallDir",szValue);
+	if szValue != "" then
+		OParseMacros(szValue);
+		ODebugDsp("Default path override from Setup.ini: "+szValue,3);
+	endif;
+	
+	//override 3:
+	if(g_structSystemData.szPrevious_Path != "")then
+//		ParsePath(szValue,g_structSystemData.szPrevious_Path,PATH);
+		szValue = g_structSystemData.szPrevious_Path;
+		ODebugDsp("Default path override from previous path: "+szValue,3);
+	endif;
+	
+	//check for override value and if subdir to be added to default.
+	if(szValue != "")then
+		if((szValue % ":") || (szValue % "\\\\"))then
+			//ok as is
+		else
+			//adds sub dir to default if a path was not specified
+			szValue = szDefault ^ szValue;
+			ODebugDsp("Added sub dir to default path: "+szValue,3);
+		endif;
+		if(Is(VALID_PATH,szValue))then
+			szPath = szValue;  //override only if valid path.
+			ODebugDsp("Default path override validated!: "+szValue,3);
+		endif;
+	endif;
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function:  SetupScreen
+//
+//  Purpose:  This function establishes the screen look.  This includes
+//            colors, fonts, and text to be displayed.
+//
+///////////////////////////////////////////////////////////////////////////////
+function SetupScreen()
+INT nColor;
+STRING szBackGround,szFile,szTemp;
+begin
+	OLog("Executing: SetupScreen");
+
+	szBackGround = SRCDIR^"background.bmp";
+    Enable( FULLWINDOWMODE );
+    Enable( INDVFILESTATUS );
+
+//    SetTitle( @TITLE_CAPTIONBAR, 0, BACKGROUNDCAPTION ); // Caption bar text.
+   	SetTitle(@COMPANY_NAME_SETUP, 0, BACKGROUNDCAPTION ); // Caption bar text.
+
+	//set screen background color
+	nColor = _GetColorFromINI("BackGround");
+//	if(nColor != 0)then
+		SetColor(BACKGROUND,nColor);
+//	endif;
+    Enable( BACKGROUND );
+
+	//Set title on background.  Use bitmap if provided.
+    if(Is(FILE_EXISTS,szBackGround))then
+    	PlaceBitmap (szBackGround,BACKGROUND,0,0,UPPER_LEFT);
+
+	    OGetValueFromINI("Startup","SetupName",szTemp);
+	    if(szTemp = "")then
+ 			//Use product name in Caption bar with using a generic bitmap.
+    		szTemp = gszProductName+" Setup";
+    	endif;
+    	SetTitle(szTemp,0,BACKGROUNDCAPTION);
+    else
+//		SetTitle( @TITLE_MAIN, 24, WHITE );
+		nColor = _GetColorFromINI("Text");
+		if(nColor = 0)then
+			nColor = WHITE;
+		endif;
+		SetTitle( gszProductName, 24, nColor);
+    endif;
+
+    Delay( 1 );
+end;
+
+
+
+// ------------------------------------------------------------------------------------------
+// Function Name:  OCreateBaseMedia
+//    Parameters:  szSourceMedia     (STRING) - Media to copy components from
+//                 szParentComponent (STRING) - Root component to start copying from
+//                 szNewMedia        (STRING) - Name of new media to receive copied components.
+//                 bIncludeAll       (BOOL  ) - TRUE means all components are copied; FALSE
+//                                              means only selected components are copied.
+//       Returns:
+//   Description:  This function creates a new Media Library based on the component
+//                 sub-tree of an existing Media library.  It does
+//                 this by iterating through szSourceMedia's components starting at
+//                 szParentComponent and recursing downward.  If bIncludeAll is TRUE, all
+//                 coponents are copied to szNewMedia; otherwise, only those
+//                 components that are selected are copied to szNewMedia.  This routine is
+//                 used to split the "Setup Process Flow" from the "Software Components".  The
+//                 newly created Media Library for the "Setup Process Flow" tree will include only
+//                 those components that are selected in the "(Setup)" Setup Type.  The newly
+//                 created Media Library for "Software Components" will contain all of the
+//                 "Software Components" sub-components.
+// ------------------------------------------------------------------------------------------
+function OCreateNewMedia(szSourceMedia, szParentComponent, szNewMedia, bIncludeAll)
+    STRING szComponent;
+    NUMBER nResult;
+    STRING szMisc;
+    LIST   listCompList;
+    NUMBER nCompCount;
+    NUMBER nComp;
+    BOOL   bSelected;
+    NUMBER nUnused;
+begin
+    //ComponentSetupTypeSet(MEDIA, SETUP_TYPE_BASE);
+    listCompList = ListCreate( STRINGLIST );
+
+    // This is our little loop to recurse down through the component tree, building
+    // listCompList as we go so that, in the end, listCompList will contain all of the
+    // components under COMP_SETUP.  We're forced to do this little song-and-dance because
+    // ComponentListItems only returns the immediate child components of a specified parent
+    // (in other words, it doesn't return the entire tree).
+    OAddChildComponentsToList( szSourceMedia, szParentComponent, listCompList );
+
+    nComp = 1;
+    while (nComp <= ListCount(listCompList))
+        ListSetIndex(listCompList, nComp - 1);
+        ListCurrentString(listCompList, szComponent);
+        OAddChildComponentsToList( szSourceMedia, szComponent, listCompList );
+        nComp = nComp + 1;
+    endwhile;
+
+    // At this point, listCompList contains the entire COMP_SETUP sub-tree.  We can now
+    // move through this list, adding each SELECTED component in it to our BASE_MEDIA.
+    nResult = ListGetFirstString( listCompList, szComponent );
+    while ( nResult != END_OF_LIST )
+
+        // For each component, add it to szNewMedia.
+        if (ComponentIsItemSelected(szSourceMedia, szComponent) = TRUE) then
+            bSelected = TRUE;
+            //OLog("Selected: "+ szComponent);
+        else
+            bSelected = FALSE;
+            //OLog("NOT Selected: "+ szComponent);
+        endif;
+
+        // Only copy those components that are selected.
+        if (bIncludeAll || bSelected) then
+            if (ComponentAddItem( szNewMedia, szComponent, 0, bSelected ) < 0) then
+            	gszMsg = @ERROR_ADD_COMPONENT + " " + szComponent + ".";
+                MessageBox(gszMsg, SEVERE);
+                OLog(gszMsg);
+            endif;
+
+            ComponentGetData( szSourceMedia, szComponent, COMPONENT_FIELD_DISPLAYNAME, nUnused, szMisc);
+            ComponentSetData( szNewMedia, szComponent, COMPONENT_FIELD_DISPLAYNAME, nUnused, szMisc );
+
+            ComponentGetData( szSourceMedia, szComponent, COMPONENT_FIELD_MISC, nUnused, szMisc);
+            ComponentSetData( szNewMedia, szComponent, COMPONENT_FIELD_MISC, 0, szMisc );
+
+        endif;
+
+        nResult = ListGetNextString( listCompList, szComponent );
+
+    endwhile;
+    ListDestroy(listCompList);
+
+end;
+
+
+// ------------------------------------------------------------------------------------------
+// Function Name:  OAddChildComponentsToList
+//    Parameters:  szSourceMedia (STRING) - Media Name to inspect
+//                 szParentComponent (STRING) - Component specifying parent
+//                 listAddToMe  (BYREF LIST)  - List to add child components to.
+//       Returns:
+//   Description:  This function collects the child components of the specified parent
+//                 (szParentComponent) and then adds these children to listAddToMe.
+//                 This is a helper function used by OCreateBaseMedia().
+// ------------------------------------------------------------------------------------------
+
+function OAddChildComponentsToList( szSourceMedia, szParentComponent, listAddToMe )
+    LIST  listChildren;
+    NUMBER iCount;
+    STRING szChildComponent;
+    NUMBER nResult;
+begin
+    listChildren = ListCreate( STRINGLIST );
+    ComponentListItems( szSourceMedia, szParentComponent, listChildren );
+
+    nResult = ListGetFirstString(listChildren, szChildComponent);
+    while (nResult != END_OF_LIST)
+        ListSetIndex( listAddToMe, LISTLAST );
+        ListAddString( listAddToMe, szChildComponent, AFTER );
+        nResult = ListGetNextString(listChildren, szChildComponent);
+    endwhile;
+
+    ListDestroy( listChildren );
+end;
+
+// ------------------------------------------------------------------------------------------
+// Function Name:  OIsComponentSelected
+//    Parameters:  szComponent (STRING) - Name of component to check.
+//       Returns:  TRUE or FALSE
+//   Description:  If component is present in BASE_MEDIA and it's currently selected,
+//                 then this function return TRUE; otherwise, it returns FALSE.
+// ------------------------------------------------------------------------------------------
+function OIsComponentSelected(szComponent)
+    NUMBER nResult;
+    NUMBER bSelected;
+    STRING szUnused;
+begin
+//    nResult = ComponentGetData( BASE_MEDIA, szComponent, COMPONENT_FIELD_SELECTED, bSelected, szUnused );
+      nResult = ComponentIsItemSelected( BASE_MEDIA, szComponent);
+if (g_structSetupMode.nDebug = 1)then
+    if (nResult < 0) then
+    	gszMsg = "DEBUG:  OIsComponentSelected was called with an invalid component name:  " + szComponent;
+        MessageBox(gszMsg, SEVERE);
+        OLog(gszMsg);
+    endif;
+endif;
+
+//    if (nResult = 0 && bSelected) then
+	if(nResult = 1)then
+        return TRUE;
+    else
+        return FALSE;
+    endif;
+
+end;
+
+/*
+// ------------------------------------------------------------------------------------------
+// Function Name:  OLaunchAppAndWait
+//    Parameters:  szApp   (STRING) - Name of app to launch.
+//                 szParms (STRING) - Parameter string
+//       Returns:  Errorlevel of program or -1 if can't run.
+//   Description:  This function acts as a wrapper for the LaunchAppAndWait() InstallShield
+//                 command.  This function enhances LaunchAppAndWait by detecting the ERRORLEVEL
+//                 of the executed program.  It does this by using a helper batch file named RUN.BAT.
+// ------------------------------------------------------------------------------------------
+function OLaunchAppAndWait(szApp, szParms)
+    NUMBER nResult;
+    STRING szRunBatParms;
+    NUMBER nFileHandle;  // File handle for errorlevel.txt
+    STRING svLine;       // Errorlevel value retrieved from errorlevel.txt
+
+begin
+    ChangeDirectory(SUPPORTDIR);
+    szRunBatParms = szApp + " " + szParms;
+    if (LaunchAppAndWait(SUPPORTDIR ^ "run.bat", szRunBatParms, WAIT) < 0) then
+    	ChangeDirectory(SRCDIR);
+        return -1;  // Problem launching batch file for some reason.
+    endif;
+
+    // Set the file mode to normal.
+    OpenFileMode(FILE_MODE_NORMAL);
+
+    // The following opens the EXAMPLE_TXT file for editing.
+    OpenFile(nFileHandle, SUPPORTDIR, "errorlevel.txt");
+
+    if (GetLine (nFileHandle, svLine) < 0) then
+        CloseFile(nFileHandle);
+        ChangeDirectory(SRCDIR);
+        return -1;  // Problem reading errorlevel.txt
+    endif;
+
+    StrToNum(nResult, svLine);
+
+    // The following closes the EXAMPLE_TXT file.
+    CloseFile(nFileHandle);
+
+	ChangeDirectory(SRCDIR);
+    return nResult;
+
+end;
+*/
+
+// ------------------------------------------------------------------------------------------
+// Function Name:  OLaunchExesInComponent
+//    Parameters:  szComponent - Component Name that contains EXE to run.
+//       Returns:
+//   Description:  Scan specified component's File Group(s) and launch the first
+//                 EXE it finds.
+// ------------------------------------------------------------------------------------------
+function OLaunchExesInComponent(szComponent)
+NUMBER nResult,nUnused,bRunOrder,bSkip,nReturn;
+STRING szFname,szSearchDir,szSearchFile,szSourceDir,szTargetDir,szSupportDir,szCmdLine;
+STRING szTemp,szRunOrder;
+LIST listOfFiles;
+begin
+
+    // Obtain the Source Dir and Target Dir of the plugin EXE.
+    ComponentGetData ( MEDIA , szComponent , COMPONENT_FIELD_CDROM_FOLDER , nUnused , szSourceDir );
+    szSourceDir = SRCDIR ^ szSourceDir;
+    ComponentGetData ( MEDIA , szComponent , COMPONENT_FIELD_DESTINATION , nUnused , szTargetDir );
+    szSupportDir = SUPPORTDIR;
+    StrRemoveLastSlash(szSupportDir);
+    OSearchAndReplace(szTargetDir, "<SUPPORTDIR>", szSupportDir);
+
+    // It's possible that the plugin has already been copied to the target machine (if the plugin
+    // is included in the Media and we've already performed a ComponentMoveData() operation).
+    // However, we still manually copy the files (using the COMP_UPDATE_DATE to eliminate needless
+    // copying) to allow for the possibility that someone may have manually placed plugin EXEs in
+    // the corresponding plugin directory on the CD-ROM (the ComponentMoveData() process won't
+    // copy these files).  This allows VARs to extend the Setup
+    // process for an application without having to use InstallShield.
+
+    CreateDir(szTargetDir);
+    VarSave(SRCTARGETDIR);
+    SRCDIR    = szSourceDir;
+    TARGETDIR = szTargetDir;
+    //no error trapping on plugin's for they are optional.
+    XCopyFile( "*.*", "*.*", COMP_UPDATE_DATE | INCLUDE_SUBDIR );
+    ChangeDirectory(szTargetDir);
+    VarRestore(SRCTARGETDIR);
+
+
+    szSearchDir = szTargetDir;
+    szSearchFile = "*.exe";
+	szRunOrder = szSearchDir^"runorder.txt";
+	
+ 	//look for a run order file.  Must be runorder.txt
+ 	if(Is(FILE_EXISTS,szSearchDir^"runorder.txt"))then
+		listOfFiles = ListCreate(STRINGLIST);
+		if(ListReadFromFile (listOfFiles,szRunOrder) =0 )then
+  			
+			//set to loop through list of files and execute each sql as listed.
+			nResult = ListGetFirstString(listOfFiles,szFname);
+			szFname = szSearchDir ^ szFname;  //need full path to file.
+			bRunOrder = TRUE;
+	
+		endif;
+	else
+		// run all files in dir.
+    	nResult = FindAllFiles( szSearchDir, szSearchFile, szFname, RESET );
+    endif;
+	
+	//loop through all the files in the dir and run.
+   	while (nResult = 0)
+   		ParsePath(szTemp,szFname,FILENAME);
+   		SdShowMsg("", FALSE);
+		Sprintf(gszMsg,@MSG_PROCESSING,szTemp);
+		SdShowMsg(gszMsg, TRUE);
+   		
+   		//look for ini file that matches exe for instructions.
+   		nReturn = (OPluginReadIni(szFname,szCmdLine));
+		if(nReturn = 1)then
+			//run the puppy
+       		OLaunchAppAndWait(szFname,szCmdLine);
+       	elseif(nReturn = 2)then
+       		//run the puppy in a invisble window.
+       		OHideAppAndWait(szFname,szCmdLine, WAIT);
+       	elseif(nReturn = 3)then
+       		//set reg value to surpress redundant dialogs and reboots.
+			RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+			RegDBSetKeyValueEx("Software\\ONYX\\SetupLauncher","SurpressDialogs",REGDB_STRING,"YES",-1);
+			RegDBSetKeyValueEx("Software\\ONYX\\SetupLauncher","SurpressReboot",REGDB_STRING,"YES",-1);
+			
+			//another installshield 5.5 setup
+       		if(DoInstall(szFname,szCmdLine,WAIT) = -3)then
+				//check for need to get exit confermation.
+				szTemp = "";
+				OGetValueFromINI("Setup","PluginFailExit",szTemp);
+				if(szTemp != "")then
+					StrToUpper(szTemp,szTemp);
+					if(szTemp = "SILENT")then
+						abort;
+					endif;
+				endif;
+				Do(EXIT);
+			endif;
+			//remove key if not running from a launcher
+//			if(g_structLauncher.bIsChild = FALSE && g_structLauncher.bShareData = TRUE)then
+			if(g_structLauncher.bIsChild = FALSE && g_structLauncher.bShareData = FALSE)then
+				RegDBDeleteKey("Software\\ONYX\\SetupLauncher");
+			endif;
+       	endif;
+
+		//get next file to run.
+       	if(bRunOrder)then
+   	   		if(ListGetNextString(listOfFiles,szFname) = END_OF_LIST)then
+				nResult = -1; //force exit from loop.lines.
+       		endif;
+       		if(szFname = "")then
+       			bSkip = TRUE; //do not process a blank line.
+       		endif;
+	  	   	szFname = szSearchDir ^ szFname;  //need full path to file.
+	    else
+	       	nResult = FindAllFiles( szSearchDir, szSearchFile, szFname, CONTINUE );
+	    endif;
+   	endwhile;
+
+   	//look for signs of reboot needed.  Sets global reboot flag.
+   	OIsRebootNeeded();
+
+	SdShowMsg("",FALSE);
+	ChangeDirectory(SRCDIR);
+end;
+
+//////////////////////////////////////////////////////////////
+// looks for an ini file matching the exe name.
+// if found looks for message to display and a
+// reboot vs nonreboot commandline.
+// returns 0 if exe is not to be run
+// returns 1 for normal execution
+// returns 2 for invisible execution
+// returns 3 for INS execution (DoInstall)
+//////////////////////////////////////////////////////////////
+function OPluginReadIni(szFname,szCmdLine)
+STRING szFile,szMsg,szName,szSearchDir,szSilent,szVer,szDOS,szSizeNeeded,szTemp,szIS;
+STRING szCmdYes,szCmdNo,szCmdOverride;
+STRING szLookForFile,szVerFound,szWin95;
+INT nReturn,nResult,nSize,nTemp,nLoop1;
+BOOL bFound;
+begin
+	//get just file name, then look for ini file
+	ParsePath(szFile,szFname,FILENAME_ONLY);
+	ParsePath(szSearchDir,szFname,PATH);
+	szFile = szSearchDir ^ szFile + ".ini";
+	if(Is(FILE_EXISTS,szFile))then
+		GetProfString(szFile,"Options","Message",szMsg);
+		GetProfString(szFile,"Options","Name",szName);
+		GetProfString(szFile,"Options","YesCmdLine",szCmdYes);
+		GetProfString(szFile,"Options","NoCmdLine",szCmdNo);
+		GetProfString(szFile,"Options","Silent",szSilent);
+		GetProfString(szFile,"Options","Version",szVer);
+		GetProfString(szFile,"Options","DOS",szDOS);
+		GetProfString(szFile,"Options","InstallShield",szIS);
+		GetProfString(szFile,"Options","SizeNeeded",szSizeNeeded);
+		GetProfString(szFile,"Options","LookForFile",szLookForFile);
+		GetProfString(szFile,"Options","Win95",szWin95);
+		
+		//check for OS dependancies
+		if(g_structSystemData.nOS_Type = IS_WINDOWS95)then
+			StrToUpper(szWin95,szWin95);
+			if(szWin95 = "NO")then
+				return FALSE;
+			endif;
+		endif;
+
+		//set default command line to yes one.
+		szCmdLine = szCmdYes;
+
+		//look for prevoius version based on a file.
+		if(szLookForFile != "")then
+			OParseMacros(szLookForFile);
+			if(Is(FILE_EXISTS,szLookForFile))then
+				bFound = TRUE;
+			endif;
+		endif;		
+		
+		//check to see if ver is already on system based on requirements check.
+		if(szVer != "")then
+			nResult = _CheckReqVersion(szName,szVer,szVerFound);
+			if(nResult = 2)then
+				bFound = TRUE;
+			elseif(nResult = -1)then //from _CheckReqVersion above
+				//is product to be installed older?
+				Sprintf(gszMsg,@ERROR_NEWER_VER_FOUND1,szName);
+				gszMsg = gszMsg+"\n"+@VERSION_FOUND+"\n"+@VERSION_INSTALLING+"\n"+@ERROR_NEWER_VER_FOUND2;
+				Sprintf(gszMsg,gszMsg,szVerFound,g_structSystemData.szCurrent_Version);
+				OLog(gszMsg);
+				
+				nResult = AskYesNo(gszMsg,NO);
+				if(nResult = NO)then
+					//exit setup.  if NO, continue with install, defaults to new install
+					Do(EXIT);
+					return FALSE; //bail, and do not run the exe.
+				endif;
+			endif;
+		endif;
+	
+		//already have this ver on machine.
+		if(bFound)then
+			//default is YesCmdLine if no message.
+			if(szMsg != "")then
+				if(szVer != "")then
+					szTemp = szName + " v"+szVer; //add version to name.
+				else
+					szTemp = szName;
+				endif;
+				Sprintf(szMsg,szMsg,szTemp);
+				if(AskYesNo(szMsg,YES)=NO)then
+					szCmdLine = szCmdNo;
+					//look for an action to perform, if not must just be a commandline.
+					StrToUpper(szTemp,szCmdLine);
+					if(szTemp = "SKIP")then
+						return FALSE;
+					elseif(szTemp = "EXIT")then
+						exit;
+					elseif(szTemp = "ABORT")then
+						OAbort();
+					endif;
+				endif;
+			else
+				return FALSE; //found before, and no message, so default to not reinstall.
+			endif;
+		endif;
+
+		nReturn = 1; //run the thing.
+		
+		//if silent, enable status message.
+		StrToUpper(szSilent,szSilent);
+		if(szSilent = "YES")then
+			SdShowMsg("", FALSE);
+			Sprintf(gszMsg,@MSG_PROCESSING,szName);
+			SdShowMsg(gszMsg, TRUE);
+		endif;
+
+		//if a DOS app, run in an invisbile DOS shell.
+		StrToUpper(szDOS,szDOS);
+		if(szDOS = "YES")then
+			nReturn = 2;
+		endif;		
+
+		//if a InstallShield INS file, run a DoInstall.
+		if(szIS = "5.5")then
+			nReturn = 3;
+		endif;		
+
+		//check for size requirements
+		if(OCheckDiskSpace(szName,TARGETDIR,szSizeNeeded) = FALSE)then
+			OAbort();
+		endif;
+		
+	else
+		nReturn = TRUE;  //default to run if no ini file.
+	endif;
+	return nReturn;
+end;
+
+// ------------------------------------------------------------------------------------------
+// Function Name:  OPlugin
+//    Parameters:  szComponent - Component Name that might contain EXE to run.
+//       Returns:
+//   Description:  Small little helper to check to see if the plugin component is
+//                 selected.  If it is, then it calls OLaunchExesInComponent to try
+//                 to launch any EXEs associated with the component.
+// ------------------------------------------------------------------------------------------
+function OPlugin(szComponent)
+begin
+    if (OIsComponentSelected( szComponent )) then
+   		SdShowMsg("", FALSE);
+		SdShowMsg(@MSG_PROCESSING_PLUGIN, TRUE);
+        OLaunchExesInComponent( szComponent );
+        SdShowMsg("", FALSE);
+    endif;
+end;
+
+//-----------------------------------------------------------------------
+//determine which post install plugin to run.
+//-----------------------------------------------------------------------
+function OPluginEndOperation()
+STRING szPlugin;
+begin
+    if(g_structSetupMode.szType = "OPERATION1") then
+        szPlugin = COMP_O1_END_PLUGIN;
+    elseif(g_structSetupMode.szType = "OPERATION2") then
+        szPlugin = COMP_O2_END_PLUGIN;
+    elseif(g_structSetupMode.szType = "REINSTALL") then
+        //szPlugin = COMP_O3_END_PLUGIN;
+        szPlugin = COMP_O1_END_PLUGIN;  //same as Operation1.
+    endif;
+	
+	OPlugin(szPlugin);
+end;
+
+// ------------------------------------------------------------------------------------------
+// Function Name:  OIsSetupTypeCustom
+//    Parameters:  szSetupType - SetupType Name to check.
+//       Returns:  TRUE or FALSE
+//   Description:  Checks to see if SetupType is a "Custom" setup type.  If it is, TRUE
+//                 is returned; else, FALSE is returned.  Currently, a "Custom" setup type is
+//                 a setup type whose name contains the word "CUSTOM" (case-insensitive).
+// ------------------------------------------------------------------------------------------
+function OIsSetupTypeCustom(szSetupType)
+STRING szUpper;
+begin
+
+    StrToUpper(szUpper, szSetupType);
+    if (StrFind(szUpper, "CUSTOM") >= 0) then
+        return TRUE;
+    else
+        return FALSE;
+    endif;
+
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function:  OSearchAndReplace
+//
+//  Purpose:  Given a string, this function scans the string for 'szOldValue',
+//            replacing it with 'szNewValue'.
+//
+///////////////////////////////////////////////////////////////////////////////
+function OSearchAndReplace(szOutput, szOldValue, szNewValue)
+    BOOL bDone;
+    NUMBER nPos;
+    STRING szBeginningPart;
+    STRING szEndingPart;
+begin
+    bDone = FALSE;
+
+    while (!bDone)
+        nPos = StrFind(szOutput, szOldValue);
+        if (nPos < 0) then
+            bDone = TRUE;
+        else
+            StrSub(szBeginningPart, szOutput, 0, nPos);
+            StrSub(szEndingPart,    szOutput, nPos + StrLength(szOldValue), 999);
+            szOutput = szBeginningPart + szNewValue + szEndingPart;
+        endif;
+    endwhile;
+
+end;
+
+////////////////////////////////////////////////////////////////
+//register the VB type libraries using _regtlb.dll
+////////////////////////////////////////////////////////////////
+function ORegTypeLibraries()
+INT nResult,nLoop;
+STRING szReg,szFile,szFileDir,szTemp;
+LIST	listOfFiles;
+begin
+	//if Type Library group exists and has files to reg, then reg them.
+	nResult = ComponentGetData(MEDIA,SCOMP_O1_TYPE_LIBS,COMPONENT_FIELD_MISC,nResult,szReg);
+	if(nResult =0 )then
+	
+		// Copy Riched32.dll to target system only if Windows 95.
+		if ( bWinNT = FALSE ) then
+			VarSave( SRCTARGETDIR );
+	   		SRCDIR = SUPPORTDIR;
+   			TARGETDIR = WINSYSDIR;
+   			OXCopyFileTryAgain("Riched32.dll","", COMP_UPDATE_VERSION | SHAREDFILE );
+//			nResult = XCopyFile("Riched32.dll","", COMP_UPDATE_VERSION | SHAREDFILE );
+		   	VarRestore( SRCTARGETDIR );
+		endif;
+
+		//continue only if Type Library file comp is selected.
+    	if(ComponentIsItemSelected(MEDIA,SCOMP_O1_TYPE_LIBS) = FALSE) then
+    		return FALSE;
+    	endif;
+    	
+		//szReg from first line above.
+		StrToUpper(szReg,szReg);
+		if(szReg = "TLBREGISTER")then
+			//get the target dir for the files.
+			ComponentGetData(MEDIA,SCOMP_O1_TYPE_LIBS,COMPONENT_FIELD_DESTINATION,nResult,szFileDir);
+			OParseMacros(szFileDir);
+			//get a list of all the files in this group
+			listOfFiles = ListCreate(STRINGLIST);
+			if(ComponentFileEnum(MEDIA,SCOMP_O1_TYPE_LIBS,FILE_GROUP_TYPE_LIBS+"\\*.*",listOfFiles,INCLUDE_SUBDIR) =0 )then
+				// Register type libraries using RegTlbFile32 API in supplied DLL.
+				nResult = UseDLL( SUPPORTDIR ^ "_regtlb.dll");
+				if ( nResult < 0 ) then
+					gszMsg = @ERROR_LOADDLL + "_regtlb.dll";
+   					MessageBox(gszMsg, SEVERE );
+   					OLog(gszMsg);
+   				else
+					//loop throught the list of files.
+					nLoop = ListGetFirstString(listOfFiles,szFile);
+					while(nLoop != END_OF_LIST)
+						//get just the file
+						ParsePath(szFile,szFile,FILENAME);
+						szTemp =  szFileDir ^ szFile;
+			 			//for each file, register.
+			 			if(RegTlbFile32(szTemp) != 0 )then
+			 				gszMsg = @ERROR_TLBREGISTER+" "+szTemp;
+			 				MessageBox(gszMsg,WARNING);
+			 				OLog(gszMsg);
+			 			endif;
+		   				nLoop = ListGetNextString(listOfFiles,szFile);
+			   		endwhile;
+			   		nResult = TRUE;
+				endif;
+				UnUseDLL("_regtlb.dll");
+			endif;
+			ListDestroy(listOfFiles);
+		endif;
+	endif;
+	return nResult;
+end;
+
+/*
+// registers an EXE as an NT service by running exe with -SERVICE switch.
+function ORegNTServices()
+INT nResult,nLoop;
+STRING szReg,szFile,szFileDir,szTemp,szMsg;
+LIST	listOfFiles;
+begin
+	//if Type Library group exists and has files to reg, then reg them.
+	nResult = ComponentGetData(MEDIA,SCOMP_O1_NT_SERVICES,COMPONENT_FIELD_MISC,nResult,szReg);
+	if(nResult =0 )then
+	
+		//continue only if Type Library file comp is selected.
+    	if(ComponentIsItemSelected(MEDIA,SCOMP_O1_NT_SERVICES) = FALSE) then
+    		return FALSE;
+    	endif;
+    	
+		//szReg from first line above.
+		StrToUpper(szReg,szReg);
+		if(szReg = "SERVICE")then
+			//get the target dir for the files.
+			ComponentGetData(MEDIA,SCOMP_O1_NT_SERVICES,COMPONENT_FIELD_DESTINATION,nResult,szFileDir);
+			OParseMacros(szFileDir);
+			//get a list of all the files in this group
+			listOfFiles = ListCreate(STRINGLIST);
+			ODebugDsp("Reg NT Service\nComponent: "+SCOMP_O1_NT_SERVICES+"\nFile Group:"+FILE_GROUP_NT_SERVICES,16);
+			if(ComponentFileEnum(MEDIA,SCOMP_O1_NT_SERVICES,FILE_GROUP_NT_SERVICES+"\\*.*",listOfFiles,INCLUDE_SUBDIR) =0 )then
+				// Register type libraries using RegTlbFile32 API in supplied DLL.
+				//loop throught the list of files.
+				nLoop = ListGetFirstString(listOfFiles,szFile);
+				while(nLoop != END_OF_LIST)
+					//get just the file
+					ParsePath(szFile,szFile,FILENAME);
+					szTemp =  szFileDir ^ szFile;
+		 			//for each file, register.
+		 			if(OLaunchAppAndWait(szTemp,"-"+szReg) < 0 )then  //run exe with "-SERVER" switch
+		 				szMsg = @ERROR_NT_SERVICE_REG+"\n"+szTemp;
+		 				MessageBox(szMsg,WARNING);
+		 				OLog(szMsg);
+		 			endif;
+	   				nLoop = ListGetNextString(listOfFiles,szFile);
+		   		endwhile;
+		   		nResult = TRUE;
+			endif;
+			ListDestroy(listOfFiles);
+		endif;
+	endif;
+	return nResult;
+end;
+*/
+
+/*
+//////////////////////////////////////////////////////////////////////////////
+// makes a entry in the reg for each help file in the TARGETDIR.
+//////////////////////////////////////////////////////////////////////////////
+function _RegHelpFiles()
+STRING szHelpFile,szPath,szTemp;
+INT nEndLoop,nvType,nvSize;
+begin
+	//look in targetdir for .hlp files
+	if(FindAllFiles(TARGETDIR,"*.hlp",szTemp, RESET ) =0 )then
+		while(nEndLoop = 0)
+			//get just file name and path
+			ParsePath(szHelpFile,szTemp,FILENAME);
+			ParsePath(szPath,szTemp,PATH);
+			StrRemoveLastSlash(szPath);
+			//if found, add key entry of name of help file, and data is path.
+			RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+			if(RegDBSetKeyValueEx("Software\\Microsoft\\Windows\\Help",szHelpFile, REGDB_STRING, szPath, -1) <0)then
+				ODebugDsp("Could not add help file reg entry: Software\\Microsoft\\Windows\\Help\\"+szHelpFile,12);
+			endif;
+			//get next value.
+			if(FindAllFiles(TARGETDIR,"*.hlp",szTemp,CONTINUE) <0 )then
+				nEndLoop = TRUE;
+			endif;
+		endwhile;
+	endif;
+end;
+*/
+
+///////////////////////////////////////////////////////////////////////////
+// Sets up the uninstall log file based on the product key name
+// Can be turned off by entry into setup.ini
+///////////////////////////////////////////////////////////////////////////
+function _InitUninstall()
+STRING szTemp,szUninstallName,szProductName,szProductVersion,szProductKey;
+    STRING svLogFile,szPathKey,szDefaultKey,szAppPath,szKey;
+    NUMBER nResult;
+begin
+	GetProfString(SRCDIR ^ "setup.ini","setup","uninstall",szTemp);
+	StrToUpper(szTemp,szTemp);
+	if(szTemp = "" || szTemp != "NO")then
+
+		//next setup an default uninstall file.
+		szProductKey = gszProductKey;
+		ParsePath(szTemp,gszProductKey,FILENAME_ONLY);
+		szUninstallName = szTemp + ".isu";
+    	
+    	//look in ini for unistall ISU file name
+    	OGetValueFromINI("Uninstall","ISUName",szTemp);
+    	if(szTemp != "")then
+    		szUninstallName = szTemp + ".isu";
+//    		szProductKey = szUninstallName;
+    	endif;
+   		
+   		szProductName = gszProductName; //default
+   		//look in ini for unistall add/remove name
+    	OGetValueFromINI("Uninstall","AddRemoveName",szTemp);
+    	if(szTemp != "")then
+    		szProductName = szTemp;
+    	endif;
+   		
+   		// Create app information, uninstallation, and App Paths registry keys.
+		// has to be done before uninstall can be enabled.  Use English only values
+		InstallationInfo("Onyx", gszProductNameEnglish, gszProductVersion, szProductKey );
+		
+		szTemp = szUninstallName;
+    	if ( DeinstallStart( gszDir,szTemp , szProductName, 0 ) <0 )then //using temp because DeinstallStart changes value.
+    		gszMsg = @ERROR_UNINSTSETUP + "\n"+szTemp;
+        	MessageBox(gszMsg, WARNING );
+        	OLog(gszMsg);
+        	nResult = FALSE;
+    	else
+    		nResult = TRUE;
+    	endif;
+		
+		//--- set registry uninstall info for using custom Uninst.dll ---
+		//HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall\<application uninstallation key>
+		//UninstallString = C:\WINDOWS\IsUninst.exe -f"C:\Program Files\Onyx\EnterpriseStudio\Global.isu" -c"C:\Program Files\Onyx\EnterpriseStudio\Uninst.dll"
+		szKey = "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\"+szProductName;
+		szTemp = WINDIR^"IsUninst.exe -f\""+gszDir^szUninstallName+"\" -c\""+gszDir^"Uninst.dll\"";
+		RegDBSetKeyValueEx(szKey,"UninstallString", REGDB_STRING,szTemp,-1);		
+	
+		//create Uninst.ini based on what was installed, if enabled in setup.ini
+		_CreateUninstINI(gszDir);
+    	
+		//other preinstall stuff
+    	szAppPath = TARGETDIR;
+    	if ((bIs32BitSetup) && (bIsShellExplorer)) then
+			//determine what to put into the app key reg entry.
+    		//maybe we could use:  ComponentGetData (BASE_MEDIA,COMP_O1_RUN_SQL,COMPONENT_FIELD_MISC,nResult,szKey);
+			szDefaultKey =  szAppPath ^ szProductKey;
+			szPathKey = szAppPath;
+			StrToUpper(szTemp,szProductKey);
+	    	if(szTemp = "KBADMIN.EXE")then
+    			szPathKey = szAppPath ^ gszProductKey +";"+szAppPath ^ "system;" + COMMONFILES + "ONYX Shared\\Query Engine\\;" + COMMONFILES + "ONYX Shared\\OnyxGrid\\;";
+			elseif(gszProductKey = "KBISSLIB.EXE")then
+    			szPathKey = COMMONFILES^"ONYX Shared\\Insight" ^ gszProductKey;
+	    		szDefaultKey = "";
+    		elseif(gszProductKey = "KBSEARCH.EXE")then
+    			szPathKey = COMMONFILES ^ "ONYX Shared\\Insight" ^ gszProductKey +";"+ COMMONFILES + "ONYX Shared\\Query Engine\\;" + COMMONFILES + "ONYX Shared\\OnyxGrid\\;" + COMMONFILES + "ONYX Shared\\OnyxView\\;" + COMMONFILES ^ "ONYX Shared\\Insight";
+    			szDefaultKey = "";
+			elseif(gszProductKey = "KBXTRACT.EXE")then
+				szPathKey = szDefaultKey;
+    		endif;
+    	
+	        RegDBSetItem( REGDB_APPPATH, szPathKey );
+    	    RegDBSetItem( REGDB_APPPATH_DEFAULT,szDefaultKey);
+        	RegDBSetItem( REGDB_UNINSTALL_NAME, szProductName );
+   		endif;
+
+	else
+		g_structSetupMode.bNoReg = TRUE;  //enabled to not make registry entires
+	endif;
+
+	return nResult;
+end;
+
+//---------------------------------------------------------
+// creates an Uninst.ini file in the dir specified with info for the Uninst.exe.
+// only puts in info based on what was installed.
+//---------------------------------------------------------
+function _CreateUninstINI(szDir)
+STRING szFile,szCount,szTemp,szKey;
+INT nLoop,nCount;
+begin
+		//only create a uninst.ini if instructed
+		OGetValueFromINI("Setup","UninstINI",szTemp);
+		if(szTemp != "YES")then
+			return FALSE;
+		endif;
+
+		szFile = szDir ^ "Uninst.ini";
+
+		//IIS stuff
+		if(g_structVWS1.szName != "")then
+			szKey = "VirtualDir";
+			_GetNextAvailableEntryNumber(szFile,szKey,g_structVWS1.szName);
+			WriteProfString (szFile,"IIS",szKey, g_structVWS1.szName);
+		endif;
+		if(g_structVWS2.szName != "")then
+			szKey = "VirtualDir";
+			_GetNextAvailableEntryNumber(szFile,szKey,g_structVWS2.szName);
+			WriteProfString (szFile,"IIS",szKey, g_structVWS2.szName);
+		endif;
+	
+		//COM+ stuff
+		while (nLoop = 0)
+			nCount++;
+			NumToStr(szCount,nCount);
+			//values in setup ini.  COM_APP_INI
+			OGetValueFromINI(COM_APP_INI + szCount,"Name",szTemp);
+			if(szTemp != "")then
+				WriteProfString (szFile,"COMAPP","App"+szCount, szTemp);
+			else
+				nLoop = 1; //exit
+			endif;
+		endwhile;
+
+		return TRUE;
+
+end;
+
+//searches the uninst.ini for any previous entries and finds the next available one.
+function _GetNextAvailableEntryNumber(szFile,szKey,szValue)
+STRING szCount,szPreviousValue,szPreviousValueTest,szValueTest;
+INT nCount,nReturn;
+begin
+	//read each previous entry and compare value with new one.
+	nCount = 1;
+	while (nReturn = 0)
+		NumToStr(szCount,nCount);
+		nReturn = GetProfString(szFile,"IIS","VirtualDir"+szCount,szPreviousValue);
+		//if same return and do nothing and let setup overight it again.
+		StrToUpper(szPreviousValueTest,szPreviousValue);
+		StrToUpper(szValueTest,szValue);
+		if(szPreviousValueTest = szValueTest)then
+			//a match, exit loop and return nothing.
+			nReturn = 1;
+		else
+			//if not same, then find next number and return it.
+			nCount = nCount + 1;
+		endif;
+	endwhile;
+	
+	szKey = szKey+szCount;
+	
+end;
+
+//////////////////////////////////////////////////////////////////////////
+// For testing with the debuger.
+//////////////////////////////////////////////////////////////////////////
+function OBreakPoint()
+begin
+	//a place to break into the code.
+end;
+
+// --- include script file section ---
+
+#include "oMTSAdmin.rul"
+#include "oDialogs.rul"
+#include "oAskOptionsList.rul"
+#include "oRequirements.rul"
+#include "oCommon.rul"
+#include "oProductFunctions.rul"
+#include "oNTServices.rul"
+#include "oDlgSetupType.rul"
+#include "oSQL.rul"
+#include "oProcessRegFile.rul"
+#include "sddialog.rul"
+#include "oDlgOperation.rul"
+#include "ODlgOnyxSA.rul"
+//ef #include "oExtraFiles.rul"
+//r  #include "oRecovery.rul"
+//4.00.21  #include "oDCOM.rul"
+#include "oDlgUserPassword.rul"
+#include "oODBC.rul"
+#include "winsub.rul"
+#include "oInstallBefore.rul"
+#include "oCommandLine.rul"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

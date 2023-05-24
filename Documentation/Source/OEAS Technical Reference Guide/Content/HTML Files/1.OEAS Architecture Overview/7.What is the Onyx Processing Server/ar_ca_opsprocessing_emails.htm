@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:lastBlockDepth="2" MadCap:lastHeight="481" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Processing Emails with Invalid XML Characters</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>Processing Emails with Invalid XML Characters</h3>
+        <p>Because emails can be processed by many systems beyond one's control, 
+ the potential exists for them to contain certain unprintable characters 
+ that OPS might convert to invalid XML characters. Invalid XML characters 
+ can cause the XML parser to throw an error and fail to process the email.</p>
+        <p>To handle this error condition, Onyx designed EMS to respect a registry 
+ key that forces the subsystem to parse emails and replace invalid XML 
+ characters. Because of the potential impact to performance and the perceived 
+ unlikelihood of this occurring for most customers, Onyx does <span style="font-weight: bold;">not</span> 
+ install the key in the default EMS setup.</p>
+        <p>In the unlikely event that the EMS encounters this error, an OPS administrator 
+ has the option to add the following key to the OPS server registry. When 
+ the EMS detects the presence of this key, it will parse all emails which 
+ would have a detrimental impact on OPS performance. Onyx recommends using 
+ this method as a last resort.</p>
+        <p class="C_Code">HKEY_LOCAL_MACHINE\SOFTWARE\ONYX\ProcessingServer\Service\Applications\Onyx\EMS_ParseAndReplaceInvalidXmlChars</p>
+        <p>The key is type DWORD, where the only valid value is 1. To turn off 
+ this functionality, the OPS administrator can delete the key from the 
+ registry. The email monitor subsystem must be stopped and restarted for 
+ the registry change to take effect.</p>
+    </body>
+</html>

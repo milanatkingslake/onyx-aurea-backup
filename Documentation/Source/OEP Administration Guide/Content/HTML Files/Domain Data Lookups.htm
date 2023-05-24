@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="851" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h4><a name="top"></a>Domain Data Lookups</h4>
+        <p>As part of the data transformation process, the XListData class can replace domain data identifiers with their human-readable counterparts. &#160;</p>
+        <p>Each instance of an XListData class has an internal object named 'lookup' that stores the replacement values for domain data identifiers. This object accepts XML data in the format shown in the following sample. </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>&lt;listLookup&gt;</code>
+                    </p>
+                    <p><code>&#160;&lt;lookupId&gt;lookup list identifier&lt;/lookupId&gt;</code>
+                    </p>
+                    <p>&#160;<code>&lt;items&gt;</code></p>
+                    <p><code> &lt;item&gt;</code>
+                    </p>
+                    <p><code> &lt;id&gt;domain-data identifier&lt;/id&gt;</code>
+                    </p>
+                    <p> <code>&lt;desc&gt;human-readable description&lt;/desc&gt;</code></p>
+                    <p><code> &lt;/item&gt;</code>
+                    </p>
+                    <p><code>&#160;&lt;/items&gt;</code>
+                    </p>
+                    <p><code>&lt;/listLookup&gt;</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>The value of the lookupId in the above sample is then referenced by the <a href="Click an element in the sample.htm#lookupNa">lookupName element</a> within the data transform configuration. During the data conversion, values in the source data column are replaced with values from the lookup list</p>
+        <p>For more information about adding lookup lists to an XListData object, see <a href="Customizing Result Lists.htm#XListDat">XListData object</a> in the Programmer's Reference.</p>
+        <h4><a name="Data"></a>Data Formatting Functions</h4>
+        <p>As part of the data transformation process, the XListData class can format data for specific regional or presentation requirements. Data columns are assigned a format in the data transformation configuration and JavaScript functions in the client use this information to modify the data for eventual presentation in the rendered list. </p>
+        <p>Each column in the data transform configuration has a <a href="Click an element in the sample.htm#formatTy">formatType element</a> that determines what sort of processing, if any, the data should be subjected to during the transformation. The supported elements and their descriptions appear in the following table. </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Value</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">boolean</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Used for values that are 1 or 0</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">custom1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">One of two available custom formatting options</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">custom2</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">One of two available custom formatting options</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">date</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Used for date-only values</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">dateTime</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Used for date and time values</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">float</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Used for floating point numbers</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">integer</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Used for integer values</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">text</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Used for standard text values</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">time</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Used for time-only values</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>During the data transformation, an XListData object checks the formatType of the column and calls a function associated with the formatting type. There are no default functions for this process. They must be added to the code through a &lt;SCRIPT&gt; element on the page that hosts the list class script code. Failure to do so will result in an error during the data transformation.</p>
+        <p>At least two functions are required. One is used for date values and the other for numeric values. All columns with a formatType of date, time, or dateTime are routed through one function, and all values of float or integer are routed through a different function. Each custom type can be assigned its own function if necessary. Columns with a formatType of text are copied to the list data output without modification. Columns with a formatType of boolean are cleaned (values of '1' are left intact and any other value is converted to '0') and then copied to the list data output. </p>
+        <p>There is no special formatting consideration for currency values. If you require such formatting, use one of the custom options and create your own functions.</p>
+    </body>
+</html>

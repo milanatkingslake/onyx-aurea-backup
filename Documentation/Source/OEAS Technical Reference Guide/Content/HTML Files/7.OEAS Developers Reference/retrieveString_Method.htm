@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:lastBlockDepth="2" MadCap:lastHeight="3146" MadCap:lastWidth="702" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>RetrieveString (NatLangProxy)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>
+            <MadCap:keyword term="RetrieveString" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />RetrieveString method</h5>
+        <p>The RetrieveString method of the <a href="NatLangProxyIntro.htm"><MadCap:keyword term="NatLangProxy" />NatLangProxy 
+ interface</a> obtains a single National Language string from the in-memory 
+ cache. The method also provides an optional mechanism that can populate 
+ placeholders within the retrieved string with actual data values.</p>
+        <h3>Syntax</h3>
+        <p class="BodyText" style="font-weight: bold;">Visual Basic/VBScript</p>
+        <p Class="Code" class="code">Function RetrieveString(</p>
+        <p Class="Code" class="code">AppName As String, </p>
+        <p Class="Code" class="code">SiteID As Long, </p>
+        <p Class="Code" class="code">LanguageCode As String, </p>
+        <p Class="Code" class="code">NatLangID As Long, </p>
+        <p Class="Code" class="code">Arguments As String) As Variant</p>
+        <p>
+            Visual Basic/VBScript parameter descriptions
+        </p>
+        <p>AppName</p>
+        <p class="BodyTextIndent_1">[in] A string that identifies the OEAS application to query.</p>
+        <p>SiteId</p>
+        <p class="BodyTextIndent_1">[in] A long integer that identifies the specific site to 
+ query within the application.</p>
+        <p>LanguageCode</p>
+        <p class="BodyTextIndent_1">[in] A string that identifies the spoken language of the 
+ string to be accessed.</p>
+        <p>NatLangID</p>
+        <p class="BodyTextIndent_1">[in] The integer ID of the string to retrieve.</p>
+        <p>Arguments</p>
+        <p class="BodyTextIndent_1">[in] A string that contains a list of tilde-separated (~) 
+ items that are inserted into the placeholders within the retrieved string.</p>
+        <p class="BodyText" style="font-weight: bold;">JScript</p>
+        <p Class="Code" class="code">function RetrieveString(</p>
+        <p Class="Code" class="code">AppName, </p>
+        <p Class="Code" class="code">SiteID,</p>
+        <p Class="Code" class="code">LanguageCode,</p>
+        <p Class="Code" class="code">NatLangID,</p>
+        <p Class="Code" class="code">Arguments) </p>
+        <p>
+            JScript parameter descriptions
+        </p>
+        <p>AppName</p>
+        <p class="BodyTextIndent_1">[in] A string that identifies the OEAS application to query.</p>
+        <p>SiteId</p>
+        <p class="BodyTextIndent_1">[in] A long integer that identifies the specific site to 
+ query within the application.</p>
+        <p>LanguageCode</p>
+        <p class="BodyTextIndent_1">[in] A string that identifies the spoken language of the 
+ string to be accessed.</p>
+        <p>NatLangID</p>
+        <p class="BodyTextIndent_1">[in] The integer ID of the string to retrieve.</p>
+        <p>Arguments</p>
+        <p class="BodyTextIndent_1">[in] A string that contains a list of tilde-separated (~) 
+ items that are inserted into the placeholders within the retrieved string.</p>
+        <p><b>C#</b>
+        </p>
+        <p>Use with the .NET <a href="Primary_interop_assembly.htm">primary interop 
+ assembly</a> version of this component, OnyxNatLangProxyPIA.</p>
+        <p Class="Code" class="code">public object RetrieveString(</p>
+        <p Class="Code" class="code">string AppName, </p>
+        <p Class="Code" class="code">int SiteID,</p>
+        <p Class="Code" class="code">string LanguageCode,</p>
+        <p Class="Code" class="code">int NatLangID,</p>
+        <p Class="Code" class="code">string Arguments) </p>
+        <p>
+            C# parameter descriptions
+        </p>
+        <p>AppName</p>
+        <p class="BodyTextIndent_1">[in] A string that identifies the OEAS application to query.</p>
+        <p>SiteId</p>
+        <p class="BodyTextIndent_1">[in] A long integer that identifies the specific site to 
+ query within the application.</p>
+        <p>LanguageCode</p>
+        <p class="BodyTextIndent_1">[in] A string that identifies the spoken language of the 
+ string to be accessed.</p>
+        <p>NatLangID</p>
+        <p class="BodyTextIndent_1">[in] The integer ID of the string to retrieve.</p>
+        <p>Arguments</p>
+        <p class="BodyTextIndent_1">[in] A string that contains a list of tilde-separated (~) 
+ items that are inserted into the placeholders within the retrieved string.</p>
+        <h3>Return Values</h3>
+        <p>This method returns a single National Language string from the in-memory 
+ cache. The method also provides an optional mechanism that can populate 
+ placeholders within the retrieved string with actual data values.</p>
+        <p>The C# version of this method returns a two-dimensional array as a System.Object 
+ type. To access the individual array elements the Object must be cast 
+ to Object[,] (an object array) and then either assign each element to 
+ a string or copy the value into a new string. For an example of this coding 
+ technique, see the C# code sample in the Example section of DictionaryProxy 
+ <a href="Script_GetPropertyConstraints.htm">GetPropertyConstraints</a> 
+ method.</p>
+        <p>Placeholder items are made up of a tilde and a number (for example, 
+ ~0). The items in the Arguments parameter are used to replace the placeholder 
+ items in the string retrieved from the cache. For example, if the retrieved 
+ string in the cache looks like this:</p>
+        <p Class="Code" class="code">Task #~0 Entered By: ~1 @ ~2 ~3</p>
+        <p>and the Arguments parameter looks like this:</p>
+        <p Class="Code" class="code">14563~johns~Nov 30, 2000~03:15 PM</p>
+        <p>the method will combine the two and return this:</p>
+        <p Class="Code" class="code">Task #14563 Entered By: johns @ Nov 30, 2000 03:15 PM</p>
+        <p>If a placeholder value is repeated within a string, each instance is 
+ replaced with the same value from the Arguments list. The Arguments parameter 
+ is not optional, but if there is no need to make a replacement, submit 
+ an empty string (""). To remove a placeholder without adding 
+ any text, use consecutive tildes in the arguments parameter string. For 
+ example, the above string when changed to:</p>
+        <p Class="Code" class="code">14563~johns~~03:15 PM</p>
+        <p>will generate:</p>
+        <p Class="Code" class="code">Task #14563 Entered By: johns @ 03:15 PM</p>
+        <p>Except in cases of severe COM-related errors, the method does not utilize 
+ the error object. If the method fails to retrieve information from the 
+ cache for any reason (for example, the cache is unavailable, or if the 
+ search contained a non-existent ID, language code, or application name), 
+ it returns an empty string.</p>
+        <h3>Example</h3>
+        <p>The following example demonstrates how to use the RetrieveString method 
+ to obtain a single string from the National Language cache.</p>
+        <p>
+            View the VBScript code example
+        </p>
+        <p class="Code" style="color: #008000;">' Declare some variables</p>
+        <p Class="Code" class="code">dim str_appname, str_lang, site_id, string_id, str_args, strResultString</p>
+        <p Class="Code" class="code">str_appname = "appname"</p>
+        <p Class="Code" class="code">str_lang = "eng"</p>
+        <p Class="Code" class="code">site_id = 1</p>
+        <p Class="Code" class="code">string_id = 1415</p>
+        <p Class="Code" class="code">str_args = "user1~14 April, 2000"</p>
+        <p Class="Code" class="code">dim oNatLangProxy</p>
+        <p Class="Code" class="code">set oNatLangProxy = CreateObject("OnyxNatLangProxy.NatLangProxy")</p>
+        <p class="Code" style="color: #008000;">' Call the method</p>
+        <p Class="Code" class="code">strResultString = oNatLangProxy.RetrieveString(str_appname, site_id, str_lang, string_id, str_args)</p>
+        <p Class="Code" class="code">if not strResultString = "" then</p>
+        <p class="Code" style="color: #008000;">&#160;&#160;&#160;' Do something with the returned string</p>
+        <p Class="Code" class="code">end if</p>
+        <p Class="Code" class="code">set oNatLangProxy = Nothing</p>
+    </body>
+</html>

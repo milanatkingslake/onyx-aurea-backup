@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:conditions="Primary.PrintOnly" MadCap:lastBlockDepth="4" MadCap:lastHeight="774" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="../SkinSupport/MadCap.css" rel="stylesheet" type="text/css" /><title>Insert Custom Field Information in Persistence Database</title>
+        <link href="../Resources/TableStyles/Aptean_Note_Table_3.css" rel="stylesheet" />
+        <link href="../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" />
+    </head>
+    <body>
+        <H4 class="Heading">Inserting Custom Field Information in Persistence Database</H4>
+        <p class="BodyText">Update the Persistence database with information for each field of each entity that you want to view in the Search Criteria and Search Results windows. Additionally, you must also enter information for each field that is marked as Required for the Logical Business Object corresponding to the entity. <a href="Example data for custom field tables.htm">Read a description and see example values</a> for each table that needs to be modified.</p>
+        <p class="TaskHeading">To insert custom field information in the Persistence database:</p>
+        <ol>
+            <li class="ListBullet_1" value="1">In the <b>Persistence</b> database, right-click the <b>navigator_entity_field_master</b> table and select <b>Edit Top 200 Rows</b>.</li>
+            <li class="ListBullet_1" value="2">Scroll to the bottom of the displayed result grid.</li>
+            <li class="ListBullet_1" value="3">Insert one row for each field that you want to add as a Search Criteria in Navigator.</li>
+            <li class="ListBullet_1" value="4">Insert one row for each field that you want to add as a Result Grid column in Navigator.</li>
+        </ol>
+        <p class="Note_1" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">For a field to appear both as a search criterion and as a result grid column, insert two distinct rows for the field.</p>
+        <ol MadCap:continue="true">
+            <li class="ListBullet_1" value="5">Insert one row for each field that is marked as Required for the Logical Business Object (LBO). For these fields, enter the value TRUE in the is_transaction column, the value 2 in the use_type column, and the value 0 in the field_state column of the navigator_entity_field_master table.</li>
+        </ol>
+        <p class="Note_1" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Do not add a separate row if you’ve already added a row to include the field as a Result Grid field. However, ensure that you enter the value TRUE in the is_transaction column for such a field.</p>
+        <ol MadCap:continue="true">
+            <li class="ListBullet_1" value="6">Insert two rows for the field primaryId with the value TRUE in the is_transaction column and the value 0 in the field_state column. In the use_type column, enter the value 0 in one row, and the value 2 in the second row.</li>
+            <li class="ListBullet_1" value="7">Right-click the <b>navigator_entity_field_master_ml</b> table, and repeat steps 2 to 7 above.</li>
+        </ol>
+        <p class="Important" MadCap:autonum=" &lt;b&gt;Important:&lt;/b&gt; "> Every field that you add to these tables must also exist in the corresponding view. </p>
+    </body>
+</html>

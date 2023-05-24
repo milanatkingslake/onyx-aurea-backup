@@ -1,0 +1,525 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="838" MadCap:lastWidth="627">
+    <head>
+    </head>
+    <body>
+        <h1>Navigator or Insight Detail View and Detail List View Customization</h1>
+        <p>To customize the Detail View and Detail List View in the Navigator or Insight, do the following changes in Persistence database:</p>
+        <h2>Adding Detail View Pane</h2>
+        <p>The Detail View pane displays the primary details of the record selected on the Search Result Summary pane.</p>
+        <p>Following tables are used to add the Detail View pane:</p>
+        <ul>
+            <li>DetailView</li>
+            <li>DetailViewGroup</li>
+            <li>DetailViewGroupMl</li>
+            <li>DetailViewField</li>
+            <li>DetailViewFieldMl</li>
+        </ul>
+        <h3>DetailView</h3>
+        <p>The entities like Company, Individual, Sales incidents etc., are defined here.</p>
+        <p>Following are the column configurations of the DetailView table.</p>
+        <table>
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Column</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">PrimaryDataLbo</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Mention Lbo object for
+ the entity.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">PrimaryDataLboMethod</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Mention retrieve Lbo method name
+ of the Lbo object.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">SecondaryDataLbo /
+ SecondaryDataLboMetho</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Any more information that is not present
+ in the result set of PrimaryDataLboMethod can be retrieved from this object
+ method.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">SaveLboMethod</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Mention the method name that
+ updates the data.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>DetailViewGroup</h3>
+        <p>Create groups specific to each detailview and they act as place holders for fields like name, secondary id, email id etc. It also contains collection data like address. Following are the column configurations of the DetailViewGroup table.</p>
+        <table>
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Column</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">SequenceIndex</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specify sequence number to arrange the group order.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">IsCollection</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Set to 1 if the group contains collection data, otherwise set to 0.</p>
+                        <p class="tableNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Collection and
+ non-collection data cannot be grouped together. <b>Example:</b> Configure all the
+ address under one group, similarly email in another and so on. Non-collection
+ fields like Company id or company name cannot be grouped with address or
+ email.</p>
+                        <p>&#160;</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Display
+ only primary</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">In case of collection data, to display
+ only primary details, set this column to 1, otherwise 0.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">UIResource</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Mention the UI resource permission if the display of
+ the group needs to block or grant based on UI Resource Permission.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>DetailViewGroupMl</h3>
+        <p>This table contains language code and corresponding display name, which is used to display as the respective group header on the detail view form.</p>
+        <h3>DetailViewField</h3>
+        <p>Define the fields (Company, Individual, Secondary Id etc.,) that you need to display for this entity on Detail View pane.</p>
+        <p>Following are the column configurations of the DetailViewField table.</p>
+        <table>
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Column</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">DetailViewId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Primary key ID of DetailView table.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">GroupId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The group in which the field
+ should be shown with.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">LboProperty</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Mention the
+ property name that is specified in respective Lbo method.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">GroupId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The group in which the field should be shown with.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="Cache name.htm">DomainDataName</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specify domain data name if the
+ data needs to be fetched from domain data. <br /><b>Example:</b> “individual.type” or “individual.subtype”
+ etc.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">DomainDataParentId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Mention the domain data parent
+ id for the field, if domain data is required.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">ParentFieldId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Sepcify domain data parent ID, if any.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">MaskFormat</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specify if any masking needs to
+ be performed on the retrived Lbo data.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">DataType</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specify the datatype of the
+ field.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>ControlType</td>
+                    <td>
+                        <p class="Table_Text">For read only fields set this column as Label, otherwise choose the required control name.</p>
+                        <p class="tableNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">If control type is not specified as Label, the same field is considered as editable. This is the only method to make a field editable and update the value in edit mode.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">IsRequired</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">SequenceIndex</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Choose the number that specifies
+ the order where you want to see this field on the UI.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">UIResource</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Mention the UI resource
+ permission if the display of the field needs to block or grant based on a
+UI Resource Permission.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>DetailViewFieldMl</h3>
+        <p>This table contains language code and corresponding display name, which is used to display as the respective field label in the detail view form.</p>
+        <h2>Adding Detail List View Pane</h2>
+        <p>The Detail List View pane displays more information of the selected result, like all the tasks for a customer and open incidents. It can be customized to get more info by altering the respective Lbo method and stored procedures.</p>
+        <p>Following tables are used to configure the Detail List View pane:</p>
+        <ul>
+            <li>DetailListViewForm</li>
+            <li>DetailListView</li>
+            <li>DetailListViewMl</li>
+            <li>DetailListViewGroup</li>
+            <li>DetailListViewGroupMl</li>
+            <li>DetailListViewColumn</li>
+            <li>DetailListViewColumnMl</li>
+        </ul>
+        <h3>DetailListViewForm</h3>
+        <p>This table creates a logical form, which is unique for each entity.</p>
+        <p>Following are the column configurations of the DetailListViewForm table.</p>
+        <table>
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Column</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">UIResource</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Mention the UI Resource
+Permission if the display of the detail list view needs to block or grant
+ based on UI Resource Permission.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">DetailViewId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Primary key ID of DetailView table.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>DetailListView</h3>
+        <p>Following are the column configurations of the DetailListView table.</p>
+        <table>
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Column</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">DetailListViewId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Primary key ID for the detail list view.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">FormId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Primary ID of DetailListViewForm to link to a particular entity.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">GroupId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The group in which the field
+ should be shown with.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">SequenceIndex</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Choose the number that specifies
+ the order where you want to see this particular list view on the UI.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">DefaultSortColumn</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Mention the column name to perform sort by default before
+ displaying  on UI.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">RetrieveLBO</p>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specify Lbo object to which list view belongs to.<br /><b>Example:</b> If task information
+ is appears on this list view, mention task (object name).</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">RetrieveMethod</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specify retrievelist Lbo method name of the object mentioned.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">RetrieveLboParam</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Mention the method parameters for the Lbo method mentioned above.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">UIResource</p>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Mention the UI Resource
+Permission if the display of the detail list view needs to block or grant based
+ on UI Resource Permission.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>DetailListViewMl</h3>
+        <p>The description column of the table makes the heading of the group.</p>
+        <h3>DetailListViewGroup</h3>
+        <p>Following are the column configurations of the DetailListViewGroup table.</p>
+        <table>
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Column</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">GroupId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Primary ID of the group.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">FormId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Primary ID of DetailListViewForm to link to particular entity.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">UIResource</p>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Mention the UI Resource
+Permission if the dispaly of the group needs to block or grant based on UI
+Resource Permission.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>DetailListViewGroupMl</h3>
+        <p>The description column of the table is the name of the group.</p>
+        <h3>DetailListViewColumn</h3>
+        <p>Following are the column configurations of the DetailListViewColumn table.</p>
+        <table>
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Column</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">DetailListViewColumnID</p>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Primary key of the table.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">DetailListViewID</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Primary key ID for the detail list
+ view table.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">LboProperty</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Name of the property from the
+ corresponding Lbo method.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Datatype</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Datatype of the property and field.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Sequenceindex</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Choose the number that specifies
+ the order where you want to see this particular column on the UI.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">MaskFormat</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">To apply masking on the property
+ before showing on UI.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>DetailListViewColumnMl</h3>
+        <p>The description column of the table makes the header of the grid view column.</p>
+        <h4>Note</h4>
+        <p>To bring the <b>Detail</b> <b>View</b> and <b>Detail List</b> <b>View</b> in OEP for the newly created custom entity, add <code>DetailViewId</code> from <b>DetailView</b> table to the view created in standalone product crawler view as shown below:</p><pre xml:space="preserve"><p class="Indent1"><code>CREATE VIEW [dbo].[incident_sales_insight_data_query_view] AS
+SELECT
+inc.incident_id AS search_external_id,
+inc.incident_id AS attr_primary_id,
+inc.secondary_id AS field_secondary_id,
+'5' as attr_detailformid,
+inc.private_access AS attr_private_access,
+FROM incident
+</code></p></pre>
+        <p>In the above example <code>attr_detailformid</code>  is the <b>DetailViewId</b> from <b>DetailView</b> table in OEDB.
+For more information on views used in product crawler, see <MadCap:xref href="Reference Values.htm#Entity"> Entity IDs and entity views</MadCap:xref>.</p>
+    </body>
+</html>

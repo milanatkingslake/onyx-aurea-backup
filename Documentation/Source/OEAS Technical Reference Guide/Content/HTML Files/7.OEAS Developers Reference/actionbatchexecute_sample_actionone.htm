@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="4491" MadCap:lastWidth="1020" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>(ActionBatchExecute) process first action: company.insert</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>
+            <MadCap:keyword term="ActionBatchExecute" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />
+            <MadCap:keyword term="company.insert" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />Process first action: company.insert</h5>
+        <p>The first action creates a company using the company name from the source 
+ list item. For each <span style="font-weight: normal;"><a href="actionBatchXml_sourceListMap.htm">sourceListMap</a></span> 
+ in the actionBatchXml the value pointed to by the <span style="font-weight: normal;"><a href="actionBatchXml_sourceListMap_sourceElementPath.htm">sourceElementPath</a></span> 
+ is copied to the <span style="font-weight: normal;"><a href="actionBatchXml_sourceListMap_targetElementPath.htm">targetElementPath</a></span>. 
+ In this case, each source list item holds the name of the inserted company.</p>
+        <p Class="Code" class="code">&lt;sourceListMaps&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&lt;sourceListMap&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&lt;sourceElementPath&gt;companyName&lt;/sourceElementPath&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&lt;targetElementPath&gt;parameters/company/companyName&lt;/targetElementPath&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&lt;/sourceListMap&gt;</p>
+        <p Class="Code" class="code">&lt;/sourceListMaps&gt;</p>
+        <p>Using the updated <span style="font-weight: normal;"><a href="actionBatchXml_methodInputs.htm">methodInputs</a> <a href="actionBatchXml_parameters.htm">parameters</a></span>, the method 
+ call is made on the object that<span style="font-weight: normal;"><a href="actionBatchXml_logicalObjectName.htm">logicalObjectName </a></span>and 
+ <span style="font-weight: normal;"><a href="actionBatchXml_logicalMethodName.htm">logicalMethodName</a></span> 
+ point to. In this case, company.insert is called to insert a new company 
+ in the database with phone and address objects. <a href="actionBatchExecute_ErrorHandling.htm">Error-handling</a> 
+ behavior is determined by the value of <a href="actionBatchXml_onFailure.htm">onFailure</a>.</p>
+        <p>XML for company.insert action</p>
+        <p Class="Code" class="code">&lt;action&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;onFailure&gt;stop&lt;/onFailure&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;id&gt;a0&lt;/id&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;logicalObjectName&gt;company&lt;/logicalObjectName&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;logicalMethodName&gt;insert&lt;/logicalMethodName&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;methodInputs&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;parameters&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;company objectType="company"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;secondaryId/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;locked/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;assignedId/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailAddress/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;url/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;companyName/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sourceId/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;statusId/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;companyTypeCode/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;companySubTypeCode/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;familyId/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;parentId/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;parentName/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryContactId/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;contactFirstName/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;contactLastName/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;divisionCode/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sicCode/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;marketSector/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;taxId/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;dunnsNumber/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;privateAccess/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;readOnlyAccess/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateBy/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateDate/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;lockedBy/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;alertId/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;user1/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;user2/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;user3/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;user4/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;user5/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;user6/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;user7/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;user8/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;user9/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;user10/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onyxTimestamp/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;phones objectType="phone" collection="1"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;phone objectType="phone" action="insert"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primary&gt;1&lt;/primary&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerId/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerType&gt;2&lt;/ownerType&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;phoneTypeId/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;phoneNumber/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;readOnlyAccess/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;privateAccess/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateBy/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateDate/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;locked/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onyxTimestamp/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/phone&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/phones&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;addresses objectType="address" collection="1"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;address objectType="address" action="insert"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primary&gt;1&lt;/primary&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerId/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerType&gt;2&lt;/ownerType&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;addressTypeId/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;salutation/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;firstName/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;middleName/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;lastName/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;suffix/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;companyName/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;address1/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;address2/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;address3/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;address4/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;address5/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;city/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;regionCode/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;countryCode/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;postCode/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;validAddress/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;readOnlyAccess/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;privateAccess/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;private/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateBy/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateDate/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;locked/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onyxTimestamp/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/address&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/addresses&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/company&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/parameters&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;customData/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/methodInputs&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;sourceListMaps&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;sourceListMap&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sourceElementPath&gt;companyName&lt;/sourceElementPath&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;targetElementPath&gt;parameters/company/companyName&lt;/targetElementPath&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/sourceListMap&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/sourceListMaps&gt;</p>
+        <p Class="Code" class="code">&lt;/action&gt;</p>
+    </body>
+</html>

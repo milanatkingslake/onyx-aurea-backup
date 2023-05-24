@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="5" MadCap:lastHeight="831" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h3>Configuring Bulk Actions</h3>
+        <p>List Manager result sets are often generated for the purpose of processing multiple OEP records at a single time. The availability of these bulk actions (sometimes also referred to as customer processes), is configurable through an XML file located on the OEP server.</p>
+        <p>The file is named lm_bulkaction.xml and is located at within the YourOEPwebsite/listmanager folder. An excerpt from the file appears below: </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>&lt;bulkActions&gt;</code>
+                    </p>
+                    <p> <code>&lt;bulkAction id="exportExcel"&gt;</code></p>
+                    <p><code> &lt;views&gt;</code>
+                    </p>
+                    <p><code> &#160;&lt;view&gt;all&lt;/view&gt;</code>
+                    </p>
+                    <p><code> &lt;/views&gt;</code>
+                    </p>
+                    <p><code> &lt;platforms&gt;</code>
+                    </p>
+                    <p> <code>&lt;platform&gt;all&lt;/platform&gt;</code></p>
+                    <p> &#160;<code>&lt;/platforms&gt;</code></p>
+                    <p><code> &lt;/bulkAction&gt;</code>
+                    </p>
+                    <p><code>...</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>Each bulk action is represented by a bulkAction element within the XML. The id attribute identifies the bulk action to configure. These identifiers are coded into the list manager feature and should not be changed.</p>
+        <p>Each bulkAction element can have two children, views and platforms. The views element identifies the views with which the bulk action is usable. Views can be identified by number (from the value of the primaryId column where the view is defined in OES Table Administration), or all views can be associated with the action by creating one child view element that contains the word 'all' (as shown above).</p>
+        <p>The platforms element contains the names of the platforms with which the bulk action is usable. The valid values are 'oracle' and 'all'. The 'mssql' value is not valid for this release of OEP. Note that these values are case-sensitive. </p>
+        <p>The actions appear in a drop-down list in the list manager interface in the order they are listed in the XML file. Actions do not appear in the list if they do not have the proper permissions identified within the file. To remove an action from the UI completely, do not assign it any views or platforms (or remove it from the file). </p>
+        <p>The following example configures the 'Create a literature order for selected items' bulk action by limiting it to the Individuals view.</p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>&lt;bulkAction id="literature"&gt;</code>
+                    </p>
+                    <p>&#160;&#160;<code>&lt;views&gt;</code></p>
+                    <p> &#160;<code>&lt;view&gt;1&lt;/view&gt;</code></p>
+                    <p>&#160;&#160;<code>&lt;/views&gt;</code></p>
+                    <p><code>&lt;platforms&gt;</code>
+                    </p>
+                    <p><code> &lt;platform&gt;oracle&lt;/platform&gt;</code>
+                    </p>
+                    <p>&#160;&#160;<code>&lt;/platforms&gt;</code></p>
+                    <p><code>&lt;/bulkAction&gt;</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

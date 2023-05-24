@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="844" MadCap:lastWidth="678" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Action Batch Processing</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>Action Batch Processing</h4>
+        <p>Batch subsystems use the following attributes to retrieve 
+ and process action batches: </p>
+        <ul>
+            <li>Subsystem operation window</li>
+            <li>Subsystem run interval</li>
+            <li>Subsystem governor interval</li>
+            <li>Subsystem active status</li>
+            <li>Action batch status</li>
+            <li>Action batch XML</li>
+            <li>Action batch processing dates</li>
+        </ul>
+        <p>The following sections define these attributes. </p>
+        <p><b class="Bold" style="font-weight: bold;">Operation window.</b> A subsystem's 
+ operation window is the time frame within which the subsystem processes 
+ action batches. You can configure the subsystem to process 24 hours a 
+ day or just within a specified time period that is defined by the Start 
+ Time and Stop Time settings. To configure a subsystem to process 24 hours 
+ a day, set both the Start Time and Stop Time to 00:00. </p>
+        <p><b class="Bold" style="font-weight: bold;">Run interval.</b> The run interval 
+ is the time between subsystem checks of the new batches queue for batches 
+ with a status of new. The interval is defined by the Run Interval setting in OPS Administration. During this time, 
+ the subsystem continuously retrieves and processes action batches as long 
+ as the New Batches queue has items with New status. If the queue has no 
+ such items, the subsystem waits for the period of time defined by Run 
+ Interval before checking the queue again. </p>
+        <p><b class="Bold" style="font-weight: bold;">Governor interval.</b> The governor 
+ interval determines the speed at which the batch subsystem makes OEAS 
+ calls. To process an action batch, the subsystem makes calls to OEAS. 
+ Thousands of calls may be necessary, which can overwhelm OEAS and degrade 
+ system performance. The interval is how long in milliseconds that the 
+ subsystem waits between calls to OEAS. </p>
+        <p><b class="Bold" style="font-weight: bold;">Active status.</b> You can configure 
+ a subsystem as active or inactive using OPS Administration. When the OPS 
+ service is started, active subsystems also start while inactive subsystems 
+ do not. </p>
+        <p>However, you can explicitly start an inactive subsystem. When the OPS 
+ service is stopped or paused, all subsystems with a status of started, 
+ regardless of active status, also stop or pause accordingly. </p>
+        <p><b class="Bold" style="font-weight: bold;"><span class="Bold" style="font-weight: bold;">Action 
+ batch</span> status.</b> The action batch status tracks action-batch 
+ processing. Like fulfillment subsystems, batch subsystems process only 
+ action batches whose status is New. When the subsystem retrieves a New 
+ action batch for processing, the action batch’s status is updated to In 
+ Process. When processing of the action batch completes successfully, the 
+ status is updated to Completed. In the event of a failure, the status 
+ is updated to Error. </p>
+        <p><b class="Bold" style="font-weight: bold;">Action batch XML.</b> The action batch 
+ XML contains the information that defines which OEAS method calls are 
+ executed by the batch subsystem for an action batch. A batch subsystem 
+ might make multiple calls to OEAS when processing an action batch. </p>
+        <p><b class="Bold" style="font-weight: bold;">Processing dates. </b>The batch subsystem 
+ processes action batches first-in-first-out. If the action batch has a 
+ scheduled process date that occurs in the future, the subsystem waits 
+ until that date to process the action batch. </p>
+    </body>
+</html>

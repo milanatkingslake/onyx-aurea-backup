@@ -1,0 +1,2686 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="848" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>retrieveListHistory (customer)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="retrieveListHistory" />retrieveListHistory method</h2>
+        <p>The retrieveListHistory method of the <a href="customer_object.htm">customer</a> 
+ object retrieves a list, sorted by last update date, of recent customer 
+ activity consolidated from: Attachments, Campaigns, Comments, Incidents, 
+ Literature Orders, Products, Surveys, Tasks, Scripts, and Work Tickets 
+ data. The data is returned as a rowSet object in the XML. The rowSet object 
+ has the same overall structure for all activities, but certain column 
+ definitions change depending upon which activity's data is returned. See 
+ the Remarks section.</p>
+        <h3>Parameters</h3>
+        <table>
+            <col style="width: 4cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 4cm;" />
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Direction</th>
+                    <th>Data type</th>
+                    <th>Content type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">primaryId<br />(required)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">in</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">string</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Specifies which company (companyId) or individual 
+ (individualId) to search for</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">objectType<br />(required)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">in</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">i4</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Specifies customer type to search for: individual 
+ = 1, company = 2</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">historyStartDate<br />(required)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">in</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">dateTime</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Specifies the date to start building the 
+ history list from. Only records with an update date greater than or equal 
+ to this date are retrieved</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">rowSet</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">out</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">object</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">all(out)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Contains returned XML consisting of a columnDefinitions 
+ collection and a rows collection representing each record in the database 
+ that matches the specified input XML search criteria</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Columns returned in the rowSet object
+</p>
+        <table>
+            <col style="width: 5cm;" />
+            <col style="width: 5cm;" />
+            <col style="width: 7cm;" />
+            <thead>
+                <tr>
+                    <th>columnOrdinal</th>
+                    <th>columnName</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">primaryId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">The unique value that identifies the company</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">2</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">secondaryId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">The user-friendly ID that identifies the 
+ company</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">3</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">objectTypeId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">The numeric value (object enumeration id) 
+ that identifies an object</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">4</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">categoryId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">*Changes depending on the object type</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">5</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">description</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">*Changes depending on the object type</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">6</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">additionalData1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">*Changes depending on the object type</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">7</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">additionalData2</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">*Changes depending on the object type</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">8</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">status</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">*Changes depending on the object type</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">9</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">assignedId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">*Changes depending on the object type</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">10</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">privateAccess</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">*The private access flag<br />(Not all object types have this property.)</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">11</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">readOnly</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">*The read-only flag<br />(Not all object types have this property.)</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">12</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">updateBy</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">The name of the user who last updated the 
+ record</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">13</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">updateDate</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">The date the record was last updated</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">14</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">onyxTimestamp</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">The onyxTimestamp</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>*See the object specific history rowSet content tables, listed by feature, 
+ following this table.</p>
+        <p>
+            View the Attachments history rowSet content table
+        </p>
+        <table wrapperparagraphselector="P" style="width: 100%;border-spacing: 0px;border-spacing: 0px;" width="100%">
+            <col />
+            <col style="width: 17.55%;" />
+            <col style="width: 27.318%;" />
+            <col style="width: 37.086%;" />
+            <thead>
+                <tr>
+                    <th>columnOrdinal</th>
+                    <th>columnName</th>
+                    <th>Physical column</th>
+                    <th>Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">1</p>
+                    </td>
+                    <td style="width: 17.55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17.55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">primaryId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 27.318%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="27.318%">
+                        <p class="Table_Text" style="margin-bottom: 0;">file_link.file_link_id</p>
+                    </td>
+                    <td style="width: 37.086%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="37.086%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The fileLink primary Id</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">2</p>
+                    </td>
+                    <td style="width: 17.55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17.55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">secondaryId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 27.318%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="27.318%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 37.086%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="37.086%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">3</p>
+                    </td>
+                    <td style="width: 17.55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17.55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">objectTypeId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 27.318%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="27.318%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 37.086%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="37.086%">
+                        <p class="Table_Text" style="margin-bottom: 0;">542</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">4</p>
+                    </td>
+                    <td style="width: 17.55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17.55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">categoryId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 27.318%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="27.318%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 37.086%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="37.086%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">5</p>
+                    </td>
+                    <td style="width: 17.55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17.55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">description</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 27.318%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="27.318%">
+                        <p class="Table_Text" style="margin-bottom: 0;">file_link.title</p>
+                    </td>
+                    <td style="width: 37.086%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="37.086%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The title of the attachment</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">6</p>
+                    </td>
+                    <td style="width: 17.55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17.55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">additionalData1</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 27.318%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="27.318%">
+                        <p class="Table_Text" style="margin-bottom: 0;">
+                        </p>
+                    </td>
+                    <td style="width: 37.086%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="37.086%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">7</p>
+                    </td>
+                    <td style="width: 17.55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17.55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">additionalData2</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 27.318%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="27.318%">
+                        <p class="Table_Text" style="margin-bottom: 0;">
+                        </p>
+                    </td>
+                    <td style="width: 37.086%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="37.086%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">8</p>
+                    </td>
+                    <td style="width: 17.55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17.55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">status</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 27.318%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="27.318%">
+                        <p class="Table_Text" style="margin-bottom: 0;">
+                        </p>
+                    </td>
+                    <td style="width: 37.086%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="37.086%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">9</p>
+                    </td>
+                    <td style="width: 17.55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17.55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">assignedId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 27.318%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="27.318%">
+                        <p class="Table_Text" style="margin-bottom: 0;">
+                        </p>
+                    </td>
+                    <td style="width: 37.086%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="37.086%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">10</p>
+                    </td>
+                    <td style="width: 17.55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17.55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">privateAccess</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 27.318%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="27.318%">
+                        <p class="Table_Text" style="margin-bottom: 0;">file_link.private_access</p>
+                    </td>
+                    <td style="width: 37.086%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="37.086%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The private access flag on the fileLink record</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">11</p>
+                    </td>
+                    <td style="width: 17.55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17.55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">readOnly</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 27.318%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="27.318%">
+                        <p class="Table_Text" style="margin-bottom: 0;">file_link.read_only_access</p>
+                    </td>
+                    <td style="width: 37.086%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="37.086%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The read-only flag on the fileLink record</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">12</p>
+                    </td>
+                    <td style="width: 17.55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17.55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">updateBy</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 27.318%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="27.318%">
+                        <p class="Table_Text" style="margin-bottom: 0;">file_link.update_by</p>
+                    </td>
+                    <td style="width: 37.086%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="37.086%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The name of the user who last updated the 
+ fileLink record</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">13</p>
+                    </td>
+                    <td style="width: 17.55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17.55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">updateDate</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 27.318%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="27.318%">
+                        <p class="Table_Text" style="margin-bottom: 0;">file_link.update_date</p>
+                    </td>
+                    <td style="width: 37.086%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="37.086%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The date fileLink record was last updated</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">14</p>
+                    </td>
+                    <td style="width: 17.55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17.55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">onyxTimestamp</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 27.318%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="27.318%">
+                        <p class="Table_Text" style="margin-bottom: 0;">file_link.onyx_timestamp</p>
+                    </td>
+                    <td style="width: 37.086%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="37.086%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The timestamp on the fileLink record</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Campaign history rowSet content table
+        </p>
+        <table wrapperparagraphselector="P" style="width: 100%;border-spacing: 0px;border-spacing: 0px;" width="100%">
+            <col />
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>columnOrdinal</th>
+                    <th>columnName</th>
+                    <th>Physical column</th>
+                    <th>Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">1</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">primaryId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">owner_campaign.owner_campaign_id</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The customer campaign primary Id</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">2</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">secondaryId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">owner_campaign.secondary_id</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The customer campaign secondary Id</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">3</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">objectTypeId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">173</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">4</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">categoryId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">5</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">description</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">tracking_code_ml_view.tracking_name</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The tracking code name</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">6</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">additionalData1</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">7</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">additionalData2</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">8</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">status</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">milestone_action_ml_view.milestone_action_name</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The last action of the campaign to be completed 
+ (maximum timestamp)</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">9</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">assignedId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">10</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">privateAccess</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">owner_campaign.private_access</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The private access flag on the customer campaign</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">11</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">readOnly</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">owner_campaign.read_only_access</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The read-only flag on the customer campaign</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">12</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">updateBy</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">owner_campaign.update_by</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The name of the user who last updated the 
+ campaign record</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">13</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">updateDate</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">owner_campaign.update_date</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The date the campaign record was last updated</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">14</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">onyxTimestamp</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">owner_campaign.onyx_timestamp</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The onyxTimestamp on the customer campaign</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Comments history rowSet content table
+        </p>
+        <table wrapperparagraphselector="P" style="width: 100%;border-spacing: 0px;border-spacing: 0px;" width="100%">
+            <col />
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>columnOrdinal</th>
+                    <th>columnName</th>
+                    <th>Physical column</th>
+                    <th>Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">1</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">primaryId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">note.note_id</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The note primary Id</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">2</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">secondaryId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">note.secondary_id</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The note secondary Id</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">3</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">objectTypeId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">178</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">4</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">categoryId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">5</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">description</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">note.note_desc</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The note title</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">6</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">additionalData1</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">7</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">additionalData2</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">8</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">status</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">9</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">assignedId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">10</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">privateAccess</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">note.private_access</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The private access flag on the note record</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">11</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">readOnly</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">note.read_only_access</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The read-only flag on the note record</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">12</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">updateBy</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">note.update_by</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The name of the user who last updated the 
+ note record</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">13</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">updateDate</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">note.update_date</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The date the note record was last updated</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">14</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">onyxTimestamp</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">note.onyx_timestamp</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The onyxTimestamp on the note record</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Incident history rowSet content table
+        </p>
+        <table wrapperparagraphselector="P" style="width: 100%;border-spacing: 0px;border-spacing: 0px;" width="100%">
+            <col />
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>columnOrdinal</th>
+                    <th>columnName</th>
+                    <th>Physical column</th>
+                    <th>Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">1</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">primaryId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">incident.incident_id</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The incident primary Id</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">2</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">secondaryId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">incident.secondary_id</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The incident secondary Id</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">3</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">objectTypeId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">6</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">4</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">categoryId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">incident.incident_category_did</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The incident category Id</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">5</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">description</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">incident.desc1</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The incident description</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">6</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">additionalData1</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">7</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">additionalData2</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">8</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">status</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">reference_parameter_ml_view.parameter_desc</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The incident status description</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">9</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">assignedId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">incident.assigned_to</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The name of the user assigned to the incident</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">10</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">privateAccess</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">incident.private_access</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The private access flag on the incident</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">11</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">readOnly</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">incident.read_only</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The read-only flag on the incident</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">12</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">updateBy</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">incident.update_by</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The name of the user who last updated the 
+ incident</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">13</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">updateDate</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">incident.update_date</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The date the incident record was last updated</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">14</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">onyxTimestamp</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">incident.onyx_timestamp</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The onyxTimestamp on the incident</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Literature history rowSet content table
+        </p>
+        <table wrapperparagraphselector="P" style="width: 100%;border-spacing: 0px;border-spacing: 0px;" width="100%">
+            <col />
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>columnOrdinal</th>
+                    <th>columnName</th>
+                    <th>Physical column</th>
+                    <th>Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">1</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">primaryId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">literature_order_header.literature_order_header_id</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The order header primary Id</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">2</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">secondaryId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">literature_order_header.secondary_id</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The order header secondary Id</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">3</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">objectTypeId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">125</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">4</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">categoryId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">5</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">description</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">product_ml_view.product_desc</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The description of the last submitted order 
+ item (maximum line number)</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">6</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">additionalData1</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">product_ml_view.alternate_product_number</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The product number of the last submitted 
+ order item (maximum line number)</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">7</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">additionalData2</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">8</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">status</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">order_line_status_ml_view.order_line_status_desc</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The status description of the last submitted 
+ order item</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">9</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">assignedId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">10</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">privateAccess</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">literature_order_header.private_access</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The private access flag on the order header 
+ record</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">11</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">readOnly</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">literature_order_header.read_only</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The read-only flag on the order header record</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">12</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">updateBy</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">literature_order_header.update_by</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The name of the user who last updated the 
+ order header record</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">13</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">updateDate</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">literature_order_header.update_date</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The date the order header record was last 
+ updated</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">14</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">onyxTimestamp</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">literature_order_header.onyx_timestamp</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The onyxTimestamp on the order header record</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Product history rowSet content table
+        </p>
+        <table wrapperparagraphselector="P" style="width: 100%;border-spacing: 0px;border-spacing: 0px;" width="100%">
+            <col />
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>columnOrdinal</th>
+                    <th>columnName</th>
+                    <th>Physical column</th>
+                    <th>Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">1</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">primaryId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">product_header.product_header_id</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The customer product primary Id</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">2</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">secondaryId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">product_header.secondary_id</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The customer product secondary Id</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">3</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">objectTypeId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">3</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">4</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">categoryId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">5</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">description</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">product_ml_view.product_desc</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The product description</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">6</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">additionalData1</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">product_ml_view.alternate_product_number</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The product number</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">7</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">additionalData2</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">8</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">status</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">reference_parameter_ml_view.parameter_desc</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The product status description</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">9</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">assignedId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">10</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">privateAccess</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">product_header.private_access</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The private access flag on the customer product 
+ record</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">11</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">readOnly</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">product_header.read_only_access</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The read-only flag on the customer product 
+ record</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">12</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">updateBy</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">product_header.update_by</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The name of the user who last updated the 
+ customer product record</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">13</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">updateDate</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">product_header.update_date</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The date the customer product record was 
+ last updated</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">14</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">onyxTimestamp</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">product_header.onyx_timestamp</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The onyxTimestamp on the customer product 
+ record</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Scripting history rowSet content table
+        </p>
+        <table wrapperparagraphselector="P" style="width: 100%;border-spacing: 0px;border-spacing: 0px;" width="100%">
+            <col />
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>columnOrdinal</th>
+                    <th>columnName</th>
+                    <th>Physical column</th>
+                    <th>Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">1</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">primaryId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">script_session.script_session_id</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The script session primary Id</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">2</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">secondaryId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">3</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">objectTypeId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">198</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">4</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">categoryId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">5</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">description</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">script_ml_view.script_name</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The script name</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">6</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">additionalData1</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">7</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">additionalData2</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">8</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">status</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">reference_parameter_ml_view.parameter_desc</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The script session status description</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">9</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">assignedId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">script_session.assigned_to</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The name of the user assigned to the script 
+ session</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">10</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">privateAccess</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">11</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">readOnly</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">12</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">updateBy</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">script_session.update_by</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The name of the user name who last updated 
+ the script session record</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">13</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">updateDate</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">script_session.update_date</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The date the script session record was last 
+ updated</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">14</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">onyxTimestamp</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">script_session.onyx_timestamp</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The onyxTimestamp on the script session record</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Survey history rowSet content table
+        </p>
+        <table wrapperparagraphselector="P" style="width: 100%;border-spacing: 0px;border-spacing: 0px;" width="100%">
+            <col />
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>columnOrdinal</th>
+                    <th>columnName</th>
+                    <th>Physical column</th>
+                    <th>Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">1</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">primaryId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">owner_survey_association.owner_survey_association_id</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The survey association primary Id</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">2</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">secondaryId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">owner_survey_association.</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The survey Id</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">3</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">objectTypeId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">520</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">4</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">categoryId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">5</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">description</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">survey_ml_view.survey_desc</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The survey name</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">6</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">additionalData1</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">7</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">additionalData2</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">8</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">status</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">9</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">assignedId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">10</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">privateAccess</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">owner_survey_association.private_access</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The private access flag on the survey association 
+ record</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">11</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">readOnly</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">owner_survey_association.read_only_access</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The read-only flag on the survey association 
+ record</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">12</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">updateBy</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">owner_survey_association.update_by</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The name of the user name who last updated 
+ the survey association record</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">13</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">updateDate</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">owner_survey_association.update_date</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The date the survey record was last updated</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">14</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">onyxTimestamp</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">owner_survey_association.onyx_timestamp</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The onyxTimestamp on the survey association 
+ record</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Work Ticket history rowSet content table
+        </p>
+        <table wrapperparagraphselector="P" style="width: 100%;border-spacing: 0px;border-spacing: 0px;" width="100%">
+            <col />
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>columnOrdinal</th>
+                    <th>columnName</th>
+                    <th>Physical column</th>
+                    <th>Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">1</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">primaryId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">work_ticket.work_ticket_id</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The work ticket primary Id</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">2</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">secondaryId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">work_ticket.secondary_id</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">Work ticket secondary Id</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">3</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">objectTypeId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">10</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">4</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">categoryId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">5</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">description</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">work_ticket.description</p>
+                        <p class="Table_Text">
+                        </p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The work ticket description</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">6</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">additionalData1</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">7</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">additionalData2</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">8</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">status</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text">reference_parameter_ml_view.parameter_desc</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The work ticket status description</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">9</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">assignedId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">work_ticket.assigned_to</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The name of the user assigned to the work 
+ ticket</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">10</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">privateAccess</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">work_ticket.private_access</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The private access flag on the work ticket 
+ record</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">11</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">readOnly</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">work_ticket.read_only</p>
+                        <p class="Table_Text">
+                        </p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The read-only flag on the work ticket record</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">12</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">updateBy</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">work_ticket.update_by</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The name of the user who last updated the 
+ work ticket</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">13</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">updateDate</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">work_ticket.update_date</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The date the work ticket record was last 
+ updated</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">14</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">onyxTimestamp</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">work_ticket.onyx_timestamp</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The onyxTimestamp on the work ticket record</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Task history rowSet content table
+        </p>
+        <table wrapperparagraphselector="P" style="width: 100%;border-spacing: 0px;border-spacing: 0px;" width="100%">
+            <col />
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>columnOrdinal</th>
+                    <th>columnName</th>
+                    <th>Physical column</th>
+                    <th>Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">1</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">primaryId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">task.task_id</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The task primary Id</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">2</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">secondaryId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">task.task_secondary_id</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The task secondary Id</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">3</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">objectTypeId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">8</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">4</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">categoryId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">task.category_did</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The task category Id</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">5</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">description</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">task.desc1</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The task description</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">6</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">additionalData1</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">incident.incident_id</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The primary Id of the incident that owns 
+ the task record</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">7</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">additionalData2</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">incident.secondary_id</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The owner incident secondary Id</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">8</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">status</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">reference_parameter_ml_view.parameter_desc</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The task status description</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">9</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">assignedId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">task.assigned_to</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The name of the user assigned to the task</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">10</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">privateAccess</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">task.private_access</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The private access flag on the task record</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">11</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">readOnly</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">task.read_only_access</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The read-only flag on the task record</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">12</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">updateBy</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">task.update_by</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The name of the user who last updated the 
+ task record</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">13</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">updateDate</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">task.update_date</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The date the task record was last updated</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">14</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">onyxTimestamp</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">task.onyx_timestamp</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The onyxTimestamp on the task record</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Steps</h3>
+        <table>
+            <col style="width: 5cm;" />
+            <col style="width: 5cm;" />
+            <col style="width: 7cm;" />
+            <thead>
+                <tr>
+                    <th>Step data</th>
+                    <th>Step type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">OnyxDataValidationStep.DataValidation</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Validates input parameters</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">OnyxDM.DataManager</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Retrieves data defined in the rowSet object</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Remarks</h3>
+        <p>The returned rowSet object contains the columnDefinition for each of 
+ the columns and a collection of customer activity objects that satisfy 
+ the search criteria. The returned rows are sorted by update date not by 
+ object type. Customers that are either marked as private or as deleted 
+ are not returned.</p>
+        <h3>Example</h3>
+        <p>
+            Input Parameter:
+        </p>
+        <p Class="Code" class="C_Code">&lt;parameters&gt;</p>
+        <p Class="Code" class="C_Code">&lt;primaryId&gt;74CAF57C-238E-42D2-81EF-72392EF3B6A0&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;objectType&gt;2&lt;/objectType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;historyStartDate&gt;2000-01-01&lt;/historyStartDate&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/parameters&gt;</p>
+        <p>
+            Output Parameter:
+        </p>
+        <p class="C_Code">&lt;parametersReturn&gt;</p>
+        <p class="C_Code">&lt;rowSet objectType="rowSet" rowCount="1" columnCount="14" pageSize=""&gt;</p>
+        <p class="C_Code">&lt;columnDefinitions collection="1" objectType="columnDefinition"&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Primary ID&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;primaryId&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;1&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;24&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;16&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;ID&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;secondaryId&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;2&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;120&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Category&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;objectTypeId&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;3&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;24&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Category ID&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;categoryId&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;4&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;120&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Description&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;description&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;5&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;104&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Additional Info1&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;additionalData1&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;6&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;104&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Additional Info2&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;additionalData2&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;7&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;104&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Status&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;status&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;8&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;104&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Assigned Name&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;assignedId&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;9&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;104&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;30&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Private&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;privateAccess&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;10&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;120&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;2&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;boolean&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Read Only&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;readOnly&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;11&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;120&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;2&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;boolean&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Update By&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;updateBy&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;12&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;8&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;30&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Updated&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;updateDate&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;13&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;120&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;16&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;dateTime&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;23&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;3&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Onyx Timestamp&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;onyxTimestamp&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;14&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;120&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;8&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;/columnDefinitions&gt;</p>
+        <p class="C_Code">&lt;rows collection="1" objectType="row"&gt;</p>
+        <p class="C_Code">&lt;row&gt;</p>
+        <p class="C_Code">&lt;c0&gt;724C677A-36EE-4805-BC2F-5447F8B70C48&lt;/c0&gt;</p>
+        <p class="C_Code">&lt;c1&gt;1&lt;/c1&gt;</p>
+        <p class="C_Code">&lt;c2&gt;10&lt;/c2&gt;</p>
+        <p class="C_Code">&lt;c3 null="1"&gt;&lt;/c3&gt;</p>
+        <p class="C_Code">&lt;c4&gt;foo&lt;/c4&gt;</p>
+        <p class="C_Code">&lt;c5 null="1"&gt;&lt;/c5&gt;</p>
+        <p class="C_Code">&lt;c6 null="1"&gt;&lt;/c6&gt;</p>
+        <p class="C_Code">&lt;c7 null="1"&gt;&lt;/c7&gt;</p>
+        <p class="C_Code">&lt;c8&gt;System Administrator&lt;/c8&gt;</p>
+        <p class="C_Code">&lt;c9&gt;0&lt;/c9&gt;</p>
+        <p class="C_Code">&lt;c10&gt;0&lt;/c10&gt;</p>
+        <p class="C_Code">&lt;c11&gt;rogerw&lt;/c11&gt;</p>
+        <p class="C_Code">&lt;c12&gt;2006-07-07 17:09:45&lt;/c12&gt;</p>
+        <p class="C_Code">&lt;c13&gt;0000000000004A9B&lt;/c13&gt;</p>
+        <p class="C_Code">&lt;/row&gt;</p>
+        <p class="C_Code">&lt;/rows&gt;</p>
+        <p class="C_Code">&lt;/rowSet&gt;</p>
+        <p class="C_Code">&lt;/parametersReturn&gt;</p>
+    </body>
+</html>

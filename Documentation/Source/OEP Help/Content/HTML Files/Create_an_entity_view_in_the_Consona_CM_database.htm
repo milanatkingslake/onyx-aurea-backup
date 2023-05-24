@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:conditions="Primary.PrintOnly" MadCap:lastBlockDepth="4" MadCap:lastHeight="440" MadCap:lastWidth="644" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="../SkinSupport/MadCap.css" rel="stylesheet" type="text/css" /><title>Creating Entity View in Onyx Database</title>
+        <link href="../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" />
+    </head>
+    <body>
+        <H4 class="Heading">Creating Entity View in Onyx Database</H4>
+        <p class="BodyText">Create the entity view in the <span class="CCM variablesTier - database">Onyx database</span> to include the custom object and fields. For a list of the default views available in the <span class="CCM variablesTier - database">Onyx database</span>, see to <a href="Reference_lists.htm">Entity Views</a>.</p>
+        <p class="TaskHeading">To create an entity view:</p>
+        <ol>
+            <li class="ListBullet_1" value="1">In the <b><span class="CCM variablesTier - database">Onyx database</span></b>, identify the object for which a view needs to be created. You can select an existing object or create a new object.</li>
+            <li class="ListBullet_1" value="2">Create a view for the object.</li>
+        </ol>
+        <p class="BodyTextIndent_2">Include in the view, all the fields that you want to use in the Search Criteria and the Result Grid areas of Navigator. Also include all fields that are required fields for the Logical Business Object (LBO). Ensure that you include languageCode as a field in each view that you create.</p>
+        <ol MadCap:continue="true">
+            <li class="ListBullet_1" value="3">If you are adding a reference field to the view, you must include one more line in the view, in the following format:</li>
+        </ol>
+        <p class="BodyTextIndent_2">[ReferenceTableAlias].[field_name] AS [FieldAlias]Sort</p>
+        <p class="BodyTextIndent_2">This will enable the selected Sort By option to be saved when the query is saved.</p>
+        <ol MadCap:continue="true">
+            <li class="ListBullet_1" value="4">Execute the newly created view against the <span class="CCM variablesProduct - CCM Suite (abbrev)">Onyx</span> database.</li>
+            <li class="ListBullet_1" value="5">Be sure that the newly created view has <b>Select Grant</b> permission for the <b>OnyxLMViews</b> role.</li>
+        </ol>
+    </body>
+</html>

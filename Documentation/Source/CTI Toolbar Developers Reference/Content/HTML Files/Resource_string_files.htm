@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" class="" MadCap:lastBlockDepth="6" MadCap:lastHeight="856" MadCap:lastWidth="624">
+    <head><title>Resource string files</title>
+        <script language="JavaScript">
+        </script>
+        <link href="../Resources/Stylesheets/Aptean_word.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <H4 class="Heading">Resource string files</H4>
+        <p class="BodyText">All connectors use one set of resource string files to define the resource 
+ string IDs and the text (strings) associated with the supported <a href="Enumeration_file.htm">enumeration 
+ values</a>. </p>
+        <table>
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Text strings associated with this enumeration value</th>
+                    <th>Appear in this area of the Onyx CTI interface </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Agent state enumeration value</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Agent status display in the Onyx CTI toolbar </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Call state enumeration value</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Active call selection list in the Onyx CTI toolbar </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Return code enumeration value </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Error message window</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="BodyText">The resource string files must include any unique resource strings for 
+ your connector to ensure that Onyx CTI can display the correct information 
+ to the users. We recommend that you use copies of the default resource 
+ string files as your starting point when building a new connector. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">To confirm that your changes appear as expected, delete the 
+ files in Internet Explorer's Temporary Internet Files folder. </p>
+        <p class="BodyText">Full paths of the default resource string files, where 
+ <span style="font-style: italic;">YourOEPwebsite </span>is your OEP installation 
+ directory and <span style="font-style: italic;">language</span> is the 
+ language-specific folder (such as "eng"): </p>
+        <ul style="list-style: disc;" type="disc">
+            <li class="ListBullet"><code>YourOEPwebsite\language\cti\ctitoolbar.xml</code>
+            </li>
+            <li class="ListBullet"><code style="font-style: normal;">YourOEPwebsite</code><code>\</code><code style="font-style: normal;">language</code><code>\cti\ctidialogs.xml</code>
+            </li>
+        </ul>
+        <p class="BodyText">Example <code>(ctidialogs.xml file):</code> </p>
+        <p class="C_Code">&lt;strings&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&lt;!-- Error strings --&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&lt;string name="ctiError" text="Error"/&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&lt;string name="ctiWarning" text="Warning"/&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;...</p>
+        <p class="C_Code">&lt;/strings&gt;</p>
+        <p class="BodyText">The following table describes the elements of the resource string files: </p>
+        <table>
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Element</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">strings</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Root element. Contains the collection of string elements. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">string</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Contains the definition information for the identified 
+ resource string. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="BodyText">The following table describes the attributes of the resource string 
+ files: </p>
+        <table>
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Attribute</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">name</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Identifies the resource string (lists the resource string 
+ ID). </p>
+                        <p class="Table_Text">When modifying or creating resource string IDs for agent 
+ states, call states, or return codes, ensure that the resource strings 
+ are also represented in the <a href="Enumeration_file.htm">enumeration 
+ file</a> (messageName attribute). The enumeration file defines the enumerations 
+ supported by your custom connector. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">text</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies the text string to be displayed in the Onyx 
+ CTI interface for this resource string.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

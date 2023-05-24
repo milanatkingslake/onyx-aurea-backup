@@ -1,0 +1,323 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="8" MadCap:lastHeight="785" MadCap:lastWidth="624">
+    <head>
+        <H2 class="Heading">Installing and upgrading </H2>
+    </head>
+    <body>
+        <h1>Installation Procedure</h1>
+        <p class="BodyText">The installation / upgrade process involves the following steps: </p>
+        <ul>
+            <li class="ListBullet"><a href="Clean_the_migrat.htm">Step 1: Clean the migrated  data for upgrade </a>
+            </li>
+            <li class="ListBullet"><a href="#Chapter01_644126718_58111">Step 2: Install the vendor-specific custom connector </a>
+            </li>
+            <li class="ListBullet"><a href="#Chapter01_644126718_62360">Step 3 : Configure access to the  toolbar </a>
+            </li>
+            <li class="ListBullet"><a href="#Point_the_toolbar_to_the_custom_connector">Step 4: Point the toolbar to the custom connector </a>
+            </li>
+        </ul>
+        <h1 style="page-break-before: avoid;">Step 1: Clean the migrated Onyx CTI data for upgrade </h1>
+        <p class="BodyText">If you are upgrading Onyx CTI, you must clean the data in the Onyx CTI tables on the <MadCap:variable name="CCM variables.Document - Version number" />&#160;OEDB before installing Onyx CTI files. Cleaning ensures that data conforms with the <MadCap:variable name="CCM variables.Document - Version number" />&#160;OEDB’s more extensive referential integrity constraints and that the data is thus upgraded. </p>
+        <p class="BodyText">The script used in this step identifies referential integrity issues of data in the Onyx CTI tables. Correct the issues and rerun the script until issues are no longer identified. The script  automatically fixes issues related to the use of the invalid user ID OnyxEASSQL during installation of Onyx CTI&#160;<MadCap:variable name="CCM variables.Document - Version number" />. </p>
+        <p class="BodyText">Only the clean data will be upgraded to Onyx CTI <MadCap:variable name="CCM variables.Document - Version number" />. Upgrading of clean data occurs automatically during installation of Onyx CTI files to the OEDB.</p>
+        <p class="BodyText">Onyx CTI can be installed both by running the <code>.exe</code> and in the silent mode. Refer to the following steps  for installation</p>
+        <p><a href="#Toruntheinstallationwizard">To  install using .exe</a>
+        </p>
+        <p><a href="#To_Run_in_the_Silent_Mode">To run in the silent mode</a>
+        </p>
+        <ol>
+            <li class="ListBullet" MadCap:conditions="FrontMatter.Comment">Copy the pre-upgrade script from the Onyx CTI product CD to a local machine (the <MadCap:variable name="CCM variables.Document - Version number" />&#160;OEDB server or a separate machine). <br />Full path:<code>&lt;CD&#160;directory&gt;\Onyx&#160;CTI\Setup\Database\source\UpgradeScripts\cti_pre-upgrade.sql </code></li>
+            <li class="ListBullet" MadCap:conditions="FrontMatter.Comment">Run the upgrade validation script. </li>
+            <li class="ListBullet" MadCap:conditions="FrontMatter.Comment">If the output contains errors, update (correct) the related data and rerun the script. Continue until the output contains no errors. </li>
+        </ol>
+        <MadCap:pageBreak />
+        <p><a name="Toruntheinstallationwizard"></a><b>To install Customer Telephone Interface </b>
+        </p>
+        <ol>
+            <li>Copy the <b>CTI</b> folder to your server from <b>Platform Components </b>&gt;<b> Web server</b> from the Onyx <MadCap:variable name="Aptean_Variables.Version number" /> installation package.</li>
+            <li>Run <b>CTI.exe</b>.</li>
+        </ol>
+        <p class="Indent1">The <b>Customer Telephone Interface Welcome</b> window appears.</p>
+        <p class="Image">
+            <img src="Installation_Wiz.png" style="border-left-style: solid;border-left-width: 1px;border-left-color: ;border-right-style: solid;border-right-width: 1px;border-right-color: ;border-top-style: solid;border-top-width: 1px;border-top-color: ;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: ;" />
+        </p>
+        <ol MadCap:continue="true">
+            <li>Click <b>Next</b>.</li>
+        </ol>
+        <p class="Indent1">The <b>Custom Setup</b> window appears.</p>
+        <p class="Indent1">If <b>OEAS</b> server and <b>OEP</b>  server are installed on the same computer, then  all default features are selected.</p>
+        <p class="Image">
+            <img src="Customsetup.png" style="border-left-style: solid;border-left-width: 1px;border-left-color: ;border-right-style: solid;border-right-width: 1px;border-right-color: ;border-top-style: solid;border-top-width: 1px;border-top-color: ;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: ;" />
+        </p>
+        <p class="Indent1">If <b>OEAS</b>&#160;and <b>OEP</b> servers are instaled on different computers, copy the installer to <b>OEAS</b> server and deselect <b>OEP</b> as shown in the following image.</p>
+        <p class="Image">
+            <img src="Different Servers.png" style="border-left-style: solid;border-left-width: 1px;border-left-color: ;border-right-style: solid;border-right-width: 1px;border-right-color: ;border-top-style: solid;border-top-width: 1px;border-top-color: ;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: ;" />
+        </p>
+        <ol MadCap:continue="true">
+            <li>Click <b>Next</b>.</li>
+        </ol>
+        <p class="Indent1">The <b>Database Server</b> window appears.</p>
+        <p class="Image">
+            <img src="database server and authentication method.png" style="border-left-style: solid;border-left-width: 1px;border-left-color: ;border-right-style: solid;border-right-width: 1px;border-right-color: ;border-top-style: solid;border-top-width: 1px;border-top-color: ;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: ;" />
+        </p>
+        <ol MadCap:continue="true">
+            <li>Specify the following details and click <b>Next</b>.</li>
+        </ol>
+        <table>
+            <col style="width: 192px;" />
+            <col />
+            <tbody>
+                <tr>
+                    <th>Field</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Server</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">OEDB Server name </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Login</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">User Name with Administrator Privileges</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Password</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Password for the User Name</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Database</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"> OEDB name</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="Indent1">The <b>Logical Application</b> window appears.</p>
+        <p class="Image">
+            <img src="Logical Application.png" style="border-left-style: solid;border-left-width: 1px;border-left-color: ;border-right-style: solid;border-right-width: 1px;border-right-color: ;border-top-style: solid;border-top-width: 1px;border-top-color: ;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: ;" />
+        </p>
+        <ol MadCap:continue="true">
+            <li>Click <b>Next</b>.</li>
+        </ol>
+        <p class="Indent1">The <b>Destination Folder for OEP</b> window appears.</p>
+        <p class="Image">
+            <img src="OEP destination folder.png" style="border-left-style: solid;border-left-width: 1px;border-left-color: ;border-right-style: solid;border-right-width: 1px;border-right-color: ;border-top-style: solid;border-top-width: 1px;border-top-color: ;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: ;" />
+        </p>
+        <ol MadCap:continue="true">
+            <li>Retain the default destination or click <b>Change</b> to select a different destination, and then click <b>Next</b>.</li>
+        </ol>
+        <p class="Indent1">The <b>Ready to Install the Program</b> window appears.</p>
+        <p class="Image">
+            <img src="Install Screen.png" style="border-left-style: solid;border-left-width: 1px;border-left-color: ;border-right-style: solid;border-right-width: 1px;border-right-color: ;border-top-style: solid;border-top-width: 1px;border-top-color: ;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: ;" />
+        </p>
+        <ol MadCap:continue="true">
+            <li>Click <b>Install</b>.</li>
+        </ol>
+        <p class="Indent1">When the installation process is complete, the <b>Installation Wizard Completed</b> window appears.</p>
+        <p class="Image">
+            <img src="Finishscreen.png" style="border-left-style: solid;border-left-width: 1px;border-left-color: ;border-right-style: solid;border-right-width: 1px;border-right-color: ;border-top-style: solid;border-top-width: 1px;border-top-color: ;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: ;" />
+        </p>
+        <ol MadCap:continue="true">
+            <li>Click <b>Finish</b>.</li>
+        </ol>
+        <h2>Post Installation Tasks</h2>
+        <p>After completing the CTI installation, perform the following:</p>
+        <ul>
+            <li><a href="#OEAS">OEAS tasks</a>
+            </li>
+            <li style="list-style-type: disc;"><a href="#OEP">OEP tasks</a>
+            </li>
+            <li style="list-style-type: disc;"><a href="#Providin">Providing access to CTI</a>
+            </li>
+        </ul>
+        <h3><a name="OEAS"></a>OEAS tasks:</h3>
+        <ol>
+            <li>Navigate to <b>Start </b>&gt;<b> All programs </b>&gt;<b> Administrative tools </b>&gt;<b> Component Services</b>.</li>
+            <li>Expand <b>Component services </b>&gt;<b> Computers </b>&gt;<b> My computer</b>, and then click <b>COM+ applications</b>.</li>
+            <li>Right-click <b>OnyxEasApp</b>.</li>
+            <li>Click <b>Shutdown</b>.</li>
+            <li>Right-click <b>BusinessRuleManager</b>.</li>
+            <li>Click <b>Shutdown</b>.</li>
+            <li>Perform <b>IISReset</b>.</li>
+            <li>Log on to <b>OES</b>.</li>
+            <li>Log on to <b>OES Object Designer</b>.</li>
+            <li>Expand <b>Logical Business Objects</b>.</li>
+            <li>Make sure that <b>ctiAgentAssociation</b>, <b>ctiConnector</b>, and <b>ctiFrequentPhones</b> are listed.</li>
+            <li>Click the <b>Validate</b> icon.</li>
+        </ol>
+        <p class="Indent1">A confirmation dialog appears after validation is completed.</p>
+        <ol MadCap:continue="true">
+            <li>Click <b>Close</b>.</li>
+            <li>Click the <b>Publish</b> icon.</li>
+        </ol>
+        <p class="Indent1">A confirmation dialog appears.</p>
+        <ol MadCap:continue="true">
+            <li>Click <b>OK</b>.</li>
+        </ol>
+        <p class="Indent1">You are prompted to enter the log on credentials.</p>
+        <ol MadCap:continue="true">
+            <li>Type the SQL user id and password</li>
+        </ol>
+        <ul style="list-style-type: disc;margin-left: 64pt;">
+            <li style="list-style-type: disc;"><b>User ID:</b> This is the user who has access to SQL server.</li>
+            <li style="list-style-type: disc;"><b>Password:</b> The password of the user.</li>
+        </ul>
+        <ol start="15">
+            <li>Click <b>OK</b>.</li>
+        </ol>
+        <p class="Indent1">A confirmation dialog appears after publishing is completed.</p>
+        <ol MadCap:continue="true">
+            <li>Click <b>Close</b>.</li>
+            <li>Shutdown and restart the <b>OnyxEasApp</b> service.</li>
+        </ol>
+        <h3><a name="OEP"></a>OEP Tasks</h3>
+        <ol>
+            <li>Update the <code>mbEnableCTIToolbar</code> attribute value to <b>true</b> in the <code>application_main.js</code> file from the <code>\Program Files\Onyx\EmployeePortal\powerpage</code> folder.</li>
+        </ol>
+        <ol MadCap:continue="true">
+            <li>Log on to <b>OES</b>.</li>
+            <li>Log on to <b>OES Object Designer</b>.</li>
+            <li>Expand <b>Logical Business Objects</b>.</li>
+            <li>Click the <b>Validate</b> icon.</li>
+        </ol>
+        <p class="Indent1">A confirmation dialog appears after validation is completed.</p>
+        <ol MadCap:continue="true">
+            <li>Click <b>Close</b>.</li>
+            <li>Click the <b>Publish</b> icon.</li>
+        </ol>
+        <p class="Indent1">A confirmation dialog appears.</p>
+        <ol MadCap:continue="true">
+            <li>Click <b>OK</b>.</li>
+        </ol>
+        <p class="Indent1">You are prompted to enter the log on credentials.</p>
+        <ol MadCap:continue="true">
+            <li>Type the SQL user id and password</li>
+        </ol>
+        <ul style="list-style-type: disc;margin-left: 64pt;">
+            <li style="list-style-type: disc;"><b>User ID:</b> This is the user who has access to SQL server.</li>
+            <li style="list-style-type: disc;"><b>Password:</b> The password of the user.</li>
+        </ul>
+        <ol start="13">
+            <li>Click <b>OK</b>.</li>
+        </ol>
+        <p class="Indent1">A confirmation dialog appears after publishing is completed.</p>
+        <ol MadCap:continue="true">
+            <li>Click <b>Close</b>.</li>
+            <li>Shutdown and restart the <b>OnyxEasApp</b> service.</li>
+            <li>Perform <b>IISReset</b>.</li>
+        </ol>
+        <h3><a name="Providin"></a>Providing access to CTI</h3>
+        <ol>
+            <li>Start OES.</li>
+            <li>Go to the <b>Security Administration</b> tool.</li>
+            <li>Expand UI resources, and then select the <b>UI:OEP.CTI.Toolbar</b></li>
+            <li>Click <b>Manage Permissions</b>.</li>
+            <li>Add appropriate roles or users.</li>
+            <li>Click <b>Done</b>.</li>
+            <li>Click <b>Save</b> and close OES.</li>
+        </ol>
+        <h2><b><a name="To_Run_in_the_Silent_Mode"></a>To Run in the Silent Mode</b>
+        </h2>
+        <ol>
+            <li>Go to <code>..\Onyx cti\CTISilentsInstall.vbs</code></li>
+            <li>Open the <code>CTISilentsInstall.vbs</code> in Notepad and specify the following </li>
+        </ol>
+        <blockquote>
+            <ul>
+                <li><code>SQLSERVER_SERVER</code> <![CDATA[ ]]></li>
+                <li><code>SQLSERVER_USERNAME</code> <![CDATA[ ]]></li>
+                <li><code>SQLSERVER_DATABASE</code> <![CDATA[ ]]></li>
+                <li><code>INSTALLDIR: ..\Program Files (x86)\Onyx\EmployeePortal</code>
+                </li>
+            </ul>
+        </blockquote>
+        <ol MadCap:continue="true">
+            <li>Open the command prompt as an administrator and navigate to the locatrion ..\Onyx cti\CTISilentsInstall.vbs</li>
+        </ol>
+        <ol start="3" MadCap:continue="true">
+            <li>Click <b>Enter</b> to run <code>CTISilentsInstall.vbs</code></li>
+        </ol>
+        <p>On completion of installation, OES configuration and access control has to be done.</p>
+        <ol>
+            <li><b>Configuration in Onyx in Enterprise Studio</b>
+            </li>
+        </ol>
+        <blockquote>
+            <ol style="list-style-type: lower-alpha;">
+                <li>	Launch Onyx Enterprise Studio and Login to the Table Administration tool.</li>
+                <li>Verify that you can select CTI – Connectors and CTI - Frequent Phones from the Table: dropdown</li>
+            </ol>
+        </blockquote>
+        <p class="Image">
+            <img src="OES_ Verify screen.png" style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;width: 512px;height: 210px;" />
+        </p>
+        <p class="Caption" MadCap:autonum="Figure 1-1: ">Table Drop- down in OES </p>
+        <ol MadCap:continue="true">
+            <li><b>Controlling access to Onyx CT I</b>
+            </li>
+        </ol>
+        <blockquote>
+            <ol style="list-style-type: lower-alpha;">
+                <li>Launch OES and 	Login to the Security Administration tool.</li>
+            </ol>
+        </blockquote>
+        <p class="Image">
+            <img src="OES_Security Elements.png" style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;width: 516px;height: 307px;" />
+        </p>
+        <blockquote>
+            <ol start="2" style="list-style-type: lower-alpha;">
+                <li>Expand <b>UI resources</b>, and select UI:OEP.CTI.Toolbar resource.</li>
+                <li> Click <b>Manage Permissions</b>and add the appropriate roles or users.</li>
+                <li>Click <b>Done</b>.</li>
+                <li>Save your changes and Close OES.</li>
+            </ol>
+            <p class="note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">For Onyx CTI upgrades: If the Onyx CTI toolbar does not appear to be communicating with the sample connector, make sure the default connector set in the main configuration file points to the sample connector’s primaryId. For information about viewing connectors’ primaryId values, see <a href="Adding_connectors_to_the.htm">Adding connectors to the database</a>. For instructions on pointing the Onyx CTI toolbar to the correct primaryId, <a href="Point the toolbar to the custom connector.htm#Point_the_toolbar_to_the_custom_connector">Step 4 : Point the toolbar to the custom connector</a>.</p>
+            <p class="Normal">For information about the sample connector and test tools, see the <span class="BookTitle" style="font-style: italic;">Onyx Computer Telephony Integration Developer’s Reference</span>. </p>
+            <h1 style="page-break-before: avoid;">Step 2: Install the vendor-specific custom <a name="Chapter01_644126718_58111"></a>connector <a name="Chapter01_644126718_1065194"></a></h1>
+            <p class="BodyText" MadCap:conditions="FrontMatter.Comment">In this step, install the connector, as per  instructions from the vendor of the connector. </p>
+            <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">For Onyx CTI upgrades: The CTI Connector data related to your custom connector was migrated during the data migration phase of the OEAS upgrade. (CTI Connector data is displayed in the CTI Connector table in OES Table Administration.) </p>
+            <p class="TaskHeading"><b>To install the vendor-specific custom connector: </b>
+            </p>
+            <ul>
+                <li>Follow the instructions from  the vendor. </li>
+            </ul>
+            <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">You can validate successful installation by confirming that the folder for your custom connector contains the files cticonnector.asp and cticonnector.js. The full path of the connector-specific folder is <span class="user-entered_text" style="font-style: normal;">YourOEPwebsite</span>\cti\<span class="user-entered_text" style="font-style: normal;">YourConnector</span>\, where <span class="user-entered_text" style="font-style: normal;">YourOEPwebsite</span> is your OEP installation directory and <span class="user-entered_text" style="font-style: normal;">YourConnector</span> is the folder containing the code for your connector; the name of this folder typically corresponds to the name of the connector. </p>
+            <MadCap:pageBreak />
+            <h1 style="page-break-before: avoid;"><a name="Chapter01_644126718_1065203"></a><a name="Chapter01_644126718_62360"></a>Step 3: Configure access to the Onyx CTI toolbar </h1>
+            <p class="BodyText">In this step, you configure access to the Onyx CTI toolbar by granting and denying the desired Onyx roles and users permission to the UI:OEP.CTI.Toolbar resource. </p>
+            <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">For Onyx CTI upgrades: The access configuration data from Onyx CTI <MadCap:variable name="CCM variables.Document - Version number" /> was migrated during the data migration phase of the OEAS upgrade. (Access configuration data is displayed in OES Security Administration). </p>
+            <p class="Normal">For instructions, see <a href="Configuring_access_to_th.htm">Configuring access to the  toolbar</a>. </p>
+            <h1 style="page-break-before: avoid;"><a name="Point_the_toolbar_to_the_custom_connector"></a>Step 4: Point the toolbar to the custom connector </h1>
+            <p class="BodyText">In this step, you edit the main configuration file and add the connector to the database. </p>
+            <p class="TaskHeading"><b>To point the toolbar to the custom connector: </b>
+            </p>
+            <ol>
+                <li>Using OES Table Administration, add the custom connector to the database using the connector parameters provided in the vendor instructions. (You can also search the cti_connector.js file provided by the vendor for the JavaScript class name.) <br /></li>
+            </ol>
+            <p class="Indent1">For more instructions, see <a href="Adding_connectors_to_the.htm">Adding connectors to the database</a>.<br /></p>
+            <ol>
+                <li value="2">In the main configuration file, set the defaultConnector element to the primaryId of your custom connector.<br />The full path of the main configuration file is YourOEPwebsite\cti\cti_config.xml, where YourOEPwebsite is your OEP installation directory.</li>
+                <li>To confirm that the Onyx CTI toolbar appears and that it uses the custom CTI connector: </li>
+            </ol>
+            <blockquote>
+                <ol style="list-style-type: lower-alpha;">
+                    <li class="ListBullet_2">On the client machine used to access the toolbar, delete the files in Internet Explorer's Temporary Internet Files folder. </li>
+                    <li class="ListBullet_2">Log on to OEP with the user name and password of a user that has been granted access to the toolbar. (The system administrator is granted toolbar access by default). </li>
+                </ol>
+            </blockquote>
+        </blockquote>
+    </body>
+</html>

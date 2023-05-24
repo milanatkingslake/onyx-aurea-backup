@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="1250" MadCap:lastWidth="702">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Execute (IInternalStringTransactionManager)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>
+            <MadCap:keyword term="execute method;execute" />Execute method</h5>
+        <p>
+            <MadCap:keyword term="IInternalStringTransactionManager" />The Execute method of the IInternalStringTransactionManager interface 
+ enables a .NET step component to nest a call to a logical business object 
+ method within the step component's processing.</p>
+        <h3>Syntax</h3>
+        <p><b>IDL</b>
+        </p>
+        <p Class="Code" class="code">HRESULT&#160;Execute(</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;[in]&#160;BSTR&#160;ApplicationName,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;[in]&#160;BSTR&#160;LogicalObjectName,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;[in]&#160;BSTR&#160;LogicalMethodName,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;[in,&#160;out]&#160;BSTR*&#160;sStepPackageXmlString);</p>
+        <p>IDL parameter descriptions</p>
+        <p>ApplicationName</p>
+        <p class="BodyTextIndent_1">[in] A string that identifies the current application to 
+ use.</p>
+        <p>LogicalObjectName</p>
+        <p class="BodyTextIndent_1">[in] A string that identifies the business object that 
+ contains the called method.</p>
+        <p>LogicalMethodName</p>
+        <p class="BodyTextIndent_1">[in] A string that identifies the business object method 
+ to be called.</p>
+        <p>sStepPackageXmlString</p>
+        <p class="BodyTextIndent_1">[in, out] A XML string that contains the data for the business 
+ object method being called.</p>
+        <p><b>C#</b>
+        </p>
+        <p Class="Code" class="code">public&#160;string&#160;Execute(</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;string&#160;ApplicationName,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;string&#160;LogicalObjectName,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;string&#160;LogicalMethodName,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;ref&#160;string&#160;sStepPackageXmlString)</p>
+        <p>C# parameter descriptions</p>
+        <p>ApplicationName</p>
+        <p class="BodyTextIndent_1">[in] A string that identifies the current application to 
+ use.</p>
+        <p>LogicalObjectName</p>
+        <p class="BodyTextIndent_1">[in] A string that identifies the business object that 
+ contains the called method.</p>
+        <p>LogicalMethodName</p>
+        <p class="BodyTextIndent_1">[in] A string that identifies the business object method 
+ to be called.</p>
+        <p>sStepPackageXmlString</p>
+        <p class="BodyTextIndent_1">[ref] A XML string that contains the data for the business 
+ object method being called.</p>
+        <h3>Remarks</h3>
+        <p>When using this method, the XML that a .NET step component passes to 
+ the Onyx Transaction Manager (OTM) is a string. When XML processing is 
+ complete, a step component serializes the XML into a string and returns 
+ it to the OTM. The OTM then loads the string into an IXMLDOMDocument and 
+ continues processing.</p>
+        <p>The contents of the sStepPackageXmlString argument vary from one method 
+ to the next. Refer to the appropriate business object documentation for 
+ more information on building the proper XML parameters.</p>
+        <p>For more information about the structure of 
+ sStepPackageXmlString, see <a href="OTM_Step_Pkg.htm">Using the step package</a>. 
+ For more information about how the IInternalStringTransactionManager interface 
+ works, see <a href="OTM_ITM.htm">Using the Internal Onyx Transaction Manager</a>. 
+ </p>
+    </body>
+</html>

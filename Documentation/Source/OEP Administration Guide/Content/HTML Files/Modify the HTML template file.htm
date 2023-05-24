@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="112" MadCap:lastWidth="701">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <ol start="4">
+            <li>Modify the HTML template file corresponding to the appointment. To do this, see <a href="Modifying HTML Template Files.htm#top">Modifying HTML Template Files</a>.</li>
+        </ol>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">To add a field to the Individual template subject, you must also modify the emailtemplates.config file. For information on doing this, see <a href="Modifying Template Configuration.htm#top">Modifying Template Configuration File</a>.</p>
+        <h2><a name="Viewing"></a>Viewing Appointment Logs</h2>
+        <p>You can view the event log for calendar appointments in Windows Event Viewer. SQL CLR trigger events are logged on your database server while ONS&#160;events are logged on the application server.</p>
+        <p>SQL CLR events on the database server can be identified by Source = Onyx.CLR and Event ID = 243.</p>
+        <p>Logs for calendar appointments are stored in the Persistence database. You can use this information to view the status of an appointment, as well as to view and resolve errors. You can also export this information for auditing and security checks.</p>
+        <p>The following tables in the Persistence database store logs of notification emails and calendar appointments that are sent to users.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Table Name in Persistence database</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Calendar Appointments</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">OutlookPublishEvent</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Use the following table to understand the status of each calendar event.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Status</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">0</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The calendar event is yet to be processed.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The calendar event was processed successfully.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">2</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The calendar event was processed but with errors. Use the ExceptionDetails column to view the errors. After resolving the errors, change the status to 0 for re-processing.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">4</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">This error occurs when the calendar appointment is not created because the exchange server address or the email ID configured is not valid.</p>
+                        <p class="Table_Text">Verify that you have configured a valid exchange server, and valid email IDs for each Onyx user. After resolving the errors, change the status to 0 for re-processing.</p>
+                        <p class="Table_Text">In this status, if any new appointments (for valid email IDs) were created successfully, these are rolled back. However, any appointments that were updated or deleted are not rolled back.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h2><a name="Modifyin"></a>Modifying Appointment Templates</h2>
+        <p>Based on your organization's requirement, you can control the information that is sent to users in their calendar appointments. Use the Templates.config file to define the subject and body of each calendar appointment that is sent to Onyx users. For each calendar appointment, you can specify the tables, XML, and HTML files from which data is populated.</p>
+        <p>For a list of profile XML and HTML template files for appointments, see <a href="#Template">Template files</a>.</p>
+        <p>To add fields to templates, you must modify the following files:</p>
+        <ul>
+            <li><a href="Modifying Template Configuration.htm#top">Template Config file</a>
+            </li>
+            <li><a href="Adding Profile XML File.htm#Modifyin">Profile XML files</a>
+            </li>
+            <li><a href="Modifying HTML Template Files.htm#top">HTML Template files</a>
+            </li>
+        </ul>
+        <p>To remove fields from templates, see <a href="#Removing">Removing fields from templates</a>.</p>
+        <h3><a name="Template"></a>Template Files</h3>
+        <p>Onyx uses profile XML and HTML template files to control the information that users receive in their calendar appointments. These files are located within the Onyx installation folder on the OEAS server.</p>
+        <p>The default path for profile XML files is: C:\Program Files\Onyx\AppServer\Applications\Onyx\OnyxNotificationService\Profiles.</p>
+        <p>The default path for HTML template files is: C:\Program Files\Onyx\AppServer\Applications\Onyx\OnyxNotificationService\Templates.</p>
+        <p>You can configure Onyx to send appointment notifications in plain text format. The default plain text templates are included in your installation package under Customization Support&gt;Application Server (OEAS)&gt;OnyxNotificationService&gt;PlainTextTemplates. For information about configuring Onyx to use plain text templates, see <a href="Modifying Template Configuration.htm#top">Modifying the template configuration file.</a></p>
+        <p>The following table lists the files associated with each appointment type.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Name</th>
+                    <th>Profile XML file</th>
+                    <th>HTML template file</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Appointment</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Appointment for incidents</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">CalendarAppointmentIncidentProfile.xml</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">CalendarAppointmentIncident.html</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Appointment</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Appointment for tasks</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">CalendarAppointmentTaskProfile.xml</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">CalendarAppointmentIncident.html</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3><a name="Removing"></a>Removing Fields from Templates</h3>
+        <p><b>To remove a field from the appointment template:</b>
+        </p>
+        <ol>
+            <li>Open the Profile XML file corresponding to the appointment.</li>
+            <li>Comment out the field, and save the file.</li>
+            <li>Open the HTML Template file corresponding to the appointment.</li>
+        </ol>
+        <ol MadCap:continue="true">
+            <li>Remove or comment the row corresponding to the field from the HTML Template file, and save the file.</li>
+            <li>If the field you removed is in the template subject line, open the Templates.config file and find the element corresponding to the appointment you want to modify.</li>
+            <li>From the IndividualSubjectTemplate attribute, remove the TemplateKey that corresponds to the field you want to remove.</li>
+            <li>Ensure that the subject text is meaningful after removing the field.</li>
+            <li>Save the Templates.config file.</li>
+        </ol>
+    </body>
+</html>

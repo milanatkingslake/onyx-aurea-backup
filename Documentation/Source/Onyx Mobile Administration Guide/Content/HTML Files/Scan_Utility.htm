@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="847" MadCap:lastWidth="624">
+    <head>
+    </head>
+    <body>
+        <h1>Scan Utility</h1>
+        <p>The <b>Scan Utility</b> feature allows you to retrieve the following information by scanning the bar code of a product:</p>
+        <ul>
+            <li>On the <b>Home</b> screen</li>
+        </ul>
+        <ul style="list-style-type: circle;">
+            <li class="Sec_List">List of customer records.</li>
+            <li class="Sec_List">List of sales / service / support incident records.</li>
+            <li class="Sec_List">List of work ticket records.</li>
+        </ul>
+        <ul>
+            <li>On the <b>Add </b>or <b>Edit </b>screen</li>
+        </ul>
+        <ul style="list-style-type: circle;">
+            <li class="Sec_List">Product description.</li>
+        </ul>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">The <b>Scan Utility</b> is supported only on the <b>Onyx Mobile App</b>.</p>
+        <h2>Activating Scan Utility</h2>
+        <p>To activate the <b>Scan Utility</b>, add the scan registration key in the <code>value</code> attribute of the following node in the <code>OnyxGatewayWindowsService.exe.config</code> file from the <code>\Onyx\AppServer\Applications\Onyx\OnyxGatewayService</code> folder:</p>
+        <ul>
+            <li><b>Android</b>
+            </li>
+        </ul>
+        <p class="Indent1"><code>&lt;add key="androidScanKey" value="Enter your scan registration key here" /&gt;</code>
+        </p>
+        <ul>
+            <li><b>iOS</b>
+            </li>
+        </ul>
+        <p class="Indent1"><code>&lt;add key="iOSScanKey" value="Enter your scan registration key here" /&gt;</code>
+        </p>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; &#160;">It requires a scan registration key to activate the Scan Utility. Contact your Accounts Manager for the scan registration key.</p>
+        <h2>Configuring Scan Utility</h2>
+        <p class="ProcedureHeading">To configure the Scan Utility, perform the following steps:</p>
+        <ol>
+            <li>Open the required XML(s) file in edit mode from the <code>\Onyx\AppServer\Applications\Onyx\OnyxGatewayService\App_Data\Profiles</code> folder. For the list of screens and their XML file names, see <a href="About_metadata_XML_files.htm">Understanding XML files</a>.</li>
+            <li>Add the following element node in the required XML file(s).</li>
+        </ol>
+        <ul>
+            <li style="font-weight: normal;"><strong>Home Screen</strong>
+            </li>
+        </ul>
+        <p class="Indent1"><code>&lt;MenuItem Web ="False" Id="14" Name="ScanWorkticket" DisplayName="Scan for Workticket By products2" Icon="Scan.png" Url="../customer/scan_search.js" Scan ="true" SequenceIndex="1" Visible="true" LogicalObjectName="workTicket" LogicalMethodName= "csretrieveWorlticketByPro" XMLName="HomeWorkTicketList.xml" /&gt;</code>
+        </p>
+        <p class="Indent1">Where,</p>
+        <ul style="list-style-type: circle;">
+            <li class="BulletList2"><code>Name</code> is the name of the node that you want to assign.</li>
+            <li class="BulletList2"><code>DisplayName</code> is the name that appears on the screen.</li>
+            <li class="BulletList2"><code>Web="False"</code> disables the scan on the Home Screen for Onyx Mobile Web.</li>
+            <li class="BulletList2"><code>LogicalObjectName</code> is the name of the LBO.</li>
+            <li class="BulletList2"><code>LogicalMethodName</code> is the method name to fetch the data from the scan. This method should have a <code>ProductCode</code> parameter.</li>
+            <li class="BulletList2"><code>XMLName</code> is the name of the <code>*List.xml</code> file  which fetches the result list on the user interface.</li>
+        </ul>
+        <ul>
+            <li><strong>Add or Edit Screen</strong>
+            </li>
+        </ul>
+        <p class="Indent1"><code>&lt;Field FieldName="productId"       DisplayName="Product"          Visible="True"  Type="CHAR255" Parent="" ControlType="scan"   MaskFormat="" IsRequired="True"   IsEditable="True" CacheName="incident.product"    CacheParentId="3" LboObjectName="incident" PropertyPath="incident/" LboProperty="productId"    MaxLength="22"  Value=""/&gt;</code>
+        </p>
+        <ol start="3">
+            <li>Save and close the XML file.</li>
+            <li>Log on to <b>Onyx Mobile Native App</b> and verify the changes.</li>
+        </ol>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">When the  ControlType <code>scan</code> for the entity is configured, it appears as <img src="../Resources/Images/Scan.png" /> on the Onyx Mobile Native App and appears as <i>drop-down</i> on the Onyx Mobile Web. </p>
+    </body>
+</html>

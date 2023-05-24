@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:lastBlockDepth="8" MadCap:lastHeight="834" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head><title>Configuring Home Page</title>
+    </head>
+    <body>
+        <H2>Configuring Home Page</H2>
+        <p>The Home page contains a menu that enables you to navigate to different screens of the application.</p>
+        <p>In the Home Page, users can:</p>
+        <ul>
+            <li>View lists of recent customers, incidents, companies, and individuals.</li>
+            <li>Add new customer records</li>
+            <li>Access pre-defined Web links</li>
+            <li>Search Company, individual, and incident records.</li>
+        </ul>
+        <p>If you have configured user-specific mobile bookmarks or if users have configured mobile bookmarks for their Navigator queries, these bookmarks are also displayed on the <b>Home</b> page.</p>
+        <p>For more information about configuring mobile bookmarks, see <a href="Configuring_Mobile_Bookmarks.htm">About Mobile Bookmarks</a>.</p>
+        <p>For information about configuring web links, see <a href="Configuring_XML_file_for_Web_links.htm">Configuring Web Links</a>.</p>
+        <h3>To configure Home Page</h3>
+        <p>To modify how data is displayed on the <b>Home</b> page, edit the <code>OnyxMobileHomePageMetadata.XML</code> file. To support a profile tile that brings back a specific individual record, add the following code in the <code>OnyxMobileHomePageMetadata.XML</code> file:</p>
+        <p style="font-family: 'Courier New';">&lt;MenuItem Url="../customer/custom.js" Icon="customBookMark.png" DisplayName="&lt;Display option&gt;" Id="&lt;ID&gt;" PageTitle="&lt;Title&gt;" Action="&lt;entity&gt;" DisableNavigation="1"&gt;</p>
+        <p style="font-family: 'Courier New';">&lt;Filter ContextVariable="$userId" Property="assignedTo"/&gt;</p>
+        <p style="font-family: 'Courier New';">&lt;Filter Property="statusId" Value="130"/&gt;</p>
+        <p style="font-family: 'Courier New';">&lt;/MenuItem&gt;</p>
+        <p style="font-family: Arial;"><b>Example:</b>
+        </p>
+        <p style="font-family: 'Courier New';">-&lt;MenuItem Url="../customer/custom.js" Icon="customBookMark.png" DisplayName="View all incidents assigned to me" Id="12" PageTitle="My Incidents" Action="incident"&gt;</p>
+        <p style="font-family: 'Courier New';">&lt;Filter ContextVariable="$userId" Property="assignedTo"/&gt;</p>
+        <p style="font-family: 'Courier New';">&lt;Filter Property="statusId" Value="130"/&gt;</p>
+        <p style="font-family: 'Courier New';">&lt;/MenuItem&gt;</p>
+        <h5>You can change the following attributes for each node</h5>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">You can now create a custom entity list by using the <b>&lt;entityname&gt;Details.xml</b> format. Ensure that you follow the element structure as the OOTB Details XML files.</p>
+        <table>
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 125px;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <thead>
+                <tr>
+                    <th> Element</th>
+                    <th>Attribute</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td rowspan="2" style="text-align: left;">
+                        <p class="Table_Text">ResetPassword</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Display the reset password option on the Home Page.
+</p>
+                        <ul>
+                            <li class="TableList">For iOS: It displays under the Settings on the Home Page.</li>
+                            <li class="TableList">For Android: It displays under the menu icon on the Home Page. Reset the password option is displayed when the value is True and not when the value is False.</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">ResourceId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">UI resource who has permission reset the password from the Home Page.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="13">
+                        <p class="Table_Text">MenuItem</p>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">MenuItemId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Type a unique value for each item in the navigation menu.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Action</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Type a value for the action to be performed when a user taps the menu item.
+For a list of action values currently available, see <a href="Action_values.htm">Specifying Action Values</a>.
+</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">PageTitle</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Type a value for the title of the screen that opens on tapping the menu item.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">DisplayName</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Type the text to use as caption for the item. To avoid cropping, we recommend that captions do not exceed 10 characters, including spaces.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Icon</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Do not change this value. In the current implementation, your changes will not be reflected in the application.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Id</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Do not change this value. In the current implementation, your changes will not be reflected in the application.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Name</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Do not change this value. In the current implementation, your changes will not be reflected in the application.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">SequenceIndex</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Type a numeric value to specify the sequence that the item will appear in on the menu.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">URL</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Do not change this value. In the current implementation, your changes will not be reflected in the application.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Visible</p>
+                    </td>
+                    <td>
+                        <ul>
+                            <li class="TableList">Set to TRUE to display the item on the menu.</li>
+                            <li class="TableList">Set to FALSE to hide the item.</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">ResourceId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Contains UI Resource permissions. Type the UI Resource value.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Web</td>
+                    <td>Type <code>Web="false"</code> to disable an action on Onyx Mobile Web.</td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">DisableNavigation</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Type <code>DisableNavigation="1"</code> for custom entities that does not have detail page.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>-</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">IsCount</p>
+                    </td>
+                    <td>
+                        <ul>
+                            <li class="TableList">Set to TRUE to display the count of records for each mobile bookmark. </li>
+                            <li class="TableList">Set to FALSE to hide the record count.</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

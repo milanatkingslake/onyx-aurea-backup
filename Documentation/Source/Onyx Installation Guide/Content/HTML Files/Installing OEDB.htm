@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="859" MadCap:lastWidth="624">
+    <head><title>Installing OEDB</title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2>Installing OEDB</h2>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;"> This script assigns BulkAdmin permissions to OnyxDBO, as the relevant permissions are required to execute bulk insert during OEDB installation. These permissions are revoked when you run the post-installation script. Onyx <MadCap:variable name="Aptean_Variables.Version number" /> is compatible with all three SQL servers.</p>
+        <p>After completing the pre-installation tasks, you can install and configure the Onyx database. Be sure to have the following information ready before you begin:</p>
+        <ul>
+            <li>The instance of SQL Server database engine that hosts the Onyx database (server name\instance name).</li>
+            <li style="list-style-type: disc;">The Onyx database name.</li>
+            <li style="list-style-type: disc;">The Database Owner (DBO) account user name and password.</li>
+            <li style="list-style-type: disc;">The Persistence database name.</li>
+            <li style="list-style-type: disc;">The Onyx system administrator user name and password. Passwords can consist of any alphanumeric or special characters other than /, &lt;, &gt;, -, ?, ., *, &amp;, ', ", _, and the comma (,) mark.</li>
+        </ul>
+        <p class="Caution" MadCap:autonum=" &#160;&lt;b&gt;Caution:&lt;/b&gt; &#160;">For security reasons, it is recommended that you do not use a blank password.</p>
+        <ul>
+            <li>If you plan to implement Integrated Windows Authentication, use an existing domain account for the system administrator. This is optional.</li>
+            <li style="list-style-type: disc;">Only ANSI characters in the a-z, A-Z, and 0-9 ranges are allowed in the domain name.</li>
+        </ul>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Integrated Windows Authentication uses the current Windows user information on the client, and is best suited for an intranet environment, where both user and Web server computers are in the same domain.</p>
+        <ul>
+            <li>A user name for the SQL Server database user that will be used for List Management queries.</li>
+        </ul>
+        <p class="Caution" MadCap:autonum=" &#160;&lt;b&gt;Caution:&lt;/b&gt; &#160;"> Do not run any SQL Server utilities on the database when the configuration is in progress. Otherwise, unpredictable results may occur.</p>
+        <p class="ProcedureHeading">To install OEDB</p>
+        <p class="ProcedureHeading">&#160;</p>
+        <p class="Warning" MadCap:autonum=" &#160;&#160;&lt;b&gt;Warning:&lt;/b&gt; &#160;">If you are unable to complete the configuration and need to restart the OEDB Setup, do not reuse the same databases. If you try to use the same databases after a previous failure, you may get a server error that blocks completion of the database configuration.</p>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; &#160;">In case of fresh DB, it is required to run <b>OEDB.exe</b> from the DB server.</p>
+        <ol>
+            <li>Ensure that the Microsoft SQL Server service is running.</li>
+            <li>Navigate to the <b>Platform Components</b> &gt; <b>Database Server</b> &gt; <b>Setup</b> folder. </li>
+            <li>Copy the OEDB setup file to the database server.</li>
+            <li>Run <b>OEDB.exe</b>.</li>
+            <li>Prerequisites to be installed, if any are listed. To install, click <b>Install</b>. </li>
+        </ol>
+        <p class="Indent1">The <b>Welcome</b> window appears.</p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/Note Integrated Windows Authentication_1.png" style="width: 504px;height: 381px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <ol start="6">
+            <li>Click <b>Next</b>.</li>
+        </ol>
+        <p class="Indent1">The <b>Database Information</b> window appears.</p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/Click Next.png" style="width: 504px;height: 381px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <ol MadCap:continue="true">
+            <li>Do the following:</li>
+        </ol>
+        <ul>
+            <li class="List_Indent"><b>Server</b>: Type the name of the SQL Server instance to connect to.</li>
+            <li class="List_Indent"><b>OTDB</b>: Type the name of Onyx Transaction database.</li>
+            <li class="List_Indent"><b>OPDB</b>: Type the name of Onyx PersistenceDB database.</li>
+            <li class="List_Indent"><b>Login</b>: Accept the default user name for the database owner account, or type a different name, which has the DBO privilege.</li>
+            <li class="List_Indent"><b>Password</b>: Type the password for the OEDB database owner account.</li>
+        </ul>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">In case of fresh DB, the <b>Login</b> and <b>Password</b> credentials should be of DB Administrator's.</p>
+        <ol start="8">
+            <li>Click <b>Next</b>.</li>
+        </ol>
+        <p class="Indent1">Your connection to the SQL Server is validated and the <b>Onyx SA User Database Information</b> window appears.</p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/Your connection to the SQL.png" style="width: 504px;height: 381px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <ol start="9">
+            <li>In the <b>Password</b> and <b>Confirm</b> boxes, type password for the Onyx administrator account.</li>
+            <li>If you plan to use Integrated Windows Authentication, enter an existing domain account in the format <b>&lt;domain_name\user_name&gt;</b>. This is optional.</li>
+        </ol>
+        <p class="Indent1">Entering a domain account enables Integrated Windows Authentication for any Onyx product that uses the application server. For more information on the Windows Authentication website, visit <a href="http://en.wikipedia.org/wiki/Integrated_Windows_Authentication">http://en.wikipedia.org/wiki/Integrated_Windows_Authentication</a></p>
+        <ol MadCap:continue="true">
+            <li>Click <b>Next</b>.</li>
+        </ol>
+        <p class="Indent1">The <b>List Manager Account</b> window appears.</p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/The List Manager Account window.png" style="width: 469px;height: 354px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <ol start="12">
+            <li>Accept the default user name for List Management queries, or type a different name, which has the LMSql privilege.</li>
+            <li>Click <b>Next</b>.</li>
+        </ol>
+        <p class="Indent1">The <b>Ready to Install</b> window appears.</p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/The List Manager Account window_1.png" style="width: 478px;height: 362px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <ol start="14">
+            <li>Verify that the information displayed is accurate.</li>
+            <li>Click <b>Back</b> to modify any of the previously entered information if required, or click <b>Install</b> to begin the database configuration process.</li>
+            <li>If you restore an existing database, you are prompted to continue rebuilding the database. Click <b>Yes</b> to continue.</li>
+        </ol>
+        <p class="Indent1">The Rebuild Code operation recompiles standard stored procedures in the OEDB.</p>
+        <p class="Indent1">When the installation process is complete, the <b>Installation Wizard Completed</b> window appears.</p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/OEDB_Finsh.png" style="border-left-style: solid;border-left-width: 1px;border-left-color: ;border-right-style: solid;border-right-width: 1px;border-right-color: ;border-top-style: solid;border-top-width: 1px;border-top-color: ;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: ;width: 482px;height: 366px;" />
+        </p>
+        <ol MadCap:continue="true">
+            <li>Click <b>Finish</b>.</li>
+        </ol>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">The db_datawriter role&#160;added&#160;in the earlier release to work with email accelerator is not available in this release. If email accelerator is used, users must provide this permission to OnyxLMSql login.</p>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Run the modifyDBOpermission.sql file if you have restored ONYX database on the same server or on a different server. The modifyDBOpermission.sql file is available in the installation CD at \Customization Support\Database Server\Demo Database. </p>
+        <h3>Post-installation tasks:</h3>
+        <h4>For fresh/Vanilla Database Installation: </h4>
+        <p style="font-weight: bold;">For SQL server 2008 R2</p>
+        <ol style="list-style-type: lower-alpha;">
+            <li>Run the following script on OEDB under “sa” login if the database server is 64-bit.</li>
+        </ol>
+        <p class="Indent1"><code>DbaSetupScriptOEDBx64.sql</code> after changing the $(Path) variable with <code>..\Program Files (x86)\Onyx\Notification_CLR</code></p>
+        <p class="Indent1">Specify the value for <code>SET @onyxDBO=N'onyxDBO'</code>.</p>
+        <ol style="list-style-type: lower-alpha;" start="2">
+            <li>Run the following script on OEDB under “sa” login if the database server is 32-bit.</li>
+        </ol>
+        <p class="Indent1"><code>DbaSetupScriptOEDBx86.sql</code> after changing the $(Path) variable with <code>..\Program Files \Onyx\Notification_CLR </code></p>
+        <p class="C_Code">CREATE ASSEMBLY oaCalendarAppointment</p>
+        <p class="C_Code">AUTHORIZATION [dbo]</p>
+        <p class="C_Code">From '$(path)\oaCalendarAppointment.dll'</p>
+        <p class="C_Code">WITH PERMISSION_SET = unsafe</p>
+        <p class="C_Code">GO</p>
+        <p class="Indent1">Specify the value for <code>SET @onyxDBO=N'onyxDBO'</code> in <code> DbaSetupScriptOEDBx86.sql</code>.</p>
+        <p style="font-weight: bold;">For SQL server 2012 and 2014</p>
+        <ol style="list-style-type: lower-alpha;">
+            <li>Run <b>CreateCLRAssmblyTrigger.sql</b> on OEDB under “sa” login.</li>
+            <li>Change the <code>$(Path) </code>variable with<code> ..\Program Files \Onyx\Notification_CLR</code> if the database machine OS is 32-bit.</li>
+            <li>Change the<code> $(Path) </code>variable with <code>..\Program Files (x86)\Onyx\Notification_CLR. </code></li>
+        </ol>
+        <p class="C_Code">CREATE ASSEMBLY oaCalendarAppointment</p>
+        <p class="C_Code">AUTHORIZATION [dbo]</p>
+        <p class="C_Code">From '$(path)\oaCalendarAppointment.dll'</p>
+        <p class="C_Code">WITH PERMISSION_SET = unsafe</p>
+        <p class="C_Code">Go</p>
+        <p class="Indent1">Specify the value for<code> SET @onyxDBO=N'onyxDBO'</code> in<code> CreateCLRAssmblyTrigger.sql</code>.</p>
+    </body>
+</html>

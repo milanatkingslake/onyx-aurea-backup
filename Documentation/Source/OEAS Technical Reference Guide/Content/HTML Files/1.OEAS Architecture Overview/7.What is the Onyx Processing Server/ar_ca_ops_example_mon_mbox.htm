@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="769" MadCap:lastWidth="624">
+    <head>
+        <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head>
+            <link href="../../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" /><title>Example: Monitored Mailboxes</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>Example: Monitored Mailboxes</h3>
+        <p>This example consists of one EMS subsystem that monitors three mailboxes. 
+ </p>
+        <p>The following table describes the processing settings that you would 
+ specify in OPS Administration for this example. The first four settings 
+ in the table are subsystem settings. The last setting, Maximum Processing 
+ Time, is a setting specific to each monitored mailbox. </p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Setting </th>
+                    <th>Example value </th>
+                    <th>Description </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Start Time </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">06:00 (6 A.M.) </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The start of the subsystem’s operation window 
+ for processing. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Stop Time </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">08:00 (8 A.M.) </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The end of the subsystem’s operation window 
+ for processing. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Run Interval </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">10 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">How long (in minutes) after the processing 
+ cycle completes that you want the subsystem to enter sleep mode before 
+ restarting. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Governor Interval </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">100 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Within the processing window, how long (in 
+ milliseconds) you want the subsystem to pause between calls to OEAS. This 
+ setting ensures that OEAS is not overloaded by subsystem calls to the 
+ database. This precaution is necessary when there are end-user applications 
+ accessing the same OEAS server that the EMS accesses. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Maximum Processing Time </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">2 minutes, mailbox 1 </p>
+                        <p class="Table_Text" style="color: #000000;">3 minutes, mailbox 2 </p>
+                        <p class="Table_Text" style="color: #000000;">5 minutes, mailbox 3 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The maximum number of minutes that a mailbox 
+ (inbox) is monitored before the inbound email service moves on to the 
+ next mailbox. This value is set for each monitored mailbox. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The following flowchart illustrates how and when the subsystem processes 
+ inbound email. When a run interval begins, the subsystem first determines 
+ whether the current time falls within the start time and the stop time 
+ of the processing window. </p>
+        <p class="Image">
+            <img src="../../../Resources/Images/AR_EmsFlow.jpg" style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <p>Using the example values from the preceding table, the significant processing 
+ steps of the EMS between at 5:50 A.M. and 8:15 A.M. are described below: 
+ </p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li>At 5:50 the EMS process checks the current time 
+ and determines that it does not fall within the processing window. The 
+ EMS enters sleep mode.</li>
+            <li>At 6:00 the EMS thread determines that it is now 
+ in the processing window. It processes new emails in mailbox 1 for two 
+ minutes, then goes to mailbox 2 for three minutes, and finally goes to 
+ mailbox 3 for five minutes. After each inbound email that the EMS processes, 
+ it pauses for the 100 millisecond governor interval before processing 
+ another email message. The governor interval prevents the EMS from utilizing 
+ much of OEAS resources during the run interval. </li>
+            <li>The EMS then returns to mailbox 1 to repeat the 
+ cycle until there are no more new emails in any of the mailboxes. This 
+ only happens as long as the current time falls within the processing widow. 
+ When the stop time of the processing window is reached, the EMS stops 
+ processing emails even when there are unread emails in some of the mailboxes. 
+ </li>
+            <li>All inbound emails are processed by 6:13. The 
+ EMS enters sleep mode for the remaining time.</li>
+            <li>The EMS determines at 6:20 that it is still inside 
+ the processing window, and it checks for and processes any new email in 
+ the monitored mailboxes. Processing is finished in one iteration by 6:23. 
+ </li>
+            <li>The EMS continues to check the monitored mailboxes 
+ and process inbound email for the next hour and a half. At 8:00 the EMS 
+ determines that it is still within the processing window. It processes 
+ several emails and enters sleep mode at 8:04.</li>
+            <li>At 8:14 the EMS finds that it is now outside the 
+ processing window, and it enters sleep mode immediately.</li>
+            <li>The EMS continues to check for the processing 
+ window throughout the day.</li>
+        </ol>
+    </body>
+</html>

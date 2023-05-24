@@ -1,0 +1,255 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="831" MadCap:lastWidth="624">
+    <head>
+    </head>
+    <body>
+        <h1>Onyx User Context API Reference</h1>
+        <p>This interface is implemented by the Core Component, OnyxSDK.Public.Core.dll. The creation of user context is the first step in interacting with OEAS. Once the context is created any communication to OEAS can be eastablished.</p>
+        <h2>IOnyxUserContext.Logout</h2>
+        <p>Logs out onyx session</p>
+        <h2>IOnyxUserContext.ExecuteXml</h2>
+        <h3>Input</h3>
+        <ol>
+            <li>ILboMethod: Method meta data</li>
+            <li>String: Input data in XML format</li>
+            <li>String: Custom data in XML format</li>
+        </ol>
+        <h3>Output</h3>
+        <ol>
+            <li>String: Return data in XML format</li>
+        </ol>
+        <p>Executes an Method Call in OEAS</p>
+        <h2>IOnyxUserContext.ExecuteJson</h2>
+        <h3>Input</h3>
+        <ol>
+            <li>ILboMethod: Method meta data</li>
+            <li>JObject: Input data</li>
+            <li>JObject: Custom data</li>
+        </ol>
+        <h3>Output</h3>
+        <ol>
+            <li>JObject: Return data</li>
+        </ol>
+        <p>Executes an Method Call in OEAS</p>
+        <h1>IOnyxUserContext.GetJs</h1>
+        <h2>onParameterStructure</h2>
+        <h3>Input</h3>
+        <ol>
+            <li>String: LBO Object name</li>
+            <li>String: Method Name</li>
+        </ol>
+        <h3>Output</h3>
+        <ol>
+            <li>JObject: Method input with empty data</li>
+        </ol>
+        <p>Get the Json Object with empty input data. This helps the clients to update the data and use it in execute methods. This is a helper method, which can be omitted during the execution of the method.</p>
+        <h2>IOnyxUserContext.GetJsonParameterStructure</h2>
+        <h3>Input</h3>
+        <ol>
+            <li>String: LBO Object name</li>
+            <li>String: Method Name</li>
+        </ol>
+        <h3>Output</h3>
+        <ol>
+            <li>String: Method input with empty data in XML format</li>
+        </ol>
+        <p>Get the Xml with empty input data. This helps the clients to update the data and use it in execute methods. This is a helper method, which can be omitted during the execution of the method.</p>
+        <h2>IOnyxUserContext Properties</h2>
+        <ol>
+            <li>UserId: Logged in User Id</li>
+            <li>SessionId: Logged in Session Id</li>
+            <li>ApplicationName</li>
+            <li>SiteId</li>
+            <li>Source: Source of connectivity</li>
+            <li>PartnerUser</li>
+            <li>PreferredLanguage: Default Language</li>
+            <li>OriginalUser</li>
+            <li>PermissionMask: Security Mask</li>
+            <li>LogSettings</li>
+            <li>ImpersonatingUser</li>
+            <li>SessionSecondsRemaining</li>
+            <li>LogName</li>
+            <li>EnterpriseService: Enterprise object to interact with OEAS</li>
+            <li>OnyxMetadata: Object to get onyx metadata object</li>
+        </ol>
+        <h4>Example 1</h4><pre xml:space="preserve"><p> <code>using (IOnyxUserContext onyxUserContext = OnyxFactoryUserContext.OnyxContext.Context("sa", "onyx", "Onyx", "1", "OnyxSDK"))</code></p></pre>
+        <h4>Example 2</h4>
+        <p>Executing a method with name product index and getting data back in Jarray format.</p><pre xml:space="preserve"><p><code>using (IOnyxUserContext onyxUserContext = OnyxFactoryUserContext.OnyxContext.Context("sa", "onyx", "Onyx", "1", "OnyxSDK"))
+            {
+                ILboMethod productIndexMethod =
+                onyxUserContext.OnyxMetadata.GetLboMethod(PRODUCTINDEXLBOOBJECT.NAME, PRODUCTINDEXLBOOBJECT.METHODS.RETRIEVELISTTREE.NAME);
+                JObject parameter = productIndexMethod.GetJsonParameterStructure();
+
+                parameter[OnyxDataConstants.PARAMTERS]
+                    [PRODUCTINDEXLBOOBJECT.METHODS.RETRIEVELISTTREE.PARAMETER.ACTIVE] = "1";
+
+                parameter[OnyxDataConstants.PARAMTERS]
+                    [PRODUCTINDEXLBOOBJECT.METHODS.RETRIEVELISTTREE.PARAMETER.PARENTID] = "10000";
+
+                var parametersReturn = productIndexMethod.ExecuteJson(onyxUserContext, parameter);
+
+                JArray rowSetData = JSonHelper.GetRowSetData(parametersReturn[OnyxDataConstants.RETURN_XML]
+                                    [OnyxDataConstants.PARAMETERS_RETURN][OnyxDataConstants.ROW_SET]);
+            }
+</code></p></pre>
+        <h1 style="mc-hyphenate: always;">Onyx Metadata API Reference</h1>
+        <p>Onyx Enterprise data (OED) which is stored in the xml format; has the meta data of complete system. Meta data like LBOObject, Properties, Constraint, Keys, Methods etc. Onyx Core helps in retrieving in the meta data in a serialized dot net object.</p>
+        <p>IOnyxUserContext implements IOnyxMetadata interface which helps in serializing the meta to respective objects.</p>
+        <h2>IOnyxMetadata.GetLboObject</h2>
+        <h4>Input</h4>
+        <ol>
+            <li>String: LBO Object name</li>
+        </ol>
+        <p>Output</p>
+        <ol>
+            <li>ILboObject: Meta data of the Lbo object</li>
+        </ol>
+        <h2>IOnyxMetadata.GetLboMethod</h2>
+        <h4>Input</h4>
+        <ol>
+            <li>String: LBO Object name</li>
+            <li>String: Method name</li>
+        </ol>
+        <h4>Output</h4>
+        <ol>
+            <li>ILboMethod: Meta data of the Lbo Method</li>
+        </ol>
+        <h2>IOnyxMetadata.LoadCompleteMetadata</h2>
+        <p>Loads complete meta data with in the onyx system and stored in memory cache for faster access.</p>
+        <h4>Example </h4><pre xml:space="preserve"><p><code>using (IOnyxUserContext onyxUserContext = OnyxFactoryUserContext.OnyxContext.Context("sa", "onyx", "Onyx", "1", "OnyxSDK"))
+            {
+                ILboMethod productIndexMethod =
+                onyxUserContext.OnyxMetadata.GetLboMethod(PRODUCTINDEXLBOOBJECT.NAME, PRODUCTINDEXLBOOBJECT.METHODS.RETRIEVELISTTREE.NAME);
+                JObject parameter = productIndexMethod.GetJsonParameterStructure();
+
+                parameter[OnyxDataConstants.PARAMTERS]
+                    [PRODUCTINDEXLBOOBJECT.METHODS.RETRIEVELISTTREE.PARAMETER.ACTIVE] = "1";
+
+                parameter[OnyxDataConstants.PARAMTERS]
+                    [PRODUCTINDEXLBOOBJECT.METHODS.RETRIEVELISTTREE.PARAMETER.PARENTID] = "10000";
+            }
+</code></p></pre>
+        <h2>Onyx Metadata: ILboBase Interface</h2>
+        <p>All the metadata objects can be accessed using the OnyxContext object. ILboBase is the base interface for all the metadata objects and interfaces.</p>
+        <h3>ILboBase Properties</h3>
+        <ol>
+            <li>Id: Id of the metadata</li>
+            <li>Name</li>
+            <li>ApplicationName</li>
+            <li>Description</li>
+            <li>Disabled: Boolean</li>
+            <li>InstalledBy: Boolean</li>
+            <li>XmlData: Serialized data of the entity in Xml format</li>
+            <li>JsonData: Serialized data of the entity in Json format</li>
+        </ol>
+        <h2>Onyx Metadata: ILboObject Interface</h2>
+        <p>All the metadata objects can be accessed using the OnyxContext object. ILboObject de-serializes the OED data respective objects.</p>
+        <h3>ILboObject Properties</h3>
+        <ol start="1">
+            <li>ObjectType: Type of Object</li>
+            <li>Valid: Boolean. True if valid.</li>
+            <li>OnyxVersion</li>
+            <li>CustomVersion</li>
+            <li>DomainObject: Boolean. True if object is domain object</li>
+            <li>ApplyPartnerSecurity</li>
+            <li>Released: Boolean. True if released.</li>
+            <li>System: Boolean. True if system object.</li>
+            <li>PartnerObject: Boolean. True if its partner object.</li>
+            <li>LboProperties: List of Lbo properties within the object</li>
+            <li>LboMethods: List of Lbo methods within the object</li>
+            <li>LBOKeyObject: List of Lbo keys within the object</li>
+        </ol>
+        <p class="Image">
+            <img src="../../Resources/Images/LboProp_1.jpg" style="border-left-style: solid;border-left-width: 1px;border-left-color: ;border-right-style: solid;border-right-width: 1px;border-right-color: ;border-top-style: solid;border-top-width: 1px;border-top-color: ;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: ;" />
+        </p>
+        <p class="Caption" MadCap:autonum="Figure 1-1 ">Get LboObject Properties</p>
+        <h4>Example </h4><pre xml:space="preserve"><p>         <code>   using (IOnyxUserContext onyxUserContext = OnyxFactoryUserContext.OnyxContext.Context("sa", "onyx", "Onyx", "1", "OnyxSDK"))
+            {
+                ILboObject companyObject = onyxUserContext.OnyxMetadata.GetLboObject(COMPANYLBOOBJECT.NAME);
+            }
+</code></p></pre>
+        <h2>Onyx Metadata: ILboProperty Interface</h2>
+        <p>All the metadata objects can be accessed using the OnyxContext object. ILboProperty de-serializes the OED data respective objects. ILboProperty cannot exist without ILboObject.</p>
+        <h3>ILboProperty Properties</h3>
+        <ol>
+            <li>ObjectType: Type of Object</li>
+            <li>Valid: Boolean. True if valid.</li>
+            <li>OnyxVersion</li>
+            <li>CustomVersion</li>
+            <li>DomainObject: Boolean. True if object is domain object</li>
+            <li>ApplyPartnerSecurity</li>
+            <li>Released: Boolean. True if released.</li>
+            <li>System: Boolean. True if system object.</li>
+            <li>PartnerObject: Boolean. True if its partner object.</li>
+            <li>LboProperties: List of Lbo properties within the object</li>
+            <li>LboMethods: List of Lbo methods within the object</li>
+            <li>LBOKeyObject: List of Lbo keys within the object</li>
+        </ol>
+        <p class="Image">
+            <img src="../../Resources/Images/IlboProp_2.jpg" style="border-left-style: solid;border-left-width: 1px;border-left-color: ;border-right-style: solid;border-right-width: 1px;border-right-color: ;border-top-style: solid;border-top-width: 1px;border-top-color: ;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: ;" />
+        </p>
+        <p class="Caption" MadCap:autonum="Figure 1-2 ">Get ILboProperty Properties</p>
+        <h4>Example </h4>
+        <p>Follwing example shows how to get the names of the properties with in  the Lbo Object of Company.</p><pre xml:space="preserve"><p><code>using (IOnyxUserContext onyxUserContext = OnyxFactoryUserContext.OnyxContext.Context("sa", "onyx", "Onyx", "1", "OnyxSDK"))
+            {
+                ILboObject companyObject = onyxUserContext.OnyxMetadata.GetLboObject(COMPANYLBOOBJECT.NAME);
+                string propertyNames = string.Empty;
+                foreach(ILboProperty property in companyObject.LboProperties)
+                {
+                    propertyNames = property.Name + ";";
+                }
+            }</code>
+</p></pre>
+        <h2>Onyx Metadata: ILboMethod Interface</h2>
+        <p>All the metadata objects can be accessed using the OnyxContext object. ILboMethod de-serializes the OED data to respective objects. ILboMethod cannot exist without ILboObject.</p>
+        <h3>ILboProperty Properties</h3>
+        <ol>
+            <li>	ObjectType: Type of Object</li>
+            <li>Valid: Boolean. True if valid.</li>
+            <li>OnyxVersion</li>
+            <li>CustomVersion</li>
+            <li>DomainObject: Boolean. True if object is domain object.</li>
+            <li>ApplyPartnerSecurity</li>
+            <li>Released: Boolean. True if released.</li>
+            <li>System: Boolean. True if system object.</li>
+            <li>PartnerObject: Boolean. True if its partner object.</li>
+            <li>LboProperties: List of Lbo properties within the object.</li>
+            <li>LboMethods: List of Lbo methods within the object.</li>
+            <li>LBOKeyObject: List of Lbo keys within the object.</li>
+        </ol>
+        <p>
+            <img src="../../Resources/Images/ILbo_Method_3.jpg" style="border-left-style: solid;border-left-width: 1px;border-left-color: ;border-right-style: solid;border-right-width: 1px;border-right-color: ;border-top-style: solid;border-top-width: 1px;border-top-color: ;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: ;" />
+        </p>
+        <p class="Caption" MadCap:autonum="Figure 1-3 ">Get ILboMethod Properties</p>
+        <h4>Example</h4><pre xml:space="preserve"><p>Follwing example shows how to get a List of names of the methods with in  the Lbo Object of Company. <code>
+using (IOnyxUserContext onyxUserContext = OnyxFactoryUserContext.OnyxContext.Context("sa", "onyx", "Onyx", "1", "OnyxSDK"))
+     {
+ILboObject companyObject =   onyxUserContext.OnyxMetadata.GetLboObject(COMPANYLBOOBJECT.NAME);
+        List&lt;string&gt; methodNames = new List&lt;string&gt;();
+                foreach (ILboMethod method in companyObject.LboMethods)
+                {
+                    methodNames.Add(method.Name);
+                }
+</code>}
+</p></pre>
+        <h3>ILboMethod Methods</h3>
+        <p>ILboMethods gives two set of methods for both XML and JSON structure of metadata.</p>
+        <ol>
+            <li>	ExecuteJson</li>
+            <li>ExecuteXml</li>
+            <li>GetJsonParameterStructure</li>
+            <li>GetXmlParameterStructure</li>
+        </ol>
+        <p>GetJsonParameterStructure gives a JSON parameter structure of the method its called on. Provide values to the parameters and use ExecuteJson to excute the LboMethod to obtain the results.</p>
+        <p>This can be done for XML structure with GetXmlParameterStructure and ExecuteXml.</p>
+        <h4>Example</h4><pre xml:space="preserve"><p><code>using (IOnyxUserContext onyxUserContext = OnyxFactoryUserContext.OnyxContext.Context("sa", "onyx", "Onyx", "1", "OnyxSDK"))
+            {
+                ILboMethod incidentRetreive = onyxUserContext.OnyxMetadata.GetLboMethod(INCIDENTLBOOBJECT.NAME, INCIDENTLBOOBJECT.METHODS.RETRIEVE.NAME);
+                JObject parameter = incidentRetreive.GetJsonParameterStructure();
+                parameter[OnyxDataConstants.PARAMTERS][INCIDENTLBOOBJECT.NAME][INDIVIDUALLBOOBJECT.PROPERTIES.PRIMARYID]
+                        = "BA8BA88D-F9EA-4CCB-AC95-15E869CDDED8";
+                var parametersReturn = incidentRetreive.ExecuteJson(onyxUserContext, parameter);
+            }
+</code></p></pre>
+    </body>
+</html>

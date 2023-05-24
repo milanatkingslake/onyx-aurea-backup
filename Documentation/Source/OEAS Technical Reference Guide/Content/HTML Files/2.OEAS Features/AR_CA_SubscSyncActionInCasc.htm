@@ -1,0 +1,156 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:conditions="Default.Main" MadCap:lastBlockDepth="4" MadCap:lastHeight="762" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>The role of the sync_action value in the cascade process</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>The role of the sync_action value in the cascade process </h4>
+        <p>The cascade process cascades subscriptions, unsubscriptions, and deletions. 
+ It occurs with each server synchronization prior to synchronization to 
+ the staging server. Deletions (sync_action=7) are processed first, followed 
+ by unsubscriptions (sync_action=4), and then subscriptions (sync_action=3 
+ and 5). </p>
+        <p>The following sections describe how deletions, unsubscriptions, and 
+ subscriptions are processed by the cascade process. </p>
+        <h5>Cascading deletions </h5>
+        <p>Previously subscribed objects that are subsequently deleted, either 
+ logically (record status is set to 0) or physically (actually removed 
+ from the database), are tracked in subscription_item with a sync_action 
+ value of 7. </p>
+        <p class="Caution" MadCap:autonum=" &#160;&lt;b&gt;Caution:&lt;/b&gt; &#160;">Cascaded deletions are not true deletions of the object, 
+ either logically or physically. When an object is deleted, that object’s 
+ record in subscription_item is marked as deleted (sync_action=7) for the 
+ purposes of the cascade process. Based on the default subscription relationship 
+ rules described below, the cascade process then cascade deletes that object’s 
+ secondary objects by setting their subscription_item sync_action values 
+ to 6. Objects with a sync_action value of 6 are removed from OEP-Offline 
+ and are not re-synchronized. </p>
+        <p>For each object of subscription_item where sync_action=7 
+ the cascade process: </p>
+        <ul>
+            <li>Uses subscription relationships to cascade deletions 
+ to the secondary object relationships of the deleted object where, in 
+ those secondary object relationships, the deleted object is the <em class="Emphasis">required</em> 
+ primary object in the relationship.</li>
+        </ul>
+        <p class="Indent1">For instance, suppose that an end-user has subscribed to 
+ a company that is subsequently deleted. The cascade process deletes all 
+ incidents owned by that company because in the subscription relationship 
+ between companies and incidents, the company is a required primary object 
+ (the <span class="UIElement" style="font-weight: bold;">Always subscribe the primary object </span>rule 
+ is set to true). Additionally, the cascade process deletes all tasks owned 
+ by the now deleted incidents, because in the subscription relationship 
+ between incidents and tasks, the incident is a required primary object. 
+ The same would be true for any forecast or quote owned by the incident, 
+ because of their relationships with the incident object. </p>
+        <ul>
+            <li>Does not cascade deletions to primary object relationships 
+ (where the deleted record is the secondary object in a relationship). 
+ For instance, the cascade process does not delete the incident that owns 
+ a deleted task.</li>
+            <li>Overrides all other sync_action values. For instance, 
+ suppose an OEP end-user subscribes to a task. In subscription_item, that 
+ task is marked for subscription. If the parent incident of that task is 
+ deleted prior to synchronization, the task record in subscription_item 
+ is changed to be marked for deletion.</li>
+            <li>Updates the processed objects to sync_action=6 
+ in subscription_item, including those that were originally deleted.</li>
+        </ul>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; &#160;">To remove work notes from OEP-Offline when their incident 
+ or task primary objects are deleted, there is additional special logic 
+ in the cascade process. Specifically, the cascade process does not mark 
+ the work notes for removal until the incident or task has been removed 
+ from the OEP-Offline client data store by the client.</p>
+        <h5>Cascading unsubscriptions </h5>
+        <p>Previously subscribed objects that are subsequently unsubscribed are 
+ tracked in subscription_item with a sync_action value of 4. </p>
+        <p>For each object of subscription_item where sync_action=4 
+ the cascade process: </p>
+        <ul>
+            <li>Uses subscription relationships to cascade unsubscriptions 
+ to the secondary object relationships of the unsubscribed object where, 
+ in those secondary object relationships, the unsubscribed object is the 
+ <em class="Emphasis">required</em> primary object in the relationship.</li>
+        </ul>
+        <p class="Indent1">For instance, if an end-user has subscribed to a company 
+ but then subsequently unsubscribes from that company, the cascade process 
+ unsubscribes that user from all incidents owned by that company because 
+ in the subscription relationship between companies and incidents, the 
+ company is a required parent (the <span class="UIElement" style="font-weight: bold;">Always subscribe 
+ the primary object </span>rule is set to true). Additionally, the cascade 
+ process unsubscribes that user from all tasks owned by the now unsubscribed 
+ incidents because in the subscription relationship between incidents and 
+ tasks, the incident is a required parent. The same would be true for any 
+ forecast or quote owned by the incident, because of their relationships 
+ with the incident object. </p>
+        <ul>
+            <li>Does not cascade unsubscriptions to primary object 
+ relationships (where the unsubscribed record is the secondary object in 
+ a relationship). For instance, if an end-user unsubscribes from a task, 
+ the cascade process does not unsubscribe that user from the incident that 
+ owns that task.</li>
+            <li>Overrides all other sync_action values except 
+ deletes (sync_action of 6, 7, or 8). </li>
+            <li>Updates the processed objects to sync_action=2 
+ in subscription_item, including those that were originally unsubscribed.</li>
+        </ul>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; &#160;">To remove work notes from OEP-Offline when their incident 
+ or task primary objects are unsubscribed, there is additional special 
+ logic in the cascade process. Specifically, the cascade process does not 
+ mark the work notes for removal until the incident or task has been removed 
+ from the OEP-Offline client data store by the client.</p>
+        <h5>Cascading subscriptions </h5>
+        <p>Objects that require cascading, either because of an explicit subscription, 
+ a cascaded subscription, or a change-capture trigger, are tracked in subscription_item 
+ with sync_action values of 3 and 5. </p>
+        <p>For each object of subscription_item where sync_action=3 
+ or 5, the cascade process: </p>
+        <ul>
+            <li>Uses subscription relationships to cascade subscriptions 
+ to the:</li>
+        </ul>
+        <ul style="list-style-type: circle;">
+            <li class="Sec_List">Primary object relationships of the subscribed 
+ object where the <span class="UIElement" style="font-weight: bold;">Subscribe primary object and cascade 
+ its subscription relationships</span> rule is set to true and the <span class="UIElement" style="font-weight: bold;">Always subscribe the primary object</span> rule is set 
+ to false.</li>
+            <li class="Sec_List">Required primary object relationships of the 
+ subscribed object where the <span class="UIElement" style="font-weight: bold;">Subscribe primary object 
+ and cascade its subscription relationships</span> rule is set to false 
+ and the <span class="UIElement" style="font-weight: bold;">Always subscribe the primary object</span> 
+ rule is set to true.</li>
+            <li class="Sec_List">Secondary object relationships of the subscribed 
+ object where the <span class="UIElement" style="font-weight: bold;">Subscribe secondary object and 
+ cascade its subscription relationships</span> rule is set to true and 
+ the filter expression evaluates to true.</li>
+        </ul>
+        <ul>
+            <li>Recursively processes (cascades) each object subscribed 
+ as a result of the above process until no more relationships are found 
+ for the specified object, a duplicate (already subscribed) object is reached 
+ (to prevent infinite looping), or until a <em class="Emphasis">top level 
+ object</em> is reached. When a top level object is reached, that object 
+ is subscribed but the cascade process for that object is concluded.</li>
+            <li>Updates and/or inserts the objects in subscription_item 
+ with sync_action=1, unless those objects currently exist in subscription_item 
+ with sync_action=6 or 7 (deleted).</li>
+        </ul>
+        <h5>Additionally: </h5>
+        <ul>
+            <li>If the object being processed is both a parent 
+ and a child in the relationship, such as for a company with a parent company, 
+ the object is first processed in its role as the child object and then 
+ in its role as the parent object.</li>
+            <li>If an end-user is resubscribing an object that 
+ has already been subscribed and synchronized (sync_action=0), then sync_action 
+ remains 0 rather than being set to sync_action=1. This prevents the object 
+ from being processed again.</li>
+            <li>When the cascade process is triggered by sync_action=5, 
+ explicitly unsubscribed objects (sync_action=4) are not re-subscribed 
+ as part of the cascade process.</li>
+        </ul>
+    </body>
+</html>

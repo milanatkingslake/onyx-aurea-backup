@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:lastBlockDepth="5" MadCap:lastHeight="842" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head><title>Creating User-specific Bookmarks</title>
+    </head>
+    <body>
+        <H3>Creating User-specific Bookmarks</H3>
+        <p>In addition to mobile bookmarks created from Navigator, you can modify and run the opInsertOOBBookMark.sql script included in the Installation Package on the Onyx Persistence database (OPDB) to create the following user-specific mobile bookmarks:</p>
+        <ul>
+            <li><b>Incidents assigned to me</b>. Opens a list page with all sales, support, and service incidents assigned to the logged-on user. To create this bookmark, you must first create a new Navigator entity named Incidents. For more information, see <a href="#Creating">Creating Incidents as a Custom Entity</a>.</li>
+            <li><b>Tasks assigned to me</b>. Opens a list page with all the tasks assigned to the logged on user.</li>
+        </ul>
+        <p class="ProcedureHeading">To create user-specific mobile bookmarks</p>
+        <ol>
+            <li>In your Onyx <MadCap:variable name="Aptean_Variables.Version number" /> Installation Package, navigate to <b>Customization Support &gt; Mobile Bookmarks</b>.</li>
+            <li>Copy the <code>opInsertOOBBookMark.sql</code> file to your Onyx database server and execute it on the Onyx Persistence database.</li>
+        </ol>
+        <blockquote>
+            <blockquote>
+                <p class="BodyTextIndent_1">This creates the opInsertOOBBookMark procedure in the Persistence database.</p>
+            </blockquote>
+        </blockquote>
+        <ol MadCap:continue="true">
+            <li>On the Onyx Persistence database, execute the following query, replacing OEDBDEMO with the name of your Onyx Transaction database. This creates mobile bookmarks for all users in Onyx, other than the <b>sa</b> user.</li>
+        </ol>
+        <blockquote>
+            <blockquote>
+                <p class="BodyTextIndent_1"><code>BEGIN</code>
+                </p>
+                <p class="BodyTextIndent_1"><code>BEGIN TRANSACTION</code>
+                </p>
+                <p class="BodyTextIndent_1"><code>EXEC opInsertOOBBookMark 'OEDBDEMO</code>'</p>
+                <p class="BodyTextIndent_1"><code>If @@error &gt;0</code>
+                </p>
+                <p class="BodyTextIndent_1"><code>ROLLBACK TRANSACTION</code>
+                </p>
+                <p class="BodyTextIndent_1"><code>Else</code>
+                </p>
+                <p class="BodyTextIndent_1"><code>COMMIT TRANSACTION</code>
+                </p>
+                <p class="BodyTextIndent_1"><code>END</code>
+                </p>
+            </blockquote>
+        </blockquote>
+        <ol MadCap:continue="true">
+            <li>Log on to Onyx Mobile App/Onyx Mobile Web as a user other than the <b>sa</b> user and verify that the following bookmarks are available on the Home Page:</li>
+        </ol>
+        <blockquote>
+            <ul>
+                <li class="ListBullet_2">My Incidents</li>
+                <li class="ListBullet_2">My Tasks</li>
+            </ul>
+        </blockquote>
+        <blockquote>
+            <blockquote>
+                <p class="BodyTextIndent_1">If you have not created Incidents as a mobile bookmark, then no bookmarks for Incidents will be created.</p>
+            </blockquote>
+        </blockquote>
+        <ol start="5">
+            <li>When you add new users in Onyx, run the script mentioned in step 3 to create mobile bookmarks for the new user. Re-running the script will not create duplicate entries for existing users.</li>
+        </ol>
+        <h3><a name="Creating"></a>Creating Incidents as a Custom Entity</h3>
+        <p>To create user-specific bookmarks for Incidents, you must create a new Navigator entity <b>Incidents</b> in the Persistence database.</p>
+        <p class="ProcedureHeading">To create incidents as a custom entity</p>
+        <ol>
+            <li>In your Onyx Installation Package, navigate to <b>Customization Support &gt; Mobile Bookmark</b> and copy the following scripts to your Onyx database server:</li>
+        </ol>
+        <blockquote>
+            <ul>
+                <li class="ListBullet_2">incident_navigator_view.sql
+        </li>
+                <li class="ListBullet_2">insertIncidentUIResoure.sql
+        </li>
+                <li class="ListBullet_2">insertIncidentCustomentity.sql
+        </li>
+            </ul>
+        </blockquote>
+        <ol start="2">
+            <li>Review and modify these scripts to match your installation of Onyx and your business needs.</li>
+            <li>On the Onyx Transaction database, run the following scripts:</li>
+        </ol>
+        <blockquote>
+            <ul>
+                <li class="ListBullet_2">incident_navigator_view.sql
+            </li>
+                <li class="ListBullet_2">insertIncidentUIResoure.sql
+            </li>
+            </ul>
+        </blockquote>
+        <ol start="4">
+            <li>On the Onyx Persistence database, run the insertIncidentCustomentity.sql
+           script:</li>
+        </ol>
+        <blockquote>
+            <blockquote>
+                <p class="BodyTextIndent_1">This creates the required entries and views in the databases for a new custom entity: Incidents.</p>
+            </blockquote>
+        </blockquote>
+        <ol start="5">
+            <li>Use the OGS Custom Entity Helper tool to create the custom entity DLL in OGS. For more, refer to the <i>Onyx <MadCap:variable name="Aptean_Variables.Version number" /> OEP Administration Guide</i>.</li>
+        </ol>
+    </body>
+</html>

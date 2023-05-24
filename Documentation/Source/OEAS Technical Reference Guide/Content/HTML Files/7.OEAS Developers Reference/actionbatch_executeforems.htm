@@ -1,0 +1,782 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="867" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Note_Table_3.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/TableStyles/Aptean_Note_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>executeForEMS (actionBatch)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="executeForEMS (actionBatch);executeForEMS" />executeForEMS method</h2>
+        <p>The executeForEMS method of the <a href="actionBatch_object.htm"><MadCap:keyword term="actionBatch" />actionBatch</a> 
+ object is called by the email monitor subsystem (EMS). For incoming email 
+ messages that are detected in monitored mailboxes, EMS constructs the 
+ actionBatchXml parameter, which provides data for associating incoming 
+ messages with customers, email threads, attachments, and incidents, as 
+ appropriate. Before executing the actionBatchXml, the executeForEMS method 
+ calls the OnyxTransformStep step component to modify and enhance the actionBatchXml 
+ from EMS so that it inserts an incident related to the message, if necessary. 
+ You can enable and modify parts of this XSLT transform so that an auto-reply 
+ email is created and sent.</p>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Note_Table_1.css');width: 80%;" class="TableStyle-Aptean_Note_Table_1" cellspacing="2">
+            <col style="width: 0.7cm;" class="TableStyle-Aptean_Note_Table_1-Column-Column1" />
+            <col class="TableStyle-Aptean_Note_Table_1-Column-Column1" style="width: 15.50cm;" />
+            <tbody>
+                <tr class="TableStyle-Aptean_Note_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyB-Column1-Body1" style="text-align: right;">
+                        <p>
+                            <img src="../../Resources/Images/Common/note_image.png" />
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText"><b>Note</b>: The OnyxTransformStep is disabled in the default configuration 
+ of this method. Using OnyxTransformStep requires that you enable the step 
+ using the Object Designer. Also, the XSLT template that Onyx supplies 
+ to be used with EMS needs to be configured for your implementation of 
+ OEAS and OEP.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Parameters</h3>
+        <table>
+            <col style="width: 4cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 4cm;" />
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Direction</th>
+                    <th>Data type</th>
+                    <th>Content type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">actionBatchXml</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">in</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">string</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">XML that defines the actions of the batch 
+ processing. This XML must be <a href="Encoding_reserved_XML_characters.htm">encoded</a>.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">statusXml</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">out</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">string</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">The status of all the calls processed by 
+ the execute method.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Steps</h3>
+        <table>
+            <col style="width: 5cm;" />
+            <col style="width: 5cm;" />
+            <col style="width: 7cm;" />
+            <thead>
+                <tr>
+                    <th>Step data</th>
+                    <th>Step type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OnyxDataValidationStep.DataValidation</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Validates the input parameters</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">OnyxTransformStep.TransformStep</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Transforms the actionBatchXml</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">OnyxActionBatchExecute.ActionBatchExecute</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Executes a series of method calls defined 
+ in the actionBatchXml using the OTM</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Remarks</h3>
+        <p>The stepAdditionalData for the OnyxTransformStep specifies the path 
+ of the XSL template that is executed and which node in the stepPackage 
+ that is transformed. When you view the OnyxTransformStep of the executeForEMS 
+ method using the Object Designer, the stepAdditionalData text box contains 
+ the basic configuration for the step. The default stepAdditionalData for 
+ the specific step is shown below, and it specifies the location of XSL 
+ transform at the time of OEAS installation.</p>
+        <p Class="Code" class="code">stepMethod=executeForEMS;</p>
+        <p Class="Code" class="code">stepObject=actionBatch;</p>
+        <p Class="Code" class="code">templatePath=C:\Program Files\ONYX\AppServer\Onyx\templates\OnyxEMSIncidentInsert.xsl;</p>
+        <p Class="Code" class="code">escapedNode=stepPackage/parameters/actionBatchXml</p>
+        <p>The templatePath is either the absolute path of the template (as shown 
+ above) or a relative path to the location of the dllhost.exe file on the 
+ application server (typically, c:\windows\system32).</p>
+        <p>With minor modifications, the XSLT template supplied 
+ by Onyx for the executeForEMS method is capable of the following functionality:</p>
+        <ul style="list-style: disc;" type="disc">
+            <li>When the incoming email message is the first message 
+ of an email thread, the template creates an incident and associates the 
+ message with incident. The properties of the incident can be generated 
+ from emailMessage object instance properties or literal values specified 
+ in the XSLT template</li>
+            <li>When the person who sent the email message is 
+ resolved to an individual or a company object instance, the template makes 
+ the individual or the company's primary contact the owner of the incident.</li>
+            <li>When the incoming email message is a part of an 
+ existing email thread that is tracked in Onyx, the template updates the 
+ incident associated with the thread by associating the new message with 
+ the incident.</li>
+            <li>Sends an auto-reply to the sender of the incoming 
+ email message.</li>
+            <li>Supports multiple monitored mailboxes, such as 
+ support@company.com and sales@company.com.</li>
+        </ul>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Note_Table_3.css');width: 80%;" class="TableStyle-Aptean_Note_Table_3" cellspacing="2">
+            <col style="width: 0.7cm;" class="TableStyle-Aptean_Note_Table_3-Column-Column1" />
+            <col class="TableStyle-Aptean_Note_Table_3-Column-Column1" style="width: 13cm;" />
+            <tbody>
+                <tr class="TableStyle-Aptean_Note_Table_3-Body-Body1">
+                    <td class="TableStyle-Aptean_Note_Table_3-BodyB-Column1-Body1" style="text-align: right;">
+                        <p class="TableText">
+                            <img src="../../Resources/Images/Common/note_image.png" />
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Note_Table_3-BodyA-Column1-Body1">
+                        <p class="TableText"><b>Note</b>: In OnyxEMSIncidentInsert.xsl, do not modify the line that 
+ reads:</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p Class="Code" class="code">&lt;xsl:if test="$dummyCustomerId!='ENTER DUMMY CUSTOMER ID HERE'"&gt;</p>
+        <h3>Example</h3>
+        <p>
+            View the OnyxEMSIncidentInsert.xsl template
+        </p>
+        <p Class="Code" class="C_Code">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"&gt;</p>
+        <p Class="Code" class="C_Code">&lt;!-- Global variables --&gt;</p>
+        <p Class="Code" class="C_Code">&lt;xsl:variable name="dummyCustomerId" select="'ENTER DUMMY CUSTOMER ID HERE'"/&gt;</p>
+        <p Class="Code" class="C_Code">&lt;xsl:variable name="dummyCustomerType" select="'ENTER DUMMY CUSTOMER TYPE ID HERE'"/&gt;</p>
+        <p Class="Code" class="C_Code">&lt;xsl:variable name="smtpServer" select="'ENTER SMTP SERVER HERE'"/&gt;</p>
+        <p Class="Code" class="C_Code">&lt;xsl:variable name="inbox1_emailAddress" select="'ENTER INBOX1 EMAIL ADDRESS HERE'"/&gt;</p>
+        <p Class="Code" class="C_Code">&lt;xsl:variable name="inbox1_displayName" select="'ENTER INBOX1 DISPLAY NAME HERE'"/&gt;</p>
+        <p Class="Code" class="C_Code">&lt;xsl:variable name="inbox2_emailAddress" select="'ENTER INBOX2 EMAIL ADDRESS HERE'"/&gt;</p>
+        <p Class="Code" class="C_Code">&lt;xsl:variable name="inbox2_displayName" select="'ENTER INBOX2 DISPLAY NAME HERE'"/&gt;</p>
+        <p Class="Code" class="C_Code">&lt;!-- Global node variables --&gt;</p>
+        <p Class="Code" class="C_Code">&lt;xsl:variable name="actionsNode" select="stepPackage/parameters/actionBatchXml/root/actions"/&gt;</p>
+        <p Class="Code" class="C_Code">&lt;xsl:variable name="emailMessageNode" select="$actionsNode/action[logicalObjectName='emailMessage'][logicalMethodName='insert']/methodInputs/parameters/emailMessage"/&gt;</p>
+        <p Class="Code" class="C_Code">&lt;xsl:variable name="emailContactsNode" select="$emailMessageNode/emailContacts"/&gt;</p>
+        <p Class="Code" class="C_Code">&lt;xsl:variable name="fileLinksNode" select="$actionsNode/action[logicalObjectName='fileLink'][logicalMethodName='saveCollection']/methodInputs/parameters/fileLinks"/&gt;</p>
+        <p Class="Code" class="C_Code">&lt;xsl:variable name="emailAssociationsNode" select="$actionsNode/action[logicalObjectName='emailAssociation'][logicalMethodName='saveCollection']/methodInputs/parameters/emailAssociations"/&gt;</p>
+        <p Class="Code" class="C_Code">&lt;xsl:variable name="emailUserAssociationsNode" select="$actionsNode/action[logicalObjectName='emailUserAssociation'][logicalMethodName='saveCollection']/methodInputs/parameters/emailUserAssociations"/&gt;</p>
+        <p Class="Code" class="C_Code">&lt;xsl:output method="xml" indent="yes" encoding="UTF-8"/&gt;</p>
+        <p Class="Code" class="C_Code">&lt;!-- Start processing at the root node of the stepPackage --&gt;</p>
+        <p Class="Code" class="C_Code">&lt;xsl:template match="/"&gt;</p>
+        <p Class="Code" class="C_Code">&lt;xsl:if test="$dummyCustomerId!='ENTER DUMMY CUSTOMER ID HERE'"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;stepPackage&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:copy-of select="stepPackage/context"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;parameters&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;actionBatchXml&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;root&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;actions&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;!-- Following is the whitelist of ojects/methods that are propagated in the transform. --&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:copy-of select="$actionsNode/action[logicalObjectName='emailMessage'][logicalMethodName='insert']"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:copy-of select="$actionsNode/action[logicalObjectName='fileLink'][logicalMethodName='saveCollection']"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:copy-of select="$actionsNode/action[logicalObjectName='emailAssociation'][logicalMethodName='saveCollection']"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:copy-of select="$actionsNode/action[logicalObjectName='emailUserAssociation'][logicalMethodName='saveCollection']"/&gt; &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;!-- Based on the To address of the email, you can create different transformations --&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;!-- by using a different mode. --&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:choose&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:when test="$emailContactsNode/emailContact[typeId='1'][emailAddress=$inbox1_emailAddress]"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:apply-templates select="$actionsNode" mode="inbox1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/xsl:when&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:when test="$emailContactsNode/emailContact[typeId='1'][emailAddress=$inbox2_emailAddress]"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:apply-templates select="$actionsNode" mode="inbox2"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/xsl:when&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/xsl:choose&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/actions&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/root&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/actionBatchXml&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/parameters&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:copy-of select="stepPackage/returnXml"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;/stepPackage&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/xsl:if&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/xsl:template&gt;</p>
+        <p Class="Code" class="C_Code">&lt;!-- Inbox1 Example - threadId is empty --&gt;</p>
+        <p Class="Code" class="C_Code">&lt;!-- Use this template if the threadId is blank, which means this is the first email in a thread. --&gt;</p>
+        <p Class="Code" class="C_Code">&lt;!-- This template will create a support incident, associate the incident to the email, and send an auto-reply email. --&gt;</p>
+        <p Class="Code" class="C_Code">&lt;xsl:template match="actions[action/methodInputs/parameters/emailMessage/threadId='']" mode="inbox1"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;xsl:variable name="id" select="action[last()]/id"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;action&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;id&gt;&lt;xsl:value-of select="$id+1"/&gt;&lt;/id&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onFailure&gt;stop&lt;/onFailure&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;logicalObjectName&gt;incident&lt;/logicalObjectName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;logicalMethodName&gt;insert&lt;/logicalMethodName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;methodInputs&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;parameters&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;incident objectType="incident" action="insert" content="all"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;secondaryId null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:variable name="ownerId" select=".//emailAssociation[@collectionId=/.//emailContact[typeId='4'][contactIsResolved='1']/@collectionId]/associatedWithId"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:choose&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:when test="$ownerId"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:value-of select="$ownerId"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/xsl:when&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:otherwise&gt;&lt;xsl:value-of select="$dummyCustomerId"/&gt;&lt;/xsl:otherwise&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/xsl:choose&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/ownerId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerType&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:variable name="ownerType" select=".//emailAssociation[@collectionId=/.//emailContact[typeId='4'][contactIsResolved='1']/@collectionId]/associatedWithType"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:choose&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:when test="$ownerType"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:value-of select="$ownerType"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/xsl:when&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:otherwise&gt;&lt;xsl:value-of select="$dummyCustomerType"/&gt;&lt;/xsl:otherwise&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/xsl:choose&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/ownerType&gt; &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;contactId&gt;0&lt;/contactId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;contactObjectType&gt;1&lt;/contactObjectType&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;categoryId&gt;1&lt;/categoryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;typeId&gt;151&lt;/typeId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;assignedId null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;trackingId null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;trackingCode null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;serialNumber null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;productId null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;description1&gt;Auto-created EMS Incident: &lt;xsl:value-of select="$emailMessageNode/subject"/&gt;&lt;/description1&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;description2 null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;keyWords null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sourceId&gt;114&lt;/sourceId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;statusId&gt;130&lt;/statusId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;priorityId&gt;127&lt;/priorityId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;code1 null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;code2 null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;code3 null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;code4 null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;totalTime&gt;1&lt;/totalTime&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;totalLabor&gt;1&lt;/totalLabor&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;image&gt;0&lt;/image&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;assignedTo&gt;sa&lt;/assignedTo&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateBy null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateDate null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onyxTimestamp null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;privateAccess&gt;0&lt;/privateAccess&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;readOnlyAccess&gt;0&lt;/readOnlyAccess&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/incident&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/parameters&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;customData/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/methodInputs&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;/action&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;action&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onFailure&gt;stop&lt;/onFailure&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;id&gt;&lt;xsl:value-of select="$id+2"/&gt;&lt;/id&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;logicalObjectName&gt;emailAssociation&lt;/logicalObjectName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;logicalMethodName&gt;saveCollection&lt;/logicalMethodName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;methodInputs&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;parameters&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailAssociations objectType="emailAssociation" collection="1"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailAssociation objectType="emailAssociation" action="insert"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerId&gt;&lt;/ownerId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailContactId/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;associatedWithId&gt;&lt;/associatedWithId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;associatedWithType&gt;6&lt;/associatedWithType&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;showAssociationOnObject&gt;1&lt;/showAssociationOnObject&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;typeCode&gt;1&lt;/typeCode&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateBy/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateDate/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onyxTimestamp/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/emailAssociation&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/emailAssociations&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/parameters&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;customData/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/methodInputs&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;actionReturnMaps&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;actionReturnMap&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sourceActionId&gt;1&lt;/sourceActionId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sourceElementPath&gt;parametersReturn/emailMessage/primaryId&lt;/sourceElementPath&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;targetElementPath&gt;parameters/emailAssociations/emailAssociation/ownerId&lt;/targetElementPath&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/actionReturnMap&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;actionReturnMap&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sourceActionId&gt;&lt;xsl:value-of select="$id+1"/&gt;&lt;/sourceActionId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sourceElementPath&gt;parametersReturn/incident/primaryId&lt;/sourceElementPath&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;targetElementPath&gt;parameters/emailAssociations/emailAssociation/associatedWithId&lt;/targetElementPath&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/actionReturnMap&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/actionReturnMaps&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;/action&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;action&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onFailure&gt;continueNextAction&lt;/onFailure&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;id&gt;&lt;xsl:value-of select="$id+3"/&gt;&lt;/id&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;logicalObjectName&gt;emailMessage&lt;/logicalObjectName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;logicalMethodName&gt;send&lt;/logicalMethodName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;methodInputs&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;parameters&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;operation&gt;send&lt;/operation&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;smtpMode&gt;server&lt;/smtpMode&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;smtpServer&gt;&lt;xsl:value-of select="$smtpServer"/&gt;&lt;/smtpServer&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailMessage objectType="emailMessage"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;secondaryId&gt;&lt;/secondaryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;subject&gt;Email receipt confirmation&lt;/subject&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;text&gt;This is to confirm that we have received your email. &#160;A support incident has been created and will be assigned to the first available support engineer.&lt;/text&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;mimeType&gt;&lt;xsl:value-of select="$emailMessageNode/mimeType"/&gt;&lt;/mimeType&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;charset&gt;&lt;xsl:value-of select="$emailMessageNode/charset"/&gt;&lt;/charset&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;threadId&gt;&lt;/threadId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sent&gt;&lt;/sent&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sentDate&gt;&lt;/sentDate&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;receivedDate&gt;&lt;/receivedDate&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;processedDate&gt;&lt;/processedDate&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;followUp&gt;&lt;/followUp&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;priority&gt;2&lt;/priority&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;privateAccess&gt;&lt;/privateAccess&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;readOnlyAccess&gt;&lt;/readOnlyAccess&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy&gt;&lt;/insertBy&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate&gt;&lt;/insertDate&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateBy&gt;&lt;/updateBy&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateDate&gt;&lt;/updateDate&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onyxTimestamp&gt;&lt;/onyxTimestamp&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailContacts objectType="emailContact" collection="1"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailContact objectType="emailContact"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerId&gt;&lt;/ownerId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;typeId&gt;1&lt;/typeId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;displayName&gt;&lt;xsl:value-of select="$emailContactsNode/emailContact[typeId='4']/displayName"/&gt;&lt;/displayName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailAddress&gt;&lt;xsl:value-of select="$emailContactsNode/emailContact[typeId='4']/emailAddress"/&gt;&lt;/emailAddress&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;contactIsResolved&gt;&lt;xsl:value-of select="$emailContactsNode/emailContact[typeId='4']/contactIsResolved"/&gt;&lt;/contactIsResolved&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/emailContact&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailContact objectType="emailContact"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerId&gt;&lt;/ownerId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;typeId&gt;4&lt;/typeId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;displayName&gt;&lt;xsl:value-of select="$inbox1_displayName"/&gt;&lt;/displayName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailAddress&gt;&lt;xsl:value-of select="$inbox1_emailAddress"/&gt;&lt;/emailAddress&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;contactIsResolved&gt;1&lt;/contactIsResolved&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/emailContact&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/emailContacts&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/emailMessage&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/parameters&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;customData/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/methodInputs&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;/action&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/xsl:template&gt;</p>
+        <p Class="Code" class="C_Code">&lt;!-- Inbox1 Example - threadId is not empty --&gt;</p>
+        <p Class="Code" class="C_Code">&lt;!-- Use this template if the threadId is NOT blank, which means this is a subsequent email in a thread. --&gt;</p>
+        <p Class="Code" class="C_Code">&lt;!-- This template will update a support incident (if there is one associated to the email) and send an auto-reply email. --&gt;</p>
+        <p Class="Code" class="C_Code">&lt;xsl:template match="actions[action/methodInputs/parameters/emailMessage/threadId!='']" mode="inbox1"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;xsl:variable name="id" select="action[last()]/id"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;xsl:variable name="incidentPrimaryId" select="$emailAssociationsNode/emailAssociation[associatedWithType='6'][typeCode='1']/associatedWithId"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;xsl:choose&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:when test="$incidentPrimaryId"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;action&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;id&gt;&lt;xsl:value-of select="$id+1"/&gt;&lt;/id&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onFailure&gt;stop&lt;/onFailure&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;logicalObjectName&gt;incident&lt;/logicalObjectName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;logicalMethodName&gt;update&lt;/logicalMethodName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;methodInputs&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;parameters&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;incident objectType="incident" action="update" content="partial"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;&lt;xsl:value-of select="$incidentPrimaryId"/&gt;&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;statusId&gt;130&lt;/statusId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onyxTimestamp ignore="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/incident&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/parameters&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;customData/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/methodInputs&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/action&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;action&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onFailure&gt;continueNextAction&lt;/onFailure&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;id&gt;&lt;xsl:value-of select="$id+2"/&gt;&lt;/id&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;logicalObjectName&gt;emailMessage&lt;/logicalObjectName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;logicalMethodName&gt;send&lt;/logicalMethodName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;methodInputs&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;parameters&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;operation&gt;send&lt;/operation&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;smtpMode&gt;server&lt;/smtpMode&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;smtpServer&gt;&lt;xsl:value-of select="$smtpServer"/&gt;&lt;/smtpServer&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailMessage objectType="emailMessage"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;secondaryId&gt;&lt;/secondaryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;subject&gt;Email receipt confirmation&lt;/subject&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;text&gt;This is to confirm that we have received your email. &#160;A support incident has been updated and will be reviewed by the support engineer.&lt;/text&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;mimeType&gt;&lt;xsl:value-of select="$emailMessageNode/mimeType"/&gt;&lt;/mimeType&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;charset&gt;&lt;xsl:value-of select="$emailMessageNode/charset"/&gt;&lt;/charset&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;threadId&gt;&lt;xsl:value-of select="$emailMessageNode/threadId"/&gt;&lt;/threadId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sent&gt;&lt;/sent&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sentDate&gt;&lt;/sentDate&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;receivedDate&gt;&lt;/receivedDate&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;processedDate&gt;&lt;/processedDate&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;followUp&gt;&lt;/followUp&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;priority&gt;2&lt;/priority&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;privateAccess&gt;&lt;/privateAccess&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;readOnlyAccess&gt;&lt;/readOnlyAccess&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy&gt;&lt;/insertBy&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate&gt;&lt;/insertDate&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateBy&gt;&lt;/updateBy&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateDate&gt;&lt;/updateDate&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onyxTimestamp&gt;&lt;/onyxTimestamp&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailContacts objectType="emailContact" collection="1"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailContact objectType="emailContact"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerId&gt;&lt;/ownerId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;typeId&gt;1&lt;/typeId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;displayName&gt;&lt;xsl:value-of select="$emailContactsNode/emailContact[typeId='4']/displayName"/&gt;&lt;/displayName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailAddress&gt;&lt;xsl:value-of select="$emailContactsNode/emailContact[typeId='4']/emailAddress"/&gt;&lt;/emailAddress&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;contactIsResolved&gt;&lt;xsl:value-of select="$emailContactsNode/emailContact[typeId='4']/contactIsResolved"/&gt;&lt;/contactIsResolved&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/emailContact&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailContact objectType="emailContact"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerId&gt;&lt;/ownerId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;typeId&gt;4&lt;/typeId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;displayName&gt;&lt;xsl:value-of select="$inbox1_displayName"/&gt;&lt;/displayName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailAddress&gt;&lt;xsl:value-of select="$inbox1_emailAddress"/&gt;&lt;/emailAddress&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;contactIsResolved&gt;1&lt;/contactIsResolved&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/emailContact&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/emailContacts&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/emailMessage&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/parameters&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;customData/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/methodInputs&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/action&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/xsl:when&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;!-- No incident was found to be updated, just send the auto-reply email --&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:otherwise&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;action&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onFailure&gt;continueNextAction&lt;/onFailure&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;id&gt;&lt;xsl:value-of select="$id+1"/&gt;&lt;/id&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;logicalObjectName&gt;emailMessage&lt;/logicalObjectName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;logicalMethodName&gt;send&lt;/logicalMethodName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;methodInputs&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;parameters&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;operation&gt;send&lt;/operation&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;smtpMode&gt;server&lt;/smtpMode&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;smtpServer&gt;&lt;xsl:value-of select="$smtpServer"/&gt;&lt;/smtpServer&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailMessage objectType="emailMessage"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;secondaryId&gt;&lt;/secondaryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;subject&gt;Email receipt confirmation&lt;/subject&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;text&gt;This is to confirm that we have received your email.&lt;/text&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;mimeType&gt;&lt;xsl:value-of select="$emailMessageNode/mimeType"/&gt;&lt;/mimeType&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;charset&gt;&lt;xsl:value-of select="$emailMessageNode/charset"/&gt;&lt;/charset&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;threadId&gt;&lt;xsl:value-of select=".//emailMessage/threadId"/&gt;&lt;/threadId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sent&gt;&lt;/sent&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sentDate&gt;&lt;/sentDate&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;receivedDate&gt;&lt;/receivedDate&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;processedDate&gt;&lt;/processedDate&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;followUp&gt;&lt;/followUp&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;priority&gt;2&lt;/priority&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;privateAccess&gt;&lt;/privateAccess&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;readOnlyAccess&gt;&lt;/readOnlyAccess&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy&gt;&lt;/insertBy&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate&gt;&lt;/insertDate&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateBy&gt;&lt;/updateBy&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateDate&gt;&lt;/updateDate&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onyxTimestamp&gt;&lt;/onyxTimestamp&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailContacts objectType="emailContact" collection="1"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailContact objectType="emailContact"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerId&gt;&lt;/ownerId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;typeId&gt;1&lt;/typeId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;displayName&gt;&lt;xsl:value-of select="$emailContactsNode/emailContact[typeId='4']/displayName"/&gt;&lt;/displayName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailAddress&gt;&lt;xsl:value-of select="$emailContactsNode/emailContact[typeId='4']/emailAddress"/&gt;&lt;/emailAddress&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;contactIsResolved&gt;&lt;xsl:value-of select="$emailContactsNode/emailContact[typeId='4']/contactIsResolved"/&gt;&lt;/contactIsResolved&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/emailContact&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailContact objectType="emailContact"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerId&gt;&lt;/ownerId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;typeId&gt;4&lt;/typeId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;displayName&gt;&lt;xsl:value-of select="$inbox1_displayName"/&gt;&lt;/displayName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailAddress&gt;&lt;xsl:value-of select="$inbox1_emailAddress"/&gt;&lt;/emailAddress&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;contactIsResolved&gt;1&lt;/contactIsResolved&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/emailContact&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/emailContacts&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/emailMessage&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/parameters&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;customData/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/methodInputs&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/action&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/xsl:otherwise&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;/xsl:choose&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/xsl:template&gt;</p>
+        <p Class="Code" class="C_Code">&lt;!-- Inbox2 Example - threadId is empty --&gt;</p>
+        <p Class="Code" class="C_Code">&lt;!-- Use this template if the threadId is blank, which means this is the first email in a thread. --&gt;</p>
+        <p Class="Code" class="C_Code">&lt;!-- This template will create a support incident, associate the incident to the email, and send an auto-reply email. --&gt;</p>
+        <p Class="Code" class="C_Code">&lt;xsl:template match="actions[action/methodInputs/parameters/emailMessage/threadId='']" mode="inbox2"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;xsl:variable name="id" select="action[last()]/id"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;action&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;id&gt;&lt;xsl:value-of select="$id+1"/&gt;&lt;/id&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onFailure&gt;stop&lt;/onFailure&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;logicalObjectName&gt;incident&lt;/logicalObjectName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;logicalMethodName&gt;insert&lt;/logicalMethodName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;methodInputs&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;parameters&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;incident objectType="incident" action="insert" content="all"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;secondaryId null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:variable name="ownerId" select=".//emailAssociation[@collectionId=/.//emailContact[typeId='4'][contactIsResolved='1']/@collectionId]/associatedWithId"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:choose&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:when test="$ownerId"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:value-of select="$ownerId"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/xsl:when&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:otherwise&gt;&lt;xsl:value-of select="$dummyCustomerId"/&gt;&lt;/xsl:otherwise&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/xsl:choose&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/ownerId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerType&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:variable name="ownerType" select=".//emailAssociation[@collectionId=/.//emailContact[typeId='4'][contactIsResolved='1']/@collectionId]/associatedWithType"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:choose&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:when test="$ownerType"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:value-of select="$ownerType"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/xsl:when&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:otherwise&gt;&lt;xsl:value-of select="$dummyCustomerType"/&gt;&lt;/xsl:otherwise&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/xsl:choose&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/ownerType&gt; &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;contactId&gt;0&lt;/contactId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;contactObjectType&gt;1&lt;/contactObjectType&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;categoryId&gt;3&lt;/categoryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;typeId&gt;151&lt;/typeId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;assignedId null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;trackingId null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;trackingCode null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;serialNumber null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;productId null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;description1&gt;Auto-created EMS Incident: &lt;xsl:value-of select="$emailMessageNode/subject"/&gt;&lt;/description1&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;description2 null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;keyWords null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sourceId&gt;114&lt;/sourceId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;statusId&gt;130&lt;/statusId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;priorityId&gt;127&lt;/priorityId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;code1 null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;code2 null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;code3 null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;code4 null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;totalTime&gt;1&lt;/totalTime&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;totalLabor&gt;1&lt;/totalLabor&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;image&gt;0&lt;/image&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;assignedTo&gt;sa&lt;/assignedTo&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateBy null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateDate null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onyxTimestamp null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;privateAccess&gt;0&lt;/privateAccess&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;readOnlyAccess&gt;0&lt;/readOnlyAccess&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/incident&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/parameters&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;customData/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/methodInputs&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;/action&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;action&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onFailure&gt;stop&lt;/onFailure&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;id&gt;&lt;xsl:value-of select="$id+2"/&gt;&lt;/id&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;logicalObjectName&gt;emailAssociation&lt;/logicalObjectName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;logicalMethodName&gt;saveCollection&lt;/logicalMethodName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;methodInputs&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;parameters&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailAssociations objectType="emailAssociation" collection="1"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailAssociation objectType="emailAssociation" action="insert"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerId&gt;&lt;/ownerId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailContactId/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;associatedWithId&gt;&lt;/associatedWithId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;associatedWithType&gt;6&lt;/associatedWithType&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;showAssociationOnObject&gt;1&lt;/showAssociationOnObject&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;typeCode&gt;1&lt;/typeCode&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateBy/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateDate/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onyxTimestamp/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/emailAssociation&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/emailAssociations&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/parameters&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;customData/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/methodInputs&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;actionReturnMaps&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;actionReturnMap&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sourceActionId&gt;1&lt;/sourceActionId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sourceElementPath&gt;parametersReturn/emailMessage/primaryId&lt;/sourceElementPath&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;targetElementPath&gt;parameters/emailAssociations/emailAssociation/ownerId&lt;/targetElementPath&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/actionReturnMap&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;actionReturnMap&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sourceActionId&gt;&lt;xsl:value-of select="$id+1"/&gt;&lt;/sourceActionId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sourceElementPath&gt;parametersReturn/incident/primaryId&lt;/sourceElementPath&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;targetElementPath&gt;parameters/emailAssociations/emailAssociation/associatedWithId&lt;/targetElementPath&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/actionReturnMap&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/actionReturnMaps&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;/action&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;action&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onFailure&gt;continueNextAction&lt;/onFailure&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;id&gt;&lt;xsl:value-of select="$id+3"/&gt;&lt;/id&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;logicalObjectName&gt;emailMessage&lt;/logicalObjectName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;logicalMethodName&gt;send&lt;/logicalMethodName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;methodInputs&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;parameters&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;operation&gt;send&lt;/operation&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;smtpMode&gt;server&lt;/smtpMode&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;smtpServer&gt;&lt;xsl:value-of select="$smtpServer"/&gt;&lt;/smtpServer&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailMessage objectType="emailMessage"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;secondaryId&gt;&lt;/secondaryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;subject&gt;Email receipt confirmation&lt;/subject&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;text&gt;This is to confirm that we have received your email. &#160;A support incident has been created and will be assigned to the first available support engineer.&lt;/text&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;mimeType&gt;&lt;xsl:value-of select="$emailMessageNode/mimeType"/&gt;&lt;/mimeType&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;charset&gt;&lt;xsl:value-of select="$emailMessageNode/charset"/&gt;&lt;/charset&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;threadId&gt;&lt;/threadId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sent&gt;&lt;/sent&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sentDate&gt;&lt;/sentDate&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;receivedDate&gt;&lt;/receivedDate&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;processedDate&gt;&lt;/processedDate&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;followUp&gt;&lt;/followUp&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;priority&gt;2&lt;/priority&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;privateAccess&gt;&lt;/privateAccess&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;readOnlyAccess&gt;&lt;/readOnlyAccess&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy&gt;&lt;/insertBy&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate&gt;&lt;/insertDate&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateBy&gt;&lt;/updateBy&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateDate&gt;&lt;/updateDate&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onyxTimestamp&gt;&lt;/onyxTimestamp&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailContacts objectType="emailContact" collection="1"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailContact objectType="emailContact"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerId&gt;&lt;/ownerId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;typeId&gt;1&lt;/typeId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;displayName&gt;&lt;xsl:value-of select="$emailContactsNode/emailContact[typeId='4']/displayName"/&gt;&lt;/displayName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailAddress&gt;&lt;xsl:value-of select="$emailContactsNode/emailContact[typeId='4']/emailAddress"/&gt;&lt;/emailAddress&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;contactIsResolved&gt;&lt;xsl:value-of select="$emailContactsNode/emailContact[typeId='4']/contactIsResolved"/&gt;&lt;/contactIsResolved&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/emailContact&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailContact objectType="emailContact"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerId&gt;&lt;/ownerId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;typeId&gt;4&lt;/typeId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;displayName&gt;&lt;xsl:value-of select="$inbox2_displayName"/&gt;&lt;/displayName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailAddress&gt;&lt;xsl:value-of select="$inbox2_emailAddress"/&gt;&lt;/emailAddress&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;contactIsResolved&gt;1&lt;/contactIsResolved&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/emailContact&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/emailContacts&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/emailMessage&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/parameters&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;customData/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/methodInputs&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&lt;/action&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/xsl:template&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/xsl:stylesheet&gt;</p>
+        <p class="C_Code">
+            View an example of the actionBatchXml node generated by EMS, 
+ which is input to OnyxTransformStep
+        </p>
+        <p Class="Code" class="C_Code">&lt;actions&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;action&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;id&gt;1&lt;/id&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;onFailure&gt;stop&lt;/onFailure&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;logicalObjectName&gt;emailMessage&lt;/logicalObjectName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;logicalMethodName&gt;insert&lt;/logicalMethodName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;methodInputs&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;parameters&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailMessage&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;...</p>
+        <p Class="Code" class="C_Code">&#160;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailContacts objectType="emailContact" collection="1"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailContact objectType="emailContact" action="insert" collectionId="1"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerId/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;typeId&gt;4&lt;/typeId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;displayName&gt;Marty Patricelli&lt;/displayName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailAddress&gt;MartyP@onyx.com&lt;/emailAddress&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;contactIsResolved&gt;1&lt;/contactIsResolved&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/emailContact&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/emailContacts&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/emailMessage&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/parameters&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;customData/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/methodInputs&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;/action&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;action&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;id&gt;3&lt;/id&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;onFailure&gt;stop&lt;/onFailure&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;logicalObjectName&gt;emailAssociation&lt;/logicalObjectName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;logicalMethodName&gt;saveCollection&lt;/logicalMethodName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;methodInputs&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;parameters&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailAssociations objectType="emailAssociation" collection="1"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailAssociation objectType="emailAssociation" action="insert" collectionId="1"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerId/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailContactId/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;associatedWithId&gt;27&lt;/associatedWithId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;associatedWithType&gt;1&lt;/associatedWithType&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;showAssociationOnObject&gt;1&lt;/showAssociationOnObject&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;typeCode&gt;2&lt;/typeCode&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/emailAssociation&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailAssociation objectType="emailAssociation" action="insert" collectionId="3"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerId/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;emailContactId/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;associatedWithId&gt;26&lt;/associatedWithId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;associatedWithType&gt;1&lt;/associatedWithType&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;showAssociationOnObject&gt;1&lt;/showAssociationOnObject&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;typeCode&gt;2&lt;/typeCode&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/emailAssociation&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/emailAssociations&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/parameters&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;customData/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/methodInputs&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;/action&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/actions&gt;</p>
+    </body>
+</html>

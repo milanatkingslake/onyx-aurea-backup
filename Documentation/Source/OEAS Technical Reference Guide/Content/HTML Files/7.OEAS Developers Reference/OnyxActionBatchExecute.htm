@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="791" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>OnyxActionBatchExecute</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>
+            <MadCap:keyword term="OnyxActionBatchExecute" />OnyxActionBatchExecute</h3>
+        <p>The OnyxActionBatchExecute step component enables an OEAS client to 
+ execute a series of method calls with a single call to the Onyx Transaction 
+ Manager (OTM) using the <a href="actionBatch_execute.htm">actionBatch.execute</a> 
+ method. OnyxActionBatchExecute executes the series of methods through 
+ the internal <a href="OTM.htm">Onyx Transaction Manager</a> interface 
+ and returns all the parametersReturn XML back to the calling client.</p>
+        <p>OnyxActionBatchExecute is used by some methods of the <a href="actionBatch_object.htm">actionBatch</a> 
+ object. The logical method actionBatch.execute is intended for general 
+ use by client applications for calling the step component. It takes two 
+ parameters: the <a href="actionBatchXml_schema.htm">actionBatchXml</a> 
+ input parameter which defines the series of method calls and the <a href="actionBatch_statusXml_schema.htm">statusXml</a> 
+ return parameter, which contains the status of all the executed method 
+ calls.</p>
+        <h4>actionBatchXml - parameters XML input</h4>
+        <p>The actionBatchXml document defines a series of actions, 
+ that is, a series of OEAS method calls. An action may or may not use any source list items. An action can 
+ use maps 
+ to gather data from source list items or from another action.</p>
+        <h3>Actions</h3>
+        <p>OnyxActionBatchExecute is used to execute a series of method calls defined 
+ in the actionBatchXml. Each method call is defined under an <a href="actionBatchXml_action.htm">action</a> 
+ node. An action may or may not use data from a source list item and may 
+ or may not use data from other actions.</p>
+        <h3>Source list items</h3>
+        <p>The source list items are located under the <a href="actionBatchXML_sourceList.htm">sourceList</a> XML node in 
+ the actionBatchXml. The actionBatchXml does not require source list items. 
+ If there are no items in the sourceList, each 
+ action in the actions list is performed once. If there are source 
+ list items, each action in the actions list is performed once for each 
+ item in the sourceList. The list of actions to be performed is 
+ located under the <a href="actionBatchXml_actions.htm">actions</a> 
+ node in the actionBatchXml.</p>
+        <h3>Maps</h3>
+        <p>The data to be used for a method call is defined under the actionBatchXml 
+ action node. This data can include a list of properties that need to be 
+ propagated from the source list 
+ items and other actions.  A map 
+ called the <a href="actionBatchXml_sourceListMap.htm">sourceListMap</a> 
+ maps values from a source list item to the input XML of an action. A map 
+ called the <a href="actionBatchXml_actionReturnMap.htm">actionReturnMap</a> 
+ maps values from the output XML of one action to the input XML of a later 
+ action.</p>
+        <p>The actionBatchXml also allows the mapping of data from one source list 
+ item or one action returnXml to multiple items in a single action. For 
+ example, suppose you have a company for which three phone numbers with 
+ the same ownerId need to be inserted using a single call to phone.saveCollection. 
+ You can do this with a single action 
+ that calls phone.saveCollection, where the company.primaryId is mapped 
+ to every phone in saveCollection. For more details, see <a href="actionBatchExecute_parameters_XML.htm">parameters 
+ XML</a> located in this book.</p>
+        <h4>statusXml - parametersReturn XML</h4>
+        <p>After performing all actions 
+ for each sourceList item OnyxActionBatchExecute 
+ collects all the parameters and returnXml for all executed methods, regardless 
+ of success or failure and returns it in the <a href="actionBatch_statusXml_schema.htm">statusXml</a> 
+ out parameter. You can use attributes in the actionBatchXml to control 
+ the processing of actions in 
+ the event of a failure while processing an action. 
+ For more details, see <a href="actionBatchExecute_parametersReturn_XML.htm">parametersReturn 
+ XML</a> located in this book. </p>
+    </body>
+</html>

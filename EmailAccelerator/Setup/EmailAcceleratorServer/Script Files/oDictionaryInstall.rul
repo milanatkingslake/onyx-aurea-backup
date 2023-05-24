@@ -1,0 +1,779 @@
+function OInstallOED()
+number nLoop, nResult, nvType, nvSize;
+string svResult, szKey, szOEDPath, szTemp;
+BOOL isComplete, isUpgrade;
+
+begin
+
+	nLoop = 0;
+
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	szKey = "Software\\ONYX\\SetupLauncher";
+
+	//check if this is a "complete" installation...if not, skip OED upgrade
+
+	if (RegDBGetKeyValueEx(szKey,"RunOEDUpgrade", nvType, szTemp, nvSize) != 0) then
+		isComplete = FALSE;
+		OManualUpgradeOED();
+	
+		return;
+
+	//else
+	//	isComplete = TRUE;
+	//	OAutoUpgradeOED();
+	//	return;
+
+	endif;
+
+/*
+	if (g_structAppName.bNewInstall = FALSE)then
+	
+		RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	
+		szKey = "SOFTWARE\\ONYX\\AppServer\\Applications\\" + g_structAppName.szLogin;
+	
+		RegDBGetKeyValueEx(szKey, "DictionaryPath", nvType, szOEDPath, nvSize);
+	
+   	 	while(nLoop = 0)
+   	 		//prompt to see if user would like to upgrade OED
+   	 		Sprintf(svResult, @MSG_OED_INSTALL, szOEDPath);
+			nResult = AskYesNo(svResult,NO);
+			
+			if(nResult = NO)then
+				//exit and continue setup.
+				return;
+			else
+				//if YES, continue with install.
+				nLoop = 1;
+			endif;
+		endwhile;
+	
+		OCreateRegKeys();
+		
+		OSetRegKeys(g_structAppName.szLogin);
+	
+		ORunInstaller();
+	else
+		return;
+	endif;
+*/
+
+	
+end;
+
+
+function OManualUpgradeOED()
+	STRING szMsg, szDefPath, svResultPath, szTitle, szTemp, szScrap;
+	STRING szMsg1, szMsg2, szOpt1, szOpt2, szViewFile;
+	NUMBER nResult, nDialog;
+	BOOL bvOpt1, bvOpt2, bDone;
+
+begin
+	
+
+    nDialog = 1;
+    nResult = NEXT;
+    bDone = FALSE;
+    while (!bDone)
+        switch (nDialog)
+
+
+        case 1:
+			//Show the welcome dialog.	
+    		if (OIsComponentSelected(COMP_WELCOME) = TRUE) then
+    			Disable(BACKBUTTON);
+    			nResult = DialogShowSdWelcome();
+    		endif;
+
+        case 2:
+
+			//Let the user select the OEAS application they want to upgrade the OED of
+			if (OIsComponentSelected(COMP_DLG_SELECT_APP) = TRUE) then
+				szTemp = "SOFTWARE\\ONYX\\AppServer\\Applications";				
+				//This sets the szCurrentOedFile and the szAppName members
+				nResult = ODialogShowSelectApp(szTemp,nResult);
+			endif;
+
+        default:
+           bDone = TRUE;
+        endswitch;
+
+        if (nResult = NEXT) then
+            nDialog++;
+        else
+            nDialog--;
+        endif;
+
+    endwhile;
+
+
+/*	//Legacy stuff that might be useful in the future...
+	else
+		szTitle = @LABEL_OED_DIR;
+		SetDialogTitle (DLG_ASK_PATH, szTitle);
+		szMsg = @MSG_OED_DIR;
+		szDefPath = PROGRAMFILES ^ "Onyx\\AppServer\\";
+		nResult = AskPath (szMsg, szDefPath, szTemp);
+		if(nResult != NEXT) then
+		   	return;	
+		else
+			g_structOEDUpgradeData.szInputOedFile = szTemp;
+		endif;
+
+	endif;
+*/	
+
+	////////////////////////////
+	//Finish filling out the upgrade data structure
+	////////////////////////////
+	//Get just the path of application
+	ParsePath (szTemp, g_structOEDUpgradeData.szInputOedFile, PATH);
+	g_structOEDUpgradeData.szAppPath = szTemp;
+	//Get the output path (and create the folder
+	g_structOEDUpgradeData.szOutputPath = g_structOEDUpgradeData.szAppPath ^ OUTPUT_FOLDER_NAME;
+	if ! (Is (PATH_EXISTS, g_structOEDUpgradeData.szOutputPath)) then
+		CreateDir (g_structOEDUpgradeData.szOutputPath);
+	endif;
+	
+	//Get the original OED path
+	ComponentGetData(MEDIA,SCOMP_O1_ORIGINAL_OED,COMPONENT_FIELD_DESTINATION,nResult,szTemp);
+	OParseMacros(szTemp);
+	LongPathFromShortPath (szTemp);
+	g_structOEDUpgradeData.szOriginalOedPath = szTemp;
+	//Get the working path
+	g_structOEDUpgradeData.szWorkingPath = SUPPORTDIR;
+	//Get the new master OED file
+	g_structOEDUpgradeData.szNewMasterOedFile = g_structOEDUpgradeData.szWorkingPath ^ MASTER_OED_FILENAME;
+	//Get the output file
+	g_structOEDUpgradeData.szOutputOedFile = g_structOEDUpgradeData.szWorkingPath ^ TEMP_CONVERTED_OED_FILENAME;
+	//Get the log path
+	g_structOEDUpgradeData.szLogFilePath = g_structOEDUpgradeData.szOutputPath;
+	
+	//Make sure the selected OED actually exists
+	ParsePath (szTemp, g_structOEDUpgradeData.szInputOedFile, FILENAME);
+	if ((FindFile(g_structOEDUpgradeData.szAppPath, szTemp, szScrap)) = -1) then
+		//The OED file does not exist
+		Sprintf (szMsg, @ERROR_REMOTE_SERVER_APP_TYPE, gszProductName);
+		MessageBox (szMsg, WARNING);
+		//Recursively go do it again...
+		OManualUpgradeOED();
+		return;
+	endif;
+	
+	OBackupOED(g_structOEDUpgradeData.szInputOedFile);
+	
+	//Run the schema conversion script
+	
+	SdShowMsg(@STATUS_UPGRADE_SCHEMA, TRUE);
+	nResult = ORunSchemaConversion();
+	if nResult != TRUE then
+		//The schema conversion failed
+		Sprintf (szMsg, @ERROR_REMOTE_SERVER_APP_TYPE, gszProductName);
+		MessageBox (szMsg, WARNING);
+		//Recursively go do it again...
+		OManualUpgradeOED();
+	endif;
+	SdShowMsg("", FALSE);
+	
+	//Run the Onyx Dictionary Installer
+	////////////////////////////
+	//Update the upgrade data structure for the ODI
+	////////////////////////////
+	//Get the input file (the output of the schema conversion)
+	g_structOEDUpgradeData.szInputOedFile = g_structOEDUpgradeData.szOutputOedFile;
+	//Get the output file
+	g_structOEDUpgradeData.szOutputOedFile = g_structOEDUpgradeData.szOutputPath ^ FINAL_OUTPUT_OED_FILENAME;
+	//Get the rules file
+	g_structOEDUpgradeData.szRulesFile = g_structOEDUpgradeData.szWorkingPath ^ OED_UPGRADE_RULES_MASK;	
+	
+	nResult = ORunInstaller();
+	
+	//Show the finish dialog
+	Sprintf(szMsg1,@SETUP_FINISH_ALT,gszProductName);
+	Sprintf(szMsg2,@MSG_VIEW_README,g_structOEDUpgradeData.szOutputPath);	
+	szOpt1=@LABEL_VIEW_README;
+	szOpt2=@LABEL_EXPLORE_OUTPUT;
+	bvOpt1=TRUE;
+	bvOpt2=TRUE;
+	szViewFile = READ_ME_FILE_NAME;
+	
+	switch (nResult)
+	case 20:
+		//conflict(s) found during the OED upgrade, allow user to view logfile	
+	    szMsg2 = @ERROR_OED_CONFLICT;
+	    szOpt1 = @LABEL_VIEW_LOG;
+	    szViewFile = g_structOEDUpgradeData.szLogFilePath ^ UPGRADE_LOG_FILE_NAME;
+	case 21:
+		//A serious error occurred during the OED upgrade, allow user to view logfile	
+	    szMsg2 = @ERROR_OED_SERIOUS;
+	    szOpt1 = @LABEL_VIEW_LOG;
+	    szViewFile = g_structOEDUpgradeData.szLogFilePath ^ UPGRADE_LOG_FILE_NAME;
+	//case 22:
+		//no upgrade was necessary...simply return	
+		
+	//case NEXT:
+	
+	//default:
+		
+	endswitch;
+	
+	//Copy the ReadMe over
+	VarSave(SRCTARGETDIR);
+	SRCDIR = SUPPORTDIR;
+	TARGETDIR = g_structOEDUpgradeData.szOutputPath;
+	nResult = CopyFile(READ_ME_FILE_NAME, READ_ME_FILE_NAME);
+	VarRestore(SRCTARGETDIR);
+	
+	
+	SdFinish (gszProductName, szMsg1, szMsg2, szOpt1, szOpt2, bvOpt1, bvOpt2);
+	
+	if (bvOpt1) then
+    	// Display the read me file.
+    	LaunchApp ("notepad", szViewFile);
+    endif;
+
+	if (bvOpt2) then
+    	// Display the output folder.
+    	LaunchApp ("explorer", g_structOEDUpgradeData.szOutputPath);
+    endif;
+
+	return;
+
+end;
+
+
+	
+function ORunInstaller()
+	string szErr, svLogPath, svMsg, szKey, szFileName, szDir;
+	number nLoop, nResult, nvSize, nvType;
+	BOOL success;
+begin
+
+	//Figure out the rules file to use (use the first one that fits the mask)
+	ParsePath (szDir, g_structOEDUpgradeData.szRulesFile, PATH);
+	ParsePath (szFileName, g_structOEDUpgradeData.szRulesFile, FILENAME);
+	FindAllFiles (szDir, szFileName, szFileName, RESET);
+
+	//Set the registry keys
+	szKey = "SOFTWARE\\ONYX\\Setup\\DictionaryInstall";
+	success = TRUE;
+	if (RegDBSetKeyValueEx (szKey, "RulesFile", REGDB_STRING, szFileName, -1) < 0) then
+		success = FALSE;
+	endif;
+	if (RegDBSetKeyValueEx (szKey, "CurrentDictionaryFile", REGDB_STRING, g_structOEDUpgradeData.szInputOedFile, -1) < 0) then
+		success = FALSE;
+	endif;
+	if (RegDBSetKeyValueEx (szKey, "FinalDictionaryFile", REGDB_STRING, g_structOEDUpgradeData.szOutputOedFile, -1) < 0) then
+		success = FALSE;
+	endif;
+	if (RegDBSetKeyValueEx (szKey, "NewDictionaryFile", REGDB_STRING, g_structOEDUpgradeData.szNewMasterOedFile, -1) < 0) then
+		success = FALSE;
+	endif;
+	if (RegDBSetKeyValueEx (szKey, "OrgDictionaryPath", REGDB_STRING, g_structOEDUpgradeData.szOriginalOedPath, -1) < 0) then
+		success = FALSE;
+	endif;
+	if (RegDBSetKeyValueEx (szKey, "LogFile", REGDB_STRING, g_structOEDUpgradeData.szLogFilePath ^ OED_UPGRADE_LOG, -1) < 0) then
+		success = FALSE;
+	endif;
+
+	nLoop = 0;
+
+	nResult = OLaunchAppAndWait(SUPPORTDIR ^ OED_UPGRADE_EXE, "");
+
+	return nResult;
+
+	if (nResult != NEXT) then
+		if (nResult = 20) then
+			//conflict(s) found during the OED upgrade, allow user to view logfile	
+			while(nLoop = 0)
+				nResult = AskYesNo(@ERROR_OED_CONFLICT,NO);
+				if(nResult = YES)then
+					LaunchApp("notepad", g_structOEDUpgradeData.szLogFilePath ^ "OED_upgrade_log.txt");
+					nLoop = 1;
+				else
+					//if NO, continue with install.
+					nLoop = 1;
+				endif;
+			endwhile;
+		elseif (nResult = 22)then
+			//no upgrade was necessary...simply return
+			return;
+		else
+			//nresult = 21....serious errors occurred, abort setup
+			abort;
+		endif;
+	endif;
+end;
+
+
+function ORunSchemaConversion()
+	STRING szErr, svLogPath, svMsg, szKey, szFileName, svReturnLine, svDir, svFile, svVersionSegment, svVersionString;
+	NUMBER nLoop, nResult, nvSize, nvType, nvLineNumber, nStart, nLength, nVersionSegment;
+	BOOL success;
+	LIST listStrings;
+begin
+
+	//Figure out which original OED to use	
+	ParsePath (svDir, g_structOEDUpgradeData.szInputOedFile, PATH);
+	ParsePath (svFile, g_structOEDUpgradeData.szInputOedFile, FILENAME);
+	
+	VarSave(SRCTARGETDIR);
+	SRCDIR = svDir;
+	TARGETDIR = SRCDIR;
+	nResult = FileGrep (svFile, OED_VERSION_SEARCH_STRING, svReturnLine, nvLineNumber, RESTART);
+	VarRestore(SRCTARGETDIR);
+
+	if (nResult < 0) then
+		return nResult;
+	endif;
+	
+	//Separate the list into segments to parse out the OEAS version number
+	listStrings = ListCreate (STRINGLIST);
+	StrGetTokens (listStrings, svReturnLine, "\".");
+	
+	nLoop = ListGetFirstString (listStrings,svVersionSegment);
+	nVersionSegment = 0;
+	while(nLoop != END_OF_LIST && nVersionSegment < 3)
+		switch(nVersionSegment)
+ 		case 1:
+ 			svVersionString = svVersionSegment;
+ 			nVersionSegment ++;
+ 		case 2:
+ 			svVersionString = svVersionString + "." + svVersionSegment;
+ 			nVersionSegment ++;
+ 		default:
+ 			if (svVersionSegment % OED_VERSION_SEARCH_STRING) then
+ 				nVersionSegment = 1;
+ 			endif;
+		endswitch;		
+		nLoop = ListGetNextString (listStrings,svVersionSegment);
+	endwhile;
+	
+	ListDestroy(listStrings);
+	
+	if (StrLength (svVersionString)< 2) then
+		return FALSE;
+	endif;
+
+	//Get the path to the original OED file to use
+	svFile = ORIGINAL_OED_MASK;
+	_StrReplace (svFile, "*", svVersionString, nResult, MAX_STRING);
+	svFile = g_structOEDUpgradeData.szOriginalOedPath ^ svFile;
+
+	//Check to make sure the file exists
+	if (OFileExist (svFile) = FALSE) then
+		return FALSE;
+	endif;
+	
+	success = TRUE;
+	szKey = "Software\\ONYX\\Setup\\OEDSchemaConversion";
+	//Set the registry key for the path to the original OED file to use
+	if (RegDBSetKeyValueEx (szKey, "OriginalDictionaryFile", REGDB_STRING, svFile, -1) < 0) then
+		success = FALSE;
+	endif;
+	
+	//Set the other registry keys
+	if (RegDBSetKeyValueEx (szKey, "CurrentDictionaryFile", REGDB_STRING, g_structOEDUpgradeData.szInputOedFile, -1) < 0) then
+		success = FALSE;
+	endif;
+	if (RegDBSetKeyValueEx (szKey, "FinalDictionaryFile", REGDB_STRING, g_structOEDUpgradeData.szOutputOedFile, -1) < 0) then
+		success = FALSE;
+	endif;
+	if (RegDBSetKeyValueEx (szKey, "NewDictionaryFile", REGDB_STRING, g_structOEDUpgradeData.szNewMasterOedFile, -1) < 0) then
+		success = FALSE;
+	endif;
+	if (RegDBSetKeyValueEx (szKey, "LogFile", REGDB_STRING, g_structOEDUpgradeData.szLogFilePath ^ SCHEMA_CONVERSION_LOG, -1) < 0) then
+		success = FALSE;
+	endif;
+
+	if (success = FALSE) then
+		return success;
+	endif;
+	
+	nResult = OLaunchAppAndWait("wscript", SUPPORTDIR ^ SCHEMA_CONVERSION_SCRIPT);
+
+	if (nResult != NEXT) then
+		return FALSE;
+	else
+		return TRUE;
+	endif;
+end;
+
+
+
+
+
+
+function OBackupOED(svOEDPath)
+number nResult;
+string svResult, svDir, svFile;
+begin
+
+	ParsePath (svDir, svOEDPath, PATH);
+	ParsePath (svFile, svOEDPath, FILENAME);
+
+	VarSave(SRCTARGETDIR);
+	SRCDIR = svDir;
+	TARGETDIR = g_structOEDUpgradeData.szOutputPath;
+	nResult = CopyFile(svFile, BACKUP_OED_FILENAME);
+	VarRestore(SRCTARGETDIR);
+
+end;
+
+
+// Inserts new QE setting for K2, since Configure Middle Tier setup is not run during
+// an upgrade from 3.30 to 3.50
+function OUpgradeRegistry(svAppName)
+string szSubkey;
+begin
+
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	szSubkey = "SOFTWARE\\ONYX\\AppServer\\Applications";
+	RegDBSetKeyValueEx (szSubkey ^ svAppName ^ "QE","DatabaseType" , REGDB_NUMBER, "1", -1);
+
+end;
+
+
+function OCreateRegKeys()
+string szClass, szInstallKey;
+BOOL success;
+
+begin
+	szInstallKey = "SOFTWARE\\ONYX\\Setup\\DictionaryInstall";
+	szClass = "";
+	
+	if (RegDBCreateKeyEx(szInstallKey, szClass) < 0) then
+		success = FALSE;
+	endif;
+end;
+
+
+/*
+function OAutoUpgradeOED()
+LIST appList, displayList;
+string szSubkey, svString, svCurrentVersion, svIsUpgrade, szTitle, szMsg;
+number nItem, nResult, nvType, nvSize, nvCurrentVersion, nvNewVersion;
+BOOL bDone;
+
+begin
+
+//OGetNewOEDVersion(svNewVersion);
+
+appList = ListCreate(STRINGLIST);
+displayList = ListCreate(STRINGLIST);
+
+RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+
+szSubkey = "SOFTWARE\\ONYX\\SetupPass\\Onyx COM+ components";
+RegDBGetKeyValueEx (szSubkey, "Upgrade", nvType, svIsUpgrade, nvSize);
+
+szSubkey = "SOFTWARE\\ONYX\\AppServer\\Applications";
+RegDBQueryKey(szSubkey, REGDB_KEYS, appList);
+
+displayList = appList;
+
+if (nResult = END_OF_LIST)then
+	return;
+else
+	szTitle = @LABEL_OED_APPS;
+	szMsg = @MSG_OED_APPS;
+
+	Disable(BACKBUTTON);
+//	nResult = SdShowInfoList (szTitle, szMsg, appList);
+
+	nResult = SdStartCopy(szTitle, szMsg, displayList);
+	
+	if (nResult != NEXT) then
+		abort;
+	endif;
+	
+	nResult = ListGetFirstString(appList, svString);
+
+	  bDone = FALSE;
+      // Loop while list items continue to be retrieved.
+      while (!bDone)
+
+        	OCreateRegKeys();
+	
+			OSetRegKeys(svString);	
+		
+//			ORunSchemaConversion();
+		
+			ORunInstaller();
+			
+			OUpgradeRegistry(svString);
+						
+        	if (ListGetNextString (appList, svString) != 0) then
+        		bDone = TRUE;
+			endif;
+      endwhile;
+
+endif;
+
+Enable(BACKBUTTON);
+
+ListDestroy(appList);
+
+end;
+*/
+
+
+/*
+function OSetRegKeys(szAppName)
+string szKey, szInstallKey, szOEDPath, szWCPath, szLogPath;
+number nvType, nvSize;
+BOOL success;
+
+begin
+	//szAppName = g_structAppName.szLogin;
+	
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	
+	szKey = "SOFTWARE\\ONYX\\AppServer\\Applications\\" + szAppName;
+	if(RegDBKeyExist(szKey) < 0) then
+		success = FALSE;
+	endif;
+	
+	if (RegDBGetKeyValueEx(szKey, "DictionaryPath", nvType, szOEDPath, nvSize) < 0) then
+		success = FALSE;
+	endif;
+	
+	if (RegDBGetKeyValueEx(szKey, "DictionaryWorkingCopyPath", nvType, szWCPath, nvSize) < 0) then
+		success = FALSE;
+	endif;
+	
+	szKey = "SOFTWARE\\ONYX\\AppServer";
+	if (RegDBGetKeyValueEx(szKey, "Path", nvType, szLogPath, nvSize) < 0) then
+		success = FALSE;
+	endif;
+	
+	
+	szKey = "SOFTWARE\\ONYX\\Setup\\DictionaryInstall";
+	
+	if (RegDBSetKeyValueEx (szKey, "CurrentDictionaryFile", REGDB_STRING, szOEDPath, -1) < 0) then
+		success = FALSE;
+	endif;
+
+
+	//if (RegDBSetKeyValueEx (szKey, "AddOnDictionaryFile", REGDB_STRING, SUPPORTDIR + "\AddOnOED.xml", -1) < 0) then
+	//	success = FALSE;
+	//endif;
+	
+	if (RegDBSetKeyValueEx (szKey, "FinalDictionaryFile", REGDB_STRING, szWCPath, -1) < 0) then
+		success = FALSE;
+	endif;
+	
+	if (RegDBSetKeyValueEx (szKey, "NewDictionaryFile", REGDB_STRING, SUPPORTDIR + "\OnyxEnterpriseDictionary.xml", -1) < 0) then
+		success = FALSE;
+	endif;
+	
+	if (RegDBSetKeyValueEx (szKey, "OrgDictionaryPath", REGDB_STRING, SUPPORTDIR, -1) < 0) then
+		success = FALSE;
+	endif;
+	
+	if (RegDBSetKeyValueEx (szKey, "LogFile", REGDB_STRING, szLogPath + "\\" + szAppName + "\\OED_upgrade_log.txt", -1) < 0) then
+		success = FALSE;
+	endif;
+	
+	OBackupOED(szOEDPath);	
+
+end;
+*/	
+
+
+/*
+function ORestoreSQLPermissions(svAppName)
+string svServer, svDB, svLogin;
+
+
+	//Get the server, database, and login info for this app
+	OGetSQLValuesFromReg(svAppName, svServer, svDB, svLogin)
+
+	//Set the DB info into the global DB & SQL structs
+	g_structDatabase.szServer = svServer;
+	g_structDatabase.szDatabase = svDB;
+	
+	g_structSQLAccount.szLogin = svLogin;
+	
+
+	elseif(szVar = "SQL1_DATABASE")then
+		szVar = "\""+g_structDatabase.szDatabase+"\"";
+	elseif(szVar = "MTS_LOGIN")then
+		szVar = g_structSQLAccount.szLogin;
+		if(szVar="")then
+			szVar="SetupDidNotPromptForSQLAccount";
+		endif;
+	elseif(szVar = "MTS_PASSWORD")then
+		szVar = g_structSQLAccount.szPassword;
+		
+		g_structDatabase.szServer
+*/
+
+/*
+function OSLFDecryptString(svString)
+INT nReturn,nSize;
+STRING szDLL,szDecrypted,szEncryptedVal,szEncryptKey,szMagicNumber,szDir;
+begin
+	szEncryptKey = "25FC5090A19949129EA2C0B19418A95D";
+	szMagicNumber = "A0F998223BA54D3A9BAC8BD82ED7CEC7"; //SZ_MAGICNUMBER_DECRYPT value from OSLFEncrypt.h
+	OGetValueFromINI("OSLF","DIR",szDir);
+	if(szDir = "")then
+		szDir = TARGETDIR;
+	else
+		OParseMacros(szDir);
+	endif;
+	szDLL = szDir ^ "OSLFEncrypt.dll";
+	if(UseDLL(szDLL) < 0)then
+		//cannot continue without the encryption dll
+		gszMsg = @ERROR_LOADDLL +"\n" + szDLL;
+		MessageBox(gszMsg,SEVERE);
+		OLog(gszMsg);
+		bInstallAborted = TRUE;
+		CleanUpInstall();
+		OAbort();
+	else
+	
+		nReturn = EncryptStringA(szMagicNumber,svString,szEncryptKey,szEncryptedVal);
+				
+		//test results.
+		if(nReturn > 0)then
+			szDecrypted = szEncryptedVal;
+		else
+			Sprintf(gszMsg,@ERROR_ENCRYPT,szValue);
+			MessageBox(gszMsg,WARNING);
+			OLog(gszMsg);
+		endif;
+
+		UnUseDLL(szDLL);		// Unload the DLL
+	endif;
+	return szDecrypted;
+end;
+*/
+
+
+
+
+/*
+function OGetSQLValuesFromReg(svApp, svServer, svDB, svLogin)
+STRING szKey,szTemp,svData;
+INT nvSize,nvType, nResult, nResult1;
+LIST appList, dataList, serverList, dbList;
+begin
+	
+	RegDBSetDefaultRoot (HKEY_LOCAL_MACHINE );
+
+	dataList = ListCreate(STRINGLIST);
+	serverList = ListCreate(STRINGLIST);
+	dbList = ListCreate(STRINGLIST);
+	loginList = ListCreate(STRINGLIST);
+
+	szKey = "SOFTWARE\\ONYX\\AppServer\\Applications";
+		
+		RegDBGetKeyValueEx (szKey^svApp^"QE", svApp, nvType, svData, nvSize);
+		StrGetTokens(dataList, svData, ";");
+		ListGetFirstString(dataList, szTemp);
+		
+		while(nResult != END_OF_LIST)
+		
+			if( szTemp % "data source") then	
+				StrGetTokens(serverList, szTemp, "=");
+				ListGetFirstString(serverList, svServer);
+				ListGetNextString(serverList, svServer);
+			endif;
+
+			if( szTemp % "initial catalog") then	
+				StrGetTokens(dbList, szTemp, "=");
+				ListGetFirstString(dbList, svDB);
+				ListGetNextString(dbList, svDB);	
+			endif;
+			
+			if (szTemp % "uid") then
+				StrGetTokens(loginList, szTemp, "=");
+				ListGetFirstString(loginList, svLogin);
+				ListGetNextString(loginList, svLogin);	
+			endif;
+			
+			nResult = ListGetNextString(dataList, szTemp);
+
+		endwhile;		
+	
+	ListDestroy(dataList);
+	ListDestroy(serverList);
+	ListDestroy(dbList);
+	ListDestroy(loginList);
+end;
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+function OGetNewOEDVersion(svSubStr)
+number nLineCount, nvFileHandle, nError;
+string svLine, szError;
+begin
+
+	VarSave(SRCTARGETDIR);
+	
+	TARGETDIR = SRCDIR;
+	
+	nError = CopyFile("OnyxEnterpriseDictionary.xml", "OnyxEnterpriseDictionary.txt");
+	
+	NumToStr(szError, nError);
+	
+	MessageBox(szError, INFORMATION);
+
+   OpenFileMode(FILE_MODE_NORMAL);
+  if ( OpenFile(nvFileHandle, SUPPORTDIR, "OnyxEnterpriseDictionary.txt") < 0) then
+  	MessageBox("Can't open file.", INFORMATION);
+  	abort;
+  endif;
+
+  VarRestore(SRCTARGETDIR);
+
+	nLineCount = 0;
+
+   while (nLineCount < 2)
+      GetLine(nvFileHandle, svLine);
+      nLineCount++;
+   endwhile;
+
+   CloseFile(nvFileHandle);
+
+   StrSub (svSubStr, svLine, 38, 4);
+
+   return;
+end;
+
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

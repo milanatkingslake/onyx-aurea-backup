@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="1170.134" MadCap:lastWidth="1146">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+		<title>Result set interpretation</title>
+    </head>
+    <body>
+                <h6>
+            <MadCap:keyword term="Result set interpretation" />Result set interpretation</h6>
+        <p>The format of the result set and the specific contents of the result 
+ set are determined by three things: </p>
+        <ul>
+            <li>The type of method being called.</li>
+            <li>The return code returned from the database call 
+ made by the middle tier.</li>
+            <li>If applicable based on the two points above, the 
+ value of the return_code column in the result set.</li>
+        </ul>
+        <p>
+            <MadCap:keyword term="Result sets" />There are two types of result sets. The first type returns data for 
+ successful inserts, updates, deletes, saveCollections, and custom methods. 
+ It also returns failures for these methods as well as retrieve, retrieveCollection, 
+ and retrieveList method calls. The following table shows the standard 
+ result set for the first type.</p>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Table_1.css');" class="TableStyle-Aptean_Table_1" cellspacing="0">
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 5cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 5cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 7cm;" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_1-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Column</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Data type/nullability</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadD-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Description</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">o#_sequence_number</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">INT</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">For applicable return code values and method 
+ calls, this value corresponds to the position of the record in the input 
+ XML. For all other method calls, this value is NULL.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">message_code</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">INT</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">For applicable return code values and method 
+ calls, the message_code column represents a national language ID value 
+ corresponding to a message you want to provide the user.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">database_code</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">INT</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">For applicable return code values and method 
+ calls, the database_code column represents a SQL Server database error 
+ code.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">database_message</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">NVARCHAR(512)</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">For applicable return code values and method 
+ calls, the database_message column represents a SQL Server database error 
+ message corresponding to the value in database_code.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">database_id</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">INT</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">For applicable return code values and method 
+ calls, the database_id column represents the system generated primary 
+ ID for domain data records inserted into the database through identity 
+ columns.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">return_code</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">INT</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">The return code value for the row.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The second type of result set returns data for successful 
+ retrieve, retrieveCollection, and retrieveList method calls. These result 
+ sets are based on the data in the appropriate tables and must change depending 
+ on:</p>
+        <ul style="list-style: disc;" type="disc">
+            <li>For retrieve or retrieveCollection methods, the 
+ object </li>
+            <li>For each retrieveList methods, the defined rowSet 
+ output parameter </li>
+        </ul>
+        <p>For retrieve and retrieveCollection methods, the result set must consist 
+ of a column for every property on the object. The columns must be returned 
+ in the order in which the properties are listed in the OED. Because the 
+ middle tier interprets the columns in the result set based on the OED 
+ property order, the column names and aliases are not critical.</p>
+        <p>When adding or removing properties from an object, the database programmer 
+ must also make the corresponding changes to replace procedures for retrieve 
+ and retrieveCollection methods on the object, or the methods will fail.</p>
+        <p>Specific information on how to interpret the first type of result set 
+ is described in the following sections for each method type. </p>
+        <ul>
+            <li><a href="customizingOEDB_custom_method.htm">custom</a>
+            </li>
+            <li><a href="customizingOEDB_delete_method_or_action.htm">delete</a>
+            </li>
+            <li><a href="customizingOEDB_insert_method_or_action.htm">insert</a>
+            </li>
+            <li><a href="customizingOEDB_retrieve_method.htm">retrieve</a>
+            </li>
+            <li><a href="customizingOEDB_retrieveCollection_method.htm">retrieveCollection</a>
+            </li>
+            <li><a href="customizingOEDB_retrieveList_method.htm">retrieveList</a>
+            </li>
+            <li><a href="customizingOEDB_saveCollection_method.htm">saveCollection</a>
+            </li>
+            <li><a href="customizingOEDB_update_method_or_action.htm">update</a>
+            </li>
+        </ul>
+    </body>
+</html>

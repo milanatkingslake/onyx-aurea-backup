@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="888" MadCap:lastWidth="624">
+    <head>
+    </head>
+    <body>
+        <h1>Shortcut Handler</h1>
+        <p>The <b>Shortcut Handler</b> is a beeline link, through which you can launch the scripts and also open the <b>Detail </b>screen of an entity directly by launching <b>Onyx Mobile App</b> or <b>Onyx Mobile Web</b> through a URL.</p>
+        <p>The <b>Shortcut Handler</b> supports the following entities :</p>
+        <ul>
+            <li>Company</li>
+            <li>Individual</li>
+            <li>Incidents</li>
+            <li>Tasks</li>
+            <li>Scripts</li>
+        </ul>
+        <h2>URL Construction</h2>
+        <p>Refer the following table to construct the URL for Shortcut Handler:</p>
+        <ul>
+            <li><b>To launch Detail screen</b>
+            </li>
+        </ul>
+        <table>
+            <col style="width: 97px;" />
+            <col />
+            <thead>
+                <tr>
+                    <th>Application</th>
+                    <th>URL</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Onyx Mobile App</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><span style="font-family: 'Courier New';">OnyxMobile://?&amp;entityType=&lt;TypeofEntity&gt;<br />&amp;id=&lt;IdofEntity&gt;</span>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Onyx Mobile Web</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><span style="font-family: 'Courier New';">http://&lt;servername&gt;/&lt;websitename&gt;/?<br />&amp;entityType=&lt;TypeofEntity&gt;<br />&amp;id=&lt;IdofEntity&gt;</span>
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Where,</p>
+        <ul style="list-style-type: circle;">
+            <li class="BulletList2"><span style="font-family: 'Courier New';">&lt;TypeofEntity&gt;</span> is the entity type.</li>
+            <li class="BulletList2"><span style="font-family: 'Courier New';">&lt;IdofEntity&gt;</span> is the secondary ID number corresponds to the entity type.</li>
+            <li class="BulletList2"><span style="font-family: 'Courier New';">&lt;servername&gt;</span> is the server name in which Onyx Mobile Web is deployed.</li>
+            <li class="BulletList2"><span style="font-family: 'Courier New';">&lt;websitename&gt;</span> is the installed website name.</li>
+        </ul>
+        <p class="Note1" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Replace the angular brackets also, when you specify the details.</p>
+        <ul>
+            <li><b>To launch Scripts</b>
+            </li>
+        </ul>
+        <table>
+            <col style="width: 97px;" />
+            <col />
+            <thead>
+                <tr>
+                    <th>Application</th>
+                    <th>URL</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Onyx Mobile App</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><span style="font-family: 'Courier New';">Onyxmobile://?&amp;entityType=scriptSession<br />&amp;id= &lt;IdofEntity&gt;<br />&amp;scriptSessionId=&lt;scriptSessionId&gt;<br />&amp;ownerType=&lt;ownerType&gt;<br />&amp;ownerId=&lt;ownerId&gt;</span>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Onyx Mobile Web</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><span style="font-family: 'Courier New';">http://&lt;servername&gt;/&lt;iisInstalledMobileWebName&gt;/?<br />&amp;entityType=scriptSession<br />&amp;id=&lt;IdofEntity&gt;<br />&amp;scriptSessionId=&lt;scriptSessionId&gt;<br />&amp;ownerType=&lt;ownerType&gt;<br />&amp;ownerId=&lt;ownerId&gt;<br /></span>
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Where,</p>
+        <ul style="list-style-type: circle;">
+            <li class="BulletList2"><span style="font-family: 'Courier New';">&lt;IdofEntity&gt;</span> is the secondary ID number that corresponds to the entityType.</li>
+            <li class="BulletList2"><span style="font-family: 'Courier New';">&lt;servername&gt;</span> is the server name in which Onyx Mobile Web is deployed.</li>
+            <li class="BulletList2"><span style="font-family: 'Courier New';">&lt;iisInstalledMobileWebName&gt;</span> is the IIS installed website name.</li>
+            <li class="BulletList2"><code>&lt;scriptSessionId&gt;</code> is the scriptSessioin ID to launch a new script.</li>
+        </ul>
+        <p class="Note2" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">If you do not provide the<code> &lt;scriptSessionId&gt;</code>, it launches a new script.</p>
+        <ul style="list-style-type: circle;">
+            <li class="BulletList2"><code>&lt;ownerType&gt;</code> is the owner type.</li>
+            <li class="BulletList2"><code>&lt;ownerId&gt;</code> is the owner ID.</li>
+        </ul>
+        <p class="Note2" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">If you do not provide the <code>&lt;ownerType&gt;</code> and <code>&lt;ownerId&gt;</code>, it launches an owner less script.</p>
+        <p class="Note1" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Replace the angular brackets also, when you specify the details.</p>
+    </body>
+</html>

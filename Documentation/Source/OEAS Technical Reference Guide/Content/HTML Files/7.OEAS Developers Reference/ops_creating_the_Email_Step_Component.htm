@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="5" MadCap:lastHeight="2938" MadCap:lastWidth="984" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Creating the email step component (OPS)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h1>Creating the email step component</h1>
+        <p>You implement the IStep interface to create the email step component. 
+ For more detail on creating custom step components, see the <a href="develop_a_step_component.htm">Develop 
+ a step component</a> topic. This topic shows the specific code used to 
+ implement the email step component. To use this code perform the following 
+ procedure.</p>
+        <ol>
+            <li>Open a new ActiveX DLL project in Visual Basic.</li>
+            <li>Add project references for the following interfaces:</li>
+        </ol>
+        <ul>
+            <li class="Sec_List">Onyx IStep 1.0 Type Library</li>
+            <li class="Sec_List">OnyxTM 1.0 Type Library</li>
+            <li class="Sec_List">Onyx Enterprise Dictionary Cache Proxy - (v1.0)</li>
+        </ul>
+        <ol start="3">
+            <li>Copy and paste the following code into the class 
+ file and save.</li>
+            <li>Make the DLL</li>
+        </ol>
+        <p>This step component assumes you entered a new customer with salutation, 
+ first name, last name, and email address values. It is executed as the 
+ final step in the individual insert method. When the OTM calls this step, 
+ the step calls the <a href="otm_inttm_iface.htm">IInternalTransactionManager</a> 
+ interface to perform the following logic.</p>
+        <ul>
+            <li>Retrieve the individual instance created in the 
+ previous step of the individual insert method</li>
+            <li>Create a new literatureOrder instance using information 
+ from the individual</li>
+            <li>Create a new literatureOrderLine instance</li>
+            <li>Add the literatureOrderLine to the litertureOrder</li>
+            <li>Insert the literatureOrder</li>
+        </ul>
+        <p Class="Code" class="Code">Option&#160;Explicit</p>
+        <p Class="Code" class="Code">Implements&#160;IStep&#160;</p>
+        <p Class="Code" class="Code">Public&#160;Function&#160;IStep_Execute(ByVal&#160;ApplicationName&#160;As&#160;String,&#160;_</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ByVal&#160;LogicalObjectName&#160;As&#160;String,&#160;_</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ByVal&#160;LogicalMethodName&#160;As&#160;String,&#160;_</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ByVal&#160;StepAdditionalData&#160;As&#160;String,&#160;_</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ByVal&#160;XMLParser&#160;As&#160;STEPLib.IXMLDOMDocument)&#160;As&#160;String</p>
+        <p Class="Code" class="Code"><span style="color: #008000;">' No matter what happens, tell the OTM to continue.</span>
+        </p>
+        <p Class="Code" class="Code"><span style="color: #008000;">' There is no error fatal enough to cause us to stop the method.</span>
+        </p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;IStep_Execute&#160;=&#160;"continue"</p>
+        <p Class="Code" class="Code"><span style="color: #008000;">' If we weren't given any XML, bail out.</span>
+        </p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;If&#160;XMLParser&#160;Is&#160;Nothing&#160;Then</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Exit&#160;Function</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;End&#160;If</p>
+        <p Class="Code" class="Code"><span style="color: #008000;">' Use the context XML from the current method.</span>
+        </p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;Dim&#160;sContextXML&#160;As&#160;String</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;sContextXML&#160;=&#160;XMLParser.selectSingleNode("//context").xml</p>
+        <p Class="Code" class="Code"><span style="color: #008000;">' Build the individual retrieve step package.</span>
+        </p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;Dim&#160;sMethodXML&#160;As&#160;String</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;sMethodXML&#160;=&#160;"&lt;stepPackage&gt;"</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;sMethodXML&#160;=&#160;sMethodXML&#160;+&#160;sContextXML</p>
+        <p Class="Code" class="Code"><span style="color: #008000;">' Get the primaryId of newly inserted record from stepPackage</span>
+        </p>
+        <p Class="Code" class="Code"><span style="color: #008000;">' The primaryId is in the parametersReturn element.</span>
+        </p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;Dim&#160;sPrimaryId&#160;As&#160;String</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;sPrimaryId&#160;=&#160;XMLParser.selectSingleNode("//parametersReturn/individual/primaryId").Text</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;sMethodXML&#160;=&#160;sMethodXML&#160;+&#160;"&lt;parameters&gt;&lt;individual&gt;"</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;sMethodXML&#160;=&#160;sMethodXML&#160;+&#160;"&lt;primaryId&gt;"&#160;&amp;&#160;sPrimaryId&#160;&amp;&#160;"&lt;/primaryId&gt;"</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;sMethodXML&#160;=&#160;sMethodXML&#160;+&#160;"&lt;/individual&gt;&lt;/parameters&gt;"</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;sMethodXML&#160;=&#160;sMethodXML&#160;+&#160;"&lt;returnXml&gt;"</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;sMethodXML&#160;=&#160;sMethodXML&#160;+&#160;"&lt;methodStatus&gt;"</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;sMethodXML&#160;=&#160;sMethodXML&#160;+&#160;"&lt;statusType&gt;success&lt;/statusType&gt;"</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;sMethodXML&#160;=&#160;sMethodXML&#160;+&#160;"&lt;/methodStatus&gt;"</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;sMethodXML&#160;=&#160;sMethodXML&#160;+&#160;"&lt;parametersReturn&gt;&lt;/parametersReturn&gt;"</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;sMethodXML&#160;=&#160;sMethodXML&#160;+&#160;"&lt;customData&gt;&lt;/customData&gt;"</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;sMethodXML&#160;=&#160;sMethodXML&#160;+&#160;"&lt;/returnXml&gt;&lt;/stepPackage&gt;"</p>
+        <p Class="Code" class="Code">&#160;<span style="color: #008000;"> ' Put the step package XML into the document object.</span></p>
+        <p Class="Code" class="Code"><span style="color: #008000;">' Configure the DOM to wait until the XML is loaded successfully.</span>
+        </p>
+        <p Class="Code" class="Code"><span style="color: #008000;">' Use the FreeThreaded DOM.</span>
+        </p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;Dim&#160;individualRetrieveXMLDOM&#160;As&#160;STEPLib.IXMLDOMDocument</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;Set&#160;individualRetrieveXMLDOM&#160;=&#160;New&#160;FreeThreadedDOMDocument40</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;individualRetrieveXMLDOM.async&#160;=&#160;False</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;individualRetrieveXMLDOM.loadXML&#160;(sMethodXML)</p>
+        <p Class="Code" class="Code"><span style="color: #008000;">' Call the individual retrieve using the Internal OTM.</span>
+        </p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;Dim&#160;oInternalOTM&#160;As&#160;OnyxTransactionManagerLib.IInternalTransactionManager</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;Set&#160;oInternalOTM&#160;=&#160;New&#160;OnyxTransactionManagerLib.TransactionManager</p>
+        <p Class="Code" class="Code"><span style="color: #008000;">' Retrieve individual record to get</span>
+        </p>
+        <p Class="Code" class="Code"><span style="color: #008000;">' profile info (salutation, names, emailAddress)</span>
+        </p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;oInternalOTM.Execute&#160;"Onyx",&#160;"individual",&#160;"retrieve",&#160;individualRetrieveXMLDOM</p>
+        <p Class="Code" class="Code"><span style="color: #008000;">' Build the literatureOrder insert step package</span>
+        </p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;sMethodXML&#160;=&#160;"&lt;stepPackage&gt;"</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;sMethodXML&#160;=&#160;sMethodXML&#160;+&#160;sContextXML</p>
+        <p Class="Code" class="Code"><span style="color: #008000;">' Get the literatureOrder structure from the OED</span>
+        </p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;Dim&#160;oParametersXML&#160;As&#160;OnyxDictionaryCacheProxy.Dictionary</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;Set&#160;oParametersXML&#160;=&#160;New&#160;OnyxDictionaryCacheProxy.Dictionary</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;Dim&#160;sParametersXML&#160;As&#160;String</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;sParametersXML&#160;=&#160;oParametersXML.GetObjectInstance("Onyx",&#160;"literatureOrder")</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;sMethodXML&#160;=&#160;sMethodXML&#160;+&#160;"&lt;parameters&gt;"&#160;&amp;&#160;sParametersXML&#160;&amp;&#160;"&lt;/parameters&gt;"</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;sMethodXML&#160;=&#160;sMethodXML&#160;+&#160;"&lt;returnXml&gt;"</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;sMethodXML&#160;=&#160;sMethodXML&#160;+&#160;"&lt;methodStatus&gt;"</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;sMethodXML&#160;=&#160;sMethodXML&#160;+&#160;"&lt;statusType&gt;success&lt;/statusType&gt;"</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;sMethodXML&#160;=&#160;sMethodXML&#160;+&#160;"&lt;/methodStatus&gt;"</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;sMethodXML&#160;=&#160;sMethodXML&#160;+&#160;"&lt;parametersReturn&gt;&lt;/parametersReturn&gt;"</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;sMethodXML&#160;=&#160;sMethodXML&#160;+&#160;"&lt;customData&gt;&lt;/customData&gt;"</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;sMethodXML&#160;=&#160;sMethodXML&#160;+&#160;"&lt;/returnXml&gt;&lt;/stepPackage&gt;"</p>
+        <p Class="Code" class="Code"><span style="color: #008000;">' Load the literatureOrder structure in the parser</span>
+        </p>
+        <p Class="Code" class="Code"><span style="color: #008000;">' and start populating text node values</span>
+        </p>
+        <p Class="Code" class="Code"><span style="color: #008000;">' for the new literatureOrder</span>
+        </p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;Dim&#160;literatureInsertXMLDOM&#160;As&#160;STEPLib.IXMLDOMDocument</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;Set&#160;literatureInsertXMLDOM&#160;=&#160;New&#160;FreeThreadedDOMDocument40</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;literatureInsertXMLDOM.async&#160;=&#160;False</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;literatureInsertXMLDOM.loadXML&#160;(sMethodXML)</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;literatureInsertXMLDOM.selectSingleNode("//parameters/literatureOrder/ownerId").Text&#160;=&#160;sPrimaryId</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;literatureInsertXMLDOM.selectSingleNode("//parameters/literatureOrder/ownerType").Text&#160;=&#160;"1"</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;literatureInsertXMLDOM.selectSingleNode("//parameters/literatureOrder/salutation").Text&#160;=&#160;_</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;individualRetrieveXMLDOM.selectSingleNode("//parametersReturn/individual/salutation").Text</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;literatureInsertXMLDOM.selectSingleNode("//parameters/literatureOrder/firstName").Text&#160;=&#160;_</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;individualRetrieveXMLDOM.selectSingleNode("//parametersReturn/individual/firstName").Text</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;literatureInsertXMLDOM.selectSingleNode("//parameters/literatureOrder/lastName").Text&#160;=&#160;_</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;individualRetrieveXMLDOM.selectSingleNode("//parametersReturn/individual/lastName").Text</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;literatureInsertXMLDOM.selectSingleNode("//parameters/literatureOrder/orderDate").Text&#160;=&#160;_</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;individualRetrieveXMLDOM.selectSingleNode("//parametersReturn/individual/insertDate").Text</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;literatureInsertXMLDOM.selectSingleNode("//parameters/literatureOrder/emailTo").Text&#160;=&#160;_</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;individualRetrieveXMLDOM.selectSingleNode("//parametersReturn/individual/emailAddress").Text</p>
+        <p Class="Code" class="Code">
+            <MadCap:keyword term="OPS" />&#160;&#160;&#160;&#160;literatureInsertXMLDOM.selectSingleNode("//parameters/literatureOrder/emailFrom").Text&#160;=&#160;"OPS"</p>
+        <p Class="Code" class="Code"><span style="color: #008000;">' Use previously created literatureMessage for subject line of email</span>
+        </p>
+        <p Class="Code" class="Code"><span style="color: #008000;">' literatureMessageId=E10B8A4D-A6BB-4126-B79F-2D6819ED7112 (reusable; Welcome New Customer!)</span>
+        </p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;literatureInsertXMLDOM.selectSingleNode("//parameters/literatureOrder/literatureMessageId").Text&#160;=&#160;_</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;"E10B8A4D-A6BB-4126-B79F-2D6819ED7112"</p>
+        <p Class="Code" class="Code"><span style="color: #008000;">' Create the literatureOrderLine structure to add to the</span>
+        </p>
+        <p Class="Code" class="Code"><span style="color: #008000;">' literatureOrder structure later</span>
+        </p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;Dim&#160;sOrderLineParams&#160;As&#160;String</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;sOrderLineParams&#160;=&#160;oParametersXML.GetObjectInstance("Onyx",&#160;"literatureOrderLine")</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;Dim&#160;orderLineXMLDOM&#160;As&#160;STEPLib.IXMLDOMDocument</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;Set&#160;orderLineXMLDOM&#160;=&#160;New&#160;FreeThreadedDOMDocument40&#160;&#160;&#160;&#160;</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;orderLineXMLDOM.async&#160;=&#160;False</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;orderLineXMLDOM.loadXML&#160;(sOrderLineParams)</p>
+        <p Class="Code" class="Code"><span style="color: #008000;">' Populate the literatureOrderLine text node values:</span>
+        </p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;orderLineXMLDOM.selectSingleNode("/literatureOrderLine/lineStatusId").Text&#160;=&#160;"0"</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;orderLineXMLDOM.selectSingleNode("/literatureOrderLine/productNumber").Text&#160;=&#160;"WelcomeCustomerEmail"</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;orderLineXMLDOM.selectSingleNode("/literatureOrderLine/fulfillmentTypeCode").Text&#160;=&#160;"3"</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;orderLineXMLDOM.selectSingleNode("/literatureOrderLine/immediatePriority").Text&#160;=&#160;"1"</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;orderLineXMLDOM.selectSingleNode("/literatureOrderLine/quantityOrdered").Text&#160;=&#160;"1"</p>
+        <p Class="Code" class="Code"><span style="color: #008000;">' Set the action attribute equal to insert for the</span>
+        </p>
+        <p Class="Code" class="Code"><span style="color: #008000;">' literatureOrderLine element</span>
+        </p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;Dim&#160;oElement&#160;As&#160;STEPLib.IXMLDOMElement</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;Set&#160;oElement&#160;=&#160;orderLineXMLDOM.selectSingleNode("/literatureOrderLine")</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;oElement.setAttribute&#160;"action",&#160;"insert"</p>
+        <p Class="Code" class="Code"><span style="color: #008000;">' Replace the existing empty literatureOrderLine node from</span>
+        </p>
+        <p Class="Code" class="Code"><span style="color: #008000;">' the literatureOrder structure with the literatureOrderLine</span>
+        </p>
+        <p Class="Code" class="Code"><span style="color: #008000;">' node just created</span>
+        </p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;Dim&#160;oNewNode&#160;As&#160;STEPLib.IXMLDOMNode</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;Set&#160;oNewNode&#160;=&#160;orderLineXMLDOM.selectSingleNode("/literatureOrderLine")</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;Dim&#160;oOldNode&#160;As&#160;STEPLib.IXMLDOMNode</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;Set&#160;oOldNode&#160;=&#160;literatureInsertXMLDOM.selectSingleNode("//literatureOrderLine")</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;Dim&#160;oCollectionNode&#160;As&#160;STEPLib.IXMLDOMNode</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;Set&#160;oCollectionNode&#160;=&#160;_</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;literatureInsertXMLDOM.selectSingleNode("//literatureOrderLines").replaceChild(oNewNode,&#160;oOldNode)</p>
+        <p Class="Code" class="Code"><span style="color: #008000;">' Finally, insert the literatureOrder</span>
+        </p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;oInternalOTM.Execute&#160;"Onyx",&#160;"literatureOrder",&#160;"insert",&#160;literatureInsertXMLDOM</p>
+        <p Class="Code" class="Code"><span style="color: #008000;">' OPS does the rest :-D</span>
+        </p>
+        <p Class="Code" class="Code">End&#160;Function</p>
+    </body>
+</html>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="1613" MadCap:lastWidth="968" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Note_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Steps (Add Property)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>
+            <MadCap:keyword term="Steps" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />Adding a property steps</h5>
+        <p>This sample demonstrates how to add the stock ticker symbol to the company 
+ business object.</p>
+        <p>Adding a property includes the following general steps.</p>
+        <ul>
+            <li>Create a physical column in the database and the 
+ OED</li>
+            <li>Add the property to the logical model in the OED</li>
+            <li>In the OED, map the logical property to the database 
+ column</li>
+            <li>Validate and publish the customized OED</li>
+        </ul>
+        <h3>Creating the physical property</h3>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Note_Table_1.css');width: 80%;" class="TableStyle-Aptean_Note_Table_1" cellspacing="2">
+            <col style="width: 0.7cm;" class="TableStyle-Aptean_Note_Table_1-Column-Column1" />
+            <col class="TableStyle-Aptean_Note_Table_1-Column-Column1" style="width: 15.50cm;" />
+            <tbody>
+                <tr class="TableStyle-Aptean_Note_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyB-Column1-Body1" style="text-align: right;">
+                        <p>
+                            <img src="../../Resources/Images/Common/imp_image.png" />
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText"><b>Important</b>: Domain tables with multiple language support have specific 
+ requirements. For more information, see <a href="customizingoedb_creating_and_customizing_tables.htm">Creating 
+ and customizing tables</a>.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Using a database administration tool, add a column to the database table 
+ representing the company object. Onyx recommends using the ALTER TABLE 
+ statement. The following SQL statement adds the stock ticker symbol column 
+ to the company table.</p>
+        <p Class="Code" class="code">ALTER&#160;TABLE&#160;company</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ADD&#160;cc_stock_ticker_symbol&#160;&#160;nvarchar(255)&#160;&#160;NULL;&#160;</p>
+        <p>Following implementation of your customization, verify that all other 
+ packages and stored procedures remain valid.</p>
+        <p>Add the column to the Physical Model in the OED.</p>
+        <ol>
+            <li>Open Onyx Enterprise Studio Object Designer.</li>
+            <li>Navigate to Physical Model\Tables\Company\Columns 
+ and select Columns.</li>
+            <li>Click the Add <img src="../../Resources/Images/iconAdd1.gif" /> button to add a new 
+ column to the physical model.</li>
+            <li>In the Name field enter "cc_stock_ticker_symbol" 
+ without the quotes.</li>
+            <li>Enter an optional description in the Description 
+ field if you like.</li>
+            <li>In the Column Type field enter "nvarchar" 
+ the database data type you used.</li>
+            <li>In the Length field enter "255" for 
+ the length you assigned to the column in the database.</li>
+            <li>Click the Save <img src="../../Resources/Images/iconSave1.gif" /> button to save your 
+ changes.</li>
+        </ol>
+        <h3>Creating the logical property in the OED</h3>
+        <ol>
+            <li>Open Onyx Enterprise Studio Object Designer.</li>
+            <li>
+                <MadCap:keyword term="Properties" />Navigate to Logical Business Objects\company\Properties 
+ and select Properties.</li>
+            <li>Click the Add <img src="../../Resources/Images/iconAdd1.gif" /> button to add a new 
+ property.</li>
+            <li>In the Name field enter "stockTickerSymbol" 
+ without the quotes.</li>
+            <li>Enter an optional description in the Description 
+ field if you like.</li>
+            <li>In the Data Type field select "string" 
+ from the drop-down list of data types.</li>
+            <li>Click the Save <img src="../../Resources/Images/iconSave1.gif" /> button to save your 
+ changes.</li>
+        </ol>
+        <h3>Mapping the logical property to the database column</h3>
+        <ol>
+            <li>Open Onyx Enterprise Studio Object Designer.</li>
+            <li>Navigate to Logical Business Objects\Company\Object 
+ Physical Maps and select Object Physical Maps.</li>
+            <li>Click the Add <img src="../../Resources/Images/iconAdd1.gif" /> button to add a new 
+ map.</li>
+            <li>In the Property field select "stockTickerSymbol" 
+ from the drop-down list of properties.</li>
+            <li>In the Table field select "COMPANY" 
+ from the drop-down list of tables.</li>
+            <li>In the Column field select "cc_stock_ticker_symbol" 
+ for the column to which you want to map the property.</li>
+            <li>Under Persistence Map, Retrieval Map, and Filter 
+ Map, click the Enable option.</li>
+            <li>In the Type field for each map, select "direct." 
+ You do not need to enter anything in the Data field for direct maps.</li>
+            <li>Click the Save <img src="../../Resources/Images/iconSave1.gif" /> button to save your 
+ changes.</li>
+        </ol>
+        <h3>Validating and publishing your customizations</h3>
+        <ol>
+            <li>Optionally, you can click the Validate <img src="../../Resources/Images/iconValidate1.gif" /> button to verify that the modifications you made are acceptable. 
+ When you publish, the validation is also performed, so this is an optional 
+ step.</li>
+            <li>Click the Publish <img src="../../Resources/Images/iconPublish1.gif" /> button. Answer 
+ Yes to the prompt that asks if you want to overwrite the current OED.</li>
+            <li>Shut down Onyx App COM+ to cause the OED to reload 
+ the next time a client calls the OEAS.</li>
+        </ol>
+    </body>
+</html>

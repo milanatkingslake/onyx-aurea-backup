@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="484" MadCap:lastWidth="960" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <body>
+        <head><title>hidden (methodCallDetail)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="hidden" />hidden property</h2>
+        <p>The hidden property of the <a href="methodCallDetail_object.htm"><MadCap:keyword term="methodCallDetail" />methodCallDetail</a> 
+ object indicates whether the input parameter is displayed to the method 
+ call consumer.</p>
+        <h3>Data type</h3>
+        <p>boolean</p>
+        <h3>Access</h3>
+        <p>Read/write</p>
+        <h3>Remarks</h3>
+        <p>The hidden property is ignored for output method call details. It allows 
+ the method call designer to pass values to the encapsulated OEAS method 
+ that the method call consumer should not know about or change. For instance, 
+ a method call designer can wrap the customer retrieveList method in a 
+ way that allows the method call consumer to search only for individuals 
+ by hiding the "type" parameter of the method. The method call 
+ consumer cannot change the type, but in order to make the encapsulated 
+ OEAS method properly search for individuals, a value of "1" 
+ must be passed to the method. The designer must provide a <a href="methodCallDetail_default.htm">default</a> 
+ value and set the <a href="methodCallDetail_hasDefault.htm">hasDefault</a> 
+ property for this scenario to work.</p>
+        <p>A hidden input without a default value results in an element being created. 
+ This enables the method call designer to build structure in the encapsulated 
+ parameters even for elements that contain no data such as <a href="standard_onyxtimestamp.htm">onyxTimestamp</a>.</p>
+        <p>Some methods such as individual insert require 
+ all properties of the object be included in the parameters, even though 
+ they can be empty. If you know that the method is only going to be used 
+ with first name and last name as inputs, it is a good idea to mark the 
+ rest of the input details as hidden. The method call consumer must supply 
+ a value for any details that are required and not hidden in the input 
+ call, or the method fails. </p>
+    </body>
+</html>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="658" MadCap:lastWidth="1146" MadCap:ignoredWords="cpCustomerRetrieveSummaryInfo">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Note_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+		<title>Customizing Existing Procedures</title>
+    </head>
+    <body>
+              <h4>
+            <MadCap:keyword term="procedure" />
+            <MadCap:keyword term="Customizing" />
+            <MadCap:keyword term="Customizing:Existing" />
+            <MadCap:keyword term="Existing" />
+            <MadCap:keyword term="Existing:Customizing" />Customizing existing procedures</h4>
+        <p>Many stored procedures that perform data management 
+ or business rule processing for objects, are provided as source code so 
+ that you can modify them to meet your additional business requirements. 
+ You can find the source code on the OEAS product CD under \Customization 
+ Support\Onyx Enterprise Database\Database Scripts.</p>
+        <p>Because the Onyx upgrade processes replace all procedures that have 
+ been modified since the last installation, Onyx recommends the following 
+ process for modifying procedures. In these steps, the opCustomerRetrieveSummaryInfo 
+ procedure is used as an example and the naming conventions detailed in 
+ <a href="customizingOEDB_Custom_Naming_Conventions.htm">Custom Naming 
+ Conventions</a> are followed.</p>
+        <p>Depending on the type of procedure you are customizing, 
+ review the guidelines described in <a href="customizingOEDB_Creating_Replace_Procedures.htm">Creating 
+ replace procedures</a> and <a href="customizingOEDB_Creating_Pre_and_Post_Procedures.htm">Creating 
+ pre and post procedures</a> to ensure that your customization is successful. For a list of the object.methods that call specific procedures, see:</p>
+        <ul>
+            <li><a href="customizingoedb_replace_procedures_listed.htm">Object.methods for replace procedures</a>
+            </li>
+            <li><a href="customizingoedb_pre_procedures_listed.htm">Object.methods for pre procedures</a>
+            </li>
+            <li><a href="customizingoedb_post_procedures_listed.htm">Object.methods for post procedures</a>
+            </li>
+        </ul>
+        <p style="font-weight: bold;">To modify an Onyx procedure:</p>
+        <ol>
+            <li>From the source code provided, create a copy of 
+ the opCustomerRetrieveSummaryInfo procedure and rename it cpCustomerRetrieveSummaryInfo 
+ (op stands for Onyx procedure and cp stands for custom procedure).</li>
+            <li>Customize the <span class="Variable">cpCustomerRetrieveSummaryInfo</span> procedure.</li>
+            <li>Compile the cpCustomerRetrieveSummaryInfo procedure 
+ to your Onyx database.</li>
+            <li>The OED refers to opCustomerRetrieveSummaryInfo. Using the Object 
+ Designer, modify the OED to refer to cpCustomerRetrieveSummaryInfo instead 
+ of opCustomerRetrieveSummaryInfo. <p>You can do this one of two ways:</p></li>
+        </ol>
+        <ul>
+            <li class="Sec_List">In the Object Designer, under the <span style="font-weight: bold;">Procedures</span> 
+ node in the <span style="font-weight: bold;">Physical Model</span>, locate 
+ and select opCustomerRetrieveSummaryInfo and in the <span style="font-weight: bold;">Name</span> 
+ field property for this procedure, replace opCustomerRetrieveSummaryInfo 
+ with cpCustomerRetrieveSummaryInfo.</li>
+            <li class="Sec_List">In the Object Designer, under the <span style="font-weight: bold;">Procedures</span> 
+ node in the <span style="font-weight: bold;">Physical Model</span>, create 
+ the new procedure cpCustomerRetrieveSummaryInfo and then map the method 
+ to call the new stored procedure.</li>
+        </ul>
+        <p>Following this process ensures that upgrade scripts do not overwrite 
+ your customizations. </p>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Note_Table_1.css');width: 80%;" class="TableStyle-Aptean_Note_Table_1" cellspacing="2">
+            <col style="width: 0.7cm;" class="TableStyle-Aptean_Note_Table_1-Column-Column1" />
+            <col class="TableStyle-Aptean_Note_Table_1-Column-Column1" style="width: 15.50cm;" />
+            <tbody>
+                <tr class="TableStyle-Aptean_Note_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyB-Column1-Body1" style="text-align: right;">
+                        <p>
+                            <img src="../../Resources/Images/Common/note_image.png" />
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText"><b>Note</b>: In the course of your customization, if you 
+ have added or removed any parameters of the procedure, additional OED 
+ customization is required. Using Object Designer, you must edit, as appropriate, 
+ the logical and/or physical parameters for the modified procedure to reflect 
+ the parameters of the procedure, and update the object physical maps as 
+ necessary. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

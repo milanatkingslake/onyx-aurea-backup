@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="846" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h3 style="page-break-before: always;">EMF Exception Handling and Logging</h3>
+        <p>Any exception created in the Onyx EMF Processes will be captured by a single exception handler. The Exception Handler can do the following functions:</p>
+        <ul>
+            <li> Log the exception details to file</li>
+        </ul>
+        <p class="Indent1">The log files by the exception handler are created in the <b>C:\Program Files (x86)\Aptean\EMF\Server\outputs\OnyxEMFLogs</b> folder. The log files contain details of the exception and the name of the process in which the exceptions are generated.</p>
+        <p><b>To change the path of the log file:</b>
+        </p>
+        <ol>
+            <li>Open the <b>Onyx\LogHelper</b> Process.</li>
+            <li>Modify the text formatter, <b>Log Files Folder Path</b> to change the path of the output folder.</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">Send an email to the administrator</li>
+        </ul>
+        <p class="Indent1">Any exceptions that occur in the Onyx EMF integration processes are sent to the administrator. The recipient for the exception emails are defined in <b>Recipients Administration\Recipients\ Onyx EMF Integration Administrator</b>. To change the email address, the recipients email address should be changed.</p>
+        <p class="Indent1">Whether an email should be sent or not can be toggled by modifying the LogHelper process.</p>
+        <ol>
+            <li>Open the <b>Onyx\LogHelper</b> Process.</li>
+            <li>Modify the text formatter, <b>Send Exception Details as Email to 0</b>.</li>
+        </ol>
+        <h4>Associating process to generic exception handler</h4>
+        <p><b>To set the generic exception handler to any process:</b>
+        </p>
+        <ol>
+            <li>Open the <b>EMF</b> Process.</li>
+            <li>Right-click to select the option <b>Edit process properties</b>.</li>
+            <li>Select the <b>Error Handler</b> tab. Set the Enable error handling to <b>True</b>.</li>
+            <li>Select the option <b>Generic Exception Handler</b> in the Onyx folder.</li>
+        </ol>
+        <h4>Enable user message logging</h4>
+        <p>Processes in EMF can be associated to log user messages to file. The user messages contain information regarding the execution steps and other key data, which can be used to debug in case of an error. All EMF Onyx Integration processes are enabled with logging and user messages while executing a process.</p>
+        <p><b>To write user messages to file:</b>
+        </p>
+        <ol>
+            <li>Open the <b>LogHelper</b> Process.</li>
+            <li>In the Process, open the module <b>Log User Message to File</b>.</li>
+            <li>Set the value to 1.</li>
+        </ol>
+        <p style="page-break-before: always;"><b>To write user messages to EMF Logs:</b>
+        </p>
+        <ol>
+            <li>Open the <b>LogHelper</b> Process.</li>
+            <li>Right-click and select the option <b>Edit process properties</b>. Set the Log user messages to <b>True</b>.</li>
+        </ol>
+        <h4>Use the logging in case of exception</h4>
+        <p>During the execution of a process if an exception occurs an email will be sent to the administrator. Following steps should be followed to figure out the actual problem:</p>
+        <ol>
+            <li>Enable user message logging (File and EMF Logs).</li>
+            <li>Get the Statistics logging from EMF which is enabled by default on all processes.</li>
+            <li>The two files will enable us to identify which event, process and module the exception was raised. </li>
+        </ol>
+    </body>
+</html>

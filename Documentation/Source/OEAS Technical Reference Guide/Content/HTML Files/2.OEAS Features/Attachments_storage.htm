@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="501" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>How attachments are stored</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>How attachments are stored </h4>
+        <p>Files attached to an OEP record are uploaded through the browser and stored on a Windows server file share. The OnyxFileAgent component acts as a gatekeeper on the file server by limiting permissions on the share to the component user account. When a user downloads an attachment, OEP calls the OnyxFileAgent component to obtain the document. For more information on OnyxFileAgent setup, see the OEAS Installation Guide.</p>
+        <p>OEP uses the fileLink and fileLocation objects of OEAS to implement 
+ the attachment feature. OEAS stores the file locations, and OEP controls 
+ the file structure for saving the files.</p>
+        <p>To prevent name conflicts when a file is uploaded to the server for 
+storage, the file is renamed using a Globally Unique Identifier (GUID) 
+ with the file extension appended. For example, the file “SaleReport.doc” 
+ might become”17286F9F-03AE-4AA0-958D-75FFE94616B2.doc” when saved to the 
+ file share. OEP does not display the GUID name to the end user. The original 
+ file name is stored in the database and mapped to the GUID name. When 
+ a user requests the file, the original name is displayed in the UI. </p>
+        <p>On the file share server, files are stored in multiple directories using 
+ a directory hierarchy based on the first two digits of the GUID file name. 
+ </p>
+        <p>Under the root are the directories <span class="UIElement" style="font-weight: bold;">active</span>, 
+ <span class="UIElement" style="font-weight: bold;">deleted</span>, and <span class="UIElement" style="font-weight: bold;">download</span>. 
+ The <span class="UIElement" style="font-weight: bold;">active</span> and <span class="UIElement" style="font-weight: bold;">deleted</span> 
+ directories each contain sixteen directories—one directory for each hex 
+ digit 0 - F, as shown in the following example. (The download directory 
+ is a temporary storage folder that is only used when clients download 
+ files.) </p>
+        <p class="Image">
+            <img src="../../Resources/Images/AR_attachstoringfilesactive1.jpg" style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <p>Under the active and deleted directories, there are two more levels 
+ of directories—each level has one directory for each hex digit 0 - F. </p>
+        <p class="Image"> <img src="../../Resources/Images/AR_activedirectory1.jpg" style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" /></p>
+        <p>Active files are attachments that are linked to a parent object (incident, 
+ task, and so on) and are accessible in the OEP user interface. Deleted 
+ files are attachments that are no longer linked to a parent object and 
+ are not accessible in OEP. A system administrator moves attachment files 
+ from the active to the deleted tree using the <i>File Link Maintenance utility</i>. Active files are stored at the second level (lowest level) 
+ in the <span class="UIElement" style="font-weight: bold;">active</span> directory. Deleted files are 
+ stored at the second level in the deleted directory. Using the first two 
+ characters of the GUID, you can locate a stored file. For example, the 
+ file F1CB22E6-1EF6... would appear in the directory hierarchy as \\<em class="Emphasis">servername</em>\<em class="Emphasis">OEPFileShare</em>\active\F\1, 
+ as shown in the following example: </p>
+        <p class="Image">
+            <img src="../../Resources/Images/AR_attachlocatingfiles1.jpg" style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+    </body>
+</html>

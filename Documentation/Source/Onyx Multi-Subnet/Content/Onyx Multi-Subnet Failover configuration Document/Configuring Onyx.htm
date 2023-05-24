@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="842" MadCap:lastWidth="624">
+    <head>
+    </head>
+    <body>
+        <h1>Availability Group Configuration</h1>
+        <p>Below schematic shows the SQL Server Availability group configuration that was used to perform the tests using SQL Availability Group Listener (AGL).</p>
+        <p class="Image">
+            <img src="../Resources/Images/Multi_Subnet_Cluster/AvailabilityGroups.png" style="border-left-style: solid;border-left-width: 1px;border-left-color: ;border-right-style: solid;border-right-width: 1px;border-right-color: ;border-top-style: solid;border-top-width: 1px;border-top-color: ;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: ;" />
+        </p>
+        <p>The two Availability Group replicas are setup in two different subnets and with Availability Mode as Synchronous commit as indicated below. Availability Group Listener (OnyxLsnr) is registered in DNS with two IP addresses and setup with RegisterAllProvidersIP=1</p>
+        <p class="Image">
+            <img src="../Resources/Images/Multi_Subnet_Cluster/AvailabilityReplaces.png" style="border-left-style: solid;border-left-width: 1px;border-left-color: ;border-right-style: solid;border-right-width: 1px;border-right-color: ;border-top-style: solid;border-top-width: 1px;border-top-color: ;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: ;" />
+        </p>
+        <p>The Multi-Subnet failover tests included core Onyx components such as Employee Portal, ListManager, Navigator, Scripting, Onyx Mobile, and Mobile web. It supports both manual and automatic failover types while performing Onyx transactions.</p>
+        <h1>Configuring Onyx for Multi-Subnet Failover</h1>
+        <p>This section provides details to configure Onyx for Multi-Subnet failover.</p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Before configuring Onyx for Multi-Subnet failover, please ensure to complete the Windows cluster and SQL cluster setup including creation of Availability Group and its configuration.</p>
+        <p class="ProcedureHeading">To configure Onyx for Multi-Subnet failover</p>
+        <ul>
+            <li>Ensure that Microsoft OLE DB Driver 18.1 is installed on the OEAS server.</li>
+            <li>Add <code>MultiSubnetFailOver=True;</code>property in the Onyx database connection string in the registry, by performing the following steps: </li>
+        </ul>
+        <ul style="list-style-type: circle;">
+            <li class="List_Indent">Go to <strong class="Strong">OEAS Server</strong>  and open registry.</li>
+            <li class="List_Indent">Expand the node <code>HKEY_LOCAL_MACHINE &gt; SOFTWARE &gt; ONYX</code>.</li>
+            <li class="List_Indent">Under Onyx, click <strong class="Strong">QE</strong>.</li>
+            <li class="List_Indent">	Double-click <strong class="Strong">Onyx</strong> to update the Onyx DB connection string on the right panel.</li>
+        </ul>
+        <ul style="list-style-type: circle;">
+            <li class="List_Indent">Add <code>MultiSubnetFailOver=True;</code> in the connection string.</li>
+        </ul>
+        <p class="Indent2">For Reference:</p>
+        <p class="Indent2"><code>Provider=MSOLEDBSQL;data source=&lt;Listener Name&gt;;uid=&lt;OnyxEASSQL User&gt;;initial catalog=&lt;Database Name&gt;;MultiSubNetFailOver=True;OLE DB Services=-5</code>
+        </p>
+        <ul style="list-style-type: circle;">
+            <li class="List_Indent">Shut down the <b>OnyxEASApp</b> component from the Component Services.</li>
+        </ul>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">The SIDs for all Onyx user logins (OnyxDBO, OnyxEASSql, and OnyxLMSql) need to be same across all database replicas.</p>
+    </body>
+</html>

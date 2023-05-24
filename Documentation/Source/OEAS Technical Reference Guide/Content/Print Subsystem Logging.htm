@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="795" MadCap:lastWidth="624">
+    <head><title>Print Subsystem Logging</title>
+    </head>
+    <body>
+        <h3>Print Subsystem Logging</h3>
+        <p>Log4Net is the Logger Service used for OPS Print SubSystem. Logger logs the information in <code>&lt;OPS installation folder&gt;\Components\Logs\OPS_Onyx.log</code> file. </p>
+        <p>The following code specifies the default configuration. The text in green specifies the level of logging which can be one of the following:</p>
+        <ul>
+            <li>ALL</li>
+            <li>DEBUG</li>
+            <li>INFO</li>
+            <li>WARN</li>
+            <li>ERROR</li>
+            <li>FATAL</li>
+            <li>OFF</li>
+        </ul>
+        <p xml:space="preserve" class="C_Code">&lt;configuration&gt;</p>
+        <p xml:space="preserve" class="C_Code">&#160; &lt;configSections&gt;</p>
+        <p xml:space="preserve" class="C_Code">&#160;&#160;&#160; &lt;section name="log4net" type="log4net.Config.Log4NetConfigurationSectionHandler, log4net" /&gt;</p>
+        <p xml:space="preserve" class="C_Code">  &lt;/configSections&gt;</p>
+        <p xml:space="preserve" class="C_Code">&lt;log4net&gt;</p>
+        <p xml:space="preserve" class="C_Code">&#160;&#160;&#160; &lt;appender name="RollingFile" type="log4net.Appender.RollingFileAppender"&gt;</p>
+        <p xml:space="preserve" class="C_Code">&#160;&#160;&#160;&#160;&#160; &lt;file value="Logs\OPS_Onyx.log"/&gt;</p>
+        <p xml:space="preserve" class="C_Code">&#160;&#160;&#160;&#160;&#160; &lt;lockingModel type="log4net.Appender.FileAppender+MinimalLock"/&gt;</p>
+        <p xml:space="preserve" class="C_Code">&#160;&#160;&#160;&#160;&#160; &lt;appendToFile value="true"/&gt;</p>
+        <p xml:space="preserve" class="C_Code">&#160;&#160;&#160;&#160;&#160; &lt;maximumFileSize value="500KB"/&gt;</p>
+        <p xml:space="preserve" class="C_Code">&#160;&#160;&#160;&#160;&#160; &lt;maxSizeRollBackups value="50"/&gt;</p>
+        <p xml:space="preserve" class="C_Code">&#160;&#160;&#160;&#160;&#160; &lt;layout type="log4net.Layout.PatternLayout"&gt;</p>
+        <p xml:space="preserve" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;IgnoresException value="False"/&gt;</p>
+        <p xml:space="preserve" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;conversionPattern value="%newline%newlineDate: %date %newlineLogLevel: %level &#160;&#160; %newlineMessage: %message%newline %newline%exception"/&gt;</p>
+        <p xml:space="preserve" class="C_Code">&#160;&#160;&#160;&#160;&#160; &lt;/layout&gt;</p>
+        <p xml:space="preserve" class="C_Code">&#160;&#160;&#160; &lt;/appender&gt;</p>
+        <p xml:space="preserve" class="C_Code">&#160;&#160;&#160; &lt;root&gt;</p>
+        <p xml:space="preserve" class="C_Code">&#160;&#160;&#160;&#160;&#160; <span style="color: #3cb371; font-weight: bold;">&lt;level value="Error"/&gt;</span></p>
+        <p xml:space="preserve" class="C_Code">&#160;&#160;&#160;&#160;&#160; &lt;appender-ref ref="RollingFile"/&gt;</p>
+        <p xml:space="preserve" class="C_Code">&#160;&#160;&#160; &lt;/root&gt;</p>
+        <p xml:space="preserve" class="C_Code">&#160; &lt;/log4net&gt;</p>
+        <p xml:space="preserve" class="C_Code">&lt;/configuration&gt;</p>
+        <p>For more information on Log4Net, refer to <a href="https://logging.apache.org/log4net/" class="Hyperlink">https://logging.apache.org/log4net/.</a></p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">The same configuration holds good for OPS Print Template Test Utility as well.</p>
+    </body>
+</html>

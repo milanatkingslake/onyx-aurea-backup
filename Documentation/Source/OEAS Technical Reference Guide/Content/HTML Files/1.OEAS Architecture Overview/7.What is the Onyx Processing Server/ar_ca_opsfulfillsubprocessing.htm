@@ -1,0 +1,399 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="802" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head>
+            <link href="../../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" /><title>Example of Fulfillment Subsystem Processing</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h1>Example of Fulfillment Subsystem Processing </h1>
+        <p>The following example illustrates how a fulfillment subsystem processes 
+ order lines based on the settings given in the following table. These 
+ settings highlight the processing behavior of the fulfillment subsystem 
+ and are not intended to serve as a model for your configuration. </p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Field Name </th>
+                    <th>Setting </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Batch Size </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">50 </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Start Time </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">6:00 p.m. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Stop Time </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">6:30 p.m. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Standard Priority Run Interval </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">10 minutes </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">High Priority Run Interval </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">5 minutes </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Ignore Start/Stop Time For High Priority Items 
+ </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">empty </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The following table shows the order lines queued for processing. </p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Type of order </th>
+                    <th>Number of orders and order lines </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">High priority </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">120 orders with 1 order line each </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Standard priority </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">50 orders with 1 order line each </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>In this example, the order line batches will be processed as described 
+ in the following table. </p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Step </th>
+                    <th>Time </th>
+                    <th>Run interval type </th>
+                    <th>Action </th>
+                    <th>Number of order lines remaining after action </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Between 6:30pm Day 1 and 6:00pm Day 2 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">N/A </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">During this 23-1/2 hour period, no processing 
+ occurs. </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">120 high-priority </p>
+                        <p class="Table_Text" style="color: #000000;">50 standard-priority </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">2</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">6:00pm, Day 2 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Standard priority </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The subsystem checks the queue for standard- 
+ and high-priority order lines. Fifty high-priority order lines are retrieved 
+ and processed. Processing completes before the next interval starts. The 
+ subsystem has no more activity until the next interval begins. </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">70 high-priority </p>
+                        <p class="Table_Text" style="color: #000000;">50 standard-priority </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">3</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">6:05pm, Day 2 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">High priority </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The subsystem checks the queue for high-priority 
+ order lines. Fifty order lines are retrieved and processed. The subsystem 
+ has no more activity until the next interval begins. </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">20 high-priority </p>
+                        <p class="Table_Text" style="color: #000000;">50 standard-priority </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">4</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">6:10pm, Day 2 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Standard priority </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The subsystem checks the queue for standard- 
+ and high-priority order lines. Twenty high-priority and 30 standard-priority 
+ order lines are retrieved and processed. The subsystem has no more activity 
+ until the next interval begins. </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">0 high-priority </p>
+                        <p class="Table_Text" style="color: #000000;">20 standard-priority </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">5</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">6:15pm, Day 2 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">High priority </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The subsystem checks the queue for high-priority 
+ order lines. No order lines are retrieved and processed, and the subsystem 
+ has no activity. </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">0 high-priority </p>
+                        <p class="Table_Text" style="color: #000000;">20 standard-priority </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">6</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">6:20pm, Day 2 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Standard priority </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The subsystem checks the queue for high- and 
+ standard-priority order lines. No high-priority and 20 standard-priority 
+ order lines are retrieved and processed. The subsystem has no more activity 
+ until the next interval begins. </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">0 high-priority </p>
+                        <p class="Table_Text" style="color: #000000;">0 standard-priority </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">7</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">6:25pm, Day 2 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">High priority </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The subsystem checks for high-priority order 
+ lines. No order lines are retrieved or processed. The subsystem has no 
+ activity. </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">0 high-priority </p>
+                        <p class="Table_Text" style="color: #000000;">0 standard-priority </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">8</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">6:28pm, Day 2 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">The following orders are added to the queue: 
+ </p>
+                        <p class="Table_Text" style="color: #000000;">10 orders with 1 high-priority order line each 
+ </p>
+                        <p class="Table_Text" style="color: #000000;">10 orders with 1 standard-priority order line 
+ each </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">10 high-priority </p>
+                        <p class="Table_Text" style="color: #000000;">10 standard-priority 9</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">9</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">6:30pm, Day 2 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Standard priority </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The subsystem checks the queue for high- and 
+ standard-priority order lines. Ten high-priority and 10 standard-priority 
+ order lines are retrieved and processed. Processing completes at 6:34pm. 
+ Because it is now outside the operation window, the subsystem does not 
+ check for any new order lines has no more activity until the next day. 
+ </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">0 high-priority </p>
+                        <p class="Table_Text" style="color: #000000;">0 standard-priority </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">10</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">5:00pm, Day 3 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Sixty orders with 1 high-priority order line 
+ each are added to the queue. </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">60 high-priority </p>
+                        <p class="Table_Text" style="color: #000000;">0 standard-priority </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">11</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">6:00pm, Day 3 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">High priority </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The subsystem checks the queue for high-priority 
+ order lines. Fifty order lines are retrieved and processed. Processing 
+ completes at 6:06pm. The subsystem has no more activity until the next 
+ interval begins. </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">10 high-priority </p>
+                        <p class="Table_Text" style="color: #000000;">0 standard-priority </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">12</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">6:05pm, Day 3 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">High priority </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The subsystem skips processing for this interval 
+ because the previous batch of order lines was not completed by this start 
+ time. Order lines in the queue will be processed during the next interval. 
+ </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">10 high-priority </p>
+                        <p class="Table_Text" style="color: #000000;">0 standard-priority </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Highlights of the example are as follows: </p>
+        <p><b class="Bold" style="font-weight: bold;">Step 1. </b>The fulfillment 
+ subsystem does not check the queue for order lines when outside the operation 
+ window. </p>
+        <p><b class="Bold" style="font-weight: bold;">Step 2. </b>When the operation 
+ window begins, the first interval is always a <span class="UIElement" style="font-weight: bold;">Standard 
+ Priority Run Interval</span>. Both standard-priority and high-priority 
+ order lines are retrieved during the <span class="UIElement" style="font-weight: bold;">Standard Priority 
+ Run Interval</span>. The high-priority items 
+ are processed first. </p>
+        <p><b class="Bold" style="font-weight: bold;">Step 4. </b>When the scheduled 
+ start time for Standard Priority Run Interval and High Priority Run Interval 
+ coincide, a Standard Priority Run Interval occurs. </p>
+        <p><b class="Bold" style="font-weight: bold;">Step 5. </b>During the 
+ <span class="UIElement" style="font-weight: bold;">High Priority Run Interval</span>, only high-priority 
+ order lines are processed. </p>
+        <p><b class="Bold" style="font-weight: bold;">Step 9. </b>The subsystem 
+ does not stop processing an existing batch of order lines when the operation 
+ window’s <span class="UIElement" style="font-weight: bold;">Stop Time</span> arrives. The subsystem 
+ does not start processing a new batch of order lines when the <span class="UIElement" style="font-weight: bold;">Stop 
+ Time</span> has passed. </p>
+        <p><b class="Bold" style="font-weight: bold;">Step 12. </b>The subsystem 
+ skips an interval if it is still processing a batch. </p>
+    </body>
+</html>

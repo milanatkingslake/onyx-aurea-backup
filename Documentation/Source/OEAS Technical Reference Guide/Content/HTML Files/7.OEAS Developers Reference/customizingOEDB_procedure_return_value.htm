@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="882.4567" MadCap:lastWidth="1146">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/TableStyles/Aptean_Note_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" /><title>Procedure return value</title>
+    </head>
+    <body>
+                <h6>
+            <MadCap:keyword term="procedure;value;Procedure return value" />Procedure return value</h6>
+        <p>The middle tier expects the return value sent back from SQL Server procedures 
+ to follow the structural rules described in <a href="customizingOEDB_Creating_Replace_Procedures.htm">Replace 
+ Procedures</a>.</p>
+        <p>The following table describes the valid values for the built-in SQL 
+ Server return code parameter. The value of the return code parameter determines 
+ what is returned in the <a href="customizingOEDB_result_set_interpretation.htm">result 
+ set</a>.</p>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Note_Table_1.css');width: 80%;" class="TableStyle-Aptean_Note_Table_1" cellspacing="2">
+            <col style="width: 0.7cm;" class="TableStyle-Aptean_Note_Table_1-Column-Column1" />
+            <col class="TableStyle-Aptean_Note_Table_1-Column-Column1" style="width: 15.50cm;" />
+            <tbody>
+                <tr class="TableStyle-Aptean_Note_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyB-Column1-Body1" style="text-align: right;">
+                        <p>
+                            <img src="../../Resources/Images/Common/note_image.png" />
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText"><b>Note</b>: Return code parameter values of -1 and 2 specify that the 
+ procedure will return a National Language message ID value as part of 
+ the result set parameter. You can modify a procedure to return existing 
+ National Language messages regarding the result set, the lack of a result 
+ set, or some other action that the procedure performed. Additionally, 
+ you can customize National Language messages using OES Table Administration.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Table_1.css');" class="TableStyle-Aptean_Table_1" cellspacing="0">
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 5cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 5cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 7cm;" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_1-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Value</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Status</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadD-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Description</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">-2 or less</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Success</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">The procedure successfully completed and 
+ is returning a result set. The return code parameter value can be a National 
+ Language message ID for the beginning column heading of a result set. 
+ This is set within the OED unless the procedure contains logic to determine 
+ the value.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">-1</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Success with message</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">The procedure successfully completed and 
+ a National Language message ID is returned in the result set parameter 
+ to provide additional information. There may be many rows in the result 
+ set if the return values is -1.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">0</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Success</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">The procedure successfully completed with 
+ no National Language message ID returned. There may be many rows in the 
+ result set if the return values is 0.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">1</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Failure: database error</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">The procedure failed with an unanticipated 
+ error. A SQL Server error code and message are returned in the result 
+ set. There will only be one row in the result set if the return values 
+ is 1.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">2</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Failure: business logic error</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText">The procedure failed with an anticipated error, and 
+ a National Language message ID for the error is returned in the result 
+ set. There will only be one row in the result set if the return values 
+ is 2.</p>
+                        <p class="TableText" style="margin-bottom: 0;">Sometimes a procedure fails by design. For 
+ example, you can use a stored procedure to limit user access to data based 
+ on return code: a return code parameter value of 2 could return a National 
+ Language message ID corresponding to the message “Screen Denied” to unauthorized 
+ users.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

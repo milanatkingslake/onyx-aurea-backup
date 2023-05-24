@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="5" MadCap:lastHeight="742" MadCap:lastWidth="624">
+    <head>
+    </head>
+    <body>
+        <h1>Configuration </h1>
+        <p>Application configuration files contain settings specific to an application. This file contains configuration settings that the common language reads at runtime, and settings that the application can read.</p>
+        <p>Onyx SDK provides the following configuration to the users :</p>
+        <ol>
+            <li><code>App.config</code> – It is the base configuration.</li>
+            <li><code>unitysdk.config</code> – This is a Unity Container. Unity is a lightweight, extensible dependency injection container. Unitysdk contains the assembly configuration of Onyx SDK. The Onyx SDK container contains the <code>OnyxSDK.Public.Interface.OEASServices</code> to its class’s. The OEASService interface is mapped by default to the OnyxOEASServices. You can also map the OEASService interface with OnyxOGSServices. In addition, <code>OnyxSDK.Public.Interface.EnterpriseService</code> is the EnterpriseService library configuration that the user can use.</li>
+            <li><code>languageculturemapping.config</code> – This configuration helps to map Language Culture. </li>
+            <li><code>ogssdkservice.config</code> – When the mapping of OEASService interface is to the OnyxOGSServices in the unitysdk.config then the ogssdkservice.config gives the connection details of the OGS service that the user wants to point to.</li>
+            <li><code>log4net.config</code> - log4net is a tool to help the programmer output log statements to a variety of output targets. In case of problems with an application, it is helpful to enable logging so that the problem can be located. With log4net it is possible to enable logging at runtime without modifying the application binary. The log4net package is designed so that log statements can remain in shipped code without incurring a high performance cost. It follows that the speed of logging (or rather not logging) is crucial.</li>
+        </ol>
+        <p>When OnyxSDK points to OnyxOEASService, the configuration will be:</p><pre xml:space="preserve"><p class="Indent1"><code>&lt;container name="OnyxSDKContainer"&gt;
+    &lt;register type="OnyxSDK.Public.Interface.OEASService.IBaseOEAS" mapTo="OnyxSDK.Private.OEASService.OnyxOEASService"&gt;
+      &lt;lifetime type="transient" /&gt;
+    &lt;/register&gt;
+    &lt;register type="OnyxSDK.Public.Interface.OEASService.IBaseOEASOnyxAuthenticate" 
+.
+.
+.
+    &lt;register type="OnyxSDK.Public.Interface.EnterpriseService.IBaseES" mapTo="OnyxSDK.Public.EnterpriseService.OnyxEnterpriseService"&gt;
+      &lt;lifetime type="transient" /&gt;
+    &lt;/register&gt;
+    &lt;register type="OnyxSDK.Public.Interface.EnterpriseService.IBaseESOnyxAuthenticate" 
+.
+.
+.
+  &lt;/container&gt;
+</code></p></pre>
+        <p>When OnyxSDK points to OnyxOGSService the configuration will be:</p><pre xml:space="preserve"><p class="Indent1"><code>&lt;container name="OnyxSDKContainer"&gt;
+
+&lt;register type="OnyxSDK.Public.Interface.OEASService.IBaseOEAS" mapTo="OnyxSDK.Private.OGSService.OnyxOGSService"&gt;
+      &lt;lifetime type="transient" /&gt;
+    &lt;/register&gt;
+.
+.
+.
+
+
+    &lt;register type="OnyxSDK.Public.Interface.EnterpriseService.IBaseES" mapTo="OnyxSDK.Public.EnterpriseService.OnyxEnterpriseService"&gt;
+      &lt;lifetime type="transient" /&gt;
+    &lt;/register&gt;
+.
+.
+.
+  &lt;/container&gt;
+</code></p></pre>
+        <p>In Addition, we have to specify the <code>OnyxSDKGatewayServiceConfigurationsSection</code> to point to the OGS service to be used:</p><pre xml:space="preserve"><p><code>&lt;OnyxSDKGatewayServiceConfigurationsSection&gt;
+  &lt;OnyxSDKGatewayServiceConfigurations&gt;
+    &lt;OnyxSDKGatewayServiceConfiguration UniqueId="" BaseAddress="" DomainName="" UserName="" Password="" AuthenticationType="" Application="" Site="" Language=""/&gt;
+  &lt;/OnyxSDKGatewayServiceConfigurations&gt;
+&lt;/OnyxSDKGatewayServiceConfigurationsSection&gt;
+</code></p></pre>
+        <h2>Creating OnyxSDK Constants</h2>
+        <p>Onyx.Constants.dll is created by LboConstantAssembly.exe. This tool uses OnyxSDK to create all the contants required for the Onyx metadata. Refer to the example below:</p><pre xml:space="preserve"><p><code>using (IOnyxUserContext onyxUserContext = OnyxFactoryUserContext.OnyxContext.Context("sa", "onyx", "Onyx", "1", "OnyxSDK"))
+            {
+                ILboObject companyObject = onyxUserContext.OnyxMetadata.GetLboObject(Onyx.Constants.COMPANYLBOOBJECT.NAME);
+            }</code>
+</p></pre>
+        <p>Note that <code>Onyx.Constants.COMPANYLBOOBJECT.NAME</code> is referring to <code>Onyx.Constants.dll</code>.</p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">If any changes are made to the OED, you have to manually run the LboConstantAssembly.exe and replace the old Onyx.Constants.dll with the new generated Onyx.Constants.dll.</p>
+        <p class="Image">
+            <img src="../../Resources/Images/config.jpg" style="border-left-style: solid;border-left-width: 1px;border-left-color: ;border-right-style: solid;border-right-width: 1px;border-right-color: ;border-top-style: solid;border-top-width: 1px;border-top-color: ;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: ;" />
+        </p>
+        <p class="Caption" MadCap:autonum="Figure 1-1 ">Creating Onyx SDK Constants</p>
+    </body>
+</html>

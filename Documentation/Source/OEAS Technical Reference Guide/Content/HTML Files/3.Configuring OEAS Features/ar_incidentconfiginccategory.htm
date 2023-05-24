@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:id="content" MadCap:comment="content" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:fileTags="RoboHelpStatus.In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="802" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" /><title>Creating additional incident categories</title>
+    </head>
+    <body>
+        <h3>Creating additional incident categories </h3>
+        <p>By default, OEAS supports incident categories for work ticket, sales, 
+ service, and support, as described in <i>Incidents</i>. 
+ These incident categories are installed by default when you install OEDB 
+ and are differentiated by the ID values listed in the following table. </p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Default incident categories </th>
+                    <th>Default incident_category_did </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">support</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">1 </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">service</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">2 </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">sales</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">3 </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">workTicket</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">4</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Do not change these default category IDs. They are necessary 
+ for several other OEAS features.</p>
+        <p>In addition to the default incident categories, OEAS can support additional 
+ incident categories that you configure as your organization requires. 
+ The additional incident categories are supported by the same business 
+ objects as the default categories. As with the default categories, they 
+ are differentiated within the incident object by the categoryId property. 
+ </p>
+        <p>Creating additional incident categories in your application requires 
+ several steps, using different tools of the Onyx Enterprise Studio (OES). 
+ This section outlines the implementation steps for creating additional 
+ incident categories in the middle tier business logic. You must also customize 
+ the presentation tier (OEP) to display the new functionality. For more 
+ information on OEP customization, see the <span style="font-style: italic;">OEP 
+ Technical Guide</span>.</p>
+        <p>Tools you need to be familiar with include: </p>
+        <ul>
+            <li>Table Administration, detailed in "Table 
+ Administration Help"</li>
+            <li>Reference Table Administration, detailed in "Reference 
+ Table Administration Help"</li>
+        </ul>
+        <h3>To create a new incident category: </h3>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li>Using Table Administration, add a row to the incident_category 
+ table for the new incident category. </li>
+        </ol>
+        <p class="Indent1">The following table lists the editable fields displayed in Table 
+ Administration.</p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Field </th>
+                    <th>Description </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text">categoryCode</p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text">Non-localizable name in a single string with no 
+ spaces. This is referenced by application code.</p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text">categoryName</p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text">Localizable name displayed in the UI</p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text">captionId</p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text">ID for caption from the NationalLanguage table</p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text">toolTipId</p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text">ID for tool tip from the NationalLanguage table</p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text">gridHeadingStart</p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text">ID for grid header from the NationalLanguage table</p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text">description</p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text">Description of the category</p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text">active</p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text">Specifies whether the field is active or inactive. 
+ 1 is active and 0 is inactive</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ul style="list-style: decimal;list-style-type: decimal;" MadCap:continue="true">
+            <li>Using Reference Table 
+ Administration, create new reference fields for the incident category 
+ resolution codes. In order for this category to work the Incident feature, 
+ the <span style="font-weight: bold;">Field Name</span> must use the following 
+ format:</li>
+        </ul>
+        <p class="Indent1">incident.&lt;category&gt;.code1</p>
+        <p class="Indent1">You replace &lt;category&gt; in the previous syntax with the categoryCode 
+ you configured in the previous step. Create resolution codes in the same 
+ manner as the other incident categories, in order that the Incident feature 
+ can recognize them. To create the hierarchical relationship, set the <span style="font-weight: bold;">Field Type</span> to <span style="font-weight: bold;">Combo 
+ Box</span> and specify the <span style="font-weight: bold;">Parent Field 
+ </span>according to the following table.</p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Child</th>
+                    <th>Parent</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">incident.&lt;category&gt;.code1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">incident.resolutiongroup</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">incident.&lt;category&gt;.code2</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">incident.&lt;category&gt;.code1</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">incident.&lt;category&gt;.code3</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">incident.&lt;category&gt;.code2</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">incident.&lt;category&gt;.code4</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">incident.&lt;category&gt;.code3</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="Indent1">You can assign any  <span style="font-weight: bold;">Caption</span>  
+ according to your business requirements. Set  <span style="font-weight: bold;">Sequence 
+ #</span>  and  <span style="font-weight: bold;">Active</span>  
+ to 1.</p>
+        <ul style="list-style: decimal;" MadCap:continue="true">
+            <li>Using the <span style="font-weight: bold;">Lookup 
+ Value by Field</span><span> option, s</span>pecify lookup values for incident.resolutiongroup 
+ under the new the new category.</li>
+            <li>Using Reference Table Administration, add values 
+ to the following for the new incident category: </li>
+        </ul>
+        <ul>
+            <li class="List_Indent">incident.priority</li>
+            <li class="List_Indent">incident.source</li>
+            <li class="List_Indent">incident.status</li>
+            <li class="List_Indent">incident.type</li>
+        </ul>
+    </body>
+</html>

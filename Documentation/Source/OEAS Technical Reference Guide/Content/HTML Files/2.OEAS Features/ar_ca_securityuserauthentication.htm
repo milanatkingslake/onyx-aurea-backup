@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="5" MadCap:lastHeight="785" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>User authentication: Login and session management</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>User authentication</h3>
+        <p>Authentication is the process in which a user is identified by his or 
+ her account information and password in order to start a session.</p>
+        <ul>
+            <li><a href="#Login">Login scenarios</a>
+            </li>
+            <li><a href="#Session">Session management</a>
+            </li>
+            <li><a name="Login"></a>Login scenarios</li>
+        </ul>
+        <p>There are two scenarios under which users log in and are authenticated: </p>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; &#160;">Only users whom the Onyx administrator has added as 
+ Onyx users in Security Administration can be authenticated to use OEAS.</p>
+        <ul>
+            <li>Integrated Windows authentication</li>
+        </ul>
+        <p class="Indent1">The user has an intranet domain account for which integrated Windows 
+ authentication is available. </p>
+        <p class="Indent1">In this scenario, the user logs in with a domain account name and 
+ password. The user is authenticated by Windows domain security, the domain 
+ account is mapped to an Onyx user account, and a session is established. </p>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Windows authentication is only supported when OEAS and 
+ OES are installed on the same machine. Onyx authentication supports physically 
+ separate OEAS and OES servers.</p>
+        <ul>
+            <li>Onyx authentication</li>
+        </ul>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">These users typically log in through a Web page with a user ID and 
+ password. The user ID and password, which is case-sensitive, constitute 
+ the user’s credentials for authentication, and the session is established. 
+ </p>
+        <h4><a name="Session"></a>Session management</h4>
+        <p>In order for user information to be passed between Web sites located 
+ on separate physical Web servers, all session information must match. 
+ Because the domain account that the IIS server on the calling Web server 
+ is passed as part of the authentication process, the authentication fails 
+ when the calling domain account doesn't match the domain account that 
+ initiated the session. For this reason any Web site that will pass information 
+ and user authentication to another Web server before making a call to 
+ the middle tier must use the same anonymous user domain account. </p>
+        <p>For more information on session management, see the OEAS Developer’s Reference.</p>
+    </body>
+</html>

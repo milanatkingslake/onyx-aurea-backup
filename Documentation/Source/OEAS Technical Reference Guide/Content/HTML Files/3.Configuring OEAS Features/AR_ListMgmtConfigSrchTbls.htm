@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="783" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Configuring search tables</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>Configuring search tables </h3>
+        <p>The search tables represent the database views against which the search 
+ criteria are evaluated. These views, and the columns they expose, correspond 
+ to the search tables/result set groups and search items/result set columns 
+ that exist in <em class="Emphasis">search view details</em>. Search tables 
+ also include an alias for each view, which OEAS uses to create the WHERE 
+ clause that is appended to the underling database query associated with 
+ the search. </p>
+        <p>For instance, when a user creates a List Manager search for a Companies 
+ <em class="Emphasis">search view</em> that includes search items from the 
+ search table Product, the search table items that OEAS uses to build the 
+ database query include the views company_lm_view and product_lm_view, 
+ using the aliases of “B” and “C” respectively for referencing columns 
+ in the query. This demonstrated in the following code sample. </p>
+        <p Class="Code" class="C_Code">SELECT DISTINCT</p>
+        <p Class="Code" class="C_Code">&#160;'101'=B.COMPANY_ID,</p>
+        <p Class="Code" class="C_Code">&#160;'102'=B.SECONDARY_ID,</p>
+        <p Class="Code" class="C_Code">&#160;'116'=B.COMPANY_NAME,</p>
+        <p Class="Code" class="C_Code">&#160;'105'=B.ADDRESS1,</p>
+        <p Class="Code" class="C_Code">&#160;'106'=B.ADDRESS2,</p>
+        <p Class="Code" class="C_Code">&#160;'107'=B.ADDRESS3,</p>
+        <p Class="Code" class="C_Code">&#160;'108'=B.LOCALITY1,</p>
+        <p Class="Code" class="C_Code">&#160;'109'=B.REGION_CODE,</p>
+        <p Class="Code" class="C_Code">&#160;'110'=B.COUNTRY_CODE,</p>
+        <p Class="Code" class="C_Code">&#160;'111'=B.POST_CODE,</p>
+        <p Class="Code" class="C_Code">&#160;'103'=B.CONTACT_FIRST_NAME,</p>
+        <p Class="Code" class="C_Code">&#160;'104'=B.CONTACT_LAST_NAME,</p>
+        <p Class="Code" class="C_Code">&#160;'112'=B.PHONE_NUMBER,</p>
+        <p Class="Code" class="C_Code">&#160;'113'=B.EMAIL_ADDRESS </p>
+        <p Class="Code" class="C_Code">FROM</p>
+        <p Class="Code" class="C_Code">&#160;COMPANY_LM_VIEW B,</p>
+        <p Class="Code" class="C_Code">&#160;PRODUCT_LM_VIEW C</p>
+        <p Class="Code" class="C_Code">WHERE</p>
+        <p Class="Code" class="C_Code">&#160;(B.SITE_ID = 1) AND</p>
+        <p Class="Code" class="C_Code">&#160;(B.company_id = C.owner_id) &#160;AND</p>
+        <p Class="Code" class="C_Code">&#160;(C.PRODUCT_CODE IN (N'newProduct2'))</p>
+        <p>Several search table items (views) are installed by 
+ default during installation of the OEDB, and you can administer them using 
+ Table Administration. Using this tool you can: </p>
+        <ul style="list-style: disc;" type="disc">
+            <li>Add new search table items</li>
+            <li>Modify existing search table items</li>
+            <li>Set search table items to active or inactive</li>
+            <li>Delete existing search table items</li>
+        </ul>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Configuring items in search tables identifies the view name 
+ and alias to be used by List Manager; it does not configure the actual 
+ view. To configure views, see <a href="AR_ListMgmtConfigSrchViewDet.htm">Configuring search view details</a>.</p>
+        <p>&#160;The following 
+ table describes the editable fields in Table Administration. </p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Element </th>
+                    <th>Description </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">primaryId </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">This is a unique system generated ID. Once 
+ created, it is not editable as it is a primary key field. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">name (required) </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">This is the name of the database object (table 
+ or view) against which the query evaluates search criteria. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">description </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">This is a description of the table or view. 
+ </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">alias (required) </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">This is the alias for the table or view. It 
+ is used to build the query. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">active </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Specifies whether the search table item is 
+ active or inactive: 1 is active, 0 is inactive. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>For more information on using Table Administration, see <i>Table Administration Help</i>.</p>
+    </body>
+</html>

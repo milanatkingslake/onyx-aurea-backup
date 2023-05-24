@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="410" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Removing deleted data from subscription_item</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>Removing deleted data from subscription_item </h3>
+        <p>The subscription_item table tracks all subscribed data, including the 
+ subscribed data that has subsequently been un-subscribed or deleted. Depending 
+ on the nature of your organization, subscription_item can become quite 
+ large. To help you manage this, the database script subscription_item_cleanup.sql 
+ is located on the OEAS product CD. </p>
+        <p>You can run this script to: </p>
+        <ul>
+            <li>Physically delete any logically deleted subscription_item 
+ record (those records with a delete_status=1).</li>
+            <li>Physically delete any subscription_item record 
+ that refers to a deleted or non-existent transactional record (For instance, 
+ the subscription_item record that references a deleted incident would 
+ be removed).</li>
+        </ul>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Onyx recommends using this script during non-peak hours. </p>
+        <p>You can find subscription_item_cleanup.sql on the installation CD at 
+ \Utilities\Subscription Integrity Scripts. 
+</p>
+        <p>&#160;</p>
+    </body>
+</html>

@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="5" MadCap:lastHeight="792" MadCap:lastWidth="624">
+    <head><title>Installing Service Broker</title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2>Installing Service Broker</h2>
+        <p class="ProcedureHeading">To install the service broker:</p>
+        <ol>
+            <li>On your OEDB server, ensure that TCP Port 9000 is open.</li>
+            <li>In your Onyx installation package, navigate to <b>Platform Components &gt; Database (OEDB)</b>, and copy the <b>ServiceBroker.Host</b> folder to your Onyx database (OEDB) server.</li>
+        </ol>
+        <p class="Indent1">A typical location to copy this folder is<code> ..\Program Files(x86)\Onyx\ServiceBroker.Host</code>.</p>
+        <ol MadCap:continue="true">
+            <li>From the <b>Windows Explorer</b> address bar, copy the folder path and store it for future reference. You will need this path when performing step 5.</li>
+            <li>Open the <b>ServiceBroker.Host</b> folder.</li>
+            <li>Open the ScriptForDomainDataSync.bat file.</li>
+            <li>Right-click privatekey.pvk, click Properties and ensure that the Read-only check box is selected.</li>
+        </ol>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; &#160;">If you've created a new set of public and private keys, ensure that you copy the newly-created private key to this folder.</p>
+        <ol MadCap:continue="true">
+            <li>Open <b>Command Prompt</b> and perform the following steps.</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">Enter a command to point to </li>
+            <li class="List_Indent">Correct the path with .NET Framework 4.6.1 version</li>
+            <li class="List_Indent">Execute the following command, substituting the bracketed text with the appropriate values:</li>
+        </ul>
+        <p class="Indent1"><i>&gt;installutil “&lt;Path of the ServiceBroker.Host folder&gt;\ ServiceBroker.Host\ServiceBroker.Host.exe"</i>
+        </p>
+        <p class="Indent1">An example of the command is:</p>
+        <p class="Indent1"><i>&gt;installutil “..\Program Files(x86)\Onyx\ServiceBroker.Host\ServiceBroker.Host.exe”</i>
+        </p>
+        <p class="Tip" MadCap:autonum="&lt;b&gt;Tip:&lt;/b&gt; &#160;">If the directory path contains spaces, enclose the complete file path with double quotes. For example, installutil “..\Program Files(x86)\Onyx\ ServiceBroker.Host\ServiceBroker.Host.exe”</p>
+        <ol start="8">
+            <li>Open <b>Services</b>. To do this, from the <b>Windows Start</b> menu, navigate to <b>Control Panel&gt; Administrative Tools</b>, and then click <b>Services</b>.</li>
+            <li>Right-click <b>CM Domain Data Synchronizer</b>, and then select <b>Properties</b>.</li>
+            <li>On the <b>Log On</b> tab, select <b>This account</b>, and then enter the user ID and password that will be used to log on to the service.</li>
+        </ol>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Enter the Onyx system administrator user name and password that you entered while installing the database.</p>
+        <ol MadCap:continue="true">
+            <li>To save your changes and close the <b>Properties</b> window, click <b>OK</b>.</li>
+            <li>Start the <b>CM Domain Data Synchronizer</b> service.</li>
+            <li>Configure OGS.</li>
+            <li>Install OEP.</li>
+            <li>Log on to OEP, navigate to <b>Utilities &gt; Diagnostics &gt; Cache Flushing</b>, and use <b>Cached Data Manager</b> to run the synchronization process. For more information on using the Cached Data Manager, refer to the <i>Onyx Technical Guide</i>.</li>
+        </ol>
+    </body>
+</html>

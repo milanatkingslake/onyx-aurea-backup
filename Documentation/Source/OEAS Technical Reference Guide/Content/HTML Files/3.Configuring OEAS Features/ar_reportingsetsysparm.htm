@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="789" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Setting system parameters for the ReportNet Integration Module</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>Setting system parameters for the Cognos Integration Module </h3>
+        <p>You can use system parameters to modify the behavior of the OEP integration 
+ with Cognos functionality. Following are descriptions of the system parameters 
+ that you can configure for the Cognos Integration Module in System Parameter 
+ Administration. </p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>System parameter </th>
+                    <th>Description </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">EnableAnalytics </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Controls whether OEP exposes any ReportNet 
+ functionality. The default value is N. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">ReportNetHomePageFolderName </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Determines the name of the ReportNet folder 
+ created by OEP for each user. The default value is blank. If this is left 
+ blank, OEP assumes the private Home Page folder functionality is disabled. 
+ OEP still renders administrator-configured reports. </p>
+                        <p class="Table_Text" style="color: #000000;">Example: “Home Page reports” </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">ReportNetHomePageFolderPath </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Controls the ReportNet content store location 
+ for the OEP Home Page folder. The default value is blank. If this is left 
+ blank, OEP assumes the private Home Page folder functionality is disabled. 
+ OEP still renders administrator-configured reports. </p>
+                        <p class="Table_Text" style="color: #000000;">Example: CAMID("OnyxAuthentication:?userId?")/folder[@name='My 
+ Folders'] </p>
+                        <p class="Table_Text" style="color: #000000;">When specifying the path, you must include 
+ the ‘?userId?’ syntax. OEP replaces this string with the currently logged-on 
+ user’s ID at run-time. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">ReportNetOnyxNamespace </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Controls which security namespace OEP uses 
+ to access ReportNet resources on behalf of an OEP user. This contains 
+ the name of the Onyx authentication namespace created during implementation 
+ of the ReportNet Integration Module. </p>
+                        <p class="Table_Text" style="color: #000000;">The default value is ‘OnyxAuthentication.’ 
+ If EnableAnalytics=’Y’ and this is blank, the user receives a warning 
+ that reports cannot be retrieved when attempting to access reports from 
+ OEP Home Page and PowerPage. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">ReportNetURL </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Controls which ReportNet application OEP uses 
+ for accessing reporting functionality. </p>
+                        <p class="Table_Text" style="color: #000000;">The default value is ‘http://serverName/crn.’ 
+ </p>
+                        <p class="Table_Text">If EnableAnalytics=’Y’ and ‘serverName’ does 
+ not reference a valid ReportNet server, the user sees a Page Not Found 
+ error when attempting to access ReportNet from OEP. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

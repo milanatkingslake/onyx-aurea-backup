@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="791" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>content Attribute</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>
+            <MadCap:keyword term="content Attribute" />content attribute</h5>
+        <p>The content attribute defines for OEAS the content of data that it is 
+ passing in (within the parameters element), and the content of data that 
+ it expects back (within the returnXML element).</p>
+        <p>The content attribute is not required by OEAS on any input parameters, 
+ but OEAS always includes the attribute on parameters returned. A client 
+ application can use the content attribute to decide how to handle the 
+ returnXML. Because a lot of data passes over the network, it's important 
+ to define what the requirements are ahead of time.</p>
+        <p>The content attribute identifies which properties are present for a 
+ given object instance. This attribute has four possible values:</p>
+        <table>
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Value</th>
+                    <th>Definition</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">all</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Used when all properties of the object are 
+ included in the input parameters. This does not mean that every property 
+ contains a value, just that all the properties are present.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">partial</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Used when a subset of properties is necessary 
+ to complete a specific task.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">any</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Used for actions where the data values can vary from 
+ one call to the next. Depending on the object, some parameters are usually 
+ required on input, while others are optional.</p>
+                        <p class="Table_Text" style="margin-bottom: 0;">This is used for some search (retrieve) methods, 
+ where the search criteria is dictated by the properties that are provided 
+ for the call. Thus, the caller can define the boundaries of the search 
+ by including or removing properties, as needed.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">keysOnly</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Used for actions that require the minimum 
+ amount of information necessary to identify the object in the database.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>You can use the content attribute at design time to identify which object 
+ properties are required in the parameters XML to complete a task, and 
+ to determine which object properties are included in the returnXML.</p>
+        <p style="font-weight: bold;">Examples</p>
+        <p>The following examples typify the four content types. The four types 
+ are:</p>
+        <p>
+            Content attribute whose value = all
+        </p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;reminder objectType="reminder" <span style="color: #800000;">content="all"</span>&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;1&lt;/primaryId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerId&gt;21&lt;/ownerId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerType&gt;6&lt;/ownerType&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;userId&gt;user1&lt;/userId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;message&gt;Testing Insert&lt;/message&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;dueBy&gt;11/02/2000&lt;/dueBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;recurType&gt;0&lt;/recurType&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;recurInterval&gt;0&lt;/recurInterval&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;alarmActive&gt;1&lt;/alarmActive&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/reminder&gt;</p>
+        <p>
+            Content attribute whose value = keysOnly
+        </p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;reminder objectType="reminder" <span style="color: #800000;">content="keysOnly"</span>&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;1&lt;/primaryId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/reminder&gt;</p>
+        <p>
+            Content attribute whose value = partial
+        </p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;reminder objectType="reminder" <span style="color: #800000;">content="partial"</span>&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;1&lt;/primaryId&gt; </p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&lt;ownerId&gt;21&lt;/ownerId&gt; </p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&lt;ownerType&gt;6&lt;/ownerType&gt; </p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/reminder&gt; </p>
+        <p>
+            Content attribute whose value = any
+        </p>
+        <p Class="Code" class="code">&lt;parameters&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;phones objectType="phone" collection="1"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;phone <span style="color: #800000;">content="any"</span>&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerId&gt;3&lt;/ownerId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/phone&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/phones&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&lt;/parameters&gt;</p>
+    </body>
+</html>

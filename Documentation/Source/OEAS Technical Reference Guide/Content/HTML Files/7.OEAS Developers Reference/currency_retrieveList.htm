@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="2475" MadCap:lastWidth="946" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>retrieveList (currency)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="retrieveList" />retrieveList method</h2>
+        <p>The retrieveList method of the <a href="currency_object.htm">currency</a> 
+ object returns a rowSet of currency information.</p>
+        <p><a href="standard_retrieveList.htm">retrieveList standard method information</a>
+        </p>
+        <h3>Parameters</h3>
+        <table>
+            <col style="width: 4cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 4cm;" />
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Direction</th>
+                    <th>Data Type</th>
+                    <th>Content type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>rowSet</td>
+                    <td>out</td>
+                    <td>object</td>
+                    <td>all(out)</td>
+                    <td>A table of the currency codes, their descriptions, 
+ and localeIds</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>
+            Columns returned in the rowSet object
+</p>
+        <table>
+            <col style="width: 5cm;" />
+            <col style="width: 5cm;" />
+            <col style="width: 7cm;" />
+            <thead>
+                <tr>
+                    <th>columnOrdinal</th>
+                    <th>columnName</th>
+                    <th>Physical column</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>chCurrencyCode</td>
+                    <td>currency_ml_view.currency_code</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>vchCurrencyDesc</td>
+                    <td>currency_ml_view.currency_desc</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>chLocaleId</td>
+                    <td>currency_ml_view.locale_code</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Steps</h3>
+        <table>
+            <col style="width: 5cm;" />
+            <col style="width: 5cm;" />
+            <col style="width: 7cm;" />
+            <thead>
+                <tr>
+                    <th>Step data</th>
+                    <th>Step type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>OnyxDataValidationStep.DataValidation</td>
+                    <td>com</td>
+                    <td>Validates input parameters</td>
+                </tr>
+                <tr>
+                    <td>OnyxDM.DataManager</td>
+                    <td>com</td>
+                    <td>Retrieve a rowSet of currency information</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Example</h3>
+        <p>The following example shows the input parameters and output parametersReturn 
+ for the retrieveList method. Notice the pageSize attribute on the rowSet 
+ element. This limits the maximum rows returned to three. The example includes 
+ the returnXml content to illustrate the associated successWithInfo information 
+ when you limit the maximum rows returned.</p>
+        <p>
+            Parameters
+        </p>
+        <p Class="Code" class="C_Code">&lt;parameters&gt;</p>
+        <p Class="Code" class="C_Code">&lt;rowSet pageSize="3"/&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/parameters&gt;</p>
+        <p>
+            parametersReturn
+        </p>
+        <p Class="Code" class="C_Code">&lt;returnXml&gt;</p>
+        <p Class="Code" class="C_Code">&lt;otmId&gt;9116F72B-9FC6-42FA-996A-AF84D59F1209&lt;/otmId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;context&gt;</p>
+        <p Class="Code" class="C_Code">&lt;sessionSecondsRemaining&gt;600&lt;/sessionSecondsRemaining&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/context&gt;</p>
+        <p Class="Code" class="C_Code">&lt;methodStatus&gt;</p>
+        <p Class="Code" class="C_Code">&lt;statusType&gt;successWithInfo&lt;/statusType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;error&gt;</p>
+        <p Class="Code" class="C_Code">&lt;severity&gt;warning&lt;/severity&gt;</p>
+        <p Class="Code" class="C_Code">&lt;errorNumber&gt;100002&lt;/errorNumber&gt;</p>
+        <p Class="Code" class="C_Code">&lt;errorDescription&gt;Could not retrieve all rows (maximum rows value reached).&lt;/errorDescription&gt;</p>
+        <p Class="Code" class="C_Code">&lt;errorType&gt;oetReturnValue&lt;/errorType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;natLangId&gt;0&lt;/natLangId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;sourceType&gt;ostComponent&lt;/sourceType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;sourceName&gt;OnyxEBusQE.EBusQE&lt;/sourceName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;timestamp&gt;2006-07-07 09:28:17&lt;/timestamp&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/error&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/methodStatus&gt;</p>
+        <p Class="Code" class="C_Code">&lt;parametersReturn&gt;</p>
+        <p Class="Code" class="C_Code">&lt;rowSet objectType="rowSet" rowCount="3" columnCount="3" pageSize="3"&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinitions collection="1" objectType="columnDefinition"&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Currency Code&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;chCurrencyCode&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;1&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;24&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Currency Description&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;vchCurrencyDesc&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;2&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Locale ID&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;chLocaleId&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;3&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;120&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinitions&gt;</p>
+        <p Class="Code" class="C_Code">&lt;rows collection="1" objectType="row"&gt;</p>
+        <p Class="Code" class="C_Code">&lt;row&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c0&gt;ARP&lt;/c0&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c1&gt;Argentinian Peso&lt;/c1&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c2&gt;2C0A&lt;/c2&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/row&gt;</p>
+        <p Class="Code" class="C_Code">&lt;row&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c0&gt;AUD&lt;/c0&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c1&gt;Australian Dollar&lt;/c1&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c2&gt;0C09&lt;/c2&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/row&gt;</p>
+        <p Class="Code" class="C_Code">&lt;row&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c0&gt;BRL&lt;/c0&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c1&gt;Brazilian Real&lt;/c1&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c2&gt;416&lt;/c2&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/row&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/rows&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/rowSet&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/parametersReturn&gt;</p>
+        <p Class="Code" class="C_Code">&lt;customData&gt;&lt;/customData&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/returnXml&gt;</p>
+    </body>
+</html>

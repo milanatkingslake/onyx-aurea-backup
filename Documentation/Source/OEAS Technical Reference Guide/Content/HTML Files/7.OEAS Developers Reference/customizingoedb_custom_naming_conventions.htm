@@ -1,0 +1,444 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:ignoredWords="OEDB;csu_;table_name;lm_view;csu_account_header_lm_view;ml_view;csu_branch_ml_view;cc_;column_name;cc_region_did;cfk_;primary_field_name;cfk_company_name;ci_;idx;ci_company_name_idx;ref;cfk_region_did_ref;csu_branch;csu_branch_ml;csu_account_header;fk_;fk_csu_branch_name;csu_branch_name_idx;fk_csu_branch_name_ref;csf;FunctionDescription;csfParseAccountNumber;csp;ObjectName;MethodName;cspCustomerRetrieveList;cspAccountHeaderRetrieveListByOwner;Consona;CRM;Inc" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="1786.449" MadCap:lastWidth="1146">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Note_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" /><title>Naming conventions for custom data tier objects</title>
+    </head>
+    <body>
+        <h5>
+            <MadCap:keyword term="Custom Naming Conventions;Naming conventions:custom;conventions:custom;conventions:naming;names:custom;naming:custom" />Naming conventions for custom data tier objects</h5>
+        <p>To help you identify custom database objects that you create to support 
+ your OEDB customizations, and to help ensure that your custom database 
+ objects aren’t 
+ overwritten during future OEDB upgrades, we strongly encourage you to 
+ use the following naming conventions.</p>
+        <p>When naming custom data tier objects:</p>
+        <ul style="list-style: disc;" type="disc">
+            <li>Use singular names. For example, use "employee" 
+ (singular) instead of "employees" (plural). </li>
+            <li>Use lower case. </li>
+            <li>Use underscores to separate words in custom data 
+ tier object names. For example: csu_account_header 
+ (Exception: Do not use underscores when naming custom SQL functions or 
+ stored procedures.) </li>
+            <li>Use the conventions described in the following 
+ tables, including prefixes and suffixes). </li>
+            <p>
+                Prefixes and suffixes used in the naming conventions
+            </p>
+        </ul>
+        <ul style="list-style-type: circle;">
+            <li class="Sec_List">Pre<span>fixes </span>used in these conventions include: </li>
+        </ul>
+        <ul style="list-style: disc;" type="disc">
+            <ul style="list-style: disc;list-style-type: square;" type="disc">
+                <li>"cc" (custom column)</li>
+                <li>"cfk" 
+ (custom foreign key)</li>
+                <li>"ci" 
+ (custom index)</li>
+                <li>"csf" 
+ (custom SQL function)</li>
+                <li>"csp" 
+ (custom stored procedure)</li>
+                <li>"csu" 
+ (customer specific user table)</li>
+                <li>"fk" 
+ (foreign key)</li>
+            </ul>
+        </ul>
+        <ul style="list-style-type: circle;">
+            <li class="Sec_List">Suffixe<span>s used in</span> these conventions include: </li>
+        </ul>
+        <ul style="list-style: disc;" type="disc">
+            <ul style="list-style: disc;list-style-type: square;" type="disc">
+                <li>"idx" 
+ (index)</li>
+                <li>"lm_view" 
+ (list manager view)</li>
+                <li>"ml" (multi-language)</li>
+                <li>"ml_view" 
+ (multi-language view)</li>
+                <li>"ref" 
+ (reference parameter foreign key - this convention helps you distinguish 
+ these keys from other foreign keys)</li>
+            </ul>
+        </ul>
+        <p>Click a link below to see the naming conventions that 
+ apply to your custom data tier object. </p>
+        <ul style="list-style: disc;" type="disc">
+            <li><a href="#Custom">Custom items, regardless of 
+ table</a>
+            </li>
+            <li><a href="#Custom1">Custom items in Onyx-defined 
+ tables</a>
+            </li>
+            <li><a href="#Custom2">Custom tables and custom items 
+ in custom tables</a>
+            </li>
+            <li><a href="#Custom3">Custom programmability items</a>
+            </li>
+        </ul>
+        <h4><a name="Custom"></a>Custom items, regardless of table</h4>
+        <p>These naming conventions apply to both Onyx-defined and custom tables. 
+ </p>
+        <table wrapperparagraphselector="P" style="margin-top: 14pt;width: 100%;border-spacing: 0px;border-spacing: 0px;mc-table-style: url('../../Resources/TableStyles/Aptean_Table_1.css');" cellspacing="0" width="100%" class="TableStyle-Aptean_Table_1">
+            <col style="width: 13.183%;" class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <col style="width: 5%;" class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <col style="width: 5%;" class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <col style="width: 22.035%;" class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <col style="width: 20.713%;" class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_1-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Custom item </p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Domain</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Transactional</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Recommended naming convention <br />(including prefix and/or suffix)</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadD-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Example</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td colspan="1" rowspan="1" style="width: 13.183%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="13.183%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">List Manager View</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 5%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="5%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">&#160;</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 5%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="5%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">X</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 22.035%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="22.035%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">csu_&lt;table_name&gt;_lm_view</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 20.713%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20.713%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText">csu_account_header_lm_view</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td colspan="1" rowspan="1" style="width: 13.183%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="13.183%" class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText">Multi-Language View</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 5%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="5%" class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText">X</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 5%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="5%" class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText">&#160;</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 22.035%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="22.035%" class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText">csu_&lt;table_name&gt;_ml_view</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 20.713%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20.713%" class="TableStyle-Aptean_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText">csu_branch_ml_view</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4><a name="Custom1"></a>Custom items in Onyx-defined tables </h4>
+        <p>These naming conventions apply to Onyx-defined tables only. </p>
+        <table wrapperparagraphselector="P" style="margin-top: 14pt;width: 100%;border-spacing: 0px;border-spacing: 0px;mc-table-style: url('../../Resources/TableStyles/Aptean_Table_1.css');" cellspacing="0" width="100%" class="TableStyle-Aptean_Table_1">
+            <col style="width: 13.183%;" class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <col style="width: 5%;" class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <col style="width: 5%;" class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <col style="width: 22.035%;" class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <col style="width: 20.713%;" class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_1-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Custom item in an Onyx-defined table</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Domain</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Transactional</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Recommended naming convention <br />(including prefix and/or suffix)</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadD-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Example</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td colspan="1" rowspan="1" style="width: 13.183%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="13.183%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Column</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 5%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="5%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">X</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 5%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="5%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">X</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 22.035%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="22.035%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">cc_&lt;column_name&gt;</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 20.713%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20.713%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">cc_region_did</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td colspan="1" rowspan="1" style="width: 13.183%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="13.183%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Foreign Key </p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 5%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="5%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">X</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 5%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="5%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">X</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 22.035%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="22.035%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">cfk_&lt;table_name&gt;_&lt;primary_field_name&gt;</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 20.713%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20.713%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">cfk_company_name</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td colspan="1" rowspan="1" style="width: 13.183%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="13.183%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Index </p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 5%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="5%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">X</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 5%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="5%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">X</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 22.035%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="22.035%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">ci_&lt;table_name&gt;_&lt;primary_field_name&gt;_idx</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 20.713%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20.713%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">ci_company_name_idx</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td colspan="1" rowspan="1" style="width: 13.183%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="13.183%" class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Reference Parameter Foreign Key </p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 5%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="5%" class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">X</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 5%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="5%" class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">X</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 22.035%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="22.035%" class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">cfk_&lt;table_name&gt;_&lt;primary_field_name&gt;_ref</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 20.713%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20.713%" class="TableStyle-Aptean_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">cfk_region_did_ref</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4><a name="Custom2"></a>Custom tables and custom items in custom tables 
+ </h4>
+        <p>These naming conventions apply to custom tables and other custom items. </p>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Note_Table_1.css');width: 80%;" class="TableStyle-Aptean_Note_Table_1" cellspacing="2">
+            <col style="width: 0.7cm;" class="TableStyle-Aptean_Note_Table_1-Column-Column1" />
+            <col class="TableStyle-Aptean_Note_Table_1-Column-Column1" style="width: 15.50cm;" />
+            <tbody>
+                <tr class="TableStyle-Aptean_Note_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyB-Column1-Body1" style="text-align: right;">
+                        <p>
+                            <img src="../../Resources/Images/Common/note_image.png" />
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText"><b>Note</b>: Columns within custom tables do not need to follow any specific 
+ naming convention because they are readily identifiable as custom by their 
+ locations within custom tables. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table wrapperparagraphselector="P" style="margin-top: 14pt;width: 100%;border-spacing: 0px;border-spacing: 0px;mc-table-style: url('../../Resources/TableStyles/Aptean_Table_1.css');" cellspacing="0" width="100%" class="TableStyle-Aptean_Table_1">
+            <col style="width: 13.183%;" class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <col style="width: 5%;" class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <col style="width: 5%;" class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <col style="width: 22.035%;" class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <col style="width: 20.713%;" class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_1-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Custom table/item </p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Domain</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Transactional</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Recommended naming convention <br />(including prefix and/or suffix)</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadD-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Example</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td colspan="1" rowspan="1" style="width: 13.183%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="13.183%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Domain Table <br />(not multi-language)</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 5%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="5%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">X</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 5%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="5%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">&#160;</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 22.035%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="22.035%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">csu_&lt;table_name&gt;</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 20.713%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20.713%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">csu_branch</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td colspan="1" rowspan="1" style="width: 13.183%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="13.183%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Domain Table <br />(multi-language)</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 5%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="5%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">X</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 5%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="5%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">&#160;</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 22.035%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="22.035%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">csu_&lt;table_name&gt;_ml</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 20.713%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20.713%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">csu_branch_ml</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td colspan="1" rowspan="1" style="width: 13.183%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="13.183%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Transactional Table</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 5%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="5%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">&#160;</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 5%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="5%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">X</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 22.035%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="22.035%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">csu_&lt;table_name&gt;</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 20.713%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20.713%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">csu_account_header</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td colspan="1" rowspan="1" style="width: 13.183%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="13.183%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Foreign Key </p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 5%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="5%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">X</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 5%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="5%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">X</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 22.035%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="22.035%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">fk_&lt;table_name&gt;_&lt;primary_field_name&gt; 
+ </p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 20.713%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20.713%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">fk_csu_branch_name</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td colspan="1" rowspan="1" style="width: 13.183%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="13.183%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Index </p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 5%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="5%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">X</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 5%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="5%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">X</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 22.035%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="22.035%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">&lt;table_name&gt;_&lt;primary_field_name&gt;_idx</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 20.713%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20.713%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">csu_branch_name_idx</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td colspan="1" rowspan="1" style="width: 13.183%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="13.183%" class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Reference Parameter Foreign Key </p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 5%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="5%" class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">X</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 5%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="5%" class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">X</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 22.035%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="22.035%" class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">fk_&lt;table_name&gt;_&lt;primary_field_name&gt;_ref</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 20.713%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20.713%" class="TableStyle-Aptean_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">fk_csu_branch_name_ref</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4><a name="Custom3"></a>Custom programmability items</h4>
+        <p>These naming conventions apply to custom programmability items. </p>
+        <table wrapperparagraphselector="P" style="margin-top: 14pt;width: 100%;border-spacing: 0px;border-spacing: 0px;mc-table-style: url('../../Resources/TableStyles/Aptean_Table_1.css');" cellspacing="0" width="100%" class="TableStyle-Aptean_Table_1">
+            <col style="width: 15.54%;" class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <col style="width: 25.975%;" class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <col style="width: 24.416%;" class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_1-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Custom programmability item </p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Recommended naming convention <br />(including prefix and/or suffix)</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadD-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Example</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td colspan="1" rowspan="1" style="width: 15.54%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="15.54%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">SQL Function</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.975%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.975%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">csf&lt;FunctionDescription&gt;</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 24.416%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="24.416%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText">csfParseAccountNumber</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td colspan="1" rowspan="1" style="width: 15.54%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="15.54%" class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText">Stored Procedure (not generated automatically by SQL-Gen)</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.975%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.975%" class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText">csp&lt;ObjectName&gt;&lt;MethodName&gt;</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 24.416%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="24.416%" class="TableStyle-Aptean_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText">cspCustomerRetrieveList</p>
+                        <p class="TableText">cspAccountHeaderRetrieveListByOwner</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

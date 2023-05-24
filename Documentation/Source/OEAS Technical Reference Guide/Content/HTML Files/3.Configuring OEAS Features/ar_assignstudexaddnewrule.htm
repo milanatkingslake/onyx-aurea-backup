@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:lastBlockDepth="7" MadCap:lastHeight="734" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Add rule to subscribe users</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h1>Add rule to subscribe users</h1>
+        <p>This last step of this configuration example creates the rule that executes 
+ the OEAS business object method. This rule loops through each user record 
+ in the assignment set and attempts to subscribe the user to the record. 
+ If the user doesn't have a subscription profile, the call fails but the 
+ rules discard the error and move on to the next user in the set. </p>
+        <p>Click the Rules tab to view the current rules for the activity.</p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Before writing this rule, you must obtain the unique identifier 
+ for the subscription service.</p>
+        <p>The rule, when complete, appears as follows:</p>
+        <p Class="Code" class="code">for each assignmentSetUser in the assignmentSetUsers</p>
+        <p Class="Code" class="code">reset the subscriptionItemSubscribe to empty</p>
+        <p Class="Code" class="code">assign the subscribedUserId = the userId</p>
+        <p Class="Code" class="code">assign the subscriptionServiceId = 1</p>
+        <p Class="Code" class="code">assign the objectType = 2</p>
+        <p Class="Code" class="code">assign the objectPrimaryKey = the primaryId</p>
+        <p Class="Code" class="code">assign the syncAction = 1</p>
+        <p Class="Code" class="code">perform onyxMethod using "subscriptionItem", "subscribe", oeasBusinessObjectXML,</p>
+        <p Class="Code" class="code">oeasContextXML, False, False</p>
+        <p class="ProcedureHeading">To create the rule:</p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li>Click <span style="font-weight: bold;">Create</span> 
+ to begin composing the rule. </li>
+            <li>If prompted, click <span style="font-weight: bold;">Yes</span> 
+ to save the activity.</li>
+            <li>Click the <span style="font-weight: bold;">Description</span> 
+ tab and type the rule name as <span style="font-style: italic;">Create 
+ Subscription Records</span>. </li>
+            <li>Click the <span style="font-weight: bold;">Composition</span> 
+ tab to begin writing the rule.</li>
+            <li>Create the first statement to initiate the loop 
+ through the collection of users in the assignment set.</li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">Click <span style="font-weight: bold;">Process 
+ a list of package instances</span>.</li>
+            <li class="List_Indent">Navigate to the assignmentSetUser package 
+ below oeasBusinessObjects, select it, and then click <span style="font-weight: bold;">Submit</span>.</li>
+        </ol>
+        <ol style="list-style: decimal;list-style-type: decimal;" start="6">
+            <li>Create the second statement to reset the values 
+ of the package that is used for the method call. </li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">Click <span style="font-weight: bold;">Set 
+ the value of one or more attributes</span>.</li>
+            <li class="List_Indent">Click <span style="font-weight: bold;">Reset 
+ a Package and all its Attributes</span>.</li>
+            <li class="List_Indent">Navigate to the subscriptionItemSubscribe 
+ package below oeasBusinessObjects and select it.</li>
+            <li class="List_Indent">Click <span style="font-weight: bold;">Reset 
+ all attributes to no value (empty)</span>.</li>
+            <li class="List_Indent">Click <span style="font-weight: bold;">Always 
+ reset the value</span>.</li>
+        </ol>
+        <ol style="list-style: decimal;list-style-type: decimal;" start="7">
+            <li>Create the next five statements to set the value 
+ of the input parameters to the subscribe method.</li>
+        </ol>
+        <ol style="list-style: decimal;list-style-type: lower-alpha;">
+            <li class="List_Indent">Click <span style="font-weight: bold;">Set 
+ the value of a single attribute to the value of another attribute</span>. 
+ </li>
+            <li class="List_Indent">Navigate to the subscribedUserId attribute 
+ of the subscriptionItemSubscribe package, select it, and then click <span style="font-weight: bold;">Submit</span>.</li>
+            <li class="List_Indent">When the Select Attribute dialog reappears, 
+ navigate to the userId attribute of the assignmentSetUser package, select 
+ it, and click <span style="font-weight: bold;">Submit</span>.</li>
+            <li class="List_Indent">Click <span style="font-weight: bold;">Set 
+ the value of a single attribute to a specified value</span>. </li>
+            <li class="List_Indent">Navigate to the subscriptionServiceId attribute 
+ of the subscriptionItemSubscribe package, select it, and then click <span style="font-weight: bold;">Submit</span>.</li>
+            <li class="List_Indent">Type the unique ID of the subscription service 
+ in the text entry form and click <span style="font-weight: bold;">OK</span> 
+ (This example uses an ID of 1).</li>
+            <li class="List_Indent">Click <span style="font-weight: bold;">Set 
+ the value of a single attribute to a specified value</span>. </li>
+            <li class="List_Indent">Navigate to the objectType attribute of the 
+ subscriptionItemSubscribe package, select it, and then click <span style="font-weight: bold;">Submit</span>.</li>
+            <li class="List_Indent">Type <span style="font-style: italic;">2</span> 
+ in the text entry form (the type for company objects), and then click 
+ <span style="font-weight: bold;">OK</span>.</li>
+            <li class="List_Indent">Click <span style="font-weight: bold;">Set 
+ the value of a single attribute to the value of another attribute</span>. 
+ </li>
+            <li class="List_Indent">Navigate to the objectPrimaryKey attribute 
+ of the subscriptionItemSubscribe package, select it, and then click <span style="font-weight: bold;">Submit</span>.</li>
+            <li class="List_Indent">When the <span style="font-weight: bold;">Select 
+ Attribute</span> dialog reappears, navigate to the primary attribute of 
+ the company package, select it, and then click <span style="font-weight: bold;">Submit</span>.</li>
+            <li class="List_Indent">Click <span style="font-weight: bold;">Set 
+ the value of a single attribute to a specified value</span>. </li>
+            <li class="List_Indent">Navigate to the syncAction attribute of the 
+ subscriptionItemSubscribe package, select it, and click <span style="font-weight: bold;">Submit</span>.</li>
+            <li class="List_Indent">Type <span style="font-style: italic;">1</span> 
+ in the text entry form (the action for subscribe), and then click <span style="font-weight: bold;">OK</span>.</li>
+        </ol>
+        <ol style="list-style: decimal;list-style-type: decimal;" start="7">
+            <li>Create the eighth and final statement to call 
+ the subscribe method of the subscriptionItem business object.</li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">Click <span style="font-weight: bold;">Execute 
+ an external method</span>, and then click <span style="font-weight: bold;">Execute 
+ an external method without error handling</span>.</li>
+            <li class="List_Indent">Expand the <span style="font-weight: bold;">OEAS 
+ Services</span> node in the <span style="font-weight: bold;">Methods</span> 
+ form, select the <span style="font-weight: bold;">onyxMethod</span> method, 
+ and then click <span style="font-weight: bold;">Submit</span>.</li>
+            <li class="List_Indent">Double-click the <span style="font-weight: bold;">object</span> 
+ item in the expression. Type <span style="font-style: italic;">subscriptionItem</span> 
+ in the text entry form, and then click <span style="font-weight: bold;">OK</span>.</li>
+            <li class="List_Indent">Double-click the <span style="font-weight: bold;">method</span> 
+ item in the expression to display the text entry form. Type <span style="font-style: italic;">subscribe</span> 
+ in the text entry form, and then click <span style="font-weight: bold;">OK</span>.</li>
+            <li class="List_Indent">Click <span style="font-weight: bold;">oeasBusinessObjectXML</span> 
+ to bring up the XML Mapper form. Click and drag the subscriptionItemSubscribe 
+ package onto the &lt;Element&gt; tag (and not between the tags) in the 
+ mapping window. Click <span style="font-weight: bold;">Submit</span>.</li>
+            <li class="List_Indent">Click <span style="font-weight: bold;">oeasContextXML</span> 
+ to display the XML Mapper form, drag the oeasContext package onto the 
+ &lt;Element&gt; tag (and not between the tags) in the mapping window, 
+ and then click <span style="font-weight: bold;">Submit</span>.</li>
+            <li class="List_Indent">The first Boolean parameter is the EnforcePermissions 
+ indicator. Leave this set to <span style="font-weight: bold;">False</span>. 
+ The second Boolean parameter is the StandardMethod indicator. Change this 
+ from True to False, since this is a nonstandard method call. To set it 
+ to False, click the item in the Expression window, and then double-click 
+ <span style="font-weight: bold;">False</span> under Constants/Choose Boolean 
+ in the Operators/Constants window.</li>
+            <li class="List_Indent">Click <span style="font-weight: bold;">Submit</span> 
+ to close the Expression Builder form. </li>
+        </ol>
+        <ol style="list-style: decimal;list-style-type: decimal;" start="8">
+            <li>Click <span style="font-weight: bold;">Submit</span> 
+ to complete the rule.</li>
+        </ol>
+        <p>After the rule is saved, all members of the assignment sets with subscription 
+ profiles are automatically subscribed to the company record as part of 
+ the assignment process. </p>
+    </body>
+</html>

@@ -1,0 +1,238 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" class="" MadCap:lastBlockDepth="8" MadCap:lastHeight="863" MadCap:lastWidth="624">
+    <head><title>Test applet configurations</title>
+        <script language="JavaScript">
+        </script>
+        <link href="../Resources/Stylesheets/Aptean_word.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body onload="onyxOnload()">
+        <H4 class="Heading">Test applet configurations</H4>
+        <p class="BodyText">You can configure the test applet by editing its configuration file 
+ <code style="font-style: italic;">YourOEPwebsite</code><code>\cti\test\ctiapplet_config.xml</code>, 
+ where <code>YourOEPwebsite</code><span style="font-style: italic;"> <![CDATA[ ]]></span>is your 
+ OEP installation directory. By editing this file, you avoid changing the 
+ test applet code. </p>
+        <p class="BodyText">This topic describes the following configurations: </p>
+        <p class="indent"><a href="#Setting">Setting agent 
+ state upon logon</a>
+        </p>
+        <p class="indent"><a href="#Controlling">Controlling 
+ automatic call distribution</a>
+        </p>
+        <p class="indent"><a href="#Defining">Defining the default 
+ data</a>
+        </p>
+        <p class="indent"><a href="#Simulating">Simulating 
+ failure of selected methods</a>
+        </p>
+        <p class="Strong"><a name="Setting"></a>Setting agent state upon 
+ logon </p>
+        <p class="BodyText">You can configure the test applet to automatically set the specified 
+ agent state when the agent logs on to Onyx CTI. </p>
+        <p class="Strong">To automatically set the agent state upon logon</p>
+        <ul style="list-style: disc;" type="disc">
+            <li class="ListBullet">Specify the desired value for the <code>postLoginAgentState</code> 
+ configuration setting in the <code>loginConfig</code> section of the <code>ctiapplet_config.xml</code> 
+ file. </li>
+            <table>
+                <col />
+                <col />
+                <col />
+                <thead>
+                    <tr>
+                        <th>Value</th>
+                        <th>Description (agent state)</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <p class="Table_Text">1</p>
+                        </td>
+                        <td>
+                            <p class="Table_Text">Ready</p>
+                        </td>
+                        <td>
+                            <p class="Table_Text">--</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="Table_Text">2</p>
+                        </td>
+                        <td>
+                            <p class="Table_Text">Idle</p>
+                        </td>
+                        <td>
+                            <p class="Table_Text">If you set the agent state to Idle, we recommend 
+ also setting the Idle Reason. For code descriptions, The numeric values 
+ for this setting can be found in the %OEP ROOT%\cti\cti_config.xml file.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="Table_Text">4</p>
+                        </td>
+                        <td>
+                            <p class="Table_Text">Wrap Up</p>
+                        </td>
+                        <td>
+                            <p class="Table_Text">--</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </ul>
+        <p class="Strong"><a name="Controlling"></a>Controlling automatic 
+ call distribution </p>
+        <p class="BodyText">You can configure the test applet to automatically distribute calls 
+ to the agent when the agent is in the Ready state. You can also configure 
+ the delay from logon to call distribution and the filter settings for 
+ QuickSearch. </p>
+        <p class="Strong">To control automatic call distribution</p>
+        <ul style="list-style: disc;" type="disc">
+            <li class="ListBullet">Specify the desired values for the desired configuration 
+ settings in the <code>defaultCallConfig</code> section of the <code>ctiapplet_config.xml</code> 
+ file. <br /><br /></li>
+            <table style="width: 100%; margin-left: auto; margin-right: auto;">
+                <col style="width: 158px;" />
+                <col style="width: 330px;" />
+                <thead>
+                    <tr>
+                        <th>Configuration setting</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <p class="Table_Text">enable</p>
+                        </td>
+                        <td>
+                            <p class="Table_Text">Enables or disables distribution of the call when 
+ the agent is in the Ready state. Available values: 0 (does not distribute 
+ the call) and 1 (distributes the call). </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="Table_Text">delay</p>
+                        </td>
+                        <td>
+                            <p class="Table_Text">Time delay, in milliseconds, between the agent's 
+ changing to the Ready state and the distribution of the call. </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="Table_Text">filterField</p>
+                        </td>
+                        <td>
+                            <p class="Table_Text">Field name for use in QuickSearch. </p>
+                            <p class="Table_Text">Available values: </p>
+                            <p class="Table_Text">emailAddress </p>
+                            <p class="Table_Text">phoneNumber </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="Table_Text">filterValue</p>
+                        </td>
+                        <td>
+                            <p class="Table_Text">Value to filter on in QuickSearch. </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </ul>
+        <p class="Strong"><a name="Defining"></a>Defining the default data </p>
+        <p class="BodyText">You can define the default data (such as the CTI system details and 
+ the list of agents). This default data is used when data cannot be retrieved 
+ from the test driver. </p>
+        <p class="To">To define the default data: </p>
+        <ul style="list-style: disc;" type="disc">
+            <li class="ListBullet">Specify the desired values for the desired configuration 
+ settings in the <code>defaultData</code> section of the <code>ctiapplet_config.xml</code> file. 
+ </li>
+            <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">For details on each configuration setting (such as the 
+ number of IVR prompts available), see the<code> ctiapplet_config.xml </code>file provided 
+ with Onyx CTI. </p>
+            <table>
+                <col />
+                <col />
+                <thead>
+                    <tr>
+                        <th>Configuration setting</th>
+                        <th>Description </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <p class="Table_Text">summaryInfo</p>
+                        </td>
+                        <td>
+                            <p class="Table_Text">Specifies the summary system information returned 
+ from the <code>ICtiConnector.getStatusSummary</code> method when data cannot be retrieved 
+ from the test driver. Values correspond to the data child elements. </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="Table_Text">detailInfo</p>
+                        </td>
+                        <td>
+                            <p class="Table_Text">Specifies the detailed system information returned 
+ from the <code>ICtiConnector.getStatusDetails</code> method when data cannot be retrieved 
+ from the test driver. Values correspond to the data child elements. </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="Table_Text">agentList</p>
+                        </td>
+                        <td>
+                            <p class="Table_Text">Specifies the agent list returned from the <code>ICtiConnector.getAgentList</code> 
+ method when data cannot be retrieved from the test driver. Values correspond 
+ to the agentName child elements. </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="Table_Text">queueList</p>
+                        </td>
+                        <td>
+                            <p class="Table_Text">Specifies the queue list returned from the <code>ICtiConnector.getQueueList </code>
+ method when data cannot be retrieved from the test driver. Values correspond 
+ to the queueName child elements. </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="Table_Text">freqPhoneList</p>
+                        </td>
+                        <td>
+                            <p class="Table_Text">Specifies the list of frequent phone numbers returned 
+ from the <code>ICtiConnector.getFreqPhoneList</code> method when data cannot be retrieved 
+ from the test driver. Values correspond to the Name child elements. </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </ul>
+        <p class="Strong"><a name="Simulating"></a>Simulating failure 
+ of selected methods<br /></p>
+        <p class="BodyText">You can configure the test applet to simulate failure of selected methods 
+ to test Onyx CTI's error handling. </p>
+        <p class="BodyText">The test applet's configuration file <code>ctiapplet_config.xml</code> lists all 
+ applet methods (commented out) for your convenience. When you uncomment 
+ a method to simulate its failure, the method returns a CTI_RETURN_METHOD_ERROR. 
+ </p>
+        <p class="To">To simulate method failure: </p>
+        <ul style="list-style: disc;" type="disc">
+            <li class="ListBullet">Uncomment the desired methods in the <code>methodFailureConfig</code> 
+ section of the <code>ctiapplet_config.xml</code> file. </li>
+        </ul>
+    </body>
+</html>

@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:conditions="Default.Main" MadCap:lastBlockDepth="5" MadCap:lastHeight="794" MadCap:lastWidth="624">
+    <body>
+        <head><title>Attribute List</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h1>Attribute List </h1>
+        <p>You can define the method call detail <span class="UIElement" style="font-weight: bold;">Attribute 
+ List </span>attribute when you create: </p>
+        <ul>
+            <li>An input method call detail for both scripting 
+ and merge template method calls.</li>
+            <li>An output method call detail for merge template 
+ method calls.</li>
+        </ul>
+        <h3>Input method call details </h3>
+        <p>When you create input method call details, you can 
+ use the <span class="UIElement" style="font-weight: bold;">Attribute List</span> attribute to define 
+ a semicolon-delimited list of name=value pairs that are added to the created 
+ element for the input method call detail. The names are attributes to 
+ create on the underlying XML element and the values are the attribute 
+ text. Attributes are created on the underlying element in the order in 
+ which they appear in the attribute list. The following points are relevant 
+ for the <span class="UIElement" style="font-weight: bold;">Attribute List</span> attribute: </p>
+        <ul>
+            <li>Quotation marks are not required and should not 
+ be used for wrapping attribute names or values. If present, they are treated 
+ as part of the name or value. </li>
+            <li>For attribute values, all characters are valid 
+ except the semicolon (;) and the equals sign (=).</li>
+            <li>No characters within the attribute list text can 
+ be escaped, including those that would normally need to be escaped to 
+ be part of an attribute value. For instance, the following is a valid 
+ attribute list that would generate an attribute “a” with the value “‘b’ 
+ &lt; 5”, and an attribute “b” with the value “Bob’s Cars”:</li>
+            <li class="Sec_List">a=‘b’&lt; 5; b=Bob’s Cars</li>
+        </ul>
+        <h3>Output method call details </h3>
+        <p>When you create a merge template output method call detail, you can 
+ use the <span class="UIElement" style="font-weight: bold;">Attribute List</span> attribute to control 
+ presentation of output values. Adding attributes to method call detail 
+ outputs allows the UI to display the correct format for various data types 
+ and to transform the output data from IDs to descriptions. For example, 
+ dates can be displayed correctly and user names can be displayed from 
+ the OEP cache instead of displaying the user IDs or retrieving the names 
+ from the database. The <span class="UIElement" style="font-weight: bold;">Attribute List</span> can 
+ also enable other custom processing for a customized UI. </p>
+        <p>Supported dataType attributes include dateTime, domainData, 
+ and userId. For each output method call detail for which you want to control 
+ the output presentation, include one of the following strings in the Attribute 
+ List: </p>
+        <ul>
+            <li>dataType=dateTime </li>
+            <li>dataType=domainData </li>
+            <li>dataType=userId </li>
+        </ul>
+        <p>When these dataType attributes are used, the method call detail returns 
+ the date in local format, the domain data description rather than the 
+ ID, and the user name rather than the user ID. </p>
+        <p>Within the Templates feature, the method call detail supports only one 
+ data type. So, unlike the attribute list for input method call details, 
+ the attribute list for output method call details supports only one name=value 
+ pair. </p>
+    </body>
+</html>

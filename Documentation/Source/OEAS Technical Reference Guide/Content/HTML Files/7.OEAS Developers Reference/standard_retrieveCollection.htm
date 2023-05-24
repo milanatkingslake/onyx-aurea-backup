@@ -1,0 +1,358 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="799" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>retrieveCollection method</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>
+            <MadCap:keyword term="retrieveCollection standard method" />
+            <MadCap:keyword term="Standard business object methods:retrieveCollection" />
+            <MadCap:keyword term="retrieveCollection" />
+            <MadCap:keyword term="retrieveCollection method" />retrieveCollection method</h4>
+        <p>A retrieveCollection method returns a collection of object instances 
+ based on search criteria.</p>
+        <h5>Parameters</h5>
+        <p>This method accepts a content="any" object as the input parameter 
+ and returns a content="all" object as the output parameter. 
+ The input XML is passed within the root element named &lt;parameters&gt;.</p>
+        <table>
+            <col />
+            <col />
+            <col />
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Direction</th>
+                    <th>Data type</th>
+                    <th>Content in Type</th>
+                    <th>Content out Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="width: 13%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="13%">
+                        <p class="Table_Text" style="margin-bottom: 0;">Object name</p>
+                    </td>
+                    <td style="width: 10%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="10%">
+                        <p class="Table_Text" style="margin-bottom: 0;">inOut</p>
+                    </td>
+                    <td style="width: 11%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="11%">
+                        <p class="Table_Text" style="margin-bottom: 0;">object</p>
+                    </td>
+                    <td style="width: 12%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="12%">
+                        <p class="Table_Text" style="margin-bottom: 0;">any</p>
+                    </td>
+                    <td style="width: 14%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="14%">
+                        <p class="Table_Text" style="margin-bottom: 0;">all</p>
+                    </td>
+                    <td style="width: 40%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="40%">
+                        <p class="Table_Text">On input, the parameter is a collection object consisting 
+ of one object. </p>
+                        <p class="Table_Text" style="margin-bottom: 0;">On return, the collection object consists 
+ of objects that satisfy the search criteria.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h5>Steps</h5>
+        <p>All standard methods call the Onyx Data Validation Step for input data 
+ validation and either directly or indirectly call Onyx Data Manager to 
+ access the data tier. Many methods perform additional steps. For a table 
+ that lists the default steps of a specific business object method, refer 
+ to its method topic under the business object.</p>
+        <h5>Remarks</h5>
+        <p>The input object contains any combination of property values that is 
+ the search criteria for the retrieveCollection method. No search criteria 
+ is required, but if the caller does not include the collection object 
+ node, the method fails. The collection parameter name is the plural form 
+ of the object name for which the retrieveCollection method is defined. 
+ For example, the parameter name for a retrieveCollection on the address 
+ object is addresses. The items returned are those whose property values 
+ match all of the input properties exactly. An empty input node (object 
+ or property) matches all values. An input property node set to NULL, matches 
+ no values. If no objects meet the search criteria, this method returns 
+ an empty collection object. No error is returned in this case.</p>
+        <p>The following syntax shows a call to retrieveCollection with no search 
+ criteria by passing an empty object node in the retrieveCollection parameters.</p>
+        <p Class="Code" class="code">&lt;parameters&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;countries&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;country/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/countries&gt;</p>
+        <p Class="Code" class="code">&lt;/parameters&gt;</p>
+        <p>When you pass no search criteria to a retrieveCollection, it returns 
+ all objects in the database of the given type. For performance reasons, 
+ you might not want to call retrieveCollection with empty input nodes. 
+ In the previous syntax example, retrieveCollection returns all country 
+ objects stored in OEDB.</p>
+        <p>The retrieveCollection method does not match partial strings. For example, 
+ if you had three systemParameter objects with the descriptions:</p>
+        <p Class="Code" class="code">&lt;description&gt;Enables multiple tasks on Service incidents&lt;/description&gt;</p>
+        <p Class="Code" class="code">&lt;description&gt;Enables multiple tasks on Sales incidents&lt;/description&gt;</p>
+        <p Class="Code" class="code">&lt;description&gt;Enables multiple tasks on Support incidents&lt;/description&gt;</p>
+        <p>And you used the search criteria:</p>
+        <p Class="Code" class="code">&lt;description&gt;Enables multiple tasks&lt;/description&gt;</p>
+        <p>The method would return an empty collection, unless you had an object 
+ with the exact string matching "Enables multiple tasks".</p>
+        <p>You can filter on most object properties with retrieveCollection methods. 
+ The few properties that are ignored on retrieveCollections do not have 
+ a filter map defined in the OED. You can look in the object physical maps 
+ in the object designer to determine which properties are filterable.</p>
+        <p align="left" class="BodyText">When an object has denormalized properties for which filter 
+ maps are defined, a retrieveCollection method on a large data set can 
+ result in poor performance. Onyx suggests that you use such retrieveCollection 
+ methods on small data sets only.</p>
+        <p>Most OEAS retrieveCollection methods use the embeddedXml feature to 
+ improve performance. In certain instances, you might want to disable the 
+ feature for a given method. For more information, see <a href="Using_the_embeddedXml_feature.htm">Using 
+ the embeddedXml feature</a>.</p>
+        <p>You can limit the maximum rows returned by the retrieveCollection method 
+ using the pageSize attribute on the collection object. The following syntax 
+ illustrates use of the pageSize attribute. The pageSize attribute is highlighted 
+ in the example parameters. Notice in the returnXml that retrieveCollection 
+ only returned the first three country objects.</p>
+        <p>
+            View parameters
+        </p>
+        <p Class="Code" class="code">&lt;parameters&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;countries objectType="country" collection="1" <span style="color: #ff0000;">pageSize="3"</span>&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;country objectType="country"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;countryCode/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;countryName/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;phoneMask/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;postCodeMask/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;addressFormat/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateBy/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateDate/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;active/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/country&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/countries&gt;</p>
+        <p Class="Code" class="code">&lt;/parameters&gt;</p>
+        <p>
+            View returnXml
+        </p>
+        <p Class="Code" class="code">&lt;returnXml&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;otmId&gt;792FDF16-B738-4B3E-8EF7-0CB4F1DAA16C&lt;/otmId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;context&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;sessionSecondsRemaining&gt;600&lt;/sessionSecondsRemaining&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/context&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;methodStatus&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;statusType&gt;successWithInfo&lt;/statusType&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;error&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;severity&gt;warning&lt;/severity&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;errorNumber&gt;100002&lt;/errorNumber&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;errorDescription&gt;Could not retrieve all rows (maximum rows value reached).&lt;/errorDescription&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;errorType&gt;oetReturnValue&lt;/errorType&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;natLangId&gt;0&lt;/natLangId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sourceType&gt;ostComponent&lt;/sourceType&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sourceName&gt;OnyxEBusQE.EBusQE&lt;/sourceName&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;timestamp&gt;2006-08-12 16:54:14&lt;/timestamp&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/error&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/methodStatus&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;parametersReturn&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;countries objectType="country" collection="1" content="all"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;country objectType="country" content="all"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;countryCode&gt;AD&lt;/countryCode&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;countryName&gt;Andorra&lt;/countryName&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;phoneMask&gt;+376 9999999999999999&lt;/phoneMask&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;postCodeMask null="1"/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;addressFormat null="1"/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy&gt;sa&lt;/insertBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate&gt;2006-07-19 18:49:11&lt;/insertDate&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateBy&gt;sa&lt;/updateBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateDate&gt;2006-07-19 18:49:11&lt;/updateDate&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;active&gt;1&lt;/active&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/country&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;country objectType="country" content="all"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;countryCode&gt;AE&lt;/countryCode&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;countryName&gt;U.A.E.&lt;/countryName&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;phoneMask&gt;+/971 999999999999999&lt;/phoneMask&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;postCodeMask null="1"/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;addressFormat null="1"/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy&gt;sa&lt;/insertBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate&gt;2006-07-19 18:49:11&lt;/insertDate&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateBy&gt;sa&lt;/updateBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateDate&gt;2006-07-19 18:49:11&lt;/updateDate&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;active&gt;1&lt;/active&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/country&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;country objectType="country" content="all"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;countryCode&gt;AF&lt;/countryCode&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;countryName&gt;Afghanistan&lt;/countryName&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;phoneMask&gt;+/93 99999999999999999&lt;/phoneMask&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;postCodeMask null="1"/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;addressFormat null="1"/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy&gt;sa&lt;/insertBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate&gt;2006-07-19 18:49:11&lt;/insertDate&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateBy&gt;sa&lt;/updateBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateDate&gt;2006-07-19 18:49:11&lt;/updateDate&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;active&gt;1&lt;/active&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/country&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/countries&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/parametersReturn&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;customData/&gt;</p>
+        <p Class="Code" class="code">&lt;/returnXml&gt;</p>
+        <h5>Example</h5>
+        <p>The following example shows the content of the input parameters and 
+ output parametersReturn of a standard retrieveCollection method. This 
+ example uses the retrieveCollection method to retrieve a collection of 
+ region objects for Canada (CA).</p>
+        <p>
+            Parameters
+        </p>
+        <p Class="Code" class="code">&lt;parameters&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;regions objectType="region" collection="1"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;region objectType="region"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;countryCode&gt;CA&lt;/countryCode&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/region&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/regions&gt;</p>
+        <p Class="Code" class="code">&lt;/parameters&gt;</p>
+        <p>
+            parametersReturn
+        </p>
+        <p Class="Code" class="code">&lt;parametersReturn&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;regions objectType="region" collection="1" content="all"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;region objectType="region" content="all"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;regionCode&gt;AB&lt;/regionCode&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;countryCode&gt;CA&lt;/countryCode&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;regionName&gt;Alberta&lt;/regionName&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy&gt;sa&lt;/insertBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate&gt;2001-01-01 07:10:17&lt;/insertDate&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateBy&gt;sa&lt;/updateBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateDate&gt;2001-01-01 07:10:17&lt;/updateDate&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onyxTimestamp&gt;00000000037372B8&lt;/onyxTimestamp&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;active&gt;1&lt;/active&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/region&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;region objectType="region" content="all"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;regionCode&gt;BC&lt;/regionCode&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;countryCode&gt;CA&lt;/countryCode&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;regionName&gt;British Columbia&lt;/regionName&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy&gt;sa&lt;/insertBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate&gt;2001-01-01 07:10:17&lt;/insertDate&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateBy&gt;sa&lt;/updateBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateDate&gt;2001-01-01 07:10:17&lt;/updateDate&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onyxTimestamp&gt;0000000003E9B18A&lt;/onyxTimestamp&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;active&gt;1&lt;/active&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/region&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;region objectType="region" content="all"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;regionCode&gt;MB&lt;/regionCode&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;countryCode&gt;CA&lt;/countryCode&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;regionName&gt;Manitoba&lt;/regionName&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy&gt;sa&lt;/insertBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate&gt;2001-01-01 07:10:17&lt;/insertDate&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateBy&gt;sa&lt;/updateBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateDate&gt;2001-01-01 07:10:17&lt;/updateDate&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onyxTimestamp&gt;0000000003FC24C6&lt;/onyxTimestamp&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;active&gt;1&lt;/active&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/region&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;region objectType="region" content="all"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;regionCode&gt;NB&lt;/regionCode&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;countryCode&gt;CA&lt;/countryCode&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;regionName&gt;New Brunswick&lt;/regionName&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy&gt;sa&lt;/insertBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate&gt;2001-01-01 07:10:17&lt;/insertDate&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateBy&gt;sa&lt;/updateBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateDate&gt;2001-01-01 07:10:17&lt;/updateDate&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onyxTimestamp&gt;0000000003EA78AD&lt;/onyxTimestamp&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;active&gt;1&lt;/active&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/region&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;region objectType="region" content="all"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;regionCode&gt;NF&lt;/regionCode&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;countryCode&gt;CA&lt;/countryCode&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;regionName&gt;Newfoundland&lt;/regionName&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy&gt;sa&lt;/insertBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate&gt;2001-01-01 07:10:17&lt;/insertDate&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateBy&gt;sa&lt;/updateBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateDate&gt;2001-01-01 07:10:17&lt;/updateDate&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onyxTimestamp&gt;000000009266D37A&lt;/onyxTimestamp&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;active&gt;1&lt;/active&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/region&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;region objectType="region" content="all"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;regionCode&gt;NS&lt;/regionCode&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;countryCode&gt;CA&lt;/countryCode&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;regionName&gt;Nova Scotia&lt;/regionName&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy&gt;sa&lt;/insertBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate&gt;2001-01-01 07:10:17&lt;/insertDate&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateBy&gt;sa&lt;/updateBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateDate&gt;2001-01-01 07:10:17&lt;/updateDate&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onyxTimestamp&gt;000000B730508111&lt;/onyxTimestamp&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;active&gt;1&lt;/active&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/region&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;region objectType="region" content="all"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;regionCode&gt;NW&lt;/regionCode&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;countryCode&gt;CA&lt;/countryCode&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;regionName&gt;Northwest Territories&lt;/regionName&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy&gt;sa&lt;/insertBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate&gt;2001-01-01 07:10:17&lt;/insertDate&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateBy&gt;sa&lt;/updateBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateDate&gt;2001-01-01 07:10:17&lt;/updateDate&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onyxTimestamp&gt;00033A89F21A109E&lt;/onyxTimestamp&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;active&gt;1&lt;/active&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/region&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;region objectType="region" content="all"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;regionCode&gt;ON&lt;/regionCode&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;countryCode&gt;CA&lt;/countryCode&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;regionName&gt;Ontario&lt;/regionName&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy&gt;sa&lt;/insertBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate&gt;2001-01-01 07:10:17&lt;/insertDate&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateBy&gt;sa&lt;/updateBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateDate&gt;2001-01-01 07:10:17&lt;/updateDate&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onyxTimestamp&gt;00000014E7B7036A&lt;/onyxTimestamp&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;active&gt;1&lt;/active&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/region&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;region objectType="region" content="all"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;regionCode&gt;PE&lt;/regionCode&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;countryCode&gt;CA&lt;/countryCode&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;regionName&gt;Prince Edward Island&lt;/regionName&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy&gt;sa&lt;/insertBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate&gt;2001-01-01 07:10:17&lt;/insertDate&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateBy&gt;sa&lt;/updateBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateDate&gt;2001-01-01 07:10:17&lt;/updateDate&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onyxTimestamp&gt;00091D8392703A9D&lt;/onyxTimestamp&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;active&gt;1&lt;/active&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/region&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;region objectType="region" content="all"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;regionCode&gt;PQ&lt;/regionCode&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;countryCode&gt;CA&lt;/countryCode&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;regionName&gt;Quebec&lt;/regionName&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy&gt;sa&lt;/insertBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate&gt;2001-01-01 07:10:17&lt;/insertDate&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateBy&gt;sa&lt;/updateBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateDate&gt;2001-01-01 07:10:17&lt;/updateDate&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onyxTimestamp&gt;65648801&lt;/onyxTimestamp&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;active&gt;1&lt;/active&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/region&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;region objectType="region" content="all"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;regionCode&gt;SK&lt;/regionCode&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;countryCode&gt;CA&lt;/countryCode&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;regionName&gt;Saskatchewan&lt;/regionName&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy&gt;sa&lt;/insertBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate&gt;2001-01-01 07:10:17&lt;/insertDate&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateBy&gt;sa&lt;/updateBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateDate&gt;2001-01-01 07:10:17&lt;/updateDate&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onyxTimestamp&gt;04876A7970D9D7E1&lt;/onyxTimestamp&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;active&gt;1&lt;/active&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/region&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;region objectType="region" content="all"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;regionCode&gt;YU&lt;/regionCode&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;countryCode&gt;CA&lt;/countryCode&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;regionName&gt;Yukon&lt;/regionName&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy&gt;sa&lt;/insertBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate&gt;2001-01-01 07:10:17&lt;/insertDate&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateBy&gt;sa&lt;/updateBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateDate&gt;2001-01-01 07:10:17&lt;/updateDate&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onyxTimestamp&gt;000000000003947F&lt;/onyxTimestamp&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;active&gt;1&lt;/active&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/region&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/regions&gt;</p>
+        <p Class="Code" class="code">&lt;/parametersReturn&gt;</p>
+    </body>
+</html>

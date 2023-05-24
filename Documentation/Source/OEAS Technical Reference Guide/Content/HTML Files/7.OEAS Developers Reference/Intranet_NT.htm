@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="778" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Browser Access for Windows 2000/NT Domain Users</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>
+            <MadCap:keyword term="Windows 2000/NT Domain Users;Browser Access:Windows 2000/NT Domain Users;Browser &amp; Win32 application access;Browser Access;Windows 2000/NT Domain Users:Browser Access" />Browser access for Windows domain users</h5>
+        <p>In this scenario, a user's session ID is stored as a "cookie" 
+ value. A server-based process (such as an Active Server Page) inspects 
+ the cookie for the session ID. If the session ID is present, then it is 
+ used as part of the call to the Onyx Transaction Manager (OTM). If the 
+ session ID is not present, AuthenticateNT::EstablishSession is called 
+ to establish a new session. This newly-created session ID is persisted 
+ in the browser cookie and is then used as part of the call to the OTM. 
+ The code snippet below shows how this works.</p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">The <a href="Communicating_with_OTM_otmInterfaceSample.htm">Communicating 
+ with the OTM</a> code sample provides a complete example of how to assemble 
+ the XML needed to call the Execute method of the Transaction Manager interface.</p>
+        <p Class="Code" class="code">Dim&#160;strSessionID</p>
+        <p Class="Code" class="code">Dim&#160;objAuth</p>
+        <p Class="Code" class="code">Dim&#160;objOTM</p>
+        <p Class="Code" class="code">Dim&#160;strApp</p>
+        <p Class="Code" class="code">Dim&#160;strSrc</p>
+        <p Class="Code" class="code">Dim&#160;strSiteID</p>
+        <p Class="Code" class="code">
+            <!--&nbsp;$MVD$:spaceretainer()&nbsp;-->&#160;</p>
+        <p Class="Code" class="code">'&#160;Get&#160;the&#160;SessionID</p>
+        <p Class="Code" class="code">strSessionID&#160;=&#160;Request.Cookie("OnyxSessionID")</p>
+        <p Class="Code" class="code">If&#160;(sessionID&#160;=&#160;"")&#160;Then</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;Set&#160;objAuth&#160;=&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Server.CreateObject("OnyxAuthenticateNT.AuthenticateNT")</p>
+        <p Class="Code" class="code">
+            <!--&nbsp;$MVD$:spaceretainer()&nbsp;-->&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;On&#160;Error&#160;Resume&#160;Next</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;strSessionID&#160;=&#160;objAuth.EstablishSession(strApp,&#160;strSrc,&#160;strSiteID)</p>
+        <p Class="Code" class="code">
+            <!--&nbsp;$MVD$:spaceretainer()&nbsp;-->&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;If&#160;Err.Number&#160;&gt;&#160;0&#160;Then</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;'&#160;Error&#160;handling&#160;code&#160;if&#160;session&#160;could&#160;not&#160;be&#160;established</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;'&#160;E.g.;&#160;Response.Redirect("sessionerror.asp")</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;End&#160;If</p>
+        <p Class="Code" class="code">
+            <!--&nbsp;$MVD$:spaceretainer()&nbsp;-->&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;Response.Cookies("OnyxSessionID")&#160;=&#160;strSessionID</p>
+        <p Class="Code" class="code">
+            <!--&nbsp;$MVD$:spaceretainer()&nbsp;-->&#160;</p>
+        <p Class="Code" class="code">End&#160;If</p>
+        <p Class="Code" class="code">
+            <!--&nbsp;$MVD$:spaceretainer()&nbsp;-->&#160;</p>
+        <p Class="Code" class="code">'&#160;Call&#160;the&#160;OnyxTransactionManager.&#160;See&#160;the&#160;"Communicating&#160;with&#160;the&#160;OTM"&#160;sample.</p>
+        <p Class="Code" class="code">Set&#160;objOTM&#160;=&#160;Server.CreateObject("OnyxTransactionManager.TransactionManager")</p>
+        <p Class="Code" class="code">objOTM.Execute("Onyx",&#160;strLogicalObjectName,&#160;strLogicalMethodName,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;strSessionID,&#160;strParamXML,&#160;strCustomDataXML)</p>
+        <p Class="Code" class="code">
+            <!--&nbsp;$MVD$:spaceretainer()&nbsp;-->&#160;</p>
+    </body>
+</html>

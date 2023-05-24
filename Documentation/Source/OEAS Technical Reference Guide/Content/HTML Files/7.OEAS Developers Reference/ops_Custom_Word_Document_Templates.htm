@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="5" MadCap:lastHeight="2690.354" MadCap:lastWidth="1256" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_3.css" rel="stylesheet" MadCap:stylesheetType="table" />
+    </head>
+    <body>
+        <head><title>Writing custom print templates (OPS)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>
+            <MadCap:keyword term="OPSProcessDocument_implementation;Writing;Writing:custom print;templates;custom print;custom print:Writing" />Writing custom print templates</h4>
+        <h3>Creating mail merge field to print with OPS documents</h3>
+        <p>Consider an xml example as below. (Referred as example xml in the further document) .</p><pre xml:space="preserve">&lt;literatureOrder objectType="literatureOrder" content="all"&gt;</pre>
+        <blockquote><pre xml:space="preserve">&lt;primaryId&gt;0001&lt;/primaryId&gt;</pre><pre xml:space="preserve">&lt;secondaryId&gt;01&lt;/secondaryId&gt;</pre><pre xml:space="preserve">&lt;ownerId&gt;255&lt;/ownerId&gt;</pre><pre xml:space="preserve">&lt;orderDate&gt;2015-01-08 19:32:26&lt;/orderDate&gt;</pre><pre xml:space="preserve">&lt;shipViaId&gt;256&lt;/shipViaId&gt;</pre><pre xml:space="preserve">&lt;comment1&gt;Here is your order as requested&lt;/comment1&gt;</pre><pre xml:space="preserve">&lt;emailTo null=""/&gt;</pre><pre xml:space="preserve">&lt;customerReference null="1"/&gt;</pre><pre xml:space="preserve">&lt;salutation&gt;Ms&lt;/salutation&gt;</pre><pre xml:space="preserve">&lt;firstName&gt;John&lt;/firstName&gt;</pre><pre xml:space="preserve">&lt;lastName&gt;Hasan&lt;/lastName&gt;</pre><pre xml:space="preserve">&lt;city&gt;San Francisco&lt;/city&gt;</pre><pre xml:space="preserve">&lt;countryCode&gt;USA&lt;/countryCode&gt;</pre><pre xml:space="preserve">&lt;postalCode&gt;98998&lt;/postalCode&gt;</pre><pre xml:space="preserve">&lt;companyName&gt;Example&#160; Technologies Inc.&lt;/companyName&gt;</pre><pre xml:space="preserve">&lt;phoneNo&gt;18174389&lt;/phoneNo&gt;</pre><pre xml:space="preserve">&lt;faxPhoneNumber&gt;938787483&lt;/faxPhoneNumber&gt;</pre><pre xml:space="preserve">&lt;billToAddress1&gt;Ms John Hasan &lt;/billToAddress1&gt;</pre><pre xml:space="preserve">&lt;billToAddress2&gt;San Francisco&lt;/billToAddress2&gt;</pre>
+        </blockquote><pre xml:space="preserve">&lt;/literatureOrder &gt;</pre>
+        <p>To print literatureOrder data, target area in the template must start and end with Range fields along with table name from the dataset. For example, <br /><code>«RangeStart: literatureOrder »</code> <![CDATA[ ]]></p>
+        <p xml:space="preserve" class="BodyText"><code>&amp;</code> <![CDATA[ ]]></p>
+        <p> <code>«RangeEnd: literatureOrder »</code> <![CDATA[ ]]></p>
+        <p>Between these start and end regions create merge fields for the nodes, such as primaryId and secondaryId to print respective data. For information about merge fields, refer to the above XML&#160;code.</p>
+        <p><code>«RangeStart: literatureOrder »</code> <![CDATA[ ]]></p>
+        <p xml:space="preserve" class="BodyText"><code>Current primary id is  - { MERGEFIELD literatureOrder _primaryId  \* MERGEFORMAT&#160; }</code> <![CDATA[ ]]></p>
+        <p> <code>«RangeEnd: literatureOrder »</code></p>
+        <p>In the above example, primaryId is NodeName , and literatureOrder is ParentNodeName. <br />After the mail merge process, the above 3 lines generates the output as <code>Current primary id is - 0001</code>.</p>
+        <h3>Data Table Design inside Dataset</h3>
+        <p>DataTable is created for all the second level nodes of the xml. Columns of these tables are created using their child nodes in the xml.</p>
+        <h4>Example</h4>
+        <p>Consider the following XML:</p>
+        <p><code>&lt;orderBatch&gt;</code>
+        </p>
+        <blockquote>
+            <p> <code>&lt;</code><code>literatureOrders</code><code>/&gt;</code> <![CDATA[ ]]></p>
+        </blockquote>
+        <blockquote>
+            <blockquote>
+                <p> <code>&lt;</code><code>literatureOrderBatch</code><code>/&gt;</code> <![CDATA[ ]]></p>
+                <p><code>&lt;literatureOrderLines/&gt;</code> <![CDATA[ ]]></p>
+            </blockquote>
+        </blockquote>
+        <blockquote>
+            <p> <code>&lt;</code><code>customData</code><code>/&gt;</code> <![CDATA[ ]]></p>
+        </blockquote>
+        <blockquote>
+            <p> <code>&lt;</code><code>literatureProducts</code><code>/&gt;</code> <![CDATA[ ]]></p>
+        </blockquote>
+        <blockquote>
+            <p> <code>&lt;</code><code>literatureServicePrinters</code><code>/&gt;</code> <![CDATA[ ]]></p>
+        </blockquote>
+        <p><code>&lt;/orderBatch&gt;</code>
+        </p>
+        <p> Table for nodes <code>literatureOrders</code>, <code>literatureOrderBatch</code>, <code>customData</code>, <code>literatureProducts</code>, and <code>literatureServicePrinters</code> are created along with a table node for <code>literatureOrderLines</code> which is one of the child nodes of <code>literatureOrders</code>. </p>
+        <p><b>Note:</b> Data is not populated to custom Data table, by default. To populate the daata OPS print Engine must be extended using .NET code.</p>
+        <p class="BodyText" style="font-weight: bold;">Example of Table literatureOrders in Dataset</p>
+        <table style="border-collapse: collapse;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;margin-left: 0;margin-right: auto;mc-table-style: url('../../Resources/TableStyles/Aptean_Table_3.css');" class="TableStyle-Aptean_Table_3" cellspacing="0">
+            <col class="TableStyle-Aptean_Table_3-Column-Column1" style="width: 73px;" />
+            <col class="TableStyle-Aptean_Table_3-Column-Column1" />
+            <col class="TableStyle-Aptean_Table_3-Column-Column1" />
+            <col class="TableStyle-Aptean_Table_3-Column-Column1" />
+            <col class="TableStyle-Aptean_Table_3-Column-Column1" />
+            <col class="TableStyle-Aptean_Table_3-Column-Column1" />
+            <col class="TableStyle-Aptean_Table_3-Column-Column1" />
+            <col class="TableStyle-Aptean_Table_3-Column-Column1" />
+            <col class="TableStyle-Aptean_Table_3-Column-Column1" />
+            <col class="TableStyle-Aptean_Table_3-Column-Column1" />
+            <col class="TableStyle-Aptean_Table_3-Column-Column1" />
+            <col class="TableStyle-Aptean_Table_3-Column-Column1" />
+            <tr class="TableStyle-Aptean_Table_3-Body-Body1">
+                <th style="background-color: #c0c0c0;color: #ffffff;font-weight: bold;" class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                    <p>primaryId</p>
+                </th>
+                <th style="background-color: #c0c0c0;color: #ffffff;font-weight: bold;" class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                    <p>secondaryId</p>
+                </th>
+                <th style="background-color: #c0c0c0;color: #ffffff;font-weight: bold;" class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                    <p>ownerId</p>
+                </th>
+                <th style="background-color: #c0c0c0;color: #ffffff;font-weight: bold;" class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                    <p>&#160;</p>
+                </th>
+                <th style="background-color: #c0c0c0;color: #ffffff;font-weight: bold;" class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                    <p>&#160;</p>
+                </th>
+                <th style="background-color: #c0c0c0;color: #ffffff;font-weight: bold;" class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                    <p>&#160;</p>
+                </th>
+                <th style="background-color: #c0c0c0;color: #ffffff;font-weight: bold;" class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                    <p>&#160;</p>
+                </th>
+                <th style="background-color: #c0c0c0;color: #ffffff;font-weight: bold;" class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                    <p>&#160;</p>
+                </th>
+                <th style="background-color: #c0c0c0;color: #ffffff;font-weight: bold;" class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                    <p>&#160;</p>
+                </th>
+                <th style="background-color: #c0c0c0;color: #ffffff;font-weight: bold;" class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                    <p>faxPhoneNumber</p>
+                </th>
+                <th style="background-color: #c0c0c0;color: #ffffff;font-weight: bold;" class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                    <p>billToAddress1</p>
+                </th>
+                <th style="background-color: #c0c0c0;color: #ffffff;font-weight: bold;" class="TableStyle-Aptean_Table_3-BodyD-Column1-Body1">
+                    <p>billToAddress2</p>
+                </th>
+            </tr>
+            <tr class="TableStyle-Aptean_Table_3-Body-Body1">
+                <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                    <p>0001</p>
+                </td>
+                <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                    <p>01</p>
+                </td>
+                <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                    <p>255</p>
+                </td>
+                <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                    <p>-</p>
+                </td>
+                <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                    <p>-</p>
+                </td>
+                <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                    <p>-</p>
+                </td>
+                <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                    <p>-</p>
+                </td>
+                <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                    <p>-</p>
+                </td>
+                <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                    <p>-</p>
+                </td>
+                <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                    <p>938787483</p>
+                </td>
+                <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                    <p>Ms John Hasan</p>
+                </td>
+                <td class="TableStyle-Aptean_Table_3-BodyD-Column1-Body1">
+                    <p>San Francisco</p>
+                </td>
+            </tr>
+            <tr class="TableStyle-Aptean_Table_3-Body-Body1">
+                <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                    <p>0002</p>
+                </td>
+                <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                    <p>02</p>
+                </td>
+                <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                    <p>389</p>
+                </td>
+                <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                    <p>-</p>
+                </td>
+                <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                    <p>-</p>
+                </td>
+                <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                    <p>-</p>
+                </td>
+                <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                    <p>-</p>
+                </td>
+                <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                    <p>-</p>
+                </td>
+                <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                    <p>-</p>
+                </td>
+                <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                    <p>983742489</p>
+                </td>
+                <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                    <p>Mr Andrew&#160; April </p>
+                </td>
+                <td class="TableStyle-Aptean_Table_3-BodyD-Column1-Body1">
+                    <p>Chicago</p>
+                </td>
+            </tr>
+        </table>
+        <h3>MailMerge with OPS OrderBatch xml data</h3>
+        <p>Consider the following XML script:</p>
+        <p><code>&lt;orderBatch&gt;</code>
+        </p>
+        <blockquote>
+            <p> <code>&lt;</code><code>literatureOrders</code><code>&gt;</code> <![CDATA[ ]]></p>
+        </blockquote>
+        <blockquote>
+            <blockquote>
+                <p><code>&lt;literatureOrderLines/&gt;</code> <![CDATA[ ]]></p>
+            </blockquote>
+            <p><code>&lt;/literatureOrders&gt;</code> </p>
+            <p><code>&lt;</code><code>literatureOrderBatch</code><code>/&gt;</code>
+            </p>
+        </blockquote>
+        <blockquote>
+            <p> <code>&lt;</code><code>customData</code><code>/&gt;</code> <![CDATA[ ]]></p>
+        </blockquote>
+        <blockquote>
+            <p> <code>&lt;</code><code>literatureProducts</code><code>/&gt;</code> <![CDATA[ ]]></p>
+        </blockquote>
+        <blockquote>
+            <p> <code>&lt;</code><code>literatureServicePrinters</code><code>/&gt;</code> <![CDATA[ ]]></p>
+        </blockquote>
+        <p><code>&lt;/orderBatch&gt;</code>
+        </p>
+        <p>You can create mail merge fields for OPS documents as follows:</p>
+        <ul>
+            <li><b>DataSet Mail Merge for individual fields</b>
+            </li>
+        </ul>
+        <p class="Indent1"><code>«RangeStart: literatureOrders »</code> <![CDATA[ ]]></p>
+        <p class="Indent1"> <code>Current primary id is { MERGEFIELD&#160; literatureOrders_primaryId \* MERGEFORMAT&#160; }</code> <![CDATA[ ]]></p>
+        <p class="Indent1"><code>«RangeEnd: literatureOrders »</code> <![CDATA[ ]]></p>
+        <p class="BodyTextIndent_1">After mail merge, the above 3 lines generates the output as follows:</p>
+        <p class="Indent1"><code>Current primary id is 0001</code> <![CDATA[ ]]></p>
+        <p class="Indent1"><code>Current primary id is 0002</code> <![CDATA[ ]]></p>
+        <ul>
+            <li><b>DataSet Mail Merge for word table</b>
+            </li>
+        </ul>
+        <p class="BodyTextIndent_1">Create a table with start and end ranges as shown follows:</p>
+        <p class="BodyTextIndent_1">
+            <img src="../../Resources/Images/RangeBeginEnd.png" style="width: 969px;height: 220px;" />
+        </p>
+        <h4 style="font-family: Arial;">Denormalized table</h4>
+        <p>With the combination of <code>literatureOrder</code>, <code>literatureOrderLine</code>, and <code>literatureOrderBatch</code> nodes a new table called <code>OrderBatchData</code> is created. <code>OrderBatchData</code> table consists of child nodes of above three literature nodes. For more information about the nodes, refer to the <code>orderBatchPrintSimple.xml</code>.</p>
+        <p>As a denormalized table is a combination of the source tables, the table name is given in the <code>&lt;Parent node&gt;_&lt;Child node&gt;_&lt;Grand child node&gt;</code> format. For example, when the three literature tables are denormalized, the table name is given as <code>«literatureOrder_LiteratureOrderLine_line»</code>. The usage of <code>OrderBatchData</code> table column is as follows:</p>
+        <p><code>{MERGEFIELD RangeStart:OrderBatchData \ * MERGEFORMAT}</code> <![CDATA[ ]]></p>
+        <p><code>{MERGEFIELD literatureOrder_LiteratureOrderLine_line_lineNumber \ * MERGEFORMAT}</code> </p>
+        <p><code>{MERGEFIELD RangeEnd:OrderBatchData \ * MERGEFORMAT}</code> </p>
+    </body>
+</html>

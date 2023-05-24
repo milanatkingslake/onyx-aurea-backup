@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="594" MadCap:lastWidth="842" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Note_Table_3.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+		<title>Creating and customizing procedures</title>
+    </head>
+    <body>
+                <h2>
+            <MadCap:keyword term="procedure" />Creating and customizing procedures</h2>
+        <p>OEAS calls procedures through the Onyx Data Manager 
+ (ODM) in two different ways. These two ways are named based on the terminology 
+ used to describe the way procedures are mapped to the logical model's 
+ methods.</p>
+        <ul>
+            <li><span style="font-style: italic;font-weight: bold;">replace</span><span style="font-weight: bold;"> mode</span> - When a replace map is used, 
+ OEAS composes a direct procedure call and no T-SQL code is generated.</li>
+            <li><span style="font-style: italic;font-weight: bold;">pre</span><span style="font-weight: bold;"> or </span><span style="font-style: italic;font-weight: bold;">post</span><span style="font-weight: bold;"> mode</span> - When a pre or post map is used, 
+ the ODM generates an anonymous block of T-SQL code and an in-line procedure 
+ call is placed into this block of T-SQL code according to the map type. 
+ A pre type of map causes the in-line procedure call to be placed immediately 
+ after the declaration section of the T-SQL block, before any other processing 
+ instructions. A post type of map causes the in-line procedure call to 
+ be placed immediately before the final exception-handling block, after 
+ any other processing instructions. The pre- and post- maps are included 
+ in the same database transaction as the generated T-SQL code.</li>
+        </ul>
+        <p style="font-weight: bold;">Naming procedures</p>
+        <p>Because the Object Designer user interface organizes user-defined procedures and functions together in the same drop-down list, be sure to name your procedures and functions so that they are easy to recognize while working in the Object Designer.</p>
+        <p>Because procedures are mapped to specific steps in the Onyx Enterprise 
+ Dictionary (OED), you can identify <span style="font-style: italic;">replace</span>, 
+ <span style="font-style: italic;">pre</span>, and <span style="font-style: italic;">post</span> 
+ procedures by their mapType parameter values of replace, pre, and post, 
+ respectively.</p>
+        <p>Refer to the following links for guidelines on creating 
+ pre, post, and replace procedures, as well as for customizing existing 
+ procedures.</p>
+        <ul>
+            <li><a href="customizingOEDB_Creating_Replace_Procedures.htm">Creating 
+ replace procedures</a>
+            </li>
+            <li><a href="customizingOEDB_Creating_Pre_and_Post_Procedures.htm">Creating 
+ pre and post procedures</a>
+            </li>
+            <li><a href="customizingOEDB_Customizing_Existing_Procedures.htm">Customizing 
+ existing procedures</a>
+            </li>
+        </ul>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Note_Table_3.css');width: 80%;" class="TableStyle-Aptean_Note_Table_3" cellspacing="2">
+            <col style="width: 0.7cm;" class="TableStyle-Aptean_Note_Table_3-Column-Column1" />
+            <col class="TableStyle-Aptean_Note_Table_3-Column-Column1" style="width: 13cm;" />
+            <tbody>
+                <tr class="TableStyle-Aptean_Note_Table_3-Body-Body1">
+                    <td class="TableStyle-Aptean_Note_Table_3-BodyB-Column1-Body1" style="text-align: right;">
+                        <p class="TableText">
+                            <img src="../../Resources/Images/Common/note_image.png" />
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Note_Table_3-BodyA-Column1-Body1">
+                        <p class="TableText"><b>Note</b>: For a procedure to be called by the ODM it 
+ must be mapped to the specific step that calls the ODM within a logical 
+ object's method, as described in Mapping Stored Procedures. The only other 
+ way to call a procedure from the middle tier is by writing a custom COM+ 
+ object that employs the IStep interface, calling it from a logical method 
+ step and having it compose the XML describing the procedure call which 
+ it would then pass to the Query Engine (QE). Custom COM+ objects and procedure 
+ calls through the QE interface are not described in this document. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

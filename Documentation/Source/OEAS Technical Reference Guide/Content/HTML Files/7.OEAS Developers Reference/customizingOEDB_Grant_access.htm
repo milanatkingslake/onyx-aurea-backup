@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:id="Grant access" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="460" MadCap:lastWidth="699" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+		<title>Grant access</title>
+    </head>
+    <body>
+               <h5>
+            <MadCap:keyword term="Grant access" />Grant access</h5>
+        <p>Unlike previous Onyx releases, members of the public role cannot execute 
+ stored procedures. Two new database roles have been created to tighten 
+ security. Custom procedures or other database objects that are mapped 
+ to object methods must be granted access to the appropriate role.</p>
+        <h4>OnyxPublic</h4>
+        <p>The OnyxPublic role has been created for any database object used to 
+ implement .</p>
+        <p>To grant access to the OnyxPublic role, sign on as the OEDB database 
+ owner and execute the following command to grant middle-tier execute access 
+ to the database object:</p>
+        <p Class="Code" class="code">GRANT EXECUTE ON &lt;cpMyProcedure&gt; TO 
+ OnyxPublic</p>
+        <p>Grants will also be necessary for creating functions that return a table:</p>
+        <p Class="Code" class="code">GRANT SELECT ON &lt;cfMyFunction&gt; TO OnyxPublic</p>
+        <h4>OnyxLMViews</h4>
+        <p>The OnyxLMViews role has been created for to restrict database access 
+ for List Management functionality. </p>
+        <p>To grant access to the OnyxLMViews role, sign on as the OEDB database 
+ owner and execute the following command to grant middle-tier execute access 
+ to the database object:</p>
+        <p Class="Code" class="code">GRANT SELECT ON &lt;cvMyListManagementView&gt; 
+ TO OnyxLMViews </p>
+    </body>
+</html>

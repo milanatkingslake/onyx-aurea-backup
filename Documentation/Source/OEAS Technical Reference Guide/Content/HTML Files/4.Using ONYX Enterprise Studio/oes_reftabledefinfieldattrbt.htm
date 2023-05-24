@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="781" MadCap:lastWidth="624" MadCap:conditions="Default.Main">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Defining field attributes</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>Defining field attributes </h5>
+        <p>When you have selected a configurable field in the <span class="UIElement" style="font-weight: bold;">Fields</span> 
+ mode, the Table Administration edit area displays the attributes for that 
+ field. Use the following descriptions to assist you in defining field 
+ attributes when you are “<a href="OES_RTAAddnewfield.htm">Adding new fields</a>” 
+ or “<a href="OES_RefTableModFieldProp.htm">Modifying a field’s attributes</a>.” 
+ </p>
+        <p><b class="Bold" style="font-weight: bold;">Field Name -</b> Field names are case-insensitive 
+ and require unique names that are a maximum of 30 characters. Case-insensitive 
+ means that you cannot create duplicate field names that differ only by 
+ case. For example, you cannot create <span class="UIElement" style="font-weight: bold;">company.user1</span> 
+ (lower case) and then <span class="UIElement" style="font-weight: bold;">company.USER1</span>(upper 
+ case); the application will not save the duplicate name. </p>
+        <p>The unique field names you create reference certain fields in the database 
+ that are used by the application objects, database stored procedures, 
+ and user interface. The naming convention used in a field name is &lt;<b class="Bold">element&gt;.&lt;fieldname&gt;&lt;</b><em class="Emphasis" style="font-style: italic;">n</em><b class="Bold" style="font-style: normal;">&gt;</b>. This standard naming convention 
+ helps identify the location of each field and is essential for OEAS and 
+ OEP support of user-defined fields. For specific details, see <a href="OES_RefTableNamingUDFs.htm">Naming 
+ user-defined fields</a>. </p>
+        <p class="Warning" MadCap:autonum=" &#160;&#160;&lt;b&gt;Warning:&lt;/b&gt; &#160;">Do not alter field names of the configurable standard 
+ fields as the system objects depend on these specific field names to function 
+ properly.</p>
+        <p><b class="Bold" style="font-weight: bold;">Caption -</b> Type the caption you want 
+ to appear in the end-user interface. It enables the update of captions 
+ for user-defined fields only, up to a maximum of 30 characters. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Captions for all fields, except user-defined configurable 
+ fields, are modified in resource files.</p>
+        <p><b class="Bold" style="font-weight: bold;">Sequence # -</b> The sequence number 
+ is used to control the relative position of user-defined fields as they 
+ appear in application windows. </p>
+        <p><b class="Bold" style="font-weight: bold;">Field Type -</b> Reference Table Administration 
+ supports three field types: Text box, Check box, and Combo box. </p>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; &#160;">If you change a field's <span class="UIElement" style="font-weight: bold;">Field 
+ Type</span> property from a combo box to a check box or text box, you 
+ will lose any lookup values associated with that field. Subsequently, 
+ if you change the field's <span class="UIElement" style="font-weight: bold;">Field Type</span> 
+ property back to a combo box, the lookup values that were previously associated 
+ with that field are no longer associated with it. To return the combo 
+ box to its previous state, you must manually re-add the lookup values 
+ to the field. </p>
+        <ul>
+            <li><b class="Bold" style="font-weight: bold;">Text Box -</b> Text 
+ boxes are editable fields in which users can enter and modify text. Data 
+ entered in a text box is stored in the database as unicode data.</li>
+        </ul>
+        <ul style="list-style-type: circle;">
+            <li class="Sec_List"><b class="Bold" style="font-weight: bold;">Size -</b> Size 
+ limits the number of alphanumeric characters a user can enter into a text 
+ field (0 - 255 characters). By entering 0 here, users can enter the maximum 
+ number of characters (255) into a text field.</li>
+            <li class="Sec_List"><b class="Bold" style="font-weight: bold;">Mask -</b> Field 
+ masks control the format of data entered into user-defined text fields. 
+ Masks applied with Reference Table Administration are supported by user-defined 
+ fields only. Field masks can support up to 255 characters. For additional 
+ details on configuring a field mask for a text field, see <a href="OES_RefTableCnfgFieldMask.htm">Configuring 
+ a field mask</a>.</li>
+        </ul>
+        <ul>
+            <li><b class="Bold" style="font-weight: bold;">Combo Box -</b> 
+ Combo box fields are fields that have drop-down lists of text values. 
+ A combo box field presents the user with a drop-down list of values from 
+ which to choose, but does not enable users to enter new values or text. 
+ You can use Reference Table Administration to define the list of values 
+ that appear in a combo box field, as described in <a href="OES_RefTableAddLkupValues.htm">Adding 
+ lookup values to a combo box field</a>. User-defined combo box fields 
+ can be hierarchically related to one another, and can also share the same 
+ lookup values.</li>
+        </ul>
+        <ul style="list-style-type: circle;">
+            <li class="Sec_List"><b class="Bold" style="font-weight: bold;">Parent Field 
+ -</b> You can use this attribute to hierarchically relate one combo box 
+ field to another combo box field. This control is enabled only when you 
+ select combo box as the field type. It is important to note that hierarchical 
+ relationships are defined from the child field to the parent field. You 
+ select the parent field name, for example, company.user1, in the <span class="UIElement" style="font-weight: bold;">Parent Field</span> drop-down box. If you 
+ do not want the combo box field to be hierarchically related to another 
+ field, choose <span class="UIElement" style="font-weight: bold;">None</span> from the drop-down 
+ list.</li>
+            <li class="Sec_List"><b class="Bold" style="font-weight: bold;">Related to Existing 
+ Field - </b>This field relates one combo box field to another, enabling 
+ two fields to share the same lookup values. Subsequently, you can modify 
+ the lookup values for either field, and the changes are applied for both 
+ fields.</li>
+        </ul>
+        <ul>
+            <li><b class="Bold" style="font-weight: bold;">Check Box -</b> 
+ Check box fields have boxes which users can check or uncheck to activate 
+ or deactivate an option. The check box appears directly beside the caption 
+ of the field. Check box data is stored in the database as a variable character 
+ with a value of 1 (checked) or 0 (not checked).</li>
+        </ul>
+    </body>
+</html>

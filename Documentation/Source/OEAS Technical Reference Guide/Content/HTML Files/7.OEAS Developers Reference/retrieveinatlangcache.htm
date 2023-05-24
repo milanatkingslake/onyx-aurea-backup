@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="4871" MadCap:lastWidth="676">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Retrieve (INatLangCache)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>
+            <MadCap:keyword term="retrieve method" />
+            <MadCap:keyword term="retrieve" />Retrieve method</h5>
+        <p>
+            <MadCap:keyword term="INatLangCache" />The Retrieve method of the INatLangCache interface enables a calling 
+ client to access a single resource string from the OnyxNatLangCache. For 
+ a given application name, the single string is uniquely identified by 
+ the combination of site ID, language code, and message ID.</p>
+        <h3>Syntax</h3>
+        <p><b>IDL</b>
+        </p>
+        <p Class="Code" class="code">HRESULT&#160;Retrieve(</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;[in]&#160;const&#160;BSTR&#160;bstrAppName,&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;[in]&#160;const&#160;long&#160;lSiteID,&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;[in]&#160;const&#160;BSTR&#160;bstrLangCode,&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;[in]&#160;const&#160;long&#160;lMsgID,&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;[out]&#160;VARIANT*&#160;pvMsg,&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;[out,&#160;retval]&#160;NatLangCacheStatusEnum*&#160;peStatus);</p>
+        <p>IDL parameter descriptions</p>
+        <p>bstrAppName</p>
+        <p class="BodyTextIndent_1">[in] Case insensitive. Corresponds to a unique Onyx database 
+ name in the application server system registry. bstrAppName identifies 
+ which part of the cache to access. This parameter supports multiple customers 
+ in an application service provider (ASP) environment. Each customer has 
+ a separate database.</p>
+        <p>lSiteID</p>
+        <p class="BodyTextIndent_1">[in] Corresponds to a key field in the site table of a 
+ database. Typically, sites represent departments or divisions within a 
+ company. This parameter supports partitioning a database among divisions 
+ in an organization.</p>
+        <p>bstrLangCode</p>
+        <p class="BodyTextIndent_1">[in] Corresponds to a key field in the language table of 
+ a database. The language code identifies the spoken language of the string 
+ being accessed.</p>
+        <p>lMsgID</p>
+        <p class="BodyTextIndent_1">[in] Corresponds to a key field in the tables in which 
+ the National Language strings are contained. This parameter combined with 
+ lSiteID and bstrLangCode uniquely identifies a string in the cache.</p>
+        <p>pvMsg</p>
+        <p class="BodyTextIndent_1">[out] Contains the output of the string retrieved from 
+ the cache.</p>
+        <p>peStatus</p>
+        <p class="BodyTextIndent_1">[out, retval] Contains a pointer to a success or failure 
+ code for the method. See <a href="NatLangCacheStatus_Enum.htm">NatLangCacheStatus 
+ enumeration</a> topic for a description of individual codes.</p>
+        <p><b>Visual Basic</b>
+        </p>
+        <p Class="Code" class="code">Function&#160;Retrieve(</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;bstrAppName&#160;As&#160;String,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;lSiteID&#160;As&#160;Long,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;bstrLangCode&#160;As&#160;String,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;lMsgID&#160;As&#160;Long,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;pvMsg)</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;As&#160;NatLangCacheStatusEnum</p>
+        <p>Visual Basic parameter descriptions</p>
+        <p>bstrAppName</p>
+        <p class="BodyTextIndent_1">[in] Case insensitive. Corresponds to a unique Onyx database 
+ name in the application server system registry. bstrAppName identifies 
+ which part of the cache to access. This parameter supports multiple customers 
+ in an application service provider (ASP) environment. Each customer has 
+ a separate database.</p>
+        <p>lSiteID</p>
+        <p class="BodyTextIndent_1">[in] Corresponds to a key field in the site table of a 
+ database. Typically, sites represent departments or divisions within a 
+ company. This parameter supports partitioning a database among divisions 
+ in an organization.</p>
+        <p>bstrLangCode</p>
+        <p class="BodyTextIndent_1">[in] Corresponds to a key field in the language table of 
+ a database. The language code identifies the spoken language of the string 
+ being accessed.</p>
+        <p>lMsgID</p>
+        <p class="BodyTextIndent_1">[in] Corresponds to a key field in the tables in which 
+ the National Language strings are contained. This parameter combined with 
+ lSiteID and bstrLangCode uniquely identifies a string in the cache.</p>
+        <p>pvMsg</p>
+        <p class="BodyTextIndent_1">[out] Contains the output of the string retrieved from 
+ the cache.</p>
+        <p><b>C#</b>
+        </p>
+        <p>Use with the .NET <a href="Primary_interop_assembly.htm">primary interop 
+ assembly</a> version of this component, OnyxNatLangCachePIA.</p>
+        <p Class="Code" class="code">public&#160;NatLangCacheStatusEnum&#160;Retrieve(</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;string&#160;bstrAppName,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;int&#160;lSiteID,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;string&#160;bstrLangCode,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;int&#160;lMsgID,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;out&#160;object&#160;pvMsg)</p>
+        <p>C# parameter descriptions</p>
+        <p>bstrAppName</p>
+        <p class="BodyTextIndent_1">[in] Case insensitive. Corresponds to a unique Onyx database 
+ name in the application server system registry. bstrAppName identifies 
+ which part of the cache to access. This parameter supports multiple customers 
+ in an application service provider (ASP) environment. Each customer has 
+ a separate database.</p>
+        <p>lSiteID</p>
+        <p class="BodyTextIndent_1">[in] Corresponds to a key field in the site table of a 
+ database. Typically, sites represent departments or divisions within a 
+ company. This parameter supports partitioning a database among divisions 
+ in an organization.</p>
+        <p>bstrLangCode</p>
+        <p class="BodyTextIndent_1">[in] Corresponds to a key field in the language table of 
+ a database. The language code identifies the spoken language of the string 
+ being accessed.</p>
+        <p>lMsgID</p>
+        <p class="BodyTextIndent_1">[in] Corresponds to a key field in the tables in which 
+ the National Language strings are contained. This parameter combined with 
+ lSiteID and bstrLangCode uniquely identifies a string in the cache.</p>
+        <p>pvMsg</p>
+        <p class="BodyTextIndent_1">[out] Contains the output of the string retrieved from 
+ the cache.</p>
+        <h3>Return values</h3>
+        <p>This method returns a NatLangCacheStatusEnum code. See <a href="NatLangCacheStatus_Enum.htm">NatLangCacheStatus 
+ enumeration</a> topic for a description of individual codes.</p>
+        <h3>Remarks</h3>
+        <p>If you are creating a custom COM step, you can create 
+ a default resource file to retrieve strings in the following cases:</p>
+        <ul>
+            <li>The message ID could not be found in the cache.</li>
+            <li>The OnyxNatLangCache is unavailable for some reason.</li>
+        </ul>
+        <h3>Examples</h3>
+        <p>C++ code sample</p>
+        <p>The following example method takes four input parameters and one output 
+ parameter. The method returns a Boolean "true" value if it successfully 
+ retrieves a string, otherwise it returns a Boolean "false" value. 
+ The four input parameters are identical to the first four parameters of 
+ INatLangCache.retrieve. The example method stores the retrieved message 
+ string in the output parameter (*pbstrMsg). This example assumes that 
+ RetrieveString is a member method of a class that also contains a member 
+ variable pointer to INatLangCache (m_pINatLangCache). If m_pINatLangCache 
+ does not point to a valid INatLangCache interface, the method returns 
+ false.</p>
+        <p Class="Code" class="code">bool&#160;RetrieveString(&#160;const&#160;CComBSTR&#160;bstrAppName,&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;const&#160;CComBSTR&#160;bstrLangCode,&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;const&#160;long&#160;lSiteID,&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;const&#160;long&#160;lMsgID,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;BSTR&#160;*pbstrMsg&#160;)</p>
+        <p Class="Code" class="code">{</p>
+        <p Class="Code" class="code">&#160;&#160;HRESULT&#160;hr;</p>
+        <p Class="Code" class="code">&#160;&#160;*pbstrMsg&#160;=&#160;NULL;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;<span style="color: #008000;">// Load NatLang msg from the cache</span></p>
+        <p Class="Code" class="code">&#160;&#160;&#160;<span style="color: #008000;">// Assume you already instantiated pointer to INatLangCache</span></p>
+        <p Class="Code" class="code">&#160;&#160;&#160;if(&#160;m_pINatLangCache&#160;)</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;{</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;NatLangCacheStatusEnum&#160;eStatus;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;VARIANT&#160;vMsg;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;VariantInit(&#160;&amp;vMsg&#160;);</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;hr&#160;=&#160;m_pINatLangCache-&gt;Retrieve(&#160;bstrAppName,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;lSiteID,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;bstrLangCode,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;lMsgID,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&amp;vMsg,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&amp;eStatus&#160;);</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;if(&#160;eStatus&#160;==&#160;NL_CACHE_SUCCESS&#160;)</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;{</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;*pbstrMsg&#160;=&#160;vMsg.bstrVal;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;VariantClear(&#160;&amp;vMsg&#160;);&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;return&#160;true;&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;}</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;else</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;{</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;if(&#160;FAILED(hr)&#160;)</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;{</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;<span style="color: #008000;">// retrieve error info</span></p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;}</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;else</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;{</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;<span style="color: #008000;">// log debug message</span></p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;}</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;}</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;}</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;return&#160;false;</p>
+        <p Class="Code" class="code">}</p>
+        <p>Visual Basic 
+ code sample</p>
+        <p>The following example method takes four input parameters and returns 
+ a string. The returned string represents the string retrieved from OnyxNatLangCache. 
+ The four input parameters are identical to the first four parameters of 
+ INatLangCache.retrieve. The sample creates a OnyxNatLangCache object and 
+ uses this object to call the Retrieve method of INatLangCache. It checks 
+ the return value of the Retrieve method using the lStatus variable. If 
+ the retrieve is successful, it assigns the value of the retrieve output 
+ parameter, vDescription, to the RetrieveString return value.</p>
+        <p Class="Code" class="code">Public&#160;Function&#160;RetrieveString(ByVal&#160;AppName&#160;As&#160;String,&#160;_</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ByVal&#160;SiteID&#160;As&#160;Integer,&#160;_</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ByVal&#160;LanguageCode&#160;As&#160;String,&#160;_</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ByVal&#160;NatLangID&#160;As&#160;Long)&#160;As&#160;String</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;Dim&#160;sMessage&#160;As&#160;String</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;Dim&#160;lStatus&#160;As&#160;Long</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;Dim&#160;vDescription&#160;As&#160;Variant</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;Dim&#160;oCache&#160;As&#160;ONYXNATLANGCACHELib.CoNatLangCache</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;RetrieveString&#160;=&#160;vbNullString</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;<span style="color: #008000;">' Get data from the cache</span></p>
+        <p Class="Code" class="code">&#160;&#160;&#160;Set&#160;oCache&#160;=&#160;New&#160;ONYXNATLANGCACHELib.CoNatLangCache</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;lStatus&#160;=&#160;oCache.Retrieve(AppName,&#160;_</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;SiteID,&#160;_</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;LanguageCode,&#160;_</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;NatLangID,&#160;_</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;vDescription)</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;If&#160;lStatus&#160;=&#160;NL_CACHE_SUCCESS&#160;Then</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;sMessage&#160;=&#160;CStr(vDescription)</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;Else</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;<span style="color: #008000;">' get string from default resource file</span></p>
+        <p Class="Code" class="code">&#160;&#160;&#160;End&#160;If</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;Set&#160;oCache&#160;=&#160;Nothing</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;RetrieveString&#160;=&#160;sMessage</p>
+        <p class="code" style="margin-bottom: 0;">End&#160;Function&#160;</p>
+    </body>
+</html>

@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="113" MadCap:lastWidth="701">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2><a name="top"></a>Configuring List Screens for Mobile Bookmarks</h2>
+        <p>When users tap a mobile bookmark on the Home Page, a list screen displays all the records that meet the search criteria specified for the bookmark. Use the list profile XML file to specify which fields are displayed on the list screen for each entity. </p>
+        <p>The fields that you select to display on the mobile bookmark list page should already be configured in the Navigator entity view that is created for the entity. You can customize these views to add new fields. For more information on adding custom fields to Navigator entities, see the relevant section in the Onyx Technical Guide.</p>
+        <ol>
+            <li>In the Onyx Transaction Database, open the Navigator Entity View corresponding to the entity for which you want to configure mobile bookmarks.</li>
+            <li>Note the values for field_name corresponding to the fields that you want to display on the mobile bookmark list screen. The value in this field is the name of the column in the Onyx Transaction Database from which to retrieve data. </li>
+            <li>On the OEAS server, navigate to the Onyx Gateway Service installation folder, and open the list profile XML file for the entity. The default file path is <code>C:\Program Files\Onyx\AppServer\Applications\Onyx\OnyxGatewayService\App_Data\Profiles</code>.</li>
+            <li> In the XML file, navigate to the field that you want to display on the list screen. To add a row for a new field, see Configuring a List Screen.</li>
+            <li>In the ViewColumnName attribute for the field, enter the value used for field_name corresponding to the field that you noted in step 2.</li>
+            <li>Leave this attribute blank for a field that you do not want to display on the mobile bookmark list screen.</li>
+            <li>Repeat the above process for each field that you want to display on the list screen.</li>
+            <li>Save and close the XML file.</li>
+            <li>Repeat this process for each entity that users can create bookmarks for.</li>
+            <li>For users to be able to save a Navigator query as a mobile bookmark, the mobile-specific fields should also be selected in the Navigator Result Grid. Therefore, do one of the following:</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">In Navigator, include the mobile-specific fields as default fields in the Header or Detail columns for the entity so that they are automatically included in the Navigator Result Grid when users save a query.</li>
+            <li class="List_Indent">Alternatively, leave these fields in the Available column, so that users can select them when creating queries for mobile bookmarks.</li>
+        </ul>
+        <p>It is recommended that when you change these fields for an entity, you inform users about the changes made so that they can modify their mobile bookmarks.</p>
+    </body>
+</html>

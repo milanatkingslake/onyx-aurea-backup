@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="773" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Important Terms (Security)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>
+            <MadCap:keyword term="Session_state;terms;Important Terms" />Important terms</h4>
+        <p>
+            <MadCap:keyword term="Security" />Knowing the following terms and concepts improves your understanding 
+ of OEAS security. </p>
+        <h5>
+            <MadCap:keyword term="application" /><a name="Application"></a>Application</h5>
+        <p>An application is a specific configuration of OEAS that, because the 
+ OEAS is data-driven, alters the product's look, function, and access based 
+ on users' security settings. When a client calls a method exposed by an 
+ OEAS security component, the client is required to supply an application 
+ name. The application name specifies a connection to a given logical application.</p>
+        <h5>
+            <MadCap:keyword term="client" /><a name="Client"></a>Client</h5>
+        <p>A client is an application such as Onyx Employee Portal (OEP), an application 
+ integrated with OEAS, or a custom client. In short, a client is any application 
+ that communicates with OEAS. A client can be browser-based, Win32-based, 
+ or any other application that meets these two requirements: it must be 
+ COM-aware and it must be able to send commands and command arguments via 
+ XML to the Onyx Transaction Manager (OTM). Internally, OEAS security uses 
+ the term "source" to refer to a client. Multiple clients can 
+ use the same application or they may choose to use more than one application 
+ to implement the end-user functionality.</p>
+        <h5><a name="Onyx_user"></a>Onyx user</h5>
+        <p>An Onyx user is network-independent, which means that you can log on 
+ as a given Onyx user from anywhere on the network, either with or without 
+ a domain account. Independence from the network allows flexibility in 
+ accessing OEAS. For example, users of Web-based clients can access OEAS, 
+ with OEAS maintaining a security context for these users.</p>
+        <h5>
+            <MadCap:keyword term="permissions mask" /><a name="Permissions_mask"></a>Permissions mask</h5>
+        <p>The permissions mask is a bitmask that represents the user's access 
+ permissions to secured resources. The OTM checks user permissions on each 
+ service request, and uses the resource cache to match significant bits 
+ from the mask to resource identifiers.</p>
+        <h5>
+            <MadCap:keyword term="roles" /><a name="Roles"></a>Roles</h5>
+        <p>Roles provide a means to grant (or deny) a broad set of users access 
+ to a common set of functionality (resources). Implementing role-based 
+ security for a collection of users is much more efficient than specifying 
+ access permissions to each user individually. For additional details about 
+ roles, see <i>Managing roles</i>.</p>
+        <h5>
+            <MadCap:keyword term="resources" /><a name="Resources"></a>Resources</h5>
+        <p>Resources define distinct areas of functionality to which access can 
+ be granted or restricted. Most resources listed in OES Security Administration 
+ pertain to OEP, but resources exist for other Onyx products (such as OES and
+ OPS, as well. A resource also exists for each object.method 
+ in OEAS, regardless of which application uses it. For additional details 
+ about resources, see <i>Managing resources</i>.</p>
+        <h5>
+            <MadCap:keyword term="resource cache" /><a name="Resource_cache"></a>Resource cache</h5>
+        <p>The resource cache includes a bit in a permissions mask for each secured 
+ resource on the system. It provides an efficient means for the OTM to 
+ check user permissions. The cache is created the first time the Session 
+ Manager tries to access it and remains in memory. This means that if you 
+ make security modifications while OEAS is running, the changes to secured 
+ resources do not take effect until you restart the OEAS application.</p>
+        <h5>
+            <MadCap:keyword term="session" /><a name="Session"></a>Session</h5>
+        <p>A session starts when OEAS security validates a user and subsequently 
+ permits the OTM to service requests from the user. A session ends when 
+ a client explicitly ends the session or when the Session Manager component 
+ of the OEAS determines that the session has timed out. When a user is 
+ validated, the Session Manager creates the user's session and assigns 
+ it a unique ID. The Session Manager maintains information about the session 
+ until it ends.</p>
+        <p>Sessions provide a single scheme for OEAS to identify users and manage 
+ their sessions regardless of how they were authenticated. A client passes 
+ the session ID with all requests to the OTM for constant verification 
+ throughout the course of a session.</p>
+        <h5><a name="Session_creation"></a>Session creation</h5>
+        <p>When an authentication component validates a user, 
+ the session manager issues a session ID for the user. The authentication 
+ components record the following information for a session:</p>
+        <ul>
+            <li>Onyx user ID</li>
+            <li>Application</li>
+            <li>Client</li>
+            <li>Original user</li>
+            <li>Log name</li>
+            <li>Log settings</li>
+            <li>Site ID</li>
+            <li>Start time</li>
+            <li>Last access time</li>
+            <li>Preferred language</li>
+            <li>Permissions mask</li>
+        </ul>
+        <p>Each service request to the OTM must specify a valid session ID. To 
+ increase the level of security, particularly where the Onyx user is not 
+ mapped to a Windows login, sessions time out after a period of inactivity. 
+ This renders the session ID invalid. When an OTM request fails because 
+ of a session time-out, the client must again authenticate the user and 
+ establish a new session.</p>
+        <h5><a name="Session_lifetime"></a>Session lifetime</h5>
+        <p>A session begins with a successful call to an authentication component's 
+ EstablishSession method, and a session ends when its time-out interval 
+ expires or is removed with a call to the ISession::EndSession method.</p>
+        <p>Sessions time out after a specified number of seconds or minutes elapse. 
+ The GlobalSessionTimeout system parameter indicates the time-out interval.</p>
+        <p>When a session is established, the Session Manager removes expired sessions. 
+ The session cleanup occurs conditionally: it depends on how much time 
+ has elapsed since the last cleanup.</p>
+        <h5><a name="Session_state"></a>Session state</h5>
+        <p>A session has two types of state information associated with it: session 
+ system state and session user state.</p>
+        <p>Most of session system state information is created when the session 
+ is first established. With the exception of the last accessed time, the 
+ session system state information cannot be changed during the lifetime 
+ of the session. The system updates session system state information every 
+ time the client makes a new request to the OTM within a given session. 
+ The user permissions for various resources are also part of this state.</p>
+        <p>The session user state consists primarily 
+ of the session variables. Client applications can create and maintain 
+ session variables that are associated with a session ID. Use the session 
+ variables sparingly, because each time you retrieve or set a session variable, 
+ a round trip to the database is required. </p>
+    </body>
+</html>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="1548" MadCap:lastWidth="648" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+		<title>retrieveList method</title>
+    </head>
+    <body>
+               <h6>
+            <MadCap:keyword term="retrieveList" />
+            <MadCap:keyword term="retrieveList method" />retrieveList method</h6>
+        <p>The following table describes the behavior to expect for retrieveList 
+ methods. </p>
+        <p>Behavior based on the stored procedure return code value defines the 
+ entire result set. In this case, the return code column is listed as not 
+ applicable (N/A) because it is not included in the result set. For stored 
+ procedure return code values less than or equal to zero (&lt;0), the result 
+ set must contain a column for each columnDefinition defined in the rowSet 
+ parameter of the given object and method. The columns in the result set 
+ must be returned in the order they are defined in the columnDefinitions. 
+ The middle tier uses the column names and/or aliases to populate the columnName 
+ of each columnDefinition. For more information, see the <a href="standard_retrieveList.htm">retrieveList 
+ method</a>.</p>
+        <p>When the contentOut on a retrieveList method's rowSet parameter is "dynamic" 
+ (as it is for the searchQuery.execute method, for instance), the procedure 
+ has total control of the result set and it can be any number of columns, 
+ even changing from one call to the next.</p>
+        <p>Behavior only applies to the single row when the return code column 
+ is applicable. </p>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Table_1.css');" class="TableStyle-Aptean_Table_1" cellspacing="0">
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 5cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 5cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 7cm;" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_1-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead">Stored procedure return code value</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead">Return code column <span style="margin-bottom: 0;">value</span></p>
+                        <p class="tablehead">&#160;</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadD-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Behavior</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">&#160;-2 
+ to -299,999,999</p>
+                        <p class="TableText" style="margin-bottom: 0;">&#160;</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">N/A</p>
+                        <p class="tabletext">&#160;</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText">The procedure is successful and the result set parameter 
+ contains the rows of data being successfully returned from the database.</p>
+                        <p class="TableText" style="margin-bottom: 0;">The ODM retrieves the value of the return_status.status_code 
+ column to obtain the national language message ID.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">-300,000,000 or less</p>
+                        <p class="tabletext">&#160;</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">N/A</p>
+                        <p class="tabletext">&#160;</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText">The procedure is successful and the result set parameter 
+ contains the rows of data being successfully returned from the database.</p>
+                        <p class="TableText">The return code parameter value is converted to a positive 
+ value and the MOD result of the value corresponds to the national language 
+ beginning grid heading value used to generate the column headings for 
+ the columns being returned.</p>
+                        <p class="Note" style="margin-bottom: 0;" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">In most instances when a database result 
+ set is returned, the column heading values are controlled by the OED. 
+ However, in cases where the stored procedure contains some logic that 
+ would necessitate one or more possible different sets of column headings, 
+ you can control the column headings used by passing a parameter value 
+ of -300,000,000 or less.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">-1</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">N/A</p>
+                        <p class="tabletext">&#160;</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">The return code parameter values of -1 is 
+ not supported for retrieveList methods. If you return a value of -1 a 
+ message is returned stating that an invalid return code was returned by 
+ the OEDB, but your procedure is otherwise successful.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">0</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">N/A</p>
+                        <p class="tabletext">&#160;</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">The result set parameter contains the rows 
+ of data being successfully returned from the database by a retrieval procedure.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">1</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">1</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="font-weight: bold;"><span style="font-weight: bold;"><span style="font-weight: bold;">T</span>he 
+ row contains the following information:</span>
+                        </p>
+                        <p class="TableText"><span style="font-weight: bold;">o#_sequence_number 
+ -</span> NULL.</p>
+                        <p class="TableText"><span style="font-weight: bold;">status_code -</span> 
+ This is the national language message ID 738823, which corresponds to 
+ a generic database error message.</p>
+                        <p class="TableText"><span style="font-weight: bold;">database_code -</span> 
+ This is the SQL Server database error code.</p>
+                        <p class="TableText"><span style="font-weight: bold;">database_message -</span> 
+ This is the SQL Server database error message.</p>
+                        <p class="TableText" style="margin-bottom: 0;"><span style="font-weight: bold;">database_id 
+ -</span> NULL.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">2</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">2</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText" style="font-weight: bold;"><span style="font-weight: bold;"><span style="font-weight: bold;">T</span>he 
+ row contains the following information:</span>
+                        </p>
+                        <p class="TableText"><span style="font-weight: bold;">o#_sequence_number 
+ -</span> NULL.</p>
+                        <p class="TableText"><span style="font-weight: bold;">status_code -</span> 
+ This is a national language message ID, the value of which corresponds 
+ to the error message you want to provide the user regarding the failure 
+ of the procedure.</p>
+                        <p class="TableText"><span style="font-weight: bold;">database_code -</span> 
+ NULL.</p>
+                        <p class="TableText"><span style="font-weight: bold;">database_message -</span> 
+ NULL or the value to use for the "~2" replacement holder in 
+ the national language message.</p>
+                        <p class="TableText" style="margin-bottom: 0;"><span style="font-weight: bold;">database_id 
+ -</span> NULL.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

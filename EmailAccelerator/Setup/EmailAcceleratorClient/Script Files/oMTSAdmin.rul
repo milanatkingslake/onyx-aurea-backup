@@ -1,0 +1,906 @@
+////////////////////////////////////////////////////////////////////////////
+// Searches the target dir for PAK files.
+// Loops through all files in dir and checks to see if they are shared (via setup.ini).
+// If shared, then setup scans MTS for an existing copy.
+// If existing copy, check version.
+// If same, do nothing.
+// If older, copy new PAK file over old one and import.
+// Returns path to packages in szPackageDir
+////////////////////////////////////////////////////////////////////////////
+function OInstallMTSPackages(szPackageDir)
+INT nLoop,bImport,lResult;
+STRING szPakFile,szFile,szTemp,szProgID,szOldPak,szMsg;
+begin
+	//determine PackDir
+	OGetValueFromINI("MTS","PackageDir",szPackageDir);
+	if(szPackageDir = "")then
+		szPackageDir = TARGETDIR;
+	else
+		OParseMacros(szPackageDir);
+	endif;
+
+	//search for all PAK files
+	nLoop = FindAllFiles(szPackageDir,"*.PAK",szPakFile,RESET);
+	while(nLoop = 0)
+	//loop though them all
+		//look for an shared component package id entry in setup.ini
+		ParsePath(szFile,szPakFile,FILENAME);
+		OGetValueFromINI(szFile,"Shared",szProgID);
+		if(szProgID != "")then
+			//if listed in ini, scan MTS for existing component.
+			lResult = oMTSGetComponentPath(szProgID,szOldPak);
+			if(lResult = FALSE)then
+				//same Program ID, so do not import package again.
+				Sprintf(szMsg,"This ProgId already exists in MTS.  Not imported.  Package=%s  ProgID=%s",szFile,szProgID);
+				ODebugDsp(szMsg,19);
+				OLog(szMsg);
+			else
+				//old pak not found, import the new one.
+				bImport = TRUE;
+				Sprintf(szMsg,"This ProgId not found in MTS.  Will import.  Package=%s  ProgID=%s",szFile,szProgID);
+				OLog(szMsg);
+			endif;
+		else
+			Sprintf(szMsg,"No shared package ID to search for.  Package=%s",szFile);
+			OLog(szMsg);
+			bImport = TRUE;
+		endif;
+		
+		//import pak file.
+		if(bImport)then
+			ParsePath(szTemp,szPakFile,FILENAME_ONLY);
+			Sprintf(szMsg,@STATUS_MTS_COMPONENTS,szTemp);
+			SdShowMsg("", FALSE);
+			SdShowMsg(szMsg, TRUE);
+			OLog(szMsg);
+			
+			//remove any existing copy of the package from MTS		
+			lResult = oMTSRemovePackage(szPakFile);
+			switch (lResult)
+			case 0:
+				Sprintf(szMsg,@MSG_MTS_REMOVED,szPakFile);
+				OLog(szMsg);
+			case 1:
+				Sprintf(szMsg,@ERROR_MTS_PACKAGE_NOT_EXIST,szPakFile);
+				OLog(szMsg);
+			default:
+				oMTSPackageError(szPakFile,lResult);
+			endswitch;
+			
+			lResult = oMTSImportPackage(szPakFile,g_structNTAccount.szLogin,g_structNTAccount.szPassword,szPackageDir);
+			if(lResult != 0)then
+				oMTSPackageError(szPakFile,lResult);
+			endif;
+		endif;
+		
+		//get next pak file.
+		szProgID = "";
+		nLoop = FindAllFiles(szPackageDir,"*.PAK",szPakFile,CONTINUE);
+	endwhile;
+end;
+
+/*
+////////////////////////////////////////////////////////////////////////////
+//Opens the specified package file and retrives the Class Id for the object.
+//which resides in the first line.
+////////////////////////////////////////////////////////////////////////////
+function _GetPAKfileCLSID(szPakFile,szCLSID)
+INT nFileHandle,nStart,nEnd;
+STRING szFile,szPath,szLine,szMsg;
+begin
+	//open file
+	ParsePath(szFile,szPakFile,FILENAME);
+	ParsePath(szPath,szPakFile,PATH);
+	if(OpenFile(nFileHandle,szPath,szFile) =0 )then
+		//first line in file is the CLSID
+		if(GetLine(nFileHandle,szLine) =0 )then
+			//parse data within {} brakets.
+			nStart = StrFind(szLine,"{");
+			nEnd = StrFind(szLine,"}");
+			StrSub(szCLSID,szLine,nStart+1,nEnd-nStart-1);
+			return TRUE;
+			//return value.
+		else;
+			szMsg = @ERROR_MOVEDATA4+"\n"+szPakFile;
+			ODebugDsp(szMsg,19);
+			OLog(szMsg);
+		endif;
+	else
+		Sprintf(szMsg,@ERROR_FILE_OPEN,szPakFile);
+		ODebugDsp(szMsg,19);
+		OLog(szMsg);
+	endif;
+	return FALSE;
+end;
+*/
+
+//////////////////////////////////////////////////////////////
+// oMTSAdmin.rul
+//
+//	Install sheild routines for controlling the MTS catalog via
+//  OMTSINS.DLL
+//
+//	Author: Ron Jacobs
+//	Date: 8/25/99
+//
+//////////////////////////////////////////////////////////////
+function AddRefMTSAdminDLL()
+STRING szMsg;
+begin
+	// Is it already loaded?
+	if (gAdminDLLRefCount > 0) then
+		// increment the ref count
+		gAdminDLLRefCount++;
+		return 0;
+	else	
+		// Load it	
+		if (UseDLL( SUPPORTDIR ^ "OMTSIns.dll" ) = 0) then
+			gAdminDLLRefCount = 1;
+			return 0;
+		else // Error loading, show message
+			szMsg = @ERROR_LOADDLL +" "+SUPPORTDIR ^ "OMTSIns.dll";
+			MessageBox(szMsg,WARNING);
+			OLog(szMsg);
+			return -1;
+		endif;	
+	endif;
+end;
+
+///////////////////////////////////////////////////////////////////////
+// releases the oMTSins.dll
+///////////////////////////////////////////////////////////////////////
+function ReleaseMTSAdminDLL()
+STRING szMsg;
+begin
+	// Is it still loaded
+	if (gAdminDLLRefCount = 0) then
+		return 0;
+	else
+		// decrement the reference count
+		gAdminDLLRefCount--;
+		if (gAdminDLLRefCount = 0) then
+			// unload it	
+			if (UnUseDLL( SUPPORTDIR ^ "OMTSIns.dll" ) = 0) then
+				return 0;
+			else // Error loading, show message
+				szMsg = @ERROR_UNLOADDLL +" "+SUPPORTDIR ^ "OMTSIns.dll";
+				MessageBox(szMsg,WARNING);
+				OLog(szMsg);
+				return -1;
+			endif;		
+		endif;
+	endif;
+end;
+
+/*
+///////////////////////////////////////////////////////////////////////
+//
+///////////////////////////////////////////////////////////////////////
+function oMTSInstallPackagesFrom(szInstallFromPath, szIdentity, szPassword)
+LONG lReturn;
+begin
+	if (AddRefMTSAdminDLL() = 0) then		
+		if(g_structSetupMode.nDebug != 21)then
+			lReturn = ImportPackagesFrom(szInstallFromPath, szIdentity, szPassword);
+		endif;
+		ReleaseMTSAdminDLL();	
+	else
+		lReturn = -1;
+	endif;
+	return lReturn;
+end;
+*/
+
+///////////////////////////////////////////////////////////////////////
+// Shuts down all MTS package with szPackageTag in the package name
+///////////////////////////////////////////////////////////////////////
+function oMTSShutdownPackageByTag(szPackageTag)
+LONG lReturn;
+begin
+	if (AddRefMTSAdminDLL() = 0) then
+		if(g_structSetupMode.nDebug != 21)then
+			lReturn = ShutdownPackageByName(szPackageTag);
+		endif;
+		ReleaseMTSAdminDLL();
+	else
+		lReturn = -1;
+	endif;
+	return lReturn;
+end;
+
+////////////////////////////////////////////////////////////
+//
+// look in setup.ini for list of packages to shutdown
+// if found, also puts package in list to be used later.
+//
+////////////////////////////////////////////////////////////
+function OMTSShutdownPackages(listOfPaks)
+LONG lResult;
+INT nLoop,bImport,bShutdown;
+STRING szPakFile,szTemp,szProgID,szOldPak,szMsg,szPackageDir;
+begin
+	//determine PackDir
+	OGetValueFromINI("MTS","TempPackageDir",szPackageDir);
+	if(szPackageDir = "")then
+		szPackageDir = SRCDIR;
+	else
+		OParseMacros(szPackageDir);
+		//need to strip file name off
+	endif;
+
+	//search for all PAK files
+	nLoop = FindAllFiles(szPackageDir,"*.PAK",szPakFile,RESET);
+	while(nLoop = 0)
+		
+		//see if package is listed in ini for deleting.
+		OGetValueFromINI("MTS","Shutdown",szTemp);
+		StrToUpper(szTemp,szTemp);
+		if(szTemp = "LIST")then
+			ParsePath(szTemp,szPakFile,FILENAME_ONLY);//name only
+			OGetValueFromINI("MTS",szTemp,szTemp); //name is entry label name
+			StrToUpper(szTemp,szTemp);
+			if(szTemp = "REMOVE" || szTemp = "SHUTDOWN")then
+				ListAddString(listOfPaks,szPakFile,AFTER);
+				OLog("Found old MTS package: "+szPakFile);	
+				bShutdown = TRUE;
+			endif;
+		else
+			bShutdown = TRUE;
+		endif;
+		
+		//shutdown the package if all is good.
+		if (bShutdown) then
+			//update display
+			ParsePath(szTemp,szPakFile,FILENAME_ONLY);
+			Sprintf(szMsg,@STATUS_MTS_SHUTDOWN,szTemp);
+			SdShowMsg("", FALSE);
+			SdShowMsg(szMsg, TRUE);
+			
+			lResult = oMTSShutdownPackage(szPakFile);		//use pakfile to shutdown package
+						
+			if (lResult != 0) then
+				if(lResult = E_INVALIDARG)then
+					//package not found.
+					szMsg = "Package not found: "+szPakFile;
+					OLog(szMsg);
+				else;
+					SdShowMsg("",FALSE);
+					Sprintf(szMsg,@ERROR_MTS_SHUTDOWN,szPakFile);
+					MessageBox(szMsg,SEVERE);
+					SdShowMsg(szMsg, TRUE);
+					OLog(szMsg);
+					// bail out
+					return lResult;
+				endif;
+			else;
+				szMsg = "Package Shutdown Succeeded: "+szPakFile;
+				OLog(szMsg);
+			endif;
+		endif;
+		
+		nLoop = FindAllFiles(szPackageDir,"*.PAK",szPakFile,CONTINUE);
+	endwhile;
+	return lResult;
+end;
+
+/*///////////////////////////////////////////////////////////////////
+   Function: oMTSShutdownPackage
+
+	Created: 1999/08/26
+
+Description: Shuts down the MTS package represented by the file if
+			 previously installed and running.
+
+Parameters:
+	[in]	szPackageFileName		The full path of the package file
+
+  Comments:
+			Packages are shut down by ID, not by name.  There may be more than one
+			package with the same name present but only the one that matches the ID
+			will be shut down.
+
+ Revisions:
+
+*/////////////////////////////////////////////////////////////////////
+function oMTSShutdownPackage(szPackageFileName)
+LONG lReturn;
+STRING szMsg;
+begin
+	if (AddRefMTSAdminDLL() = 0) then		
+		if(g_structSetupMode.nDebug != 21)then
+			lReturn = ShutdownPackage(szPackageFileName);
+		endif;
+		Sprintf(szMsg,"ShutdownPackage Returned: %d",lReturn);
+		OLog(szMsg);
+		ReleaseMTSAdminDLL();
+	else
+		lReturn = -1;
+	endif;
+	return lReturn;
+end;
+
+/*///////////////////////////////////////////////////////////////////
+   Function: oMTSRemovePackage
+
+	Created: 1999/08/26
+
+Description: Removes an MTS package based on the .PAK file
+
+ Parameters:
+			[in]   STRING szPackageFileName	Full path of the package file
+
+   Comments:
+
+  Revisions:
+
+*/////////////////////////////////////////////////////////////////////
+function oMTSRemovePackage(szPackageFileName)
+LONG lReturn;
+STRING szMsg;
+begin
+	if (AddRefMTSAdminDLL() = 0) then
+		if(g_structSetupMode.nDebug != 21)then
+			lReturn = RemovePackage(szPackageFileName);
+		endif;
+		Sprintf(szMsg,"RemovePackage Returned: %d",lReturn);
+		OLog(szMsg);
+		ReleaseMTSAdminDLL();
+	else
+		lReturn = -1;
+	endif;
+	return lReturn;
+end;
+
+
+/*///////////////////////////////////////////////////////////////////
+   Function: oMTSImportPackage
+
+	Created: 1999/08/26
+
+Description: Imports a .PAK file
+
+ Parameters:
+			[in]   const char * szPackageFileName	Full path of the package file
+			[in]   const char * szIdentity			The NT account to run the package under
+			[in]   const char * szPassword			The password of the NT account
+			[in]   const char * szDestDir			The destination dir.  Can be same path as in packagefilename
+   Comments:
+		If the package already exists, an error (E_MTS_PACKAGEEXISTS) will be returned
+		if no Identity and Password are specified, the object will run as Interactive User
+
+  Revisions:
+
+*/////////////////////////////////////////////////////////////////////
+function oMTSImportPackage(szPackageFileName,szIdentity,szPassword,szDestDir)
+LONG lReturn;
+STRING szMsg;
+begin
+	if (AddRefMTSAdminDLL() = 0) then
+		if(g_structSetupMode.nDebug != 21)then
+			lReturn = ImportPackage(szPackageFileName,szIdentity,szPassword,szDestDir);
+		endif;
+		Sprintf(szMsg,"ImportPackage Returned: %d",lReturn);
+		OLog(szMsg);
+		ReleaseMTSAdminDLL();
+	else
+		lReturn = -1;
+	endif;
+	return lReturn;
+end;
+
+///////////////////////////////////////////////////////////////////
+// asks the user for a path to export MTS packages to.
+///////////////////////////////////////////////////////////////////
+function oMTSPromptForExportPath(szPath)
+STRING szTitle,szMsg,szResult,szTemp;
+INT nLoop,nResult;
+begin
+
+	OGetValueFromINI("MTS","ExportPakDir",szPath);
+	OParseMacros(szPath);
+	
+	//establish default dir.
+	if(szPath = "")then
+		szPath = WINDISK ^ "MTS Exports";
+	endif;
+
+   	szTitle = @MSG_MTS_EXPORT;
+   	szMsg   = @PROMPT_MTS_EXPORT_DIR;
+   	nLoop = BACK;
+	while(nLoop = BACK)
+		nResult = SdAskDestPath( szTitle, szMsg, szPath, 0 );
+
+		if(nResult = NEXT)then
+			if(szPath = "")then
+				nResult = FALSE;
+				//The %s field requires an entry. Please enter a value.
+				Sprintf(szMsg,@ERROR_BLANK_ENTRY,@MSG_MTS_EXPORT);
+				MessageBox(szMsg,WARNING);				
+			else
+				if(ExistsDir(szPath) =0 )then
+		    		//check for existing files in the specified dir.
+					nResult = ODialogShowAskToOverwrite(szPath,"*.*",@WARNING_OVERWRITE+"\n"+szPath);
+				else
+					if(CreateDir(szPath) <0 )then
+						Sprintf(szMsg,@ERROR_CREATEDIR,szPath);
+						MessageBox(szMsg,WARNING);
+						nResult = FALSE;
+					endif;
+				endif;
+			endif;
+		endif;
+		nLoop = nResult;
+	endwhile;
+
+	return nResult;
+end;
+///////////////////////////////////////////////////////////////////////
+// loops through all pak files found in specified dir and exports them
+// to the specified target dir.
+///////////////////////////////////////////////////////////////////////
+function oMTSExportPackages(szSource,szTarget)
+INT nLoop,lResult;
+STRING szTemp,szPakFile,szFile;
+begin
+	//search for all PAK files
+	nLoop = FindAllFiles(szSource,"*.PAK",szPakFile,RESET);
+	while(nLoop = 0)
+		//look for an entry in setup.ini
+		ParsePath(szFile,szPakFile,FILENAME);
+		OGetValueFromINI(szFile,"Export",szTemp);
+		StrToUpper(szTemp,szTemp);
+		if(szTemp != "NO")then
+			//update display
+			ParsePath(szTemp,szPakFile,FILENAME_ONLY);
+			Sprintf(szTemp,@STATUS_MTS_EXPORTS,szTemp);
+			SdShowMsg("", FALSE);
+			SdShowMsg(szTemp, TRUE);
+			
+			szTemp = szTarget^szFile;
+			if(g_structSetupMode.nDebug != 21)then
+				lResult = oMTSExportPackage(szPakFile,szTemp);
+			endif;
+			if(lResult != 0 )then
+				szTemp = @ERROR_MTS_PACKAGE_EXPORT+"\n"+szTarget^szFile;
+				switch(lResult)
+					case E_MTS_PDFWRITEFAIL:
+						szTemp = szTemp +"\n\n"+@ERROR_MTS_EXPORT_WRITE;
+					default:
+				endswitch;
+				OLog(szTemp);
+				MessageBox(szTemp,WARNING);
+			endif;
+		endif;
+		
+		nLoop = FindAllFiles(szSource,"*.PAK",szPakFile,CONTINUE);
+	endwhile;
+end;
+/*///////////////////////////////////////////////////////////////////
+   Function: oMTSExportPackage
+
+	Created: 1999/08/26
+
+Description: Exports the package represented by the .PAK file to a specified location
+
+ Parameters:
+			[in]   const char * szPackageFileName	Full path of the package file
+			[in]   const char * szExportPath		Path to export to
+
+   Comments:
+		The package file must have been previously imported prior to exporting it.
+
+  Revisions:
+
+*/////////////////////////////////////////////////////////////////////
+function oMTSExportPackage(szPackageFileName,szExportPath)
+LONG lReturn;
+STRING szMsg;
+begin
+	if (AddRefMTSAdminDLL() = 0) then
+		if(g_structSetupMode.nDebug != 21)then
+			lReturn = ExportPackage(szPackageFileName,szExportPath);
+		endif;
+		Sprintf(szMsg,"ExportPackage Returned: %d",lReturn);
+		OLog(szMsg);
+		ReleaseMTSAdminDLL();
+	else
+		lReturn = -1;
+	endif;
+	return lReturn;
+end;
+
+/////////////////////////////////////////////////////////////////////////////
+// searches MTS for the specified Program ID, and returns the path to the DLL if found.
+/////////////////////////////////////////////////////////////////////////////
+function oMTSGetComponentPath(szProgID,szOldPak)
+LONG lReturn;
+STRING szMsg;
+begin
+	if (AddRefMTSAdminDLL() = 0) then
+		if(g_structSetupMode.nDebug != 21)then
+			lReturn = GetComponentPath(szProgID,szOldPak);
+		endif;
+		Sprintf(szMsg,"GetComponentPath Returned: %d",lReturn);
+		OLog(szMsg);
+		ReleaseMTSAdminDLL();
+	else
+		lReturn = -1;
+	endif;
+	return lReturn;
+end;
+
+/*
+//////////////////////////////////////////////////////////////////////////////////////////////
+//Will look for previous installed PAK files located in the previous dir passed in.
+//The package files to be looked for are provided in setup.ini
+//If a Package is found, it's path and name are added to a list passed in.
+//these are to be used later to shutdown and delete from MTS if a new ones are to be installed.
+//////////////////////////////////////////////////////////////////////////////////////////////
+function OGetListOfOldPackages(szDir,listOfPaks)
+STRING szPath,szFile;
+INT nLoop;
+begin
+	if(szDir != "")then
+		//get a .pak file in specified dir.
+		ParsePath(szPath,szDir,PATH);
+		nLoop = FindFile(szPath,"*.PAK",szFile);
+		//loop through all pak files found.
+		while(nLoop = 0)
+			//if pak file in setup.ini, add to global list
+			ListAddString(listOfPaks,szPath ^ szFile,AFTER);
+			OLog("Found old MTS package: "+szPath ^ szFile);
+			nLoop = FindFile(szPath,"*.PAK",szFile);
+		endwhile;
+	endif;
+end;
+*/
+
+///////////////////////////////////////////////////////////////////////////
+// remove all packages from MTS in the passed in list.
+// shutdown packages function populates a list with packages found to shutdown.
+///////////////////////////////////////////////////////////////////////////
+function ODeleteOldPackages(listOfPaks)
+INT nLoop,lResult;
+STRING szPakFile,szMsg,szFile;
+begin
+	if(ListCount(listOfPaks) > 0 )then
+		nLoop = ListGetFirstString(listOfPaks,szPakFile);
+		while(nLoop != END_OF_LIST)
+			//update status
+			ParsePath(szFile,szPakFile,FILENAME_ONLY);
+			Sprintf(szMsg,@STATUS_MTS_REMOVE,szFile);
+			SdShowMsg("", FALSE);
+			SdShowMsg(szMsg, TRUE);
+			OLog(szMsg);
+
+			//shut it down.
+			lResult = oMTSRemovePackage(szPakFile);
+
+			if(lResult != 0 )then
+				oMTSPackageError(szPakFile,lResult);
+			endif;
+			nLoop = ListGetNextString(listOfPaks,szPakFile);
+		endwhile;
+	endif;
+end;
+
+////////////////////////////////////////////////
+// Processes MTS error number and logs and displays
+////////////////////////////////////////////////
+function oMTSPackageError(szPakFile,lResult)
+STRING szMsg,szTemp;
+begin
+	ParsePath(szTemp,szPakFile,PATH);
+	StrRemoveLastSlash(szTemp);
+	ODebugDsp(szPakFile+"\n"+g_structNTAccount.szLogin+"\n"+g_structNTAccount.szPassword+"\n"+szTemp,20);
+//	lResult = oMTSImportPackage(szPakFile,g_structNTAccount.szLogin,g_structNTAccount.szPassword,szTemp);
+	if (lResult != 0) then
+		switch (lResult)
+		case E_MTS_ALREADYINSTALLED:
+			Sprintf(szMsg,@ERROR_MTS_ALREADY_INSTALLED,szPakFile);
+		case E_MTS_BADPATH:
+			Sprintf(szMsg,@ERROR_MTS_BAD_PATH,szPakFile);
+		case E_MTS_CANTCOPYFILE:
+			Sprintf(szMsg,@ERROR_MTS_IMPORT_COPY,szPakFile);
+		case E_MTS_PACKAGEEXISTS:
+			szMsg = @ERROR_MTS_PACKAGE_EXISTS+"\n"+szPakFile;
+		case E_MTS_USERPASSWDNOTVALID:
+			Sprintf(szMsg,@ERROR_MTS_BAD_PASSWORD,g_structNTAccount.szLogin);
+		case E_MTS_CLSIDORIIDMISMATCH:
+			szMsg = @ERROR_MTS_BAD_ID+"\n"+szPakFile;
+		case E_MTS_OBJECTERRORS:
+			szMsg = @ERROR_MTS_OBJECT_ERROR+"\n"+szPakFile;
+		case E_ACCESSDENIED:
+			szMsg = @ERROR_MTS_ACCESS_DENIED+"\n"+szPakFile;
+		default:
+			szMsg = @ERROR_MTS_IMPORT_FILE+"\n\n"+szPakFile;
+		endswitch;
+		OLog(szMsg);
+		MessageBox(szMsg,SEVERE);
+		OAbort();  //cannot continue.
+	endif;
+
+end;
+
+
+////////////////////////////////////////////////////////////
+//
+// look in setup.ini for the applications to shutdown
+// this is the same info used to add the applications.
+// uses OMTSIns.DLL
+//
+////////////////////////////////////////////////////////////
+function OComShutdownApps()
+LONG lResult;
+INT nDone1,nCount1;
+STRING szTemp,szMsg,szName,szSection;
+begin
+
+	nCount1 = 1;
+	while (nDone1 = FALSE)
+		
+		NumToStr(szTemp,nCount1);
+		szSection = COM_APP_INI + szTemp;
+		OGetValueFromINI(szSection,"Name",szName);
+		if( szName != "") then
+		
+		    //update display with name
+		    Sprintf(szTemp,@STATUS_MTS_SHUTDOWN,szName);
+		    SdShowMsg("",FALSE);
+    		SdShowMsg(szTemp, TRUE);	
+
+			lResult = oMTSShutdownPackageByTag(szName);  //use name to shutdown package
+									
+			if (lResult != 0) then
+				if(lResult = E_INVALIDARG)then
+					//package not found.
+					szMsg = "COM+ App not found: "+szName;
+					OLog(szMsg);
+				else;
+					SdShowMsg("",FALSE);
+					Sprintf(szMsg,@ERROR_MTS_SHUTDOWN,szName);
+					MessageBox(szMsg,SEVERE);
+					SdShowMsg(szMsg, TRUE);
+					OLog(szMsg);
+					// bail out
+					return lResult;
+				endif;
+			else;
+				szMsg = "COM+ App Shutdown Succeeded: "+szName;
+				OLog(szMsg);
+			endif;
+		else
+			nDone1 = TRUE; //all done.
+		endif;
+		
+		nCount1++;
+	endwhile;
+	return lResult;
+end;
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//calls a VB exe to create a COM+ application (package) and add components to the appliction
+//and configure both the app and the components.  Gets data from shared data/plugin reg entry location.
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+function oCOMAddApp()
+STRING szKey,szSection,szCompKey,szInterface,szInterfaceKey,szInterfaceName,szComp,szRole,szUser,szTemp,szAppId,szDLL;
+INT nCount1,nCount2,nCount3,nDone1,nDone2,nDone3,nReturn;
+begin
+	szKey = "Software\\Onyx\\Setup\\COM\\Application";
+		
+	//For all entries, get raw info from setup.ini,
+	//resolve any macros, then write data to reg for vb exe.
+	nCount1 = 1;
+	while (nDone1 = FALSE)
+		
+		RegDBDeleteKey(szKey);  //remove the temp key to start over for this application
+		
+		NumToStr(szTemp,nCount1);
+		szSection = COM_APP_INI + szTemp;
+		nDone1 = !_ReadIniWriteReg(szSection,"Name",szKey,"Name",REGDB_STRING,0);
+		if( nDone1 = FALSE) then
+		
+		    //update display with name
+		    OGetValueFromINI(szSection,"Name",szTemp);
+		    Sprintf(szTemp,@MSG_COM_APP,szTemp);
+		    SdShowMsg("",FALSE);
+    		SdShowMsg(szTemp, TRUE);
+			
+			//for uninstall data at end of setup.
+//			OPutDataInRegForUninst(szSection,"Name",szTemp);
+			
+			_ReadIniWriteReg(szSection,"Directory",szKey,"Directory",REGDB_STRING,0);		
+			_ReadIniWriteReg(szSection,"ActivationServer",szKey,"ActivationServer",REGDB_STRING,0);	
+			_ReadIniWriteReg(szSection,"Queuing",szKey,"Queuing",REGDB_STRING,0);	
+			_ReadIniWriteReg(szSection,"EnableCRM",szKey,"EnableCRM",REGDB_STRING,0);			
+			_ReadIniWriteReg(szSection,"Enable3GB",szKey,"Enable3GB",REGDB_STRING,0);	
+			_ReadIniWriteReg(szSection,"RoleBasedSecurity",szKey,"RoleBasedSecurity",REGDB_STRING,0);	
+			_ReadIniWriteReg(szSection,"DisableDelete",szKey,"DisableDelete",REGDB_STRING,0);
+			_ReadIniWriteReg(szSection,"DisableChanges",szKey,"DisableChanges",REGDB_STRING,0);		
+ 			_ReadIniWriteReg(szSection,"LeaveRunning",szKey,"LeaveRunning",REGDB_STRING,0);		
+			_ReadIniWriteReg(szSection,"DefaultRole",szKey,"DefaultRole",REGDB_STRING,0);		
+//			  _ReadIniWriteReg(szSection,"ComponentTransactions",szKey,"ComponentTransactions",REGDB_STRING);		
+			_ReadIniWriteReg(szSection,"Authorization",szKey,"Authorization",REGDB_STRING,0);
+			_ReadIniWriteReg(szSection,"Transaction",szKey,"Transaction",REGDB_NUMBER,0);
+			_ReadIniWriteReg(szSection,"EventTrackingEnabled",szKey,"EventTrackingEnabled",REGDB_STRING,0);				
+			
+			//roles
+			nDone2 = FALSE;
+			nCount2 = 1;
+			while (nDone2 = FALSE)
+				NumToStr(szTemp,nCount2);
+				szRole = "Role" + szTemp;
+				nDone2 = !_ReadIniWriteReg(szSection,szRole,szKey,szRole,REGDB_STRING,0);
+				
+				//get role name and save
+				OGetValueFromINI(szSection,szRole,szTemp);
+				_PutRoleIntoStruct(szTemp,nCount2);
+
+				//now loop through all the users for each role.
+				nDone3 = FALSE;
+				nCount3 = 1;
+				while (nDone3 = FALSE)
+					NumToStr(szTemp,nCount3);
+					szUser = "User" + szTemp;
+					nDone3 = !_ReadIniWriteReg(szRole,szUser,szKey+"\\"+szRole,szUser,REGDB_STRING,0);
+					//now loop through all the users for each role.
+					nCount3++;
+				endwhile;
+
+				nCount2++;
+			endwhile;
+
+			//components
+			nDone2 = FALSE;
+			nCount2 = 1;
+			while (nDone2 = FALSE)
+				NumToStr(szTemp,nCount2);
+				szComp = "Component" + szTemp;
+				nDone2 = !_ReadIniWriteReg(szSection,szComp,szKey,szComp,REGDB_STRING,0);
+				nCount2++;
+				
+				//next recurse throught the component for setting specific to it.
+				OGetValueFromINI(szSection,szComp,szDLL);  //get dll name
+				OGetValueFromINI(szDLL,"AppId",szAppId); //now get app id for section name
+				if(szAppId != "")then
+					szCompKey = szKey + "\\" + szAppId; //subdir in reg is app id name of component.
+					_ReadIniWriteReg(szDLL,"Role",szCompKey,"Role",REGDB_STRING,0);
+					_ReadIniWriteReg(szDLL,"Transaction",szCompKey,"Transaction",REGDB_NUMBER,0);
+					_ReadIniWriteReg(szDLL,"EventTrackingEnabled",szCompKey,"EventTrackingEnabled",REGDB_STRING,0);
+					_ReadIniWriteReg(szDLL,"ObjectPoolingEnabled",szCompKey,"ObjectPoolingEnabled",REGDB_STRING,0);
+					
+					//also recurse for interface setting.
+					nDone3 = FALSE;
+					nCount3 = 1;
+					while (nDone3 = FALSE)
+						NumToStr(szTemp,nCount3);
+						szInterface = "Interface"+szTemp;
+						OGetValueFromINI(szDLL,szInterface,szInterfaceName);  //get inteface name
+						if(szInterfaceName != "")then
+							szInterfaceKey = szCompKey + "\\" + szInterfaceName;  //subdir in reg is inteface name of component.
+							_ReadIniWriteReg(szInterfaceName,"Role",szInterfaceKey,"Role",REGDB_STRING,0);
+						else
+							nDone3 = TRUE; //interface not found
+						endif;
+						nCount3++;
+					endwhile;
+				endif;
+				
+			endwhile;
+	
+			//for Account data set both logon and password.
+			OGetValueFromINI(szSection,"IdentityName",szTemp);
+			if(szTemp != "" )then
+				OParseMacros(szTemp);
+				OPutStringInReg("HKLM",szKey,"IdentityName",szTemp,REGDB_STRING);				
+			endif;
+			OGetValueFromINI(szSection,"IdentityPassword",szTemp);
+			if(szTemp != "" )then
+				OParseMacros(szTemp);
+				OPutStringInReg("HKLM",szKey,"IdentityPassword",szTemp,REGDB_STRING);	
+			endif;
+
+			//run exe for each app to create
+			if(g_structSetupMode.nDebug != 21)then
+				nReturn = OLaunchAppAndWait(SUPPORTDIR^"COMAutomation.exe","CreateApp");
+//				nReturn = 1;
+			else
+				MessageBox("Debug mode 21:  Do not run COMAutomation.exe to create COM+ app "+szKey,INFORMATION);
+				nReturn = NEXT;
+			endif;
+		
+			nCount1++;						
+			
+			//look for errors from vb exe in reg
+			if(_COMAppError())then
+//				OAbort();  //cannot continue.
+			endif;
+		
+		endif;
+	endwhile;
+	return nReturn;
+end;
+
+//
+//stores role name into struct for OParseMacros() to be able to use.
+//
+function _PutRoleIntoStruct(szRole,nIndex)
+STRING szTemp;
+begin
+	switch (nIndex)
+		case 1: g_structCOM.szRole1 = szRole;
+		case 2: g_structCOM.szRole2 = szRole;
+		case 3: g_structCOM.szRole3 = szRole;
+		case 4: g_structCOM.szRole4 = szRole;
+		default:
+			NumToStr(szTemp,nIndex);
+			MessageBox(@ERROR_COM_ROLE_CONFIG + "\n" + szRole+szTemp,INFORMATION);
+	endswitch;
+end;
+
+////////////////////////////////////////////////
+// Looks for COM+ errors in reg
+////////////////////////////////////////////////
+function _COMAppError()
+STRING szErrorType,szMsg[1024],szErrorNum,szValue;
+INT nvType,nReturn,nvSize;
+begin
+
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	RegDBGetKeyValueEx("Software\\Onyx\\Setup\\Plugin","ComErrorType",nvType,szErrorType,nvSize);
+	RegDBGetKeyValueEx("Software\\Onyx\\Setup\\Plugin","ComErrorMsg",nvType,szMsg,nvSize);
+	RegDBGetKeyValueEx("Software\\Onyx\\Setup\\Plugin","ComErrorNum",nvType,szErrorNum,nvSize);
+
+// need to have messages for specific errors, like when a component already exists under a different app name.
+//	select ErrorNum
+//		   case E_COMPONENT_EXISTS:   //0x80041011
+//			szMsg = @ERROR__COM_COMPEXISTS+"\n"+szComponentFile;
+	
+	
+	if(szErrorType != "")then
+		if (szErrorType = "COMMANDLINE") then
+			szMsg = @ERROR_COM_COMMAND +"\n"+ szErrorNum+"\n"+szMsg;
+		elseif (szErrorType = "APPLICATION") then
+			szMsg = @ERROR_COM_APP +"\n"+ szErrorNum +"\n"+szMsg;
+		elseif(szErrorType = "COMPONENT") then
+			szMsg = @ERROR_COM_COMPONENT +"\n"+ szErrorNum +"\n"+szMsg;
+		elseif(szErrorType = "ROLE") then
+			szMsg = @ERROR_COM_ROLE +"\n"+ szErrorNum +"\n"+szMsg;
+		elseif(szErrorType = "SETTING") then
+			szMsg = @ERROR_COM_SETTING +"\n"+ szErrorNum +"\n"+szMsg;
+		endif;
+
+		OLog(szMsg);
+		MessageBox(szMsg,SEVERE);
+		RegDBDeleteKey("Software\\Onyx\\Setup\\Plugin");  //remove the temp key to start over for next application
+
+		return TRUE;
+	endif;
+	return FALSE;
+end;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

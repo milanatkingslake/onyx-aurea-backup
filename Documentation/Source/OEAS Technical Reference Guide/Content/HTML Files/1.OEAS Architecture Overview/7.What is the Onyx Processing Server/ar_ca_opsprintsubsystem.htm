@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="564" MadCap:lastWidth="624">
+    <head>
+        <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head>
+            <link href="../../../Resources/TableStyles/Aptean_Note_Table_3.css" rel="stylesheet" MadCap:stylesheetType="table" /><title>Print Subsystem Processing</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>Print Subsystem Processing </h4>
+        <p>The print subsystem processes batches of order lines 
+ for print literature products with the following fulfillment types: </p>
+        <ul>
+            <li>Send as Printed Document (this type includes mailing 
+ labels)</li>
+            <li>Send as Physical Item</li>
+        </ul>
+        <p>To process these order lines, you first configure a fulfillment subsystem 
+ with a print engine, which creates a print subsystem. Printable literature 
+ products are created from Open XML Word with Mail Merge that supports 
+ data merging. A literature product that references this template must 
+ then be created. When an order is created for this literature product, 
+ the print subsystem processes the order line and, using the print logic 
+ in the template, sends it directly to the specified printer. These products 
+ can be printed for internal use or shipped to customers. For more information 
+ on creating print templates, see "Print templates" in <a href="../../7.OEAS Developers Reference/OEAS_customizing_ops.htm">Customizing OPS</a>.</p>
+        <p>Within a batch, print batch system document order lines are printed 
+ first. Within an order, print order system document order lines are printed 
+ first, then remaining print order lines are printed. </p>
+        <p>To process the print order line, the subsystem determines 
+ the destination printer as follows: </p>
+        <ul>
+            <li>The literatureOrderLine's printerName property 
+ is used if it is not null.</li>
+            <li>If the literatureOrderLine's printerName property 
+ is null, the printer associated with the literature product ordered is 
+ used.</li>
+        </ul>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">The literatureOrderLine's printerName and the literature 
+ product's associated printer must reference a network printer via an UNC 
+ path. </p>
+    </body>
+</html>

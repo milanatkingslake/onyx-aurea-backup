@@ -1,0 +1,263 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="8" MadCap:lastHeight="854" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Default subscription relationships and rules</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>Default subscription relationships and rules </h4>
+        <p>The following subscription relationships are created with installation 
+ of OEAS to support the subscribable objects provided with that installation. 
+ Rules that are set to true by default for each relationship are listed. 
+ No role-based rules are set to true by default. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">The <span class="UIElement" style="font-weight: bold;">Always subscribe the primary 
+ object</span> rules that are provided by default are required rules. Changing 
+ this rule can adversely affect the display of records in OEP-Offline. 
+ It can also cause incomplete unsubscription cascades resulting in unnecessary 
+ synchronization of records and orphaned offline records (records that 
+ the end-user cannot access). For more details about required relationships, 
+ see <a href="AR_CA_SubscDefaultsReq.htm">Required subscription relationships</a>.</p>
+        <table>
+            <col />
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Subscribable object </th>
+                    <th>Relationship/Description </th>
+                    <th>Required </th>
+                    <th>Default rules/Description </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">company</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">company parent Â&#160;of a company</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Subscribe primary object and cascade its subscription relationships</b> <![CDATA[ ]]></p>
+                        <p class="Table_Text">With subscription to a company, the end-user is also subscribed to
+ its Â&#160;parent company.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">company</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Individual primary contact for company</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Subscribe
+ primary object and cascade its subscription relationships</b>
+                        </p>
+                        <p class="Table_Text">With
+ subscription to a company, the end-user is also subscribed to its primary
+ contact (individual).</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="2">
+                        <p class="Table_Text">
+                            <p class="Table_Text">
+                                <p class="Table_Text">forecast</p>
+                            </p>
+                        </p>
+                    </td>
+                    <td rowspan="2">
+                        <p class="Table_Text">
+                            <p class="Table_Text">
+                                <p class="Table_Text">incident
+ owner of a forecast</p>
+                            </p>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">3</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Always
+ subscribe the primary object</b>
+                        </p>
+                        <p class="Table_Text">There
+ is no means for an end-user to explicitly subscribe to a forecast in OEP or OEP-Offline,
+ so this rule only affects cascaded unsubscriptions and deletions. When an incident
+ is unsubscribed or deleted, its secondary forecast object is also unsubscribed
+ or deleted.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Subscribe
+ secondary object and cascade its subscription relationships</b>
+                        </p>
+                        <p class="Table_Text">With
+ subscription to an incident, the end-user is also subscribed its orecast. You
+ can prevent subscriptions to forecasts by setting this rule to false.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">incident</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">company
+ owner of an incident</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">3</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Always
+ subscribe the primary object</b>
+                        </p>
+                        <p class="Table_Text">With
+ subscription to an incident, the end-user is also subscribed its owner
+ company.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">incident</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">individual
+ owner of an incident</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">3</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Always
+ subscribe the primary object</b>
+                        </p>
+                        <p class="Table_Text">With
+ subscription to an incident, the end-user is also subscribed its owner
+ individual.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">incident</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Individual
+ primary contact of an incident</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Subscribe
+ primary object and cascade its subscription relationships</b>
+                        </p>
+                        <p class="Table_Text">With
+ subscription to an incident, the end-user is also subscribed to its primary
+ contact (individual).</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">individual</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">company
+ ID of the individual</p>
+                    </td>
+                    <td>
+                        <p>&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Subscribe
+ primary object and cascade its subscription relationships</b>
+                        </p>
+                        <p class="Table_Text">With
+ subscription to an individual, the end-user is also subscribed to the company
+ that has been linked to that individual.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="2">
+                        <p class="Table_Text">quote</p>
+                    </td>
+                    <td rowspan="2">
+                        <p class="Table_Text">incident
+ owner of a quote</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">3</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Always
+ subscribe the primary object</b>
+                        </p>
+                        <p class="Table_Text">With
+ subscription to a quote, the end-user is also subscribed to its owner
+ incident.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="font-weight: bold;">Subscribe
+ secondary object and cascade
+ its subscription</p>
+                        <p class="Table_Text" style="font-weight: bold;">relationships</p>
+                        <p class="Table_Text">With
+ subscription to an incident, the end-user</p>
+                        <p class="Table_Text">is also subscribed to its quotes.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">task</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Individual
+ primary contact of a task</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="font-weight: bold;">Subscribe
+ primary object and</p>
+                        <p class="Table_Text" style="font-weight: bold;">cascade
+ its subscription</p>
+                        <p class="Table_Text" style="font-weight: bold;">relationships</p>
+                        <p class="Table_Text">With
+ subscription to a task, the</p>
+                        <p class="Table_Text">end-user
+ is also subscribed to its</p>
+                        <p class="Table_Text">primary contact (individual).</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The subscription relationships created with installation of OEAS support 
+ the subscribable objects provided with that installation. To create subscription 
+ relationships for custom subscribable objects, see “Adding a subscribable 
+ custom object” in the <em class="Emphasis">OEP-Offline Developer’s Reference</em>. 
+ </p>
+        <p>For more information about the OEAS object relationships see “Object 
+ relationships” in the <em class="Emphasis">OEAS Developer’s Reference</em>. 
+ </p>
+    </body>
+</html>

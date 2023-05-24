@@ -1,0 +1,272 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="853" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+    </head>
+    <body>
+        <head><title>retrieveList (userPreference)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="retrieveList" />retrieveList method</h2>
+        <p>The retrieveList method of the <a href="userPreference_object.htm"><MadCap:keyword term="userPreference" />userPreference</a> 
+ object searches the database by userId and returns a list of the user's 
+ preference records. </p>
+        <p><a href="standard_retrieveList.htm">retrieveList standard method information</a>
+        </p>
+        <h3>Parameters</h3>
+        <table>
+            <col style="width: 4cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 4cm;" />
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Direction</th>
+                    <th>Data type</th>
+                    <th>Content type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">userId (required)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">in</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">string</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">n/a</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The userId code</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">preferenceName</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">in</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">string</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">n/a</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The name of a single user preference</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">rowSet</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">out</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">object</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">all(out)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">A collection of site objects to retrieve</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Columns returned in the rowSet object
+        </p>
+        <table>
+            <col style="width: 5cm;" />
+            <col style="width: 5cm;" />
+            <col style="width: 7cm;" />
+            <thead>
+                <tr>
+                    <th>columnOrdinal</th>
+                    <th>columnName</th>
+                    <th>Physical column</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">chPreferenceName</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">user_preference.preference_name</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">2</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">vchValue</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">user_preference.value</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">3</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">profileId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">user_preference.profile_did</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Steps</h3>
+        <table>
+            <col style="width: 5cm;" />
+            <col style="width: 5cm;" />
+            <col style="width: 7cm;" />
+            <thead>
+                <tr>
+                    <th>Step data</th>
+                    <th>Step type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OnyxDataValidationStep.DataValidation</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Validates input parameters</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OnyxDM.DataManager</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Retrieves a list of user preferences</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Remarks</h3>
+        <p>When you supply only a userId, this method returns a complete list of 
+ that user's preferences. When you supply a preference name along with 
+ a userId, the method returns information only for the specified preference 
+ for that user. Because a user can have multiple <a href="userPreference_profileId.htm">UI 
+ profiles</a>, including a preference name in the method call can return 
+ multiple rows.</p>
+        <h3>Example</h3>
+        <p>Input             Parameter:
+        </p>
+        <p Class="Code" class="C_Code">&lt;parameters&gt;</p>
+        <p Class="Code" class="C_Code">&lt;userId&gt;default&lt;/userId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;preferenceName&gt;Confirm%&lt;/preferenceName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/parameters&gt;</p>
+        <p>Output Parameter:<![CDATA[
+        ]]></p>
+        <p class="C_Code">&lt;parametersReturn&gt;</p>
+        <p class="C_Code">&lt;rowSet objectType="rowSet" rowCount="9" columnCount="3" pageSize=""&gt;</p>
+        <p class="C_Code">&lt;columnDefinitions collection="1" objectType="columnDefinition"&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Preference Name&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;chPreferenceName&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;1&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;8&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;50&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Preference Value&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;vchValue&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;2&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;104&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;1333&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Profile ID&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;profileId&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;3&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;8&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;85&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;/columnDefinitions&gt;</p>
+        <p class="C_Code">&lt;rows collection="1" objectType="row"&gt;</p>
+        <p class="C_Code">&lt;row&gt;</p>
+        <p class="C_Code">&lt;c0&gt;ConfirmCmpSave&lt;/c0&gt;</p>
+        <p class="C_Code">&lt;c1&gt;1&lt;/c1&gt;</p>
+        <p class="C_Code">&lt;c2&gt;0&lt;/c2&gt;</p>
+        <p class="C_Code">&lt;/row&gt;</p>
+        <p class="C_Code">&lt;row&gt;</p>
+        <p class="C_Code">&lt;c0&gt;ConfirmIncSave&lt;/c0&gt;</p>
+        <p class="C_Code">&lt;c1&gt;1&lt;/c1&gt;</p>
+        <p class="C_Code">&lt;c2&gt;0&lt;/c2&gt;</p>
+        <p class="C_Code">&lt;/row&gt;</p>
+        <p class="C_Code">&lt;row&gt;</p>
+        <p class="C_Code">&lt;c0&gt;ConfirmIndSave&lt;/c0&gt;</p>
+        <p class="C_Code">&lt;c1&gt;1&lt;/c1&gt;</p>
+        <p class="C_Code">&lt;c2&gt;0&lt;/c2&gt;</p>
+        <p class="C_Code">&lt;/row&gt;</p>
+        <p class="C_Code">&lt;row&gt;</p>
+        <p class="C_Code">&lt;c0&gt;ConfirmLitSave&lt;/c0&gt;</p>
+        <p class="C_Code">&lt;c1&gt;1&lt;/c1&gt;</p>
+        <p class="C_Code">&lt;c2&gt;0&lt;/c2&gt;</p>
+        <p class="C_Code">&lt;/row&gt;</p>
+        <p class="C_Code">&lt;row&gt;</p>
+        <p class="C_Code">&lt;c0&gt;ConfirmProdSave&lt;/c0&gt;</p>
+        <p class="C_Code">&lt;c1&gt;1&lt;/c1&gt;</p>
+        <p class="C_Code">&lt;c2&gt;0&lt;/c2&gt;</p>
+        <p class="C_Code">&lt;/row&gt;</p>
+        <p class="C_Code">&lt;row&gt;</p>
+        <p class="C_Code">&lt;c0&gt;ConfirmSave&lt;/c0&gt;</p>
+        <p class="C_Code">&lt;c1&gt;1&lt;/c1&gt;</p>
+        <p class="C_Code">&lt;c2&gt;0&lt;/c2&gt;</p>
+        <p class="C_Code">&lt;/row&gt;</p>
+        <p class="C_Code">&lt;row&gt;</p>
+        <p class="C_Code">&lt;c0&gt;ConfirmSurveySave&lt;/c0&gt;</p>
+        <p class="C_Code">&lt;c1&gt;1&lt;/c1&gt;</p>
+        <p class="C_Code">&lt;c2&gt;0&lt;/c2&gt;</p>
+        <p class="C_Code">&lt;/row&gt;</p>
+        <p class="C_Code">&lt;row&gt;</p>
+        <p class="C_Code">&lt;c0&gt;ConfirmTicketSave&lt;/c0&gt;</p>
+        <p class="C_Code">&lt;c1&gt;1&lt;/c1&gt;</p>
+        <p class="C_Code">&lt;c2&gt;0&lt;/c2&gt;</p>
+        <p class="C_Code">&lt;/row&gt;</p>
+        <p class="C_Code">&lt;row&gt;</p>
+        <p class="C_Code">&lt;c0&gt;ConfirmTskSave&lt;/c0&gt;</p>
+        <p class="C_Code">&lt;c1&gt;1&lt;/c1&gt;</p>
+        <p class="C_Code">&lt;c2&gt;0&lt;/c2&gt;</p>
+        <p class="C_Code">&lt;/row&gt;</p>
+        <p class="C_Code">&lt;/rows&gt;</p>
+        <p class="C_Code">&lt;/rowSet&gt;</p>
+        <p class="C_Code">&lt;/parametersReturn&gt;</p>
+    </body>
+</html>

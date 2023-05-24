@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="5" MadCap:lastHeight="597" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Adding a subscription role</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>Adding a subscription role </h5>
+        <p class="ProcedureHeading">To add a subscription role: </p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li>In the navigation area, navigate to and expand 
+ the appropriate subscription relationship to which you want to add a subscription 
+ role and click <img src="../../Resources/Images/oes_iconAdd0.jpg" />. Or, you can select an existing subscription 
+ role of the subscription relationship and click <img src="../../Resources/Images/oes_iconAdd0.jpg" />.</li>
+        </ol>
+        <p class="Indent1">A new subscription role named <span class="UIElement" style="font-weight: bold;">newRole</span>&lt;n&gt; 
+ appears in the navigation area followed by an asterisk (*). </p>
+        <ol style="list-style: decimal;list-style-type: decimal;" MadCap:continue="true">
+            <li>In the edit area, define the attributes for the 
+ subscription role.</li>
+        </ol>
+        <p class="Indent1"><b class="Bold" style="font-weight: bold;">ID </b>- The <span class="UIElement" style="font-weight: bold;">ID</span> 
+ attribute is not editable as it is a primary key field. This attribute 
+ is a unique application-defined identification number given to each subscription 
+ role created. </p>
+        <p class="Indent1"><b class="Bold" style="font-weight: bold;">Role -</b> This is the OEAS organizational 
+ role that you select to assign to the subscription role. In the Subscription 
+ Designer, you select this value from a list of all active OEAS roles. 
+ </p>
+        <p class="Indent1"><b class="Bold" style="font-weight: bold;">Name -</b> This attribute is the 
+ user-friendly name you provide for the subscription role. There is no 
+ requirement for the name to have any particular relation to the underlying 
+ OEAS organizational role. The name can be a maximum of 50 characters. 
+ </p>
+        <p class="Indent1"><b class="Bold" style="font-weight: bold;">Description -</b> The <span class="UIElement" style="font-weight: bold;">Description</span> 
+ attribute is the brief description of the subscription role that you provide. 
+ The description can be a maximum of 255 characters. </p>
+        <p class="Indent1"><b class="Bold" style="font-weight: bold;">Active -</b> The <span class="UIElement" style="font-weight: bold;">Active</span> 
+ attribute controls whether or not the subscription role is recognized 
+ by the cascade process so that any rules associated with it can be used 
+ to cascade related objects for the members of that role. </p>
+        <ol style="list-style: decimal;list-style-type: decimal;" MadCap:continue="true">
+            <li>Define the rules for the subscription role. These 
+ rules define automatic (cascading) subscription, unsubscription, and deletion 
+ behavior between the primary and secondary objects in a relationship for 
+ members of the role. For more information about the impact of these rules, 
+ see <a href="../2.OEAS Features/AR_CA_SubscRelatRules.htm">Subscription relationships, rules, and roles.</a></li>
+        </ol>
+        <p class="Indent1"><b class="Bold" style="font-weight: bold;">Subscribe primary object and cascade 
+ its subscription relationships -</b> Selecting this attribute for the 
+ subscription role ensures that when a member of the role subscribes to 
+ the secondary object in the relationship, automatic cascaded subscriptions 
+ are created for that subscriber to the primary object in the relationship. 
+ </p>
+        <p class="Indent1"><b class="Bold" style="font-weight: bold;">Subscribe secondary object and cascade 
+ its subscription relationships -</b> Selecting this attribute for the 
+ subscription role ensures that when a member of the role subscribes to 
+ the primary object in the relationship, automatic cascaded subscriptions 
+ are created for that subscriber to the secondary objects in the relationship. 
+ </p>
+        <p class="Indent1"><b class="Bold" style="font-weight: bold;">Cascade only the secondary objects 
+ that meet this filter expression -</b> This attribute contains a SQL expression 
+ used in a WHERE clause that limits the automatically subscribed secondary 
+ object instances. Providing a filter expression for this attribute of 
+ the subscription role ensures that when a member of that role subscribes 
+ to the primary object in the relationship, automatic cascaded subscriptions 
+ are created for that subscriber to only the secondary objects in the relationship 
+ that meet the filter expression. This rule can only be set if you have 
+ enabled the <span class="UIElement" style="font-weight: bold;">Subscribe secondary object and cascade 
+ its subscription relationships </span>rule. This attribute can be a maximum 
+ of 500 characters. </p>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">The filter expression must be valid SQL. Invalid SQL 
+ can cause cascades involving this relationship to fail. For information 
+ about creating an appropriate filter expression, see <a href="OES_SubDesFiltering.htm">Filtering 
+ secondary object cascaded subscriptions</a>. </p>
+        <ul style="list-style: decimal;" MadCap:continue="true">
+            <li>Click <img src="../../Resources/Images/oes_iconSave0.jpg" /> to save your changes.</li>
+        </ul>
+    </body>
+</html>

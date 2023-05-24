@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="1572" MadCap:lastWidth="968">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Note_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Supported/Unsupported OED modifications</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>
+            <MadCap:keyword term="Unsupported Modifications to the OED;Supported Modifications to the OED;OED;Supported/Unsupported OED modifications" />Supported/Unsupported OED modifications</h4>
+        <p>Prior to making modifications, determine which business objects are 
+ used by the Onyx Enterprise Studio tools and any other user interfaces 
+ so that you know what is affected by the modifications.</p>
+        <h4>Supported Modifications</h4>
+        <p>When you use the Object Designer to create custom business objects, 
+ Onyx expects you to complete all necessary attributes for your custom 
+ objects and specify its presence in the physical model and object physical 
+ maps.</p>
+        <p>Because OEAS is predominately data-driven, it is imperative that the 
+ OED is accurate. OEAS uses the logical model, physical model, and the 
+ mappings of the OED for most of its operations. An incorrect OED leads 
+ to unpredictable behavior and method failures.</p>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Note_Table_1.css');width: 80%;" class="TableStyle-Aptean_Note_Table_1" cellspacing="2">
+            <col style="width: 0.7cm;" class="TableStyle-Aptean_Note_Table_1-Column-Column1" />
+            <col class="TableStyle-Aptean_Note_Table_1-Column-Column1" style="width: 15.50cm;" />
+            <tbody>
+                <tr class="TableStyle-Aptean_Note_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyB-Column1-Body1" style="text-align: right;">
+                        <p>
+                            <img src="../../Resources/Images/Common/imp_image.png" />
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText"><b>Important</b>: Before you publish your modifications in your OEAS production 
+ environment, carefully test them in an OEAS test environment. Changes 
+ that you make to the OED can affect the functionality of dependent products 
+ such as the Onyx Enterprise Studio and the Onyx Employee Portal.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>
+            <MadCap:keyword term="Data-Driven Attributes" />
+            <MadCap:keyword term="Non-Data-Driven Attributes" />Non-Data-Driven Attributes</h3>
+        <p>Onyx supports the modification of the following attributes in the OED, 
+ since these attributes are not data-driven in this version of OEAS:</p>
+        <ul>
+            <li>Modifying the description of an item. The <span style="font-weight: bold;">Description</span> field is used primarily 
+ for documentation and maintenance purposes. OEAS does not rely on the 
+ value of this attribute.</li>
+            <li>Identifying whether the item has been released. 
+ The <span style="font-weight: bold;">Released</span> field is used primarily 
+ for documentation and maintenance purposes. OEAS does not rely on the 
+ value of this attribute.</li>
+            <li>Identifying who installed the item. The <span style="font-weight: bold;">InstalledBy</span> field is used primarily 
+ for documentation and maintenance purposes. OEAS does not rely on the 
+ value of this attribute. However, Onyx may use this field during upgrades 
+ of OEAS.</li>
+            <li>Identifying a custom version number for a modified 
+ object. The <span style="font-weight: bold;">Custom Version</span> field 
+ is used primarily for documentation and maintenance purposes. OEAS does 
+ not rely on the value of this attribute.</li>
+        </ul>
+        <h3>Data-Driven Attributes</h3>
+        <p>Onyx supports the modification of the following attributes in the OED. 
+ However, because these attributes drive the behavior of platform components, 
+ you must understand the impact of modifying them. For more information 
+ on attributes, see <a href="OED_Overview.htm">OED Concepts</a>.</p>
+        <p style="font-weight: bold;">Step Type, Step Data, Additional Data, Procedure Maps, and Sort Property 
+ attributes</p>
+        <p>The values of the step type and step data are passed to the step components 
+ as a parameter of the Execute method of the IStep interface, which is 
+ the primary client call into the OEAS middle tier. If these values are 
+ not correct, the execution of the client call fails. The additionalData 
+ attribute is also passed to the step component identified by ProgID identified 
+ in the step data attribute. Some of this information is intended to be 
+ redundant: the values for individual component items (stepName, stepMethod, 
+ stepObject, and so on) should be in agreement with the corresponding OED 
+ elements. For more information, see the <a href="OED_Methods.htm">Methods</a> 
+ section of OED Concepts.</p>
+        <p style="font-weight: bold;">Property attributes</p>
+        <p>Onyx supports changing the default value of <a href="OED_Property_Constraint.htm">property 
+ constraints</a>, changing the default primary key and how it is generated, 
+ and defining properties as denormalized. A denormalized property definition 
+ identifies a relationship that enables the retrieval of the denormalized 
+ property value. For more information, see the <a href="OED_Property.htm">Properties</a> 
+ section of OED Concepts.</p>
+        <h4>Object Relationship attributes</h4>
+        <p>The OED defines object relationships, identifying the primary and secondary 
+ objects, the properties involved, and the relationship type. The type 
+ determines how a delete affects related objects. For more information, 
+ see <a href="OED_Relationships.htm">Relationships</a> in OED Concepts.</p>
+        <p style="font-weight: bold;">Physical Model attributes</p>
+        <p>The OED describes the data tier, both physical structures and procedures 
+ used on the data tier. You can define tables, columns, database actions, 
+ rules for row filtering, and rules for data security. For more information, 
+ see the <a href="OED_About_the_Physical_Model.htm">Physical Model</a> 
+ in OED Concepts.</p>
+        <h4>Unsupported modifications</h4>
+        <p>Onyx does not support the following modifications to the OED:</p>
+        <ul>
+            <li>Any modifications made directly to the OED source 
+ file (OnyxEnterpriseDictionary.xml). You must use the <a href="Using_the_Object_Designer.htm">Object 
+ Designer</a> to customize the OED. Customizing the OED directly can produce 
+ unexpected results.</li>
+            <li>Any modifications made to objects that do not 
+ display in the Object Designer, such as "businessObjectDefinition." 
+ These objects are system objects integral to the OEAS architecture. Customizing 
+ the system objects can break core OEAS functionality.</li>
+            <li>Any modifications to the row, rowSet, and columnDefinition 
+ objects.</li>
+            <li>Any modifications made to the default OEAS objects, 
+ properties, methods, parameters, and steps, other than the supported modifications 
+ listed above. Whenever you customize default OEAS objects, test your customizations 
+ in a test environment before <a href="Publishing_your_changes_to_the_OED.htm">publishing</a> 
+ them to your production environment.</li>
+            <li>Do not disable default OEAS business objects, since doing to will 
+ severely impact OEAS functionality. You should enable and disable only 
+ custom objects and methods.<p>When you <a href="Disabling_items.htm">disable 
+ an item</a> and <a href="Validating_Changes_to_the_OED.htm">validate your 
+ changes</a>, the Object Designer informs you of all broken cross-dependencies 
+ resulting from the disable. <a href="Resolving_cross_dependencies.htm">Resolve 
+ all cross-dependencies</a> before publishing your changes. </p></li>
+        </ul>
+    </body>
+</html>

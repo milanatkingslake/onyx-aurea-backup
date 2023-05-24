@@ -1,0 +1,263 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="8" MadCap:lastHeight="820" MadCap:lastWidth="624">
+    <head>
+    </head>
+    <body>
+        <h1>Prompted Action</h1>
+        <p>The <b>Prompted Action</b> feature allows you to quickly update certain fields of the entities through the <b>DoMore</b> section on the <b>Detail</b> screen of the Onyx Mobile without going into the  <b>Edit </b>screen. The Prompted Action uses <b>XML</b> data to display the edit interface.</p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">It is possible to implement the Prompted Action for the entities with the following properties: <br /> • The LBO properties which are direct descendent of the respective object  <br /> • The properties other than type collection</p>
+        <h2>Control Types</h2>
+        <p>Following are the supported control types:</p>
+        <ul>
+            <li>Assigned to</li>
+            <li>Check box</li>
+            <li>Date field</li>
+            <li>Drop-down list box</li>
+            <li>Dependency Drop-down list box</li>
+            <li>Text box</li>
+            <li>Text Area</li>
+        </ul>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">These fields can be set as mandatory.</p>
+        <h2>Configuring Prompted Action</h2>
+        <p class="ProcedureHeading">To configure the Prompted Action, perform the following steps:</p>
+        <ol>
+            <li>Open the required XML file(s) in edit mode from the <code>\Onyx\AppServer\Applications\Onyx\OnyxGatewayService\App_Data\Profiles</code> folder. For the list of screens and their XML file names, see <a href="About_metadata_XML_files.htm">Understanding XML files</a>.</li>
+            <li>Add the required element nodes in the <b>DoMore</b> section of the required XML file(s).</li>
+            <li>Save and close the XML file.</li>
+            <li>Log on to <b>Onyx Mobile Native App</b> or <b>Onyx Mobile Web</b> and verify the changes.</li>
+        </ol>
+        <p style="font-weight: bold;page-break-before: always;">Example:</p>
+        <p>Following example shows the configuration of Prompted Action in the <span style="font-family: 'Courier New';">CompanyDetails.xml</span> file:</p>
+        <ol>
+            <li style="font-weight: normal;">Add the following element node in the <b>DoMore</b> section of the CompanyDetails.xml file.</li>
+        </ol>
+        <p class="Indent2"><code>&lt;MenuItem  MenuItemId="20" DisplayName="Update Company Name" ResourceId=""  PromptAction="true" LogicalObjectName="company" LogicalMethodName="update"&gt;</code>
+        </p>
+        <p class="Indent2"><code>&lt;Filter Property="companyName" ControlType="textbox" IsRequired="true" DisplayName="Company Name" Parent="" CacheName="" /&gt;</code>
+        </p>
+        <p class="Indent2"><code>&lt;/MenuItem&gt;</code>
+        </p>
+        <ol MadCap:continue="true">
+            <li>The Prompted Action is configured for <b>Update Company Name</b>, appears as shown in the following image.</li>
+        </ol>
+        <p class="Image">
+            <img src="../Resources/Images/Company Details_Prompted Action.png" style="border-left-style: solid;border-left-width: 0px;border-left-color: ;border-right-style: solid;border-right-width: 0px;border-right-color: ;border-top-style: solid;border-top-width: 0px;border-top-color: ;border-bottom-style: solid;border-bottom-width: 0px;border-bottom-color: ;width: 226px;height: 447px;" />
+        </p>
+        <p style="page-break-before: always;">Use the OOTB elements and attributes from the following table to configure the Prompted Action.</p>
+        <table>
+            <col />
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Element</th>
+                    <th>Attribute</th>
+                    <th>Data Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td rowspan="8">
+                        <p class="Table_Text">
+                            <p class="Table_Text">MenuItem </p>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">MenuItemId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Integer</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter a unique value for each item in the <b>Navigation</b> menu.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">DisplayName</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">String</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the text that you use as a caption for the item. To avoid cropping, limit the number of caption characters to 10 including spaces.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">ResourceId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">-</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the UI resource permission value for the field.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">PromptAction</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Boolean</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Do not change this value.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">LogicalObjectName</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">String</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the logical object name.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">LogicalMethodName</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">String</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the logical method name.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">customPromptActionCall</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">String</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the logical method name.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">ContextVariableNodeName</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">String</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Use semi-colons (;) to separate the node names for the context variables.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="8">
+                        <p class="Table_Text">
+                            <p class="Table_Text">Filter</p>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Property</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">String</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the name of the LBO column by which you filter data for the
+ menu item.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">ControlType</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">String</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the control type to use for the field.</p>
+                        <p class="Table_Text">The possible values are Text box, Drop down list, Check box,
+ DateTime, and Tree.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">IsRequired</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Boolean</p>
+                    </td>
+                    <td>
+                        <ul>
+                            <li class="TableList" style="font-size: 10pt;">  Enter <b>True</b> if a
+ value is required in the field to save the record.</li>
+                            <li class="TableList" style="font-size: 10pt;">
+  Enter <b>False</b> if
+ the field can be left empty.</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">DisplayName</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">String</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the text that you use as a
+ caption for the item. To avoid cropping, limit the number of caption characters to 10 including spaces.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Parent</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">-</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the property value of the parent
+ field if the field is a child.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">CacheName</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">String</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the name of the OEAS Reference Lookup table for reference
+ fields, if applicable.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">parameter</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">XML</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the LBO XML for which you need to perform when the <b>customPromptActionCal</b>l is used</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">CacheParentId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">-</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Do not change this value. In the current implementation, your
+ changes do not reflect on the application.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

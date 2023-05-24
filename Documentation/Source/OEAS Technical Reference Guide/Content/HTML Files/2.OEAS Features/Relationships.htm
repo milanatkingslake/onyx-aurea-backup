@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:lastBlockDepth="6" MadCap:lastHeight="772" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head><title>Relationships</title>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" />
+    </head>
+    <body>
+        <head><title>Relationships</title>
+        </head>
+        <h4><a name="kanchor6"></a>Relationships</h4>
+        <p>The relationships section of the OED contains the metadata that defines 
+ how business objects are related to other business objects. The following 
+ table summarizes the relationships metadata.</p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Metadata</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Relationship</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">A connection or correlation between two objects</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Primary object</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">The object whose primary key defines the 
+ relationship</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Secondary object</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">The object that contains a foreign key to 
+ the primary object</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Key maps</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Corresponding properties of the related objects; 
+ the properties involved will always be a primary key on the primary object, 
+ and a foreign key on the secondary object, and an object type on the secondary 
+ object for polymorphic relationships.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The same two objects can be related using more than one relationship 
+ when appropriate. For example, an individual can own an incident, but 
+ an individual can also be the primary contact for an incident. This situation 
+ requires the definition of two relationships between the individual and 
+ incident objects. Note that individual is the primary object in both relationships.</p>
+        <p>Relationships are used for the following purposes:</p>
+        <ul style="list-style: disc;" type="disc">
+            <li class="ListBullet_1" value="1">Implementing cascade deletes on transactional 
+ objects</li>
+            <li class="ListBullet_1" value="2">Enforcing referential integrity between transactional 
+ objects and for polymorphic relationships</li>
+            <li class="ListBullet_1" value="3">Determining how to retrieve property values from 
+ one object to another (denormalization)</li>
+            <li class="ListBullet_1" value="4">Enforcing concurrency control between tightly-coupled 
+ objects.</li>
+        </ul>
+        <p>For instance, the incident object includes a relationship defined on 
+ its ownerId property and the primaryId properties of company and individual 
+ objects. These relationships are what define that the valid ownerType 
+ values for incident are 1 and 2 (individual and company), and that when 
+ an incident is created, the ownerId should be validated against existing 
+ active data in the appropriate tables (individual and company).</p>
+        <p>Relationship definitions appear in Object 
+ Designer under the business Object node for the secondary object. </p>
+    </body>
+</html>

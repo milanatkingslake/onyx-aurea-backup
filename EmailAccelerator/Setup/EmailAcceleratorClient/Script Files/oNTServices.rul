@@ -1,0 +1,1564 @@
+////////////////////////////////////////////////////////////
+//
+//	FUNCTION:	InstallOSSService()
+//
+//  	Install the OSS Service.
+//
+////////////////////////////////////////////////////////////
+
+function InstallOSSService()
+	STRING	szPath, szCommandLine, szMsg;
+	NUMBER	nResult, nWait;
+begin
+
+
+	szPath = gsApptarget  ^ "components" ^ "opssvc.exe";
+	szCommandLine = "/Service";
+	nWait = NOWAIT;
+	//ChangeDirectory(gsApptarget ^ "components");
+	
+	nResult = LaunchAppAndWait( szPath, szCommandLine, nWait);
+	if (nResult < 0 ) then
+		szMsg = "Error installing service.";
+		OLog(szMsg);
+	endif;
+	
+	//Pause a little to make sure the service is installed before
+	// setting its password and description...
+	Delay(2);
+	
+	nResult =_ChangePassword("OnyxProcessingService");
+	if (nResult < 0 ) then
+		szMsg = "Error changing service account";
+		OLog(szMsg);
+		MessageBox(@ERROR_CHANGE_SERVICE,SEVERE);
+		
+	endif;
+end;
+
+
+//////////////////////////////////////////////////////////
+//
+// Function: DeleteOSSService()
+//
+// 	Calls the currently installed opssvce.exe with the /unregserver option
+// 	to remove the service from SCM database.
+//
+//////////////////////////////////////////////////////////
+
+function DeleteOSSService()
+STRING	szPath, szKey, svValue, szCommandLine;
+NUMBER	nvType, nvSize, nResult, nWait;
+
+begin
+
+	szKey = "Software\\Onyx\\ProcessingServer";
+	nResult = RegDBGetKeyValueEx(szKey, "AppTarget", nvType, svValue, nvSize);
+	
+	if (nResult = 0) then
+		szPath = svValue ^ "Components\\opssvc.exe";
+		szCommandLine = "/UnRegServer";
+		nWait = WAIT;
+		nResult = LaunchAppAndWait ( szPath, szCommandLine, nWait);
+		if ( nResult < 0 ) then
+			MessageBox ( "Unable to launch " + szPath, WARNING);
+			OLog("Unable to execute OPSSvc.exe /UnRegServer");
+		else
+			OLog("Launched OPSSvc.exe /UnRegServer");
+		endif;
+		
+	endif;
+
+
+end;
+
+/**************************************************************************\
+
+    FUNCTION:  _changepassword(szSStartName)
+
+DESCRIPTION:  change the password nad user name and change the description of the service
+			  It loads the SCM custom dll which adds LOGonAsService rights
+       INPUT:  szSStartName = String containing the service name on
+                              the local computer
+
+      OUTPUT:  0 If function is successful and change the account and description
+              -1 If function fails to change.
+
+
+
+
+
+\***************************************************************************/
+function _ChangePassword(szSStartName)
+
+  NUMBER nReturn, nResult;
+  STRING	szAccount, szPassword, szDes, szDllPath;
+  STRING szInfo;
+
+begin
+	// Initialize variables.
+  	nReturn = 0;
+  	nResult = 0;
+
+  	if (UseDLL(SCM_DLL) < 0) then
+  		gszMsg = @ERROR_LOADDLL + SCM_DLL;
+    	MessageBox (gszMsg, SEVERE);
+    	OLog(gszMsg);
+    	nReturn = -1;
+  	endif;
+  	
+ 	szAccount = g_structNTAccount.szLogin;
+ 	szPassword = g_structNTAccount.szPassword;
+ 	szDes = "Onyx Processing Service to support subsystems";
+ 	
+ 	
+ 	
+    nReturn = ChangeSvcAcctAndDes(szAccount, szPassword, szDes);
+    Sprintf(szInfo, "The return is %ld.", nReturn);
+
+    if (nReturn != 0) then
+    	nResult = GetLastError();
+      	Sprintf(gszMsg, "ChangeSvcAcctAndDes Error",
+        	"Error Changing the Serviceaccount \n\n" +
+            "Error number = %ld.", nResult);
+      	OLog(gszMsg);
+      	nReturn = -1;
+  	endif;
+  	UnUseDLL(SCM_DLL);
+  	
+  	return nReturn;
+
+end;
+
+
+
+function RegisterOSS()
+	STRING	szPath, szCommandLine, szMsg;
+	NUMBER	nResult, nWait;
+begin
+
+	szPath = gsApptarget  ^ "components" ^ "opsbatch.exe";
+	szCommandLine = "/REGSERVER";
+	nWait = WAIT;
+	//ChangeDirectory(gsApptarget ^ "components");
+	nResult = LaunchAppAndWait( szPath, szCommandLine, nWait);
+	if (nResult < 0 ) then
+		szMsg = "Error registering service.";
+		OLog(szMsg);
+	endif;
+	
+	szPath = gsApptarget  ^ "components" ^ "opsfulfill.exe";
+	szCommandLine = "/REGSERVER";
+	nWait = WAIT;
+	//ChangeDirectory(gsApptarget ^ "components");
+	nResult = LaunchAppAndWait( szPath, szCommandLine, nWait);
+	if (nResult < 0 ) then
+		szMsg = "Error registering service.";
+		OLog(szMsg);
+	endif;
+	
+	szPath = gsApptarget  ^ "components" ^ "opssvc.exe";
+	szCommandLine = "/REGSERVER";
+	nWait = WAIT;
+	//ChangeDirectory(gsApptarget ^ "components");
+	nResult = LaunchAppAndWait( szPath, szCommandLine, nWait);
+	if (nResult < 0 ) then
+		szMsg = "Error registering service.";
+		OLog(szMsg);
+	endif;
+	
+end;
+
+
+function OldInstallOSSService()
+STRING	szService, szServiceDisplay, szServicePath, szDeps, svResult;
+STRING	szLogin, szPassword;
+NUMBER	nvResult;
+
+begin
+	szService = "OnyxServiceManager";
+	szServiceDisplay = "Onyx Service Manager";
+	szServicePath = gsApptarget ^ "components" ^ "opssvc.exe";
+	szDeps = "RPCSS\0";
+	szLogin = g_structNTAccount.szLogin;
+	szPassword = g_structNTAccount.szPassword;
+	
+	
+	if (_IsServiceAvailable(szService) = 0 ) then
+		// service is available so we want to stop it.
+		if ( _StopNTService(szService) < 0 ) then
+			OLog("Service refused to stop.");
+		else
+			OLog("Service stopped.");
+			if (_DeleteNTService(szService) < 0) then
+				OLog("Unable to delete service.");
+			else
+				OLog("Service deleted");			
+			endif;
+		endif;
+	endif;		
+	
+	if ( _CreateNTService (szService, szServiceDisplay,
+			SERVICE_WIN32_OWN_PROCESS, SERVICE_DEMAND_START,
+			SERVICE_ERROR_NORMAL, szServicePath,
+			"", NULL, szDeps, szLogin, szPassword) < 0 ) then
+		OLog("Failed to create Service.");
+	else
+		OLog("Service created.");
+	endif;
+	
+end;
+
+
+
+/////////////////////////////////////////////////////////////
+//    FUNCTION:  _CreateNTService(szServiceName, szDisplayName,
+//                    nServiceType, nStartType, nErrorType,
+//                    szPath, szLoadOrderGroup, pTagID,
+//                    szDependancies, szStartName, szPassword)
+//
+// DESCRIPTION:  Creates an NT service
+//
+//       INPUT:  szSStartName = String containing the service name on
+//                              the local computer
+//
+//      OUTPUT:  0 If function is successful in deleting service
+//              -1 If function fails to deleting the service
+/////////////////////////////////////////////////////////////
+function _CreateNTService(szServiceName, szDisplayName,
+                    nServiceType, nStartType, nErrorType,
+                    szPath, szLoadOrderGroup, pTagID,
+                    szDependancies, szStartName, szPassword)
+	NUMBER nReturn, nResult;
+	POINTER pszServiceName, pszDisplayName, pszPath, pszLoadOrderGroup, pszDependancies, pszStartName, pszPassword;
+	STRING	szMsg;
+begin
+  // Initialize variables.
+  nReturn = 0;
+
+  // Open all our handles
+  _InitServiceConnections("");
+
+  pszServiceName = AddressString(szServiceName);
+  pszDisplayName = AddressString(szDisplayName);
+  pszPath = AddressString(szPath);
+  if (szLoadOrderGroup = "") then
+    pszLoadOrderGroup = NULL;
+  else
+    pszLoadOrderGroup = AddressString(szLoadOrderGroup);
+  endif;
+  if (szDependancies = "") then
+    pszDependancies = NULL;
+  else
+    pszDependancies = AddressString(szDependancies);
+  endif;
+  if (szStartName = "") then
+    pszStartName = NULL;
+  else
+    pszStartName = AddressString(szStartName);
+  endif;
+  if (szPassword = "") then
+    pszPassword = NULL;
+  else
+    pszPassword = AddressString(szPassword);
+  endif;
+
+
+
+  schService = CreateServiceA(
+       schSCManager,          // SCManager database
+       pszServiceName,        // name of service
+       pszDisplayName,        // name to display
+       SERVICE_ALL_ACCESS | SERVICE_ACCEPT_PAUSE_CONTINUE,   // desired access
+       nServiceType,         // service type
+       nStartType,           // start type
+       nErrorType,           // error control type
+       pszPath,              // service's binary
+       pszLoadOrderGroup,    // load ordering group
+       pTagID,               // tag identifier
+       pszDependancies,      // dependencies
+       pszStartName,         // localSystem account
+       pszPassword);         // password
+
+  if (schService = NULL) then
+    nResult = GetLastError();
+    Sprintf(szMsg, "Error creating service.\n\nError number = %ld.", nResult);
+    OLog(szMsg);
+    nReturn = -1;
+  endif;
+
+  // close and NULL our handles
+  _CloseServiceConnections();
+
+  return nReturn;
+
+end;
+
+
+/////////////////////////////////////////////////////////////
+//    FUNCTION:  _InitServiceConnections(szServiceName)
+//
+// DESCRIPTION:  Initalizes connections to services and manager
+//
+//       INPUT:  szServiceName = String containing the service
+//                               name on the local computer. Pass
+//                               a "" here to open a simple
+//                               SCManager connection only
+//
+//      OUTPUT:  0 If function is successful in connecting
+//              -1 If function fails to connect
+/////////////////////////////////////////////////////////////
+function _InitServiceConnections(szServiceName)
+	NUMBER 	nReturn, nResult;
+	STRING	szMsg;
+begin
+  // Initialize global variables
+  schService = NULL;
+  schSCManager = NULL;
+  ptrMcName = NULL;     // use local machine
+  ptrDBName = NULL;     // open services active database
+
+  // Locals
+  nReturn = 0;
+  nResult = 0;
+
+  // Load ADVAPI32.DLL, which is necessary for Service Manager-
+  // related functions.
+  if (UseDLL("AdvAPI32.dll") < 0) then
+	ODebugDsp( "Couldn't load AdvAPI32.dll.", 16);
+    nReturn = -1;
+  endif;
+
+  // First establish the connection with the Service Manager
+  if (nReturn = 0) then
+    schSCManager = OpenSCManagerA(ptrMcName, ptrDBName, SC_MANAGER_ALL_ACCESS);
+    if (schSCManager = NULL) then
+      nResult = GetLastError();
+      Sprintf(szMsg, "Error connecting to Service Manager.\n\nError number = %ld.", nResult);
+      OLog(szMsg);
+      nReturn = -1;
+    endif;
+  endif;
+
+  if (szServiceName != "") then
+    pszSStartName = AddressString(szServiceName);  //FIX IS3
+    if (nReturn = 0) then
+      // Now open the service.
+      schService = OpenServiceA(schSCManager, pszSStartName, SERVICE_ALL_ACCESS);  //FIX IS3
+      if (schService = NULL) then
+        nResult = GetLastError();
+        Sprintf(szMsg, "Error opening service.\n\nError number = %ld.", nResult);
+        OLog(szMsg);
+        nReturn = -1;
+      endif;
+    endif;
+  endif;
+
+  return nReturn;
+end;
+
+
+/////////////////////////////////////////////////////////////
+//    FUNCTION:  _CloseServiceConnections()
+//
+// DESCRIPTION:  Closes connections to services and manager
+//
+//      OUTPUT:  0 If function is successful in connecting
+//              -1 If function fails to connect
+/////////////////////////////////////////////////////////////
+function _CloseServiceConnections()
+	NUMBER nResult;
+begin
+  // Close connection to Service Manager
+  if (schSCManager != NULL) then
+    nResult = CloseServiceHandle(schSCManager);
+  endif;
+
+  // Close handle of the service installed
+  if (schService != NULL) then
+    nResult = CloseServiceHandle(schService);
+  endif;
+
+  // Deinitialize global variables, just in case
+  schService = NULL;
+  schSCManager = NULL;
+  ptrMcName = NULL;     // use local machine
+  ptrDBName = NULL;     // open services active database
+
+  UnUseDLL("AdvAPI32.dll");
+
+  return nResult;
+end;
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////
+// checks for entry in Registry for existance of services listed in setup.ini
+// returns list of services found.
+//////////////////////////////////////////////////////////////////////////////////////////
+function OLookForNTServices(listOfServices)
+STRING szResult,szServiceName,szKey,szIndex;
+INT nLoop,nvType,nvSize,bReturn,nIndex;
+begin
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	//get a list of NT service to shutdown in setup.ini
+	szKey = "Service";
+	nIndex = 1;
+	NumToStr(szIndex,nIndex);
+	nLoop = OGetValueFromINI("NT Services",szKey+szIndex,szServiceName);
+	while(nLoop = 0)
+		//look for service listed in setup.ini
+		if(RegDBGetKeyValueEx("SYSTEM\\CurrentControlSet\\Services\\"+szServiceName,"ImagePath",nvType,szResult,nvSize) =0)then
+			if(szResult != "")then
+				ListAddString(listOfServices,szServiceName,AFTER);
+				bReturn = TRUE;
+			endif;
+		endif;
+		nIndex++;
+		NumToStr(szIndex,nIndex);
+		nLoop = OGetValueFromINI("NT Services",szKey+szIndex,szServiceName);
+	endwhile;
+	return bReturn;
+end;
+
+//////////////////////////////////////////////////////////////////////////////////////////
+//Loops through provided list of nt services and shuts them down.
+//////////////////////////////////////////////////////////////////////////////////////////
+function OShutDownNTServices(listOfServices)
+STRING szServiceName;
+INT nLoop;
+begin
+	//loop through list of services
+	nLoop = ListGetFirstString(listOfServices,szServiceName);
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	while(nLoop != END_OF_LIST)
+		//shutdown the service
+		OShutDownService(szServiceName); //uses gszMsg for errors.
+		nLoop = ListGetNextString(listOfServices,szServiceName);
+	endwhile;
+end;
+
+////////////////////////////////////////////////////////////////////////////////////
+// checks to see if NT service is running.  If so, then it shuts it down.
+// also logs it for restart at end of setup.  Restart is done by ORestartServices();
+////////////////////////////////////////////////////////////////////////////////////
+
+function OShutDownService(szService)
+begin
+	if(bWinNT)then
+		//is serive running
+		if (_IsNTServiceStopped(szService) < 0) then
+    		//then shut down
+			if(_StopNTService(szService) < 0) then
+				gszMsg = @ERROR_NT_SERVICE1 + szService;
+				OCatStrings(gszMsg,"\n\n",@ERROR_NT_SERVICE2);
+    			MessageBox(gszMsg,WARNING);
+    			OLog(gszMsg);
+	  		else
+    			OLog(@LOG_NT_SERVICE1 + szService);
+  			endif;
+
+	    	//log to global list
+    		ListAddString(glistServicesToStart,"NT,"+szService,AFTER);
+  		else
+    		OLog(@LOG_NT_SERVICE2 + szService);
+	  	endif;
+	endif;
+end;
+
+/////////////////////////////////////////////////////////////////////////////////
+// Starts up all services shutdown at the beginning of setup.
+// uses global list for names of services.
+// Info put into list by OShutDownService() and DialogShowShutdownServices();
+/////////////////////////////////////////////////////////////////////////////////
+function ORestartServices()
+STRING szService,szType,szLine,szParameters;
+INT nLoop;
+LIST listParsedItem;
+begin
+	if(!bWinNT)then
+		return FALSE;
+	endif;
+	
+	//run through list of services.
+	nLoop = ListGetFirstString(glistServicesToStart,szLine);
+	
+	
+	while(nLoop != END_OF_LIST)
+		//is serive running
+		if(szLine != "")then
+			//EXE service
+			listParsedItem = ListCreate(STRINGLIST);
+			StrGetTokens(listParsedItem,szLine,",");
+			ListGetFirstString(listParsedItem,szType);
+			ListGetNextString(listParsedItem,szService);
+			ListGetNextString(listParsedItem,szParameters);
+			
+			StrToUpper(szType,szType);
+			if(szType = "NT")then
+				//NT services
+				if (_IsNTServiceStopped(szService) < 0) then
+   					OLog("ORestartServices:  The following NT service is already running: "+szService);
+				else
+					//restart the service
+					if (_StartNTService(szService) < 0) then
+						gszMsg = @ERROR_NT_SERVICE3 + szService;
+						OCatStrings(gszMsg,"\n\n",@ERROR_NT_SERVICE4);
+		   				MessageBox(gszMsg,WARNING);
+					else
+   						OLog(@LOG_NT_SERVICE3 + szService);
+					endif;
+				endif;
+			elseif(szType = "EXE")then
+				//exe to run
+				OLaunchAppAndWait(szService,szParameters);
+			endif;
+		endif;
+		nLoop = ListGetNextString(glistServicesToStart,szLine);
+	endwhile;
+end;
+
+
+////////////////////////////////////////////////////////////////////////////
+//NT services
+//
+
+/**************************************************************************\
+
+    FUNCTION:  _StartNTService(szSStartName)
+
+ DESCRIPTION:  Starts a service on an NT system
+
+       INPUT:  szSStartName = String containing the service name on
+                              the local computer
+
+      OUTPUT:  0 If function is successful in starting service
+              -1 If function fails to start the service
+
+        NOTE:  Make sure that all the parameters necessary for setting
+               the service are set. If you modify any string parameters,
+               make sure that you use the address-of operator (&) to get
+               the pointer to the string variable.
+
+               Also, if you want, make appropriate changes to the access
+               rights.
+
+               If a default parameter is to be selected, use the NULL
+               parameter to pass a NULL pointer to the function.
+
+\***************************************************************************/
+
+function _StartNTService(szSStartName)
+
+  POINTER ptrMcName, ptrDBName;
+  NUMBER schService, schSCManager;
+  NUMBER nReturn, nResult;
+  SERVICE_STATUS ssServiceStatus;
+  POINTER pszSStartName;  //FIX IS3
+  POINTER pssServiceStatus;  //FIX IS3
+
+begin
+  // Initialize variables.
+  nReturn = 0;
+  nResult = 0;
+  schService = NULL;
+  schSCManager = NULL;
+  ptrMcName = NULL;     // use local machine
+  ptrDBName = NULL;     // open services active database
+
+
+  // Load ADVAPI32.DLL, which is necessary for Service Manager-
+  // related functions.
+  if (UseDLL("AdvAPI32.dll") < 0) then
+  	gszMsg = @ERROR_LOADDLL + " AdvAPI32.dll.";
+    MessageBox (gszMsg, SEVERE);
+    OLog(gszMsg);
+    nReturn = -1;
+  endif;
+
+
+  // First establish the connection with the Service Manager
+  if (nReturn = 0) then
+    schSCManager = OpenSCManagerA(ptrMcName, ptrDBName, SC_MANAGER_ALL_ACCESS);
+    if (schSCManager = NULL) then
+      nResult = GetLastError();
+//		OpenService Error:  Error connecting to Service Manager.\n\nError number = %ld.
+	  Sprintf(gszMsg, @ERROR_NT_SERVICEMGR +"  "+@ERROR_NT_SERVICE_CONNECT+"\n\n"+@ERROR_NUM,nResult);
+      OLog(gszMsg);
+      nReturn = -1;
+    endif;
+  endif;
+
+  pszSStartName = AddressString(szSStartName);  //FIX IS3
+  if (nReturn = 0) then
+    // Now open the service.
+    schService = OpenServiceA(schSCManager, pszSStartName, SERVICE_ALL_ACCESS);  //FIX IS3
+    if (schService = NULL) then
+      nResult = GetLastError();
+//      Sprintf(gszMsg, "OpenService Error","Error opening service.\n\n"+"Error number = %ld.", nResult);
+	  Sprintf(gszMsg,@ERROR_NT_SERVICEMGR+"  "+@ERROR_NT_SERVICE_OPEN+"\n\n"+@ERROR_NUM,nResult);
+      OLog(gszMsg);
+      nReturn = -1;
+    endif;
+  endif;
+
+  pssServiceStatus=AddressString(ssServiceStatus);  //FIX IS3
+  if (nReturn = 0) then
+    // Check to see if the service is already running
+    nResult = QueryServiceStatus(schService, pssServiceStatus);  //FIX IS3
+    if (ssServiceStatus.dwCurrentState = SERVICE_STOPPED) then
+      // Start the service
+      if (StartServiceA(schService, 0, NULL) = 0) then
+        nResult = GetLastError();
+//        Sprintf(gszMsg, "StartService Error","Error starting service.\n\n" +"Error number = %ld.", nResult);
+		Sprintf(gszMsg,@ERROR_NT_SERVICEMGR+"  "+@ERROR_NT_SERVICE_START+"\n\n"+@ERROR_NUM,nResult);
+        OLog(gszMsg);
+        nReturn = -1;
+      endif;
+    endif;
+  endif;
+
+
+  // Close connection to Service Manager
+  if (schSCManager != NULL) then
+    nResult = CloseServiceHandle(schSCManager);
+  endif;
+
+  // Close handle of the service installed
+  if (schService != NULL) then
+    nResult = CloseServiceHandle(schService);
+  endif;
+
+  UnUseDLL("AdvAPI32.dll");
+
+  return nReturn;
+
+end;
+
+
+/**************************************************************************\
+
+    FUNCTION:  _StopNTService(szSStartName)
+
+ DESCRIPTION:  Stops a service on an NT system
+
+       INPUT:  szSStartName = String containing the service name on
+                              the local computer
+
+      OUTPUT:  0 If function is successful in stopping service
+              -1 If function fails to stop the service
+
+        NOTE:  Make sure that all the parameters necessary for setting
+               the service are set. If you modify any string parameters,
+               make sure that you use the address-of operator (&) to get
+               the pointer to the string variable.
+
+               Also, if you want, make appropriate changes to the access
+               rights.
+
+               If a default parameter is to be selected, use the NULL
+               parameter to pass a NULL pointer to the function.
+
+\***************************************************************************/
+
+function _StopNTService(szSStartName)
+
+  POINTER ptrMcName, ptrDBName;
+  NUMBER schService, schSCManager;
+  NUMBER nTimer, nReturn, nResult;
+  SERVICE_STATUS ssServiceStatus;
+  POINTER pszSStartName, pssServiceStatus;  //FIX IS3
+
+begin
+  // Initialize variables.
+  nTimer = 0;
+  nReturn = 0;
+  nResult = 0;
+  schService = NULL;
+  schSCManager = NULL;
+  ptrMcName = NULL;     // use local machine
+  ptrDBName = NULL;     // open services active database
+
+
+  // Load ADVAPI32.DLL, which is necessary for Service Manager-
+  // related functions.
+  if (UseDLL("AdvAPI32.dll") < 0) then
+  	gszMsg = @ERROR_LOADDLL +" AdvAPI32.dll.";
+    MessageBox (gszMsg, SEVERE);
+    OLog(gszMsg);
+    nReturn = -1;
+  endif;
+
+
+  // First establish the connection with the Service Manager
+  if (nReturn = 0) then
+    schSCManager = OpenSCManagerA(ptrMcName, ptrDBName, SC_MANAGER_ALL_ACCESS);
+    if (schSCManager = NULL) then
+      nResult = GetLastError();
+//      Sprintf(gszMsg, "OpenSCManagerA Error","Error connecting to Service Manager.\n\n" +"Error number = %ld.", nResult);
+	  Sprintf(gszMsg,@ERROR_NT_SERVICEMGR+"  "+@ERROR_NT_SERVICE_CONNECT+"\n\n"+@ERROR_NUM,nResult);
+      OLog(gszMsg);
+      nReturn = -1;
+    endif;
+  endif;
+
+  pszSStartName=AddressString(szSStartName);  //FIX IS3
+  if (nReturn = 0) then
+    // Now open the service.
+    schService = OpenServiceA(schSCManager, pszSStartName, SERVICE_ALL_ACCESS);  //FIX IS3
+    if (schService = NULL) then
+      nResult = GetLastError();
+//      Sprintf(gszMsg, "OpenService Error","Error opening service.\n\n" +"Error number = %ld.", nResult);
+	  Sprintf(gszMsg,@ERROR_NT_SERVICEMGR+"  "+@ERROR_NT_SERVICE_OPEN+"\n\n"+@ERROR_NUM,nResult);
+      OLog(gszMsg);
+      nReturn = -1;
+    endif;
+  endif;
+
+  pssServiceStatus=AddressString(ssServiceStatus);  //FIX IS3
+  if (nReturn = 0) then
+    // Check to see if the service is already stopped
+    nResult = ControlService(schService, SERVICE_CONTROL_STOP, pssServiceStatus);  //FIX IS3
+    while !(ssServiceStatus.dwCurrentState = SERVICE_STOPPED) && (nTimer < 20)
+      nTimer = nTimer + 1;
+      Delay (1);
+      nResult = QueryServiceStatus(schService, pssServiceStatus);  //FIX IS3
+    endwhile;
+  endif;
+
+
+  // Close connection to Service Manager
+  if (schSCManager != NULL) then
+    nResult = CloseServiceHandle(schSCManager);
+  endif;
+
+  // Close handle of the service installed
+  if (schService != NULL) then
+    nResult = CloseServiceHandle(schService);
+  endif;
+
+
+  if (nTimer = 20) then
+    // Could not stop service within 20 seconds.
+    nReturn = -1;
+  endif;
+
+  UnUseDLL("AdvAPI32.dll");
+
+  return nReturn;
+
+end;
+
+
+/**************************************************************************\
+
+    FUNCTION:  _IsNTServiceStopped(szSStartName)
+
+ DESCRIPTION:  Checks to see if a service is stopped
+
+       INPUT:  szSStartName = String containing the service name on
+                              the local computer
+
+      OUTPUT:  0 If service is stopped
+              -1 If service is not stopped
+
+        NOTE:  Make sure that all the parameters necessary for setting
+               the service are set. If you modify any string parameters,
+               make sure that you use the address-of operator (&) to get
+               the pointer to the string variable.
+
+               Also, if you want, make appropriate changes to the access
+               rights.
+
+               If a default parameter is to be selected, use the NULL
+               parameter to pass a NULL pointer to the function.
+
+\***************************************************************************/
+
+function _IsNTServiceStopped(szSStartName)
+
+  POINTER ptrMcName, ptrDBName;
+  NUMBER schService, schSCManager;
+  NUMBER nReturn, nResult;
+  SERVICE_STATUS ssServiceStatus;
+  POINTER pszSStartName, pssServiceStatus;  //FIX IS3
+
+begin
+  // Initialize variables.
+  nReturn = 0;
+  nResult = 0;
+  schService = NULL;
+  schSCManager = NULL;
+  ptrMcName = NULL;     // use local machine
+  ptrDBName = NULL;     // open services active database
+
+
+  // Load ADVAPI32.DLL, which is necessary for Service Manager-
+  // related functions.
+  if (UseDLL("AdvAPI32.dll") < 0) then
+  	gszMsg = @ERROR_LOADDLL + " AdvAPI32.dll.";
+    MessageBox (gszMsg, SEVERE);
+    OLog(gszMsg);
+    nReturn = -1;
+  endif;
+
+
+  // First establish the connection with the Service Manager
+  if (nReturn = 0) then
+    schSCManager = OpenSCManagerA(ptrMcName, ptrDBName, SC_MANAGER_ALL_ACCESS);
+    if (schSCManager = NULL) then
+      nResult = GetLastError();
+//      Sprintf(gszMsg, "OpenSCManagerA Error","Error connecting to Service Manager.\n\n" + "Error number = %ld.", nResult);
+	  Sprintf(gszMsg,@ERROR_NT_SERVICEMGR+"  "+@ERROR_NT_SERVICE_CONNECT+"\n\n"+@ERROR_NUM,nResult);
+      OLog(gszMsg);
+      nReturn = -1;
+    endif;
+  endif;
+
+  pszSStartName=AddressString(szSStartName);  //FIX IS3
+  if (nReturn = 0) then
+    // Now open the service.
+    schService = OpenServiceA(schSCManager, pszSStartName, SERVICE_ALL_ACCESS);  //FIX IS3
+    if (schService = NULL) then
+      nResult = GetLastError();
+//      Sprintf(gszMsg, "OpenService Error",
+//                 "Error opening service.\n\n" +
+//                 "Error number = %ld.", nResult);
+	  Sprintf(gszMsg,@ERROR_NT_SERVICEMGR+"  "+@ERROR_NT_SERVICE_OPEN+"\n\n"+@ERROR_NUM,nResult);
+      OLog(gszMsg);
+      nReturn  = -1;
+    endif;
+  endif;
+
+  pssServiceStatus=AddressString(ssServiceStatus);  //FIX IS3
+  if (nReturn = 0) then
+    // Check to see if the service is already running
+    nResult = QueryServiceStatus(schService, pssServiceStatus);  //FIX IS3
+    if (ssServiceStatus.dwCurrentState != SERVICE_STOPPED) then
+      nReturn = -1;
+    endif;
+  endif;
+
+
+  // Close connection to Service Manager
+  if (schSCManager != NULL) then
+    nResult = CloseServiceHandle(schSCManager);
+  endif;
+
+  // Close handle of the service installed
+  if (schService != NULL) then
+    nResult = CloseServiceHandle(schService);
+  endif;
+
+
+  UnUseDLL("AdvAPI32.dll");
+
+  return nReturn;
+
+end;
+
+
+/**************************************************************************\
+
+    FUNCTION:  _DeleteNTService(szSStartName)
+
+DESCRIPTION:  deletes a service on an NT system
+
+       INPUT:  szSStartName = String containing the service name on
+                              the local computer
+
+      OUTPUT:  0 If function is successful in deleting service
+              -1 If function fails to deleting the service
+
+        NOTE:  Make sure that all the parameters necessary for setting
+               the service are set. If you modify any string parameters,
+               make sure that you use the address-of operator (&) to get
+               the pointer to the string variable.
+
+               Also, if you want, make appropriate changes to the access
+               rights.
+
+               If a default parameter is to be selected, use the NULL
+               parameter to pass a NULL pointer to the function.
+
+\***************************************************************************/
+/*
+function _DeleteNTService(szSStartName)
+
+  POINTER ptrMcName, ptrDBName;
+  NUMBER schService, schSCManager;
+  NUMBER nReturn, nResult;
+  SERVICE_STATUS ssServiceStatus;
+  POINTER pszSStartName;  //FIX IS3
+
+begin
+  // Initialize variables.
+  nReturn = 0;
+  nResult = 0;
+  schService = NULL;
+  schSCManager = NULL;
+  ptrMcName = NULL;     // use local machine
+  ptrDBName = NULL;     // open services active database
+
+
+  // Load ADVAPI32.DLL, which is necessary for Service Manager-
+  // related functions.
+  if (UseDLL("AdvAPI32.dll") < 0) then
+  	gszMsg = @ERROR_LOADDLL + " AdvAPI32.dll.";
+    MessageBox (gszMsg, SEVERE);
+    OLog(gszMsg);
+    nReturn = -1;
+  endif;
+
+
+  // First establish the connection with the Service Manager
+  if (nReturn = 0) then
+    schSCManager = OpenSCManagerA(ptrMcName, ptrDBName, SC_MANAGER_ALL_ACCESS);
+    if (schSCManager = NULL) then
+      nResult = GetLastError();
+//      Sprintf(gszMsg, "OpenSCManagerA Error",
+//                 "Error connecting to Service Manager.\n\n" +
+//                 "Error number = %ld.", nResult);
+	  Sprintf(gszMsg,@ERROR_NT_SERVICEMGR+"  "+@ERROR_NT_SERVICE_CONNECT+"\n\n"+@ERROR_NUM,nResult);
+      OLog(gszMsg);
+      nReturn = -1;
+    endif;
+  endif;
+
+  pszSStartName=AddressString(szSStartName);  //FIX IS3
+  if (nReturn = 0) then
+    // Now open the service.
+    schService = OpenServiceA(schSCManager, pszSStartName, SERVICE_ALL_ACCESS);  //FIX IS3
+    if (schService = NULL) then
+      nResult = GetLastError();
+//      Sprintf(gszMsg, "OpenService Error",
+//                 "Error opening service.\n\n"+
+//                 "Error number = %ld.", nResult);
+	  Sprintf(gszMsg,@ERROR_NT_SERVICEMGR+"  "+@ERROR_NT_SERVICE_OPEN+"\n\n"+@ERROR_NUM,nResult);
+      OLog(gszMsg);
+      nReturn = -1;
+    endif;
+  endif;
+
+
+  if (nReturn = 0) then
+    // delete the service
+    if (FALSE = DeleteService(schService)) then
+      nResult = GetLastError();
+//      Sprintf(gszMsg, "DeleteService Error",
+//                 "Error deleting service.\n\n" +
+//                 "Error number = %ld.", nResult);
+      Sprintf(gszMsg,@ERROR_NT_SERVICEMGR+"  "+@ERROR_NT_SERVICE_DELETE+"\n\n"+@ERROR_NUM,nResult);
+	  OLog(gszMsg);
+      nReturn = -1;
+    endif;
+  endif;
+
+
+  // Close connection to Service Manager
+  if (schSCManager != NULL) then
+    nResult = CloseServiceHandle(schSCManager);
+  endif;
+
+  // Close handle of the service installed
+  if (schService != NULL) then
+    nResult = CloseServiceHandle(schService);
+  endif;
+
+  UnUseDLL("AdvAPI32.dll");
+
+  return nReturn;
+
+end;
+*/
+
+/*
+function OCreateNTAccount(szName,szPassword)
+USER_INFO_STRUCT UserInfo;
+USER_INFO_STRUCT POINTER pUserInfo;
+STRING sServerName,sErrorString,svString,szServer;
+LONG lLevel,lParmErr;
+INT nErrorCode;
+POINTER pParmErr,pServer;
+
+begin
+    if (UseDLL ( "netapi32.dll" ) != 0 ) then
+        MessageBox("netapi32.dll load error!", SEVERE);
+        return FALSE;
+    endif;
+
+	pUserInfo=&UserInfo;
+	pServer=&szServer;//temp
+
+	UserInfo.sUserName = szName;
+	UserInfo.sPassword = szPassword;
+	UserInfo.lPasswordAge = 0;
+	UserInfo.lPriv = USER_PRIV_USER;
+	UserInfo.sHomeDir = "";
+	UserInfo.sComment = "ONYX Apollo MTS access account";
+	UserInfo.lFlags = UF_PASSWD_CANT_CHANGE + UF_NORMAL_ACCOUNT;
+	UserInfo.sScriptPath = "";
+	pParmErr = &lParmErr;
+	lLevel = 1; //use the USER_INFO_1 data struct
+
+	nErrorCode = NetUserAdd(szServer, lLevel, pUserInfo, pParmErr);
+//	nErrorCode = NetUserAdd(pServer, lLevel, pUserInfo, pParmErr);
+	if (nErrorCode != 0) then
+  		NumToStr ( sErrorString, nErrorCode );
+  		NumToStr ( svString , lParmErr );
+  		svString = "Error! Error code is " + sErrorString + " and parameter is " + svString;
+		MessageBox(svString, WARNING);
+  	else
+	  	UnUseDLL ( "netapi32.dll" );
+	  	return TRUE;
+  	endif;
+end;
+*/
+
+
+function OSetDCOMLaunchActivation(szComponent, szUser)
+//Sets the DCOM"local launch" and "local activation" rights to the passed user for the passed component.
+	INT nReturn;
+	STRING szFile, szMsg;
+begin
+	
+	//Load the websecur.dll
+	szFile = SUPPORTDIR ^ "websecur.dll";
+    if (UseDLL(szFile) < 0) then
+    	szMsg = @ERROR_LOADDLL + " " + szFile;
+   	    MessageBox(szMsg, SEVERE);
+       	OLog(szMsg);
+       	return FALSE;
+    endif;
+
+	//Add the rights
+	nReturn = websecur.SetDCOMLaunchActivation(szComponent, szUser, SUPPORTDIR);
+	if (nReturn != 1) then
+    	Sprintf(szMsg, @ERROR_GRANT_LAUNCH_ACTIVATION, szUser, szComponent);
+   	    MessageBox(szMsg, SEVERE);
+       	OLog(szMsg);
+       	return FALSE;
+	endif;
+	
+	//Unload the websecur.dll
+	if (UnUseDLL(szFile) < 0) then
+	   	szMsg = @ERROR_UNLOAD_DLL +" "+szFile;
+        MessageBox(szMsg, SEVERE);
+       	OLog(szMsg);
+    	return FALSE;
+    endif;
+
+	return nReturn; 		
+end;
+
+
+function OSetDCOMAccessPermissions(szComponent, szUser)
+//Sets the DCOM Access Permissions to the passed user for the passed component.
+	INT nReturn;
+	STRING szFile, szMsg;
+begin
+	
+	//Load the websecur.dll
+	szFile = SUPPORTDIR ^ "websecur.dll";
+    if (UseDLL(szFile) < 0) then
+    	szMsg = @ERROR_LOADDLL + " " + szFile;
+   	    MessageBox(szMsg, SEVERE);
+       	OLog(szMsg);
+       	return FALSE;
+    endif;
+
+	//Add the rights
+	nReturn = websecur.SetDCOMAccessPermissions(szComponent, szUser, SUPPORTDIR);
+	if (nReturn != 1) then
+    	Sprintf(szMsg, @ERROR_GRANT_DCOM_ACCESS, szUser, szComponent);
+   	    MessageBox(szMsg, SEVERE);
+       	OLog(szMsg);
+       	return FALSE;
+	endif;
+	
+	//Unload the websecur.dll
+	if (UnUseDLL(szFile) < 0) then
+	   	szMsg = @ERROR_UNLOAD_DLL +" "+szFile;
+        MessageBox(szMsg, SEVERE);
+       	OLog(szMsg);
+    	return FALSE;
+    endif;
+
+	return nReturn; 		
+end;
+
+
+function OSetBatchLogonRight(szName)
+//Sets the "log on as batch job" right to the passed user.
+	INT nReturn;
+	STRING szFile, szMsg;
+begin
+	
+	//Load the websecur.dll
+	szFile = SUPPORTDIR ^ "websecur.dll";
+    if (UseDLL(szFile) < 0) then
+    	szMsg = @ERROR_LOADDLL + " " + szFile;
+   	    MessageBox(szMsg, SEVERE);
+       	OLog(szMsg);
+       	return FALSE;
+    endif;
+
+	//Add the user to the group
+	nReturn = websecur.SetBatchLogonRight(szName, SUPPORTDIR);
+	if (nReturn != 1) then
+    	Sprintf(szMsg, @ERROR_GRANT_LOGON_BATCH_JOB, szName);
+   	    MessageBox(szMsg, SEVERE);
+       	OLog(szMsg);
+       	return FALSE;
+	endif;
+	
+	//Unload the websecur.dll
+	if (UnUseDLL(szFile) < 0) then
+	   	szMsg = @ERROR_UNLOAD_DLL +" "+szFile;
+        MessageBox(szMsg, SEVERE);
+       	OLog(szMsg);
+    	return FALSE;
+    endif;
+
+	return nReturn; 		
+end;
+
+
+function OSetServiceLogonRight(szName)
+//Sets the "log on as service" right to the passed user.
+	INT nReturn;
+	STRING szFile, szMsg;
+begin
+	
+	//Load the websecur.dll
+	szFile = SUPPORTDIR ^ "websecur.dll";
+    if (UseDLL(szFile) < 0) then
+    	szMsg = @ERROR_LOADDLL + " " + szFile;
+   	    MessageBox(szMsg, SEVERE);
+       	OLog(szMsg);
+       	return FALSE;
+    endif;
+
+	//Add the user to the group
+	nReturn = websecur.SetServiceLogonRight(szName, SUPPORTDIR);
+	if (nReturn != 1) then
+    	Sprintf(szMsg, @ERROR_GRANT_LOGON_SERVICE, szName);
+   	    MessageBox(szMsg, SEVERE);
+       	OLog(szMsg);
+       	return FALSE;
+	endif;
+	
+	//Unload the websecur.dll
+	if (UnUseDLL(szFile) < 0) then
+	   	szMsg = @ERROR_UNLOAD_DLL +" "+szFile;
+        MessageBox(szMsg, SEVERE);
+       	OLog(szMsg);
+    	return FALSE;
+    endif;
+
+	return nReturn; 		
+end;
+
+function OAddUserToGroup(szName ,szGroup)
+//Adds an existing NT user to an existing NT group using websecur.dll
+	INT nReturn;
+	STRING szFile, szMsg;
+begin
+	
+	//Load the websecur.dll
+	szFile = SUPPORTDIR ^ "websecur.dll";
+    if (UseDLL(szFile) < 0) then
+    	szMsg = @ERROR_LOADDLL + " " + szFile;
+   	    MessageBox(szMsg, SEVERE);
+       	OLog(szMsg);
+       	return FALSE;
+    endif;
+
+	//Add the user to the group
+	nReturn = websecur.AddUserToGroup("",szGroup,1,szName);
+	if (nReturn != 1) then
+    	Sprintf(szMsg, @ERROR_NT_ACCOUNT_CREATE3, szGroup);
+   	    MessageBox(szMsg, SEVERE);
+       	OLog(szMsg);
+       	return FALSE;
+	endif;
+	
+	//Unload the websecur.dll
+	if (UnUseDLL(szFile) < 0) then
+	   	szMsg = @ERROR_UNLOAD_DLL +" "+szFile;
+        MessageBox(szMsg, SEVERE);
+       	OLog(szMsg);
+    	return FALSE;
+    endif;
+
+	return nReturn; 		
+end;
+
+
+function OAddFileAccessRights(szName, szPath)
+//Adds full control permissions for a user or group to a file or folder
+	INT nReturn;
+	STRING szFile, szMsg;
+begin
+	
+	//Load the websecur.dll
+	szFile = SUPPORTDIR ^ "websecur.dll";
+    if (UseDLL(szFile) < 0) then
+    	szMsg = @ERROR_LOADDLL + " " + szFile;
+   	    MessageBox(szMsg, SEVERE);
+       	OLog(szMsg);
+       	return FALSE;
+    endif;
+
+	//Set the permissions on the folder
+	nReturn = websecur.SetGroupPermissionsOnFolder(szPath, szName);
+	if (nReturn != 1) then
+    	Sprintf(szMsg, @ERROR_NT_FOLDER_PERMISSION, szName, szPath);
+   	    MessageBox(szMsg, SEVERE);
+       	OLog(szMsg);
+       	return FALSE;
+	endif;
+	
+	//Unload the websecur.dll
+	if (UnUseDLL(szFile) < 0) then
+	   	szMsg = @ERROR_UNLOAD_DLL +" "+szFile;
+        MessageBox(szMsg, SEVERE);
+       	OLog(szMsg);
+    	return FALSE;
+    endif;
+
+	return nReturn; 		
+end;
+
+//----------------------------------------------------------------
+//creates a local account and assigns it to the group specified.
+//----------------------------------------------------------------
+function OCreateNTAccount(szName,szPassword,szGroup,szMessage)
+INT nReturn,nLoop,bAccountExists,bPrompt,bCheckOnly,nANSIonly;
+STRING szFile,szMsg,szTemp,szComment,szOldPassword;
+BOOL bTemp;
+begin
+	//return if no name specified.
+	if(szName = "")then
+		return FALSE;
+	endif;
+
+//this requires a SID resolving mechanism to know what the particular language OS uses for "administrator"
+/*
+	//don't try and create Admin account
+	StrToUpper(szTemp,szName);
+	if(szName = @ADMINISTRATOR)then
+		return TRUE;
+	endif;
+*/
+
+	//check to verify account or create account.
+	OGetValueFromINI("Setup","NTAccountCheckOnly",szTemp);
+	StrToUpper(szTemp,szTemp);
+	if(szTemp = "YES")then
+		bCheckOnly = TRUE;
+		nReturn = TRUE;
+	endif;
+
+	//load dll
+	szFile = SUPPORTDIR ^ "websecur.dll";
+    if (UseDLL(szFile) < 0) then
+    	szMsg = @ERROR_LOADDLL +" "+ szFile;
+   	    MessageBox(szMsg, SEVERE);
+       	OLog(szMsg);
+       	return FALSE;
+    endif;
+
+	if(!bCheckOnly)then			
+		while (nLoop = 0)
+
+			//create account
+			if(g_structSetupMode.nDebug != 21)then			
+	 			nReturn = websecur.AddLocalAccount("",szName,szPassword,szName,szMessage); 		
+//				nReturn = 1;
+			else
+				nReturn = 1;
+				MessageBox("Debug mode 21:  Do not run AddLocalAccount",INFORMATION);
+			endif;	 		
+						
+			if(nReturn != 1)then
+				Sprintf(szMsg,@ERROR_NT_ACCOUNT_CREATE1,szName);
+				OLog("Unable to create local account "+szName);
+			else;
+			    OLog("Created local account "+szName);
+				if(szGroup != "")then
+					//Assign to group.
+					if(g_structSetupMode.nDebug != 21)then
+						nReturn = websecur.AddUserToGroup("",szGroup,TRUE,szName); 		
+//						nReturn = 1;
+					else
+						nReturn = 1;
+						MessageBox("Debug mode 21:  Do not run AddUserToGroup",INFORMATION);
+					endif;
+					if(nReturn != 1)then
+						Sprintf(szMsg,@ERROR_NT_ACCOUNT_CREATE3,szGroup);
+					else	
+						//all ok, continue
+						OLog("Assigned local account "+szName+" to group "+szGroup);
+						nLoop = 1;
+					endif;
+				else
+					nLoop = 1;
+				endif;
+			endif;
+   			if(szMsg != "")then
+   			  	MessageBox(szMsg, SEVERE);
+	 			szMsg = szMsg + ":" + szMessage;
+       				OLog(szMsg);
+	 			nReturn = FALSE;
+				nLoop = 1;	 			
+//	 			szMsg = @ERROR_CREATE_TRY_AGAIN;
+// 				Sprintf(szMsg,szMsg,@LABEL_NT_ACCOUNT,@LABEL_NT_ACCOUNT);
+//       				if(AskYesNo(szMsg,YES)=NO)then
+//     					nLoop = 1;
+//				endif;
+			endif;
+		endwhile;
+	endif;
+			
+	if (UnUseDLL(szFile) < 0) then
+	   	szMsg = @ERROR_UNLOAD_DLL +" "+szFile;
+        MessageBox(szMsg, SEVERE);
+       	OLog(szMsg);
+    	return FALSE;
+    endif;
+
+	if(nReturn = TRUE)then
+		OMuteDialogSetStatus(@LABEL_NT_ACCOUNT,"COMPLETE");
+	endif;
+
+
+    return nReturn;
+end;
+		
+/* 		
+		szFile = SUPPORTDIR ^ "instvc.dll";
+ 		nReturn = instvc.AddUserAccount(szName,szPassword);
+
+ 		if(nReturn != NERR_Success)then
+ 			switch (nReturn)
+ 				case ERROR_ACCESS_DENIED:
+ 					gszMsg = "The user does not have access to the requested information.";
+				case NERR_InvalidComputer:
+ 					gszMsg = "Computer The computer name is invalid.";
+				case NERR_NotPrimary:
+ 					gszMsg = "The operation is allowed only on the primary domain controller of the domain.";
+				case NERR_GroupExists:
+ 					gszMsg = "The group already exists.";
+				case NERR_UserExists:
+ 					gszMsg = "The user account already exists.";
+				case NERR_PasswordTooShort:
+ 					gszMsg = "The password is shorter than required. The password could also have been too long, too recent in its change history, not enough unique characters, or some other faulty indication of password restrictions.";
+ 			endswitch;
+ 			Sprintf(gszMsg,@ERROR_NT_ACCOUNT_CREATE+"\n\n%s",szName,gszMsg);
+			MessageBox(gszMsg,WARNING);
+			OLog(gszMsg);
+ 		endif;
+*/
+//		nReturn = instvc.RemoveUserAccount(g_structNTAccount.szLogin);
+	
+
+//------------------------------------------------
+//check to see if the local account exists.
+//------------------------------------------------
+function OCheckLocalAccount(szAccountName,nAccountExists)
+STRING szTemp,szDomain,szComment,szOldPassword,szMsg,szFile;
+INT nReturn;
+begin
+	//load dll
+	szFile = SUPPORTDIR ^ "websecur.dll";
+    if (UseDLL(szFile) < 0) then
+    	szMsg = @ERROR_LOADDLL +" "+ szFile;
+   	    MessageBox(szMsg, SEVERE);
+       	OLog(szMsg);
+       	return -1;
+    endif;
+
+	//Parse out the domain name if one exists
+	szDomain = "";
+	ParsePath (szTemp, szAccountName, FILENAME);
+	if (szTemp != szAccountName) then
+		ParsePath (szDomain, szAccountName, PATH);
+		szAccountName = szTemp;
+		OReplace(szDomain, "\\", "", szTemp);
+		szDomain = "\\\\" + szTemp;
+	endif;
+
+	//check account.  nAccountExists gets set to true if the account already exists.
+	//nReturn gets set to 2111 if the account exists.
+	nReturn = GetUserAccountInfo(szDomain,szAccountName,nAccountExists,szTemp,szComment,szOldPassword);
+
+	//unload dll
+    if (UnUseDLL(szFile) < 0) then
+    	szMsg = @ERROR_UNLOAD_DLL +" "+szFile;
+   	    MessageBox(szMsg, SEVERE);
+       	OLog(szMsg);
+       	return -1;
+    endif;
+
+    return nReturn;
+end;
+
+//--------------------------------------------------
+//creates a NT group on the local machine
+//--------------------------------------------------
+function OCreateNTGroup(szGroup,szGroupDesc)
+INT nReturn,nLoop;
+STRING szFile,szMsg,szTemp;
+begin
+		//return if no group name specified.
+		if(szGroup = "")then
+			return FALSE;
+		endif;
+
+		//load dll
+		szFile = SUPPORTDIR ^ "websecur.dll";
+	    if (UseDLL(szFile) < 0) then
+	    	szMsg = @ERROR_LOADDLL +" "+ szFile;
+    	    MessageBox(szMsg, SEVERE);
+        	OLog(szMsg);
+        	return FALSE;
+        endif;
+
+		szMsg = "";
+		Sprintf(gszMsg,@ERROR_NT_GROUP_CREATE1,szGroup);
+		
+		//create account
+ 		nReturn = websecur.AddNewGroup("",szGroup,1,szGroupDesc); 		
+					
+		if(nReturn != 1)then
+			szMsg = @ERROR_NT_GROUP_CREATE2;
+		endif;
+	
+		//post errors.
+		if(szMsg != "")then
+  		    MessageBox(gszMsg+"\n"+szMsg, SEVERE);
+      		OLog(gszMsg+" : "+szMsg);
+ 			nReturn = FALSE;
+		endif;
+		
+	    if (UnUseDLL(szFile) < 0) then
+	    	szMsg = @ERROR_UNLOAD_DLL +" "+szFile;
+    	    MessageBox(szMsg, SEVERE);
+        	OLog(szMsg);
+        	return FALSE;
+        endif;
+
+        return nReturn;
+	
+end;
+
+/*
+//--------------------------------------------
+//validates the existence of an account.
+//If Domain entry is blank, then it will look for local account.
+//--------------------------------------------
+function _ValidateAccount(szDomain,szAccount,szPassword)
+BOOL bReturn;
+INT nAccountExists;
+STRING szFile,szMsg,szTemp,szComment,szOldPassword;
+begin
+	//load dll
+	szFile = SUPPORTDIR ^ "websecur.dll";
+    if (UseDLL(szFile) < 0) then
+    	szMsg = @ERROR_LOADDLL +" "+ szFile;
+   	    MessageBox(szMsg, SEVERE);
+      	OLog(szMsg);
+      	return FALSE;
+    endif;
+
+	//call validate domain account.  If domain is blank, it will look for a local account.
+	nAccountExists = ValidateUserAccount(szDomain,szAccount,szPassword);
+	if(nAccountExists = 1)then
+		bReturn = TRUE;
+	endif;
+	
+	//unload dll
+    if (UnUseDLL(szFile) < 0) then
+    	szMsg = @ERROR_UNLOAD_DLL +" "+szFile;
+   	    MessageBox(szMsg, SEVERE);
+       	OLog(szMsg);
+       	return FALSE;
+	endif;
+	
+	return bReturn;
+end;
+*/
+
+/////////////////////////////////////////////////////////////
+// FUNCTION: _IsServiceAvailable(szServiceName)
+//
+// DESCRIPTION:  Checks to see if a service is installed
+//
+// INPUT:  szServiceName = service name to check for
+//
+//      OUTPUT:  0 If service is available
+//              -1 If service is unavailable
+/////////////////////////////////////////////////////////////
+function _IsServiceAvailable(szServiceName)
+	NUMBER nvResult;
+begin
+  nvResult = _InitServiceConnections(szServiceName);
+  _CloseServiceConnections();
+  return nvResult;
+end;
+
+
+
+/////////////////////////////////////////////////////////////
+//    FUNCTION:  _DeleteNTService(szSStartName)
+//
+// DESCRIPTION:  deletes a service on an NT system
+//
+//       INPUT:  szSStartName = String containing the service name on
+//                              the local computer
+//
+//      OUTPUT:  0 If function is successful in deleting service
+//              -1 If function fails to deleting the service
+/////////////////////////////////////////////////////////////
+function _DeleteNTService(szSStartName)
+	NUMBER nReturn, nResult;
+	SERVICE_STATUS ssServiceStatus;
+	STRING	szMsg;
+begin
+  // Initialize variables.
+  nReturn = 0;
+  nResult = 0;
+
+  // Open all our handles
+  _InitServiceConnections(szSStartName);
+
+  if (nReturn = 0) then
+    // delete the service
+    if (FALSE = DeleteService(schService)) then
+      nResult = GetLastError();
+      Sprintf(szMsg, "Error deleting service.\n\nError number = %ld.", nResult);
+      ODebugDsp(szMsg, 16);
+      nReturn = -1;
+    endif;
+  endif;
+
+  // close and NULL our handles
+  _CloseServiceConnections();
+
+  return nReturn;
+
+end;
+
+
+
+
+
+
+
+
+
+
+
+
+

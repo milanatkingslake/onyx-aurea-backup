@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="1321.654" MadCap:lastWidth="1109" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+    </head>
+    <body>
+        <head><title>elementPath (methodCallDetail)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="elementPath" />elementPath property</h2>
+        <p>The elementPath property of the <a href="methodCallDetail_object.htm"><MadCap:keyword term="methodCallDetail" />methodCallDetail</a> 
+ object contains an XPath expression that locates the parameter element.</p>
+        <h3>Data type</h3>
+        <p>string</p>
+        <h3>Access</h3>
+        <p>Read/write</p>
+        <h3>Remarks</h3>
+        <p>You can use either relative or absolute expressions. Absolute expression 
+ must begin with the slash (/) character.</p>
+        <h3>Inputs</h3>
+        <p>Input method call details can only use a simple location 
+ path containing element names and slashes. The XPath specifies an element 
+ to create in the <a href="tm_execute.htm">ParamXML</a> or <a href="tm_execute.htm">CustomDataXML</a> 
+ of the ITransactionManager.Execute call to the encapsulated OEAS logical 
+ method. It can only refer to element nodes. On input, relative XPath expressions 
+ relate to the parameters element in the ParamXML. If the elementPath is 
+ absolute, it must start with one of the following strings.</p>
+        <ul>
+            <li>/customData/ - The input element will be created 
+ in the CustomDataXML sent to the Transaction Manager. The text after /customData/ 
+ will be treated as a relative path specifying an element under the customData 
+ node in CustomDataXML.</li>
+            <li>/parameters/ - The input element will be created 
+ in the ParamXML sent to the Transaction Manager. The text after /parameters/ 
+ will be treated as a relative path specifying an element under the parameters 
+ node in ParamXML.</li>
+        </ul>
+        <p>After the initial string, you must specify a valid relative XPath. You 
+ cannot use /parameters/ or /customData/ by themselves.</p>
+        <p>Every ancestor in the elementPath must have a corresponding methodCallDetail 
+ object. OEAS does not create any missing nodes at runtime.</p>
+        <p>The following XPath expressions show examples of valid input elementPath 
+ values.</p>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Table_1.css');" class="TableStyle-Aptean_Table_1" cellspacing="0">
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 5cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 12cm;" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_1-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Absolute</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadD-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Relative</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">/parameters/company/secondaryId</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">company/secondaryId</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">/parameters/primaryId</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">primaryId</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">/parameters/literatureOrder/literatureOrderLines/literatureOrderLine/productNumber</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">literatureOrder/literatureOrderLines/literatureOrderLine/productNumber</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">/customData/myCustomParameter</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">--</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The following XPath expressions show examples of invalid input elementPath 
+ values.</p>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Table_1.css');" class="TableStyle-Aptean_Table_1" cellspacing="0">
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 5cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 12cm;" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_1-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Invalid XPath</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadD-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Reason</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">individual/addresses/address[primary="1"]/countryCode</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Input XPath cannot contain predicate expressions</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">/parametersReturn/customData/customElement</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Not a valid input element</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">/parameters</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Relative expression must follow the parameters 
+ element</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">incident/child::statusId</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Input XPath cannot contain axis identifiers</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Outputs</h3>
+        <p>Output method call details support full XPath syntax including filtering, 
+ functions, and so on. The XPath specifies an element in the <a href="tm_execute.htm">ReturnXML</a> 
+ of the ITransactionManager.Execute call to the encapsulated OEAS logical 
+ method. Unlike the input elementPath, an output elementPath can refer 
+ to any node type accessible with XPath expressions.</p>
+        <p>If the <a href="methodCallDetail_type.htm">type</a> is scalar, the elementPath 
+ should identify a single node within the ReturnXML. If the XPath identifies 
+ multiple nodes, only the first is considered the output node.</p>
+        <p>If the type is list, the elementPath is expected to identify a set of 
+ nodes within the ReturnXML. Each node within the set is an output node.</p>
+        <p>Relative elementPath expressions refer to the parametersReturn 
+ node in the ReturnXML. Absolute elementPath expressions must start with 
+ the following string.</p>
+        <ul>
+            <li>/returnXml/</li>
+        </ul>
+        <p>After the initial string, you must use a valid relative XPath expression. 
+ It is not valid to use /returnXml/ by itself).</p>
+    </body>
+</html>

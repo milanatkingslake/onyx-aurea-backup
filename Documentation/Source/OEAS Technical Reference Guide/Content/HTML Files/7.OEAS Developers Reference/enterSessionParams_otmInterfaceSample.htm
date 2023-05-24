@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="560.4567" MadCap:lastWidth="968">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>enterSessionParams (OTM Interface Sample)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h6>
+            <MadCap:keyword term="enterSessionParams;OTM Interface Sample" />Enter your parameters</h6>
+        <p>In the installed sample Web application, use this form to input the 
+ valid parameters for your environment and get a session ID. OnyxUserName, 
+ Password, ApplicationName, and SiteID are required and validated. The 
+ values you use here must exist already in the database. SourceName is 
+ a required parameter but is not validated. It can be any value including 
+ an empty string.</p>
+        <form action="establishSession_otmInterfaceSample.htm" method="post">
+            <p>
+                <input type="TEXT" name="onyxUserName" size="25" maxlength="256" id="onyxUserName" />&#160; OnyxUserName</p>
+            <p>
+                <input type="PASSWORD" name="password1" size="25" maxlength="256" id="password1" />&#160; Password</p>
+            <p>
+                <input type="TEXT" name="applicationName" size="25" maxlength="256" id="applicationName" style="left: 10px;top: 79px;" />&#160; ApplicationName</p>
+            <p>
+                <input type="TEXT" name="sourceName" size="25" maxlength="256" id="sourceName" />&#160; SourceName</p>
+            <p>
+                <input type="TEXT" name="siteId" size="25" maxlength="256" id="siteId" />&#160; SiteID&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 
+ <input type="SUBMIT" name="button1" value="Get Session ID" id="button1" /></p>
+        </form>
+        <p>You will get a "The page cannot be displayed" message if you 
+ enter invalid data for the authentication parameters. The following table 
+ summarizes the error types and their meanings.</p>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Table_1.css');" class="TableStyle-Aptean_Table_1" cellspacing="0">
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 5cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 5cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 7cm;" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_1-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Error Message</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Error Code</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadD-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Possible Cause</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">User login failed.</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">OnyxAuthenticate.AuthenticateOnyx.1 (0x80040601)</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Invalid user name, password, or site ID</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">The Onyx Application name provided is invalid.</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">OnyxAuthenticate.AuthenticateOnyx.1 (0x8004060E)</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Invalid ApplicationName</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">The Site ID provided is invalid.</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">OnyxAuthenticate.AuthenticateOnyx.1 (0x8004060F)</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">SiteID not an integer value</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

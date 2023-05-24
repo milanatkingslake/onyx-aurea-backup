@@ -1,0 +1,258 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="2247" MadCap:lastWidth="759" MadCap:ignoredWords="OEAS">
+    <head>
+        <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head>
+            <link href="../../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" /><title>OPS Service Security</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>OPS Service Security</h3>
+        <p>Before installing OPS, you created a Windows domain account for use 
+ during OPS Setup to link to the default Onyx user account named OPSSvcUser. 
+ OEDB setup creates the OPSSvcUser record. The OPS service must be configured 
+ to run under this Windows domain account. When the OPS service is running, 
+ OPS uses the domain account for Windows authentication when connecting 
+ to OEAS. </p>
+        <p>Before specifying a different domain account, the security 
+ administrator should read this entire topic. Be aware that the domain 
+ account is the Log On account for the OPS Windows service, the Windows 
+ user account for anonymous access to the OPS Administration website (Onyx 
+ authentication), and in some cases, a member of the OPSAdmin group on 
+ the local machine.</p>
+        <p class="ProcedureHeading">To specify a different domain account for the OPS Service User: 
+ </p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li>In Security Administration, expand <span class="UIElement" style="font-weight: bold;">Groups</span>, 
+ <span class="UIElement" style="font-weight: bold;">Administrator</span>, and <span class="UIElement" style="font-weight: bold;">Users</span>.</li>
+            <li>Select the <span class="UIElement" style="font-weight: bold;">OPS Service User</span> 
+ account. </li>
+            <li>Ensure that the <span class="UIElement" style="font-weight: bold;">Allow Impersonation</span> 
+ option is selected.</li>
+            <li>In the <span class="UIElement" style="font-weight: bold;">Edit User</span> 
+ area, type the domain account used during the OPS Setup in the <span class="UIElement" style="font-weight: bold;">Domain 
+ account</span> field. </li>
+        </ol>
+        <p class="Indent1">This is the name of the network user to whom the 
+ Onyx user is mapped (specified during OPS Setup). The name must include 
+ the domain name. (For example: corporate\JohnD) </p>
+        <ol style="list-style: decimal;list-style-type: decimal;" MadCap:continue="true">
+            <li>Save your changes.</li>
+        </ol>
+        <p>For more information about the domain account specified during OPS Setup, 
+ see the material on OPS installation and configuration in the <i>ONYX <MadCap:variable name="Aptean_Variables.Version number" /> Installation Guide</i>.</p>
+        <h4>Overview of OPS service security requirements</h4>
+        <p>The following points summarize the requirements for 
+ the OPS Service Log On account:</p>
+        <ul style="list-style: disc;" type="disc">
+            <li>Does not have to be a member of the local Administrators 
+ group on the OPS server, except if using a print fulfillment subsystem. 
+ For print fulfillment subsystems to work properly, this user must be a 
+ member of the local Administrators group.</li>
+            <li>Must be granted the right "Log on as a service."</li>
+            <li>DCOM must be configured to grant the service Log 
+ On account Local Launch and Local Activation rights for each of the OPS 
+ components.</li>
+        </ul>
+        <p>Additional considerations:</p>
+        <ul style="list-style: disc;" type="disc">
+            <li>For each OPS component, DCOM Local Launch and 
+ Local Activation rights must be granted to all OPS Administrators who 
+ use Windows authentication.</li>
+        </ul>
+        <p>When using the Sync Subsystem for OEP-Offline:</p>
+        <ul style="list-style: disc;" type="disc">
+            <li>The OPS Service Log On account must be the domain 
+ account associated with a MS Exchange mailbox having read privileges for 
+ public folders.</li>
+        </ul>
+        <p>When OPS components make calls to OEAS through a proxy 
+ there are additional requirements: </p>
+        <ul style="list-style: disc;" type="disc">
+            <li>The OPS service Log On account must belong to 
+ the "Distributed COM Users" group on the OEAS server</li>
+            <li>When using Windows authentication for OPS Administration 
+ the domain accounts of OPS Administrators must belong to the "Distributed 
+ COM Users" group on both servers. &#160;</li>
+        </ul>
+        <h4>OPS service Log On account settings</h4>
+        <p>Onyx recommends that a domain user be utilized for the OPS Service log-on 
+ account for several reasons. The Onyx Sync Subsystem for OEP-Offline uses 
+ Windows authentication to connect to a mailbox on a Microsoft Exchange 
+ server. A domain account is required for mailbox creation and for integrated 
+ Windows authentication. The Email Monitoring Subsystem also requires a 
+ domain account for network access to the Microsoft Exchange server. In 
+ a typical configuration the OPS fulfillment subsystems need access to 
+ a network file share containing the files for literature products, which 
+ is facilitated by using a domain account. This domain user is referred 
+ to here as domain\OPSServiceUser. It is the OPS Service Log On account. 
+ Substitute your domain name, e.g. myRealDomain\OPSServiceUser.</p>
+        <p>When using Basic Authentication SMTP protocol in OEAS 
+ configuration utility, see <a href="../../5.Using OPS Administration/ar_ca_add_config_exchg_serv.htm">additional 
+ configuration on Exchange Server</a>.</p>
+        <p>Rights are assigned to the domain\OPSServiceUser directly and through 
+ membership in various groups. Make sure the following rights are assigned 
+ using the Local Security Policy tool:</p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Right </th>
+                    <th>Group or User</th>
+                    <th>Comment</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Access this computer from the network</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Everyone </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enabled by default</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Bypass traverse checking</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Everyone </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enabled by default</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Allow log on locally</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Users </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enabled by default</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Allow log on through Terminal Services</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Remote Desktop Users</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enabled by default</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Log on as a service</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">domain\OPSServiceUser</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">New requirement</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Use the Computer Management tool to create the OPSAdministrators group 
+ and assign the domain\OPSServiceUser user account to it. Also add the 
+ user accounts of designated OPS administrators to this group. </p>
+        <h4>OPS Component DCOM Settings</h4>
+        <p>The DCOM permissions of Windows 2003 SP1 require specific settings on 
+ the OPS server. Use the Component Services tool to grant permissions on 
+ each component. Grant permissions according to the following table.</p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Component </th>
+                    <th>Group </th>
+                    <th>Set Checkboxes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Onyx Processing Service</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">OPSAdministrators</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Local Launch and Local Activation</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Onyx Processing Service Batch Subsystem</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">OPSAdministrators</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Local Launch and Local Activation</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Onyx Processing Service Email Monitor Subsystem</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">OPSAdministrators</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Local Launch and Local Activation</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Onyx Processing Service Fulfillment Subsystem</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">OPSAdministrators</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Local Launch and Local Activation</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Onyx Processing Service Sync Server Subsystem</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">OPSAdministrators</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Local Launch and Local Activation</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OnyxPSExchangeAccessRights</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">OPSAdministrators</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Local Launch and Local Activation</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Be sure that the account domain\OPSServiceUser belongs to the OPSAdministrators 
+ group. Note that these additional permissions are required because the 
+ service logon is not a member of the Administrators group, which has such 
+ permissions by default.</p>
+    </body>
+</html>

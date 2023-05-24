@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="5" MadCap:lastHeight="519" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Sequence of operation in script steps</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>Scripting user workflows</h3>
+        <p>For each script step, the following actions take place in the order 
+ presented here: </p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li>Any pre method calls are carried out, and variables 
+ are updated from the results of the method calls.</li>
+        </ol>
+        <p class="Indent1">The pre method calls are carried out in the order 
+ in which they reside in the <span class="UIElement" style="font-weight: bold;">Method Calls</span> 
+ box on the <span class="UIElement" style="font-weight: bold;">Method Calls</span> tab in the <span class="UIElement" style="font-weight: bold;">Edit Step</span> area for a step in the Script Designer 
+ </p>
+        <ol style="list-style: decimal;list-style-type: decimal;" MadCap:continue="true">
+            <li>The step is loaded in the end-user interface.</li>
+            <li>The end-user responds to the prompts.</li>
+            <li>The prompt responses are saved, and the variables 
+ are updated from the responses.</li>
+            <li>Any post method calls are carried out, and the 
+ variables are updated from the results of the method calls.</li>
+            <li>Any rule condition statements are evaluated.</li>
+        </ol>
+        <p class="Indent1">If a post method call failed, the rules are not 
+ evaluated. </p>
+        <ol style="list-style: decimal;list-style-type: decimal;" MadCap:continue="true">
+            <li>The session is saved, including the state of all 
+ global variables.</li>
+        </ol>
+        <p class="Indent1">The script session is saved even if the post method 
+ calls failed. </p>
+        <ol style="list-style: decimal;list-style-type: decimal;" MadCap:continue="true">
+            <li>All errors and messages are returned to the end-user 
+ interface, including pre and post method call errors and script engine 
+ errors.</li>
+        </ol>
+    </body>
+</html>

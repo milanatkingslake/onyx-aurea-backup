@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="759" MadCap:lastWidth="1020">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Using the COM+ Services Library</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>
+            <MadCap:keyword term="COM+ services library;Using the COM+ services library;Using;Using:COM;COM;COM:Using;Services Library" />Using the COM+ Services Library</h3>
+        <p>The COM+ Services Library (comsvcs.dll) contains a set of objects and 
+ functions that provide access to the COM+ run-time environment. Step components 
+ participating in COM+ transactions can use a subset of the library to 
+ influence the success or failure of a transaction at run-time.</p>
+        <p>Custom step components can use any part of the COM+ Services Library 
+ to implement system customizations or to integrate a third-party application. 
+ Onyx Step components use the library only to vote complete or abort for 
+ a transaction stream.</p>
+        <p>The following Visual Basic code snippet determines if a step component 
+ is executing within a transaction and, if so, votes on the overall state 
+ of the transaction.</p>
+        <p Class="Code" class="code"><span style="color: #008000;">'Cast a COM+ transaction vote based on </span>
+        </p>
+        <p Class="Code" class="code"><span style="color: #008000;">'the success or failure of step actions.</span>
+        </p>
+        <p Class="Code" class="code">Set&#160;oObjectContext&#160;=&#160;COMSVCSLib.GetObjectContext</p>
+        <p Class="Code" class="code"><span style="color: #008000;">' If oObjectContext is Nothing,</span>
+        </p>
+        <p Class="Code" class="code"><span style="color: #008000;">' then no transaction is taking place. </span>
+        </p>
+        <p Class="Code" class="code">If&#160;Not&#160;oObjectContext&#160;Is&#160;Nothing&#160;Then</p>
+        <p Class="Code" class="code">&#160;&#160;If&#160;bStepSuccess&#160;Then</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;oObjectContext.SetComplete</p>
+        <p Class="Code" class="code">&#160;&#160;Else</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;oObjectContext.SetAbort</p>
+        <p Class="Code" class="code">&#160;&#160;End&#160;If</p>
+        <p Class="Code" class="code">End&#160;If</p>
+        <p>When the OTM executes an "end" transaction step, it commits 
+ the transaction stream with the COM+ server. If any step component voted 
+ to abort, the entire transaction is rolled back. If step component returns 
+ a "stop" message to the OTM before reaching the "end" 
+ transaction step, the OTM will commit the transaction to prevent it from 
+ remaining open and unresolved.</p>
+        <p>For more information about the execution of 
+ transaction steps in a business object method, see <a href="Methods_and_Steps.htm">Methods 
+ and Steps</a>. </p>
+    </body>
+</html>

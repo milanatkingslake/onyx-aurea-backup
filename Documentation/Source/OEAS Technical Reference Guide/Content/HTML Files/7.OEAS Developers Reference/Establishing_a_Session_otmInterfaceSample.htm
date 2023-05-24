@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:ignoredWords="strSessionId;strOnyxUserName;strPassword;strSourceName;strSiteID" MadCap:lastBlockDepth="2" MadCap:lastHeight="719" MadCap:lastWidth="1020">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Establishing a Session (OTM Interface Sample)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>
+            <MadCap:keyword term="OTM Interface Sample" />Getting authenticated</h5>
+        <p>
+            <MadCap:keyword term="session" />Typically the client application requires a user to log-in. This log-in 
+ generates an Onyx session ID that can be stored as a cookie on the client 
+ computer. Subsequent server script code can request the session ID from 
+ the cookie as necessary. In order for this sample to work, we have to 
+ run the authentication code to get the session ID we will need in the 
+ OTM Execute call. The following frame shows the function signature for 
+ the <a href="Overview_Auth.htm" target="bottomFrame">AuthenticateOnyx</a> <a href="EstablishSession_AuthOX.htm" target="bottomFrame">EstablishSession</a> 
+ method.</p>
+        <p>To use the EstablishSession method, declare a string variable and an 
+ object variable. The string variable will hold the session ID returned 
+ by the OEAS Security Framework. You will use the object variable to create 
+ an AuthenticateOnyx object. Once you have created the object, use it to 
+ call its EstablishSession method with the appropriate parameters. The 
+ following frame shows the code used to declare the variables, create the 
+ AuthenticateOnyx object, and call the EstablishSession method. Click any 
+ of the links to see a description of the term.</p>
+        <p>This is the method signature for the IAuthenticateOnyx EstablishSession 
+ method. Use the hyperlinks to display a definition of the term.</p>
+        <p Class="Code" class="code">&#160;&#160;Dim&#160;strSessionId</p>
+        <p Class="Code" class="code">&#160;&#160;Dim&#160;objAuthenticate</p>
+        <p Class="Code" class="code">&#160;&#160;Set&#160;<a href="IAuthenticateOnyx_Interface.htm" target="bottomFrame">objAuthenticate</a> = CreateObject(</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"OnyxAuthenticate.AuthenticateOnyx"</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;)</p>
+        <p Class="Code" class="code">&#160;&#160;strSessionId = objAuthenticate.<a href="EstablishSession_AuthOX.htm" target="bottomFrame">EstablishSession</a>(</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;strOnyxUserName,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;strPassword,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;strApplicationName,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;strSourceName,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;strSiteID</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;)</p>
+    </body>
+</html>

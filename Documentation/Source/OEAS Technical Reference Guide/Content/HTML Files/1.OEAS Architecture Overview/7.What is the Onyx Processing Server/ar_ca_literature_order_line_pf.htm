@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:lastBlockDepth="4" MadCap:lastHeight="149" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Literature Order Line Process Flow</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>Literature Order Line Process Flow</h3>
+        <p>OPS components work together to process literature order lines. The 
+ fulfillment subsystem processing begins with a request by the OPS subsystems 
+ for literature order lines. The subsystems process print and email 
+ order lines, outputting Microsoft Word documents and email messages. The 
+ following list describes the OPS process flow: &#160;</p>
+        <p class="Image">
+            <img src="../../../Resources/Images/ar_ops_literatureorderflow.jpg" style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li>A user submits a request for a literature product 
+ to be sent via mail or email to a customer. Order line status is 
+ set to New.</li>
+            <li>The subsystem requests a batch of order lines 
+ from OEAS. Status is updated to In Process.</li>
+            <li>The subsystem processes the order lines:</li>
+        </ol>
+        <p class="Indent1">3a. The print subsystem merges the order line data 
+ into a print template. </p>
+        <p class="Indent1">OR </p>
+        <p class="Indent1">3b. The email subsystem merges the order line 
+ data into an email template. </p>
+        <ol style="list-style: decimal;list-style-type: decimal;" MadCap:continue="true">
+            <li>After the subsystem’s processing of the order 
+ lines is complete:</li>
+        </ol>
+        <p class="Indent1">4a. The resulting Word document is sent to a print 
+ queue for printing. </p>
+        <p class="Indent1">OR </p>
+        <p class="Indent1">4b. The resulting email is sent to the recipient. 
+ </p>
+        <ol style="list-style: decimal;list-style-type: decimal;" MadCap:continue="true">
+            <li>Any errors that occur during the process are logged 
+ in the Event Log. However, only for Print subsystem the errors are logged in the<br /><code>..\&lt;installation folder&gt;\Components\Logs\OPS.log</code> file. You can configure the OPS service to send an error notification 
+ via email in addition to logging the event. For more information to configure logging, see Print Subsystem Logging.</li>
+            <li>The subsystem updates the processed order lines 
+ status to Completed or Error as appropriate.</li>
+        </ol>
+    </body>
+</html>

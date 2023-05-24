@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="728" MadCap:lastWidth="960" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <body>
+        <head><title>methodParameterXml (publishableObject)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="methodParameterXml property" />
+            <MadCap:keyword term="methodParameterXml" />methodParameterXml property</h2>
+        <p>The methodParameterXml property of the <a href="publishableObject_object.htm"><MadCap:keyword term="publishableObject" />publishableObject</a> 
+ object contains XML used by the method that retrieves the domain data 
+ to publish.</p>
+        <h3>Data type</h3>
+        <p>string</p>
+        <h3>Access</h3>
+        <p>Read/write</p>
+        <h3>Remarks</h3>
+        <p>When the <a href="publishableObject_publish.htm">publish</a> method 
+ uses a retrieveCollection method, the methodParameterXml property contains 
+ the &lt;parameters&gt; input node for the retrieveCollection method. In 
+ the case of the campaign object, the default implementation OEAS uses 
+ the following XML to retrieve all active campaign object instances.</p>
+        <p Class="Code" class="code">&lt;parameters&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;campaigns objectType="campaign" collection="1"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;campaign objectType="campaign"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;active&gt;1&lt;/active&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/campaign&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/campaigns&gt;</p>
+        <p Class="Code" class="code">&lt;/parameters&gt;</p>
+        <p>When the publish method uses the <a href="publishableObject_extract.htm">extract</a> 
+ method, the methodParameterXml property contains the input parameters 
+ for the extract method. In the case of the currencyConversion object, 
+ the default implementation OEAS uses the following XML, which specifies 
+ a database view, to retrieve all active currencyConversion object instances.</p>
+        <p Class="Code" class="code">&lt;parameters&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;viewName&gt;currencyConversion&lt;/viewName&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;objectName&gt;currencyConversion&lt;/objectName&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;objectNamePlural&gt;currencyConversions&lt;/objectNamePlural&gt;</p>
+        <p Class="Code" class="code">&lt;/parameters&gt;</p>
+        <p>The extract method appends "_DP_VIEW" 
+ to the value of the &lt;viewName&gt; element; therefore, the name of the 
+ view is currencyConversion_DP_VIEW. Because extract method formats its 
+ results to match the structure of a retrieveCollection &lt;parametersReturn&gt; 
+ element, the &lt;objectNamePlural&gt; element is required to specify the 
+ name of collection node in the retrieveCollection results. </p>
+    </body>
+</html>

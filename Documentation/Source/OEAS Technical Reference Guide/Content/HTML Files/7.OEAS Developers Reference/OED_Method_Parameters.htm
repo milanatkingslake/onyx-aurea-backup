@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="608" MadCap:lastWidth="994" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Method Parameters</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h6>Parameter</h6>
+        <p>
+            <MadCap:keyword term="parameters" />Parameters, which are owned by a method, provide the OEAS with data 
+ that is used by the method. These parameters may be simple variables or 
+ they may be objects. When a parameter is an object instance, the method 
+ has access to all of the data in the properties on that object. Conceptually, 
+ you can treat an object type parameter as a structure that may hold many 
+ different kinds of data.</p>
+        <p>Parameters have specific attributes which include a name that is unique 
+ within the method, a description, a direction (<span style="font-weight: bold;">in</span>, 
+ <span style="font-weight: bold;">out</span>, or <span style="font-weight: bold;">inOut</span>) 
+ that describes the direction of data flow, and a data type, which may 
+ be a simple type or the keyword <span style="font-weight: bold;">object</span>. 
+ Simple parameters may optionally have a default value attribute. Object 
+ type parameters must have an <span style="font-weight: bold;">object</span> 
+ type. These object type parameters also have required attributes called 
+ "content in" and "content out."</p>
+        <p>These content in and content out attributes can actually be collections 
+ with their own value and can be one of the following types:</p>
+        <ul>
+            <li><span style="font-weight: bold;">all</span>
+            </li>
+            <li><span style="font-weight: bold;">any</span>
+            </li>
+            <li><span style="font-weight: bold;">keysOnly</span>
+            </li>
+            <li><span style="font-weight: bold;">partial</span>
+            </li>
+        </ul>
+        <p>The content in and content out value tells the core components which 
+ properties on the object parameter will be accessible. If the value is 
+ <span style="font-weight: bold;">all</span>, <span style="font-weight: bold;">any</span><span style="font-weight: normal;">,</span> or <span style="font-weight: bold;">keysOnly</span>, 
+ then the list of properties can be determined from the object's definition. 
+ In that case, the content in or content out collection can be empty. If 
+ the value is <span style="font-weight: bold;">partial</span>, then the 
+ property list cannot be determined and must be supplied in the collection.</p>
+        <p>
+            <MadCap:keyword term="Methods" />There is one special container object. Methods 
+ (typically retrieveList methods) can handle data using a generic container 
+ object specially designed for OEAS output. This container object is called 
+ a <span style="font-weight: bold;">rowSet</span>. The <span style="font-weight: bold;">rowSet</span> 
+ object is flexible and dynamic - it may hold any number of simple properties 
+ or values, which are described by the columnDefinitions collection within 
+ the <span style="font-weight: bold;">rowSet</span> object. When a method 
+ specifies an object parameter with an object type of <span style="font-weight: bold;">rowSet</span>, 
+ then the list of object properties cannot be determined. In this case, 
+ the list of column names for the rowSet must be specified in the <a href="workingwithoed_method_parameters.htm#contentOut">contentOut</a> 
+ collection. </p>
+    </body>
+</html>

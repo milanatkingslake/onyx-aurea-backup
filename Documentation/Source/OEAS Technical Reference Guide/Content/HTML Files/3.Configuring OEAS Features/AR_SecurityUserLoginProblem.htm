@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="5" MadCap:lastHeight="771" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Security troubleshooting</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>Security troubleshooting </h3>
+        <p>The following sections describe problems that might occur for users, 
+ and how you can solve them. </p>
+        <h4>Membership in Windows roles </h4>
+        <p>If you have problems with membership of roles after installation, correct 
+ the membership using Component Services in Windows 2000. </p>
+        <h4>OEAS logical application cannot connect to OEDB </h4>
+        <p>If at any point you restore the database from a backup, OEAS logical 
+ applications might not be able to connect to the OEDB. The cause is a 
+ known SQL Server problem, in which user logon information is not preserved 
+ when a database is restored from its backup. For prevention of or a solution 
+ to the problem, see article Q168001 (“PRB: User Logon and/or Permission 
+ Errors After Restoring Dump”) in the Microsoft Developers Network (MSDN) 
+ Knowledge Base. </p>
+        <h4>User logon problems </h4>
+        <p>Some causes of user logon problems are specific either to integrated 
+ Windows authentication or to Onyx authentication. Others are independent 
+ of the kind of user authentication being employed. </p>
+        <p>In addition to checking the items that are specific 
+ to either kind of user authentication, check the following: </p>
+        <ul>
+            <li>If the AppName parameter or the SiteID parameter 
+ is specified in the URL on which the user logs on, make sure that they 
+ match the OEAS logical application name and the site ID in the Onyx Enterprise 
+ Studio Web site on which you have added the user. The system does not 
+ check these parameters.</li>
+            <li>If two or more Onyx Enterprise Application Server 
+ (OEAS) logical applications have been configured on one OEAS server, confirm 
+ that the OnyxEASApp component was shut down after the last configuration. 
+ If multiple OEAS logical applications are installed on one OEAS server, 
+ the OnyxEASApp component must be shut down before anyone can logon to 
+ the OEAS logical application.</li>
+        </ul>
+        <p>If the user is trying to log on with integrated Windows 
+ authentication and gets the log on error message “Access Denied. Please 
+ contact your System Administrator,” then check the following: </p>
+        <ul>
+            <li>Make sure the user is has been created correctly 
+ in Security Administration: </li>
+        </ul>
+        <ul style="list-style-type: circle;">
+            <li class="Sec_List">Verify that the <span class="UIElement" style="font-weight: bold;">Windows 
+ Integrated Authentication</span> box is checked.</li>
+            <li class="Sec_List">Verify that the domain account typed in the 
+ <span class="UIElement" style="font-weight: bold;">Domain Account</span> box is a valid, existing account.</li>
+        </ul>
+        <ul>
+            <li>Check that the Windows account with which the 
+ user is logged in to his or her computer is the same as domain account 
+ that is typed in the <span class="UIElement" style="font-weight: bold;">Domain Account</span> box in 
+ the edit area for the user.</li>
+        </ul>
+        <p>If the user is trying to log on with Onyx authentication 
+ and gets the logon error message “Invalid User ID and/or password,” check 
+ the following: </p>
+        <ul>
+            <li>Make sure the user is has been created correctly 
+ in Security Administration. In this case, doing so means verifying that 
+ the <span class="UIElement" style="font-weight: bold;">Onyx Authentication</span> box is checked.</li>
+            <li>Verify the user is using the correct User ID and 
+ password to log on.</li>
+        </ul>
+    </body>
+</html>

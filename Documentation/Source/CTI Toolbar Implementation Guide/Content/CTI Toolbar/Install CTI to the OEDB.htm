@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:lastBlockDepth="6" MadCap:lastHeight="682" MadCap:lastWidth="624" MadCap:conditions="FrontMatter.Comment" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link rel="stylesheet" MadCap:stylesheetType="table" />
+    </head>
+    <body>
+        <H3 class="Heading">Step 2: Install Onyx CTI to the OEDB</H3>
+        <p class="Normal">In this step, you run a Setup file that installs the Onyx CTI database objects to an existing OEDB.</p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">For Onyx CTI upgrades: Your migrated Onyx CTI data is automatically upgraded during this step. </p>
+        <p class="TaskHeading"><b>To install Onyx CTI to the OEDB: </b>
+        </p>
+        <ol>
+            <li class="ListBullet">Ensure that the existing OEDB is backed up. </li>
+            <li class="ListBullet">Copy the <b class="UI_elements">\Setup\Database</b> folder from the Onyx CTI product CD to a local machine (the OEDB server or a separate machine). </li>
+        </ol>
+        <p class="Indent1">For the OEDB Setup to run properly, the Microsoft SQL Server 2008 or 2012 client tools must be installed on the local machine to enable SQL Server authentication.<br /></p>
+        <ol>
+            <li value="3" class="ListBullet">Within the copied Database folder, run the <b class="UI_elements">Setup.hta</b> file, bypassing any security warnings that might appear. </li>
+            <li class="ListBullet">In the<b> Onyx CTI OEDB Setup</b> window, click <b class="UI_elements">Next</b> and then type the logon information as follows: <br /></li>
+            <table>
+                <col />
+                <col />
+                <thead>
+                    <tr>
+                        <th style="font-weight: normal;text-align: left;"><b>In this box</b>
+                        </th>
+                        <th style="text-align: left;">Type this</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Server</td>
+                        <td>OEDB server name</td>
+                    </tr>
+                    <tr>
+                        <td>Database</td>
+                        <td>OEDB name</td>
+                    </tr>
+                    <tr>
+                        <td>Login</td>
+                        <td>User name. Must have database owner (dbo) privileges</td>
+                    </tr>
+                    <tr>
+                        <td>Password</td>
+                        <td>Password for the typed user name</td>
+                    </tr>
+                </tbody>
+            </table>
+            <li class="ListBullet">Click <span class="UI_elements"><b>Install</b></span>. </li>
+            <li class="ListBullet">Click <b class="UI_elements">Finish</b>. </li>
+            <li class="ListBullet">Confirm  that no errors occurred during the installation process by viewing the oedb_setup.log file in the copied Database folder. </li>
+        </ol>
+        <p class="Noteindent">If you find errors in the oedb_setup.log file, restore the previously backed up OEDB and then rerun the Setup file.<br /></p>
+    </body>
+</html>

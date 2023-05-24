@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="797" MadCap:lastWidth="624">
+    <head><title>Configuring Database</title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h3>Configuring Database</h3>
+        <p class="ProcedureHeading">To install Database:</p>
+        <ol>
+            <li>On your SQL server, open SQL Server Management Studio, and then log on by typing the user name and password.</li>
+            <li>Do the following:</li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">Expand the <b>Security</b> folder under the DB server.</li>
+            <li class="List_Indent">Expand the <b>Logins</b> folder.</li>
+            <li class="List_Indent">Grant the OnyxLMSql user created during OEAS setup installation, <b>OnyxLMViews</b> and <b>db_datawriter</b> database role memberships at User Mapping.</li>
+        </ol>
+        <p class="Indent1"><b>Example:</b>
+        </p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/Configuring Database.png" style="visibility: visible;width: 537px;height: 482px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <ol start="3">
+            <li>Expand the <b>Tables</b> folder and verify that the following tables are present as default:</li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">dbo.Mass_email_batch</li>
+            <li class="List_Indent">dbo.Mass_email_queue</li>
+            <li class="List_Indent">dbo.Mass_email_history</li>
+            <li class="List_Indent">dbo.Mass_email_invalid_records </li>
+        </ol>
+        <ol start="4">
+            <li>Expand the <b>Programmability</b> folder and the <b>Stored Procedures</b> folder in the DB name and&#160; verify that the following procedures are present as default:</li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">dbo.SDpcdEmailBatchExecute</li>
+            <li class="List_Indent">dbo.SDpcdEmailBatchInsert </li>
+            <li class="List_Indent">dbo.SDpcdProcessedEmail</li>
+            <li class="List_Indent">dbo.SDpcgDecryptEmailData </li>
+            <li class="List_Indent">dbo.SDpcgEncryptEmailData </li>
+            <li class="List_Indent">dbo.SDpcgGetEmailQueue </li>
+            <li class="List_Indent">dbo.SDpcgValidateEmailQueue</li>
+            <li class="List_Indent">dbo.SDpcuSentEmail </li>
+            <li class="List_Indent">dbo.SDpsiCampaign</li>
+        </ol>
+        <ol start="5">
+            <li>In the Web/App server, press <b>Start &gt; All Programs &gt; Administrative Tools</b>, and then click <b>Component Services</b>.</li>
+            <li>Expand <b>Component Services &gt; Computers &gt; My Computer</b>.</li>
+            <li>Double-click <b>COM+ Applications</b>.</li>
+            <li>Right-click <b>OnyxEASApp</b>, and then click <b>Shut Down</b>.</li>
+        </ol>
+        <p class="Indent1">This releases any references to the <b>OED XML</b> file.</p>
+        <ol MadCap:continue="true">
+            <li>Log on to OES Object Designer.</li>
+            <li>Expand the <b>Physical Model</b> node and the <b>Procedures</b> node to verify the existence of:</li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">SDpcdEmailBatchExecute </li>
+            <li class="List_Indent">SDpcdEmailBatchInsert</li>
+        </ol>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">The database tables and procedures required for Email Accelerator are created when you install the OEDB. Additionally, OED and Onyx UI code modifications for Email Accelerator are included in the OEAS and Onyx UI setups respectively.</p>
+    </body>
+</html>

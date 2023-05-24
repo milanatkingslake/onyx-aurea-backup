@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="759" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Email(1)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>Email(1) </h4>
+        <p>In the Global TelCom example, Email(1) is a templatized email that informs 
+ the customer that the problem is being addressed and that they will be 
+ contacted by the support technician assigned to them. The template uses 
+ the merge functionality to include specific data pertinent to the support 
+ request. In the following example of Email(1), the merged data is bolded 
+ for clarification. </p>
+        <p class="Image">
+            <img src="../../Resources/Images/AR_TemplateExample2.jpg" style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <p>The email is a merged template, with placeholders for the data that 
+ is specific to this support request. The data is merged into the template 
+ from OEAS via a method call. The template is created and maintained in 
+ Onyx Employee Portal (OEP) using Template Maintenance, and the method 
+ call is created using the Method Call Designer. </p>
+        <p>This particular template is a merged template and 
+ requires a method call based on the OEAS method incident.retrieveListQuickSearch. 
+ Based on the ID of the support incident, it returns the following information: 
+ </p>
+        <ul>
+            <li>The customer’s ID (the “Owner ID” column of the 
+ rowSet returned by the method)</li>
+            <li>The customer’s first and last names (the “First 
+ Name” and “Last Name” columns of the rowSet returned by the method)</li>
+            <li>The support incident ID (the “ID” column of the 
+ rowSet returned by the method)</li>
+            <li>The name of the support technician to whom the 
+ support incident is assigned (the “Assigned To” column of the rowSet returned 
+ by the method)</li>
+        </ul>
+        <p>Once you have created the necessary method call to support the template, 
+ you can create the template using Template Maintenance, linking placeholders 
+ for the merged data to the output details of the method call as appropriate. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">A method call based on the incident retrieveListQuickSearch 
+ method is demonstrated in the section on Method Calls. See <i>retrieveList</i>. 
+ That method call example retrieves data similar to that required of the 
+ example template for Email(1).</p>
+    </body>
+</html>

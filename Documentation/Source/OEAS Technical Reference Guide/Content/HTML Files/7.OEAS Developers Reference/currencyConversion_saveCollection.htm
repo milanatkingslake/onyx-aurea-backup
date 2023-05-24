@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="842" MadCap:lastWidth="624">
+    <head>
+    </head>
+    <body>
+        <h2>saveCollection method</h2>
+        <p>The saveCollection method of the <a href="currencyConversion_object.htm"><MadCap:keyword term="currencyConversion" />currencyConversion</a> 
+ object performs multiple actions in a single OEAS method call such as inserting, updating, and deleting objects, as appropriate.</p>
+        <h3>Parameters</h3>
+        <table>
+            <col style="width: 4cm;">
+            </col>
+            <col style="width: 3cm;">
+            </col>
+            <col style="width: 3cm;">
+            </col>
+            <col style="width: 3cm;">
+            </col>
+            <col style="width: 4cm;">
+            </col>
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Direction</th>
+                    <th>Data type</th>
+                    <th>Content type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">currencyConversions</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">inOut</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">object</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">any</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">currencyConversion object whose content="all" or "partial"</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Steps</h3>
+        <table>
+            <col style="width: 5cm;">
+            </col>
+            <col style="width: 5cm;">
+            </col>
+            <col style="width: 7cm;">
+            </col>
+            <thead>
+                <tr>
+                    <th>Step data</th>
+                    <th>Step type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OnyxDataValidationStep.DataValidation</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Validates the input parameters</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OnyxDM.DataManager</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Inserts/updates/deletes the currencyConversion objects</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Example</h3>
+        <p style="font-weight: bold;">Input Parameter:</p>
+        <p class="C_Code">&lt;parameters&gt;</p>
+        <p class="C_Code">&lt;currencyConversions objectType="currencyConversion" collection="1"&gt;</p>
+        <p class="C_Code">&lt;currencyConversion objectType="currencyConversion" action="insert"&gt;</p>
+        <p class="C_Code">&lt;currencyCodeFrom&gt;AUD&lt;/currencyCodeFrom&gt;</p>
+        <p class="C_Code">&lt;currencyCodeTo&gt;CAD &lt;/currencyCodeTo&gt;</p>
+        <p class="C_Code">&lt;effectiveDate&gt;2016-01-01 07:00:00&lt;/effectiveDate&gt;</p>
+        <p class="C_Code">&lt;rate&gt;1.0000000&lt;/rate&gt;</p>
+        <p class="C_Code">&lt;triangulationCode&gt;&lt;/triangulationCode&gt;</p>
+        <p class="C_Code">&lt;/currencyConversion&gt;</p>
+        <p class="C_Code">&lt;/currencyConversions&gt;</p>
+        <p class="C_Code">&lt;/parameters&gt;</p>
+        <p style="font-weight: bold;">Output Parameter:</p>
+        <p class="C_Code">&lt;parametersReturn&gt;</p>
+        <p class="C_Code">- &lt;currencyConversions objectType="currencyConversion" collection="1" content="keysOnly"&gt;</p>
+        <p class="C_Code">- &lt;currencyConversion objectType="currencyConversion" action="insert" content="keysOnly"&gt;</p>
+        <p class="C_Code">&lt;currencyCodeFrom&gt;AUD&lt;/currencyCodeFrom&gt;</p>
+        <p class="C_Code">&lt;currencyCodeTo&gt;CAD&lt;/currencyCodeTo&gt;</p>
+        <p class="C_Code">&lt;effectiveDate&gt;2016-01-01 07:00:00&lt;/effectiveDate&gt;</p>
+        <p class="C_Code">&lt;/currencyConversion&gt;</p>
+        <p class="C_Code">&lt;/currencyConversions&gt;</p>
+        <p class="C_Code">&lt;/parametersReturn&gt;</p>
+    </body>
+</html>

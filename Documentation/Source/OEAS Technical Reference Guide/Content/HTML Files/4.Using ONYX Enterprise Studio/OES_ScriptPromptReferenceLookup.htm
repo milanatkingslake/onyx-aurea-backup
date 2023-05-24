@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="5" MadCap:lastHeight="790" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Configuring a reference lookup prompt</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>Configuring a reference lookup prompt </h5>
+        <p>For reference lookup prompts, you can specify the 
+ following: </p>
+        <ul>
+            <li>The name of the reference field that is the source 
+ of the data to be listed in the prompt.</li>
+        </ul>
+        <p class="Indent1">A name value is required. </p>
+        <ul>
+            <li>If the reference field that is the source of the 
+ data to be listed has a parent reference field, the parentId of the parent 
+ reference field.</li>
+        </ul>
+        <p class="Indent1">A parentId value is optional. </p>
+        <ul>
+            <li>Whether the prompt appears as a list box or as 
+ a drop-down list box.</li>
+            <li>Minimum and maximum number of responses that the 
+ user can select when the prompt is a list box.</li>
+            <li>The number of items to display in the list box.</li>
+        </ul>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">In the following procedure, all the steps except the last 
+ (in which you save changes) take place on the step’s <span class="UIElement" style="font-weight: bold;">Prompts 
+ </span>tab. </p>
+        <p style="font-weight: bold;">To specify attributes for a reference lookup prompt: </p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li>In the <span class="UIElement" style="font-weight: bold;">Min</span> box, set 
+ the minimum required number of responses.</li>
+        </ol>
+        <p class="Indent1">If you specify 0 in <span class="UIElement" style="font-weight: bold;">Min</span>, 
+ the prompt is optional. If, however, you specify 0 and also select <span class="UIElement" style="font-weight: bold;">Required</span>, selecting <span class="UIElement" style="font-weight: bold;">Required</span> 
+ overrides <span class="UIElement" style="font-weight: bold;">Min</span>, so that the minimum number 
+ of responses is effectively 1, even though you specified 0. </p>
+        <ol style="list-style: decimal;list-style-type: decimal;" MadCap:continue="true">
+            <li>In the <span class="UIElement" style="font-weight: bold;">Max</span> box, set 
+ the maximum allowed number of responses.</li>
+        </ol>
+        <p class="Indent1">By default, the value in the box is 1. If you specify 
+ 1 in <span class="UIElement" style="font-weight: bold;">Max</span>, the prompt is a single-select prompt, 
+ and you can also specify an output variable. For information on specifying 
+ an output variable, see <a href="OES_ScriptPromptAddPrompt.htm">Adding a prompt.</a></p>
+        <p class="Indent1">To specify an unlimited number of responses, delete 
+ the value in the box. </p>
+        <ol style="list-style: decimal;list-style-type: decimal;" MadCap:continue="true">
+            <li>In the <span class="UIElement" style="font-weight: bold;">Size</span> box, 
+ type the number of lines to display for the prompt.</li>
+            <li>To make the prompt a drop-down list box, in the 
+ <span class="UIElement" style="font-weight: bold;">Extra Data</span> box, specify “dropdown=1” (the 
+ default value).</li>
+        </ol>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">If you specify a value greater than 1 in <span class="UIElement" style="font-weight: bold;">Max</span>, 
+ specifying that the prompt is a drop-down list box overrides the <span class="UIElement" style="font-weight: bold;">Max</span> value, and the prompt is a single-select prompt 
+ by virtue of being a drop-down list box. If you specify a <span class="UIElement" style="font-weight: bold;">Min</span> 
+ value greater than one and specify that the prompt is a drop-down list 
+ box, then in an end-user interface session using this script, the step 
+ will return an error and the session will not continue beyond the step.</p>
+        <ol style="list-style: decimal;list-style-type: decimal;" MadCap:continue="true">
+            <li>To specify the parentId of the data to show in 
+ the prompt, in the <span class="UIElement" style="font-weight: bold;">Extra Data</span> box, append 
+ the parentId value to “parentId=”.</li>
+        </ol>
+        <p class="Indent1">To specify a parentId dynamically, you can append 
+ a variable rather than a specific value. For example, if the parentId 
+ is stored in the code portion of a variable called myVariable, you could 
+ use the string “parentId={myVariable}”. </p>
+        <ol style="list-style: decimal;list-style-type: decimal;" MadCap:continue="true">
+            <li>To name the reference field whose data the prompt 
+ presents to the user, in the <span class="UIElement" style="font-weight: bold;">Extra Data</span> box, 
+ append the reference field name to “name=”.</li>
+        </ol>
+        <p class="Indent1">The name is required for this prompt. </p>
+        <ol style="list-style: decimal;list-style-type: decimal;" MadCap:continue="true">
+            <li>On the toolbar, click <img src="../../Resources/Images/oes_iconSave0.jpg" /> to save your 
+ changes to the database.</li>
+        </ol>
+    </body>
+</html>

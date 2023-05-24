@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="2431" MadCap:lastWidth="994" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>incident and task collisions</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>
+            <MadCap:keyword term="task collisions" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />
+            <MadCap:keyword term="incident" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />incident and task collisions</h5>
+        <p>The conditions listed below are the circumstances during synchronization 
+ cycles that cause the OEP-Offline client and the synchronization subsystem 
+ to call the collision handler to process incident and task collisions.</p>
+        <p>The default collision handler settings of the incident 
+ and task objects:</p>
+        <ul>
+            <li>The algorithm type is lastUpdateWins.</li>
+            <li>The collision handler ignores maintenance properties 
+ and other read-only properties. Ignoring certain properties increases 
+ the number of collisions that are resolved without user intervention. 
+ For details about the ignored properties, see <i>Subscription Designer Help</i>, 
+ which is an Onyx Enterprise Studio (OES) design tool.</li>
+        </ul>
+        <p><span style="font-weight: bold;">Conditions:</span> 
+ The offline version was updated last. Only ignored properties have changed 
+ on the offline and online versions.</p>
+        <ul>
+            <li>What the collision handler does after the sync 
+ server or OEP-Offline client calls it:</li>
+        </ul>
+        <p class="Indent1">Updates the onyxTimestamp on the offline 
+ version, and specifies the retry action.</p>
+        <ul>
+            <li>What the sync subsystem does after it calls the 
+ collision handler:</li>
+        </ul>
+        <p class="Indent1">Calls the update method to persist the offline 
+ version in the Onyx Enterprise Database (OEDB). If it succeeds, the new 
+ version of the item is eventually downsynced.</p>
+        <ul>
+            <li>What the OEP-Offline client does after it calls 
+ the collision handler:</li>
+        </ul>
+        <p class="Indent1">Sets the offline version of the item to update.</p>
+        <p class="Indent1">After a client synchronization and server 
+ synchronization, the offline version is persisted in the OEDB.</p>
+        <p><span style="font-weight: bold;">Conditions:</span> 
+ The online version was updated last. Only ignored properties have changed 
+ on the offline and online versions.</p>
+        <ul>
+            <li>What the collision handler does after the sync 
+ server or OEP-Offline client calls it:</li>
+        </ul>
+        <p class="Indent1">Specifies the noOp action.</p>
+        <ul>
+            <li>What the sync subsystem does after it calls the 
+ collision handler:</li>
+        </ul>
+        <p class="Indent1">Nothing. A server synchronization eventually 
+ downsyncs the online version to the staging server data store.</p>
+        <ul>
+            <li>&#160;What the OEP-Offline client does after it 
+ calls the collision handler:</li>
+        </ul>
+        <p>Replaces the item in the OEP-Offline client 
+ data store with the online version.</p>
+        <p><span style="font-weight: bold;">Conditions:</span> 
+ Watched properties in the offline version changed, ignored properties 
+ in the online version changed, and the offline version was updated last.</p>
+        <ul>
+            <li>What the collision handler does after the sync 
+ server or OEP-Offline client calls it:</li>
+        </ul>
+        <p class="Indent1">Updates the onyxTimestamp on the offline 
+ version, and specifies the retry action.</p>
+        <ul>
+            <li>What the sync subsystem does after it calls the 
+ collision handler:</li>
+        </ul>
+        <p class="Indent1">Calls the update method to persist the item 
+ in the OEDB. If it succeeds, the new version of the item is eventually 
+ downsynced.</p>
+        <ul>
+            <li>What the OEP-Offline client does after it calls 
+ the collision handler:</li>
+        </ul>
+        <p class="Indent1">Sets the offline version of the item to update.</p>
+        <p class="Indent1">After a client synchronization and server 
+ synchronization, this version is persisted in the OEDB.</p>
+        <p><span style="font-weight: bold;">Conditions:</span> 
+ The same watched properties in the offline and online versions have changed 
+ to identical values, and the offline version was updated last.</p>
+        <ul>
+            <li>What the collision handler is going to do after 
+ the sync server calls it:</li>
+        </ul>
+        <p class="Indent1">Updates the onyxTimestamp on the offline 
+ version, and specifies the retry action.</p>
+        <ul>
+            <li>What the sync subsystem does after it calls the 
+ collision handler:</li>
+        </ul>
+        <p class="Indent1">Calls the update method to persist the offline 
+ version in the OEDB. If it succeeds, the new version of the item is eventually 
+ downsynced.</p>
+        <ul>
+            <li>What the OEP-Offline client does after it calls 
+ the collision handler:</li>
+        </ul>
+        <p class="Indent1">Sets the offline version of the item to update.</p>
+        <p class="Indent1">After a client synchronization and server 
+ synchronization, the offline version is persisted in the OEDB.</p>
+        <p><span style="font-weight: bold;">Conditions:</span> 
+ The same watched properties in the offline and online versions have changed 
+ to identical values, and the online version was updated last.</p>
+        <ul>
+            <li>What the collision handler is going to do after 
+ the sync server calls it:</li>
+        </ul>
+        <p class="Indent1">Specifies the noOp action.</p>
+        <ul>
+            <li>What the sync subsystem does after it calls the 
+ collision handler:</li>
+        </ul>
+        <p class="Indent1">Nothing. A server synchronization eventually 
+ downsyncs the online version to the staging server data store.</p>
+        <ul>
+            <li>What the OEP-Offline client does after it calls 
+ the collision handler:</li>
+        </ul>
+        <p>Replaces the item in the OEP-Offline client 
+ data store with the online version.</p>
+        <p><span style="font-weight: bold;">Conditions:</span><span style="font-weight: normal;"> D</span>ifferent watched properties have 
+ changed<span style="font-weight: normal;"> on both offline and online 
+ versions, or t</span>he same properties have changed but at least one 
+ property has a different value. The offline version was updated last.</p>
+        <ul>
+            <li>What the collision handler does after the sync 
+ server or OEP-Offline client calls it:</li>
+        </ul>
+        <p class="Indent1">Updates the onyxTimestamp on the offline 
+ version, and specifies the retry action.</p>
+        <ul>
+            <li>What the sync subsystem does after it calls the 
+ collision handler:</li>
+        </ul>
+        <p class="Indent1">Calls the update method to persist the offline 
+ version in the OEDB. If it succeeds, the new version of the item is eventually 
+ downsynced.</p>
+        <ul>
+            <li>What the OEP-Offline client does after it calls 
+ the collision handler:</li>
+        </ul>
+        <p class="Indent1">Sets the offline version of the item to update.</p>
+        <p class="Indent1">After a client synchronization and server 
+ synchronization, the offline version is persisted in the OEDB.</p>
+        <p><span style="font-weight: bold;">Conditions:</span><span style="font-weight: normal;"> D</span>ifferent watched properties have 
+ changed<span style="font-weight: normal;"> on both offline and online 
+ versions, or t</span>he same properties have changed but at least one 
+ property has a different value. The online version was updated last.</p>
+        <ul>
+            <li>What the collision handler does after the sync 
+ server or OEP-Offline client calls it:</li>
+        </ul>
+        <p class="Indent1">Specifies the conflict action. The online 
+ version is returned as primary and offline version is returned as secondary.</p>
+        <ul>
+            <li>What the sync subsystem does after it calls the 
+ collision handler:</li>
+        </ul>
+        <p class="Indent1">Downsyncs the online version with the offline 
+ version as conflict data.</p>
+        <ul>
+            <li>What the OEP-Offline client does after it calls 
+ the collision handler:</li>
+        </ul>
+        <p class="Indent1">Displays both versions 
+ to the user as a conflict. The user may choose to update the online version 
+ with data from their offline version. Note that regardless of which version 
+ of the incident or task is chosen, the work notes from both versions are 
+ preserved. </p>
+    </body>
+</html>

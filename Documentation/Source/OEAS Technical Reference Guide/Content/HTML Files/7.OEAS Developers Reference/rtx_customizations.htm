@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="590" MadCap:lastWidth="642" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Note_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+    </head>
+    <body>
+        <head><title>Customizations</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>
+            <MadCap:keyword term="customization" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />Customizations</h5>
+        <p>The support for customizations in scripting and the run-time XML depends 
+ on the object type being customized.</p>
+        <h3>Domain objects</h3>
+        <p>The script cache uses the get_script_cache_items.sql stored procedure 
+ to retrieve domain data. The procedure is written to retrieve data from 
+ columns in the known schema when the product ships. Therefore the cache 
+ does not recognize any customizations to domain objects other than user 
+ defined fields (UDFs). The sproc uses the @sec_temp_used variable to control 
+ whether it retrieves UDF data. Onyx sets this variable to zero (0) when 
+ it ships the product. In order to support UDFs in scripting, you must 
+ set the @sec_temp_used variable equal to one (1) and recompile the sproc. 
+ Neither OEP nor OES support display of UDFs in scripting domain objects 
+ by default.</p>
+        <p>New custom properties added to Scripting domain objects are not held 
+ in the script cache, nor are they present in the run-time XML passed between 
+ OEP and the <a href="onyxscriptenginestep.htm">script engine</a>. The 
+ only way for a customization to access the new custom properties is to 
+ customize OEP to make additional method calls to retrieve the appropriate 
+ customized values. This type of customization might negatively impact 
+ performance and be a more complicated customization than normally required 
+ in the UI when you add new properties.</p>
+        <h3>Transactional objects</h3>
+        <p>The Scripting feature supports customization of its three transactional 
+ objects: <a href="scriptSession_object.htm">scriptSession</a>,<a href="scriptSessionStep_object.htm"> 
+ scriptSessionStep</a>, and <a href="scriptSessionPromptResponse_object.htm">scriptSessionPromptResponse</a>. 
+ The script engine persists and retrieves any custom properties and attributes 
+ added to these objects. With few exceptions, the script engine does not 
+ modify objects in the transactional data section of the run-time XML. 
+ Any application sending run-time XML to the script engine must provide 
+ the attributes and properties required to call the transactional object 
+ methods.</p>
+        <p>This document does not specify any elements within the transactional 
+ object elements. The standard object design for the transactional objects 
+ drives which properties are required in a given situation.</p>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Note_Table_1.css');width: 80%;" class="TableStyle-Aptean_Note_Table_1" cellspacing="2">
+            <col style="width: 0.7cm;" class="TableStyle-Aptean_Note_Table_1-Column-Column1" />
+            <col class="TableStyle-Aptean_Note_Table_1-Column-Column1" style="width: 15.50cm;" />
+            <tbody>
+                <tr class="TableStyle-Aptean_Note_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyB-Column1-Body1" style="text-align: right;">
+                        <p>
+                            <img src="../../Resources/Images/Common/note_image.png" />
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText"><b>Note</b>: The script engine does access properties within the transactional 
+ objects for the purposes of error logging or for persisting session state 
+ (stateXml).</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

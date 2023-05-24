@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="77" MadCap:lastWidth="701">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h3><a name="top"></a>Performing Custom Operations Based on Navigator Queries</h3>
+        <p>When users run queries on Navigator, the following metadata is sent to the OTDB: </p>
+        <ul>
+            <li>User Id</li>
+            <li>Site Id</li>
+            <li>Language</li>
+            <li>Application Name</li>
+            <li>Entity Id</li>
+            <li>Session Id</li>
+        </ul>
+        <p>You can use this information to perform further custom operations, based on your business needs. Some examples of custom operations are:</p>
+        <ul>
+            <li>Maintaining an audit log for all queries run</li>
+            <li>Performing actions on linked database servers before executing a query</li>
+            <li>Restricting certain types of data from being displayed, depending on the user profile</li>
+            <li>Modifying 'where' conditions based on user role</li>
+        </ul>
+        <p>To define the custom operations that you want to run, modify the opSearchQueryExecute stored procedure on the OTDB. Each time a user runs a Navigator query, the custom operations that you defined in the stored procedure are performed.</p>
+        <p class="ProcedureHeading">To define custom operations:</p>
+        <ol>
+            <li>In SQL Server Management Studio, navigate to the OTDB, and go to Programmability&gt;Stored Procedures.</li>
+            <li>Select dbo.opSearchQueryExecute, right-click, and select Script Stored Procedure as&gt;ALTER To, and click New Query Editor Window.</li>
+            <li>Add the script that will perform your custom operation.</li>
+            <li>Execute the query.</li>
+        </ol>
+    </body>
+</html>

@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:lastBlockDepth="8" MadCap:lastHeight="823" MadCap:lastWidth="624" MadCap:ignoredWords="IsCollection;IsPrimaryGroup;lboname;methodname;PageTitle;PrimaryId" MadCap:conditions="Default.Version_7.6.1" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head><title>Configuring List Screens</title>
+    </head>
+    <body>
+        <H3>Configuring List Screens</H3>
+        <p>The fields and tasks available on each <b>List</b> screen depend on the configuration made within the XML file corresponding to the screen. Use this information to configure XML files for <b>List</b> screens.</p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Values you enter in the XML file are case-sensitive. </p>
+        <p class="ProcedureHeading">To configure  List screens:</p>
+        <ol>
+            <li>Open the XML file corresponding to the <b>List</b> screen you plan to modify. For a list of XML files and the screens they correspond to, see <a href="About_metadata_XML_files.htm">Understanding XML files</a>.</li>
+            <li>Configure attributes for each element within the XML file.</li>
+            <li>Configure attributes for each group within the XML file. You can add or remove groups on this screen.</li>
+            <li>Configure attributes for each field within each group.</li>
+            <li>Save and close the XML file.</li>
+            <li>To format the text displayed on the screen, modify the Templates file for the screen. For details about modifying the Templates file, see <a href="Formatting_screen_text.htm">Formatting Screen Text</a>.</li>
+            <li>Log on to Onyx Mobile App/Onyx Mobile Web and verify your changes.</li>
+        </ol>
+        <p>Use the following table to configure properties for each group and field displayed on a <b>List</b> screen:</p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">An administrator can now create a custom entity list by using the <b>&lt;entityname&gt;List.xml</b> format. Ensure that you follow the element structure as the OOTB List XML files.</p>
+        <table>
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 3cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 3cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 3cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 7cm;" />
+            <thead>
+                <tr>
+                    <th>Element</th>
+                    <th>Attribute</th>
+                    <th>Data Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>EntityId</td>
+                    <td>-</td>
+                    <td>Numeric</td>
+                    <td>Do not change this value.<br />This node displays the number corresponding to the entity for which the list is displayed.</td>
+                </tr>
+                <tr>
+                    <td>EntityName</td>
+                    <td>-</td>
+                    <td>String</td>
+                    <td>Do not change this value.<br />This node displays the name of LBO that corresponds to the entity.</td>
+                </tr>
+                <tr>
+                    <td>LBOName</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>Do not change this value.<br />This node displays the name of LBO from which data is retrieved for the list.</td>
+                </tr>
+                <tr>
+                    <td>IsBookmarkList</td>
+                    <td>-</td>
+                    <td>Boolean</td>
+                    <td>&#160;</td>
+                </tr>
+                <tr>
+                    <td>PageTitle</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>Do not change this value.<br />This is a placeholder for the name of the navigator query marked as a mobile bookmark.</td>
+                </tr>
+                <tr>
+                    <td>PageSize</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>Type the number of records that will be retrieved and displayed on the screen at a time.<br />When users scroll down the list, subsequent calls are made to retrieve the remaining records.</td>
+                </tr>
+                <tr>
+                    <td>PageCount</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>Do not enter a value here.<br />This node is a placeholder for the number of calls to be made to retrieve records. This value changes dynamically when a menu item is tapped, based on the screen size of the device, the page count, and the total number of records to be retrieved.</td>
+                </tr>
+                <tr>
+                    <td>CurrentPage</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>Do not change this value.<br />This node is a placeholder for the screen displayed on the device.</td>
+                </tr>
+                <tr>
+                    <td>PageCallId</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>Do not change this value.<br />This node displays the ID assigned to the screen in the database.</td>
+                </tr>
+                <tr>
+                    <td>LBOMethodName</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>Displays the name of the LBO method  used to retrieve data for the list.<br />You can type the name of the method that you want to use.</td>
+                </tr>
+                <tr>
+                    <td>AddPermission</td>
+                    <td>&#160;</td>
+                    <td>&#160;</td>
+                    <td>&#160;</td>
+                </tr>
+                <tr>
+                    <td>ResourceId</td>
+                    <td>AddPermission</td>
+                    <td>-</td>
+                    <td>The UI Resource permission for adding the particular entity.</td>
+                </tr>
+                <tr>
+                    <td>Value</td>
+                    <td>AddPermission</td>
+                    <td>-</td>
+                    <td>By default, there should be no value.<br />This contains the add permissions of the particular entity.</td>
+                </tr>
+                <tr>
+                    <td>CategoryID</td>
+                    <td>AddPermission</td>
+                    <td>int</td>
+                    <td>Do not change this value.<br />This node is used to find the category of the list screen at run time.</td>
+                </tr>
+                <tr>
+                    <td>Group</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>This element marks a section on the <b>List</b> screen. The information displayed on each <b>List</b> screen is divided into two groups. Each group is identified by a node in the XML file.<br />You can add or remove groups for a <b>List</b> screen and specify the data that is displayed for each group.</td>
+                </tr>
+                <tr>
+                    <td>Group</td>
+                    <td>Id</td>
+                    <td>-</td>
+                    <td>Type a unique group ID for each group in the file. Text within the group is formatted based on the setting for this ID in the Template.XML  file.</td>
+                </tr>
+                <tr>
+                    <td>Field</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>This element marks a field that is displayed on the Onyx Mobile App/Onyx Mobile Web screen.</td>
+                </tr>
+                <tr>
+                    <td>Field</td>
+                    <td>ResourceId</td>
+                    <td>-</td>
+                    <td>Type the UI resource permission value for the  field.</td>
+                </tr>
+                <tr>
+                    <td>Field</td>
+                    <td>FieldName</td>
+                    <td>String</td>
+                    <td>Type the name of the LBO column from which to retrieve data.</td>
+                </tr>
+                <tr>
+                    <td>Field</td>
+                    <td>DisplayName</td>
+                    <td>String</td>
+                    <td>Type the caption for the field that will be displayed on the screen.<br />To avoid cropping, we recommend that captions do not exceed 10 characters, including spaces.</td>
+                </tr>
+                <tr>
+                    <td>Field</td>
+                    <td>Visible</td>
+                    <td>Boolean</td>
+                    <td>
+                        <ul>
+                            <li class="Table_Bullet">Type <b>True</b>&#160;to enable users to view this field.</li>
+                            <li class="Table_Bullet">Type <b>False</b>&#160;to hide this field from the screen.</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Field</td>
+                    <td>Parent</td>
+                    <td>-</td>
+                    <td>If the field is a child field, then type the LBO Column name of the parent field.</td>
+                </tr>
+                <tr>
+                    <td>Field</td>
+                    <td>MaskFormat</td>
+                    <td>String</td>
+                    <td>Type a value to specify if the field validates a mask format for the value typed by the user.</td>
+                </tr>
+                <tr>
+                    <td>Field</td>
+                    <td>LboName</td>
+                    <td>-</td>
+                    <td>Type the name of the LBO object to which the property belongs.</td>
+                </tr>
+                <tr>
+                    <td>Field</td>
+                    <td>PropertyPath</td>
+                    <td>-</td>
+                    <td>Type the XML node path for the field within the LBO.</td>
+                </tr>
+                <tr>
+                    <td>Field</td>
+                    <td>DomainData</td>
+                    <td>-</td>
+                    <td>Type a value for the domain data.<br />The possible values are referenceLookup, country, region, contactType, and user.</td>
+                </tr>
+                <tr>
+                    <td>Field</td>
+                    <td>DataType</td>
+                    <td>String</td>
+                    <td>Type the data type that is displayed on the screen for this field.</td>
+                </tr>
+                <tr>
+                    <td>Field</td>
+                    <td>ViewColumnName</td>
+                    <td>-</td>
+                    <td>This attribute is used for mobile bookmark list screens.<br />Type the value used for field_name corresponding to the field in the corresponding entity view.<br />For more information about the value in this field, see <a href="Configuring_Mobile_Bookmarks_List_Page.htm">Configuring List Screens</a>.</td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

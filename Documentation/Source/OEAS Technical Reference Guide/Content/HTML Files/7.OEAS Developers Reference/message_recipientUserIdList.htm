@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="466" MadCap:lastWidth="960" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <body>
+        <head><title>recipientUserIdList (message)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="recipientUserIdList" />recipientUserIdList property</h2>
+        <p>The recipientUserIdList property of the <a href="message_object.htm"><MadCap:keyword term="message" />message 
+ object</a> contains one or more <a href="user_userId.htm">userId</a> strings 
+ to indicate who receives the message.</p>
+        <h3>Data type</h3>
+        <p>string (maximum length)</p>
+        <h3>Access</h3>
+        <p>Write-only</p>
+        <h3 style="text-align: left;" align="left">Remarks</h3>
+        <p>A list of userIds must be semicolon-separated.</p>
+        <p>The recipientUserIdList element is empty in the parameters 
+ on return because it is a write-only property. The recipientUserIdList 
+ or recipientGroupIdList properties are required only for message inserts.</p>
+        <p>Values in either the recipientUserIdList or recipientGroupIdList 
+ elements are required on input. Either element can be NULL if the other 
+ element contains one or more recipients. Both elements can contain values 
+ on input.</p>
+        <p>OEAS adds the recipient list for a message to the top of 
+ the message <a href="message_text.htm">text</a>.</p>
+        <p>OEAS creates an instance of the <a href="messageDestination_object.htm">messageDestination</a> 
+ object for each userId in the recipient list. The object instances track 
+ the read status of the message for each recipient. When a recipient deletes 
+ a message, OEAS deletes the corresponding messageDestination object instance. 
+ When all messageDestination object instances for a message are deleted, 
+ the message object instance is deleted. </p>
+    </body>
+</html>

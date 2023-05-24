@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:conditions="Default.Main" MadCap:lastBlockDepth="2" MadCap:lastHeight="883" MadCap:lastWidth="1020">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Before You Begin</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>
+            <MadCap:keyword term="Before you begin (building step components);Before You Begin" />Before you begin</h3>
+        <p>When you design a step component, take the time to determine your specific 
+ needs. Before you begin coding, consider the following:</p>
+        <h3>XML in OEAS</h3>
+        <p>Review the topics that discuss how <a href="XML_in_OEAS.htm">XML is 
+ used within OEAS</a>.</p>
+        <h3>Data requirements</h3>
+        <p>Can the new step component operate with the data that is currently used 
+ in the method? If so, the design need only be concerned with the existing 
+ content and structure of the XML provided by and returned to the client 
+ application.</p>
+        <p>If the step requires additional objects and/or object properties, these 
+ must be created using the Onyx Object Designer. Customizations to the 
+ contents of the Onyx Enterprise Dictionary (OED) may require updates to 
+ both the database schema and the client application(s).</p>
+        <h3>Behavior of other steps</h3>
+        <p>Does the design account for the behavior of other steps? If you are 
+ creating a step component to work in an existing method, find out what 
+ the other steps do before you start to scope the design. Order can be 
+ important, and the existing steps probably perform basic error checking 
+ and XML data construction that your step can leverage to accomplish its 
+ task.</p>
+        <h4>Data transfer</h4>
+        <p>Can your step component communicate with the Onyx Enterprise Database 
+ using the Onyx Query Engine, or should you integrate a different database 
+ connection technology? Onyx recommends using the Onyx Query Engine as 
+ the method for standard data transfer to and from the Onyx Enterprise 
+ Database, while Microsoft's ActiveX Data Objects (ADO) technology works 
+ well for connections to other database applications. Using the Onyx Query 
+ Engine enables you to take advantage of connection pooling which automatically 
+ improves the scalability of the method calling your custom component.</p>
+        <h3>Error handling</h3>
+        <p>How will your step component handle errors? Consider the circumstances 
+ that warrant the step inserting a failure message into the XML or voting 
+ to abort a COM+ transaction. Common issues include missing XML elements 
+ and failed database connections.</p>
+        <h3>COM+ compatibility</h3>
+        <p>Does the design account for the requirements of operating within a distributed 
+ application environment? Step components in the OEAS are managed through 
+ a COM+ application and are paired with client applications as needed and 
+ only for as long as it takes to complete a single execution. Because of 
+ this, step components must meet certain requirements to enable multiple 
+ instances of the step component to be used by multiple clients. Instances 
+ hold state only for the duration of their existence, and instances should 
+ not have any expectations regarding their own life span. The COM+ objects 
+ within the step components must consider themselves destroyed the instant 
+ their execute method completes.</p>
+        <p>Will the step component participate in COM+ 
+ transactions? If this is necessary, you'll need to include the appropriate 
+ libraries and consider the options available through the COM+ transaction 
+ model. </p>
+    </body>
+</html>

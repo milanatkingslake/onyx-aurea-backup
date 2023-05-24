@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="761" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Email monitor subsystems</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>Email monitor subsystems </h4>
+        <p>Inbound email messages are sent to configured mailboxes on designated 
+ network mail servers where they are monitored (at predefined intervals) 
+ by email monitor subsystems (EMSs). EMSs process and save inbound email 
+ messages into OEAS. They run within the Onyx Processing Server (OPS) framework. 
+ </p>
+        <p>OPS consists of the OPS service, OPS subsystems, and OPS Administration. 
+ The OPS service controls the subsystems, which perform processing tasks. 
+ Another primary function of the OPS service is to communicate with the 
+ OPS Administration tool. You use OPS Administration to manage and configure 
+ EMSs and stop, start, pause, and resume the OPS service and EMSs. </p>
+        <p>An EMS calls OEAS business object methods to resolve the recipient and 
+ the sender email addresses of an inbound email. When processing an inbound 
+ email that is part of a thread, the EMS retrieves the associations of 
+ the original email. </p>
+        <p>To insert an inbound email into the OEDB, the EMS 
+ groups multiple method calls into an actionBatchXml string. The EMS makes 
+ a single call to the execute method of the actionBatch object to insert 
+ the following objects: </p>
+        <ul>
+            <li>The resolved recipients and sender as emailContact 
+ objects</li>
+            <li>The inbound email as an emailMessage object </li>
+            <li>The associations of the thread's original email 
+ message as association objects for the new inbound email message (if the 
+ new message is part of a thread)</li>
+            <li>The attachments as fileLink objects (if any exist)</li>
+        </ul>
+        <p>For more information, see material on the actionBatch business object.
+ </p>
+        <h4>Installing OPS and configuring EMSs and monitored mailboxes</h4>
+        <p>For OEP email processing purposes, the Onyx administrator 
+sets up OPS and an EMS by: </p>
+        <ul>
+            <li>Installing and configuring OPS</li>
+            <li>Configuring OPS security and user permissions</li>
+            <li>Configuring EMSs and monitored mailboxes to process 
+ inbound email</li>
+        </ul>
+        <p>For more information on administering an customizing OPS, see <a href="../1.OEAS Architecture Overview/7.What is the Onyx Processing Server/ar_ca_ops.htm">Administer Onyx Processing Server (OPS)</a> and <a href="../7.OEAS Developers Reference/OEAS_customizing_ops.htm">Customize OPS.</a></p>
+    </body>
+</html>

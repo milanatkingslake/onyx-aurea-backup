@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:conditions="Primary.PrintOnly" MadCap:lastBlockDepth="4" MadCap:lastHeight="387" MadCap:lastWidth="745" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="../SkinSupport/MadCap.css" rel="stylesheet" type="text/css" /><title>Modifying_maximum_records_displayed_in_Navigator</title>
+        <link href="../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" />
+    </head>
+    <body>
+        <H2 class="Heading">Modifying OGS Configuration File</H2>
+        <p class="BodyText">You can define how information is displayed in Navigator and in <span class="CCM variablesProduct - Mobile CM">Onyx Mobile</span> by changing specific settings in the OGS Configuration file. Use this file to specify:</p>
+        <ul>
+            <li class="ListBullet_1" value="1">The system limit for the number of records that are displayed when you run a search in Navigator</li>
+            <li class="ListBullet_1" value="2">The time limit in milliseconds, after which any request from <span class="CCM variablesProduct - Mobile CM">Onyx Mobile</span> to OGS will time out.</li>
+        </ul>
+        <p class="TaskHeading">To modify OGS settings:</p>
+        <ol>
+            <li class="ListBullet_1" value="1">On the <span class="CCM variablesComponent - OEAS">OEAS</span> server, navigate to the OnyxGatewayService install location, and open the <code>OnyxWindowsService.exe.config</code> file from the location. For example, <code>&lt;drive&gt;:\Program Files (x86)\Onyx\AppServer\Applications\Onyx\OnyxGatewayService\OnyxWindowsService.exe.config</code></li>
+            <li class="ListBullet_1" value="2">To change the limit for number of records to display in Navigator, search for the attribute <code>&lt;add key="MaxRecordsLimit" value="999" /&gt;</code>, and change the value as desired. The maximum system limit corresponds to the maximum possible value for the data type integer, which is 2,147,483,647.</li>
+            <li class="ListBullet_1" value="3">To change the time limit for requests from <span class="CCM variablesProduct - Mobile CM">Onyx Mobile</span>, search for the attribute <code>&lt;add key="RequestTimeOut" value="180000" /&gt;,</code> and change the value as desired. This value represents the time limit in milliseconds.</li>
+            <li class="ListBullet_1" value="4">Save the <code>OnyxWindowsService.ex</code>e.<code>config</code> file.</li>
+        </ol>
+    </body>
+</html>

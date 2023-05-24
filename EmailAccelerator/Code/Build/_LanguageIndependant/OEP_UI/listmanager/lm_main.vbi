@@ -1,0 +1,2364 @@
+'<script language="vbscript">  'This tag is to fake Interdev into recognizing this file as a vbscript file 
+' Copyright Aptean 2017. All rights reserved.
+
+public gsSelectedViewId
+public gsQueryListAction
+public goSelectedViewNode
+public goCurrentLineNode
+public goDefaultColumnsNode
+public goViewsNode
+public gsSelectedViewObjectType
+public goQueryNode
+public goEnumsNode
+public goOperatorsNode
+public goResultTypeMapNode
+
+' DOMs to hold XSL stylesheets
+private moCriteriaXSL
+private moCriteriaProc
+public goCriteriaEditProc
+public goColumnTreeXSL
+public goColumnListProc
+private moTreeXSL
+
+private mbCustomQuery '  is it a custom SQL query
+private msCustomSQL
+private mbSQLEditted
+private msTargetXML
+private mbQueryEditted
+
+
+sub vbShowResultsFrame(pbExpand)
+	dim sCurrent
+	
+	sCurrent = window.parent.msLocation
+if pbExpand then	
+	select case sCurrent
+		case "TOP"
+		case "CENTER"
+		
+		case "BOTTOM"
+			call window.parent.lm_results.jsBottom2Center()
+			call window.parent.lm_results.moExpContControl.setState("CENTER")
+	end select
+else
+	select case sCurrent
+		case "TOP"
+			call window.parent.lm_results.jsCenter2Bottom()
+			call window.parent.lm_results.moExpContControl.setState("BOTTOM")
+		case "CENTER"
+			call window.parent.lm_results.jsCenter2Bottom()
+			call window.parent.lm_results.moExpContControl.setState("BOTTOM")
+		case "BOTTOM"
+		
+	end select
+end if
+
+end sub
+
+sub vbClearCriteria()
+	dim oXMLDOM
+
+	set oXMLDOM = CreateObject("MSXML2.DOMDocument")
+	oXMLDOM.async = false
+	oXMLDOM.setProperty "SelectionLanguage", "XPath"
+	call loadXmlDocumentFile(oXMLDOM,"lm_emptyquery.xml")
+	oXMLDOM.setProperty "SelectionLanguage", "XPath"
+
+	set goQueryNode = oXMLDOM.selectSingleNode("/query")
+	goQueryNode.selectSingleNode("/query/searchViewId").text = gsSelectedViewId
+	call vbRenderCriteria(true)
+	
+	' default to distinct queries
+	document.getElementById("chkUnique").checked = true
+
+end sub
+
+sub vbAddCriteria(psFieldId)
+	dim returnParams
+	dim callParams
+	dim oValuesNode
+	dim sDataType
+	dim bIndexed
+	dim lNewBlockNumber
+	
+	redim callParams(4)
+	window.event.cancelBubble = true
+	if divSQL.style.display = "" then
+		vbChangeModeCriteria
+		if divSQL.style.display ="" then
+			exit sub
+		end if
+	end if
+
+	if not vbInitField( psFieldId, sDataType,bIndexed) then
+		exit sub
+	end if
+	
+	
+	' create a temp line node
+	set goCurrentLineNode = goQueryNode.ownerDocument.createElement("line")
+	goCurrentLineNode.appendChild(goCurrentLineNode.ownerDocument.createElement("fieldId")).text = psFieldId
+	goCurrentLineNode.appendChild(goCurrentLineNode.ownerDocument.createElement("operatorValue")).text = ""
+	set oValuesNode = goCurrentLineNode.appendChild(goCurrentLineNode.ownerDocument.createElement("values"))
+	set goCurrentLineNode = goQueryNode.appendChild(goCurrentLineNode)
+
+	vbCopyInstantParents psFieldId, goCurrentLineNode
+	
+	set callParams(LM_CRITEDIT_INPUT_WINDOWOPENER) = window
+	callParams(LM_CRITEDIT_INPUT_MODE) = "add"
+	callParams(LM_CRITEDIT_INPUT_DATATYPE) = sDataType
+	callParams(LM_CRITEDIT_INPUT_INDEXED) = bIndexed
+	callParams(LM_CRITEDIT_INPUT_BLOCK) = 1 ' put into block 1 by default
+	
+	returnParams = showModalDialog("lm_criteria.asp",callParams,"dialogWidth:360px;dialogHeight:380px;scroll:no;resizable:yes;status:no;help:no;")
+
+	if isNull(returnParams) or returnParams = "" then 'Fix for the bug "MS09-054 IE security fix causing script error in list manager"
+		exit sub
+	end if
+	returnParams = split(returnParams, "||") 'Fix for the bug "MS09-054 IE security fix causing script error in list manager"
+	if returnParams(LM_CRITEDIT_OUTPUT_ACTION) = "saved" then
+		lNewBlockNumber = returnParams(LM_CRITEDIT_OUTPUT_BLOCK)
+				
+		' move the temp line node into the right block
+		vbAppendLineToBlock lNewBlockNumber, goCurrentLineNode 
+		vbRenderCriteria(true)
+	end if
+
+	set goCurrentLineNode = nothing
+	
+end sub
+
+sub vbCopyInstantParents(psFieldId, poLineNode)
+	dim oFieldNode
+	dim oParentsNode
+	
+	set oFieldNode = goSelectedViewNode.selectSingleNode(".//field[@primaryId=" & vbXPathSafeQuote(psFieldId) & "]")
+	
+	if isempty(oFieldNode) then
+		exit sub
+	end if
+	
+	if oFieldNode is nothing then
+		exit sub
+	end if
+	
+	set oParentsNode = oFieldNode.selectSingleNode("parents")
+	if isempty(oParentsNode) then
+		exit sub
+	end if
+	
+	if oParentsNode is nothing then
+		exit sub
+	end if
+	
+	poLineNode.appendChild oParentsNode.cloneNode(true)
+	
+end sub
+
+sub vbEditCriteria(plBlockNumber, plLineNumber)
+
+	dim returnParams
+	dim callParams
+	dim sDataType
+	dim bIndexed
+	dim oOriginalLineNode
+	dim lNewLinePosition
+	dim lNewBlockNumber
+	dim sTemp
+	
+	redim callParams(4)
+
+	set oOriginalLineNode = goQueryNode.selectSingleNode( _
+						"//query/queryDefinition/blocks/block[@sequenceNumber=" & _
+						plBlockNumber & "]/line[position()=" & _
+						plLineNumber & "]")
+	if oOriginalLineNode is nothing then
+		exit sub
+	end if
+
+	' we have to copy the line node across to a temporary copy for the edit
+	' screen to work on, as the user could save it into a different block, which
+	' in effect copies the criteria line into that block
+	
+	set goCurrentLineNode = oOriginalLineNode.cloneNode(true) ' get all the children too
+	goQueryNode.appendChild goCurrentLineNode
+
+	if ucase(goCurrentLineNode.selectSingleNode("operatorValue").text)="LIKE" then
+		sTemp = goCurrentLineNode.selectSingleNode("values/value").text
+		if right(sTemp,1)="%" then
+			goCurrentLineNode.selectSingleNode("values/value").text = left(sTemp,len(sTemp)-1)
+		end if
+	end if
+
+	if not vbInitField (goCurrentLineNode.selectSingleNode("fieldId").text, sDataType,bIndexed) then
+		exit sub
+	end if	
+	set callParams(LM_CRITEDIT_INPUT_WINDOWOPENER) = window
+	callParams(LM_CRITEDIT_INPUT_MODE) = "edit"
+	callParams(LM_CRITEDIT_INPUT_DATATYPE) = sDataType
+	callParams(LM_CRITEDIT_INPUT_INDEXED) = bIndexed
+	callParams(LM_CRITEDIT_INPUT_BLOCK) = plBlockNumber
+			
+	returnParams = showModalDialog("lm_criteria.asp",callParams,"dialogWidth:360px;dialogHeight:380px;scroll:no;resizable:yes;status:no;help:no;")
+	
+	if(isNull(returnParams) or returnParams = "") then 'Fix for the bug "MS09-054 IE security fix causing script error in list manager"
+		exit sub
+	end if
+	returnParams = split(returnParams, "||")'Fix for the bug "MS09-054 IE security fix causing script error in list manager"		
+	if returnParams(LM_CRITEDIT_OUTPUT_ACTION) = "saved" then
+		lNewBlockNumber = returnParams(LM_CRITEDIT_OUTPUT_BLOCK)
+		if Cstr(plBlockNumber) = Cstr(lNewBlockNumber) then 'Fix for the bug "MS09-054 IE security fix causing script error in list manager"
+			' user didn't change block, just replace the orginal line node with
+			' the temp one
+			oOriginalLineNode.parentNode.replaceChild goCurrentLineNode, oOriginalLineNode
+		else
+			vbAppendLineToBlock lNewBlockNumber, goCurrentLineNode
+		end if
+		vbRenderCriteria(true)
+	end if
+
+	set goCurrentLineNode = nothing
+
+end sub
+
+sub vbAppendLineToBlock(plBlockNumber, oNewLineNode)
+	dim oOriginalLineNode
+	dim lNewLinePosition
+
+	if not vbGetFreeLineInBlock(plBlockNumber, lNewLinePosition) then
+		call jsMessageBox(res_ErrorInGetNewLine,0,4,res_LM_Title) 
+		exit sub
+	else
+			
+		if lNewLinePosition = 0 then
+			call jsMessageBox(res_NoBlankCriteriaLine,0,4,res_LM_Title) 
+			exit sub
+			lNewLinePosition = 1
+		end if
+		set oOriginalLineNode = goQueryNode.selectSingleNode( _
+							"//query/queryDefinition/blocks/block[@sequenceNumber=" & _
+							plBlockNumber & "]/line[position()=" & _
+							lNewLinePosition & "]")
+		oOriginalLineNode.parentNode.replaceChild oNewLineNode, oOriginalLineNode
+	end if
+
+end sub
+
+' return plLine = 0 if no free lines
+function vbGetFreeLineInBlock(plBlockNumber, plLinePosition)
+	dim lLineCount
+	
+	vbGetFreeLineInBlock = false
+	plLinePosition = 0
+	
+	set oLines = goQueryNode.selectNodes( _
+						"//query/queryDefinition/blocks/block[@sequenceNumber=" & _
+						plBlockNumber & "]/line")
+	
+	for lLineCount = 0 to oLines.length - 1
+		if oLines.item(lLineCount).selectSingleNode("fieldId").text = "" then
+			plLinePosition = lLineCount + 1
+			vbGetFreeLineInBlock = true
+			exit function
+		end if
+	next
+
+	' didn't find a spare line, so add one
+	vbAddEmptyLine(goQueryNode.selectSingleNode("//query/queryDefinition/blocks/block[@sequenceNumber=" & plBlockNumber & "]"))
+	plLinePosition = oLines.length + 1	
+
+	vbGetFreeLineInBlock = true
+	
+end function
+
+sub vbInitPage()	
+	dim oXMLDOM
+	dim oColumnDOM
+	dim oEnumsDOM
+		
+	set oXMLDOM = CreateObject("MSXML2.DOMDocument")
+	oXMLDOM.async = false
+	oXMLDOM.setProperty "SelectionLanguage", "XPath"
+
+	set goViewsNode = oXMLDOM.CreateElement("views")
+	oXMLDOM.appendChild goViewsNode
+
+	set oColumnDOM = CreateObject("MSXML2.DOMDocument")
+	oColumnDOM.async = false
+	oColumnDOM.setProperty "SelectionLanguage", "XPath"
+	set goDefaultColumnsNode = oColumnDOM.appendChild(oColumnDOM.CreateElement("defaultColumns"))
+	
+	set oEnumsDOM = CreateObject("MSXML2.DOMDocument")
+	oEnumsDOM.async = false
+	oEnumsDOM.setProperty "SelectionLanguage", "XPath"
+	set goEnumsNode = oEnumsDOM.appendChild(oEnumsDOM.createElement("enums"))
+
+	' get operator list
+	if vbXMLHTTPCall("operatorList", "<data></data>", oXMLOut) then
+		'If there was a failure then display message
+		sStatusType = vbLM_GetStatusType(oXMLOut,sMethodStatus)
+		if sStatusType<>"success" then
+			call vbLM_ShowError(document.all.divError,sMethodStatus)
+		end if
+		if sStatusType<>"failure" then
+			set goOperatorsNode = oXMLOut.documentElement.selectSingleNode("//operators")
+		else
+			exit sub
+		end if
+	end if
+
+	' init the stylesheet refs
+	set moCriteriaXSL = nothing
+	set moTreeXSL = nothing
+	call loadXmlDocumentFile(oXMLDOM,"lm_emptyquery.xml")
+	oXMLDOM.setProperty "SelectionLanguage", "XPath"
+
+	set goQueryNode = oXMLDOM.selectSingleNode("/query")
+	call vbRenderCriteria(false)
+	
+	' default to distinct queries
+	document.getElementById("chkUnique").checked = true
+	call vbResize()
+end sub
+
+function vbInitField(psFieldId, psDataType,pbIndexed)
+	' make sure we have the enum cached if it is an enumerated field
+	dim oFieldNode
+	dim oEnumNode
+	dim sEnumId
+	dim smode2EnumSproc
+	dim oTempNode
+	dim sTableName
+	dim sStatusType
+	dim sMethodStatus
+	dim sFieldName				
+	dim sEnumObject				
+	dim sEnumMethod				
+	dim sEnumParameters			
+	dim sEnumItemPath			
+	dim sEnumDescriptionPath	
+	dim sEnumIdPath				
+		
+	call vbLM_ClearError(document.all.divError)
+		
+	set oFieldNode = goSelectedViewNode.selectSingleNode(".//field[@primaryId=" & vbXPathSafeQuote(psFieldId) & "]")
+	
+	
+	if isempty(oFieldNode) then
+		exit function
+	end if
+	
+	if oFieldNode is nothing then
+		exit function
+	end if
+	
+	sTableName				= oFieldNode.getAttribute("tableName")
+	psDataType				= oFieldNode.selectSingleNode("dataType").text
+	sFieldName				= oFieldNode.getAttribute("name")
+	sEnumObject				= oFieldNode.selectSingleNode("enumObject").text
+	sEnumMethod				= oFieldNode.selectSingleNode("enumMethod").text
+	sEnumParameters			= oFieldNode.selectSingleNode("enumParameters").text
+	sEnumItemPath			= oFieldNode.selectSingleNode("enumItemPath").text
+	sEnumDescriptionPath	= oFieldNode.selectSingleNode("enumDescriptionPath").text
+	sEnumIdPath				= oFieldNode.selectSingleNode("enumIdPath").text
+	 
+	 
+	pbIndexed  = (lcase(oFieldNode.selectSingleNode("indexed").text)="true")
+	if left(lcase(psDataType), 4) = "enum" then
+		sEnumId = oFieldNode.getAttribute("primaryId") ' use the field id as the enum id
+		set oTempNode = oFieldNode.selectSingleNode("mode2EnumSproc")
+		if not oTempNode is nothing then
+			smode2EnumSproc =oTempNode.text
+		else
+			smode2EnumSproc = ""
+		end if
+		set oEnumNode = goEnumsNode.selectSingleNode("/enums/enum[@id=" & vbXPathSafeQuote(sEnumId) & "]")
+		if oEnumNode is nothing then
+			sCallXml = "<data><viewId>" & gsSelectedViewId & "</viewId><fieldId>" & psFieldId & "</fieldId><tableName>" & sTableName & "</tableName>"
+			sCallXml = sCallXml & "<fieldName>" & sFieldName & "</fieldName>"
+			sCallXml = sCallXml & "<enumObject>" & sEnumObject & "</enumObject>"
+			sCallXml = sCallXml & "<enumMethod>" & sEnumMethod & "</enumMethod>"
+			sCallXml = sCallXml & "<enumParameters>" & vbStr2SafeHTML(sEnumParameters) & "</enumParameters>"
+			sCallXml = sCallXml & "<enumItemPath>" & sEnumItemPath & "</enumItemPath>"
+			sCallXml = sCallXml & "<enumDescriptionPath>" & sEnumDescriptionPath & "</enumDescriptionPath>"
+			sCallXml = sCallXml & "<enumIdPath>" & sEnumIdPath & "</enumIdPath></data>"
+			if vbXMLHTTPCall("viewEnumRetrieve", sCallXml, oXMLOut) then
+				'If there was a failure then display message
+				sStatusType = vbLM_GetStatusType(oXMLOut,sMethodStatus)
+				if sStatusType<>"success" then
+					call vbLM_ShowError(document.all.divError,sMethodStatus)
+				end if
+				if sStatusType<>"failure" then
+					goEnumsNode.appendChild oXMLOut.documentElement
+				else
+					exit function
+				end if
+			end if
+		end if
+	end if
+	vbInitField = true
+end function
+
+sub vbselViewList_change(psNewViewId)
+	
+	call vbClearCriteria
+	call vbChangeView(psNewViewId)
+	call vbChangeModeCriteria
+	call vbSetColDef
+end sub
+
+private sub ClearEnumsData()
+	dim oEnumsDOM
+	
+	if gsSelectedViewId & "" <> "" then
+		if isObject(goSelectedViewNode) then
+			if isObject(goEnumsNode) then
+				if not goEnumsNode is nothing then
+					set oEnumsDOM = CreateObject("MSXML2.DOMDocument")
+					oEnumsDOM.async = false
+					oEnumsDOM.setProperty "SelectionLanguage", "XPath"
+					set goEnumsNode = oEnumsDOM.appendChild(oEnumsDOM.createElement("enums"))
+				end if
+			end if
+		end if
+	end if
+end sub
+
+sub vbChangeView(psNewViewId)
+	dim oXMLView
+	dim sStatusType
+	dim sMethodStatus
+	
+	call vbLM_ClearError(document.all.divError)
+
+	' no point throwing away our cached data if the view is actually still the same (as
+	' happens when you load in a query that matches the view you already have selected)
+	if psNewViewId <> gsSelectedViewId then
+		call ClearEnumsData
+	end if
+
+	gsSelectedViewId = psNewViewId
+	goQueryNode.selectSingleNode("/query/searchViewId").text = cstr(gsSelectedViewId)	
+	if gsSelectedViewId = "0" then
+		divNoTree.style.display = ""
+		divTree.style.display = "none"
+	else
+		set goSelectedViewNode = goViewsNode.selectSingleNode("view[@primaryId=" & vbXPathSafeQuote(psNewViewId) & "]")
+
+		if goSelectedViewNode is nothing then
+			call vbXMLHTTPCall("viewRetrieve", "<data><viewId>" & psNewViewId & "</viewId></data>", oXMLView)	
+			sStatusType = vbLM_GetStatusType(oXMLView,sMethodStatus)
+			if sStatusType<>"success" then
+				call vbLM_ShowError(document.all.divError,sMethodStatus)
+			end if
+			if sStatusType = "failure" then
+				exit sub
+			end if
+			
+			if oXMLView.documentElement is nothing then
+				exit sub
+			end if
+			set goSelectedViewNode = goViewsNode.appendChild(oXMLView.documentElement)
+		end if
+		gsSelectedViewObjectType = goSelectedViewNode.selectSingleNode("objectType").text
+			
+		if not vbRenderViewTree() then
+			exit sub
+		end if
+	
+		divNoTree.style.display = "none"
+		divTree.style.display = ""
+	end if
+	if not IsNumeric(gsSelectedViewObjectType) then
+		call jsMessageBox("Internal Error - invalid view object type Id",0,4,res_LM_Title) 
+		exit sub
+	end if
+end sub
+
+sub vbLoadDynamicTable(psUniqueId, pbRender)
+	dim oTableNode
+	dim oResultsNode
+	dim oParentNode
+	dim oNode
+	dim sStatusType
+	dim sMethodStatus
+	call vbLM_ClearError(document.all.divError)
+
+	set oTableNode = goSelectedViewNode.selectSingleNode(".//table[@uniqueId=" & vbXPathSafeQuote(psUniqueId) & "]")
+	if oTableNode is nothing then
+		exit sub
+	end if
+	if oTableNode.getAttribute("built") = "true" then
+		if pbRender then
+			call vbRenderPartialViewTree(oTableNode)
+		end if		
+	else
+		if vbXMLHTTPCall("viewDynamicTableRetrieve", "<data>" & oTableNode.xml & "<viewId>" & gsSelectedViewId & "</viewId></data>", oResultsNode)	then
+				'If there was a failure then display message
+				sStatusType = vbLM_GetStatusType(oResultsNode,sMethodStatus)
+				if sStatusType<>"success" then
+					call vbLM_ShowError(document.all.divError,sMethodStatus)
+				end if
+				if sStatusType<>"failure" then
+					set oNode = oResultsNode.selectSingleNode("table")
+					oNode.setAttribute("built") = "true"
+					set oParentNode = oTableNode.parentNode
+					oTableNode.parentNode.replaceChild oNode,oTableNode
+					if pbRender then
+						call vbRenderPartialViewTree(oNode)
+					end if
+				else
+					exit sub
+				end if
+		end if
+	end if
+end sub
+
+function vbLoadTreeXSL()
+	set moTreeXSL = CreateObject("MSXML2.DOMDocument")
+	moTreeXSL.async = false
+	moTreeXSL.setProperty "SelectionLanguage", "XPath"
+	call loadXmlDocumentFile(moTreeXSL,"lm_tree.xsl")
+	vbLoadTreeXSL = true
+end function
+
+function vbRenderPartialViewTree(poTableNode)
+	dim sTableId
+	
+	sTableId = poTableNode.getAttribute("primaryId")
+	
+	if moTreeXSL is nothing then
+		if not vbLoadTreeXSL() then exit function
+	end if
+
+	window.event.srcElement.outerHTML = poTableNode.transformNode(moTreeXSL)
+	vbRenderPartialViewTree = true
+	
+end function
+
+function vbRenderViewTree()
+	
+	if moTreeXSL is nothing then
+		if not vbLoadTreeXSL() then exit function
+	end if
+		
+	divTree.innerHTML = goSelectedViewNode.transformNode(moTreeXSL)
+	
+	vbRenderViewTree = true
+end function
+
+function vbRenderCriteria(pbModified)
+	dim oXSLTemplate
+	dim oXSL
+
+	if isempty(moCriteriaProc) then
+		
+		set oXSL =			CreateObject("Msxml2.FreeThreadedDOMDocument")
+		set oXSLTemplate =	CreateObject("Msxml2.XSLTemplate")
+		
+		oXSL.async = false
+		oXSL.setProperty "SelectionLanguage", "XPath"
+		call loadXmlDocumentFile(oXSL,"lm_criteria.xsl")
+		
+		set oXSLTemplate.stylesheet = oXSL
+		set moCriteriaProc = oXSLTemplate.createProcessor
+			
+	end if
+
+	moCriteriaProc.input = goQueryNode
+ 
+	if not isempty(goSelectedViewNode) then
+		if isObject(goSelectedViewNode) then
+			if not goSelectedViewNode is nothing then
+				moCriteriaProc.addParameter "viewNode", goSelectedViewNode
+			end if
+		end if
+	end if
+	moCriteriaProc.addParameter "enumsNode", goEnumsNode
+	moCriteriaProc.addParameter "resHeader", res_CriteriaHeading
+	moCriteriaProc.addParameter "resOr", res_CriteriaOr
+	moCriteriaProc.transform
+
+	divCriteria.innerHTML = moCriteriaProc.output	
+	document.getElementById("chkUniqueLabel").innerText = res_Unique_records_only
+	document.getElementById("chkUnique").title = res_RetrieveUniqueRecords
+	document.getElementById("chkAllLabel").innerText = res_SelectAll
+	document.getElementById("chkAll").title = res_SelectAllTip
+	
+	call vbDisplayQueryName(pbModified)
+	
+	vbRenderCriteria = true
+end function
+
+function vbLoadQuery()
+
+	dim returnParams
+	dim callParams
+	dim oSQLNode
+	dim oOption
+	dim sViewId
+	dim sDistinct
+	
+	redim callParams(1)
+	
+	callParams(0) = "load"
+	set callParams(1) = window
+		
+	returnParams = showModalDialog("lm_querylist.asp",callParams,"dialogWidth:360px;dialogHeight:380px;scroll:no;resizable:no;status:no;help:no;")
+	if returnParams = "loaded" then
+		mbSQLEditted = false
+		set oSQLNode = goQueryNode.selectSingleNode("/query/querySql")
+		if oSQLNode is nothing then
+			mbCustomQuery = false
+			msCustomSQL = ""
+			document.all("txtSQL").innerText = "" 	
+			vbChangeModeCriteria
+			'--- Find the correct view ---
+			sViewId = goQueryNode.selectSingleNode("/query/searchViewId").text
+			for each oOption in selViewList.options
+				if oOption.value = sViewId then
+					oOption.selected = true
+					exit for
+				end if
+			next
+			'------------------------------------
+			vbChangeView goQueryNode.selectSingleNode("/query/searchViewId").text
+			sDistinct = goQueryNode.selectSingleNode("/query/distinct").text
+			
+			call vbQueryDynamicTablesLoad
+			call vbQueryPostprocess
+			
+			call vbInitQueryNodeFields
+			call vbRenderCriteria(false)
+			if sDistinct = "False" or sDistinct = "0" then
+				document.getElementById("chkUnique").checked = false
+			else
+				document.getElementById("chkUnique").checked = true
+			end if
+			call vbShowResultsFrame(false)
+		else
+			mbCustomQuery = true
+			document.all("txtSQL").innerText = oSQLNode.text
+			Call vbChangeModeSQL
+			'--- Find the correct view ---
+			sViewId = goQueryNode.selectSingleNode("/query/searchViewId").text
+			for each oOption in selViewList.options
+				if oOption.value = sViewId then
+					oOption.selected = true
+					exit for
+				end if
+			next
+			'------------------------------------
+			vbChangeView goQueryNode.selectSingleNode("/query/searchViewId").text
+			call vbDisplayQueryName(false)
+		end if		
+	end if
+	
+end function
+
+private function vbQueryDynamicTablesLoad()
+	dim oLineParentsNodes
+	dim oLineParentsNode
+	dim oParentNodes
+	dim oParentNode
+	dim arrUniqueIds
+	dim index
+	dim sCondition
+	dim oCachedTableNode
+	
+	set oLineParentsNodes = goQueryNode.selectNodes("//line/parents")
+	
+	for each oLineParentsNode in oLineParentsNodes
+		sCondition = ""
+		set oParentNodes = oLineParentsNode.selectNodes("parent")
+		for each oParentNode in oParentNodes
+			if sCondition = "" then
+                sCondition = "@uniqueId=" & vbXPathSafeQuote(oParentNode.text)
+            else
+                sCondition = sCondition & " or @uniqueId=" & vbXPathSafeQuote(oParentNode.text)
+            end if
+		next
+		if sCondition <> "" then
+			set oCachedTableNode = goSelectedViewNode.selectSingleNode("//table[(" & sCondition & ") and @built != 'true']")
+            while not oCachedTableNode is nothing
+				call vbLoadDynamicTable(oCachedTableNode.getAttribute("uniqueId"), false)
+				set oCachedTableNode = goSelectedViewNode.selectSingleNode("//table[(" & sCondition & ") and @built != 'true']")
+			wend
+		end if
+	next
+
+end function
+
+sub vbQueryConvertDates(byval pbToLocal)
+	dim oLinesList
+	dim oLineNode
+	dim oFieldNode
+	dim oValuesNode
+	dim oValueNode
+	dim sFieldPrimaryId
+	dim sDataType
+	dim sValue
+	
+	'don't do any timezone conversion for SQL 
+	set oLinesList = goQueryNode.selectNodes(".//line[fieldId!='']")
+	for each oLineNode in oLinesList
+		'Find the field Node
+		sFieldPrimaryId = oLineNode.selectSingleNode("fieldId").text
+		set oFieldNode = goSelectedViewNode.selectSingleNode(".//field[@primaryId=" & vbXPathSafeQuote(sFieldPrimaryId) & "]")
+		if oFieldNode is nothing then
+			call jsMessageBox("Internal Error - Couldn't find field node for " + sFieldPrimaryId,0,4,res_LM_Title) 
+			exit sub
+		end if
+		'If this is a date field then convert value nodes
+		sDataType = oFieldNode.selectSingleNode("dataType").text
+		if ucase(sDataType)="DATETIME" then
+			set oValuesNode = oLineNode.selectSingleNode("values")
+			
+			if not oValuesNode is nothing then
+				if pbToLocal then
+					if isnull(oValuesNode.getAttribute("localDate")) then
+						oValuesNode.setAttribute "localDate", "1"
+						for each oValueNode in oValuesNode.childNodes
+							'do not convert to GMT AND local timezone for SQL
+							if clientPLATFORM = "oracle" then
+								oValueNode.text = jsConvertGMTUniversalToLocal(oValueNode.text, true)
+							else
+								oValueNode.text = jsConvertUniversalFormatToLocalFormat(oValueNode.text, true)
+							end if
+						next 'oValueNode
+					end if
+				else
+					oValuesNode.removeAttribute "localDate"
+					for each oValueNode in oValuesNode.childNodes
+						'do not convert to GMT AND local timezone for SQL
+						if clientPLATFORM = "oracle"  then
+							oValueNode.text = jsConvertLocalToGMT(oValueNode.text, false)
+						else
+							oValueNode.text = jsConvertLocalToGMT(oValueNode.text, true)
+						end if
+					next
+				end if				
+			end if
+		end if
+	next 'oLineNode
+end sub
+
+
+sub vbQueryConvertNumbers(byval pbToLocal)
+	dim oLinesList
+	dim oLineNode
+	dim oFieldNode
+	dim oValuesNode
+	dim oValueNode
+	dim sFieldPrimaryId
+	dim sDataType
+	dim sValue
+	
+	set oLinesList = goQueryNode.selectNodes(".//line[fieldId!='']")
+	for each oLineNode in oLinesList
+		'Find the field Node
+		sFieldPrimaryId = oLineNode.selectSingleNode("fieldId").text
+		set oFieldNode = goSelectedViewNode.selectSingleNode(".//field[@primaryId=" & vbXPathSafeQuote(sFieldPrimaryId) & "]")
+		if oFieldNode is nothing then
+			call jsMessageBox("Internal Error - Couldn't find field node for " + sFieldPrimaryId,0,4,res_LM_Title) 
+			exit sub
+		end if
+		'If this is a number field then convert value nodes
+		sDataType = oFieldNode.selectSingleNode("dataType").text
+		if ucase(sDataType)="INTEGER" or ucase(sDataType)="FLOAT" or ucase(sDataType)="TINYINT" or ucase(sDataType)="INTEGER_EQ" then
+			set oValuesNode = oLineNode.selectSingleNode("values")
+			
+			if not oValuesNode is nothing then
+				if pbToLocal then
+					if isnull(oValuesNode.getAttribute("localNumber")) then
+						oValuesNode.setAttribute "localNumber", "1"
+						for each oValueNode in oValuesNode.childNodes
+							if gsDecimalSymbol<>gsUniversalDecimalSymbol and gsDecimalSymbol<>"" then
+								oValueNode.text = replace(oValueNode.text, gsUniversalDecimalSymbol, gsDecimalSymbol)
+							end if
+						next 'oValueNode
+					end if
+				else
+					oValuesNode.removeAttribute "localNumber"
+					for each oValueNode in oValuesNode.childNodes
+						if gsDecimalSymbol<>gsUniversalDecimalSymbol  and gsDecimalSymbol<>""  then
+							oValueNode.text = replace(oValueNode.text, gsDecimalSymbol, gsUniversalDecimalSymbol)
+						end if
+					next
+				end if
+				
+			end if
+		end if
+	next 'oLineNode
+
+end sub
+
+' add blank line nodes to make the query ready for display
+sub vbQueryPostprocess()
+	dim lLineCount
+	dim lLinesToAdd
+	dim lBlock
+	dim oBlockNode
+	dim oLinesList
+	
+	'--- Convert any dates to local date format ---
+	call vbQueryConvertDates(true)
+	'----------------------------------------------------------------
+	'--- Convert number to local format ---
+	call vbQueryConvertNumbers(true)
+	'----------------------------------------------------------------
+	
+	' adds any missing lines
+	
+	for lBlock = 1 to 3
+		
+		set oBlockNode = goQueryNode.selectSingleNode("//query/queryDefinition/blocks/block[@sequenceNumber=" & lBlock & "]")
+		if oBlockNode is nothing or isempty(oBlockNode) then
+			call jsMessageBox("Internal Error - Couldn't find block node",0,4,res_LM_Title) 
+		end if
+		
+		set oLinesList = goQueryNode.selectNodes("//query/queryDefinition/blocks/block[@sequenceNumber=" & lBlock & "]/line")
+		lLineCount = oLinesList.length
+		select case lBlock
+		case 1
+			lLinesToAdd = 6 - lLineCount
+		case 2
+			lLinesToAdd = 5 - lLineCount
+		case 3
+			lLinesToAdd = 4 - lLineCount
+		end select
+		if lLinesToAdd > 0 then
+			for lLineCount = 0 to lLinesToAdd - 1
+				vbAddEmptyLine oBlockNode
+			next
+		end if
+	next
+	
+	
+end sub
+
+' remove blank line nodes to make the query ready saving/executing
+sub vbQueryPreprocess()
+	dim oLineNodeList
+	dim oLineNode
+	
+	set oLineNodeList = goQueryNode.selectNodes("queryDefinition/blocks/block/line[fieldId = '']")
+		
+	for each oLineNode in oLineNodeList
+		oLineNode.parentNode.removeChild oLineNode
+	next
+	
+	'--- Convert any dates to universal date format ---
+	call vbQueryConvertDates(false)
+	'----------------------------------------------------------------------
+
+	'--- Convert number to universal format ---
+	call vbQueryConvertNumbers(false)
+	'----------------------------------------------------------------------
+end sub
+
+sub vbAddEmptyLine(oBlockNode)
+	dim oLine
+
+	set oLine = oBlockNode.appendChild(oBlockNode.ownerDocument.createElement("line"))
+	
+	oLine.appendChild oLine.ownerDocument.createElement("fieldId")
+	oLine.appendChild oLine.ownerDocument.createElement("valueOperator")
+	oLine.appendChild oLine.ownerDocument.createElement("values")
+	
+end sub
+
+sub vbInitQueryNodeFields()
+	dim oFieldNodeList
+	dim oFieldNode
+	dim sFieldId
+	dim sDataType
+	dim bIndexed
+	
+	set oFieldNodeList = goQueryNode.selectNodes("queryDefinition/blocks/block/line/fieldId")
+		
+	for each oFieldNode in oFieldNodeList
+		sFieldId = oFieldNode.text
+		if (len(trim(sFieldId))>0) then
+			call vbInitField(sFieldId,sDataType,bIndexed)
+		end if
+	next
+	
+end sub
+
+function vbSaveQuery()
+	dim returnParams
+	dim callParams
+	dim oBlocksNode
+	dim sFailReason
+
+	if mbSQLEditted then
+		' the user editted the SQL for the query, so it becomes a custom query
+		set oQueryDefinitionNode = goQueryNode.selectSingleNode("/query/queryDefinition")
+		oQueryDefinitionNode.parentNode.removeChild oQueryDefinitionNode
+		goQueryNode.appendChild goQueryNode.ownerDocument.createElement("querySql")
+		mbCustomQuery = true
+	end if
+	
+	if mbCustomQuery then
+		goQueryNode.selectSingleNode("/query/querySql").text = document.all("txtSQL").innerText
+	else
+		if not vbIsValidQuery(sFailReason) then
+			jsMessageBox sFailReason
+			exit function
+		end if
+		vbQueryPreprocess
+	end if
+	
+	redim callParams(1)
+	
+	callParams(0) = "save"
+	set callParams(1) = window
+	
+	returnParams = showModalDialog("lm_querylist.asp",callParams,"dialogWidth:360px;dialogHeight:380px;scroll:no;resizable:no;status:no;help:no;")
+	if not mbCustomQuery then
+		vbQueryPostProcess
+	    call vbRenderCriteria(false)
+	else
+		if returnParams = "saved" then
+			mbSQLEditted = false
+		end if
+	end if
+	
+end function
+
+function vbDeleteQuery()
+	dim returnParams
+	dim callParams
+	
+	redim callParams(1)
+	
+	callParams(0) = "delete"
+	set callParams(1) = window
+		
+	returnParams = showModalDialog("lm_querylist.asp",callParams,"dialogWidth:360px;dialogHeight:380px;scroll:no;resizable:no;status:no;help:no;")
+end function
+
+function vbCountQuery()
+	dim oXMLOut
+	dim sStatusType
+	dim sMethodStatus
+	dim oCountNode
+	dim sCount
+	dim sFailReason
+	call vbLM_ClearError(document.all.divError)
+	if mbCustomQuery or mbSQLEditted then
+		call jsMessageBox(res_SQLCannotCountCustom,0,4,res_SQLQueryCount) 
+		exit function
+	end if
+
+	if goQueryNode.selectNodes("//queryDefinition/blocks/block[line/fieldId != '']").length > 1 then
+		call jsMessageBox(res_NoCountOnUnion,0,4,res_SQLQueryCount) 
+		exit function
+	end if
+	
+	if not vbIsValidQuery(sFailReason) then
+		jsMessageBox sFailReason
+		exit function
+	end if	
+	
+	vbQueryPreprocess
+	call vbXMLHTTPCall("queryCount", "<data>" & goQueryNode.xml & "</data>", oXMLOut)
+	vbQueryPostprocess
+
+	'If there was a failure then display message
+	sStatusType = vbLM_GetStatusType(oXMLOut,sMethodStatus)
+	if sStatusType<>"success" then
+		call vbLM_ShowError(document.all.divError,sMethodStatus)
+	end if
+	if sStatusType<>"failure" then
+		set oCountNode = oXMLOut.selectSingleNode(".//count")
+		if not oCountNode is nothing then
+			sCount =replace(res_RecordsRetrieved,"~1", oCountNode.text)
+			call jsMessageBox(sCount,0,4,res_SQLQueryCount)
+		end if
+	end if
+	
+end function
+
+function vbExecuteQuery()
+	dim oXMLOut
+	dim sFailReason
+	dim sStatusType
+	dim sMethodStatus
+	dim sTableType
+	dim oRowSetNode
+	dim vRowCount
+	dim oTableType
+	
+		
+	call vbLM_ClearError(document.all.divError)
+	if not vbIsValidQuery(sFailReason) then
+		jsMessageBox sFailReason
+		exit function
+	end if
+
+	call vbShowResultsFrame(true)
+
+	if mbSQLEditted then
+		' the user editted the SQL for the query, so it becomes a custom query
+		set oBlocksNode = goQueryNode.selectSingleNode("/query/queryDefinition/blocks")
+		if not oBlocksNode is nothing then
+			oBlocksNode.parentNode.removeChild oBlocksNode
+			goQueryNode.appendChild goQueryNode.ownerDocument.createElement("querySql")
+		end if
+		mbCustomQuery = true
+		'mbSQLEditted = false
+	end if
+	
+	if mbCustomQuery then
+		goQueryNode.selectSingleNode("/query/querySql").text = document.all("txtSQL").innerText
+	end if
+	
+	if not mbCustomQuery then vbQueryPreprocess ' don't need to process if it is a custom query
+	call vbXMLHTTPCall("queryExecute", "<data>" & goQueryNode.xml & "</data>", oXMLOut)
+	if not mbCustomQuery then vbQueryPostprocess
+	sStatusType = vbLM_GetStatusType(oXMLOut,sMethodStatus)
+	if sStatusType<>"success" then
+		call vbLM_ShowError(document.all.divError,sMethodStatus)
+	end if
+	if sStatusType<>"failure" then
+		if mbCustomQuery then
+			set oTableType = goQueryNode.selectSingleNode("searchViewId")
+			if oTableType is nothing then
+				sTableType = "custom"
+			else
+				sTableType = oTableType.text
+			end if
+		else
+			sTableType = goQueryNode.selectSingleNode("searchViewId").text
+		end if
+		if clientPLATFORM = "mssql" then
+			sTableType = "mssql_lm_" & sTableType
+		else
+			sTableType = "oracle_lm_" & sTableType
+		end if
+		
+		set oRowSetNode = oXMLOut.selectSingleNode("return/rowSet")
+		if not isnull(oRowSetNode) then
+			vRowCount = oRowSetNode.getAttribute("rowCount")
+			if not isnull(vRowCount) then
+				vRowCount = clng(vRowCount)
+				if vRowCount = 0 then
+					window.parent.frameLM.children("lm_results").contentWindow.spanRowcount.innerHTML = ""
+					window.parent.frameLM.children("lm_results").contentWindow.iddiv_resultlist.innerHTML = ""
+					call vbShowResultsFrame(false)
+					jsMessageBox res_NoRecordToDisplay				
+					exit function
+				end if
+			end if
+			call vbUpdateRowSet(oRowsetNode)
+			call window.parent.frameLM.children("lm_results").contentWindow.vbBuildTable(sTableType, oXMLOut.selectSingleNode("return/rowSet"), gsSelectedViewId)
+		else
+			jsMessageBox res_UnexpectedError
+		end if
+			
+	else
+		exit function
+	end if
+	
+end function
+
+sub vbChangeModeCriteria()
+	window.event.cancelBubble = true
+    vbSQLChanged
+	if mbCustomQuery or mbSQLEditted then
+		if jsMessageBox(res_SQLCannotEditCustom,4,4,res_LM_Title)= 0 then 
+			exit sub
+		end if
+		if mbCustomQuery then
+			vbClearCriteria
+			vbSetColDef
+		end if
+		msCustomSql = ""
+		document.all("txtSQL").innerText=""
+		mbSQLEditted = false
+		mbCustomQuery = false
+	end if
+	iconSQL.style.display = ""
+	iconCriteria.style.display = "none"
+	divSQL.style.display = "none"
+	divCriteria.style.display = ""
+	document.all.iconErase.style.display=""
+	document.all.iconEraseDisabled.style.display="none"
+	document.all.iconColDef.style.display=""
+	document.all.iconColDefDisabled.style.display="none"
+end sub
+
+sub vbChangeModeSQL()
+	dim sSQL
+	dim sFailReason
+	dim sStatusType
+	dim sMethodStatus
+	window.event.cancelBubble = true
+	
+	call vbLM_ClearError(document.all.divError)
+	if not mbCustomQuery then
+		if not vbIsValidQuery(sFailReason) then
+			jsMessageBox sFailReason
+			exit sub
+		end if
+		vbQueryPreProcess
+		call vbXMLHTTPCall("queryGenSQL", "<data>" & goQueryNode.xml & "</data>", oXMLOut)
+				sStatusType = vbLM_GetStatusType(oXMLOut,sMethodStatus)
+				if sStatusType<>"success" then
+					call vbLM_ShowError(document.all.divError,sMethodStatus)
+				end if
+				if sStatusType = "failure" then
+					exit sub
+				end if
+		vbQueryPostProcess
+		sSQL = oXMLOut.selectSingleNode(".//querySql").text
+		document.all("txtSQL").innerText = sSQL
+		msCustomSQL = sSQL
+		mbSQLEditted = false
+	end if
+	iconSQL.style.display = "none"
+	iconCriteria.style.display = ""
+	divSQL.style.display = ""
+	divCriteria.style.display = "none"
+	document.all.iconErase.style.display="none"
+	document.all.iconEraseDisabled.style.display=""
+	document.all.iconColDef.style.display="none"
+	document.all.iconColDefDisabled.style.display=""
+	window.event.cancelBubble = true
+	
+end sub
+
+sub vbSQLChanged()
+	if not mbCustomQuery then
+		if document.all("txtSQL").innerText <> msCustomSQL then
+'			gsSelectedViewId = ""
+			mbSQLEditted = true
+		end if
+	end if
+end sub
+
+sub vbSetDistinct()
+	if document.getElementById("chkUnique").checked then
+		goQueryNode.selectSingleNode("/query/distinct").text = "1"
+	else
+		goQueryNode.selectSingleNode("/query/distinct").text = "0"
+	end if
+end sub
+
+sub vbResize()
+	dim iHeight
+
+	if window.frameElement.height > 50 then		
+		iHeight = window.frameElement.height - 50
+		divTree.style.height = iHeight
+		iHeight = window.frameElement.height - 25
+		divCriteria.style.height = iHeight
+		iHeight = window.frameElement.height - 35
+		document.all.txtSQL.style.height = iHeight
+	end if
+end sub
+
+sub vbReset()
+
+	' reset a few flags first
+	mbCustomQuery = false
+	msCustomSQL = ""
+	document.all("txtSQL").innerText = "" 	
+	mbSQLEditted = false
+	
+	vbInitPage
+	selViewList.options(0).selected = true
+	call vbChangeView("0")
+	vbChangeModeCriteria
+	call vbShowResultsFrame(false)
+	window.parent.frameLM.children("lm_results").contentWindow.vbClearBulkActionList
+	window.parent.frameLM.children("lm_results").contentWindow.spanRowcount.innerHTML = ""
+	window.parent.frameLM.children("lm_results").contentWindow.document.all.iddiv_resultlist.innerHTML = ""
+end sub
+
+sub vbRemoveLines()
+
+	dim oBlockNode
+	dim oLineNode
+	dim lBlockCount
+	dim lLineCount
+	dim oChk
+	dim bRemovedLine
+	
+	bRemovedLine = false
+		
+	for lBlockCount = 1 to goQueryNode.selectNodes("/query/queryDefinition/blocks/block").length
+		set oBlockNode = goQueryNode.selectSingleNode( _
+						"//query/queryDefinition/blocks/block[@sequenceNumber=" & _
+						lBlockCount & "]")
+						
+		' delete from the bottom, otherwise the positions will change as we delete,
+		' which would be bad...
+		for lLineCount = oBlockNode.childNodes.length to 1 step -1
+			set oChk = document.all("chk" & lBlockCount & "_" & lLineCount)
+			if oChk.checked then
+				set oLineNode = goQueryNode.selectSingleNode( _
+									"//query/queryDefinition/blocks/block[@sequenceNumber=" & _
+									lBlockCount & "]/line[position()=" & _
+									lLineCount & "]")
+				oLineNode.parentNode.removeChild oLineNode
+				bRemovedLine = true
+			end if
+		next
+	next
+
+	if bRemovedLine then
+		vbQueryPostprocess ' need to add in blank lines for the ones we deleted
+		vbRenderCriteria(true)
+	else
+		call jsMessageBox(res_NoCriteriaToClear,0,4,res_LM_Title) 
+	end if
+
+end sub
+
+sub vbOpenColDef()
+	dim returnParams
+	dim callParams
+	dim oXMLDOM
+	dim oColumnNode
+	dim sPreviousColumnXML
+	dim sCurrentColumnXML
+	dim oResultActionList
+	
+	redim callParams(0)
+
+	if clng(gsSelectedViewId) <= 0 then
+		call jsMessageBox(res_NoDatabaseView ,0,4,res_LM_Title) 
+		exit sub
+	end if
+	
+	if not goQueryNode.selectSingleNode("//query/queryDefinition/columns") is nothing then
+		sPreviousColumnXML = goQueryNode.selectSingleNode("//query/queryDefinition/columns").xml			
+	end if
+	
+	set callParams(LM_CRITEDIT_INPUT_WINDOWOPENER) = window	
+	returnParams = showModalDialog("lm_columndefinition.asp",callParams,"dialogWidth:600px;dialogHeight:400px;scroll:no;resizable:no;status:no;help:no;")
+
+	if len(trim(returnParams)) > 0 then
+		set oXMLDOM = CreateObject("Msxml2.DOMDocument")
+		oXMLDOM.async = false
+		oXMLDOM.setProperty "SelectionLanguage", "XPath"
+		if not oXMLDOM.loadXML(returnParams) then
+			call jsMessageBox("Internal Error - failed to load column definition XML.",0,4,res_LM_Title) 		
+			exit sub
+		end if
+		set oColumnNode =  oXMLDOM.documentElement.selectSingleNode("//columns")
+		if not oColumnNode is nothing then
+			call goQueryNode.selectSingleNode("//query/queryDefinition").replaceChild(oColumnNode, goQueryNode.selectSingleNode("//query/queryDefinition/columns"))
+			sCurrentColumnXML = goQueryNode.selectSingleNode("//query/queryDefinition/columns").xml
+		end if		
+		call vbRenderCriteria(true)
+	end if
+
+	if sPreviousColumnXML <> sCurrentColumnXML then
+		set oResultActionList = window.parent.frameLM.children("lm_results").contentWindow.document.all("idselect_bulkinserttype")	
+		if not oResultActionList is nothing then
+			oResultActionList.disabled = true
+			oResultActionList.selectedIndex = 0
+		end if
+	end if
+
+end sub
+
+sub vbSetColDef()
+
+	dim oXMLOut
+	dim sStatusType
+	dim sMethodStatus
+	dim oDefaultColumnNode
+	
+
+	if len(trim(gsSelectedViewId)) = 0 then
+		exit sub
+	end if
+
+	if gsSelectedViewId = "0" then
+		exit sub
+	end if
+	
+	set oDefaultColumnNode = goDefaultColumnsNode.selectSingleNode("//defaultColumns/view[@id='" & gsSelectedViewId & "']/columns")
+	if oDefaultColumnNode is nothing then
+		call vbXMLHTTPCall("defaultColumns", "<data><viewId>" & gsSelectedViewId & "</viewId></data>", oXMLOut)
+		sStatusType = vbLM_GetStatusType(oXMLOut,sMethodStatus)
+		if sStatusType<>"success" then
+			call vbLM_ShowError(document.all.divError,sMethodStatus)
+		end if
+		if sStatusType = "failure" then
+			exit sub
+		end if
+		
+		set oColumnViewNode = goDefaultColumnsNode.selectSingleNode("//defaultColumns/view[@id='" & gsSelectedViewId & "']") 
+		if oColumnViewNode is nothing then
+			set oColumnViewNode = goDefaultColumnsNode.appendChild(goDefaultColumnsNode.ownerDocument.createElement("view"))
+			oColumnViewNode.setAttribute("id") = gsSelectedViewId
+		end if
+		set oDefaultColumnNode = oColumnViewNode.appendChild(oXMLOut.documentElement)		
+	end if
+	call goQueryNode.selectSingleNode("//query/queryDefinition").replaceChild(oDefaultColumnNode.cloneNode(true), goQueryNode.selectSingleNode("//query/queryDefinition/columns"))
+	
+end sub
+
+public function vbXMLHTTPCall(psAction, psXMLIn, poXMLOut)
+	dim oXMLHTTP
+	dim sReturn
+	
+	set oXMLHTTP = CreateObject("Msxml2.XMLHTTP")
+	oXMLHTTP.Open "POST", "lm_xmlhttp.asp?action=" & psAction, false
+	
+	set poXMLOut = CreateObject("Msxml2.DOMDocument")
+	poXMLOut.async = false
+	poXMLOut.setProperty "SelectionLanguage", "XPath"
+	
+	
+	oXMLHTTP.Send psXMLIn
+
+	if len(oXMLHTTP.ResponseText & "") = 0 then
+		vbXMLHTTPCall = false
+	end if
+	
+	if not poXMLOut.loadXML(oXMLHTTP.ResponseText) then
+		if poXMLOut.parseError.errorCode = -1072896760 then ' "An invalid character was found in text content"
+			' we need to strip out the invalid characters and try to parse again
+			sReturn = sStripInvalidCharacters(oXMLHTTP.ResponseText)
+			poXMLOut.loadXML sReturn
+		else
+			vbXMLHTTPCall = false
+			exit function
+		end if
+	end if
+	
+	vbXMLHTTPCall = true
+	
+end function
+function vbIsValidQuery(psReason)
+	dim oViewNode
+	dim oBlockNodeList
+	dim oBlockNode
+	dim oLineNodeList
+	dim oLineNode
+	dim oQuerySQLNode
+	dim bIndexFieldInBlock
+	dim oFieldNode
+	dim oColumnNodeList
+	
+	set oQuerySQLNode = goQueryNode.selectSingleNode("querySql")
+	if 	oQuerySQLNode is nothing then
+		' for a query to be valid it must have at least one criteria and at least
+		' one criteria in each block must be on an indexed field
+		set oBlockNodeList = goQueryNode.selectNodes("queryDefinition/blocks/block[line[fieldId!='']]")
+		lBlockNumber = oBlockNodeList.length
+		if lBlockNumber = 0 then
+			psReason = res_QueryInvalidNoCriteria
+			exit function
+		end if
+
+		' valid query must contain at least one column in <columns> node
+		set oColumnNodeList = goQueryNode.selectNodes("queryDefinition/columns/column")		
+		if oColumnNodeList.length = 0 then
+			psReason = res_NoColumnDefinied
+			exit function
+		end if		
+	else
+		' custom queries are always valid (as far as we know)
+		vbIsValidQuery = true
+	end if
+	vbIsValidQuery = true
+end function
+
+private function vbInitMainFrameRefs()
+	dim oMainFrame
+	
+	vbInitMainFrameRefs = false
+	call jsInitMainFrameRef
+	set oMainFrame = jsGetMainFrameRef()
+	if not oMainFrame is nothing then
+		oMainFrame.jsSetListManagerWindow window
+		vbInitMainFrameRefs = true
+	end if
+
+end function
+
+public function vbGetTargetXML()
+	vbGetTargetXML = msTargetXML
+	msTargetXML = ""
+end function
+
+public function vbDoBulkAction(psAction, psTargetsXML)
+	dim oMainFrame
+	set oMainFrame = jsGetMainFrameRef()
+	msTargetXML = psTargetsXML
+	
+	if msTargetXML = "<targets viewId=""" & gsSelectedViewId & """></targets>" then
+		jsMessageBox res_NoRecordsSelected
+		exit function
+	end if
+
+	if instr(msTargetXML,"allResults")>0 then
+		dim oXMLDOM
+		dim oAllResultsNode
+		dim oQueryNodeClone
+		dim oNewNode
+		set oXMLDOM = CreateObject("MSXML2.DOMDocument")
+		oXMLDOM.async = false
+		oXMLDOM.loadXML msTargetXML 
+		set oAllResultsNode = oXMLDOM.documentElement.selectSingleNode("allResults")
+		if not oAllResultsNode is nothing then
+			set oQueryNodeClone = vbGetClonedCurrentQueryNode()
+			set oNewNode = oXMLDOM.CreateElement("rowLimit")
+			oNewNode.text = 0
+			oQueryNodeClone.appendChild oNewNode
+			oAllResultsNode.appendChild oQueryNodeClone
+		end if
+		msTargetXML = oXMLDOM.xml
+	else
+		set oQueryNodeClone = vbGetClonedCurrentQueryNode()
+		if oQueryNodeClone Is Nothing then
+			exit function
+		end if
+	end if
+
+	select case psAction
+	case "exportExcel"
+		window.parent.frameLM.children("lm_export").contentWindow.frmExport.txtXML.value = "<data>" & oQueryNodeClone.xml & psTargetsXML & "</data>"
+		window.parent.frameLM.children("lm_export").contentWindow.frmExport.action = "lm_export.asp"
+		call window.parent.frameLM.children("lm_export").contentWindow.frmExport.submit
+	case "exportCSV"
+		window.parent.frameLM.children("lm_export").contentWindow.frmExport.txtXML.value = "<data>" & oQueryNodeClone.xml & psTargetsXML & "</data>"
+		window.parent.frameLM.children("lm_export").contentWindow.frmExport.action = "lm_export.asp?type=csv"
+		call window.parent.frameLM.children("lm_export").contentWindow.frmExport.submit
+	case "incidentSales"
+		' once we have called the incident edit page the rest is up to the incidents code
+		if not oMainFrame is nothing then
+			call oMainFrame.jsNewObjectIncident("Sales","", "", "BulkInsert",gsSelectedViewObjectType)
+		end if
+	case "incidentSupport"
+		' once we have called the incident edit page the rest is up to the incidents code
+		if not oMainFrame is nothing then
+			call oMainFrame.jsNewObjectIncident("Support","", "", "BulkInsert",gsSelectedViewObjectType)
+		end if
+	case "incidentService"
+		' once we have called the incident edit page the rest is up to the incidents code
+		if not oMainFrame is nothing then
+			call oMainFrame.jsNewObjectIncident("Service","", "", "BulkInsert",gsSelectedViewObjectType)
+		end if
+	case "internalContact"
+		vbDoBulkActionContact psAction
+	case "externalContact"
+		vbDoBulkActionContact psAction
+	case "literature"
+		doWindowOpen "BulkLiterature",800,600,"no","no","no","no","no","no","yes","../literature/literature_edit.asp?opener=LM&OwnerTypeId=" & gsSelectedViewObjectType
+	case "campaign"
+		if not oMainFrame is nothing then
+			oMainFrame.jsDoCampaignBulkInsertWindow window,msTargetXML, gsSelectedViewObjectType, "../"
+		end if
+	case "surveys"
+		vbDoBulkActionSurveys psAction
+	case "script"
+		vbDoBulkActionScript
+	case "quickSubscribe"
+		vbQuickSubscribe
+	case "quickUnsubscribe"
+		vbQuickUnsubscribe
+	case "advancedSubscription"
+		vbAdvancedSubscription
+	case "territoryReassignment"
+	    vbTerritoryReassignment msTargetXML
+	case else
+		jsMessageBox "Internal Error - Bulk action " & psAction & " not supported"
+	end select
+
+end function
+
+'--------------------------------------------------------------------------------------------
+' FUNCTION:			vbDoBulkActionSurveys
+'
+' DESCRIPTION:
+' Displays the survey tree and details ASPs to get the information necessary to perform
+' a batch insert of surveys.  
+' 
+' RETURN VALUE:
+' N/A
+'
+' INPUT PARAMETERS:
+' psType - action choosen from Bulk Action drop down list.
+'
+' OUTPUT PARAMETERS:
+' N/A
+'
+' CALLED PROCEDURES / DEPENDENCIES:
+' Called from vbDoBulkAction().
+'--------------------------------------------------------------------------------------------
+private sub vbDoBulkActionSurveys(psType)
+	dim sURL
+	dim sReturnValue
+	dim sSurveyArray
+
+	' Display the survey-tree window which returns the selected surveyid and the survey name.
+	' Open the page with "opener=LM".
+	sReturnValue = showModalDialog("../surveys/survey-tree.asp?opener=LM", window, "dialogHeight:30;dialogWidth:30;scroll:no;center:yes;edge:raised;help:no;resizable:no;status:no;")
+	if sReturnValue <> undefined then
+		sSurveyArray = Split(sReturnValue, "$$$", -1, 1)
+		' First element is the Id.  Cannot be nothing.  Second element is Survey Name which can be blank.
+		if sSurveyArray(0) <> undefined then
+			' Open the details page hardcoding values we don't have.  Disallow deletes.
+			sURL = "../surveys/surveys-details.asp?opener=LM&ownerid=0&surveyId=" & sSurveyArray(0) & "&surveyName=" & escape(sSurveyArray(1)) & "&ownerType=" & gsSelectedViewObjectType & "&primaryId=0&timestamp=0&readOnly=0&privateAccess=0&canEdit=1&isAssociated=0&locked=0"
+			doWindowOpen "BulkSurveys",800,600,"no","no","no","no","no","no","yes", sUrl
+		end if
+	end if
+end sub
+
+'--------------------------------------------------------------------------------------------
+' FUNCTION:			vbFinishBulkActionSurveys
+'
+' DESCRIPTION:
+' Called from the surveys-details ASP to complete the bulk insert of surveys.  Posts the input
+' XML to the survey for processing there.
+' 
+' RETURN VALUE:
+' N/A
+'
+' INPUT PARAMETERS:
+' psTargetXML - list of customer IDs choosen by user.
+' psBulkInsertDataXML - XML with survey ID and questionrespones.
+'
+' OUTPUT PARAMETERS:
+' N/A
+'
+' CALLED PROCEDURES / DEPENDENCIES:
+' Called from vbSaveSurvey() in surveys-details.vbi.
+'--------------------------------------------------------------------------------------------
+public sub vbFinishBulkActionSurveys(psTargetXML, psBulkInsertDataXML)
+	dim oXMLOut
+	dim sXMLIn
+	dim sStatusType
+	dim sMethodStatus
+	
+	' force our window to the front so that the jsMessageBox doesn't get hidden
+	call window.parent.focus()
+	
+	' Wrap up the input XML.
+	sXMLIn = "<data><actionData><actionType>surveys</actionType></actionData>" & psBulkInsertDataXML & psTargetXML & "</data>"
+
+	' Post the data to the server.	
+	if vbXMLHTTPCall("bulkAction", sXMLIn, oXMLOut) then
+		'If there was a failure then display message
+		sStatusType = vbLM_GetStatusType(oXMLOut, sMethodStatus)
+		if sStatusType <> "success" then
+			call vbLM_ShowError(document.all.divError, sMethodStatus)
+		end if
+		if sStatusType <> "failure" then
+			jsMessageBox res_InsertComplete
+		else
+			exit sub
+		end if
+	end if
+end sub
+
+private sub vbDoBulkActionScript()
+	dim sUserId
+	dim sUserName
+	dim sScriptId
+	dim sXMLIn
+	dim sStatusType
+	dim sMethodStatus
+	dim sStateXml
+	
+	if not vbScriptSelect(sScriptId, sUserId, sUserName) then
+		exit sub
+	end if		
+	
+	sStateXml =	sStateXml &	"<variables>"
+	sStateXml =	sStateXml &		"<variable name='_userid' type='scalar'>"
+	sStateXml = sStateXml &			"<item text='" &  OTMStr2SafeHTML(sUserName) & "' code='" & OTMStr2SafeHTML(sUserId) & "'/>" 
+	sStateXml = sStateXml &		"</variable>"
+	sStateXml =	sStateXml &	"</variables>"
+	
+	sXMLIn = "<data><actionData><actionType>script</actionType></actionData>" &_
+		"<bulkAction>" &_
+			"<call object='scriptSession'>" &_
+				"<parameters>" &_
+				    "<scriptSessions objectType=""scriptSession"" collection=""1"">" &_
+				        "<scriptSession  objectType=""scriptSession"" action=""insert"" content=""all"">" &_
+				            "<primaryId null=""1""/>" &_
+					        "<scriptId>" & sScriptId & "</scriptId>" &_
+					        "<assignedTo>" & OTMStr2SafeHTML(sUserId) & "</assignedTo>" &_
+					        "<ownerId/>" &_
+					        "<ownerType>" & gsSelectedViewObjectType & "</ownerType>" &_
+					        "<statusId>1</statusId>" &_
+					        "<duration>0</duration>" &_
+					        "<stateXml>" & OTMStr2SafeHTML(sStateXml) & "</stateXml>" &_
+				        "</scriptSession>" &_
+				    "</scriptSessions>" &_
+				"</parameters>" &_
+			"</call>" &_
+		"</bulkAction>" & vbGetTargetXML & "</data>"		
+	
+	if vbXMLHTTPCall("bulkAction", sXMLIn, oXMLOut) then
+
+		'If there was a failure then display message
+		sStatusType = vbLM_GetStatusType(oXMLOut, sMethodStatus)
+		if sStatusType <> "success" then
+			call vbLM_ShowError(document.all.divError, sMethodStatus)
+		end if
+		if sStatusType <> "failure" then
+			jsMessageBox res_BulkInsertComplete
+		else
+			exit sub
+		end if
+	end if
+end sub
+
+private sub vbDoBulkActionContact(psType)
+	dim sContactId
+	dim sContactType
+	dim sContactObjectType
+	dim sXMLIn
+	dim sStatusType
+	dim sMethodStatus
+	
+	if psType = "internalContact" then
+		if not vbInternalContactSelect(sContactId, sContactType) then
+			exit sub
+		end if		
+	else
+		if not vbExternalContactSelect(sContactId, sContactType, sContactObjectType) then
+			exit sub
+		end if
+	end if
+	
+	sXMLIn = "<data><actionData><actionType>" & psType & "</actionType>" &_
+		"<contactId>" & sContactId & "</contactId>" &_
+		"<contactType>" & sContactType & "</contactType>" &_
+		"<contactObjectType>" & sContactObjectType & "</contactObjectType>" &_
+		"<ownerType>" & gsSelectedViewObjectType & "</ownerType>" &_
+		"</actionData>" & vbGetTargetXML & "</data>"
+		
+	if vbXMLHTTPCall("contactBulkAction", sXMLIn, oXMLOut) then
+
+		'If there was a failure then display message
+		sStatusType = vbLM_GetStatusType(oXMLOut, sMethodStatus)
+		if sStatusType <> "success" then
+			call vbLM_ShowError(document.all.divError, sMethodStatus)
+		end if
+		if sStatusType <> "failure" then
+			jsMessageBox res_BulkInsertComplete
+		else
+			exit sub
+		end if
+	end if
+end sub
+
+private function vbExternalContactSelect(psContactId, psContactType, psContactObjectType)
+	dim vReturn
+	dim arrContactDetails
+	
+	vbExternalContactSelect = false
+	
+	if gsSelectedViewObjectType = "1" then
+		vReturn = cstr(jsDoQuickSearch("LMExternalContact","Individual"))
+	elseif gsSelectedViewObjectType = "2" then
+		vReturn = cstr(jsDoQuickSearch("LMExternalContact","Company"))	
+	end if	
+
+	if vReturn <> "0" and vReturn <> "" then
+		arrContactDetails = split(vReturn, chr(8))
+		if not isarray(arrContactDetails) then exit function
+		psContactId = arrContactDetails(0)
+		psContactObjectType = arrContactDetails(3)
+		psContactType = arrContactDetails(4)
+		
+		vbExternalContactSelect = true
+	end if
+	
+end function
+
+
+private function vbInternalContactSelect(psContactId, psContactType)
+	dim returnParams
+	dim callParams
+	
+	redim callParams(1)
+	
+	callParams(0) = gsSelectedViewObjectType
+	set callParams(1) = jsGetMainFrameRef()
+	
+	vbInternalContactSelect = false
+	
+	returnParams = showModalDialog("lm_internalcontact.asp",callParams,"dialogWidth:350px;dialogHeight:200px;scroll:no;resizable:no;status:no;help:no;")
+	
+	if returnParams = "" then
+		exit function
+	end if
+	
+	returnParams = split(returnParams, chr(2))
+	
+	if not isarray(returnParams) then
+		exit function
+	end if
+	if returnParams(0) = "save" then
+		psContactId = returnParams(1)
+		psContactType = returnParams(2)
+		vbInternalContactSelect = true
+	end if
+end function
+
+private function vbScriptSelect(psScriptId, psUserId, psUserName)
+	dim returnParams
+	dim callParams
+	
+	redim callParams(1)
+	
+	callParams(0) = gsSelectedViewObjectType
+	set callParams(1) = jsGetMainFrameRef()
+	
+	vbScriptSelect = false
+	
+	returnParams = showModalDialog("lm_script.asp", callParams, "dialogWidth:400px;dialogHeight:200px;scroll:no;resizable:no;status:no;help:no;")
+	
+	if not IsEmpty(returnParams) then
+		returnParams = split(returnParams, chr(2))
+	else
+		exit function
+	end if
+	if not isarray(returnParams) then
+		exit function
+	end if
+	if returnParams(0) = "save" then
+		psScriptId = returnParams(1)
+		psUserId = returnParams(2)
+		psUserName = returnParams(3)
+		vbScriptSelect = true
+	end if
+end function
+
+public sub vbDoBulkActionLiterature(psTargetXML, psBulkInsertDataXML)
+	dim oXMLOut
+	dim sXMLIn
+	dim sStatusType
+	dim sMethodStatus
+	
+	' force our window to the front so that the jsMessageBox doesn't get hidden
+	call window.parent.focus()
+	
+	sXMLIn = "<data><actionData><actionType>literature</actionType></actionData>" & psBulkInsertDataXML & psTargetXML & "</data>"
+	
+	if vbXMLHTTPCall("bulkAction", sXMLIn, oXMLOut) then
+		'If there was a failure then display message
+		sStatusType = vbLM_GetStatusType(oXMLOut, sMethodStatus)
+		if sStatusType <> "success" then
+			call vbLM_ShowError(document.all.divError, sMethodStatus)
+		end if
+		if sStatusType <> "failure" then
+			jsMessageBox res_InsertComplete
+		else
+			exit sub
+		end if
+	end if
+	
+end sub
+
+public sub vbDoBulkActionIncident(psBulkInsertDataXML)
+	dim oXMLOut
+	dim sStatusType
+	dim sMethodStatus
+	
+	' force our window to the front so that the jsMessageBox doesn't get hidden
+	call window.parent.focus()
+	
+	dim oXMLTemp
+	
+	set oXMLTemp = CreateObject("MSXML2.DomDocument")
+	if oXMLTemp.loadXML(psBulkInsertDataXML) then
+	    dim oOwnerTypeNode
+	    set oOwnerTypeNode = oXMLTemp.selectSingleNode("//incident/ownerType")
+	    oOwnerTypeNode.text = gsSelectedViewObjectType
+	    oOwnerTypeNode.setAttribute "null", "0"
+	
+	    psBulkInsertDataXML = oXMLTemp.xml
+	end if
+	
+	if vbXMLHTTPCall("bulkAction", psBulkInsertDataXML, oXMLOut) then
+		'If there was a failure then display message
+		sStatusType = vbLM_GetStatusType(oXMLOut, sMethodStatus)
+		if sStatusType <> "success" then
+			call vbLM_ShowError(document.all.divError, sMethodStatus)
+		end if
+		if sStatusType <> "failure" then
+			jsMessageBox res_InsertComplete
+		else
+			exit sub
+		end if
+	end if
+	
+end sub
+
+
+
+public sub vbDoBulkActionCampaign(psTargetXML, psBulkInsertDataXML)
+	dim oXMLOut
+	dim sXMLIn
+	dim sStatusType
+	dim sMethodStatus
+	
+	' force our window to the front so that the jsMessageBox doesn't get hidden
+	call window.parent.focus()
+	
+	sXMLIn = "<data><actionData><actionType>campaign</actionType></actionData>" & psBulkInsertDataXML & psTargetXML & "</data>"
+	
+	if vbXMLHTTPCall("bulkAction", sXMLIn, oXMLOut) then
+		'If there was a failure then display message
+		sStatusType = vbLM_GetStatusType(oXMLOut, sMethodStatus)
+		if sStatusType <> "success" then
+			call vbLM_ShowError(document.all.divError, sMethodStatus)
+		end if
+		if sStatusType <> "failure" then
+			jsMessageBox res_InsertComplete
+		else
+			exit sub
+		end if
+	end if
+	
+end sub
+
+public sub vbTerritoryReassignment(msTargetXML)
+	dim sBulkActionXML
+	dim sXMLIn
+	dim oXMLOut
+	dim sStatusType
+	dim sMethodStatus
+
+    if gsSelectedViewObjectType = "2" then
+	    sBulkActionXML = "<bulkAction><call object='assignmentAssociation'><parameters><company objectType='company'><primaryId/></company></parameters></call></bulkAction>"
+	else
+	    sBulkActionXML = "<bulkAction><call object='assignmentAssociation'><parameters><individual objectType='individual'><primaryId/></individual></parameters></call></bulkAction>"	
+	end if
+
+	sXMLIn = "<data><actionData><actionType>territoryReassignment</actionType></actionData>" & sBulkActionXML  & msTargetXML & "</data>"		
+	
+	if vbXMLHTTPCall("bulkAction", sXMLIn, oXMLOut) then
+
+		'If there was a failure then display message
+		sStatusType = vbLM_GetStatusType(oXMLOut, sMethodStatus)
+		if sStatusType <> "success" then
+			call vbLM_ShowError(document.all.divError, sMethodStatus)
+		end if
+		if sStatusType <> "failure" then
+			jsMessageBox res_BulkInsertComplete
+		else
+			exit sub
+		end if
+	end if
+end sub
+
+public sub vbQuickSubscribe()
+	dim oMainFrame
+	dim sQuickService
+	dim aQuickService
+	dim sBulkActionXML
+	dim sXMLIn
+	dim oXMLOut
+	dim sStatusType
+	dim sMethodStatus
+
+	set oMainFrame = jsGetMainFrameRef()
+	sQuickService = jsGetQuickServices(msUserId, gsSelectedViewObjectType, oMainFrame) 
+	if len(sQuickService & "")= 0 then
+		jsMessageBox res_Subscription_NoQuickService, 0, 4, res_LM_Title
+		exit sub	
+	end if
+	aQuickService = split(sQuickService, ";")
+
+	sBulkActionXML = vbCreateSubscriptionBulkActionXML(aQuickService, "")
+
+	sXMLIn = "<data><actionData><actionType>subscription</actionType></actionData>" & sBulkActionXML  & vbGetTargetXML & "</data>"		
+	
+	if vbXMLHTTPCall("bulkAction", sXMLIn, oXMLOut) then
+
+		'If there was a failure then display message
+		sStatusType = vbLM_GetStatusType(oXMLOut, sMethodStatus)
+		if sStatusType <> "success" then
+			call vbLM_ShowError(document.all.divError, sMethodStatus)
+		end if
+		if sStatusType <> "failure" then
+			jsMessageBox res_BulkInsertComplete
+		else
+			exit sub
+		end if
+	end if
+
+end sub
+
+public sub vbQuickUnsubscribe()
+	dim oMainFrame
+	dim sQuickService
+	dim aQuickService
+	dim sBulkActionXML
+	dim sXMLIn
+	dim oXMLOut
+	dim sStatusType
+	dim sMethodStatus
+
+	set oMainFrame = jsGetMainFrameRef()
+	sQuickService = jsGetQuickServices(msUserId, gsSelectedViewObjectType, oMainFrame) 
+	if len(sQuickService & "")= 0 then
+		jsMessageBox res_Subscription_NoQuickService, 0, 4, res_LM_Title
+		exit sub	
+	end if
+	aQuickService = split(sQuickService, ";")
+
+	sBulkActionXML = vbCreateSubscriptionBulkActionXML("", aQuickService)
+
+	sXMLIn = "<data><actionData><actionType>subscription</actionType></actionData>" & sBulkActionXML  & vbGetTargetXML & "</data>"		
+	
+	if vbXMLHTTPCall("bulkAction", sXMLIn, oXMLOut) then
+
+		'If there was a failure then display message
+		sStatusType = vbLM_GetStatusType(oXMLOut, sMethodStatus)
+		if sStatusType <> "success" then
+			call vbLM_ShowError(document.all.divError, sMethodStatus)
+		end if
+		if sStatusType <> "failure" then
+			jsMessageBox res_BulkInsertComplete
+		else
+			exit sub
+		end if
+	end if
+
+end sub
+
+public sub vbAdvancedSubscription()
+	dim sOptions
+	dim sCallModalWindow
+	dim oArgs		
+	dim sReturnValue	
+	dim aReturnValue
+	dim aSubscribeService
+	dim aUnsubscribeService
+	dim sBulkActionXML
+	dim sXMLIn
+	dim oXMLOut
+	dim sStatusType
+	dim sMethodStatus
+
+	sOptions = "dialogWidth:550px;dialogHeight:400px;status:no;scroll:no;help:no;resizable:no;"
+	sCallModalWindow="../subscription/subscription_detail.asp"
+	redim oArgs(6)			
+	oArgs(0) = "listManagerSubscription"	
+	oArgs(1) = ""	
+	oArgs(2) = gsSelectedViewObjectType	
+
+	sReturnValue = jsShowModalDialog(sCallModalWindow,oArgs,"dialogWidth:550px;dialogHeight:400px;status:no;scroll:no;help:no;resizable:no;")
+	' no service to be subscribed/unsubscribed
+	if len(sReturnValue & "")=0 then
+		exit sub
+	end if
+	aReturnValue = split(sReturnValue,";")
+	aSubscribeService = split(aReturnValue(0), ",")
+	aUnsubscribeService = split(aReturnValue(1), ",")
+	
+	sBulkActionXML = vbCreateSubscriptionBulkActionXML(aSubscribeService, aUnsubscribeService)
+
+	sXMLIn = "<data><actionData><actionType>subscription</actionType></actionData>" & sBulkActionXML  & vbGetTargetXML & "</data>"		
+	
+	if vbXMLHTTPCall("bulkAction", sXMLIn, oXMLOut) then
+
+		'If there was a failure then display message
+		sStatusType = vbLM_GetStatusType(oXMLOut, sMethodStatus)
+		if sStatusType <> "success" then
+			call vbLM_ShowError(document.all.divError, sMethodStatus)
+		end if
+		if sStatusType <> "failure" then
+			jsMessageBox res_BulkInsertComplete
+		else
+			exit sub
+		end if
+	end if
+
+end sub
+
+private function vbCreateSubscriptionBulkActionXML(aSubscribeService, aUnsubscribeService)
+	dim oXMLDOM
+	dim oBulkActionNode
+	dim oCallNode
+	dim oParam
+	dim oTemp
+
+	set oXMLDOM = CreateObject("MSXML2.DOMDocument")
+	oXMLDOM.async = false
+	oXMLDOM.setProperty "SelectionLanguage", "XPath"
+	set oBulkActionNode = oXMLDOM.createElement("bulkAction")
+	oXMLDOM.appendChild oBulkActionNode
+	
+	if isarray(aSubscribeService) then
+		for i=lbound(aSubscribeService) to ubound(aSubscribeService)
+			set oCallNode = oBulkActionNode.ownerDocument.createElement("call")
+			oBulkActionNode.appendChild oCallNode
+			oCallNode.setAttribute "object", "subscription"
+			set oParam = oCallNode.ownerDocument.createElement("parameters")
+			oCallNode.appendChild oParam
+			
+			set oTemp = oCallNode.ownerDocument.createElement("subscribeUserId")
+			oParam.appendChild oTemp
+			oTemp.text = msUserId
+			set oTemp = oCallNode.ownerDocument.createElement("subscriptionServiceId")
+			oParam.appendChild oTemp
+			oTemp.text = aSubscribeService(i)
+			set oTemp = oCallNode.ownerDocument.createElement("objectType")
+			oParam.appendChild oTemp
+			oTemp.text = gsSelectedViewObjectType
+			set oTemp = oCallNode.ownerDocument.createElement("objectPrimaryKey")
+			oParam.appendChild oTemp
+			set oTemp = oCallNode.ownerDocument.createElement("syncAction")
+			oParam.appendChild oTemp
+			oTemp.text = "1"	
+		next 	
+	end if
+	if isarray(aUnsubscribeService) then
+		for i=lbound(aUnsubscribeService) to ubound(aUnsubscribeService)
+			set oCallNode = oBulkActionNode.ownerDocument.createElement("call")
+			oBulkActionNode.appendChild oCallNode
+			oCallNode.setAttribute "object", "subscription"
+			set oParam = oCallNode.ownerDocument.createElement("parameters")
+			oCallNode.appendChild oParam
+			
+			set oTemp = oCallNode.ownerDocument.createElement("subscribeUserId")
+			oParam.appendChild oTemp
+			oTemp.text = msUserId
+			set oTemp = oCallNode.ownerDocument.createElement("subscriptionServiceId")
+			oParam.appendChild oTemp
+			oTemp.text = aUnsubscribeService(i)
+			set oTemp = oCallNode.ownerDocument.createElement("objectType")
+			oParam.appendChild oTemp
+			oTemp.text = gsSelectedViewObjectType
+			set oTemp = oCallNode.ownerDocument.createElement("objectPrimaryKey")
+			oParam.appendChild oTemp
+			set oTemp = oCallNode.ownerDocument.createElement("syncAction")
+			oParam.appendChild oTemp
+			oTemp.text = "2"	
+		next 	
+	end if	
+	vbCreateSubscriptionBulkActionXML = oXMLDOM.xml
+end function
+
+private function vbGetClonedCurrentQueryNode()
+	dim sFailReason
+	dim oBlocksNode
+	dim oQueryNodeClone
+	
+	if not vbIsValidQuery(sFailReason) then
+		jsMessageBox sFailReason
+		set vbGetClonedCurrentQueryNode = nothing
+		exit function
+	end if
+
+	if mbSQLEditted and not(mbCustomQuery) then
+		' the user editted the SQL for the query, so it becomes a custom query
+		set oBlocksNode = goQueryNode.selectSingleNode("/query/queryDefinition/blocks")
+		oBlocksNode.parentNode.removeChild oBlocksNode
+		goQueryNode.appendChild goQueryNode.ownerDocument.createElement("querySql")
+		mbCustomQuery = true
+		mbSQLEditted = false
+	end if
+	
+	if mbCustomQuery then
+		goQueryNode.selectSingleNode("/query/querySql").text = document.all("txtSQL").innerText
+	end if
+	
+	if not mbCustomQuery then vbQueryPreprocess ' don't need to process if it is a custom query
+	set oQueryNodeClone = goQueryNode.cloneNode(true)
+	if not mbCustomQuery then vbQueryPostprocess
+
+	set vbGetClonedCurrentQueryNode = oQueryNodeClone
+end function
+
+private function vbGetAllTargetIds(poClonedQueryNode)
+	dim oXMLOut
+	dim sStatusType
+	dim sMethodStatus
+	
+	vbGetAllTargetIds=""
+
+	if vbXMLHTTPCall("queryExecuteToGetTargetIds", "<data>" & poClonedQueryNode.xml & "</data>", oXMLOut) then
+		sStatusType = vbLM_GetStatusType(oXMLOut,sMethodStatus)
+		if sStatusType<>"success" then
+			call vbLM_ShowError(document.all.divError,sMethodStatus)
+		end if
+		if sStatusType<>"failure" then			
+			vbGetAllTargetIds = oXMLOut.xml
+		else
+			exit function
+		end if
+	end if
+
+end function
+
+
+private sub vbUpdateRowSet(oRowset)
+	dim oColumnDefinitions
+	dim oColumnDefinition
+	dim oFieldNode
+	dim sColumnName
+	dim sResultType
+	dim oColumnVisible
+	dim oColumnResultType
+	dim oColumnClick
+	dim oColumnFieldDataType
+	dim oColumnFullDescription
+	dim oXMLDOM
+	dim oActionColumnsMapNode
+	dim oActionColumnMapNode
+	dim sEventFunction
+	dim sEventType
+	dim sParamColumnType
+	dim oParamNode
+	dim sColumnOrdinal
+	dim oTempNode
+	dim oParamColumnOrdinalNode
+	dim bAllMapped
+	dim sBulkActionColumnType
+	dim oBulkActionColumnNode
+	dim bHistoricalCustomQuery
+	dim sTemp					
+	' Currently columnDefinitions are not saved with custom query, insert them into query node here
+	dim oQueryColumns
+	dim oQueryColumnNodes
+	dim oQueryDefinition
+	dim oQueryColumn
+				
+	bHistoricalCustomQuery =false
+	
+	set oColumnDefinitions = oRowset.selectNodes("//columnDefinitions/columnDefinition")		
+	' check if the query is custom query
+	if mbCustomQuery then
+		set oQueryColumns = goQueryNode.selectSingleNode("/query/queryDefinition/columns")
+		if oQueryColumns is nothing then
+			set oQueryDefinition = goQueryNode.selectSingleNode("/query/queryDefinition")
+			if oQueryDefinition is nothing then
+				'create queryDefinition node
+				set oQueryDefinition = goQueryNode.appendChild(goQueryNode.ownerDocument.createElement("queryDefinition"))
+			end if
+			' create columns node
+			set oQueryColumns = oQueryDefinition.appendChild(goQueryNode.ownerDocument.createElement("columns"))
+		else
+			' remove all column nodes
+			set oQueryColumnNodes = oQueryColumns.selectNodes("./column")
+			call oQueryColumnNodes.removeAll()
+		end if
+	end if
+	' insert/update columnHeading, columnVisible, columnResultType and columnClick node in the rowSet/columnDefinitions node
+	for each oColumnDefinition in oColumnDefinitions
+		set oColumnVisible = oColumnDefinition.appendChild(oColumnDefinition.ownerDocument.createElement("columnVisible"))
+		oColumnVisible.text = "True"
+		set oColumnResultType = oColumnDefinition.appendChild(oColumnDefinition.ownerDocument.createElement("columnResultType"))
+		set oColumnClick = oColumnDefinition.appendChild(oColumnDefinition.ownerDocument.createElement("columnClick"))
+		set oColumnFieldDataType = oColumnDefinition.appendChild(oColumnDefinition.ownerDocument.createElement("columnFieldDataType"))
+		set oColumnFullDescription = oColumnDefinition.appendChild(oColumnDefinition.ownerDocument.createElement("columnFullDescription"))
+				
+		sColumnName = oColumnDefinition.selectSingleNode("columnName").text
+		if len(trim(sColumnName))>0 then
+			set oFieldNode = goSelectedViewNode.selectSingleNode(".//field[@primaryId =" & vbXPathSafeQuote(sColumnName) & "]")
+			if not oFieldNode is nothing then
+				oColumnDefinition.selectSingleNode("columnHeading").text = oFieldNode.selectSingleNode("description").text
+				oColumnVisible.text = oFieldNode.selectSingleNode("resultVisible").text												
+				oColumnFieldDataType.text = oFieldNode.selectSingleNode("dataType").text
+				if not oFieldNode.parentNode.parentNode.selectSingleNode("description") is nothing then
+					sTemp = replace(res_Column_Full_Description, "~0", oFieldNode.parentNode.parentNode.selectSingleNode("description").text)													
+					oColumnFullDescription.text = replace(sTemp, "~1", oFieldNode.selectSingleNode("description").text)							
+				end if
+
+				sResultType = oFieldNode.selectSingleNode("resultType").text
+				if len(trim(sResultType))>0 then
+					oColumnResultType.text = sResultType	
+				end if				
+			    ' get enum list if it is a reference data.
+			    if oColumnFieldDataType.text = "ENUM_I" then
+					call vbInitField( sColumnName, "","") 
+				end if
+			else
+				oColumnFullDescription.text = sColumnName
+			end if
+			' if it is a custom query, insert column definitions
+			if mbCustomQuery then	
+				set oQueryColumn = goQueryNode.ownerDocument.createElement("column")
+				call oQueryColumn.setAttribute("id",sColumnName)
+				call oQueryColumn.setAttribute("sequenceNumber",oColumnDefinition.selectSingleNode("columnOrdinal").text)
+				call oQueryColumns.appendChild(oQueryColumn)
+			end if			
+		end if		
+	next
+	
+	' get the bulk action column number	
+	sBulkActionColumnType = ""
+	set oBulkActionColumnNode = goQueryNode.selectSingleNode("//query/bulkActionColumnOrdinal")
+	if not oBulkActionColumnNode is nothing then
+		goQueryNode.removeChild oBulkActionColumnNode
+	end if
+	if isempty(goResultTypeMapNode) then
+		set oXMLDOM = CreateObject("MSXML2.DOMDocument")
+		oXMLDOM.async = false
+		oXMLDOM.setProperty "SelectionLanguage", "XPath"					
+		call loadXmlDocumentFile(oXMLDOM,"lm_resultType_map.xml")
+		set goResultTypeMapNode = oXMLDOM.documentElement
+	end if	
+	if clientPLATFORM = "mssql" then
+		set oActionColumnsMapNode = goResultTypeMapNode.selectSingleNode("//actionDefinition/platform[@name='mssql']/columns[@objectType='" & gsSelectedViewId & "']")
+	else
+		set oActionColumnsMapNode = goResultTypeMapNode.selectSingleNode("//actionDefinition/platform[@name='oracle']/columns[@objectType='" & gsSelectedViewId & "']")					
+	end if
+	if not oActionColumnsMapNode is nothing then
+		' get bulkAction columnOrdinal
+		if not goQueryNode.selectSingleNode("//query/historicalCustomQuery") is nothing then
+			if goQueryNode.selectSingleNode("//query/historicalCustomQuery").text ="1" then
+				' Always assume the first column for historical custom query
+				set oBulkActionColumnNode = goQueryNode.appendChild(goQueryNode.ownerDocument.createElement("bulkActionColumnOrdinal"))
+				oBulkActionColumnNode.text = "1"
+				bHistoricalCustomQuery = true
+			else
+				sBulkActionColumnType = oActionColumnsMapNode.attributes.getNamedItem("bulkActionColumnType").text			
+			end if
+		else
+			sBulkActionColumnType = oActionColumnsMapNode.attributes.getNamedItem("bulkActionColumnType").text			
+		end if
+		if len(trim(sBulkActionColumnType))>0 then
+			set oTempNode = oRowset.selectSingleNode("//rowSet/columnDefinitions/columnDefinition[columnResultType ='" & sBulkActionColumnType & "']")
+			if not oTempNode is nothing then
+				sColumnOrdinal = oTempNode.selectSingleNode("columnOrdinal").text
+				set oBulkActionColumnNode = goQueryNode.selectSingleNode("//query/bulkActionColumnOrdinal")
+				if oBulkActionColumnNode is nothing then
+					set oBulkActionColumnNode = goQueryNode.appendChild(goQueryNode.ownerDocument.createElement("bulkActionColumnOrdinal"))
+				end if
+				oBulkActionColumnNode.text = sColumnOrdinal					
+			end if
+		end if
+	end if
+
+
+	' update the columnClick node with eventFunction and params
+	if bHistoricalCustomQuery then
+		' always assume the click event occurs to the first column for the historical custom query 
+		if gsSelectedViewId="1" or gsSelectedViewId="2" then
+			set oColumnClick = oRowset.selectSingleNode("//columnDefinitions/columnDefinition[columnOrdinal='1']/columnClick")
+			if not oColumnClick is nothing then
+				oColumnClick.setAttribute("event") = "vbCustomerClick"
+				oColumnClick.setAttribute("type") = "script"
+				set oParamColumnOrdinalNode=oColumnClick.appendChild(oColumnClick.ownerDocument.createElement("paramColumnOrdinal"))
+				oParamColumnOrdinalNode.text = "1"
+			end if			
+		end if
+	else		
+		for each oColumnDefinition in oColumnDefinitions
+			sResultType = oColumnDefinition.selectSingleNode("columnResultType").text
+			if len(trim(sResultType))>0 then
+				if not oActionColumnsMapNode is nothing then				
+					set oActionColumnMapNode = oActionColumnsMapNode.selectSingleNode("column[@columnType='" & sResultType & "']/onClick")			
+					if not oActionColumnMapNode is nothing then
+						sEventFunction = oActionColumnMapNode.attributes.getNamedItem("event").text
+						sEventType = oActionColumnMapNode.attributes.getNamedItem("type").text							
+						set oColumnClick = oColumnDefinition.selectSingleNode("columnClick")  
+						oColumnClick.setAttribute("event") = sEventFunction
+						oColumnClick.setAttribute("type") = sEventType
+
+						bAllMapped = true
+						for each oParamNode in oActionColumnMapNode.selectNodes("param")
+							sColumnOrdinal=""
+							sParamColumnType = oParamNode.attributes.getNamedItem("columnType").text
+							if sParamColumnType=sResultType then
+								sColumnOrdinal = oColumnDefinition.selectSingleNode("columnOrdinal").text
+							else
+								set oTempNode = oRowset.selectSingleNode("//rowSet/columnDefinitions/columnDefinition[columnResultType ='" & sParamColumnType & "']")
+								if not oTempNode is nothing then
+									sColumnOrdinal = oTempNode.selectSingleNode("columnOrdinal").text
+								end if
+							end if
+							if len(sColumnOrdinal)>0 then
+								set oParamColumnOrdinalNode=oColumnClick.appendChild(oColumnClick.ownerDocument.createElement("paramColumnOrdinal"))
+								oParamColumnOrdinalNode.text = sColumnOrdinal
+							else
+								bAllMapped = false
+							end if
+						next 
+						if not bAllMapped then
+							oColumnDefinition.removeChild oColumnClick
+							oColumnDefinition.appendChild oColumnDefinition.ownerDocument.createElement("columnClick")								
+						end if
+					end if
+				end if
+			end if				
+		next
+	end if
+
+end sub
+Function vbDisplayQueryName(pbModified)
+	dim sQueryNameDisplay
+	dim sModified
+	dim sQueryName
+	dim oNode
+'~1 - replaced with query name or res_QueryNameUnsaved
+'~2 - replaced with res_QueryModified or ""
+'const res_QueryNameDisplay = "Current Query :~1~2"
+'const res_QueryNameUnsaved = "Unsaved Query"
+'const res_QueryModified = "(Modified)"
+	
+	sQueryNameDisplay = res_QueryNameDisplay
+	sModified = res_QueryModified
+	
+	set oNode = goQueryNode.selectSingleNode("/query")
+	if not oNode is nothing then
+		if not isNull(oNode.getAttribute("primaryId")) then
+			sQueryName = oNode.selectSingleNode("description").text
+			if pbModified then
+				sModified = res_QueryModified
+			else
+				sModified = ""
+			end if
+		else
+			sQueryName = res_QueryNameUnsaved
+			sModified = ""
+		end if
+	else
+		sQueryName = res_QueryNameUnsaved
+		sModified = ""
+	end if
+	sQueryNameDisplay = replace(sQueryNameDisplay,"~1",sQueryName)
+	sQueryNameDisplay = replace(sQueryNameDisplay,"~2",sModified)
+	document.getElementById("spnQueryName").innerText = sQueryNameDisplay
+End Function
+'ONYX EMAIL ACCELERATOR CUSTOMIZATION
+sub vbGenerateSQL()
+	dim sSQL
+	dim sFailReason
+	dim sStatusType
+	dim sMethodStatus
+	
+	call vbLM_ClearError(document.all.divError)
+	if not mbCustomQuery then
+		if not vbIsValidQuery(sFailReason) then
+			jsMessageBox sFailReason
+			exit sub
+		end if
+		vbQueryPreProcess
+		call vbXMLHTTPCall("queryGenSQL", "<data>" & goQueryNode.xml & "</data>", oXMLOut)
+				sStatusType = vbLM_GetStatusType(oXMLOut,sMethodStatus)
+				if sStatusType<>"success" then
+					call vbLM_ShowError(document.all.divError,sMethodStatus)
+				end if
+				if sStatusType = "failure" then
+					exit sub
+				end if
+		vbQueryPostProcess
+		sSQL = oXMLOut.selectSingleNode(".//querySql").text
+		document.all("txtSQL").innerText = sSQL
+		msCustomSQL = sSQL
+		mbSQLEditted = false
+	end if
+
+end sub
+'ONYX EMAIL ACCELERATOR CUSTOMIZATION

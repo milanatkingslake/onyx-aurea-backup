@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="845" MadCap:lastWidth="624">
+    <head>
+        <link rel="stylesheet" MadCap:stylesheetType="table" />
+    </head>
+    <body>
+        <h2>Configuring Onyx CTI</h2>
+        <p class="BodyText">This chapter explains how to configure Onyx Computer Telephony Integration (Onyx CTI). Configuration of Onyx CTI typically includes: </p>
+        <ul>
+            <li class="ListBullet"><a href="Adding_connectors_to_the.htm">Adding connectors to the database</a>
+            </li>
+            <li class="ListBullet"><a href="Configuring_access_to_th.htm">Configuring access to the  toolbar </a>
+            </li>
+            <li class="ListBullet"><a href="Assigning_connectors_to.htm">Assigning connectors to agents</a>
+            </li>
+            <li class="ListBullet"><a href="Configuring_frequent_pho.htm">Configuring frequent phone numbers for connectors</a>
+            </li>
+            <li class="ListBullet"><a href="Configuring__behavior.htm">Configuring  behavior </a>
+            </li>
+            <li class="ListBullet"><a href="Configuring_availability.htm">Configuring availability and visibility of  toolbar buttons</a>
+            </li>
+            <li class="ListBullet"><a href="Configuring__interface_t.htm">Configuring  interface text</a>
+            </li>
+        </ul>
+        <H3 class="Heading"><a name="Adding_Connectors_to_database"></a>Adding connectors to the database </H3>
+        <p class="BodyText">You must add your connector to the CTI - Connectors table in the OEDB if you want the Onyx CTI toolbar to use your connector. The sample connector is automatically added to this table during installation of Onyx CTI. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Onyx CTI uses this table to access and instantiate your custom connectors. If the entered information is not correct, errors occur when Onyx CTI attempts to load your connector. </p>
+        <p class="TaskHeading" style="font-weight: bold;">To add a connector to the OEDB </p>
+        <ol>
+            <li class="ListBullet">Using OES Table Administration, select the <b>CTI - Connectors</b>table.</li>
+        </ol>
+        <p class="Indent1">For information about Table Administration, see the <i>OES Help</i>.<br /></p>
+        <ol>
+            <li value="2">Add the connector: Click  <span class="UI_elements"><b>Add</b> <![CDATA[ ]]></span>and then enter the following information: </li>
+        </ol>
+        <ol>
+            <table style="margin-left: 0;margin-right: auto;caption-side: top;">
+                <col />
+                <col />
+                <thead>
+                    <tr>
+                        <th style="text-align: left;">In this field</th>
+                        <th style="text-align: left;">Enter the following information</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>primaryId</td>
+                        <td>(automatically generated)</td>
+                    </tr>
+                    <tr>
+                        <td>className</td>
+                        <td style="font-weight: normal;">JavaScript class name of the connector. Ensure that this entry exactly matches the case-sensitive value of the custom connector’s JavaScript class.</td>
+                    </tr>
+                    <tr>
+                        <td>description</td>
+                        <td>Description of the connector</td>
+                    </tr>
+                    <tr>
+                        <td>connectorFolder</td>
+                        <td>Name of the folder (in the cti folder) in which the connector code is located. Ensure that this entry exactly matches the case-sensitive value of the custom connector’s folder</td>
+                    </tr>
+                    <tr>
+                        <td>active</td>
+                        <td>Indicator of this item’s active status, which determines the item’s visibility in the Onyx CTI interface. Leave the default value of 1 (active).</td>
+                    </tr>
+                </tbody>
+            </table>
+        </ol>
+        <ol>
+            <li value="3" class="ListBullet">Click the <b class="UI_elements">Save</b> button.<br />The OEDB assigns a unique ID (primaryId) to the connector.<br /></li>
+            <li class="ListBullet">To point the Onyx CTI toolbar to the newly added connector, edit the main configuration file by setting the defaultConnector element to the primaryId of your custom connector.<br />The full path of the main configuration file is <span class="user-entered_text">YourOEPwebsite</span>\cti\cti_config.xml, where <span class="user-entered_text">YourOEPwebsite</span> is your OEP installation directory.<br /></li>
+            <li class="ListBullet">To confirm that the Onyx CTI toolbar appears and that it uses the custom CTI connector:<br /></li>
+        </ol>
+        <blockquote>
+            <ol style="list-style-type: lower-alpha;">
+                <li class="ListBullet_2">Stop and restart your OEP Web server, such as by using the Internet Information Services (IIS) Manager tool or by executing the IISReset command (via Command Prompt).</li>
+                <li class="ListBullet_2">On the client machine used to access the toolbar, delete the files in Internet Explorer's Temporary Internet Files folder. </li>
+                <li class="ListBullet_2">Log on to OEP with the user name and password of a user that has been granted access to the toolbar. (The system administrator is granted toolbar access by default).</li>
+            </ol>
+        </blockquote>
+    </body>
+</html>

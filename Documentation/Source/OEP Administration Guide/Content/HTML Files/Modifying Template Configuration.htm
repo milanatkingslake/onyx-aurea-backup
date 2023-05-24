@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="113" MadCap:lastWidth="701">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2><a name="top"></a>Modifying Template Configuration File</h2>
+        <p>Use the Templates.config file to specify the XML and template files that are associated with each calendar appointment. You can define the text that will appear in the subject of calendar appointments. You can also specify whether the appointment will be sent as HTML or plain text.</p>
+        <p>To modify the fields included in the template, see <a href="Adding Profile XML File.htm#Modifyin">Modifying Profile XML File</a> and <a href="Modifying HTML Template Files.htm#top">Modify HTML Template Files</a>.</p>
+        <p>The Template.Config file is located on the OEAS server. The default file path is C:\Program Files\Onyx\AppServer\Applications\Onyx\OnyxNotificationService\Config.</p>
+        <p>The following table describes the attributes for each element in the Templates.config file. Modify the attribute values as needed to change the information that is displayed in emails and appointments.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Attribute</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Type</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Do not change this value for existing elements. This attribute specifies that the event is a calendar appointment for Incidents and Tasks.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">ID</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Do not change this value for existing elements. This attribute represents the calendar appointment that the element is associated with.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">HTMLBody</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter True to send the appointment in HTML format. Enter False to send the appointment in Plain Text format.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">ProfileTemplate</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">This attribute represents the name of the Profile XML file that corresponds to the specified calendar appointment.</p>
+                        <p class="Table_Text">This value must match the value in the ProfileFileName column of the NotificationType table in the Persistence database corresponding to the appointment.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">IndividualSubjectTemplate </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">This attribute represents the text that appears in the subject field for appointments.</p>
+                        <p class="Table_Text">From the Profile XML file, enter the TemplateKey value of each field where the IsSubjectTag attribute is set to True. Use the format "[##title##] - ##incident_id## assigned by ##action_user##" to add multiple fields as variables in the subject and connect them with plain text to make a meaningful subject for calendar appointments.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">IndividualBodyTemplateFile</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">This attribute represents the path and name of the template file that is used to populate the body of calendar appointments.</p>
+                        <p class="Table_Text">Enter the template file name corresponding to the specified appointment in the format Templates\[FileName], where [FileName] is the name of the template file.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>&#160;</p>
+    </body>
+</html>

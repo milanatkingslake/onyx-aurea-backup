@@ -1,0 +1,385 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="867" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>retrieveListHierarchy (customer)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="retrieveListHierarchy" />retrieveListHierarchy method</h2>
+        <p>The retrieveListHierarchy method of the <a href="customer_object.htm">customer</a> 
+ object returns the entire organization chart structure for a company. 
+ The data is returned as a rowSet object in the XML. This data can be used 
+ by the user interface to display a hierarchical view of all companies 
+ associated with the specified company. Individuals that are related to 
+ the company can be retrieved with <a href="individual_retrieveListByCompany.htm">individual.retrieveListByCompany</a>.</p>
+        <h3><a href="standard_retrieveList.htm">retrieveList standard method information</a>
+        </h3>
+        <h3>Parameters</h3>
+        <table>
+            <col style="width: 4cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 4cm;" />
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Direction</th>
+                    <th>Data type</th>
+                    <th>Content type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">primaryId<br />(required)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">in</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">string</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Specifies the primaryId of a company or an 
+ individual, to use as the base company for the organization chart. Passing 
+ in a companyId results in the specified company being used as the base 
+ company. Passing in an individualId results in the individual's company 
+ being used as the base company</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">objectType<br />(required)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">in</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">i4</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Identifies the primaryId as a companyId or 
+ an individualId: individual = 1, company = 2</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">rowSet</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">out</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">object</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">all(out)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Contains returned XML consisting of a columnDefinitions 
+ collection and a rows collection representing each record in the database 
+ that matches the specified input XML search criteria</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Columns returned in the rowSet object
+        </p>
+        <table wrapperparagraphselector="P" style="width: 100%;border-spacing: 0px;border-spacing: 0px;" width="100%">
+            <col />
+            <col style="width: 22.175%;" />
+            <col style="width: 25.989%;" />
+            <col style="width: 34.836%;" />
+            <thead>
+                <tr>
+                    <th>columnOrdinal</th>
+                    <th>columnName</th>
+                    <th>Physical column</th>
+                    <th>Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">1</p>
+                    </td>
+                    <td style="width: 22.175%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="22.175%">
+                        <p class="Table_Text" style="margin-bottom: 0;">companyPrimaryId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.989%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.989%">
+                        <p class="Table_Text" style="margin-bottom: 0;">company.company_id</p>
+                    </td>
+                    <td style="width: 34.836%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.836%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The unique value that identifies the company.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">2</p>
+                    </td>
+                    <td style="width: 22.175%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="22.175%">
+                        <p class="Table_Text" style="margin-bottom: 0;">secondaryId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.989%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.989%">
+                        <p class="Table_Text" style="margin-bottom: 0;">company.secondary_id</p>
+                    </td>
+                    <td style="width: 34.836%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.836%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The user-friendly ID that identifies the 
+ company.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">3</p>
+                    </td>
+                    <td style="width: 22.175%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="22.175%">
+                        <p class="Table_Text" style="margin-bottom: 0;">companyName</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.989%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.989%">
+                        <p class="Table_Text" style="margin-bottom: 0;">company.company_name</p>
+                    </td>
+                    <td style="width: 34.836%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.836%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The company name.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">4</p>
+                    </td>
+                    <td style="width: 22.175%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="22.175%">
+                        <p class="Table_Text" style="margin-bottom: 0;">companyParentId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.989%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.989%">
+                        <p class="Table_Text" style="margin-bottom: 0;">company.company_parent_id</p>
+                    </td>
+                    <td style="width: 34.836%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.836%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The primaryId of the parent company.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">5</p>
+                    </td>
+                    <td style="width: 22.175%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="22.175%">
+                        <p class="Table_Text" style="margin-bottom: 0;">visible</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.989%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.989%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 34.836%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.836%">
+                        <p class="Table_Text" style="margin-bottom: 0;">A value of 1 indicates all company information 
+ is returned. A value of 0 indicates data values are only returned in the 
+ companyPrimaryId, companyParentId, and visible, columns. All other columns 
+ in the result set are returned as NULL. This column is returned as a value 
+ of 0 if the retrieved record has been marked private by a different user.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">6</p>
+                    </td>
+                    <td style="width: 22.175%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="22.175%">
+                        <p class="Table_Text" style="margin-bottom: 0;">individualIndicator</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.989%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.989%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 34.836%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.836%">
+                        <p class="Table_Text" style="margin-bottom: 0;">A value of 1 indicates that individuals exist 
+ for the selected company.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">7</p>
+                    </td>
+                    <td style="width: 22.175%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="22.175%">
+                        <p class="Table_Text" style="margin-bottom: 0;">internalContactIndicator</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.989%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.989%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 34.836%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.836%">
+                        <p class="Table_Text" style="margin-bottom: 0;">A value of 1 indicates that internal contacts 
+ exist for the selected company.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">8</p>
+                    </td>
+                    <td style="width: 22.175%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="22.175%">
+                        <p class="Table_Text" style="margin-bottom: 0;">externalContactIndicator</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.989%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.989%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 34.836%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.836%">
+                        <p class="Table_Text" style="margin-bottom: 0;">A value of 1 indicates that external contacts 
+ exist for the selected company.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Steps</h3>
+        <table>
+            <col style="width: 5cm;" />
+            <col style="width: 5cm;" />
+            <col style="width: 7cm;" />
+            <thead>
+                <tr>
+                    <th>Step data</th>
+                    <th>Step type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">OnyxDataValidationStep.DataValidation</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Validates input parameters</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">OnyxDM.DataManager</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Retrieves data defined in the rowSet object. 
+ See Remarks section</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Remarks</h3>
+        <p>This method supports paging functionality. For more information, 
+ see the <a href="standard_retrieveList.htm#paging_functionality">Paging 
+ functionality</a>.</p>
+        <h3>Example</h3>
+        <p>
+            Input Parameter:        </p>
+        <p Class="Code" class="C_Code">&lt;parameters&gt;</p>
+        <p Class="Code" class="C_Code">&lt;primaryId&gt;74CAF57C-238E-42D2-81EF-72392EF3B6A0&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;objectType&gt;2&lt;/objectType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/parameters&gt;</p>
+        <p>
+            Output Parameter:        </p>
+        <p class="C_Code">&lt;parametersReturn&gt;</p>
+        <p class="C_Code">&lt;rowSet objectType="rowSet" rowCount="1" columnCount="8" pageSize=""&gt;</p>
+        <p class="C_Code">&lt;columnDefinitions collection="1" objectType="columnDefinition"&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Primary ID&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;companyPrimaryID&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;1&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;24&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;16&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Company ID&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;secondaryId&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;2&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;24&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Company&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;companyName&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;3&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;104&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Parent Company ID&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;companyParentId&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;4&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;120&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;16&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Visible&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;visible&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;5&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;120&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;2&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;boolean&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Individual Exists&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;individualIndicator&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;6&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;120&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;2&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;boolean&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Internal Contact Exists&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;internalContactIndicator&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;7&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;120&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;2&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;boolean&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;External Contact Exists&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;externalContactIndicator&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;8&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;120&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;2&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;boolean&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;/columnDefinitions&gt;</p>
+        <p class="C_Code">&lt;rows collection="1" objectType="row"&gt;</p>
+        <p class="C_Code">&lt;row&gt;</p>
+        <p class="C_Code">&lt;c0&gt;74CAF57C-238E-42D2-81EF-72392EF3B6A0&lt;/c0&gt;</p>
+        <p class="C_Code">&lt;c1&gt;3&lt;/c1&gt;</p>
+        <p class="C_Code">&lt;c2&gt;Bahboo&lt;/c2&gt;</p>
+        <p class="C_Code">&lt;c3 null="1"&gt;&lt;/c3&gt;</p>
+        <p class="C_Code">&lt;c4&gt;1&lt;/c4&gt;</p>
+        <p class="C_Code">&lt;c5&gt;0&lt;/c5&gt;</p>
+        <p class="C_Code">&lt;c6&gt;1&lt;/c6&gt;</p>
+        <p class="C_Code">&lt;c7&gt;0&lt;/c7&gt;</p>
+        <p class="C_Code">&lt;/row&gt;</p>
+        <p class="C_Code">&lt;/rows&gt;</p>
+        <p class="C_Code">&lt;/rowSet&gt;</p>
+        <p class="C_Code">&lt;/parametersReturn&gt;</p>
+    </body>
+</html>

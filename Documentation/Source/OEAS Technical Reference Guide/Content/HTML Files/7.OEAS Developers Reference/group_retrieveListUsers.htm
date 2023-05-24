@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="2604" MadCap:lastWidth="1070">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>retrieveListUsers (group)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="retrieveListUsers" />retrieveListUsers method</h2>
+        <p>The retrieveListUsers method of the <a href="group_Object.htm">group</a> 
+ object returns information about users that belong to the specified group.</p>
+        <p><a href="standard_retrieveList.htm">retrieveList standard method information</a>
+        </p>
+        <h3>Parameters</h3>
+        <table wrapperparagraphselector="P" style="width: 100%;margin-top: 14pt;border-spacing: 0px;border-spacing: 0px;" width="100%">
+            <col />
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Data type</th>
+                    <th>Direction</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">groupId</td>
+                    <td style="width: 13%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="13%">string</td>
+                    <td style="width: 12%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="12%">in</td>
+                    <td style="width: 45%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="45%">A collection of users usually defined by 
+ organizational structure.</td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">active</td>
+                    <td style="width: 13%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="13%">i4</td>
+                    <td style="width: 12%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="12%">in</td>
+                    <td style="width: 45%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="45%"><span style="color: #000000;">An integer that specifies 
+ whether to return active users or inactive users. If the active element 
+ of the input parameters XML is empty, NULL, or not present, all users 
+ are returned, active and inactive. When active contains 1, all active 
+ users are returned. If the element contains 0, inactive users are returned. 
+ If active contains an invalid value, such as 2, the method succeeds, but 
+ no users are returned.</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">rowSet</td>
+                    <td style="width: 13%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="13%">object</td>
+                    <td style="width: 12%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="12%">out</td>
+                    <td style="width: 45%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="45%">Row set of group information.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Columns returned in the rowSet object
+</p>
+        <table>
+            <col style="width: 5cm;" />
+            <col style="width: 5cm;" />
+            <col style="width: 7cm;" />
+            <thead>
+                <tr>
+                    <th>columnOrdinal</th>
+                    <th>columnName</th>
+                    <th>Physical column</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>chUserId</td>
+                    <td>users.user_id</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>chUserName</td>
+                    <td>users.user_name</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>tiRecordStatus</td>
+                    <td>users.record_status</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Steps</h3>
+        <table>
+            <col style="width: 5cm;" />
+            <col style="width: 5cm;" />
+            <col style="width: 7cm;" />
+            <thead>
+                <tr>
+                    <th>Step data</th>
+                    <th>Step type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>OnyxDataValidationStep.DataValidation</td>
+                    <td>com</td>
+                    <td>Validates input parameters</td>
+                </tr>
+                <tr>
+                    <td>OnyxDM.DataManager</td>
+                    <td>com</td>
+                    <td>Retrieves a rowSet object listing users who 
+ are members specified group</td>
+                </tr>
+                <tr>
+                    <td>Step data</td>
+                    <td>Step type</td>
+                    <td>Description</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Remarks</h3>
+        <p>The retrieveListUsers search is case sensitive.</p>
+        <h3>Example</h3>
+        <p>Parameters
+        </p>
+        <p Class="Code" class="C_Code">&lt;parameters&gt;</p>
+        <p Class="Code" class="C_Code">&lt;groupId&gt;dba&lt;/groupId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;active&gt;1&lt;/active&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/parameters&gt;</p>
+        <p>parametersReturn
+        </p>
+        <p class="C_Code">&lt;parametersReturn&gt;</p>
+        <p class="C_Code">&lt;rowSet objectType="rowSet" rowCount="8" columnCount="3" pageSize=""&gt;</p>
+        <p class="C_Code">&lt;columnDefinitions collection="1" objectType="columnDefinition"&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;User Id&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;chUserId&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;1&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;8&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;85&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Name&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;chUserName&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;2&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;8&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;30&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Active&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;tiRecordStatus&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;3&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;24&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;2&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;boolean&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;/columnDefinitions&gt;</p>
+        <p class="C_Code">&lt;rows collection="1" objectType="row"&gt;</p>
+        <p class="C_Code">&lt;row&gt;</p>
+        <p class="C_Code">&lt;c0&gt;default&lt;/c0&gt;</p>
+        <p class="C_Code">&lt;c1&gt;User Preferences Default&lt;/c1&gt;</p>
+        <p class="C_Code">&lt;c2&gt;1&lt;/c2&gt;</p>
+        <p class="C_Code">&lt;/row&gt;</p>
+        <p class="C_Code">&lt;row&gt;</p>
+        <p class="C_Code">&lt;c0&gt;OEPsa&lt;/c0&gt;</p>
+        <p class="C_Code">&lt;c1&gt;OEPsa&lt;/c1&gt;</p>
+        <p class="C_Code">&lt;c2&gt;1&lt;/c2&gt;</p>
+        <p class="C_Code">&lt;/row&gt;</p>
+        <p class="C_Code">&lt;row&gt;</p>
+        <p class="C_Code">&lt;c0&gt;OnyxBPUser&lt;/c0&gt;</p>
+        <p class="C_Code">&lt;c1&gt;Onyx Business Process User&lt;/c1&gt;</p>
+        <p class="C_Code">&lt;c2&gt;1&lt;/c2&gt;</p>
+        <p class="C_Code">&lt;/row&gt;</p>
+        <p class="C_Code">&lt;row&gt;</p>
+        <p class="C_Code">&lt;c0&gt;onyxmail&lt;/c0&gt;</p>
+        <p class="C_Code">&lt;c1&gt;Onyx mail Handler&lt;/c1&gt;</p>
+        <p class="C_Code">&lt;c2&gt;1&lt;/c2&gt;</p>
+        <p class="C_Code">&lt;/row&gt;</p>
+        <p class="C_Code">&lt;row&gt;</p>
+        <p class="C_Code">&lt;c0&gt;OnyxTMUser&lt;/c0&gt;</p>
+        <p class="C_Code">&lt;c1&gt;Auto Assign&lt;/c1&gt;</p>
+        <p class="C_Code">&lt;c2&gt;1&lt;/c2&gt;</p>
+        <p class="C_Code">&lt;/row&gt;</p>
+        <p class="C_Code">&lt;row&gt;</p>
+        <p class="C_Code">&lt;c0&gt;OPSSvcUser&lt;/c0&gt;</p>
+        <p class="C_Code">&lt;c1&gt;Onyx Processing Service User&lt;/c1&gt;</p>
+        <p class="C_Code">&lt;c2&gt;1&lt;/c2&gt;</p>
+        <p class="C_Code">&lt;/row&gt;</p>
+        <p class="C_Code">&lt;row&gt;</p>
+        <p class="C_Code">&lt;c0&gt;sa&lt;/c0&gt;</p>
+        <p class="C_Code">&lt;c1&gt;System Administrator&lt;/c1&gt;</p>
+        <p class="C_Code">&lt;c2&gt;1&lt;/c2&gt;</p>
+        <p class="C_Code">&lt;/row&gt;</p>
+        <p class="C_Code">&lt;/rows&gt;</p>
+        <p class="C_Code">&lt;/rowSet&gt;</p>
+        <p class="C_Code">&lt;/parametersReturn&gt;</p>
+    </body>
+</html>

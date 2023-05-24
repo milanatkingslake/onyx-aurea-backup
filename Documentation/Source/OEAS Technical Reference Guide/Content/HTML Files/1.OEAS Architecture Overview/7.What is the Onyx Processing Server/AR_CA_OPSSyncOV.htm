@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="1148" MadCap:lastWidth="678" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Synchronization Subsystem</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>Synchronization Subsystem</h2>
+        <p>Working through OEAS, the synchronization subsystem (sync subsystem) 
+ transfers subscribed data for offline users between the OEDB and the data 
+ store on the staging server. To accomplish synchronization, OEP-Offline 
+ uses a store-and-forward mechanism in which the staging server, in this 
+ release Microsoft Exchange 2000 or 2003, stores pending changes to Onyx 
+ data that are then forwarded either to OEP-Offline users’ client machines 
+ or to the OEDB, depending on where the data was created or changed. </p>
+        <p>The <em class="Emphasis">staging server data store</em> is a set of folders 
+ that contain Onyx data for synchronizing. It provides the link between 
+ the database and the OEP-Offline user’s <em class="Emphasis">Outlook data 
+ store</em>, which is a set of folders on the client machine that mirrors 
+ the user’s folders on the staging server data store. </p>
+        <p>Synchronization is the copying of Onyx data between 
+ the OEDB and each OEP-Offline client’s Outlook data store. There are two 
+ parts of the complete synchronization cycle. </p>
+        <ul>
+            <li><em class="Emphasis" style="font-style: italic;">Server synchronization, 
+ </em>between the database and the staging server</li>
+            <li><em class="Emphasis" style="font-style: italic;">Client synchronization, 
+ </em>between the staging server and the Outlook offline data store</li>
+        </ul>
+        <p>The server synchronization and the client synchronization 
+ are each made up of an <em class="Emphasis">upsync</em> and a <em class="Emphasis">downsync</em>: 
+ </p>
+        <ul>
+            <li>An upsync is the copying of data toward the database. 
+ In the server synchronization, the upsync precedes the downsync. </li>
+            <li>A downsync is the copying of data toward an Outlook 
+ offline data store. </li>
+        </ul>
+        <p class="Indent1">
+            <img src="../../../Resources/Images/AR_SyncUpDownParts.jpg" />
+        </p>
+        <p>Although data is not completely synchronized until 
+ both a server synchronization and an client synchronization have finished, 
+ the process is not linear. The two synchronizations occur independently 
+ of each other: </p>
+        <ul>
+            <li>Server synchronizations occur according to the 
+ schedule and processing interval specified by the system administrator. 
+ Client synchronizations can take place only when the user is connected 
+ to the network. </li>
+            <li>Conversely, if the OPS service is stopped while 
+ a user is working while connected to the network, multiple client synchronizations 
+ can take place while no server synchronization does. </li>
+            <li>Further, when both synchronizations are taking 
+ place, the occurrence of either is unrelated to the occurrence of the 
+ other.</li>
+        </ul>
+        <p>Certain situations, such as when a record is updated offline by one 
+ user while another user updates and saves the same record, can produce 
+ <em class="Emphasis" style="font-style: italic;">data collisions</em><em class="Emphasis" style="font-style: normal;"></em>when the offline record is synchronized<em class="Emphasis" style="font-style: normal;">.</em> 
+ Data collisions are the meeting of two conflicting versions of a record 
+ during either the server synchronization upsync or the client synchronization 
+ upsync. This situation is a concurrency control issue: a user updates 
+ an outdated version of a record. </p>
+        <p>The Onyx Collision Handler manages data collisions, using a set of <em class="Emphasis">collision-resolution algorithms</em> to determine which 
+ of two conflicting versions of a record to persist in the OEDB. </p>
+        <p>If the Collision Handler cannot pick one version of the record or the 
+ other by applying the algorithms and if discarding one record could result 
+ in losing important data, then a conflict is generated. Using a conflict 
+ resolution window of the OEP-Offline client, the user is presented with 
+ both versions of the item in conflict, and the user selects the version 
+ to save. This window allows users to control how the conflict is resolved 
+ so that data loss is minimized. </p>
+        <p>The following sections discuss the server synchronization, 
+ client synchronization, and collision handling in more detail. </p>
+        <ul>
+            <li><a href="AR_CA_OPSSyncSyncSubSync.htm">Server 
+ synchronization</a>
+            </li>
+            <li><a href="AR_CA_OPSSyncExchSync.htm">Client synchronization</a>
+            </li>
+            <li><a href="AR_CA_OPSDataCollisions.htm">Collisions</a>
+            </li>
+        </ul>
+        <p>Also see the <span style="font-style: italic;">OEP-Offline Implementation 
+ Guide</span> for more information about the subscription feature and the 
+ synchronization of subscribed data. </p>
+    </body>
+</html>

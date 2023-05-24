@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="620" MadCap:lastWidth="410" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Fulfillment subsystem (OPS)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>
+            <MadCap:keyword term="Fulfillment subsystem" />Fulfillment subsystem</h3>
+        <p>
+            <MadCap:keyword term="OPS" />The Fulfillment Subsystem controls the engines responsible for processing 
+ literature orders. The engines merge the order data with template documents 
+ to produce email messages and printed documents. Sample templates 
+ that can be customized are installed during OPS installation. You can 
+ also create new templates for your unique business needs. For more information, 
+ see <a href="ops_Creating_Documents.htm">Creating templates</a>.</p>
+        <h3>Fulfillment Subsystem Processing</h3>
+        <p>A literatureOrder entry is created by a Literature Order action by an 
+ OEP user. This literatureOrder entry is created which 
+ contains a literatureOrderLine collection. The <a href="standard_ownerId.htm">ownerId 
+ property</a> of literatureOrderLine entries associate them with their 
+ literatureOrder parent.</p>
+        <p>The fulfillment subsystem processes the literatureOrder as follows:</p>
+        <ol>
+            <li>Calls the retrieveListIncomplete method of 
+ a literatureOrderBatch object to retrieve a list of batchIds for previous 
+ order batches that were terminated prematurely.</li>
+            <li>Creates a literatureOrderBatch object that 
+ will be used for building a batch of orders for processing.</li>
+            <li>Selects literatureOrders and their associated 
+ literatureOrderLines for a given batchId.</li>
+            <li>Selects literatureProducts used by the literatureOrderLines 
+ of the batch.</li>
+            <li>Selects all literatureServicePrinters.</li>
+            <li>Transforms the literatureOrderBatch, literatureOrder, 
+ literatureOrderLine, literatureServicePrinter, and literatureProduct XML 
+ into an <a href="ops_orderBatch_xml_structure.htm">orderBatch</a> XML 
+ structure.</li>
+            <li>Submits the orderBatch XML to the fulfillment 
+ engine for processing.</li>
+            <li>Marks the literatureOrderLine as either "completed" 
+ or "error".</li>
+        </ol>
+    </body>
+</html>

@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:status="Ready for Review" MadCap:check_list="First Draft,Added To TOC,Tested" MadCap:comment="updated for sql gen 02-06-2006" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:lastBlockDepth="6" MadCap:lastHeight="783" MadCap:lastWidth="624">
+    <head>
+        <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head>
+            <link href="../../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" /><title>Maximum Rows</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>Maximum Rows</h2>
+        <p>The maximum rows feature enables you to limit the number of rows returned 
+ by retrieveList or retrieveCollection methods in the rowSet or object 
+ collection, respectively. For instance, you may want to use this feature 
+ to restrict users from submitting queries that return so much data that 
+ the query negatively impacts your entire system. This can occur when retrieving 
+ transactional objects, such as when returning a list of all customers 
+ in your database. </p>
+        <p>In order to limit the maximum rows returned by a method when calling 
+ the OTM, the client application must set the pageSize attribute on either 
+ the rowSet parameter for retrieveList methods or the object collection 
+ element for retrieveCollection methods. When the client application includes 
+ the pageSize attribute in a method call, the ODM passes it to the Query 
+ Engine through the vUserInfo parameter of the IEBusQE Execute method. 
+ The pageSize attribute is optional. The following table describes the 
+ possible values for pageSize and the resulting behavior of the Query Engine.</p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Value </th>
+                    <th>Method behavior </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">missing </p>
+                        <p class="Table_Text" style="color: #000000;">blank (pageSize='' or pageSize=””) </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Returns the number of rows specified by the 
+ MaxRows registry key of the OEAS application. You use the OEAS Configuration 
+ Utility to maintain this setting. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">zero (pageSize=”0”) </p>
+                        <p class="Table_Text" style="color: #000000;">invalid number (pageSize=”three”) </p>
+                        <p class="Table_Text" style="color: #000000;">invalid number (pageSize=”-1”) </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Returns all rows. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">valid value (pageSize=”25”) </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Returns first 25 rows. </p>
+                        <p class="tableNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">“25” is an example value. You can use any non-negative integer 
+ value. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Using the OEAS Configuration utility (located on the installation CD), 
+ you can configure the MaxRows setting to establish, for all methods that 
+ support this setting, the default maximum number of rows that is returned 
+ from OEAS. Note that this setting affects all methods that support it, 
+ and that you cannot establish a different setting for each method. </p>
+        <p>When you include a pageSize attribute in a method call, the ODM returns 
+ the attribute in the parametersReturn just as it was on the input parameters. 
+ If the number of records in the database exceeds the maximum rows value, 
+ the ODM returns a warning, “Could not retrieve all rows (maximum rows 
+ value reached)” via the methodStatus. The following XML example shows 
+ the returnXml for a country retrieveCollection call with a pageSize of 
+ two.</p>
+        <p>Example:</p>
+        <p class="C_Code">&lt;returnXml&gt;</p>
+        <p class="C_Code">&lt;otmId&gt;55599E64-6EC5-4C9F-B67F-0E9F290F4F6A&lt;/otmId&gt;</p>
+        <p class="C_Code">&lt;context&gt;</p>
+        <p class="C_Code">&lt;sessionSecondsRemaining&gt;600&lt;/sessionSecondsRemaining&gt;</p>
+        <p class="C_Code">&lt;/context&gt;</p>
+        <p class="C_Code">&lt;methodStatus&gt;</p>
+        <p class="C_Code">&lt;statusType&gt;successWithInfo&lt;/statusType&gt;</p>
+        <p class="C_Code">&lt;error&gt;</p>
+        <p class="C_Code">&lt;severity&gt;warning&lt;/severity&gt;</p>
+        <p class="C_Code">&lt;errorNumber&gt;100002&lt;/errorNumber&gt;</p>
+        <p class="C_Code">&lt;errorDescription&gt;Could not retrieve all rows (maximum rows value reached).&lt;/errorDescription&gt;</p>
+        <p class="C_Code">&lt;errorType&gt;oetReturnValue&lt;/errorType&gt;</p>
+        <p class="C_Code">&lt;natLangId&gt;0&lt;/natLangId&gt;</p>
+        <p class="C_Code">&lt;sourceType&gt;ostComponent&lt;/sourceType&gt;</p>
+        <p class="C_Code">&lt;sourceName&gt;OnyxEBusQE.EBusQE&lt;/sourceName&gt;</p>
+        <p class="C_Code">&lt;timestamp&gt;2006-02-06 15:18:55&lt;/timestamp&gt;</p>
+        <p class="C_Code">&lt;/error&gt;</p>
+        <p class="C_Code">&lt;/methodStatus&gt;</p>
+        <p class="C_Code">&lt;parametersReturn&gt;</p>
+        <p class="C_Code">&lt;countries objectType="country" collection="1" content="all"&gt;</p>
+        <p class="C_Code">&lt;country objectType="country" content="all"&gt;</p>
+        <p class="C_Code">&lt;countryCode&gt;AD&lt;/countryCode&gt;</p>
+        <p class="C_Code">&lt;countryName&gt;Andorra&lt;/countryName&gt;</p>
+        <p class="C_Code">&lt;phoneMask&gt;+376 9999999999999999&lt;/phoneMask&gt;</p>
+        <p class="C_Code">&lt;postCodeMask null="1"/&gt;</p>
+        <p class="C_Code">&lt;addressFormat null="1"/&gt;</p>
+        <p class="C_Code">&lt;insertBy&gt;sa&lt;/insertBy&gt;</p>
+        <p class="C_Code">&lt;insertDate&gt;2001-01-01 08:00:00&lt;/insertDate&gt;</p>
+        <p class="C_Code">&lt;updateBy&gt;sa&lt;/updateBy&gt;</p>
+        <p class="C_Code">&lt;updateDate&gt;2001-01-01 08:00:00 &lt;/updateDate&gt;</p>
+        <p class="C_Code">&lt;active&gt;1&lt;/active&gt;</p>
+        <p class="C_Code">&lt;/country&gt;</p>
+        <p class="C_Code">&lt;country objectType="country" content="all"&gt;</p>
+        <p class="C_Code">&lt;countryCode&gt;AE&lt;/countryCode&gt;</p>
+        <p class="C_Code">&lt;countryName&gt;U.A.E.&lt;/countryName&gt;</p>
+        <p class="C_Code">&lt;phoneMask&gt;+/971 999999999999999&lt;/phoneMask&gt;</p>
+        <p class="C_Code">&lt;postCodeMask null="1"/&gt;</p>
+        <p class="C_Code">&lt;addressFormat null="1"/&gt;</p>
+        <p class="C_Code">&lt;insertBy&gt;sa&lt;/insertBy&gt;</p>
+        <p class="C_Code">&lt;insertDate&gt;2001-01-01 08:00:00&lt;/insertDate&gt;</p>
+        <p class="C_Code">&lt;updateBy&gt;sa&lt;/updateBy&gt;</p>
+        <p class="C_Code">&lt;updateDate&gt;2001-01-01 08:00:00&lt;/updateDate&gt;</p>
+        <p class="C_Code">&lt;active&gt;1&lt;/active&gt;</p>
+        <p class="C_Code">&lt;/country&gt;</p>
+        <p class="C_Code">&lt;country objectType="country" content="all"&gt;</p>
+        <p class="C_Code">&lt;countryCode&gt;AF&lt;/countryCode&gt;</p>
+        <p class="C_Code">&lt;countryName&gt;Afghanistan&lt;/countryName&gt;</p>
+        <p class="C_Code">&lt;phoneMask&gt;+/93 99999999999999999&lt;/phoneMask&gt;</p>
+        <p class="C_Code">&lt;postCodeMask null="1"/&gt;</p>
+        <p class="C_Code">&lt;addressFormat null="1"/&gt;</p>
+        <p class="C_Code">&lt;insertBy&gt;sa&lt;/insertBy&gt;</p>
+        <p class="C_Code">&lt;insertDate&gt;2001-01-01 08:00:00&lt;/insertDate&gt;</p>
+        <p class="C_Code">&lt;updateBy&gt;sa&lt;/updateBy&gt;</p>
+        <p class="C_Code">&lt;updateDate&gt;2001-01-01 08:00:00&lt;/updateDate&gt;</p>
+        <p class="C_Code">&lt;active&gt;1&lt;/active&gt;</p>
+        <p class="C_Code">&lt;/country&gt;</p>
+        <p class="C_Code">&lt;/countries&gt;</p>
+        <p class="C_Code">&lt;/parametersReturn&gt;</p>
+        <p class="C_Code">&lt;customData/&gt;</p>
+        <p class="C_Code">&lt;/returnXml&gt;</p>
+        <h4>retrieveList example</h4>
+        <p>To set the number of rows returned by a retrieveList method, set the 
+ pageSize attribute on the rowSet parameter in an OTM call. In the following 
+ example for region retrieveList, the pageSize attribute is set to 10 on 
+ the rowSet parameter. The OEAS only returns the first 10 records retrieved 
+ from the database.</p>
+        <p>Example:</p>
+        <p class="C_Code">&lt;parameters&gt;</p>
+        <p class="C_Code">&lt;rowSet pageSize="10"/&gt;</p>
+        <p class="C_Code">&lt;/parameters&gt;</p>
+        <h4>retrieveCollection example</h4>
+        <p>To set the number of rows returned by a retrieveCollection method, set 
+ the pageSize attribute on the object collection element in an OTM call. 
+ In the &#160;following 
+ country retrieveCollection parameters, the pageSize attribute is set to 
+ 25 on the countries object collection element. The OEAS only returns the 
+ &#160;first 25 
+ records retrieved from the database.</p>
+        <p>Example:</p>
+        <p class="C_Code">&lt;parameters&gt;</p>
+        <p class="C_Code">&lt;countries objectType="country" collection="1" pageSize="25"&gt;</p>
+        <p class="C_Code">&lt;country objectType="country"&gt;</p>
+        <p class="C_Code">&lt;/country&gt;</p>
+        <p class="C_Code">&lt;/countries&gt;</p>
+        <p class="C_Code">&lt;/parameters&gt;</p>
+    </body>
+</html>

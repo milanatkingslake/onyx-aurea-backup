@@ -1,0 +1,293 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="845" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+    </head>
+    <body>
+        <head><title>retrieveListMRU (userPreference)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="retrieveListMRU" />retrieveListMRU method</h2>
+        <p>The retrieveListMRU method of the <a href="userPreference_object.htm"><MadCap:keyword term="userPreference" />userPreference</a> 
+ object searches the database by userId and returns a list of the most-recently-used 
+ customer records.</p>
+        <p><a href="standard_retrieveList.htm">retrieveList standard method information</a>
+        </p>
+        <h3>Parameters</h3>
+        <table>
+            <col style="width: 4cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 4cm;" />
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Direction</th>
+                    <th>Data type</th>
+                    <th>Content type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">userId (required)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">in</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">string</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">n/a</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The ID of an Onyx user</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">rowSet</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">out</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">object</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">all(out)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">A list of most-recently-used record IDs</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Columns returned in the rowSet object
+        </p>
+        <table>
+            <col style="width: 5cm;" />
+            <col style="width: 5cm;" />
+            <col style="width: 7cm;" />
+            <thead>
+                <tr>
+                    <th>columnOrdinal</th>
+                    <th>columnName</th>
+                    <th>Physical column</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">chPreferenceName</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">user_preference.preference_name</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">2</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">customerPrimaryId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">user_preference.value</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">3</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">customerSecondaryId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">individual.secondary_id or company.secondary_id</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">4</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Name</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">individual.last_name and individual.first_name 
+ or company.name</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">5</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">dtModifiedDate</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">user_preference.update_date</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">6</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">profileId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">user_preference.profile_did</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Steps</h3>
+        <table>
+            <col style="width: 5cm;" />
+            <col style="width: 5cm;" />
+            <col style="width: 7cm;" />
+            <thead>
+                <tr>
+                    <th>Step data</th>
+                    <th>Step type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OnyxDataValidationStep.DataValidation</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Validates input parameters</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OnyxDM.DataManager</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Retrieves a list of MRUs for a given user</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Remarks</h3>
+        <p>The number of records returned depends on the value of the oepNumRowsMRUList 
+ system parameter. You can modify this value by using the System Parameter 
+ Administration tool.</p>
+        <p>This method returns records that are sorted first by name (in reverse-alphabetical 
+ order) and then by customerPrimaryId (in ascending order). </p>
+        <p>If you want to sort the records by modified date, you must do so within 
+ the presentation tier.</p>
+        <p>The primaryId comes from the value property of the userPreference instance. 
+ It is prefaced by the customer type (1 for individual or 2 for company). 
+ The customer type and primaryId are separated by a tilde. </p>
+        <h3>Example</h3>
+        <p>
+            Input Parameter:<![CDATA[
+        ]]></p>
+        <p Class="Code" class="C_Code">&lt;parameters&gt;</p>
+        <p Class="Code" class="C_Code">&lt;userId&gt;user1&lt;/userId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/parameters&gt;</p>
+        <p>Output Parameter:<![CDATA[        ]]></p>
+        <p class="C_Code">&lt;parametersReturn&gt;</p>
+        <p class="C_Code">&lt;rowSet objectType="rowSet" rowCount="2" columnCount="6" pageSize=""&gt;</p>
+        <p class="C_Code">&lt;columnDefinitions collection="1" objectType="columnDefinition"&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Name&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;chPreferenceName&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;1&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;0&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;50&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Customer Primary ID&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;customerPrimaryId&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;2&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;1333&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Customer ID&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;customerSecondaryId&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;3&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;16&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Customer Name&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;Name&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;4&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;512&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Modified Date&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;dtModifiedDate&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;5&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;16&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;16&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;dateTime&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;23&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;3&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Profile ID&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;profileId&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;6&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;0&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;85&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;/columnDefinitions&gt;</p>
+        <p class="C_Code">&lt;rows collection="1" objectType="row"&gt;</p>
+        <p class="C_Code">&lt;row&gt;</p>
+        <p class="C_Code">&lt;c0&gt;wc.MRUEntry 0&lt;/c0&gt;</p>
+        <p class="C_Code">&lt;c1&gt;1~8E2035E3-4CB3-4160-886A-675193DD50EB&lt;/c1&gt;</p>
+        <p class="C_Code">&lt;c2&gt;33&lt;/c2&gt;</p>
+        <p class="C_Code">&lt;c3&gt;Washington, Paddy&lt;/c3&gt;</p>
+        <p class="C_Code">&lt;c4&gt;2006-07-07 22:09:42&lt;/c4&gt;</p>
+        <p class="C_Code">&lt;c5&gt;0&lt;/c5&gt;</p>
+        <p class="C_Code">&lt;/row&gt;</p>
+        <p class="C_Code">&lt;row&gt;</p>
+        <p class="C_Code">&lt;c0&gt;wc.MRUEntry 1&lt;/c0&gt;</p>
+        <p class="C_Code">&lt;c1&gt;2~C939EF22-05CA-4EDA-8F16-0D8708D7C977&lt;/c1&gt;</p>
+        <p class="C_Code">&lt;c2&gt;63&lt;/c2&gt;</p>
+        <p class="C_Code">&lt;c3&gt;Earthscrape Paper Products&lt;/c3&gt;</p>
+        <p class="C_Code">&lt;c4&gt;2006-07-10 15:35:58&lt;/c4&gt;</p>
+        <p class="C_Code">&lt;c5&gt;0&lt;/c5&gt;</p>
+        <p class="C_Code">&lt;/row&gt;</p>
+        <p class="C_Code">&lt;/rows&gt;</p>
+        <p class="C_Code">&lt;/rowSet&gt;</p>
+        <p class="C_Code">&lt;/parametersReturn&gt;</p>
+    </body>
+</html>

@@ -1,0 +1,366 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="5" MadCap:lastHeight="863" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h4><a name="top"></a>ignoreWithCondition</h4>
+        <p>If a node has an entity name and the conditions oldValueLbo and newValueLbo are similar, then that particular eventData will be ignored.</p>
+        <p>The out-of-the-box action for IgnoreWithCondition is:</p>
+        <p><code>&lt;ignoreWithCondition&gt;</code>
+        </p>
+        <p><code>&lt;conditions&gt;</code>
+        </p>
+        <p><code>&lt;primary oldValueSql="True" newValueSql="False" oldValueLbo="1" newValueLbo="0"/&gt;</code>
+        </p>
+        <p><code>&lt;/conditions&gt;</code>
+        </p>
+        <p><code>&lt;ignore&gt;</code>
+        </p>
+        <p><code>&lt;primary /&gt;</code>
+        </p>
+        <p><code>&lt;/ignore&gt;</code>
+        </p>
+        <p><code>&lt;/ignoreWithCondition&gt;</code>
+        </p>
+        <h5>The following is the ONS Extension Config file</h5>
+        <p><code>&lt;?xml version="1.0" encoding="utf-8" ?&gt;</code>
+        </p>
+        <p><code>&lt;adapterExtension&gt;</code>
+        </p>
+        <p><code>&lt;reference assembly="Onyx.ONS.AdapterExtension.Base.dll" /&gt;</code>
+        </p>
+        <p><code>&lt;IEventDataFilter&gt;</code>
+        </p>
+        <p><code>&lt;individual enable="true" primaryKey="primaryId" class="Onyx.ONS.AdapterExtension.Base.IndividualFilter, Onyx.ONS.AdapterExtension.Base, PublicKeyToken=206c397fab0ffa11"&gt;</code>
+        </p>
+        <p><code>&lt;action id="1" name="Remove Embedded Xml" interface="Onyx.ONS.AdapterExtension.Base.ICData" /&gt;</code>
+        </p>
+        <p><code>&lt;action id="2" name="Remove Child Objects" interface="Onyx.ONS.AdapterExtension.Base.IChildObject" &gt;</code>
+        </p>
+        <p><code>&lt;remove&gt;</code>
+        </p>
+        <p><code>&lt;phones/&gt;</code>
+        </p>
+        <p><code>&lt;addresses/&gt;</code>
+        </p>
+        <p><code>&lt;emailAddresses /&gt;</code>
+        </p>
+        <p><code>&lt;/remove&gt;</code>
+        </p>
+        <p><code>&lt;/action&gt;</code>
+        </p>
+        <p><code>&lt;action id="3" name="Discard Invalid Events" interface="Onyx.ONS.AdapterExtension.Base.IInvalidEvent" &gt;</code>
+        </p>
+        <p><code>&lt;ignore&gt;</code>
+        </p>
+        <p><code>&lt;updateBy /&gt;</code>
+        </p>
+        <p><code>&lt;updateDate /&gt;</code>
+        </p>
+        <p><code>&lt;onyxTimestamp /&gt;</code>
+        </p>
+        <p><code>&lt;/ignore&gt;</code>
+        </p>
+        <p><code>&lt;/action&gt;</code>
+        </p>
+        <p><code>&lt;/individual&gt;</code>
+        </p>
+        <p><code>&lt;company enable="true" primaryKey="primaryId" class="Onyx.ONS.AdapterExtension.Base.CompanyFilter, Onyx.ONS.AdapterExtension.Base, PublicKeyToken=206c397fab0ffa11"&gt;</code>
+        </p>
+        <p><code>&lt;action id="1" name="Remove Embedded Xml" interface="Onyx.ONS.AdapterExtension.Base.ICData" /&gt;</code>
+        </p>
+        <p><code>&lt;action id="2" name="Remove Child Objects" interface="Onyx.ONS.AdapterExtension.Base.IChildObject" &gt;</code>
+        </p>
+        <p><code>&lt;remove&gt;</code>
+        </p>
+        <p><code>&lt;phones/&gt;</code>
+        </p>
+        <p><code>&lt;addresses/&gt;</code>
+        </p>
+        <p><code>&lt;emailAddresses /&gt;</code>
+        </p>
+        <p><code>&lt;/remove&gt;</code>
+        </p>
+        <p><code>&lt;/action&gt;</code>
+        </p>
+        <p><code>&lt;action id="3" name="Discard Invalid Event" interface="Onyx.ONS.AdapterExtension.Base.IInvalidEvent" &gt;</code>
+        </p>
+        <p><code>&lt;ignore&gt;</code>
+        </p>
+        <p><code>&lt;updateBy /&gt;</code>
+        </p>
+        <p><code>&lt;updateDate /&gt;</code>
+        </p>
+        <p><code>&lt;onyxTimestamp /&gt;</code>
+        </p>
+        <p><code>&lt;/ignore&gt;</code>
+        </p>
+        <p><code>&lt;/action&gt;</code>
+        </p>
+        <p><code>&lt;/company&gt;</code>
+        </p>
+        <p><code>&lt;address collection="1" primaryKey="primaryId" enable="true" class="Onyx.ONS.AdapterExtension.Base.AddressFilter, Onyx.ONS.AdapterExtension.Base, PublicKeyToken=206c397fab0ffa11"&gt;</code>
+        </p>
+        <p><code>&lt;action id="1" name="Remove Embedded Xml" interface="Onyx.ONS.AdapterExtension.Base.ICData"/&gt;</code>
+        </p>
+        <p><code>&lt;action id="2" name="Add ActionType Attribute" interface="Onyx.ONS.AdapterExtension.Base.ICollectionObject" &gt;</code>
+        </p>
+        <p><code>&lt;changeType oldValueLbo="saveCollection" newValueLbo= "update" /&gt;</code>
+        </p>
+        <p><code>&lt;/action&gt;</code>
+        </p>
+        <p><code>&lt;action id="3" name="Discard Empty Data Event" interface="Onyx.ONS.AdapterExtension.Base.IEmptyEvent" /&gt;</code>
+        </p>
+        <p><code>&lt;action id="4" name="Discard Invalid Event" interface="Onyx.ONS.AdapterExtension.Base.IInvalidEvent" &gt;</code>
+        </p>
+        <p><code>&lt;ignore&gt;</code>
+        </p>
+        <p><code>&lt;updateBy /&gt;</code>
+        </p>
+        <p><code>&lt;updateDate /&gt;</code>
+        </p>
+        <p><code>&lt;onyxTimestamp /&gt;</code>
+        </p>
+        <p><code>&lt;/ignore&gt;</code>
+        </p>
+        <p><code>&lt;ignoreWithCondition&gt;</code>
+        </p>
+        <p><code>&lt;conditions&gt;</code>
+        </p>
+        <p><code>&lt;primary newValueSql="True" newValueLbo="1" /&gt;</code>
+        </p>
+        <p><code>&lt;/conditions&gt;</code>
+        </p>
+        <p><code>&lt;ignore&gt;</code>
+        </p>
+        <p><code>&lt;firstName /&gt;</code>
+        </p>
+        <p><code>&lt;middleName/&gt;</code>
+        </p>
+        <p><code>&lt;lastName/&gt;</code>
+        </p>
+        <p><code>&lt;salutation/&gt;</code>
+        </p>
+        <p><code>&lt;suffix /&gt;</code>
+        </p>
+        <p><code>&lt;companyName/&gt;</code>
+        </p>
+        <p><code>&lt;/ignore&gt;</code>
+        </p>
+        <p><code>&lt;/ignoreWithCondition&gt;</code>
+        </p>
+        <p><code>&lt;ignoreWithCondition&gt;</code>
+        </p>
+        <p><code>&lt;conditions&gt;</code>
+        </p>
+        <p><code>&lt;deleteStatus newValueSql="2" newValueLbo="2" /&gt;</code>
+        </p>
+        <p><code>&lt;/conditions&gt;</code>
+        </p>
+        <p><code>&lt;ignore&gt;</code>
+        </p>
+        <p><code>&lt;deleteStatus /&gt;</code>
+        </p>
+        <p><code>&lt;/ignore&gt;</code>
+        </p>
+        <p><code>&lt;/ignoreWithCondition&gt;</code>
+        </p>
+        <p><code>&lt;ignoreWithCondition&gt;</code>
+        </p>
+        <p><code>&lt;conditions&gt;</code>
+        </p>
+        <p><code>&lt;primary oldValueSql="True" newValueSql="False" oldValueLbo="1" newValueLbo="0"/&gt;</code>
+        </p>
+        <p><code>&lt;/conditions&gt;</code>
+        </p>
+        <p><code>&lt;ignore&gt;</code>
+        </p>
+        <p><code>&lt;primary /&gt;</code>
+        </p>
+        <p><code>&lt;/ignore&gt;</code>
+        </p>
+        <p><code>&lt;/ignoreWithCondition&gt;</code>
+        </p>
+        <p><code>&lt;/action&gt;</code>
+        </p>
+        <p><code>&lt;/address&gt;</code>
+        </p>
+        <p><code>&lt;phone collection="1" primaryKey="primaryId" enable="true" class="Onyx.ONS.AdapterExtension.Base.PhoneFilter, Onyx.ONS.AdapterExtension.Base, PublicKeyToken=206c397fab0ffa11"&gt;</code>
+        </p>
+        <p><code>&lt;action id="1" name="Remove Embedded Xml" interface="Onyx.ONS.AdapterExtension.Base.ICData" /&gt;</code>
+        </p>
+        <p><code>&lt;action id="2" name="Add ActionType Attribute" interface="Onyx.ONS.AdapterExtension.Base.ICollectionObject" &gt;</code>
+        </p>
+        <p><code>&lt;changeType oldValueLbo="saveCollection" newValueLbo= "update" /&gt;</code>
+        </p>
+        <p><code>&lt;/action&gt;</code>
+        </p>
+        <p><code>&lt;action id="3" name="Discard Empty Data Event" interface="Onyx.ONS.AdapterExtension.Base.IEmptyEvent" /&gt;</code>
+        </p>
+        <p><code>&lt;action id="4" name="Discard Invalid Event" interface="Onyx.ONS.AdapterExtension.Base.IInvalidEvent" &gt;</code>
+        </p>
+        <p><code>&lt;ignore&gt;</code>
+        </p>
+        <p><code>&lt;updateBy /&gt;</code>
+        </p>
+        <p><code>&lt;updateDate /&gt;</code>
+        </p>
+        <p><code>&lt;onyxTimestamp /&gt;</code>
+        </p>
+        <p><code>&lt;/ignore&gt;</code>
+        </p>
+        <p><code>&lt;ignoreWithCondition&gt;</code>
+        </p>
+        <p><code>&lt;conditions&gt;</code>
+        </p>
+        <p><code>&lt;deleteStatus newValueSql="2" newValueLbo="2" /&gt;</code>
+        </p>
+        <p><code>&lt;/conditions&gt;</code>
+        </p>
+        <p><code>&lt;ignore&gt;</code>
+        </p>
+        <p><code>&lt;deleteStatus /&gt;</code>
+        </p>
+        <p><code>&lt;/ignore&gt;</code>
+        </p>
+        <p><code>&lt;/ignoreWithCondition&gt;</code>
+        </p>
+        <p><code>&lt;ignoreWithCondition&gt;</code>
+        </p>
+        <p><code>&lt;conditions&gt;</code>
+        </p>
+        <p><code>&lt;primary oldValueSql="True" newValueSql="False" oldValueLbo="1" newValueLbo="0"/&gt;</code>
+        </p>
+        <p><code>&lt;/conditions&gt;</code>
+        </p>
+        <p><code>&lt;ignore&gt;</code>
+        </p>
+        <p><code>&lt;primary /&gt;</code>
+        </p>
+        <p><code>&lt;/ignore&gt;</code>
+        </p>
+        <p><code>&lt;/ignoreWithCondition&gt;</code>
+        </p>
+        <p><code>&lt;/action&gt;</code>
+        </p>
+        <p><code>&lt;/phone&gt;</code>
+        </p>
+        <p><code>&lt;emailAddress collection="1" enable="true" primaryKey="primaryId" class="Onyx.ONS.AdapterExtension.Base.EmailAddressFilter, Onyx.ONS.AdapterExtension.Base, PublicKeyToken=206c397fab0ffa11"&gt;</code>
+        </p>
+        <p><code>&lt;action id="1" name="Remove Embedded Xml" interface="Onyx.ONS.AdapterExtension.Base.ICData" /&gt;</code>
+        </p>
+        <p><code>&lt;action id="2" name="Add ActionType Attribute" interface="Onyx.ONS.AdapterExtension.Base.ICollectionObject" &gt;</code>
+        </p>
+        <p><code>&lt;changeType oldValueLbo="saveCollection" newValueLbo= "update" /&gt;</code>
+        </p>
+        <p><code>&lt;/action&gt;</code>
+        </p>
+        <p>&lt;<code>action id="3" name="Discard Empty Data Event" interface="Onyx.ONS.AdapterExtension.Base.IEmptyEvent" /&gt;</code></p>
+        <p><code>&lt;action id="4" name="Discard Invalid Event" interface="Onyx.ONS.AdapterExtension.Base.IInvalidEvent" &gt;</code>
+        </p>
+        <p><code>&lt;ignore&gt;</code>
+        </p>
+        <p>&lt;<code>updateBy /&gt;</code></p>
+        <p><code>&lt;updateDate /&gt;</code>
+        </p>
+        <p><code>&lt;onyxTimestamp /&gt;</code>
+        </p>
+        <p><code>&lt;/ignore&gt;</code>
+        </p>
+        <p><code>&lt;ignoreWithCondition&gt;</code>
+        </p>
+        <p><code>&lt;conditions&gt;</code>
+        </p>
+        <p><code>&lt;deleteStatus newValueSql="2" newValueLbo="2" /&gt;</code>
+        </p>
+        <p><code>&lt;/conditions&gt;</code>
+        </p>
+        <p><code>&lt;ignore&gt;</code>
+        </p>
+        <p><code>&lt;deleteStatus /&gt;</code>
+        </p>
+        <p><code>&lt;/ignore&gt;</code>
+        </p>
+        <p><code>&lt;/ignoreWithCondition&gt;</code>
+        </p>
+        <p><code>&lt;ignoreWithCondition&gt;</code>
+        </p>
+        <p><code>&lt;conditions&gt;</code>
+        </p>
+        <p><code>&lt;primary oldValueSql="True" newValueSql="False" oldValueLbo="1" newValueLbo="0"/&gt;</code>
+        </p>
+        <p><code>&lt;/conditions&gt;</code>
+        </p>
+        <p><code>&lt;ignore&gt;</code>
+        </p>
+        <p><code>&lt;primary /&gt;</code>
+        </p>
+        <p><code>&lt;/ignore&gt;</code>
+        </p>
+        <p><code>&lt;/ignoreWithCondition&gt;</code>
+        </p>
+        <p><code>&lt;/action&gt;</code>
+        </p>
+        <p><code>&lt;/emailAddress&gt;</code>
+        </p>
+        <p><code>&lt;incident enable="true" primaryKey="primaryId" class="Onyx.ONS.AdapterExtension.Base.IncidentFilter, Onyx.ONS.AdapterExtension.Base, PublicKeyToken=206c397fab0ffa11"&gt;</code>
+        </p>
+        <p><code>&lt;action id="1" name="Discard Invalid Event" interface="Onyx.ONS.AdapterExtension.Base.IInvalidEvent" &gt;</code>
+        </p>
+        <p><code>&lt;ignore&gt;</code>
+        </p>
+        <p><code>&lt;updateBy /&gt;</code>
+        </p>
+        <p><code>&lt;updateDate /&gt;</code>
+        </p>
+        <p><code>&lt;onyxTimestamp /&gt;</code>
+        </p>
+        <p><code>&lt;/ignore&gt;</code>
+        </p>
+        <p><code>&lt;/action&gt;</code>
+        </p>
+        <p><code>&lt;/incident&gt;</code>
+        </p>
+        <p><code>&lt;task enable="true" primaryKey="primaryId" class="Onyx.ONS.AdapterExtension.Base.TaskFilter, Onyx.ONS.AdapterExtension.Base, PublicKeyToken=206c397fab0ffa11"&gt;</code>
+        </p>
+        <p><code>&lt;action id="1" name="Discard Invalid Event" interface="Onyx.ONS.AdapterExtension.Base.IInvalidEvent" &gt;</code>
+        </p>
+        <p><code>&lt;ignore&gt;</code>
+        </p>
+        <p><code>&lt;updateBy /&gt;</code>
+        </p>
+        <p><code>&lt;updateDate /&gt;</code>
+        </p>
+        <p><code>&lt;onyxTimestamp /&gt;</code>
+        </p>
+        <p><code>&lt;/ignore&gt;</code>
+        </p>
+        <p><code>&lt;/action&gt;</code>
+        </p>
+        <p><code>&lt;/task&gt;</code>
+        </p>
+        <p><code>&lt;workNoteDetail enable="true" primaryKey="primaryId" class="Onyx.ONS.AdapterExtension.Base.WorkNoteDetailFilter, Onyx.ONS.AdapterExtension.Base, PublicKeyToken=206c397fab0ffa11"&gt;</code>
+        </p>
+        <p><code>&lt;action id="1" name="Discard Invalid Event" interface="Onyx.ONS.AdapterExtension.Base.IInvalidEvent" &gt;</code>
+        </p>
+        <p>&lt;ignore&gt;</p>
+        <p><code>&lt;updateBy /&gt;</code>
+        </p>
+        <p><code>&lt;updateDate /&gt;</code>
+        </p>
+        <p><code>&lt;onyxTimestamp /&gt;</code>
+        </p>
+        <p><code>&lt;/ignore&gt;</code>
+        </p>
+        <p><code>&lt;/action&gt;</code>
+        </p>
+        <p><code>&lt;/workNoteDetail&gt;</code>
+        </p>
+        <p><code>&lt;/IEventDataFilter&gt;</code>
+        </p>
+        <p><code>&lt;/adapterExtension&gt;</code>
+        </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Any changes in adapterExtension.config file, restart ONS service. </p>
+    </body>
+</html>

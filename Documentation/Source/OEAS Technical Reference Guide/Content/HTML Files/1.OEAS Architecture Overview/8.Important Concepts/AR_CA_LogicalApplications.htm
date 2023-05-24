@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="1126" MadCap:lastWidth="756" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head>
+            <link href="../../../Resources/TableStyles/Aptean_Note_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" /><title>Logical Applications</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>Logical Applications</h2>
+        <p>Onyx Enterprise Application Server (OEAS) uses the concept of logical 
+ applications to support multiple organizations on a single OEAS server. 
+ This enables efficient use of resources in an application service provider 
+ (ASP) environment. </p>
+        <p>When you install OEAS, you can configure one or more logical applications. 
+ Most companies need to create only one logical application. Other companies, 
+ however, such as application service providers (ASPs), may need to configure 
+ multiple logical applications so that they can host and support numerous 
+ enterprises on a single OEAS server. </p>
+        <p>Each OEAS logical application is defined by the application name, the 
+ Onyx Enterprise Database connection information, and the copy of the Onyx 
+ Enterprise Dictionary (OED). Each logical application on a given OEAS 
+ server must be uniquely named, so that OEAS can tell which application 
+ is referenced by a client request. </p>
+        <p>You can configure logical applications to use different 
+ combinations of OED and Onyx Enterprise Database instances as in the following 
+ list. </p>
+        <ul>
+            <li>Use a unique OED and a unique database. This is 
+ the most typical and recommended configuration for most companies that 
+ use the OEAS internally.</li>
+            <li>Share an OED and use unique databases. You use 
+ this for sharing application server customizations with multiple customers.</li>
+            <li>Use a unique OED and share a database. Onyx does 
+ not recommend this, because the OED contains physical schema information.</li>
+        </ul>
+        <p>When you configure multiple OEAS logical applications, each one can 
+ specify a different set of logical objects, methods, and properties, and 
+ each one can point to a different Onyx Enterprise Database. You can also 
+ configure the logging characteristics and the Query Engine behavior separately 
+ for each logical application. You must run Onyx Configure Enterprise Application 
+ Server Setup for each logical application, in order to configure logging 
+ and Query Engine behavior. For detailed information on configuring logical 
+ applications, see the <i>ONYX <MadCap:variable name="Aptean_Variables.Version number" /> Installation Guide</i>.</p>
+        <p>In some situations, such as found in an ASP environment, you may want 
+ to use the same business logic for more than one logical application. 
+ For example, if you are hosting ten clients, and each client is going 
+ to use the OEAS in the same way. You can configure the OEAS to use the 
+ same OED for multiple logical applications. In this way, each client (logical 
+ application) shares resources on the OEAS server, but each client has 
+ its own Onyx Enterprise Database. Any customization to a shared OED changes 
+ the business logic for all logical applications sharing that OED. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Using a single OED for multiple logical applications requires 
+ additional configuration. If you are interested in this option, please 
+ contact Onyx Professional Services. Onyx recommends using an unique OED 
+ per logical application for companies that use the OEAS internally. </p>
+        <p>Logical applications enable you to offer custom solutions to multiple 
+ organizations on a single physical server. This can apply to the ASP environment 
+ mentioned previously, or it can apply to a single company that wants to 
+ use different business logic for its internal units. The OEAS core components 
+ use logical application names to determine which Onyx Enterprise Database 
+ and OED to use in a given transaction. </p>
+        <p>To ensure that your applications use the business logic defined in the 
+ appropriate OED, and that data are saved to the appropriate Onyx Enterprise 
+ Database, you must supply a logical application name in the parameters 
+ for many of the OEAS core component methods. </p>
+    </body>
+</html>

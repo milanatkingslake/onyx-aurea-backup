@@ -1,0 +1,367 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:ignoredWords="enumerationObject;enumerationParametersXML;enumerationMethod;enumerationItemPath" MadCap:lastBlockDepth="8" MadCap:lastHeight="803" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Configuring search view details</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>Configuring search view details </h3>
+        <p>Search view details represent the search criteria/result set groups 
+ and search items/result set columns that users can select to create their 
+ searches and to customize the default result set of a search view. Search 
+ view details also define the result set column headings. </p>
+        <p>Search view detail data are installed by default during 
+ installation of the OEDB and are maintained in the search_view_detail 
+ table. You can administer this data using Table Administration. Using 
+ this tool you can: </p>
+        <ul>
+            <li>Add new search view details data</li>
+            <li>Modify existing search view details data</li>
+            <li>Set search view details data to active or inactive</li>
+            <li>Delete existing search view details data</li>
+        </ul>
+        <p>The following table lists the editable search_view_detail fields that 
+ are displayed in Table Administration. </p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Element </th>
+                    <th>
+                        <p class="Table_Text">Description </p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td>
+                        <p class="Table_Text">primaryId </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">This is a unique system generated ID. Once created, 
+ it is not editable as it is a primary key field. </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td>
+                        <p class="Table_Text">searchViewId (required) </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">This ID value must correspond to a primaryId value that 
+ exists for a search views item. </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td>
+                        <p class="Table_Text">searchTableId (required) </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">This ID value must correspond to a primaryId value that 
+ exists for a search table item. </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td>
+                        <p class="Table_Text">searchTableName </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Indicates the view against which the search table or 
+ search item is evaluated. This value is not editable. It is dependent 
+ on the value of searchTableId. </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td>
+                        <p class="Table_Text">searchTableAlias </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Indicates the alias for the view against which the search 
+ table or search item is evaluated. This value is not editable. It is dependent 
+ on the value of searchTableId. </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td>
+                        <p class="Table_Text">name </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The name of the search criteria/result set group or 
+ search item/result set column as it appears in the user interface. </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td>
+                        <p class="Table_Text">description </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Description of the search criteria/result set group 
+ or search item/result set column. </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td>
+                        <p class="Table_Text">level (required) </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Determines the nested level of a search view details 
+ item. </p>
+                        <p class="Table_Text">1 - a search criteria/result set group </p>
+                        <p class="Table_Text">2 - a search item/result set column </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td>
+                        <p class="Table_Text">sequenceNumber (required) </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Indicates the order in which the search view details 
+ items appear in the user interface. The sequence number is global for 
+ all search view details items, so you must assign search items/result 
+ set columns a sequence number that places them sequentially after the 
+ sequence number for the appropriate search criteria/result set group. 
+ </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td>
+                        <p class="Table_Text">nodeType (required) </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Designates a search view detail item as a search criteria/result 
+ set group or a search item/result set column. </p>
+                        <p class="Table_Text">TABLE - search criteria/result set group </p>
+                        <p class="Table_Text">FIELD - search item/result set column </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td>
+                        <p class="Table_Text">fieldName </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">For search view details items with a nodeType of “FIELD”, 
+ this is the database field name associated with the search item/result 
+ set column. For search view details items with a nodeType of “TABLE”, 
+ this is the table or view name as defined in search tables. </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td>
+                        <p class="Table_Text">fieldType </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Controls which SQL operators are available to end users 
+ when they select a particular search item. For a list of the valid values 
+ and which SQL operators are available for a particular fieldType, see 
+ <i>Valid field types for search view 
+ detail items</i>. </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td>
+                        <p class="Table_Text">joinCondition </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The join string that enables a user to query on search 
+ tables (or views) that are related to the “anchor” view. This can be “(empty)” 
+ or it can store an SQL join. A “~~” denotes the “anchor” view. The double 
+ tilde passes the local iSiteId as a starting point for the join. A join 
+ string is added to the query to join additional views. </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td>
+                        <p class="Table_Text">searchConditionFunctionCall </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The database function applied to the value that is being 
+ returned from the database. The format of searchConditionFunctionCall 
+ is function(~0). The UI replaces “~0” with the fieldName value in the 
+ “column alias “.” Field name” format when constructing the query. </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td>
+                        <p class="Table_Text">userInputFunctionCall </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">This defines any function that must be applied to user-entered 
+ values to ensure accurate comparisons of those values against data in 
+ the database. For instance, dates entered by a user must be converted 
+ from text to a date value, so that the date can be accurately compared 
+ to date values in the database. For this reason, “onyx_utility.text_to_date(~0) 
+ is supplied for the userInputFunctionCall element of any search view details 
+ item that represents a date field. In this format, “~0” is replaced with 
+ the user-entered value. </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td>
+                        <p class="Table_Text">searchAllowed (required) </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Indicates whether or not the field is included in the 
+ search criteria tree as a search table or item. </p>
+                        <p class="Table_Text">0 - not included </p>
+                        <p class="Table_Text">1 - included </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td>
+                        <p class="Table_Text">indexed (required) </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Indicates whether or not a search item is indexed. </p>
+                        <p class="Table_Text">0 - not indexed </p>
+                        <p class="Table_Text">1 - indexed. </p>
+                        <p class="Table_Text">Search view details items with a nodeType of “TABLE” 
+ should have a indexed value of 0. </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td>
+                        <p class="Table_Text">resultAllowed (required) </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Indicates whether or not the field is included in the 
+ result set tree as a result set group or column. </p>
+                        <p class="Table_Text">0 - not included </p>
+                        <p class="Table_Text">1 - included </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td>
+                        <p class="Table_Text">searchResultDefaultRequired </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Indicates whether or not the field is required in the 
+ result set. </p>
+                        <p class="Table_Text">0 - not required </p>
+                        <p class="Table_Text">1 - required </p>
+                        <p class="Table_Text">searchResultDefaultRequired is not editable in the Table 
+ Administration Search View Details filter. It is editable in the Table 
+ Administration Search Result Default filter. </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td>
+                        <p class="Table_Text">resultVisible </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Indicates whether or not the field will be visible in 
+ the result set. </p>
+                        <p class="Table_Text">0 - not visible </p>
+                        <p class="Table_Text">1 - visible </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td>
+                        <p class="Table_Text">resultFunctionCall </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The function applied to the field when it is being returned 
+ in a result set. The format of resultFunctionCall is function(~0). The 
+ UI replaces “~0” with the fieldName value in the “column alias “.” Field 
+ name” format when constructing the query. </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td>
+                        <p class="Table_Text">resultType </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">resultType defines the field type. Default valid values 
+ for resultType include: </p>
+                        <ul>
+                            <li class="TableList">companyPrimaryId</li>
+                            <li class="TableList">individualPrimaryId</li>
+                        </ul>
+                        <p class="Table_Text">The UI uses this value to enable a link to another UI 
+ page from a column result value. For instance, a search for companies 
+ returns a list of companies with a column for the primary ID, where the 
+ UI renders each primary ID as a hyperlink to the company detail page. 
+ When the user clicks the hyperlink, the UI recognizes the companyPrimaryId 
+ result type and returns the company information with the corresponding 
+ primary ID. To customize this field, you must configure the UI to recognize 
+ the new result type and define a function in the UI to handle that result 
+ type. </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td>
+                        <p class="Table_Text">enumerationObject </p>
+                    </td>
+                    <td rowspan="3">
+                        <p class="Table_Text">For search view details items that have a fieldType 
+ of ENUM_I or ENUM_S, an OTM call is required to return the valid values 
+ for a search item. The enumerationObject, enumerationMethod, and enumerationParametersXML 
+ are used to create this OTM call.</p>
+                        <p class="Table_Text"><b class="Bold" style="font-weight: bold;">enumerationObject</b>: 
+ This is the object name for the OTM call.</p>
+                        <p class="Table_Text"><b class="Bold" style="font-weight: bold;">enumerationMethod</b>: 
+ This is the method name for the OTM call. It must be a valid method of 
+ the object named for the enumerationObject.</p>
+                        <p class="Table_Text"><b class="Bold" style="font-weight: bold;">enumerationParametersXML</b>: 
+ This is the parameters XML that is passed for the OTM call. </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td>
+                        <p class="Table_Text">enumerationMethod </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td>
+                        <p class="Table_Text">enumerationParametersXML</p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td>
+                        <p class="Table_Text">enumerationItemPath </p>
+                    </td>
+                    <td rowspan="3">
+                        <p class="Table_Text">For search view details items that have a fieldType 
+ of ENUM_I or ENUM_S, an OTM call is made and returns XML containing the 
+ valid values for a search item. The enumerationItemPath, enumerationIDPath, 
+ and enumerationDescriptionPath are used to extract from the return XML 
+ the values to display in the user interface. </p>
+                        <p class="Table_Text"><b class="Bold" style="font-weight: bold;">enumerationItemPath</b>: 
+ This is the path in the returned XML that leads down to the level where 
+ the search item values are located. For example: //parametersReturn/literatureOrderLineStatuses/literatureOrderLineStatus. 
+ </p>
+                        <p class="Table_Text"><b class="Bold" style="font-weight: bold;">enumerationIDPath</b>: 
+ This is the path for the search item value under each returned search 
+ item. Using the same example: literatureOrderLineStatusCode. </p>
+                        <p class="Table_Text"><b class="Bold" style="font-weight: bold;">enumerationDescriptionPath</b>: 
+ This is the path for the search item description under each returned search 
+ item. Using the same example: description.</p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td>
+                        <p class="Table_Text">enumerationIDPath </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td>
+                        <p class="Table_Text">enumerationDescriptionPath </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td>
+                        <p class="Table_Text">active </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies whether the search view details item is active 
+ or inactive. </p>
+                        <p class="Table_Text">1 - active </p>
+                        <p class="Table_Text">0 - inactive. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="8" MadCap:lastHeight="818" MadCap:lastWidth="626" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Note_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Configuring filters for Subscription Designer’s filter helper menu</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>Configuring filters for Subscription Designer’s filter helper menu 
+ </h3>
+        <p>You can set the <span class="UIElement" style="font-weight: bold;">Cascade only the secondary objects 
+ that meet this filter expression</span> rule for a subscription relationship 
+ at both the relationship level and the role level, as described in <a href="../2.OEAS Features/ar_ca_subsccascfilter.htm">Cascade only the secondary objects that 
+ meet this filter expression</a>. You set this rule in Subscription Designer, 
+ where you can either manually type the filter expression into the provided 
+ text field, or use the filter helper menu to select an appropriate filter 
+ expression. </p>
+        <p>With installation of OEP-Offline, the filter helper menu is only active 
+ for incident and task relationships, and the only filter expressions available 
+ are for the incident and task categories of sales, service, and support. 
+ However, the behavior and contents of the filter helper menu is controlled 
+ by the customizations.xml configuration file, which you can configure 
+ to support additional relationships and filter expressions. By updating 
+ the configuration file you can add filter expressions to the filter helper 
+ menu that are available for all subscribable objects and their relationships 
+ or only for specific subscribable objects and their relationships. </p>
+        <p>The following table describes the metadata for customizations.xml. </p>
+        <table>
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>element (*) indicates a required element</th>
+                    <th>Value</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">&lt;filters&gt;(*)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The
+ &lt;filters&gt; collection can contain any number of &lt;filter&gt; elements.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">&lt;filter&gt;(*)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">0..*</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Each &lt;filter&gt; element must include the </p>
+                        <p class="Table_Text">following sub-elements:</p>
+                        <ul>
+                            <li class="TableList">
+  &lt;description&gt;</li>
+                            <li class="TableList">  &lt;expression&gt;</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">&lt;description&gt;(*)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The &lt;description&gt; element contains the text that you want the
+ filter helper menu to display to the user.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">&lt;expression&gt;(*)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The &lt;expression&gt; element contains the filter expression that is
+ assigned to the rule when a user selects this filter from the filter helper
+ menu.</p>
+                        <p class="Table_Text">The expression must be in the following format:</p>
+                        <p class="Table_Text">child.&lt;field&gt;&lt;SQL
+ operator&gt;&lt;value&gt; where child represents
+ the secondary object in the relationship. OR parent.&lt;field&gt;&lt;SQL operator&gt;&lt;value&gt;,
+ where parent represents
+ the primary object in the relationship.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">&lt;supportedObjectTypes&gt;(*)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">This collection can contain any number of &lt;primaryObjectType&gt;, </p>
+                        <p class="Table_Text">&#160;&lt;secondaryObjectType&gt;,
+ and &lt;eitherObjectType&gt; elements. When </p>
+                        <p class="Table_Text">&#160;a user clicks the filter
+ helper menu button, the filter is included in the menu if both of the
+ following conditions are true:</p>
+                        <ul>
+                            <li class="TableList">
+  The &lt;supportedObjectTypes&gt; collection
+ contains a &lt;primaryObjectType&gt; or &lt;eitherObjectType&gt; element that
+ has a value of any, or a value that matches the primary object type for the
+ relationship or role being edited.</li>
+                            <li class="TableList">
+  The &lt;supportedObjectTypes&gt; collection
+ contains a &lt;secondaryObjectType&gt; or &lt;eitherObjectType&gt; element
+ that has a value of any, or a value that matches the secondary object type for
+ the relationship or role being edited.</li>
+                        </ul>
+                        <p class="tableNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">A filter must always contain at least one &lt;primaryObjectType&gt; and
+ at least one &lt;secondaryObjectType&gt;, or at least one &lt;eitherObjectType&gt;,
+ or it will never meet both of these conditions and thus will never be displayed
+ in the filter helper menu. If you want a filter to always be displayed in the
+ menu, use &lt;eitherObjectType&gt;any&lt;/eitherObjectType&gt;.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">&lt;primaryObjectType&gt;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">This element contains the type code of an object </p>
+                        <p class="Table_Text">&#160;(1=individual, 2=company,
+ etc.), or any.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">&lt;secondaryObjectType&gt;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">This element contains the type code of an object </p>
+                        <p class="Table_Text">&#160;(1=individual, 2=company,
+ etc.), or any.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">&lt;eitherObjectType&gt;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">This element contains the type code of an object </p>
+                        <p class="Table_Text">&#160;(1=individual, 2=company,
+ etc.), or any.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Note_Table_1.css');width: 80%;" class="TableStyle-Aptean_Note_Table_1" cellspacing="2">
+            <col style="width: 0.7cm;" class="TableStyle-Aptean_Note_Table_1-Column-Column1" />
+            <col class="TableStyle-Aptean_Note_Table_1-Column-Column1" style="width: 15.50cm;" />
+            <tbody>
+                <tr class="TableStyle-Aptean_Note_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyB-Column1-Body1" style="text-align: right;">
+                        <p>
+                            <img src="../../Resources/Images/Common/note_image.png" />
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText"><b>Note</b>: There is no validation performed on filter expressions. 
+ If you provide an expression that is not valid SQL, or that references 
+ a field that does not exist in the secondary object’s underlying database 
+ table, the filter expression could be disregarded, or cascading subscriptions 
+ for that relationship could fail altogether. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Example 1 </h4>
+        <p>This filter expression appears in the filter helper menu for any relationship 
+ where an incident (object type 6) is the secondary object in the relationship. 
+ The filter is for cascaded subscriptions only to those incidents where 
+ incident_category_did=1 (support incidents). </p>
+        <p class="PPreformatted" style="font-family: 'Courier New';font-size: 10pt;">&lt;filter&gt;</p>
+        <p class="PPreformatted" style="font-family: 'Courier New';font-size: 10pt;">&lt;description&gt;Support Incidents Only&lt;/description&gt; 
+ </p>
+        <p class="PPreformatted" style="font-family: 'Courier New';font-size: 10pt;">&lt;expression&gt;child.incident_category_did=1&lt;/expression&gt; 
+ </p>
+        <p class="PPreformatted" style="font-family: 'Courier New';font-size: 10pt;">&lt;supportedObjectTypes&gt;</p>
+        <p class="PPreformatted" style="font-family: 'Courier New';font-size: 10pt;">&lt;primaryObjectType&gt;any&lt;/primaryObjectType&gt; 
+ </p>
+        <p class="PPreformatted" style="font-family: 'Courier New';font-size: 10pt;">&lt;secondaryObjectType&gt;6&lt;/secondaryObjectType&gt; 
+ </p>
+        <p class="PPreformatted" style="font-family: 'Courier New';font-size: 10pt;">&lt;/supportedObjectTypes&gt;</p>
+        <p class="PPreformatted" style="font-family: 'Courier New';font-size: 10pt;">&lt;/filter&gt;</p>
+        <p>You can modify this filter by replacing &lt;primaryObjectType&gt;any&lt;/primaryObjectType&gt; 
+ with &lt;primaryObjectType&gt;1&lt;/primaryObjectType&gt;, in which case 
+ the filter expression appears in the filter helper menu only for those 
+ relationships where individual (object type 1) is the primary object and 
+ incident is the secondary object. </p>
+        <h4>Example 2 </h4>
+        <p>This filter expression appears in the filter helper menu for all relationships 
+ because the primary object type can be any object, and the secondary object 
+ type can be any object. The filter is for cascading subscriptions only 
+ to those secondary objects that have been updated subsequent to 12/31/02. 
+ </p>
+        <p class="PPreformatted" style="font-family: 'Courier New';font-size: 10pt;">&lt;filter&gt;</p>
+        <p class="PPreformatted" style="font-family: 'Courier New';font-size: 10pt;">&lt;description&gt;Records updated on or after 12/31/02&lt;/description&gt; 
+ </p>
+        <p class="PPreformatted" style="font-family: 'Courier New';font-size: 10pt;">&lt;expression&gt;child.update_date &gt; ‘12/31/02’&lt;/expression&gt; 
+ </p>
+        <p class="PPreformatted" style="font-family: 'Courier New';font-size: 10pt;">&lt;supportedObjectTypes&gt;</p>
+        <p class="PPreformatted" style="font-family: 'Courier New';font-size: 10pt;">&lt;eitherObjectType&gt;any&lt;/eitherObjectType&gt; 
+ </p>
+        <p class="PPreformatted" style="font-family: 'Courier New';font-size: 10pt;">&lt;/supportedObjectTypes&gt;</p>
+        <p class="PPreformatted" style="font-family: 'Courier New';font-size: 10pt;">&lt;/filter&gt;</p>
+        <p>You can modify this filter by replacing &lt;eitherObjectType&gt;any&lt;/eitherObjectType&gt; 
+ with &lt;eitherObjectType&gt;6&lt;/eitherObjectType&gt;, in which case 
+ the filter expression appears in the filter helper menu only for those 
+ relationships where incident is either the primary object or the secondary 
+ object. </p>
+    </body>
+</html>

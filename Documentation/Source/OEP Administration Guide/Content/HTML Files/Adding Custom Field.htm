@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="100" MadCap:lastWidth="701">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h3 style="page-break-before: always;"><a name="top"></a>Adding Custom Field</h3>
+        <p>A custom field is a search criteria or result grid field that you add to a default or to a custom Navigator search type.</p>
+        <p style="font-weight: bold;">To add a custom field to a Navigator search type, you must:</p>
+        <ul>
+            <li><a href="Adding Custom Search Type.htm#Insertin2">Insert Custom Field Information in Persistence Database</a>
+            </li>
+            <li style="list-style-type: disc;"><a href="#Modifyin">Modify Entity View in Database</a>
+            </li>
+        </ul>
+        <p style="font-weight: bold;">To make a field a hyperlink, you must:</p>
+        <ul>
+            <li><a href="#Insertin">Insert Hyperlink Information in Persistence Database</a>
+            </li>
+            <li style="list-style-type: disc;"><a href="Adding Custom Search Type.htm#Modifyin2">Modify Result Grid Properties</a>
+            </li>
+        </ul>
+        <p>If a field is no longer relevant to your business, you can <a href="#Inactiva">remove it from Navigator</a>.</p>
+        <h4><a name="Modifyin"></a>Modifying Entity View in Database</h4>
+        <p>Modify the desired entity view to add a new field. You can modify a default view, or a custom view that you created for a new entity. For a list of the default views available, refer to <a href="Reference Values.htm#top">Entity Views</a>.</p>
+        <p class="ProcedureHeading">To modify the entity view:</p>
+        <ol>
+            <li>In the Onyx database, identify the table columns to include in the view.</li>
+        </ol>
+        <p class="Indent1">Be sure to include those table columns in the view that are required to perform any operation for the entity in Onyx.</p>
+        <ol MadCap:continue="true">
+            <li>Expand <b>Views</b>.</li>
+            <li>Right-click the view that you want to modify, and select <b>Script View As &gt; ALTER To &gt; New Query Editor Window</b>.</li>
+            <li>Add the custom fields for the selected view at the end of the fields list in the SELECT statement, in the following format:</li>
+        </ol>
+        <p class="Indent1">[TableAlias].[field_name] AS [FieldAlias],</p>
+        <p class="Indent1">For example, c.company_id AS primaryId, where the field_name company_id from the Company table is displayed as the primary ID.</p>
+        <ol MadCap:continue="true">
+            <li>If the custom field that you are adding is a reference field, then you must include one more line in the view, in the following format:</li>
+        </ol>
+        <p class="Indent1">[ReferenceTableAlias].[field_name] AS [FieldAlias]Sort</p>
+        <p class="Indent1">This will enable the selected Sort By option to be saved when the query is saved.</p>
+        <ol MadCap:continue="true">
+            <li>Execute the modified view against the Onyx database.</li>
+        </ol>
+        <h4><a name="Insertin"></a>Inserting Hyperlink Information in Persistence Database</h4>
+        <p>When you create a custom entity, you can hyperlink certain fields in the Navigator Result Grid to open the corresponding Onyx page, or an external webpage. An entity can have several hyperlinked fields. The <b>primary_linked_field_name</b> and <b>secondary_linked_field_name</b> columns hold values that determine which page is opened when you click a link. </p>
+        <p class="ProcedureHeading">To create a hyperlinked field:</p>
+        <ol>
+            <li>In the <b>navigator_entity_field_master</b> table:</li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">Select the row corresponding to the field that you want to create a hyperlink for.</li>
+            <li class="List_Indent">Update the <b>primary_linked_field_name</b> and <b>secondary_linked_field_name</b> columns for the selected row with the value that you entered created in the DB view. For more information, see <a href="Reserved field names.htm#Example2">Example Data for Custom Field Tables</a>. </li>
+        </ol>
+        <h4><a name="Inactiva"></a>Inactivating a Field in Persistence Database</h4>
+        <p>You can inactivate a field if it is no longer required. An inactive field is not available in Navigator.</p>
+        <p style="font-weight: bold;">To inactivate a field:</p>
+        <ul>
+            <li>In the <b>navigator_entity_field_master</b> table in the <b>Persistence</b> database, set the value for the <b>delete_status</b> field to 1.</li>
+        </ul>
+    </body>
+</html>

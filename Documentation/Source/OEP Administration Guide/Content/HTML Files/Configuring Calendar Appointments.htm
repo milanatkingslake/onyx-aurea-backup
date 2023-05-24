@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="94" MadCap:lastWidth="701">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2><a name="top"></a>Configuring Calendar Appointments</h2>
+        <p>In order to use the Calendar Appointments feature along with your corporate Exchange Server, you must have the following information ready before you run the OEAS setup.</p>
+        <ul>
+            <li>The Exchange Server domain name and URI.</li>
+            <li>The impersonation user ID and password to use for updating appointments.</li>
+        </ul>
+        <p>In OES, enter the system parameter for the OGS path. This is required for the SQL CLR trigger to communicate with OGS and publish event data.</p>
+        <ul>
+            <li>In OES System Parameter Administration, scroll to the parameter <b>NotificationWebService</b>.</li>
+            <li>Enter the parameter value in the format http://[AppServerAddress]:[OGS Port Number]/ServiceGateway/Notification/Publish/, replacing [AppServerAddress] with the IP&#160;address or name of the app server, and [OGS Port Number] with the port number configured for OGS.</li>
+            <li>Save your changes.</li>
+        </ul>
+        <h4>Permissions for the impersonation user ID</h4>
+        <p>The impersonation user account must be given specific permissions on the Exchange server in order to be able to create appointments for other users.</p>
+        <ul>
+            <li>On Exchange server 2007, grant permission for the ms-Exch-EPI-Impersonation and ms-Exch-EPI-May-Impersonate roles.</li>
+            <li>On Exchange server 2010, grant permission for the ApplicationImpersonation role.</li>
+        </ul>
+        <h4>Example settings in the Appointments.config file</h4>
+        <p>When you run the OEAS installer, the Appointments.config file is generated which contains all the information that you entered during installation. You can manually modify this information if required. The default path for the config file is C:\Program Files\Onyx\AppServer\Applications\Onyx\OnyxNotificationService\Config.</p>
+        <p>The following is an example of the settings in the Appointments.config file.</p>
+        <p><code>&lt;OutlookServers&gt;</code>
+        </p>
+        <p><code>&lt;OutlookServer</code>
+        </p>
+        <p><code>ID="1"</code>
+        </p>
+        <p><code>EWS="https://10.101.64.176/ews/exchange.asmx"</code>
+        </p>
+        <p><code>UserName="serviceaccount"</code>
+        </p>
+        <p><code>Password="BeyejpekPjlFLOlOJdv3qOaK3LiYIZH/laJq+6zX0hXCY5pOknliLXHEf6oVwF43YeA/JvGfmpbw8VVgvO6R9+nl8wVSaNBl2</code>
+        </p>
+        <p><code>qKOCddVkcunjEuenK+6LYbEVYr5d7NOFWyQtDPX2PBLl1jAl+Lr0qFIEdmIS+ZO/sDeOc8UriM="</code>
+        </p>
+        <p><code>EnableSsl="true"</code>
+        </p>
+        <p><code>DefaultCredentials="false"</code>
+        </p>
+        <p><code>Domain = "lab"</code>
+        </p>
+        <p><code>EnableEwsTraceLog ="false"</code>
+        </p>
+        <p><code>/&gt;</code>
+        </p>
+        <p><code>&lt;/OutlookServers&gt;</code>
+        </p>
+        <p>The EnableEwsTraceLog option is set to False by default. We do not recommend turning this option to True as it can adversely affect performance. Turn this option to True only when you need to debug this feature.</p>
+    </body>
+</html>

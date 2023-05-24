@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="645" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Onyx Transaction Manager</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>
+            <MadCap:keyword term="Onyx Transaction Manager" />Onyx Transaction Manager</h3>
+        <p>The Onyx Transaction Manager (OTM) is the primary entry point to the 
+ OEAS middle tier. The OTM accepts and processes client requests and controls 
+ the instantiation and use of all business objects.</p>
+        <p>Client applications send commands and command arguments to the OTM via 
+ XML strings. In a typical sequence the OTM parses the XML, calls a validation 
+ component to check the XML, and then calls the Onyx Data Manager (ODM), 
+ which generates T-SQL commands to execute in OEDB. When the requested 
+ command is complete, the OTM returns status information and any updated 
+ data in XML to the client. Any COM-aware application can call the OTM 
+ on the application server. The OTM can be called remotely using Distributed 
+ COM (COM+).</p>
+        <p>The OTM exposes four nearly identical interfaces: <a href="ITMgr_Intfc.htm">ITransactionManager</a>, 
+ <a href="ITMgr_Intfc2.htm">ITransactionManager2</a>, <a href="OTM_IntTM_Iface.htm">IInternalTransactionManager</a>, 
+ and <a href="IInternalStringTransactionManager_interface.htm">IInternalStringTransactionManager</a>. 
+ ITransactionManager and ITransactionManager2 are scriptable and intended 
+ for use by external client applications. The other two interfaces have 
+ similar functionality, but are restricted to internal use by step components. 
+ IInternalStringTransactionManager enables a step component to pass a string 
+ to the OTM, and IInternalTransactionManager enables a step component to 
+ pass an XML DOM instance to the OTM. All OTM interfaces expose a method 
+ or methods that distribute the caller-supplied XML and determine the appropriate 
+ actions required to process the request.</p>
+        <p>This section contains the following topics:</p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Topic</th>
+                    <th>Contents</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;"><a href="Methods_and_Steps.htm">Methods and 
+ steps</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">About steps and how the OTM executes a logical 
+ object method.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;"><a href="OTM_ITM.htm">Using the Internal 
+ OTM</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">About the Internal OTM, which allows step 
+ components to make business object method calls.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

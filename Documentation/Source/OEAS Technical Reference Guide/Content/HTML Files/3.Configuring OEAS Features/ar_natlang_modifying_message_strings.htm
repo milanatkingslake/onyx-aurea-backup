@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:id="content" MadCap:comment="content" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:fileTags="RoboHelpStatus.In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="779" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" /><title>Modifying message strings in the National Language table</title>
+    </head>
+    <body>
+        <h4>Modifying message strings in the National Language table </h4>
+        <p>Before you can view or alter the data in the National Language table, 
+ you must select a filter from the <span class="UIElement" style="font-weight: bold;">Filter</span> 
+ list. The extensive number of National Language strings in OEAS requires 
+ you to specify the area of the application affected using the <span class="UIElement" style="font-weight: bold;">Filter</span> 
+ list. For example, if you want to modify an error message for the Forecasts 
+ &amp; Quotes feature, you must select the appropriate filter, EAS - Forecast/Quote. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">If your customization returns additional columns, thus requiring 
+ additional column headings, ensure that the column headings you configure 
+ in Table Administration match (in order) the column names indicated in 
+ the OED for the rowSet parameter of the affected method. For additional 
+ information about customizing the OED, see <a href="../7.OEAS Developers Reference/Understanding_the_OED.htm">Understanding the OED</a>. </p>
+        <p>The National Language Category table controls what filters you can use 
+ within Table Administration for the National Language domain data. In 
+ the National Language Category table, the values you create for the description 
+ property become the filters available in the <span class="UIElement" style="font-weight: bold;">Filters</span> 
+ list for National Language domain data. </p>
+        <p>The following table describes National Language data displayed in Table 
+ Administration. </p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Property </th>
+                    <th>Description </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">messageId </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Not editable as it is a primary key field. 
+ The unique identification number that identifies each string of national 
+ language domain data. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">languageCode </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">The language code for the NationalLanguage 
+ record. </p>
+                        <p class="tableNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">When you add custom strings to the National Language table, 
+ be sure to include the language code representing the language of your 
+ custom strings. If the language code does not exist in the database, your 
+ custom strings will not be supported in the cache. See <a href="AR_NatLangRefreshCache.htm">Refreshing 
+ the cache</a> for further details. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">categoryId </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Correlates to the primaryId of the national 
+ language category. It is automatically set to the category for the current 
+ filter. It is not editable. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">categoryDescription </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Correlates to the description of the national 
+ language category. It is not editable. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">message </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Contains the text for the message. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">configured </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Indicates whether the string is an Onyx default 
+ string or a user-configured string: 1 is configured and 0 is default. 
+ It is not editable. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">active </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Specifies whether the data is active or inactive: 
+ 1 is active and 0 is inactive. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The following table describes National Language category displayed in 
+ Table Administration.</p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Property </th>
+                    <th>Description </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">primaryId </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Not editable as it is a primary key field. 
+ The unique identification number that identifies each string of national 
+ language category domain data. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">description </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Brief description of the national language 
+ category. This is the value that appears in the <span class="UIElement" style="font-weight: bold;">Filters</span> 
+ list for National Language domain data in the Table Administration. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">active </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Specifies whether the data is active or inactive: 
+ 1 is active and 0 is inactive. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="837" MadCap:lastWidth="668" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../Resources/TableStyles/Aptean_Note_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Adding and configuring email monitor subsystems</title>
+            <link href="../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <H3 class="Heading">Adding and configuring email monitor subsystems </H3>
+        <p class="BodyText">For each OPS connection, you can configure multiple EMSs and control 
+ them independently of each other. After you have configured an EMS, you 
+ can configure a collection of mailboxes for monitoring by the subsystem. 
+ For step-by-step procedures, see <a href="ar_ops_addemailmailbox.htm">Adding 
+ and configuring monitored mailboxes</a>. </p>
+        <table style="mc-table-style: url('../Resources/TableStyles/Aptean_Note_Table_1.css');width: 80%;" class="TableStyle-Aptean_Note_Table_1" cellspacing="2">
+            <col style="width: 0.7cm;" class="TableStyle-Aptean_Note_Table_1-Column-Column1" />
+            <col class="TableStyle-Aptean_Note_Table_1-Column-Column1" style="width: 15.50cm;" />
+            <tbody>
+                <tr class="TableStyle-Aptean_Note_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyB-Column1-Body1" style="text-align: right;">
+                        <p>
+                            <img src="../Resources/Images/Common/note_image.png" />
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText"><b>Note</b>: EMSs and mailboxes have a parent/child, one-to-many relationship. 
+ Therefore, you can configure a parent subsystem to monitor a collection 
+ of child mailboxes. Configuring multiple parent subsystems to monitor 
+ a single child mailbox is not supported. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="TaskHeading">To add a new email monitor subsystem: </p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li class="ListBullet_1">In the navigation area of OPS Administration, 
+ select the <span class="UIElement" style="font-weight: bold;">Email Monitor Subsystems</span> collection.</li>
+            <li class="ListBullet_1">Click <img src="../Resources/Images/AR_iconAdd1.jpg" />. </li>
+            <p class="BodyText">A new subsystem node titled <span class="UIElement" style="font-weight: bold;">newSubsystem1 
+ (added</span><span class="UIElement" style="font-weight: normal;">*</span><span class="UIElement" style="font-weight: bold;">) 
+ </span>appears in the navigation tree. The status remains as <span class="UIElement" style="font-weight: bold;">added</span> 
+ until the service is restarted. </p>
+            <li class="ListBullet_1">In the <span class="UIElement" style="font-weight: bold;">Edit Email Monitor 
+ Subsystem</span> area, modify the attributes for this EMS. For descriptions 
+ of the attributes in the edit area, refer to the following:</li>
+        </ol>
+        <ul>
+            <li class="ListBullet_2"><a href="AR_OPS_EmailSubSettings.htm">Email 
+ monitor subsystems settings</a>
+            </li>
+            <li class="ListBullet_2"><a href="AR_OPS_EmailSubExample.htm">Example: 
+ Email monitor subsystem</a>
+            </li>
+        </ul>
+        <ol style="list-style: decimal;list-style-type: decimal;" start="4">
+            <li class="ListBullet_1">Click <img src="../Resources/Images/AR_iconSave1.jpg" /> to save your changes.</li>
+            <li class="ListBullet_1">For localization support, map one or more languages to automatically 
+ convert to Unicode by configuring the <span style="font-weight: bold;">charsetmaps.xml</span> 
+ file to use a Unicode page. This file is located in the \Onyx\ProcessingServer\Components 
+ directoy. For example: <p Class="Code" class="code">&lt;codePage codePageValue="950" friendlyName="Chinese Traditional (Big5)" familyCodePage="950"&gt; </p><p Class="Code" class="code">&lt;charsetLabel prefered="1"&gt;big5&lt;/charsetLabel&gt; </p><p Class="Code" class="code">&lt;charsetLabel&gt;cn-big5&lt;/charsetLabel&gt; </p><p Class="Code" class="code">&lt;charsetLabel&gt;csbig5&lt;/charsetLabel&gt; </p><p Class="Code" class="code">&lt;charsetLabel&gt;x-x-big5&lt;/charsetLabel&gt; </p><p Class="Code" class="code">&lt;/codePage&gt; </p></li>
+            <p class="BodyText">In this example: </p>
+        </ol>
+        <ul>
+            <li class="ListBullet_2">The value for the <span style="font-weight: bold;">codePageValue</span> 
+ parameter is the code page that EMS uses to convert the string to Unicode 
+ using code page 950.</li>
+            <li class="ListBullet_2">The <span style="font-weight: bold;">charsetLabel</span> 
+ element is the <span style="font-weight: bold;">charset</span> label in 
+ which the email is encoded. </li>
+        </ul>
+        <ol style="list-style: decimal;list-style-type: decimal;" start="4">
+            <p class="BodyText">Several of these might need to be mapped to the same code page. 
+ </p>
+        </ol>
+    </body>
+</html>

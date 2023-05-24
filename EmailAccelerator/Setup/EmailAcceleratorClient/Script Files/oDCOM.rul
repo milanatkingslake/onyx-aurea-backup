@@ -1,0 +1,186 @@
+////////////////////////////////////////////////////////////////////////////
+// Performs specilize registry entries for DCOM security for all the
+// key files listed in the setup.ini
+////////////////////////////////////////////////////////////////////////////
+function ORegDCOMSecurity()
+STRING szExe,szName,szCount;
+INT nCount;
+begin
+	nCount = 1;
+	while(nCount != 0)
+		NumToStr(szCount,nCount);
+		if(GetProfString(SRCDIR ^ "setup.ini","DCOM","SecurityReg"+szCount,szExe) = -1 )then
+			nCount = 0; //exit			
+		else
+			GetProfString(SRCDIR ^ "setup.ini","DCOM","AppId"+szCount,szName);
+			StrToUpper(szExe,szExe);
+			ORegDcomExe(szExe,szName);
+			nCount++;
+		endif;		
+	endwhile;
+end;
+
+//////////////////////////////////////////////////////////////////////////////
+// Makes a series of reg entries to cross reference the first or smallest GUID
+// to all the other GUID's entires that use the same program.exe
+//////////////////////////////////////////////////////////////////////////////
+function ORegDcomExe(szEXE,szName)
+STRING szTemp1,szTemp2,szSearch,szRootKey,szCLSID,szCLSIDTemp,szTest,szProgId;
+LIST listRoot,listKeys,listProgId,listCLSID;
+INT nvType,nvSize,nLoop,nCLSID,nTest,nNotValid;
+begin
+
+	//first make a couple of easy reg entries
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	if(RegDBKeyExist("Software\\Microsoft\\OLE") <0 )then
+		RegDBCreateKeyEx("Software\\Microsoft\\OLE", "");
+	endif;
+	RegDBSetKeyValueEx("Software\\Microsoft\\OLE","LegacyImpersonationLevel",REGDB_NUMBER,"3",-1);
+	RegDBSetKeyValueEx("Software\\Microsoft\\OLE","LegacyAuthenticationLevel",REGDB_NUMBER,"1",-1);
+
+	//////////////////////////////////////////////////////////////////////////	
+	//In HKCR, Get a list of all subkeys that match value of exe, add value as progid
+	//////////////////////////////////////////////////////////////////////////
+	
+	//get search critera
+	ParsePath(szSearch,szEXE,FILENAME_ONLY);
+	szSearch = szSearch + ".";  //looking for FILENAME. in key name.
+	
+	//get list of keys
+	listRoot = ListCreate(STRINGLIST);
+	listProgId = ListCreate(STRINGLIST);
+	listCLSID = ListCreate(STRINGLIST);
+	
+	RegDBSetDefaultRoot(HKEY_CLASSES_ROOT);
+	RegDBQueryKey("",REGDB_KEYS,listRoot);
+	nLoop = ListGetFirstString(listRoot,szRootKey);
+	while(nLoop != END_OF_LIST)
+		//look for a match
+		StrToUpper(szRootKey,szRootKey);
+		if(szRootKey % szSearch)then
+			//get the CLSID
+			if(RegDBGetKeyValueEx(szRootKey+"\\CLSID","",nvType,szTemp1,nvSize) =0)then
+				//add key to exe list
+				ListAddString(listProgId,szRootKey,AFTER);
+				//add CLSID to CLSID list
+				ListAddString(listCLSID,szTemp1,AFTER);
+			endif;
+		endif;
+		nLoop = ListGetNextString(listRoot,szRootKey);
+	endwhile;
+	ListDestroy(listRoot); //done with that monster.
+
+	//////////////////////////////////////////////////////		
+	//take first(lowest num value) CLSID that has a "LocalServer32" entry
+	//////////////////////////////////////////////////////
+	nLoop = ListGetFirstString(listCLSID,szTemp1);
+	nLoop = ListGetFirstString(listProgId,szTemp2);
+	szCLSID = szTemp1;
+	szProgId = szTemp2;
+	while(nLoop != END_OF_LIST)
+		if(RegDBKeyExist("CLSID\\"+szTemp1+"\\LocalServer32") =1 )then
+			StrSub(szTest,szTemp1,5,4); //get just the first part of the GUID
+			nTest = OHextoDecimal(szTest);
+			StrSub(szCLSIDTemp,szCLSID,5,4); //get just the first part of the GUID
+			nCLSID = OHextoDecimal(szCLSIDTemp);
+			if(nCLSID > nTest)then
+				//lower GUID number
+				nCLSID = nTest;
+				//master values
+				szCLSID = szTemp1;
+				szProgId = szTemp2;
+			endif;
+		else
+			nNotValid = TRUE;
+		endif;
+		//get next value
+		nLoop = ListGetNextString(listCLSID,szTemp1);
+		nLoop = ListGetNextString(listProgId,szTemp2);
+		
+		//if first value is missing localserver32 entry, increment to next one.
+		if(nNotValid)then
+			szCLSID = szTemp1;
+			szProgId = szTemp2;
+			nNotValid = FALSE;
+		endif;
+		
+	endwhile;
+	//now have master ProgId and CLSID
+	
+	/////////////////////////////////////////////////////////////////////////
+	//populate the other CLSID that have a "LocalServer32" with AppId = CLSID val
+	/////////////////////////////////////////////////////////////////////////
+	
+	nLoop = ListGetFirstString(listCLSID,szTemp1);
+	while(nLoop != END_OF_LIST)
+		szTemp2 = "CLSID\\"+szTemp1+"\\LocalServer32";
+		if(RegDBKeyExist(szTemp2) =1 )then
+			//put AppId = master CLSID.
+			RegDBSetKeyValueEx("CLSID\\"+szTemp1,"AppId",REGDB_STRING,szCLSID,-1);
+		endif;
+		nLoop = ListGetNextString(listCLSID,szTemp1);
+	endwhile;
+	
+	//Change the name of the CLSID to name specified (if provided);
+	if(szName != "")then
+		RegDBSetKeyValueEx("CLSID\\"+szCLSID,"",REGDB_STRING,szName,-1);
+	endif;
+	
+	//////////////////////////////////////////////////////////////////////////
+	//add to HKCR\appid\CLSID val  default = ProgId
+	//add to HKCR\appid\exename  AppId = CLSID val
+	//////////////////////////////////////////////////////////////////////////
+	if(RegDBKeyExist("AppId\\"+szCLSID) <0 )then
+		RegDBCreateKeyEx("AppId\\"+szCLSID, "");
+	endif;
+	if(RegDBKeyExist("AppId\\"+szEXE) <0 )then
+		RegDBCreateKeyEx("AppId\\"+szEXE, "");
+	endif;
+	
+	//use name provided, else default to progid.
+	if(szName = "")then
+		RegDBSetKeyValueEx("AppId\\"+szCLSID,"",REGDB_STRING,szProgId,-1);
+	else
+		RegDBSetKeyValueEx("AppId\\"+szCLSID,"",REGDB_STRING,szName,-1);
+	endif;
+	RegDBSetKeyValueEx("AppId\\"+szEXE,"AppId",REGDB_STRING,szCLSID,-1);	
+	
+	// Finally run DCP.EXE
+	_RunDCP();
+	
+end;
+
+////////////////////////////////////////////////////////////////////////
+// runs an EXE that use a DLL to set some DCOM security settings.
+////////////////////////////////////////////////////////////////////////
+function _RunDCP()
+STRING szDLL,szEXE,szREG;
+begin
+	szDLL = "DCOMPERM.DLL";
+	szEXE = "DCP.EXE";
+	szREG = "regsvr32.exe";
+	
+	//run equivalent of batch file based on OS.
+	if(bWinNT)then
+		ChangeDirectory(SUPPORTDIR);
+		OHideAppAndWait(SUPPORTDIR ^ szREG,szDLL+" /s",WAIT);	
+		if(g_structSystemData.szOS = "NT4.0 Server")then
+			//equivalent to "ntsvr.bat
+			OHideAppAndWait(SUPPORTDIR ^ szEXE,"-aa KBISSLib.KBISS set Everyone permit",WAIT);	
+			OHideAppAndWait(SUPPORTDIR ^ szEXE,"-aa KBISSLib.KBISS set System permit",WAIT);	
+			OHideAppAndWait(SUPPORTDIR ^ szEXE,"-aa KBISSLib.KBISS set Interactive permit",WAIT);	
+			OHideAppAndWait(SUPPORTDIR ^ szEXE,"-al KBISSLib.KBISS set Everyone permit",WAIT);	
+			OHideAppAndWait(SUPPORTDIR ^ szEXE,"-al KBISSLib.KBISS set System permit",WAIT);	
+			OHideAppAndWait(SUPPORTDIR ^ szEXE,"-al KBISSLib.KBISS set Interactive permit",WAIT);	
+		else
+			//equivalent to "ntclient.bat
+			OHideAppAndWait(SUPPORTDIR ^ szEXE,"-al KBSearch.OKBParameter set Everyone permit",WAIT);	
+			OHideAppAndWait(SUPPORTDIR ^ szEXE,"-aa KBSearch.OKBParameter set Everyone permit",WAIT);	
+		endif;
+	
+		//unregister dll
+		OHideAppAndWait(SUPPORTDIR ^ szREG,szDLL+" /u /s",WAIT);	
+		ChangeDirectory(SRCDIR);
+	endif;
+	
+end;

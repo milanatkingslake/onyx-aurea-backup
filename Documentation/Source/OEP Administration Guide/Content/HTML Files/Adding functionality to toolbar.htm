@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <p>
+            <MadCap:keyword term="Toolbar buttons (toolbar items):Configuring">&#160;</MadCap:keyword><a name="-554830315"></a>Adding functionality to toolbar items</p>
+        <p>You can add functionality to toolbar items by configuring action statements for individual values in the toolbar item. Examples of available functionality include navigating to other OEP pages and opening browser windows. </p>
+        <table>
+            <tr>
+                <td>
+                    <p>
+                        <img src="../Resources/Images/ONYX 77 OEP Administration Guide/OEP Profile Architecture.png" style="width: 26px;height: 22px;" />
+                    </p>
+                </td>
+                <td>
+                    <p>Note: You can add functionality to Expand/Contract toolbar items using Dynamic Forms Designer; however, the standard expand/contract functionality is not currently available. </p>
+                </td>
+            </tr>
+        </table>
+        <p>&#160;</p>
+        <table>
+            <tr>
+                <td>
+                    <p>
+                        <img src="../Resources/Images/ONYX 77 OEP Administration Guide/OEP Profile Architecture.png" style="width: 26px;height: 22px;" />
+                    </p>
+                </td>
+                <td>
+                    <p>Note: This procedure uses Dynamic Forms Designer. For more information on this window, see the <a href="Configuring Page Behavior.htm#_Ref-1834838588">Configuring page behavior</a> book. To see a sample UI configuration demonstrating the procedure for adding functionality to toolbar items, see <a href="Creating a Tab.htm#_Ref1235840334">Adding toolbar buttons and other items</a>. </p>
+                </td>
+            </tr>
+        </table>
+        <p>To add functionality to a toolbar item value:</p>
+        <ol style="list-style-type: decimal;margin-left: 30pt;" start="1">
+            <li>If required, click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Accessing UCW.jpg" style="width: 25px;height: 25px;" /> for the current page to enter design mode. </li>
+            <li>Note the identifiers for the toolbar, toolbar item, and toolbar item value, using the instructions in the following table. &#160; </li>
+        </ol>
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        <p>Element</p>
+                    </th>
+                    <th>
+                        <p>Identifier</p>
+                    </th>
+                    <th>
+                        <p>Example</p>
+                    </th>
+                    <th>
+                        <p>To view this identifier...</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p>toolbar (custom)</p>
+                    </td>
+                    <td>
+                        <p>Admin ID</p>
+                    </td>
+                    <td>
+                        <p>CustomXToolbar</p>
+                    </td>
+                    <td>
+                        <p>Right-click the toolbar toolbox control's handle (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/The following color coded_3.png" style="width: 10px;height: 10px;" />) and then select Properties.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p>toolbar (default)</p>
+                    </td>
+                    <td>
+                        <p>toolbar group</p>
+                    </td>
+                    <td>
+                        <p>Top_Toolbar</p>
+                    </td>
+                    <td>
+                        <p>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To reset all configurations_6.jpg" style="width: 23px;height: 24px;" /> on the UCW toolbar to display Navigation Designer, and then locate the toolbar group containing the toolbar in the left pane. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p>toolbar item</p>
+                    </td>
+                    <td>
+                        <p>ID</p>
+                    </td>
+                    <td>
+                        <p>toolbarItem1</p>
+                    </td>
+                    <td>
+                        <p>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To reset all configurations_6.jpg" style="width: 23px;height: 24px;" /> on the UCW toolbar to display Navigation Designer, and then select the toolbar item in the left pane. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p>toolbar item value</p>
+                    </td>
+                    <td>
+                        <p>Value</p>
+                    </td>
+                    <td>
+                        <p>1</p>
+                    </td>
+                    <td>
+                        <p>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To reset all configurations_6.jpg" style="width: 23px;height: 24px;" /> on the UCW toolbar to display Navigation Designer, and then select the toolbar item value in the left pane. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ol style="list-style-type: decimal;margin-left: 30pt;" start="3">
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To reset all configurations_8.jpg" style="width: 21px;height: 23px;" /> on the UCW toolbar to display Dynamic Forms Designer. </li>
+            <li>Select the click event for the toolbar: </li>
+        </ol>
+        <ul style="list-style-type: disc;margin-left: 44pt;">
+            <li style="list-style-type: disc;">In the Events pane, expand Control and then expand the related toolbar. </li>
+        </ul>
+        <p>In this window, custom toolbars are identified by their respective Admin IDs; default toolbars are identified by toolbar group (such as "Top_Toolbar"). </p>
+        <ul style="list-style-type: disc;margin-left: 44pt;">
+            <li style="list-style-type: disc;">Select Item Click (Item ID) (Item Value) under the toolbar. </li>
+        </ul>
+        <ol style="list-style-type: decimal;margin-left: 30pt;" start="5">
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To add a custom drop down_2.jpg" style="width: 24px;height: 24px;" /> to add a statement. </li>
+            <li>In the Description text box at the top of the Action Designer pane, type a description. For example, "Configure toolbar item to add a customer." </li>
+            <li>Add the following conditions to specify the toolbar item and toolbar item value: </li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;margin-left: 44pt;" start="1">
+            <li>In the Object drop-down list located in the Conditions section, expand Event Arguments and then select Item ID. </li>
+            <li>From the Operator drop-down list, select Equal; in the Value text box, type the identifier noted for the toolbar item (ID property). </li>
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To add a custom drop down.png" style="width: 14px;height: 14px;" /> in the Summary section to add the condition to the action statement. </li>
+            <li>The Summary section lists the added condition as follows: <br /> "Event Arguments" (Item ID) is equal to [the identifier for the toolbar item] </li>
+            <li>In the Object drop-down list located in the Conditions section, expand Event Arguments and then select Item Value. </li>
+            <li>From the Operator drop-down list, select Equal; in the Value text box, type the identifier noted for the toolbar item value (Value property). </li>
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To add a custom drop down.png" style="width: 14px;height: 14px;" /> in the Summary section to add the condition to the action statement. </li>
+        </ol>
+        <p>The Summary section lists the added condition as follows: <br /> "Event Arguments" (Item &#160;Value) is equal to [the identifier for the toolbar item value] </p>
+        <ol style="list-style-type: decimal;margin-left: 30pt;" start="8">
+            <li>From the Object (Action) drop-down list in the Action section, select the desired action and then fill in the Source and Value text boxes. For an example, see <a href="Creating a Tab.htm#_Ref1235840334">Adding toolbar buttons and other items</a>. </li>
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> to confirm changes and then close Dynamic Forms Designer. </li>
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Accessing UCW_1.jpg" style="width: 24px;height: 24px;" /> on the UCW toolbar to save all configurations and exit design mode. </li>
+        </ol>
+        <p>
+            <MadCap:keyword term="Toolbar buttons (toolbar items):Modifying">&#160;</MadCap:keyword><a name="1944229517"></a>Modifying toolbar item values</p>
+        <p>You can modify button images and other properties of toolbar item values.</p>
+        <p>To modify a toolbar item value:</p>
+        <ol style="list-style-type: decimal;margin-left: 30pt;" start="1">
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Accessing UCW.jpg" style="width: 25px;height: 25px;" /> for the current page to enter design mode and then click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To reset all configurations_6.jpg" style="width: 23px;height: 24px;" /> on the UCW toolbar to display Navigation Designer. </li>
+            <li>From the Control drop-down list, select Toolbar Controls to display the existing toolbars for the current page. </li>
+            <li>In the Items pane, expand the related toolbar, expand the related toolbar item, click the toolbar item value to display its properties, and then change the properties as desired. </li>
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> to confirm changes and close Navigation Designer. </li>
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Accessing UCW_1.jpg" style="width: 24px;height: 24px;" /> on the UCW toolbar to save all configurations and exit design mode. </li>
+        </ol>
+    </body>
+</html>

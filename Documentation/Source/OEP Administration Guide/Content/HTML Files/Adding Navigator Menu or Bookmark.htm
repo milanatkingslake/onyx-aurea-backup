@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="848" MadCap:lastWidth="626">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h4><a name="top"></a>&#160; Adding Navigator Menu or Bookmark Item</h4>
+        <p>You must modify the configuration file to add the custom entity as a menu or bookmark item to the Navigator menu on the Onyx header bar.</p>
+        <p class="ProcedureHeading">To add a custom entity as a menu or bookmark item:</p>
+        <ol>
+            <li>On the OEP server, navigate to <b>C:\Program Files\Onyx\EmployeePortal\</b>, and open the <b>Config.xml</b> file.</li>
+            <li>Navigate to the node - <b>&lt;header:def id="HeaderBarRoot"&gt;</b></li>
+            <li>Under that, navigate to the child node - <b>&lt;header:item id="QuickSearch"&gt;</b></li>
+            <li>Under this node, create a new entry to add the custom entity as a menu item.</li>
+            <li>Create another entry to add the custom entity as a bookmark item.</li>
+        </ol>
+        <p>If you add more than 20 custom bookmarks and menu items to the Navigator menu on the Header bar, and the menu extends below the browser pane, some bookmarks or menu items may not be visible. To resolve this issue, remove the items that you do not require, ensuring that all items fit within the browser pane.</p>
+        <p>Example data for the Attribute Table for Menu and Bookmark items</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Attribute Name</th>
+                    <th>Description for Menu Items</th>
+                    <th>Description for Bookmark Items</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">id</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the entity name followed by the keyword Search. For example, if the entity name is Customers, then the Id should be CustomersSearch</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the entity name followed by the keyword Bookmarks. For example, if the entity name is Customers, then the id should read as CustomersBookmarks. This value, which is case sensitive, maps the menu item of the entity to the bookmark(s).</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">ucf:uid</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Globally Unique Identifier (GUID). Generate a new GUID and use the same. For information on generating GUIDs, refer to MSDN (http://msdn.microsoft.com/en-us/library/aa475087.aspx)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Globally Unique Identifier (GUID) – Generate a new GUID and use the same. Refer to the GUID Generation topic in MSDN to review the steps for generating GUIDs: http://msdn.microsoft.com/en-us/library/aa475087.aspx</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">popUp</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter 0 (zero) as the value</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter 0 (zero) as the value</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">flyout</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Not applicable for menu items</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter 1 (one) as the value</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">url</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Leave this blank</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Leave this blank</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">target</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter idFrameNavigator as the value</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter idFrameNavigator as the value</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">targetArgument</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Use the same value that you entered in the entitiy_name field in the navigator_entity_field_master table in the Persistence DB. This value, which is case sensitive, maps the database to the CM application.</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Leave this blank</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">captionId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">To support localization for the caption of the menu item, add a new entry in the ‘config.xml’ file that is located under C:\Program Files\onyx\employeeportal\ in the OEP server: &lt;string name="menu_customerSearch" id="" text="Customer"/&gt; Use the value of the ‘name’ attribute for captionId attribute. The value supplied as the ‘text’ attribute appears in the OEP. </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">To support localization for the caption of the bookmark item, add a new entry in the ‘config.xml ‘which is under C:\Program Files\onyx\employeeportal\eng on the OEP server: &lt;string name="menu_customerBookMarks" id="" text="Customer Bookmarks"/&gt; Use the value of the ‘name’ attribute for captionId attribute. The value supplied as the ‘text’ attribute appears in the OEP. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4><a name="Entering"></a>Modifying Resource String Values</h4>
+        <p>You can modify the resource string values of the Navigator by performing the following steps.</p>
+        <ol>
+            <li style="mc-hyphenate: never;">Open the <b>navigator_en.json</b> file with notepad from the following location:<code>C:\Program Files\Onyx\EmployeePortal\QuickSearch\resources\locales</code>.</li>
+            <li>Modify the  values of the required elements. </li>
+        </ol>
+        <p class="Indent1">For example: <code>Values = "Enter the desired values here"</code></p>
+        <ol MadCap:continue="true">
+            <li>Save the file.</li>
+        </ol>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">To modify the navigator resource strings of other languages, open the navigator resource file of the required language. For example, to modify the Navigator resource strings of Japanese language, open <b>Navigator_ja.json</b> with notepad.</p>
+    </body>
+</html>

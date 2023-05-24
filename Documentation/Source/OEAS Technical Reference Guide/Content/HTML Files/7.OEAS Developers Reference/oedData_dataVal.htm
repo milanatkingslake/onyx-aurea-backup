@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="774" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>OED data (OnyxDataValidationStep)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>
+            <MadCap:keyword term="OED" />
+            <MadCap:keyword term="OED data" />OED data</h4>
+        <p><a href="OnyxDataValidationStep.htm"><MadCap:keyword term="OnyxDataValidationStep" />OnyxDataValidationStep</a> requires 
+ certain OED data in order to validate input XML. There are three types 
+ of data that it looks for in the OED.</p>
+        <ul>
+            <li>object primary keys</li>
+            <li>property constraints</li>
+            <li>
+                <MadCap:keyword term="stepAdditionalData" />stepAdditionalData</li>
+        </ul>
+        <h5>Primary key data</h5>
+        <p>Using the Object Designer, you define the primary key for each object. 
+ The properties that belong to the <a href="oed_object_keys.htm">object 
+ key</a> with a type of "primary" define the primary key. OnyxDataValidationStep 
+ uses the object primary key information to validate calls to update, delete, 
+ and retrieve methods (and update and delete actions within a saveCollection 
+ method).</p>
+        <h5>Property constraint data</h5>
+        <p>Using the Object Designer, you can set <a href="oed_property_constraint.htm">constraints</a> 
+ on individual properties in the Property Constraints collection for each 
+ property. The Onyx Data Validation Step uses the property constraints 
+ in the OED to determine the validation logic that is applied to each property.</p>
+        <h5>stepAdditionalData</h5>
+        <p>OnyxDataValidationStep uses the object name and method name in order 
+ to determine the correct validation logic. It gets this information from 
+ the stepAdditionalData parameter to its IStep::Execute method.</p>
+        <p>You must supply the stepObject and stepMethod 
+ values in the Additional Data element when you add the Data Validation 
+ step to a method in the Object Designer. If you are adding a retrieveCollection 
+ or saveCollection method you also need to add a dataPath value with the 
+ name of the collection object. If you use the <a href="OnyxCollectionManager.htm">OnyxCollectionManager</a> 
+ to implement a retrieveCollection or saveCollection, you do not use the 
+ ValidationStep.</p>
+        <p style="font-weight: bold;">Example</p>
+        <p>stepAdditionalData contains...</p>
+        <p Class="Code" class="code">stepObject=task;</p>
+        <p Class="Code" class="code">stepMethod=insert;</p>
+        <p Class="Code" class="code">dataPath=</p>
+        <p>The stepObject value indicates which object 
+ the step should use for its logic. The stepMethod value indicates which 
+ method to use. </p>
+    </body>
+</html>

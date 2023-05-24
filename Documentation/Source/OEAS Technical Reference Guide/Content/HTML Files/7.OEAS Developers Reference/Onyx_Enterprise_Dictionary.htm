@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="783" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Onyx Enterprise Dictionary</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>
+            <MadCap:keyword term="Onyx Enterprise Dictionary" />Onyx Enterprise Dictionary</h3>
+        <p>The Onyx Enterprise Dictionary (OED) is an XML file that contains metadata 
+ that defines the structure and content of both the business services tier 
+ and the data services tier, as well as the relationships between the two 
+ tiers. </p>
+        <p>The metadata, coded in XML, includes:</p>
+        <table style="width: 100%;">
+            <col style="width: 5cm;" />
+            <col style="width: 11cm;" />
+            <thead>
+                <tr>
+                    <th>Metadata</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;"><a href="Logical_Model.htm">Logical model</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Defines the business objects that reside 
+ in the business services tier.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;"><a href="Physical_Model.htm">Physical model</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Defines the tables and columns that reside 
+ in the Onyx Enterprise Database (OEDB), as well as the database stored 
+ procedures and functions that are used by business object methods.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;"><a href="Relationships.htm">Relationships</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Defines the relationships between business 
+ objects.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;"><a href="Logical_to_Physical_Map.htm">Logical 
+ to physical map</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Defines how the logical model is associated 
+ with the physical model. Identifies the link between each business object 
+ property and its corresponding table column in the database. Also identifies 
+ the link between each logical method step and its corresponding database 
+ stored procedure or function.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>How the OED is used</h4>
+        <p>The <a href="OTM.htm">Onyx Transaction Manager</a> (OTM) uses the data 
+ in the OED to process client requests. The OTM accesses the data from 
+ cached version of the OED called the <a href="OEDCache.htm">OED cache</a>. 
+ The OED cache is loaded into memory the first time a client makes a method 
+ call to the OTM. For additional details about the role of the OED in OEAS, 
+ see <i>OEAS data flow</i>.</p>
+        <h4>Modifying the OED</h4>
+        <p>If you plan to <a href="Customizing_Overview.htm">customize OEAS</a>, 
+ you will almost certainly need to modify the OED. You can modify the OED 
+ using <a href="Customizing_Overview.htm">Object Designer</a>, a design 
+ tool in the Onyx Enterprise Studio. When you modify the OED using Object 
+ Designer, you are actually modifying a second copy of the OED, or a <a href="OED_working_copy.htm">working copy</a> of the OED; this ensures 
+ that the production version of the OED remains isolated from your modifications 
+ until you are ready to publish them. When you're satisfied with your modifications, 
+ you <a href="Publishing_OED_customizations.htm">publish your modifications</a> 
+ to the <a href="OED_production_copy.htm">production copy</a> of the OED. 
+ The production copy of the OED contains the XML metadata that populates 
+ the OED cache for use by the OTM. </p>
+        <p>At any one time, then, as many as three copies of the OED may exist: 
+ the read-only in-memory OED (OED cache), the production copy, and a working 
+ copy. The production copy and working copy are physical XML files stored 
+ on disk. </p>
+    </body>
+</html>

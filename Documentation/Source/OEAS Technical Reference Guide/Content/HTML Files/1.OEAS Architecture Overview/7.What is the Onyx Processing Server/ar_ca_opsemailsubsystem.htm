@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="777" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head>
+            <link href="../../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" /><title>Email Subsystem Processing</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>Email Subsystem Processing </h4>
+        <p>Email subsystems process order lines for literature products with an 
+ email fulfillment type. Choosing an email fulfillment type can have one 
+ of two results: the literature product is delivered in the body of the 
+ email message or the literature product is attached to an email message. 
+ The following table shows how each email fulfillment type is fulfilled. </p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Fulfillment type </th>
+                    <th>Data merging</th>
+                    <th>Delivered in body of email</th>
+                    <th>Delivered as an attachment</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Send as Email Body (supports merging)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">
+3 
+                    </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">3</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Send as Email Attachment (supports merging)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">3</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">3</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Send as Email Attachment (no merging)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">3</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>When an order has only one email order line, processing is straightforward. 
+ If the order line is an “in body” type, the subsystem creates an email 
+ message with the literature product in the body of the email message. 
+ If the order line is an “attachment” type, the subsystem creates an email 
+ message with an empty body and adds the literature product as an attachment. 
+ </p>
+        <p>However, when an order has multiple email order lines, 
+ processing becomes more complex. The number of email messages that are 
+ sent and the grouping of the order lines depends on the following factors: 
+ </p>
+        <ul>
+            <li>Whether the fulfillment type is an Send as Email 
+ Body type or a Send as Email Attachment type</li>
+            <li>The sequence in which the user added the literature 
+ products to the order</li>
+        </ul>
+        <p>The email subsystem creates and sends one email message for each email 
+ order line with the Send as Email Body type. Order lines of Send as Email 
+ Attachment types are attached to a Send as Email Body type whenever possible. 
+ This avoids sending more email than is necessary. The subsystem continues 
+ attaching Send as Email Attachment types to the last previously created 
+ email body until it encounters another Send as Email Body type order line. 
+ </p>
+        <p>An email subsystem processes order lines beginning with the first email 
+ literature product that the user added. If the order line is an Send as 
+ Email Body type, the subsystem creates an email message with the literature 
+ product in the body of the message. If the order line is a Send as Email 
+ Attachment type, the subsystem creates an email message with an empty 
+ body and adds the literature product as an attachment. </p>
+        <p>The subsystem proceeds to the next order line that represents the second 
+ literature product that the user added. If the second line is for a Send 
+ as Email Body type, the subsystem creates a second email message. But 
+ if the second line is for a Send as Email Attachment type, the literature 
+ product is added to the message that was created for the first order line. 
+ </p>
+        <p>The <a href="ar_ca_opsemailsubsysexample.htm">following examples</a> illustrate several different scenarios of orders 
+ that have multiple email order lines for various fulfillment types. </p>
+    </body>
+</html>

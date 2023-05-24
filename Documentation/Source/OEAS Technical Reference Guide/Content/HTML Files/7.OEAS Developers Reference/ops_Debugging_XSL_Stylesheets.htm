@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="1468" MadCap:lastWidth="634" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Note_Table_3.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Testing email templates (OPS)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>
+            <MadCap:keyword term="Testing;Testing:email templates;Testing:email;templates;Email templates;Email templates:Testing;email;email:Testing" />Testing email templates</h4>
+        <p>Testing email templates consists of the following:</p>
+        <ul style="list-style: disc;" type="disc">
+            <li>Making sure the email successfully sends</li>
+            <li>Making sure the email content appears as expected</li>
+        </ul>
+        <p>
+            <MadCap:keyword term="OPS" />If the email fails to send properly, examine the default SMTP header 
+ stylesheet configured for the email subsystem in question. You can identify 
+ the default SMTP header stylesheet by looking at the email subsytem configuration 
+ in OPS Administration. Onyx provides a <a href="ops_Using_sample_fax_templates.htm">sample</a> 
+ default SMTP header stylesheet.</p>
+        <p>If the email content appears malformed, examine the XSL stylesheet associated 
+ with the literature product in the orderBatch XML. &#160;</p>
+        <p>Onyx provides an OPS Email template test utility on the OEAS product 
+ CD that enables you to test email templates. Onyx also provides a sample 
+ <a href="ops_orderBatch_xml_structure.htm">orderBatch</a> output along 
+ with the <a href="ops_Using_Default_XSL_Stylesheets.htm">sample email 
+ templates</a>. The OPS Email Template Test Utility executable file is 
+ available in the Utilities directory of the product CD.</p>
+        <p>Before using the utility, make sure you modify the literatureProduct 
+ filePath property in the orderBatch XML you are going to use. At least 
+ one literatureOrderLine should contain a literatureProduct with a filePath 
+ property that references the template you want to test. This utility does 
+ not support orderBatch XML with literatureOrderLine fulfillmentTypeCode 
+ of Print document (6) or Physical item (7). Be sure to remove any of these 
+ literatureOrderLine nodes.</p>
+        <p>To use the utility, click the Load button and choose 
+ the file containing the orderBatch XML. Once you have chosen the orderBatch, 
+ the Process button is enabled. When you click the Process button, the 
+ utility does the following.</p>
+        <ul>
+            <li>creates a list of literatureOrderLine nodes</li>
+            <li>loops through each node in the list one at a time, 
+ except binary attachments</li>
+            <li>loads the template in memory</li>
+            <li>transforms the current literatureOrderLine node 
+ using the in memory template</li>
+            <li>writes the transform output to a *.txt or *.htm 
+ file as appropriate using the following naming convention</li>
+        </ul>
+        <p>Order_&lt;OrderId&gt;_LineNum_&lt;OrderLineNum&gt;ext</p>
+        <p>where...</p>
+        <ul>
+            <ul>
+                <li>Order_ is a literal string</li>
+                <li>&lt;OrderId&gt; is the secondaryId of the 
+ parent literatureOrder</li>
+                <li>_LineNum_ is a literal string</li>
+                <li>&lt;OrderLineNum&gt; is the lineNumber of 
+ the literatureOrderLine</li>
+                <li>ext is either .txt or .htm as appropriate</li>
+            </ul>
+            <li>displays the status of the utility processing 
+ in a text window</li>
+        </ul>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Note_Table_3.css');width: 80%;" class="TableStyle-Aptean_Note_Table_3" cellspacing="2">
+            <col style="width: 0.7cm;" class="TableStyle-Aptean_Note_Table_3-Column-Column1" />
+            <col class="TableStyle-Aptean_Note_Table_3-Column-Column1" style="width: 13cm;" />
+            <tbody>
+                <tr class="TableStyle-Aptean_Note_Table_3-Body-Body1">
+                    <td class="TableStyle-Aptean_Note_Table_3-BodyB-Column1-Body1" style="text-align: right;">
+                        <p class="TableText">
+                            <img src="../../Resources/Images/Common/warning_image.png" />
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Note_Table_3-BodyA-Column1-Body1">
+                        <p class="TableText"><b>Warning</b>: Onyx does not support this tool.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>
+            <img src="../../Resources/Images/OPSTESTXSL.GIF" />
+        </p>
+        <h3>Testing</h3>
+        <p>Your tools might not enable you to step through 
+ XSL code line by line at runtime, if so testing XSL requires an iterative 
+ trial and error approach. This involves using a parser to transform some 
+ XML with an XSL stylesheet. You view the parser output to determine whether 
+ your transform worked as expected. If not, you edit the stylesheet and 
+ run it again. You can use the test utility tool with any text editor to 
+ test your XSL documents, or you can use any number of free or proprietary 
+ tools generally available. </p>
+    </body>
+</html>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="862" MadCap:lastWidth="994" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Handle Input Data</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>
+            <MadCap:keyword term="Handle input data (building step components)" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />
+            <MadCap:keyword term="Handle Input Data" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />Handle input data</h4>
+        <p>When a step component is called by the OTM, it should first verify that 
+ it has received enough information in the input data to complete its programmed 
+ task.</p>
+        <p>Here is a summary of input data characteristics:</p>
+        <ul>
+            <li>The input data, as well as output data, is encapsulated 
+ within a <a href="OTM_Step_Pkg.htm">step package</a>.</li>
+            <li>The step package is received by the step component 
+ as part of the IStep::Execute call from the OTM.</li>
+            <li>The step package is an XML document that is already 
+ parsed into an MSXSML DOM. This MSXML DOM COM object is ready to be used 
+ by the step component.</li>
+        </ul>
+        <p>There are a number of tasks that may or may not be necessary depending 
+ on the conditions the step component encounters. This topic covers all 
+ the possibilities and includes information about when certain actions 
+ should be taken.</p>
+        <h3>Check methodStatus element</h3>
+        <p>The first thing most Onyx step components do is check the current value 
+ of the methodStatus element in the step package. If the value of the element 
+ is "failure", then the component assumes the input data is unusable 
+ and it exits gracefully without modifying any portion of the step package 
+ XML. If the value of the element is "success" or "successWithInfo", 
+ the component continues with execution.</p>
+        <h3>Collect step additional data values</h3>
+        <p>Part of the step data stored in the OED that is passed to the component 
+ during execution is the step additional data string. Since most Onyx step 
+ components are used in multiple business object methods, they use this 
+ string to determine their specific actions. Your step components can use 
+ this string for any data necessary for execution.</p>
+        <h3>Check custom XML data</h3>
+        <p>The step package includes a customData element for passing custom data 
+ from the calling client application to OEAS. Onyx components ignore all 
+ data in the customData element, except for the embeddedXML feature. Onyx 
+ supports the <a href="Using_the_embeddedXml_feature.htm">embeddedXML feature</a> 
+ within the customData element, so you can take advantage of its performance 
+ benefits in your customizations.</p>
+        <h3>Verify data requirements for object parameters</h3>
+        <p>Onyx provides the <a href="onyxdatavalidationstep.htm">OnyxDataValidationStep</a> 
+ component for you to call as a step in your customized method. This component 
+ ensures consistent and standard data validation for all step components. 
+ You should include this step at the first step in all methods. All Onyx 
+ installed methods include a data validation step before the call to DataManager 
+ step component.</p>
+        <p>You can write your own custom validation step 
+ for situations that OnyxDataValidationStep does not handle. For these 
+ situations, Onyx provides the <a href="ICACHe_interface.htm">ICache</a> 
+ interface methods (for compiled components) and <a href="oed_dictproxy_int.htm">DictionaryProxy</a> 
+ interface methods (for scripting access). The methods of these two interfaces 
+ provide access to business object definitions and constraints. </p>
+    </body>
+</html>

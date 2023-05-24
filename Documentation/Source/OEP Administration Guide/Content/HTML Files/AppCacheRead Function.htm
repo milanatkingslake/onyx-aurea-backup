@@ -1,0 +1,280 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="848" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h4><a name="top"></a>AppCacheRead Function</h4>
+        <p>The AppCacheRead function retrieves an item from the Application cache.</p>
+        <h5>Syntax </h5>
+        <table>
+            <tr>
+                <td>
+                    <p><code>Function AppCacheRead(</code>
+                    </p>
+                    <p>&#160;&#160;<code>sName As String,</code></p>
+                    <p><code>&#160;&#160;sUserID As String,</code>
+                    </p>
+                    <p>&#160;<code>&#160;iSiteID As Integer,</code></p>
+                    <p>&#160;&#160;<code>sSessID As String) </code></p>
+                    <p><code>As Variant</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p><i>sName</i>
+        </p>
+        <p>[in] A string that contains the name of the item to retrieve.</p>
+        <p><i>sUserID</i>
+        </p>
+        <p>[in] A string that contains the OEP user ID from the current OEPSession object.</p>
+        <p><i>iSiteID</i>
+        </p>
+        <p>[in] An integer that contains the site ID from the current OEPSession object.</p>
+        <p><i>sSessID</i>
+        </p>
+        <p>[in] A string that contains the session ID from the current OEPSession object.</p>
+        <h5>Remarks</h5>
+        <p>The AppCacheRead function returns the requested item or Null if the item does not exist. </p>
+        <p>The case of key names is not important and is ignored by the AppCacheRead function. &#160;</p>
+        <h4><a name="AppCache"></a>AppCacheWrite Function</h4>
+        <p>The AppCacheWrite function stores an item identified by a specified name in the Application cache.</p>
+        <h5>Syntax </h5>
+        <table>
+            <tr>
+                <td>
+                    <p><code>Sub AppCacheWrite(</code>
+                    </p>
+                    <p> <code>sName As String,</code></p>
+                    <p> <code>sUserID As String,</code></p>
+                    <p>&#160;<code>&#160;iSiteID As Integer,</code></p>
+                    <p><code> sSessID As String,</code>
+                    </p>
+                    <p>&#160;<code>&#160;vValue as Variant)</code></p>
+                </td>
+            </tr>
+        </table>
+        <p><i>sName</i>
+        </p>
+        <p>[in] A string that contains the name of the item to store.</p>
+        <p><i>sUserID</i>
+        </p>
+        <p>[in] A string that contains the OEP user ID from the current OEPSession object.</p>
+        <p><i>iSiteID</i>
+        </p>
+        <p>[in] An integer that contains the site ID from the current OEPSession object.</p>
+        <p><i>sSessID</i>
+        </p>
+        <p>[in] A string that contains the session ID from the current OEPSession object.</p>
+        <p><i>vValue</i>
+        </p>
+        <p>[in] A Variant that contains the data to be stored.</p>
+        <h5>Remarks</h5>
+        <p>The AppCacheWrite function does not return any status information. If the named item does not exist, it is created. If the named item does exist, it is overwritten. </p>
+        <h4><a name="AppCache2"></a>AppCacheTimedWrite Function</h4>
+        <p>The AppCacheTimedWrite function stores an item identified by a specified name in the Application cache. The item has an expiration time and is removed from the cache when the time expires.</p>
+        <h5>Syntax </h5>
+        <table>
+            <tr>
+                <td>
+                    <p><code>Sub AppCacheTimedWrite(</code>
+                    </p>
+                    <p><code> sName As String,</code>
+                    </p>
+                    <p><code> sUserID As String,</code>
+                    </p>
+                    <p>&#160;&#160;<code>iSiteID As Integer,</code></p>
+                    <p>&#160;<code>&#160;sSessID As String,</code></p>
+                    <p>&#160;&#160;<code>vValue as Variant,</code></p>
+                    <p>&#160;&#160;<code>lDuration as Long)</code></p>
+                </td>
+            </tr>
+        </table>
+        <p><i>sName</i>
+        </p>
+        <p>[in] A string that contains the name of the item to store.</p>
+        <p><i>sUserID</i>
+        </p>
+        <p>[in] A string that contains the OEP user ID from the current OEPSession object.</p>
+        <p><i>iSiteID</i>
+        </p>
+        <p>[in] An integer that contains the site ID from the current OEPSession object.</p>
+        <p><i>sSessID</i>
+        </p>
+        <p>[in] A string that contains the session ID from the current OEPSession object.</p>
+        <p><i>vValue</i>
+        </p>
+        <p>[in] A Variant that contains the data to be stored.</p>
+        <p><i>lDuration</i>
+        </p>
+        <p>[in] A long that identifies when the item expires from the current time. Measured in minutes.</p>
+        <h5>Remarks</h5>
+        <p>The AppCacheTimedWrite function does not return any status information. If the named item does not exist, it is created. If the named item does exist, it is overwritten and assigned the new duration time.</p>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; &#160;">Items placed in the cache with this function must be retrieved using <a href="#bAppCach">bAppCacheTimedRead</a>. Using AppCacheRead may produce unexpected results. </p>
+        <h4><a name="bAppCach"></a>bAppCacheTimedRead Function</h4>
+        <p>The bAppCacheTimedRead function retrieves an item with an expiration value from the Application cache.</p>
+        <h5>Syntax </h5>
+        <table>
+            <tr>
+                <td>
+                    <p><code>Function bAppCacheTimedRead(</code>
+                    </p>
+                    <p><code> sName As String,</code>
+                    </p>
+                    <p><code> sUserID As String,</code>
+                    </p>
+                    <p>&#160;<code>&#160;iSiteID As Integer,</code></p>
+                    <p><code> sSessID As String,</code>
+                    </p>
+                    <p> <code>vValue As Variant)</code></p>
+                    <p><code>As Boolean</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p><i>sName</i>
+        </p>
+        <p>[in] A string that contains the name of the item to retrieve.</p>
+        <p><i>sUserID</i>
+        </p>
+        <p>[in] A string that contains the OEP user ID from the current OEPSession object.</p>
+        <p><i>iSiteID</i>
+        </p>
+        <p>[in] An integer that contains the site ID from the current OEPSession object.</p>
+        <p><i>sSessID</i>
+        </p>
+        <p>[in] A string that contains the session ID from the current OEPSession object.</p>
+        <p><i>vValue</i>
+        </p>
+        <p>[in] A Variant that contains the data retrieved.</p>
+        <h5>Remarks</h5>
+        <p>This function returns True if it finds the item and False if the item does not exist or has expired (the item is not actually removed from the cache until this function or <a href="#bHasAppC">bHasAppCacheTimedExpired</a> is called to verify it).</p>
+        <p>Timed items added to the cache are not automatically updated by OEP. Any item that expires must be readded to the cache using <a href="#AppCache2">AppCacheTimedWrite</a>.</p>
+        <p>The case of key names is not important and is ignored by the bAppCacheTimedRead function. </p>
+        <h4><a name="bHasAppC"></a>bHasAppCacheTimedExpired Function</h4>
+        <p>The bHasAppCacheTimedExpired function checks on a timed item in the Application cache.</p>
+        <h5>Syntax </h5>
+        <table>
+            <tr>
+                <td>
+                    <p><code> Function bHasAppCacheTimedExpired(</code>
+                    </p>
+                    <p>&#160;<code>&#160;psName As String)</code></p>
+                    <p><code>As Boolean</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p><i>psName</i>
+        </p>
+        <p>[in] A string that contains the name of the item to verify.</p>
+        <h5>Remarks</h5>
+        <p>This function returns True if the item does not exist or has expired (the item is not actually removed from the cache until this function or <a href="#bAppCach">bAppCachedTimedRead</a> is called) and False if the item is still valid. </p>
+        <p>Timed items added to the cache are not automatically updated by OEP. Any item that expires must be readded to the cache using <a href="#AppCache2">AppCacheTimedWrite</a>.</p>
+        <p>The case of key names is not important and is ignored by the bHasAppCacheTimedExpired function. </p>
+        <h3><a name="Context"></a>Context Cache</h3>
+        <p>The functions that can read and write data from the context cache are listed in the following table. Most of the functions can only be called from server-side ASP scripts, but the last two can be used from within the browser client.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Function</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#ContextC">ContextCacheDelete</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Removes an item from the context cache</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">ContextCacheRead</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Reads an item in the context cache (server-side)</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">ContextCacheRead2DArray</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Reads an array of items stored in the context cache</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">ContextCacheReadSubItem</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Reads a subitem stored in the context cache (server-side)</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">ContextCacheWrite</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Writes an item to the context cache</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">ContextCacheWrite2DArray</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Writes an array of items to the context cache</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">ContextCacheWriteSubItem</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Writes a subitem to the context cache</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">jsContextCacheRead</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Reads an item from the context cache (client-side)</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">jsContextCacheReadSubItem</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Reads a subitem stored in the context cache (client-side)</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>A list of keys and subitems for use with the ContextCacheReadSubItem and ContextCacheWriteSubItem functions appears in Context cache keys.</p>
+        <h4><a name="ContextC"></a>ContextCacheDelete Function</h4>
+        <p>The ContextCacheDelete function removes an item from the Context cache.</p>
+        <h5>Syntax</h5>
+        <table>
+            <tr>
+                <td>
+                    <p><code>Sub ContextCacheDelete(</code>
+                    </p>
+                    <p><code> sName As String)</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p><i>sName</i>
+        </p>
+        <p>[in] A string that identifies the name of the item to delete.</p>
+        <h5>Remarks</h5>
+        <p>The ContextCacheDelete function cannot transform the keys used by the ContextCacheWriteSubItem and ContextCacheReadSubItem functions. To delete an item from the context cache, you must know the abbreviated name of the key. Review the file YourOEPwebsite\common\include\otm_cache.asp for information on how to identify the abbreviated keys. </p>
+    </body>
+</html>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:conditions="Default.Main" MadCap:lastBlockDepth="4" MadCap:lastHeight="1024" MadCap:lastWidth="994">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Add custom collision handling</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>
+            <MadCap:keyword term="Custom collision" />Add custom collision handling</h3>
+        <p>The OnyxCollisionHandler examines collisions that occur during synchronization. 
+ The OnyxCollisionHandler processes all business objects that are subscribable 
+ in the default installation of OEP-Offline and any custom subscribable 
+ objects that are configured to use the OnyxCollisionHandler.</p>
+        <p>When the <a href="Default_collision_handling.htm">default settings</a> 
+ of the OnyxCollisionHandler are not satisfactory for your implementation 
+ of subscription services, you adjust the settings on a per object basis 
+ using Subscription Designer. For more extensive collision processing changes, 
+ create a custom collision handler for subscribable objects that need special 
+ handling. Specify the programmatic identifier (Prog ID) of an alternative 
+ collision handler for any subscribable object that does not use the default 
+ collision handler, OnyxCollisionHandler. This is done using Subscription 
+ Designer.</p>
+        <p>There are several ways to implement custom logic to 
+ process data collisions:</p>
+        <ul>
+            <li>Replace the OnyxCollisionHandler with a custom 
+ collision handler for some object types or all object types.</li>
+            <li>Enhance default collision processing with a custom 
+ collision handler that executes some logic and then, if needed, calls 
+ the OnyxCollisionHandler. How or whether the custom logic uses algorithms 
+ is up to the developer, but the OnyxCollisionHandler requires that one 
+ of its algorithms is specified if it is called. Consider the following 
+ scenarios:</li>
+        </ul>
+        <p>A custom collision handler must implement the <a href="ICollisionHandler_interface.htm">ICollisionHandler</a> 
+ interface. When the synchronization subsystem detects a conflict, it calls 
+ the collision handler that processes collisions for the object type of 
+ the colliding items. This call is to the Resolve method exposed by ICollisionHandler. 
+ The input parameter of this method is an XML document. The collision handler 
+ must return its results to the sync subsystem in an output XML document 
+ as defined by the resultXml parameter's schema.</p>
+        <p>The following pseudo code demonstrates an enhancement of the OnyxCollisionHandler. 
+ The custom collision processing attempts to silently resolve a collision, 
+ and if it fails, it passes the collision to the OnyxCollisionHandler.</p>
+        <p Class="Code" class="code">Implements&#160;ICollisionHandler</p>
+        <p Class="Code" class="code">Function</p>
+        <p Class="Code" class="code">IF&#160;one&#160;of&#160;the&#160;persons&#160;updating&#160;the&#160;incident&#160;is&#160;assigned&#160;to&#160;the&#160;incident</p>
+        <p Class="Code" class="code">THEN</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;Preserve&#160;his&#160;or&#160;her&#160;version&#160;of&#160;incident&#160;in&#160;the&#160;OEDB&#160;or&#160;staging&#160;<br />&#160;&#160;&#160;&#160;&#160;server&#160;data&#160;store</p>
+        <p Class="Code" class="code">ELSE</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;Instantiate&#160;the&#160;OnyxCollisionHandler</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;Call&#160;the&#160;resolve&#160;method</p>
+        <p Class="Code" class="code">ENDIF</p>
+        <h3>Related topics</h3>
+        <ul>
+            <li><a href="Default_collision_handling.htm">Default 
+ collision handling</a>
+            </li>
+            <li>Subscription</li>
+            <li>Synchronization subsystem</li>
+        </ul>
+    </body>
+</html>

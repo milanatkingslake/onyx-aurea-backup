@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="479" MadCap:lastWidth="624">
+    <head><title>refreshData Attribute</title>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body onload="onyxOnload()">
+        <h5>refreshData attribute</h5>
+        <p>OEAS uses the refreshData attribute to indicate that data input through 
+ a client user interface has been modified by some business logic, before 
+ it was written to the database. Your OEAS client application can use this 
+ attribute to determine if it is necessary to retrieve the new data before 
+ displaying results.</p>
+        <p>OEAS attaches the refreshData="1" attribute to an object node, 
+ within the parametersReturn XML, to indicate that a property on the object 
+ has been modified during an insert or update process. In addition, OEAS 
+ sets the methodStatus to successWithInfo and returns an appropriate message 
+ in the methodStatus XML. </p>
+        <p>The refreshData attribute does not apply to properties that are objects 
+ or collections, since child objects and collections have their own refreshData 
+ attribute. If a collection has a refreshData attribute set to "1", 
+ that means the collection saved has a different set of objects than those 
+ passed in.</p>
+        <p style="font-weight: bold;">Example</p>
+        <p>If the data inserted needs to be refreshed, OEAS attaches the refreshData 
+ attribute (with a value of "1") to the appropriate object node 
+ in the parametersReturn XML. The following sample code illustrates an 
+ object node with this attribute set.</p>
+        <p class="code">&lt;myObject objectType="myObject" content="keysOnly" <span style="color: #800000;">refreshData="1"</span>&gt;</p>
+        <p class="code">&#160;&#160;&#160;&lt;myObjectId&gt;120&lt;/myObjectId&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&lt;/myObject&gt;</p>
+    </body>
+</html>

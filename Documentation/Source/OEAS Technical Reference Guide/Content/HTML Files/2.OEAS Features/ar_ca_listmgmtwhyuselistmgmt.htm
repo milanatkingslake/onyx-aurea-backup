@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="5" MadCap:lastHeight="774" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Why use List Manager?</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>Why use List Manager? </h4>
+        <p>A typical use of List Manager is to build a list of customers who have 
+ purchased an item from your organization and for whom you would like to 
+ create an additional sales opportunity. </p>
+        <p style="font-weight: bold;">Example: 
+ Using List Manager to create a sales opportunity for specific customers</p>
+        <p>Suppose your banking organization has a credit card protection service 
+ that you want to market to customers who recently opened a Gold Card Visa 
+ account with your organization. Using List Manager, users with minimal 
+ SQL skills can complete this task, including identifying the specified 
+ customers and creating the sales opportunities for each of those customers. 
+ </p>
+        <p>The following steps describe the process users would follow to complete 
+ the task: </p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li>Identify the view on which you want to base your 
+ List Manager search. In this case, the search should return a list of 
+ individuals—the individuals for which you want to create the sales opportunities. 
+ In List Manager, select the Individuals <em class="Emphasis">search view</em>.</li>
+        </ol>
+        <p class="Image">
+            <img src="../../Resources/Images/AR_ListMgmtEx1.jpg" style="width: 296px;height: 82px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <ol style="list-style: decimal;list-style-type: decimal;" MadCap:continue="true">
+            <li>Select search items from the search tables to 
+ further define the search criteria:</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">From the “Product” search table, you can select 
+ the search item of Product Number. This is the search item that defines 
+ the criteria representing the Gold Card Visa account (product). Because 
+ this is an enumerated string type search item, the string operators IN 
+ and NOT IN are provided. Selecting IN as the string operator for this 
+ search item ensures that only individuals associated with this account 
+ are returned in the result set.</li>
+            <li class="List_Indent">From the Product search table, you can select 
+ the search item of Purchase Date. This is the search item in which you 
+ can define the date range for when the account must have been opened for 
+ it to fit the criteria required for introduction to the protection service. 
+ In this case, the requirement is to create a sales opportunity for all 
+ customers who opened an account in December 2001. Because Purchase Date 
+ is a DATETIME type search item, the string operator BETWEEN is available. 
+ You can define December 1, 2001, and January 1, 2002, as the dates between 
+ which the account was opened.</li>
+        </ul>
+        <p class="Image">
+            <img src="../../Resources/Images/AR_ListMgmtEx2.jpg" style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <ol style="list-style: decimal;list-style-type: decimal;" start="3">
+            <li>Run the List Manager search and select the customers 
+ for whom you want to create a sales opportunity.</li>
+            <li>Select the sales opportunity <em class="Emphasis">bulk 
+ action</em>.</li>
+        </ol>
+        <p class="Indent1">After you select the bulk action, you are prompted to create a single 
+ sales opportunity. Once you save the sales opportunity, the <span style="font-style: italic;">Onyx 
+ List Handler</span> creates this sales opportunity for each company that 
+ you specified for the bulk action. </p>
+        <p class="Indent1">The process of creating the new records (in this example, sales 
+ opportunities) is managed by the Onyx List Handler. The actual time that 
+ the records are created is determined by configuration settings in this 
+ service. </p>
+        <ol style="list-style: decimal;list-style-type: decimal;" start="5">
+            <li>If you want to save the List Manager search for 
+ later use, save the search as either private or public. You might want 
+ to save the search if you plan to run it on a recurring basis. You might 
+ want to save it as public if you want the search to be available to other 
+ users. </li>
+        </ol>
+    </body>
+</html>

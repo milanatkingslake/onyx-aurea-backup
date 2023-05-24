@@ -1,0 +1,325 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="8" MadCap:lastHeight="851" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Understanding Extra Data XML</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <p>The <span class="UIElement" style="font-weight: bold;">Extra Data XML</span> attribute supports the 
+ subscribableObject metadata. It contains well-formed XML that includes 
+ the configuration data passed into the extraData node of the CollisionHandler 
+ and the extraData node of the sync subsystem, and for some objects, the 
+ configuration data passed into extraData node of the offline user interface. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">The collision handler section of this metadata applies only 
+ to the collision handler that Onyx provides. If you implement your own 
+ collision handler component (and provide its ProgId for the Collision 
+ Handler ProgId), you can use whatever XML data you want in the Extra Data 
+ XML field for the Collision Handler data section of the XML. </p>
+        <p>The format of this metadata is as follows: </p>
+        <table style="margin-left: 0;margin-right: auto;">
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>element(*) indicates a required element</th>
+                    <th>Value</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">config(*)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">This is the top level of the XML.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">collisionHandlerData(*)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">This element contains the data used when calling the collision
+ handler.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">algorithmType(*)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The algorithmType element specifies the conflict resolution method
+ that is used for the subscribable object. Valid values are:</p>
+                        <ul>
+                            <li class="TableList">lastUpdateWins</li>
+                            <li class="TableList">onlineWins</li>
+                            <li class="TableList">customer</li>
+                        </ul>
+                        <p class="NoteTable" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Changing the
+ algorithmType to any value other than those noted above requires a custom
+ collision handler. For additional
+ details about the provided algorithms, see <i>Collision-resolution algorithms</i></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">retryForAudit</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">When included in the XML, retryForAudit has two valid values, 0 or 1.
+ This elements value should be set to 1 (true) when you want to make sure
+ that the updateDate of an object is refreshed.</p>
+                        <p class="Table_Text">For instance, the updateDate
+ of an incident or task must be updated when a work note is added to that
+ incident for the purpose of maintaining the audit log.</p>
+                        <p class="NoteTable" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Do not change
+ this value for the default subscribable objects.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">readOnlyProperties</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">0..1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">This is a collection of readOnlyProperty elements.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">readOnlyProperty</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">0..*</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Each readOnlyProperty element identifies a read-only or maintenance
+ property of the object. The properties listed are used in the collision
+ handler algorithm to determine how to respond to a collision.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">syncServerData(*)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">This element contains the data that tells the sync subsystem how to
+ process the objects that are being upsynced. The data provided drives logic
+ for setting temporary IDs, existence checking, and record merging.</p>
+                        <p class="NoteTable" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Do not change
+ any values of the syncServerData sub-elements &#160;for the default subscribable objects.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">foreignKeys</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">0..1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">This is a collection of foreignKey elements.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">foreignKey</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">0..*</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Each foreignKey element identifies a foreign key property of the
+ object.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">keyPropertyName</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">This element identifies the foreign key property name. If the foreign
+ key is actually within a collection of the object, the collection must be
+ included in the name. For instance, the company object includes a phones
+ collection. Within the phone object, ownerId is a foreign key. This foreign
+ key must be listed with the company foreign keys and must be named as
+ follows: phones/phone/ownerId.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">relationshipType</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The relationshipType element can be either </p>
+                        <p class="Table_Text">fixed or variable. Fixed -
+ The relationship type is fixed when there is only one possible owner object
+ type for the foreign key. For instance, the company foreign key of
+ phones/phone/ownerId can only have an owner object type of 2 (company). See
+ the relationshipData examples below.</p>
+                        <p class="Table_Text">Variable - The relationship type is variable when there is more than
+ one possible owner object type for the foreign key. For instance, an incident
+ foreign key can have an owner object type of either 1 or 2 (individual or
+ company). See the relationshipData examples below.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">relationshipData</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">When the relationshipType is fixed, the relationshipData element
+ contains the object type enumeration value for the owner of the foreign key.</p>
+                        <p class="Table_Text">Example for the company subscribable object: In this case, the
+ foreign key is always an object type of â€œcompany.</p>
+                        <p class="Table_Text">&lt;relationshipType&gt;fixed&lt;/relationshipType&gt;</p>
+                        <p class="Table_Text">&lt;relationshipData&gt;2&lt;/relationshipData&gt;</p>
+                        <p class="Table_Text">When the relationshipType is variable, the relationshipData element
+ contains the name of the property that store the object type for this foreign
+ key.</p>
+                        <p class="Table_Text">Example for the incident subscribable object: In this case, the
+ foreign key is variable because it can be either a company or an individual.
+ The name of the property that identifies the object type is ownerType.</p>
+                        <p class="Table_Text">&lt;relationshipType&gt;variable&lt;/relationshipType&gt;</p>
+                        <p class="Table_Text">&lt;relationshipData&gt;ownerType&lt;/relationshipData&gt;</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">offlineUserInterfaceData</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">This element contains the data that tells the offline UI how to
+ delete the secondary objects of a new object when that new object is deleted
+ using the undo option for resolving an error.</p>
+                        <p class="Table_Text">For instance, suppose an end-user creates a new incident and a
+ related task while working in OEP-Offline. Should that incident subsequently
+ experience a synchronization error, the end-user could choose to undo his
+ offline changes resulting in the incident being deleted. In this case, you
+ would also want the task deleted as it would otherwise become an orphaned
+ object. The data in this element contains the road map that tells the UI how
+ to locate and delete the secondary objects.</p>
+                        <p class="Table_Text">For the default subscribable objects, this element exists only for
+ individual, company, incident, and task.</p>
+                        <p class="Table_Text">Onyx recommends that you do not change or delete the existing requiredChildRelationship
+ elements for the default subscribable objects.</p>
+                        <p class="Table_Text">However, you can create new requiredChildRelationship elements to
+ reflect any primary-secondary object relationships between the existing
+ subscribable objects and any new objects that your customizations might
+ require. For example, if you create a new object type that is a child object
+ of a customer, you would want to add a new requiredChildRelationship for that
+ object to the extraDataXML for the individual and company objects.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">requiredChildRelationships</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">0..1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">This is a collection of requiredChildRelationship elements.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">requiredChildRelationship</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">0..*</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">There will be a requiredChildRelationship element for as many
+ different types of subscribable secondary objects there are for the object.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">childObjectName</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The name of the secondary object that needs to be deleted.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">searchMethod</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The retrieval method of the secondary object that is used to retrieve
+ those secondary objects that need to be deleted.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">parameters</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">This is a collection of parameters for the secondary object identified in the childObjectName element. The parameters included in the collection are those that are required by the searchMethod to retrieve the intended secondary objects.
+When the primaryId of the primary object is required to retrieve the secondary objects, you can include this by including the &lt;parentProperty&gt; element. The requiredChildRelationship logic looks for the &lt;parentProperty&gt; element and, if found, replaces it with the actual value of whatever property is specified. For instance, the logic would take &lt;ownerId&gt;&lt;parentProperty&gt;primaryId&lt;/parentProperty&gt;&lt;/ownerId&gt; and replace &lt;parentProperty&gt;primaryId&lt;/parentProperty&gt; with the primary object’s primaryId, which would then be passed to the searchMethod as the ownerId. You can use this &lt;parentProperty&gt; substitution whenever a parent property is required for a parameter. The logic will replace the element with the actual value of whatever parent property is specified.
+Also, when available in the searchMethod, you can use the &lt;includeAbnormal&gt; parameter. Setting this parameter to 1 ensures that the secondary objects are deleted as part of the error resolution undo option even if the user has previously marked them for unsubscription or deletion. When set to 0, the secondary object becomes orphaned in OEP-Offline as it is not deleted as part of the error resolution undo option when the primary object is deleted.
+</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">resultPrimaryIdsXPath</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">This element contains the search expression that locates the primary
+ IDs of the secondary objects returned by the call to the searchMethod. Each
+ of these objects is then also deleted as part of the error resolution undo
+ option. They are also checked for their own requiredChildRelationships and if
+ any are found, they are managed in the same manner.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

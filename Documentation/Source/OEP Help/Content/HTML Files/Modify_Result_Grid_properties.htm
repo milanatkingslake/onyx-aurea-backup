@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:lastBlockDepth="4" MadCap:lastHeight="759" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="../SkinSupport/MadCap.css" rel="stylesheet" type="text/css" /><title>Modifying Result Grid Properties</title>
+        <link href="../Resources/TableStyles/Aptean_Note_Table_3.css" rel="stylesheet" />
+        <link href="../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" />
+    </head>
+    <body>
+        <H4 class="Heading">Modifying Result Grid Properties</H4>
+        <p class="BodyText">You must modify the Navigator Result Grid properties for a custom entity to ensure that the corresponding page opens when you click a column in the Navigator Result Grid.</p>
+        <p class="BodyText">To understand the process that occurs when a user clicks a column in the Navigator Result Grid, see <a href="#Result">Opening a page from the Navigator Result Grid</a>.</p>
+        <p class="TaskHeading">To modify result grid properties:</p>
+        <ol>
+            <li class="ListBullet_1" value="1">Create a new switch case in the JavaScript function for the Custom Entity with two actions, one for a hyperlinked column, and one for a non-hyperlinked column.</li>
+            <li class="ListBullet_1" value="2">Get all the required parameters to be passed.</li>
+            <li class="ListBullet_1" value="3">Call the function to open the CM page of custom entity/object and pass the required parameters, if any.</li>
+        </ol>
+        <p class="BodyText">Example of a switch case for an entity ‘Customers’</p>
+        <p class="BodyTextIndent_1"><code>case "CUSTOMERS":</code>
+        </p>
+        <p class="BodyTextIndent_1"><code>//Check whether the request is from a hyperLink field or normal field</code>
+        </p>
+        <p class="BodyTextIndent_1"><code>if (bHyperLink != "") {</code>
+        </p>
+        <p class="BodyTextIndent_1"><code>var sCustomerId;</code>
+        </p>
+        <p class="BodyTextIndent_1"><code>var sCustomerType;</code>
+        </p>
+        <p class="BodyTextIndent_1"><code>if (bHyperLink == "true") {</code>
+        </p>
+        <p class="BodyTextIndent_1"><code>if (oRootNode.selectSingleNode("customerId") != null)</code>
+        </p>
+        <p class="BodyTextIndent_1"><code>sCustomerId = oRootNode.selectSingleNode("customerId").text;</code>
+        </p>
+        <p class="BodyTextIndent_1"><code>if (oRootNode.selectSingleNode("customerType") != null)</code>
+        </p>
+        <p class="BodyTextIndent_1"><code>sCustomerType = oRootNode.selectSingleNode("customerType").text;</code>
+        </p>
+        <p class="BodyTextIndent_1"><code>if (sCustomerId != "")</code>
+        </p>
+        <p class="BodyTextIndent_1"><code>jsLoadObjectCustomer(sCustomerId, sCustomerType, "");}</code>
+        </p>
+        <p class="BodyTextIndent_1"><code>else if (bHyperLink == "false") {</code>
+        </p>
+        <p class="BodyTextIndent_1"><code>if (oRootNode.selectSingleNode("customerType") != null)</code>
+        </p>
+        <p class="BodyTextIndent_1"><code>sCustomerType = oRootNode.selectSingleNode("customerType").text;</code>
+        </p>
+        <p class="BodyTextIndent_1"><code>if (sPrimaryId != "")</code>
+        </p>
+        <p class="BodyTextIndent_1"><code>jsLoadObjectCustomer(sPrimaryId, sCustomerType, "");</code>
+        </p>
+        <p class="BodyTextIndent_1"><code>}</code>
+        </p>
+        <p class="BodyTextIndent_1"><code>}</code>
+        </p>
+        <p class="BodyTextIndent_1"><code>break;</code>
+        </p>
+        <p class="ElementHeader"><a name="Result"></a>Opening a page from the Navigator Result Grid</p>
+        <p class="BodyText">The page that opens when you click a column in the Navigator Result Grid depends on whether the column is hyperlinked or not.</p>
+        <ul>
+            <li class="ListBullet_1" value="1">If the column is hyperlinked, then the hyperlinked page opens.</li>
+            <li class="ListBullet_1" value="2">If the column is not hyperlinked, then the corresponding entity page opens.</li>
+        </ul>
+        <p class="BodyText">For example, for the Product entity, a column Customer in the result grid is a hyperlinked column. If a user clicks the Customer column, then the Customer page should open. However, if a user clicks any other column in the Result Grid, then the Product page should open.</p>
+        <p class="BodyText">The following processes occur when a user clicks a column in the Result Grid:</p>
+        <ol>
+            <li class="ListBullet_1" value="1">XML is generated with the root element and all the properties of the selected entity.</li>
+        </ol>
+        <ul>
+            <li class="ListBullet_2" value="1">When a user clicks a hyperlinked column, the hyperlinked entity is the root element in the XML.</li>
+        </ul>
+        <p class="BodyTextIndent_1">For example, Customer</p>
+        <p class="BodyTextIndent_1"><code>&lt;Customer&gt;- root element</code>
+        </p>
+        <p class="BodyTextIndent_2"><code>&lt;Element1&gt;value&lt;/Element1&gt;</code>
+        </p>
+        <p class="BodyTextIndent_2"><code>&lt;Element2&gt;value&lt;/Element2&gt;</code>
+        </p>
+        <p class="BodyTextIndent_2"><code>&lt;Element3&gt;value&lt;/Element3&gt;</code>
+        </p>
+        <p class="BodyTextIndent_2"><code>&lt;Element4&gt;value&lt;/Element4&gt;</code>
+        </p>
+        <p class="BodyTextIndent_2"><code>&lt;Element5&gt;value&lt;/Element5&gt;</code>
+        </p>
+        <p class="BodyTextIndent_1"><code>&lt;/Customer&gt;</code>
+        </p>
+        <ul>
+            <li class="ListBullet_2" value="1">When a user clicks a non-hyperlinked column, the selected entity is the root element in the XML.</li>
+        </ul>
+        <p class="BodyTextIndent_1">For example, Product</p>
+        <p class="BodyTextIndent_1"><code>&lt;Product&gt;- root element</code>
+        </p>
+        <p class="BodyTextIndent_2"><code>&lt;Element1&gt;value&lt;/Element1&gt;</code>
+        </p>
+        <p class="BodyTextIndent_2"><code>&lt;Element2&gt;value&lt;/Element2&gt;</code>
+        </p>
+        <p class="BodyTextIndent_2"><code>&lt;Element3&gt;value&lt;/Element3&gt;</code>
+        </p>
+        <p class="BodyTextIndent_2"><code>&lt;Element4&gt;value&lt;/Element4&gt;</code>
+        </p>
+        <p class="BodyTextIndent_2"><code>&lt;Element5&gt;value&lt;/Element5&gt;</code>
+        </p>
+        <p class="BodyTextIndent_1"><code>&lt;/Product&gt;</code>
+        </p>
+        <p class="BodyText">This XML is passed as a parameter to the function ‘jsOpenEntity (entity)’. The default path for this file is C:\Program Files (x86)\onyx\employeeportal\powerpage\application_main.js</p>
+        <p class="BodyText">The function performs the following actions:</p>
+        <ul>
+            <li class="ListBullet_1" value="1">Loads the XML</li>
+            <li class="ListBullet_1" value="2">               Gets the Entity Object</li>
+            <li class="ListBullet_1" value="3">              Gets the Entity Name</li>
+            <li class="ListBullet_1" value="4">               Gets the common Parameter (generally the ‘primaryId’ of the object)</li>
+            <li class="ListBullet_1" value="5">               Checks the value of the ‘HyperLink’ attribute</li>
+            <li class="ListBullet_1" value="6">               Uses the switch case logic for each entity, to make a call to the appropriate function to open the corresponding page</li>
+        </ul>
+        <p class="Note_1" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">In the <b>Navigator Results List Administration</b> window, if you change the order and position of fields, your sorting preferences may be lost.
+</p>
+    </body>
+</html>

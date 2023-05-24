@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="811" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2><a name="top"></a>Cached Data</h2>
+        <p>OEP's cached data architecture provides a means for storing commonly used OEP application data. The caches improve performance and scalability by eliminating redundant requests to the database. &#160;</p>
+        <p>OEP uses four distinct caches, each with a unique purpose: </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Cache name</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#Applicat">Application</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Contains data that is not expected to change while the application is active.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="Data formats.htm#Context">Context</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Contains data that is likely to change during the application lifetime, or needs to be accessible from the client side.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="Data formats.htm#User">User preferences</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Contains a user's application preference information.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">XCacheXml</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Client-side XML based cache. &#160;Instantiated as "goGlobalCache" on powerpage/application_main.asp. Used to cache XML data on the client for the duration of the user session. Data cannot be accessed directly on the server.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Each of these caches can be accessed through a different set of OEP API functions. Refer to the <a href="Cached Data Functions.htm#top">cached data section</a> of the Programmer's Reference for information about using the cached data functions for moving data in and out of the caches.</p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Using the OEP <a href="Using Diagnostics.htm#top">diagnostic tools</a>, you can view the contents of the application and context caches (and in some cases, can refresh the caches). </p>
+        <h3><a name="Applicat"></a>Application Cache</h3>
+        <p>The application cache contains data that is not expected to change while the application is active. The majority of the data located in this cache is stored there during system initialization. Additional elements are added as users log in to the system and certain portions of the application are used.</p>
+        <p>Each OEP feature adds data to the cache as the system initializes. The features then refer back to the cache as they generate pages for client browsers. The data stored in the cache falls into one of the following categories:</p>
+        <ul>
+            <li>System configuration and initialization data. This includes startup time and duration, database connection information, system version data, and server information.</li>
+            <li>Default user preferences. System-wide defaults are stored here. A user who does not set a value for a preference inherits a setting from these defaults. </li>
+            <li>OEAS system parameters. These are OEP-specific parameters that are configured through the System Parameter administration tool. Refer to the OEAS documentation for information about these parameters. &#160;</li>
+            <li>User-defined field (UDF) metadata. Information about the available UDFs is stored here. Each field has two entries. These are described below.</li>
+            <li style="list-style-type: disc;">Domain data. Each feature stores lists of available domain data for the list boxes and tree controls that appear in the user interface. This includes the priority, status, and source choices for incidents and work tickets, as well as region and country codes, postal and telephone masks, user lists, product information, and survey choices.</li>
+            <li style="list-style-type: disc;">List Manager views. Information about the selectable fields and SQL for List Manager views is stored here.</li>
+            <li style="list-style-type: disc;">User-specific data. As each user logs in to OEP, information about their system permissions and non-default preferences is added as needed.</li>
+        </ul>
+    </body>
+</html>

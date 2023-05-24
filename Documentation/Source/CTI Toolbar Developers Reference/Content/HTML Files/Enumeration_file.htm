@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" class="" MadCap:lastBlockDepth="6" MadCap:lastHeight="814" MadCap:lastWidth="624">
+    <head>
+        <link href="../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" /><title>Enumeration file</title>
+        <script language="JavaScript">
+        </script>
+        <link href="../Resources/Stylesheets/Aptean_word.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <script type="text/javascript" language="JavaScript1.2">
+        </script>
+        <H4 class="Heading">Enumeration file</H4>
+        <p class="BodyText">Each connector requires its own unique enumeration file to define the 
+ supported enumeration values for agent states, call states, and error 
+ return codes. </p>
+        <p class="BodyText">We recommend that you use a copy of the default enumeration file as 
+ your starting point when building a new connector. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">To confirm that your changes appear as expected, delete the 
+ files in Internet Explorer's Temporary Internet Files folder. </p>
+        <p class="BodyText">Full path of the default enumeration file: <code>YourOEPwebsite\cti\cti_enummessages.xml</code> 
+ where <span style="font-style: italic;"><code style="font-style: normal;">YourOEPwebsite</code> </span>is your 
+ OEP installation directory.</p>
+        <p class="BodyText">
+            View example enumeration file
+        </p>
+        <p class="C_Code">&lt;enums&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&lt;agentStateEnums&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;enum value="0" messageName="agentStateUnknown" /&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;enum value="1" messageName="agentStateReady" /&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;enum value="2" messageName="agentStateIdle" /&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;enum value="3" messageName="agentStateOnCall" /&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;enum value="4" messageName="agentStateWrapUp" /&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&lt;/agentStateEnums&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&lt;callStateEnums&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;enum value="0" messageName="callStateNoCall" /&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;enum value="1" messageName="callStateOutdial" /&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;enum value="2" messageName="callStateAcdIn" /&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;enum value="3" messageName="callStateConsulting" /&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;enum value="4" messageName="callStateConsulted" /&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;enum value="6" messageName="callStateConference" /&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;enum value="7" messageName="callStateOnHoldACD" /&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;enum value="8" messageName="callStateOnHoldOut" /&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;enum value="9" messageName="callStateConsultConference" /&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;enum value="10" messageName="callStateConsultTransfer" /&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&lt;/callStateEnums&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&lt;returnCodeEnums&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;enum value="0" messageName="CtiReturnSuccess" /&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;enum value="-1" messageName="CtiReturnMethodError" /&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;enum value="-2" messageName="CtiReturnNoCall" /&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;enum value="-3" messageName="CtiReturnGenericError" /&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;enum value="-4" messageName="CtiReturnNotLoggedOn" /&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;enum value="-5" messageName="CtiReturnInvalidCallStatus" /&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&lt;/returnCodeEnums&gt;</p>
+        <p class="C_Code">&lt;/enums&gt;</p>
+        <p class="BodyText">The following table describes the elements of the enumeration file: 
+ </p>
+        <table>
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Element</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">enum </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Root element. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">agentStateEnums</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Contains the collection of agent state enumeration definitions. 
+ Each state that the agent can be in must be defined in this collection.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">callStateEnums </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Contains the collection of call state enumeration definitions. 
+ Each state that the call can be in must be defined in this collection.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">returnCodeEnums</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Contains the collection of return code enumeration definitions. 
+ Any error code that is returned by the connector must be defined in this 
+ collection.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">enum </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Contains the definition information for an agent, call, 
+ or return code enumeration. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="BodyText">The following table describes the attributes of the enumeration file: 
+ </p>
+        <table>
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Attribute</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">value</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Identifies the enumeration definition. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">messageName</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Lists the resource string ID for the enumeration definition. 
+ </p>
+                        <p class="Table_Text">Resource string IDs are also listed in the <a href="Resource_string_files.htm">resource 
+ string files</a> (name attribute). The resource string files define the 
+ text displayed in the Onyx CTI interface. For example, the default enumeration 
+ file and the related default resource string file (cti_toolbar.xml) both 
+ list the "callStateConsulting" resource string ID; the resource 
+ string file defines the text "Consulting" for display in the 
+ Onyx CTI interface. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

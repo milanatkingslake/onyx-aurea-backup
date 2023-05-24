@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="1334" MadCap:lastWidth="963">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Note_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Configured Properties</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>
+            <MadCap:keyword term="Configured properties" />Configured properties</h3>
+        <p>In general, columns in a database table that contain information about 
+ an object map to object properties in the OED. Step components usually 
+ handle this mapping. However, configured properties provide a means to 
+ dynamically map such columns in a custom table to properties of objects 
+ contained in the OED. To accomplish such mappings, you add an "internalName" 
+ value to the property in the OED to identify the custom column that the 
+ property is mapped to. If you do not use configured properties for such 
+ mappings, you must provide the mapping in the code that you use to communicate 
+ with the database, such as a stored procedure or a SQL statement. While 
+ you must manually create a custom SQL table, the Object Designer provides 
+ the interface to create configured properties for an object in the OED.</p>
+        <p>The <a href="GetConfiguredProperties.htm">GetConfiguredProperties method</a> 
+ provides a way to list these mappings for any specified object.</p>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Note_Table_1.css');width: 80%;" class="TableStyle-Aptean_Note_Table_1" cellspacing="2">
+            <col style="width: 0.7cm;" class="TableStyle-Aptean_Note_Table_1-Column-Column1" />
+            <col class="TableStyle-Aptean_Note_Table_1-Column-Column1" style="width: 15.50cm;" />
+            <tbody>
+                <tr class="TableStyle-Aptean_Note_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyB-Column1-Body1" style="text-align: right;">
+                        <p>
+                            <img src="../../Resources/Images/Common/note_image.png" />
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText"><b>Note</b>: You cannot use configured properties with tables shipped 
+ with the OEAS application.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The example below shows how the property name "serverAdmin" 
+ maps to the custom table column "main.altAdmin" in the database. 
+ In this example, main.altAdmin serves to identify the table (main) and 
+ the column in the table (altAdmin). You can create the "internalName" 
+ string value in any way that helps you identify the table column to be 
+ mapped to the "name" value.</p>
+        <p>XML Example</p>
+        <p Class="Code" class="code">&lt;properties&gt;</p>
+        <p Class="Code" class="code">&lt;property&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;id&gt;97DFB6B9-7B84-42D9-8232-BD52FD4762A9&lt;/id&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;<span style="color: #0000FF;"><span style="font-weight: bold;">&lt;name&gt;</span></span><span style="font-weight: bold;"><span style="color: #0000FF;">serverAdmin</span></span><span style="color: #0000FF;"><span style="font-weight: bold;">&lt;/name&gt;</span></span></p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;description&gt;Name 
+ of system administrator&lt;/description&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;dataType&gt;string&lt;/dataType&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;objectType/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;content/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;collection/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;<span style="font-weight: bold;"><span style="color: #0000FF;">&lt;internalName&gt;main.altAdmin&lt;/internalName&gt;</span></span></p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;isKey/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;installedBy&gt;Onyx&lt;/installedBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;disabled/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;propertyConstraints&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;propertyConstraint&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;id&gt;A8C9E338-8B98-4F64-9739-1CCBD132D44E&lt;/id&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;constraintType&gt;default&lt;/constraintType&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;name&gt;required&lt;/name&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;value&gt;0&lt;/value&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/propertyConstraint&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/propertyConstraints&gt;</p>
+        <p Class="Code" class="code">&lt;/property&gt;</p>
+        <p Class="Code" class="code">&lt;/properties&gt;</p>
+        <p>To use a configured property, a step component 
+ must use the <a href="GetConfiguredProperties.htm">GetConfiguredProperties 
+ method</a> to retrieve the list of configured properties from the OED 
+ cache. For persisted operations, the step component then translates the 
+ property name, which it was passed, to the internalName (database name) 
+ in order to determine where the data is stored in the database. For retrieval 
+ operations, the step component translates the internal name back to the 
+ property name and returns the correct data to the calling client. </p>
+    </body>
+</html>

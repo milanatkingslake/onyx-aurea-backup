@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="599" MadCap:lastWidth="694" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>onyxscriptenginestep</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>
+            <MadCap:keyword term="OnyxScriptEngineStep" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />OnyxScriptEngineStep</h3>
+        <p>The OnyxScriptEngineStep component enables an OEAS client application 
+ to deliver a script. The engine implements the functionality for loading 
+ a script, resuming a suspended script, and advancing a script from one 
+ step to the next. As required by the respective functions, it can perform 
+ any of the following actions.</p>
+        <ul>
+            <li>persists Scripting transactional data</li>
+            <li>executes method calls designed to occur after 
+ (post) the current script step</li>
+            <li>evaluates branching rules to determine the next 
+ script step</li>
+            <li>executes method calls designed to occur before 
+ (pre) the next script step</li>
+            <li>updates and persists Scripting variable information 
+ as appropriate</li>
+            <li>retrieves domain data for the next step and returns 
+ it to the client application</li>
+        </ul>
+        <p>By managing this complex set of tasks, the engine provides efficient 
+ and consistent script execution for the client application.</p>
+        <p>OEAS exposes the script engine functionality through the logical methods 
+ of the <a href="scriptsession_object.htm">scriptSession</a> object. The 
+ <a href="scriptsession_advancestep.htm">advanceStep</a>, <a href="scriptsession_loadstep.htm">loadStep</a>, 
+ and <a href="scriptsession_resumesession.htm">resumeSession</a> methods 
+ of the scriptSession logical business object (LBO) each include a com 
+ step call to OnyxScriptEngineStep. The OnyxScriptEngineStep determines 
+ which method to call from the StepAdditionalData parameter to the IStep 
+ <a href="istep_exec_meth.htm">Execute</a> method. This step component 
+ is not intended for use by other standard OEAS methods or custom methods. 
+ If the StepAdditionalData contains anything other than one of these three 
+ methods, the engine returns an error.</p>
+        <p>In addition to validating the StepAdditionalData, the script engine 
+ validates the other IStep Execute parameters as outlined in the following 
+ list.</p>
+        <ul>
+            <li>The application name must be present, or an error 
+ is returned.</li>
+            <li>The engine ignores LogicalObjectName.</li>
+            <li>The engine ignore LogicalMethodName.</li>
+            <li>The XMLParser (DOM) must be present. If the parser 
+ is missing, the engine raises a COM error. The engine cannot return XML 
+ or log errors.</li>
+        </ul>
+    </body>
+</html>

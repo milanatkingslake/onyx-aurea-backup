@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="851" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Note_Table_3.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>(ActionBatchExecute) tester script</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>
+            <MadCap:keyword term="ActionBatchExecute" />Calling the actionBatch.execute method</h4>
+        <p>The <a href="actionBatch_execute.htm">actionBatch.execute</a> method 
+ allows a caller to request multiple method calls to various OEAS business 
+ objects in a single call to the Onyx Transaction Manager (OTM).</p>
+        <p>The following actionBatch_tester.js sample script 
+ demonstrates these tasks:</p>
+        <ul>
+            <li>Constructing the parameters XML for a call to 
+ the actionBatch.execute method.</li>
+            <li>Loading an actionBatchXml document into the input 
+ parameters XML.</li>
+            <li>Calling the OTM. For more information on calling 
+ the OTM, see <a href="Calling_the_OTM.htm">Calling the OTM</a> and <a href="Communicating_with_OTM_otmInterfaceSample.htm">How to Communicate 
+ with the OTM</a>.</li>
+            <li>Receiving the parametersReturn XML that contain 
+ the actionBatch statusXml.</li>
+        </ul>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Note_Table_3.css');width: 80%;" class="TableStyle-Aptean_Note_Table_3" cellspacing="2">
+            <col style="width: 0.7cm;" class="TableStyle-Aptean_Note_Table_3-Column-Column1" />
+            <col class="TableStyle-Aptean_Note_Table_3-Column-Column1" style="width: 13cm;" />
+            <tbody>
+                <tr class="TableStyle-Aptean_Note_Table_3-Body-Body1">
+                    <td class="TableStyle-Aptean_Note_Table_3-BodyB-Column1-Body1" style="text-align: right;">
+                        <p class="TableText">
+                            <img src="../../Resources/Images/Common/note_image.png" />
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Note_Table_3-BodyA-Column1-Body1">
+                        <p class="TableText"><b>Note</b>: Run the actionBatch_tester.js Windows Scripting Host JScript 
+ example from the command line.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>actionBatch_tester.js sample script</p>
+        <p Class="Code" class="code"><span style="color: #008000;">//-------------------------------------------------------------------------</span>
+        </p>
+        <p Class="Code" class="code"><span style="color: #008000;">// actionBatch_tester.js </span>
+        </p>
+        <p Class="Code" class="code"><span style="color: #008000;">// Windows Scripting Host JScript example of using the actionBatch.execute</span>
+        </p>
+        <p Class="Code" class="code"><span style="color: #008000;">// business object method to execute a batch of OEAS method calls.</span>
+        </p>
+        <p Class="Code" class="code"><span style="color: #008000;">//--------------------------------------------------------------------------</span>
+        </p>
+        <p Class="Code" class="code"><span style="color: #008000;">//---------------------------</span>
+        </p>
+        <p Class="Code" class="code"><span style="color: #008000;">// Declare variables</span>
+        </p>
+        <p Class="Code" class="code"><span style="color: #008000;">//---------------------------</span>
+        </p>
+        <p Class="Code" class="code">var&#160;xmlParamDoc&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;=&#160;new&#160;ActiveXObject("Msxml2.DOMDocument.6.0");</p>
+        <p Class="Code" class="code">var&#160;actionBatchXmlDoc&#160;&#160;=&#160;new&#160;ActiveXObject("Msxml2.DOMDocument.6.0");</p>
+        <p Class="Code" class="code">var&#160;returnStatusXmlDoc&#160;=&#160;new&#160;ActiveXObject("Msxml2.DOMDocument.6.0");</p>
+        <p Class="Code" class="code">var&#160;statusXmlDoc&#160;&#160;&#160;&#160;&#160;&#160;&#160;=&#160;new&#160;ActiveXObject("Msxml2.DOMDocument.6.0");</p>
+        <p Class="Code" class="code">&#160;</p>
+        <p Class="Code" class="code">var&#160;onyxAuth&#160;=&#160;new&#160;ActiveXObject("OnyxAuthenticate.AuthenticateOnyx");</p>
+        <p Class="Code" class="code">var&#160;otm&#160;=&#160;new&#160;ActiveXObject("OnyxTransactionManager.TransactionManager");</p>
+        <p Class="Code" class="code"><span style="color: #008000;">//--------------------------------------------</span>
+        </p>
+        <p Class="Code" class="code"><span style="color: #008000;">// Build the input parameters XML document. </span>
+        </p>
+        <p Class="Code" class="code"><span style="color: #008000;">//--------------------------------------------</span>
+        </p>
+        <p Class="Code" class="code">xmlParamDoc.async=false;</p>
+        <p Class="Code" class="code">xmlParamDoc.loadXML("&lt;parameters&gt;&lt;actionBatchXml/&gt;&lt;/parameters&gt;");</p>
+        <p Class="Code" class="code">var&#160;actionBatchXmlNode&#160;=&#160;xmlParamDoc.selectSingleNode("/parameters/actionBatchXml");</p>
+        <p Class="Code" class="code"><span style="color: #008000;">//-----------------------------------</span>
+        </p>
+        <p Class="Code" class="code"><span style="color: #008000;">// Load the actionBatchXml document.</span>
+        </p>
+        <p Class="Code" class="code"><span style="color: #008000;">//-----------------------------------</span>
+        </p>
+        <p Class="Code" class="code">actionBatchXmlDoc.async=false;</p>
+        <p Class="Code" class="code">var&#160;bResult&#160;=&#160;actionBatchXmlDoc.load("c:\\ActionBatchXml.xml");</p>
+        <p Class="Code" class="code"><span style="color: #008000;">//---------------------------------------------------------------------------</span>
+        </p>
+        <p Class="Code" class="code"><span style="color: #008000;">// Set actionBatch node text to the contents of the actionBatchXml document.</span>
+        </p>
+        <p Class="Code" class="code"><span style="color: #008000;">//---------------------------------------------------------------------------</span>
+        </p>
+        <p Class="Code" class="code">actionBatchXmlNode.text&#160;=&#160;actionBatchXmlDoc.xml;</p>
+        <p Class="Code" class="code"><span style="color: #008000;">//---------------------------------------------------------------------------------</span>
+        </p>
+        <p Class="Code" class="code"><span style="color: #008000;">// Establish an authenticated session. </span>
+        </p>
+        <p Class="Code" class="code"><span style="color: #008000;">// Replace strUserName and strPassword with valid username and password.</span>
+        </p>
+        <p Class="Code" class="code"><span style="color: #008000;">//---------------------------------------------------------------------------------</span>
+        </p>
+        <p Class="Code" class="code">var&#160;sSessionId&#160;=&#160;onyxAuth.EstablishSession(strUserName,&#160;strPassword,&#160;"Onyx",&#160;"ActionBatchTester",&#160;"1");</p>
+        <p Class="Code" class="code"><span style="color: #008000;">//----------------------------------------------------------</span>
+        </p>
+        <p Class="Code" class="code"><span style="color: #008000;">// To log the built parameter XML to a file for viewing,</span>
+        </p>
+        <p Class="Code" class="code"><span style="color: #008000;">// remove the comment characters from the next line of code.</span>
+        </p>
+        <p Class="Code" class="code"><span style="color: #008000;">//----------------------------------------------------------</span>
+        </p>
+        <p Class="Code" class="code">//&#160;<span style="color: #008000;">xmlParamDoc.save("C:\\paramXml.xml");</span></p>
+        <p Class="Code" class="code"><span style="color: #008000;">//------------------------------------------</span>
+        </p>
+        <p Class="Code" class="code"><span style="color: #008000;">// Call the Onyx Transaction Manager (OTM).</span>
+        </p>
+        <p Class="Code" class="code"><span style="color: #008000;">//------------------------------------------</span>
+        </p>
+        <p Class="Code" class="code">var&#160;sReturnXml&#160;=&#160;otm.Execute("Onyx",&#160;"actionBatch",&#160;"execute",&#160;sSessionId,&#160;xmlParamDoc.xml,&#160;"");</p>
+        <p Class="Code" class="code"><span style="color: #008000;">//------------------------------------------------</span>
+        </p>
+        <p Class="Code" class="code"><span style="color: #008000;">// Load the returnStatus XML returned by the OTM.</span>
+        </p>
+        <p Class="Code" class="code"><span style="color: #008000;">//------------------------------------------------</span>
+        </p>
+        <p Class="Code" class="code">returnStatusXmlDoc.loadXML(sReturnXml);</p>
+        <p Class="Code" class="code">returnStatusXmlDoc.save("C:\\returnXml.xml");</p>
+        <p Class="Code" class="code"><span style="color: #008000;">//----------------------------------------------------------</span>
+        </p>
+        <p Class="Code" class="code"><span style="color: #008000;">// Find the statusXml node in the returnStatus XML document</span>
+        </p>
+        <p Class="Code" class="code"><span style="color: #008000;">// and log it to a file for viewing.</span>
+        </p>
+        <p Class="Code" class="code"><span style="color: #008000;">//----------------------------------------------------------</span>
+        </p>
+        <p Class="Code" class="code">var&#160;statusXmlNode&#160;=&#160;returnStatusXmlDoc.selectSingleNode("/returnXml/parametersReturn/statusXml");</p>
+        <p Class="Code" class="code">statusXmlDoc.loadXML(statusXmlNode.text);&#160;</p>
+        <p Class="Code" class="code">statusXmlDoc.save("C:\\statusXml.xml");</p>
+    </body>
+</html>

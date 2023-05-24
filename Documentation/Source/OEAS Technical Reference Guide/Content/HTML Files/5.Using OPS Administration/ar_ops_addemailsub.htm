@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="802" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Adding and configuring email monitor subsystems</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>Adding and configuring email monitor subsystems </h3>
+        <p>For each OPS connection, you can configure multiple EMSs and control 
+ them independently of each other. After you have configured an EMS, you 
+ can configure a collection of mailboxes for monitoring by the subsystem. 
+ For step-by-step procedures, see <a href="AR_OPS_AddEmailMailbox.htm">Adding 
+ and configuring monitored mailboxes</a>. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">EMSs and mailboxes have a parent/child, one-to-many relationship. 
+ Therefore, you can configure a parent subsystem to monitor a collection 
+ of child mailboxes. Configuring multiple parent subsystems to monitor 
+ a single child mailbox is not supported. </p>
+        <p class="ProcedureHeading">To add a new email monitor subsystem: </p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li>In the navigation area of OPS Administration, 
+ select the <span class="UIElement" style="font-weight: bold;">Email Monitor Subsystems</span> collection.</li>
+            <li>Click <img src="../../Resources/Images/AR_iconAdd1.jpg" />. </li>
+        </ol>
+        <p class="Indent1">A new subsystem node titled <span class="UIElement" style="font-weight: bold;">newSubsystem1 
+ (added</span><span class="UIElement" style="font-weight: normal;">*</span><span class="UIElement" style="font-weight: bold;">) 
+ </span>appears in the navigation tree. The status remains as <span class="UIElement" style="font-weight: bold;">added</span> 
+ until the service is restarted. </p>
+        <ol style="list-style: decimal;list-style-type: decimal;" MadCap:continue="true">
+            <li>In the <span class="UIElement" style="font-weight: bold;">Edit Email Monitor 
+ Subsystem</span> area, modify the attributes for this EMS. For descriptions 
+ of the attributes in the edit area, refer to the following:</li>
+        </ol>
+        <ul>
+            <li class="List_Indent"><a href="AR_OPS_EmailSubSettings.htm">Email 
+ monitor subsystems settings</a>
+            </li>
+            <li class="List_Indent"><a href="AR_OPS_EmailSubExample.htm">Example: 
+ Email monitor subsystem</a>
+            </li>
+        </ul>
+        <ol style="list-style: decimal;list-style-type: decimal;" start="4">
+            <li>Click <img src="../../Resources/Images/AR_iconSave1.jpg" /> to save your changes.</li>
+        </ol>
+        <ol MadCap:continue="true" style="list-style: decimal;list-style-type: decimal;">
+            <li>For localization support, map one or more languages to automatically convert to Unicode by configuring the charsetmaps.xml file to use a Unicode page. This file is located in the \Onyx\ProcessingServer\Components directoy. For example:</li>
+        </ol>
+        <p class="C_Code">&lt;codePage codePageValue="950" friendlyName="Chinese Traditional (Big5)" familyCodePage="950"&gt;</p>
+        <p class="C_Code">&lt;charsetLabel prefered="1"&gt;big5&lt;/charsetLabel&gt;</p>
+        <p class="C_Code">&lt;charsetLabel&gt;cn-big5&lt;/charsetLabel&gt;</p>
+        <p class="C_Code">&lt;charsetLabel&gt;csbig5&lt;/charsetLabel&gt;</p>
+        <p class="C_Code">&lt;charsetLabel&gt;x-x-big5&lt;/charsetLabel&gt;</p>
+        <p class="C_Code">&lt;/codePage&gt;</p>
+        <p class="Indent1">In this example:</p>
+        <ul>
+            <li class="List_Indent">The value for the codePageValue parameter is the code page that EMS uses to convert the string to Unicode using code page 950.</li>
+            <li class="List_Indent">The charsetLabel element is the charset label in which the email is encoded.</li>
+        </ul>
+        <p class="Indent1">Several of these might need to be mapped to the same code page.</p>
+    </body>
+</html>

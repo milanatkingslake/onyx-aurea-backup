@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="841" MadCap:lastWidth="624">
+    <head><title>Multiple Websites for OEP</title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h3>Multiple Websites for OEP </h3>
+        <ol>
+            <li>Make a copy of <b>EmployeePortal</b> folder from the following location:</li>
+        </ol>
+        <ul>
+            <li class="List_Indent" style="font-weight: bold;">For 64-bit: ..\Program Files\Onyx</li>
+        </ul>
+        <ol start="2">
+            <li>Rename the copied folder to the desired name. For example, OEP.</li>
+            <li>Open Internet information Server (IIS)</li>
+            <li>Right-click and then click <b>Add Application</b>.</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">Type the Alias Name to the desired name. For example, OEP_Web</li>
+            <li class="List_Indent">Click <b>Select</b>, and then select <b>OEPAppPool</b>.</li>
+            <li class="List_Indent">Click <b>Browse</b> to provide the physical path.</li>
+        </ul>
+        <ol start="5">
+            <li>Once the application is created, click <b>New Created Application</b>, and then go to the ASP section.</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">Set Enable Parent Path property to <b>True</b> (default is <b>False</b>).</li>
+            <li class="List_Indent">Set <b>Session</b> property to <b>False</b> (default is <b>True</b>)</li>
+        </ul>
+        <ol start="6">
+            <li>Right-click and then click <b>Add Application</b>.</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">Type the Alias Name to the desired name. For example, OEP_Window.</li>
+            <li class="List_Indent">Click <b>Select</b> and then select OEPAppPool.</li>
+            <li class="List_Indent">Click <b>Browse</b> to provide the physical path.</li>
+        </ul>
+        <ol start="7">
+            <li>Once the application is created, click <b>New Created Application</b>, and then go to the ASP Section.</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">Set the <b>Enable Parent Path</b> property to <b>True</b> (default is <b>False</b>).</li>
+            <li class="List_Indent">Set the <b>Session</b> property to <b>False</b> (default is <b>True</b>).</li>
+            <li class="List_Indent">Click <b>New Created Application</b> and then go to the <b>Authentication Section</b>.</li>
+            <li class="List_Indent">Enable <b>Windows Authentication</b> (default is disabled).</li>
+        </ul>
+        <ol start="8">
+            <li>Make the following changes in the <b>OEP</b> folder.</li>
+        </ol>
+        <ul>
+            <li class="List_Indent"><b>OTM_security.asp</b> in common\include</li>
+            <li class="List_Indent">Rename the site_id and logical application name</li>
+        </ul>
+        <ul style="list-style-type: circle;">
+            <li class="BulletList2">public const gsAppName = "Onyx1"</li>
+            <li class="BulletList2">public const gnSiteId = 2</li>
+        </ul>
+        <ol start="9">
+            <li>Restart IIS.</li>
+        </ol>
+    </body>
+</html>

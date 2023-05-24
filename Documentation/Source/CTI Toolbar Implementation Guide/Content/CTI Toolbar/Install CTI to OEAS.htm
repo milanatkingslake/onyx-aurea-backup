@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:lastBlockDepth="5" MadCap:lastHeight="750" MadCap:lastWidth="855" MadCap:conditions="FrontMatter.Comment" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+    </head>
+    <body>
+        <H3 class="Heading"><a name="Chapter01_644126718_1065276"></a><a name="Chapter01_644126718_58541"></a>Step 3: Install Onyx CTI to OEAS </H3>
+        <p class="BodyText">In this step, you run a Setup file that adds CTI business objects to the Onyx Enterprise Dictionary (OED) on the OEAS server and then you validate and publish the updated OED. </p>
+        <p class="TaskHeading"><b>To install Onyx CTI to the OEAS server:</b> <![CDATA[ ]]></p>
+        <ol>
+            <li class="ListBullet">Ensure that the existing OED is validated, published, and backed up. (Default location: C:\Program&#160;Files\Onyx\AppServer\Applications\Onyx\OnyxEnterpriseDictionaryWC.xml) </li>
+            <li class="ListBullet">If you are upgrading Onyx CTI, use OES Object Designer to remove the existing Onyx CTI business objects from the OED. </li>
+        </ol>
+        <blockquote>
+            <ul>
+                <li class="ListBullet_2">ctiAgentAssociation</li>
+                <li class="ListBullet_2">ctiConnector</li>
+                <li class="ListBullet_2">ctiFrequentPhones</li>
+            </ul>
+        </blockquote>
+        <p class="Indent1">For information about using OES Object Designer, see the <i>OES Help</i>.</p>
+        <ol>
+            <li value="3" class="ListBullet">Using the Windows Component Services administration tool on the OEAS server, shut down the <b class="UI_elements">OnyxEASApp</b> application (located under Console Root\Component Services\Computers\My Computer\COM+ Applications).</li>
+            <li class="ListBullet">Copy the <b>\Setup\Platform</b> folder from the Onyx CTI product CD to the OEAS server.</li>
+            <li class="ListBullet">Within the copied Platform folder, run the <b>Setup.hta</b> file, bypassing any security warnings that might appear.</li>
+            <li class="ListBullet">In the <b>Onyx CTI OED Setup</b> window, click <span class="UI_elements">Next</span>.</li>
+            <li class="ListBullet">Click <b class="UI_elements">Browse</b> to find and enter the location of the OED file, or click <b>Install Now</b> to use the default location (listed in the Select OED file box).</li>
+            <li class="ListBullet">Click <b class="UI_elements">Finish</b>.</li>
+            <li class="ListBullet">Using Onyx Enterprise Studio (OES) Object Designer, confirm that the following CTI business objects have been added to the OED (if not, rerun the Setup.hta file):</li>
+        </ol>
+        <blockquote>
+            <ul>
+                <li class="ListBullet_2">ctiAgentAssociation</li>
+                <li class="ListBullet_2">ctiConnector</li>
+                <li class="ListBullet_2">ctiFrequentPhones</li>
+            </ul>
+        </blockquote>
+        <p class="Indent1">For information about using OES Object Designer, see the <i>OES Help</i>.</p>
+        <ol>
+            <li value="10" class="ListBullet">Click the <b class="UI_elements">Validate</b> button.</li>
+            <li class="ListBullet">Click the <b class="UI_elements">Publish</b> button and then click <b class="UI_elements">OK</b> when prompted to overwrite the OED.</li>
+            <li class="ListBullet">If you receive a message indicating that the publish script failed, you may need to manually start the <b class="UI_elements">OnyxEASApp</b> application using the Windows Component Services administration tool.</li>
+        </ol>
+    </body>
+</html>

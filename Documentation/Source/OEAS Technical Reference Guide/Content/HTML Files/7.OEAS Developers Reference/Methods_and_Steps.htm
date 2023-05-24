@@ -1,0 +1,455 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="9" MadCap:lastHeight="775" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Methods and Steps</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>
+            <MadCap:keyword term="Steps" />
+            <MadCap:keyword term="Methods and steps" />
+            <MadCap:keyword term="Methods" />Methods and steps</h4>
+        <p>Each method of a business object can be broken down into individual 
+ executable elements known as steps. Each step represents a unit of work 
+ that can be performed on, or as a result of, the data provided by a client 
+ application.</p>
+        <p>The list of steps for a business object method is stored in the Onyx 
+ Enterprise Dictionary (OED). Using the Object Designer, you can add, remove, 
+ or rearrange any of the steps that comprise the method. The method is 
+ a logical representation of the actions to be taken when a client makes 
+ a call through one of the Onyx Transaction Manager (OTM) interfaces.</p>
+        <p>The OTM calls the OED cache for the list of steps for each and every 
+ business object method call. It does not persist any information about 
+ the steps or their order at any time. The method's list of steps is retrieved 
+ each and every time it is called.</p>
+        <p>Individual step components can be used in more than one method. Depending 
+ on the range of functionality that it has been designed to support, a 
+ step component can perform similar actions for different business objects. 
+ For instance, OEAS uses the OnyxDataValidationStep to validate input XML 
+ before executing most business object methods. See <a href="Build_Stp_Comp.htm">Building 
+ COM Step Components</a> for information about the requirements for designing 
+ custom step components.</p>
+        <h5>Method execution</h5>
+        <p>When a client calls a method of a business object, the OTM constructs 
+ an XML string called the stepPackage, places the client-supplied XML into 
+ it, and loads it into an instance of the Microsoft XML DOM component using 
+ the IXMLDOMDocument interface. The interface parses the XML and verifies 
+ that it is well formed.</p>
+        <p>Next, the OTM queries the OED cache for the list of step definitions 
+ that identify the sequence of steps required to complete the method. The 
+ OTM moves through the list of steps, in the order that they are defined 
+ in the OED, and executes them one at a time. After the last step has been 
+ executed, the OTM returns the processed XML to the calling client application. 
+ Or in the case of an error, a step can choose to stop the processing of 
+ subsequent steps by returning a stop command in the stepPackage.</p>
+        <p>Other than add information about the current execution context, the 
+ OTM itself does nothing with the XML that is passed between steps during 
+ method execution. All data manipulation and verification is performed 
+ by the step components themselves.</p>
+        <h5>Step types<a name="StepTypes"></a></h5>
+        <p>The following table lists the step types available in Object Designer. 
+ While the table lists nine types, most of them are just specific types 
+ of COM steps. For convenience, Object Designer populates the Step Data 
+ with a Prog ID and the Additional Data with the default required data 
+ structure. The developer must still provide valid data for the Additional 
+ Data structure. For more information on Additional Data for specific COM 
+ types, see the documentation for the relevant component. The OTM recognizes: 
+ COM and transaction step types. The OED cache handles method step types 
+ which are explained later in this topic.</p>
+        <table style="width: 80%;">
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Step type</th>
+                    <th>Step data</th>
+                    <th>Additional Data (default)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">business process</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">OnyxBPExecuteStep.BPExecuteStep</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">processId=;</p>
+                        <p class="Table_Text">processOnFailure=0;</p>
+                        <p class="Table_Text">stepPosition=;</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">collection manager</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">OnyxCollectionManager.CollectionManager</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">stepObject=alert;</p>
+                        <p class="Table_Text">stepMethod=retrieve;</p>
+                        <p class="Table_Text">dataPath=</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&lt;a valid step component Prog ID&gt;. </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&lt;valid Additional Data&gt;. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">data manager</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">OnyxDM.DataManager</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">stepName=core;</p>
+                        <p class="Table_Text">stepObject=alert;</p>
+                        <p class="Table_Text">stepMethod=retrieve;</p>
+                        <p class="Table_Text">dataPath=</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">data validation</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">OnyxDataValidationStep.DataValidation</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">stepObject=alert;</p>
+                        <p class="Table_Text">stepMethod=retrieve;</p>
+                        <p class="Table_Text">dataPath=</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">master detail retrieval</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">OnyxMasterDetailRetrievalStep.MasterDetailRetrieval</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">stepName=masterDetail;</p>
+                        <p class="Table_Text">stepObject=alert;</p>
+                        <p class="Table_Text">stepMethod=retrieve;</p>
+                        <p class="Table_Text">dataPath=;</p>
+                        <p class="Table_Text">detailObjectType=;</p>
+                        <p class="Table_Text">detailCollectionPropertyName=;</p>
+                        <p class="Table_Text">masterPrimaryIdPropertyName=primaryId;</p>
+                        <p class="Table_Text">detailOwnerIdPropertyName=ownerId</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">method</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">drop-down option list for object and</p>
+                        <p class="Table_Text">drop-down option list for method</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">blank</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">optional foreign key</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">OnyxOptionalForeignKeyStep.OptForeignKey</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">stepName=optForeignKey;</p>
+                        <p class="Table_Text">stepObject=alert;</p>
+                        <p class="Table_Text">stepMethod=retrieve;</p>
+                        <p class="Table_Text">dataPath=;</p>
+                        <p class="Table_Text">foreignKeyPropertyName=;</p>
+                        <p class="Table_Text">denormFields=</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">transaction</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">drop-down options: begin or end</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">blank</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h5>COM</h5>
+        <p>The most common type of step used in the OEAS, a COM step is a compiled, 
+ executable component that implements the <a href="IStep_Iface.htm">IStep 
+ interface</a>. A step component exposes an Execute method through which 
+ XML data passes. Step components are COM components that are registered 
+ in a COM+ application on the server where OEAS is installed. For almost 
+ all default methods, the OED defines at least two COM steps: the OnyxDataValidationStep 
+ and the OnyxDataManager, which calls generated SQL code for reading from 
+ or writing to the OEDB. Custom step components, however, can be created 
+ to provide the OEAS with almost any conceivable functionality.</p>
+        <h5>Transaction</h5>
+        <p>Transaction steps begin and end COM+ transactions. A method can wrap 
+ part or all of its steps within a transaction to take advantage of the 
+ features provided by Microsoft Component Services. COM steps that participate 
+ in a transaction during method execution can abort the transaction when 
+ they suffer an unrecoverable error.</p>
+        <h5>COM step execution</h5>
+        <p>After the OTM obtains the list of steps from the OED cache, it combines 
+ the data sent by the client with information about the current execution 
+ context to create an XML "step package." The OTM stores the 
+ step package in an instance of the IXMLDOMDocument interface. For each 
+ COM step in the list, the OTM creates an instance of the step component 
+ and calls the Execute method on its IStep interface, passing in the IXMLDOMDocument 
+ interface pointer as one of the method arguments. The step reads the XML, 
+ performs its predesigned action, updates the data if necessary, and returns 
+ a "stop" or "continue" message to the OTM. The OTM 
+ then releases the object, and if the COM step returns "continue", 
+ it moves to the next step in the list.</p>
+        <p>This process repeats until a step returns a "stop" message, 
+ or until the OTM executes all the steps in the list. The OTM then copies 
+ the contents of the returnXML node out of the step package and returns 
+ it to the client application. For more information about the structure 
+ and contents of the step package, see <a href="OTM_Step_Pkg.htm">Using 
+ the Step Package</a>.</p>
+        <h5>Transaction step execution</h5>
+        <p>Other than a flag signifying begin or end, transaction steps have no 
+ modifiable elements and take no input arguments. There can be multiple 
+ transaction sections in a single method, but they cannot be nested (that 
+ is, one transaction must end before another can begin). This includes 
+ transactions that occur within method steps, so be careful not to unintentionally 
+ create a nested transaction within a method.</p>
+        <p>A "begin" transaction step creates a new COM+ transaction. 
+ All other steps that follow execute within that transaction stream until 
+ the "end" transaction step closes the stream and attempts to 
+ commit the transaction.</p>
+        <p>step components that are not capable of supporting transactions can 
+ be used in methods within a transaction stream, but they cannot participate 
+ in the transaction and none of their actions are rolled back if the transaction 
+ fails.</p>
+        <p>step components that support transactions must implement the COM+ Services 
+ library to use the SetAbort and SetComplete methods to vote on the success 
+ of a transaction within a method. A step component that does not use the 
+ COM+ Services library can still participate in the transaction, but it 
+ cannot explicitly influence the success or failure of the transaction.</p>
+        <p>When the OTM reaches an "end" transaction step, it attempts 
+ to commit the transaction. If any of the components that participated 
+ in the transaction voted to abort, COM+ rolls the transaction back.</p>
+        <p>If a transaction is started within a method but a COM step returns a 
+ "stop" message to the OTM before the "end" transaction 
+ step is executed, the OTM commits the transaction, preventing the transaction 
+ from remaining open and unresolved.</p>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; &#160;">Even if COM+ rolls back a transaction in a method, the 
+ OTM still returns the returnXML element back to the client in the state 
+ it was left by the last step that touched it. In such cases, Onyx step 
+ components insert a failure notice into the returnXML. Client applications 
+ should take this as a warning that the output parameter data may not be 
+ reliable.</p>
+        <p>The use of transaction steps within business object methods may have 
+ performance implications that should be considered carefully. COM+ transactions 
+ can be useful within a distributed application, but they may decrease 
+ system performance if not used effectively. Review Microsoft's documentation 
+ on the use of COM+ transactions.</p>
+        <h5>Method step execution</h5>
+        <p>The third type of step, known as a method step, is a reference from 
+ one object to the method of a different business object. If the OED cache 
+ encounters a method step when it is retrieving steps for the OTM, it locates 
+ the step definitions for the referenced method and inserts them into the 
+ list that it returns to the OTM. The OTM then executes the steps from 
+ a single list, unaware that some of the steps came from an object method 
+ that was not called directly by the client application.</p>
+        <p>For example, the retrieve method of the company business object contains 
+ the following steps. The first step is the COM step that validates the 
+ method's XML input. The next step propagates the company.primaryId property 
+ to the appropriate phone.ownerId property so that only phones belonging 
+ to the specified company are retrieved. The third step does the same thing 
+ for addresses. The fourth, another COM step, calls the ODM and generates 
+ the SQL necessary for searching the database for a company record based 
+ on a primary ID. The last two steps retrieve the list of addresses and 
+ telephone numbers associated with the company. These last two functions 
+ are also done using calls to the ODM, but they are handled by the phone 
+ and address business objects, so their methods are referenced as method 
+ steps within the company object's method. When the OED cache retrieves 
+ the step definitions for company.retrieve, it substitutes the COM steps 
+ for the retrieveCollection method of the phone and address objects in 
+ place of the method steps within the company object. The OTM then executes 
+ the method from a list of the COM step definitions, which includes the 
+ validation steps that occur prior to each call to the ODM. This substitution 
+ is illustrated in the following table:</p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <col />
+            <col style="width: 116px;" />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th colspan="3">What exists in the OED</th>
+                    <th colspan="3">What the OTM gets from the OED cache</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Step description</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Step type</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Step data</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Step description</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Step type</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Step data</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Validate XML input</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">data validation</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">OnyxDataValidationStep.DataValidation</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Validate XML input</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">OnyxDataValidationStep.DataValidation</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Correct XML input for phone detail collection</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">master detail retrieval</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">OnyxMasterDetailRetrievalStep.MasterDetailRetrieval</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Correct XML input for phone detail collection</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">OnyxMasterDetailRetrievalStep.MasterDetailRetrieval</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Correct XML input for address detail collection</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">master detail retrieval</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">OnyxMasterDetailRetrievalStep.MasterDetailRetrieval</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Correct XML input for address detail collection</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">OnyxMasterDetailRetrievalStep.MasterDetailRetrieval</p>
+                    </td>
+                </tr>
+                <tr style="height: -155px;">
+                    <td>
+                        <p class="Table_Text">Retrieve one company</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">data manager</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">OnyxDM.DataManager</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Retrieve one company</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">OnyxDM.DataManager</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Retrieve a collection of phones</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">method</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">phone.retrieveCollection</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Retrieve a collection of phones</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">	com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">OnyxDataValidationStep.DataValidation</p>
+                        <p class="Table_Text">OnyxDM.DataManager</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Retrieve a collection of addresses</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">method</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">address.retrieveCollection</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Retrieve a collection of addresses</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">OnyxDataValidationStep.DataValidation</p>
+                        <p class="Table_Text">OnyxDM.DataManager</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>If a method step is to be used within a COM+ 
+ transaction, it cannot contain transaction steps of its own. </p>
+    </body>
+</html>

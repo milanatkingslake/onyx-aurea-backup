@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="837" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h3><a name="top"></a>Adding Custom Action Button</h3>
+        <p>You can add a custom action button to the Navigator Result Grid Action Menu to enable your users to perform specific actions on records that are returned from Navigator searches. You can add multiple custom action buttons for each Navigator search type and define the action for each button. You can also modify the properties of an existing action button.</p>
+        <p style="font-weight: bold;">To add a custom action button:</p>
+        <ul>
+            <li><a href="#Insertin">Insert data in the Persistence database</a>
+            </li>
+            <li style="list-style-type: disc;"><a href="#Creating">Create a new switch case to implement custom logic for the action</a>
+            </li>
+            <li style="list-style-type: disc;"><a href="Creating New UI Resource and.htm#top">Create a new UI resource for each custom entity and each action button</a>
+            </li>
+        </ul>
+        <p>If you no longer require an action button, you can <a href="#Inactiva">remove it from the action menu</a>.</p>
+        <h4><a name="Insertin"></a>Inserting Data in Persistence Database&#160;</h4>
+        <p><a href="Reserved field names.htm#Example3">Read a description and see example values</a> for each table that needs to be modified.</p>
+        <p class="ProcedureHeading">To insert data in the Persistence database:</p>
+        <ol>
+            <li>Using Microsoft SQL Server 2008, access the <b>Persistence</b> database, right-click the <b>ActionListProfile</b> table and select <b>Edit Top 200 Rows</b>.</li>
+            <li>Scroll to the bottom of the displayed result grid, and insert one row for each new action button that you intend to add to the Navigator Result Grid Action Menu.</li>
+            <li>Repeat steps 1 and 2 for the following tables:</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">ActionListProfileML table</li>
+            <li class="List_Indent">Broker table</li>
+            <li class="List_Indent">EndPoint table</li>
+            <li class="List_Indent">ActionButton table</li>
+            <li class="List_Indent">ActionButtonML table</li>
+            <li class="List_Indent">ActionGroup table - enter a row in this table only if you are creating a new action group.</li>
+            <li class="List_Indent">EntityGroupMapper table - enter a row in this table to assign a new action group to an existing or to a custom entity.</li>
+        </ul>
+        <ol start="4">
+            <li><a href="Creating New UI Resource and.htm#top">Create a UI resource for each custom entity</a>.</li>
+            <li>Open the navigator_entity_master table, and <a href="Reserved field names.htm#Example">enter the UI resource name in the GAMEntityResourceName column</a> for the appropriate entity.</li>
+        </ol>
+        <h4><a name="Creating"></a>Creating New Switch Case&#160;</h4>
+        <p>Create a new switch case in the JavaScript function to implement custom logic for the custom action button that you are creating. </p>
+        <p class="ProcedureHeading">To create a new switch case:</p>
+        <ol>
+            <li>On the Onyx UI server, navigate to the <b>C:\Program Files\Onyx\EmployeePortal\QuickSearch</b> folder.</li>
+            <li>In an editor such as Notepad, open the <b>NavigatorSearchHost.asp</b> file.</li>
+            <li>Navigate to the JavaScript function <b>jsOpenGamAction</b>.</li>
+            <li>Add one switch case for each new action button that you created. For examples of a switch case, see the existing switch cases for the default action buttons in this file.</li>
+        </ol>
+        <p class="Indent1">The name that you enter for the switch case must be the same as the value you entered in the ActionName column of the ActionListProfile table.</p>
+        <ol MadCap:continue="true">
+            <li>Save your changes and close the <b>NavigatorSearchHost.asp</b> file.</li>
+        </ol>
+        <h4><a name="Inactiva"></a>Inactivating an Action Button</h4>
+        <p>You can inactivate an action button if it is no longer required. An inactive action button is not available in Navigator Result Grid Action Menu.</p>
+        <p style="font-weight: bold;">To inactivate an action button:</p>
+        <ul>
+            <li>In the <b>ActionButton</b> table in the Persistence database, set the value for the <b>RecordStatus</b> field for the field to <b>0</b>.</li>
+        </ul>
+    </body>
+</html>

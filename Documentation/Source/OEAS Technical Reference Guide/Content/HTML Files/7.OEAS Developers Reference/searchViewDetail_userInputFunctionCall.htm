@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="696" MadCap:lastWidth="934" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <body>
+        <head><title>userInputFunctionCall (searchViewDetail)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="userInputFunctionCall" />userInputFunctionCall property</h2>
+        <p>The userInputFunctionCall property of the <a href="searchViewDetail_object.htm"><MadCap:keyword term="searchViewDetail" />searchViewDetail</a> 
+ object contains a function call that is applied to the user's criteria 
+ upon searching a field.</p>
+        <h3>Data type</h3>
+        <p>string (maximum length)</p>
+        <h3>Access</h3>
+        <p>Read/write</p>
+        <h3>Remarks</h3>
+        <p>This property is used only for items with a nodeType of FIELD.</p>
+        <p>This property works together with the fieldName and searchConditionFunctionCall 
+ properties to drive the construction of the WHERE clause expression for 
+ this searchViewDetail.</p>
+        <p>The userInputFunctionCall defines the right-hand side of the WHERE clause 
+ expression. It contains function calls or any other syntax that is valid 
+ on the right-hand-side of a WHERE clause expression.</p>
+        <p>By convention, the List Manager interface replaces the string "~0" 
+ in the userInputFunctionCall with whatever search data the user input.</p>
+        <p>If userInputFunctionCall is NULL, then the List Manager interface uses 
+ the search data input by the user as the right-hand side of the WHERE 
+ clause expression.</p>
+        <p>For example, assume the following scenario:</p>
+        <ul>
+            <li>The fieldName is product_code.</li>
+            <li>The searchConditionFunctionCall is UPPER(~0).</li>
+            <li>The userInputFunctionCall is UPPER(~0).</li>
+            <li>The user inputs "MyProduct" for the 
+ product number field.</li>
+        </ul>
+        <p>Assuming the searchTable alias is "C", the resulting WHERE 
+ clause expression is:</p>
+        <p>&#160; UPPER(C.product_code) = UPPER('MyProduct')</p>
+        <p>If the searchConditionFunctionCall is NULL and the userInputFunctionCall 
+ is NULL, then the resulting WHERE clause expression is:</p>
+        <p>&#160; C.product_code = 'MyProduct'<span style="margin-bottom: 0;">  <![CDATA[ ]]></span></p>
+    </body>
+</html>

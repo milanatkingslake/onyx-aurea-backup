@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="437" MadCap:lastWidth="994" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Denormalization properties</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h6>
+            <MadCap:keyword term="Properties;Denormalization properties" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />Denormalization properties</h6>
+        <p>
+            <MadCap:keyword term="property creation:denormalized" />
+            <MadCap:keyword term="denormalized properties" />Properties that you display on one object but are maintained by another 
+ object are called denormalized properties. Sometimes you want to display 
+ information from a related object as if it were a property on the current 
+ object. For instance, an object may have a "statusId" property 
+ and you want to display that value in conjunction with a description that 
+ interprets the status code. In this case, you create a "statusDescription" 
+ property on your object and specify that it is a denormalized property. 
+ For this to work, you must have a <a href="workingWithOed_Creating_relationships.htm">relationship</a> 
+ specified in the OED that links the object that maintains the status description 
+ to your current object. For your denormalized property, you use the OD 
+ to specify the relationship and the target property (the "description" 
+ in our example). SQL Generation uses this denormalization definition during 
+ retrieve and retrieveCollection methods.</p>
+        <p>You must remember the following points about denormalized properties:</p>
+        <ul>
+            <li>Denormalized properties should never have any 
+ kind of "object physical maps" created for them. Mapping a denormalized 
+ property will generate SQL errors in the database and in the OnyxEdDataDownload 
+ component that are difficult to debug.</li>
+            <li>Denormalized properties should never be included 
+ in the "key maps" of a relationship.</li>
+            <li>Denormalized properties 
+ should never be included in "object key" collections. </li>
+        </ul>
+        <p>Onyx recommends setting the Read Only attribute for denormalization 
+ definition properties. For more information, see the <a href="OED_Property.htm#ReadOnly">Read 
+ Only attribute</a> section of the Properties topic.</p>
+    </body>
+</html>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="1611" MadCap:lastWidth="1015">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>(ActionBatchExecute) process fourth action</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>
+            <MadCap:keyword term="ActionBatchExecute" />Process fourth action: alert.insert</h5>
+        <p>The fourth action creates an alert. For each <a href="actionBatchXml_actionReturnMap.htm">actionReturnMap</a><span style="font-weight: normal;">  <![CDATA[ ]]></span>the value pointed to by the <span style="font-weight: normal;"><a href="actionBatchXml_actionReturnMap_sourceElementPath.htm">sourceElementPath</a></span> 
+ value is applied to the <span style="font-weight: normal;"><a href="actionBatchXml_actionReturnMap_targetElementPath.htm">targetElementPath</a></span>. 
+ In this case the incident.primaryId returned from the incident.insert 
+ action is mapped to the alert.ownerId to be used in the alert.insert action.</p>
+        <p Class="Code" class="code">&lt;actionReturnMaps&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;actionReturnMap&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;sourceActionId&gt;a&lt;/sourceActionId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;sourceElementPath&gt;parametersReturn/incident/primaryId&lt;/sourceElementPath&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;targetElementPath&gt;parameters/alert/ownerId&lt;/targetElementPath&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/actionReturnMap&gt;</p>
+        <p Class="Code" class="code">&lt;/actionReturnMaps&gt;</p>
+        <p>Using the updated <span style="font-weight: normal;"><a href="actionBatchXml_methodInputs.htm">methodInputs</a> <a href="actionBatchXml_parameters.htm">parameters</a></span>, the method 
+ call is made on the object that <span style="font-weight: normal;"><a href="actionBatchXml_logicalObjectName.htm">logicalObjectName </a></span>and 
+ <span style="font-weight: normal;"><a href="actionBatchXml_logicalMethodName.htm">logicalMethodName</a></span> 
+ point to. In this case an alert.insert call is made to insert an alert 
+ using data from the previous incident.insert action. <a href="actionBatchExecute_ErrorHandling.htm">Error-handling</a> 
+ behavior is determined by the value of <a href="actionBatchXml_onFailure.htm">onFailure</a>.</p>
+        <p>XML for alert.insert</p>
+        <p Class="Code" class="code">&lt;action&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;onFailure&gt;stop&lt;/onFailure&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;id&gt;c&lt;/id&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;logicalObjectName&gt;alert&lt;/logicalObjectName&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;logicalMethodName&gt;insert&lt;/logicalMethodName&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;methodInputs&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;parameters&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;alert objectType="alert"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerId/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerType&gt;6&lt;/ownerType&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;text&gt;This alert was created using actionBatch.execute!&lt;/text&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;expirationDate&gt;03/30/2010&lt;/expirationDate&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;expired/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateBy/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateDate/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onyxTimestamp/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/alert&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/parameters&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;customData/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/methodInputs&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;actionReturnMaps&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;actionReturnMap&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sourceActionId&gt;a&lt;/sourceActionId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sourceElementPath&gt;parametersReturn/incident/primaryId&lt;/sourceElementPath&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;targetElementPath&gt;parameters/alert/ownerId&lt;/targetElementPath&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/actionReturnMap&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/actionReturnMaps&gt;</p>
+        <p Class="Code" class="code">&lt;/action&gt;</p>
+    </body>
+</html>

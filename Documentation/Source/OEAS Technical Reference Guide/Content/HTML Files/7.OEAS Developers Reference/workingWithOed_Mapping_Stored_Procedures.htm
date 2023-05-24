@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="1446" MadCap:lastWidth="994">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Mapping Stored Procedures</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h6>
+            <MadCap:keyword term="stored procedure mapping" />
+            <MadCap:keyword term="method creation:mapping stored procedures" />
+            <MadCap:keyword term="procedure" />
+            <MadCap:keyword term="Stored" />
+            <MadCap:keyword term="Stored:Mapping" />
+            <MadCap:keyword term="Mapping" />
+            <MadCap:keyword term="Mapping:Stored" />Mapping stored procedures</h6>
+        <p>When the method requires a stored procedure call of any type (pre, post, 
+ or replace) the procedure must be mapped to the ODM step (i.e., the step 
+ usually named "core"). Procedure maps tell the ODM how to call 
+ a procedure and what data to specify for its parameters. You can only 
+ specify the ODM (or a custom COM+ object you design) to call a stored 
+ procedure. Procedure maps placed on any step other than the ODM step do 
+ not work.</p>
+        <p>When specifying the procedure map, you select the 
+ stored procedure you want to call from a dropdown list. This list is populated 
+ from procedures defined in the physical model section of the OED. You 
+ also must specify how the procedure is to be mapped:</p>
+        <ul>
+            <li>pre</li>
+            <li>post</li>
+            <li>replace</li>
+        </ul>
+        <p>For a discussion of the implications of this selection, see <a href="customizingoedb_creating_and_customizing_procedures.htm">Creating 
+ and customizing procedures</a>.</p>
+        <p>If you want to specify a procedure as "pre" or "post" 
+ to a step in a saveCollection method, you must also specify to which actions 
+ it applies. Since saveCollection methods can perform three different actions 
+ (insert, update, and delete) you must specify whether the in-line procedure 
+ call is placed within the block for one or more of these actions or outside 
+ all of them in the surrounding block for the entire collection. These 
+ selections are not mutually exclusive, any combination is valid.</p>
+        <p>When you select a stored procedure name, the OD stubs out the list of 
+ procedure parameters you need to map. You must map every parameter used 
+ by the stored procedure.</p>
+        <p>When specifying the maps for individual parameters, 
+ you have several choices of the "map type." The choices include 
+ the following:</p>
+        <ul>
+            <li>contextVariable</li>
+            <li>literal</li>
+            <li>methodParameter</li>
+            <li>property</li>
+            <li>XSL literal</li>
+        </ul>
+        <p>When you select either property or methodParameter types, the OD composes 
+ a dropdown list box from which you select either the object property or 
+ method parameter whose value is assigned to the procedure parameter at 
+ run time. Note that if you are mapping a stored procedure to a method 
+ whose only method parameter is of type "object" then you should 
+ choose "property" as the map type for the individual method 
+ parameters. Objects cannot be passed as method parameters. Only simple 
+ data types can be passed as method parameters.</p>
+        <p>Use the "contextVariable" map type if you 
+ want to pass information contained in the context xml into a procedure 
+ parameter. When you choose "contectVariable" the OD provides 
+ a data entry field labeled "Map Data" for your use. Currently 
+ SQL generation supports the use of three of the elements in the context 
+ xml from the OTM. Enter one of these three values as the map data for 
+ a context variable:</p>
+        <ul>
+            <li>vLanguage</li>
+            <li>vSiteId</li>
+            <li>vUser</li>
+        </ul>
+        <p>These specify (1) the language code for the user's preferred language, 
+ (2) the site ID for the application currently running, or (3) the user 
+ ID of the person who established the session, respectively, to be passed 
+ as the procedure parameter.</p>
+        <p>Use the "literal" map type to specify a string literal for 
+ the procedure parameter. Using Object Designer, select <span style="font-style: italic;">literal</span> 
+ and, in the <span style="font-weight: bold;">Map Data</span> field, &#160;type 
+ the desired string literal, key word, or constant. For example, you can 
+ enter 'incident.category' as a string value. If you want to use a database 
+ constant or keyword, enter the string without any quotes. For example, 
+ NULL. When you publish the OED, these procedure maps get built into the 
+ stored procedures that are generated at publish time.</p>
+        <p>Select the "XSL literal" option only if you want to pass the 
+ value resulting from an XSL transformation to a procedure parameter.</p>
+        <h3>Notes on mapping replace procedures</h3>
+        <p>You must specify the disposition of the procedure's result set in the 
+ "output map" portion of the procedure map. The typical output 
+ mapping here is to select a map type of "resultSet" and choose 
+ the method parameter whose object type is rowSet. This method parameter 
+ is typically named rowSet.</p>
+        <p>Custom type methods do not use result sets (cursors), instead they use 
+ "out" direction parameters on both the method and the procedure. 
+ The procedure parameters that return values should be mapped to the out 
+ direction method parameters in the output maps section. Choose the map 
+ type of "parameter" for these output maps.</p>
+        <p>You should be aware that every "out" 
+ direction procedure parameter must still have an "input map." 
+ Otherwise, the SQL for calling the procedure is not properly formed, and 
+ this generates errors in the database. </p>
+    </body>
+</html>

@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="1219.134" MadCap:lastWidth="916" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+    </head>
+    <body>
+        <head><title>retrieve (message)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="retrieve" />retrieve method</h2>
+        <p>The retrieve method of the <a href="message_object.htm"><MadCap:keyword term="message" />message</a> 
+ object searches the database by primaryId and returns a message object 
+ instance.</p>
+        <p><a href="standard_retrieve.htm">retrieve standard method information</a>
+        </p>
+        <h3>Steps</h3>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Table_1.css');" class="TableStyle-Aptean_Table_1" cellspacing="0">
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 5cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 5cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 7cm;" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_1-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Step data</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Step type</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadD-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Description</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">OnyxDataValidationStep.DataValidation</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">com</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Validates input parameters</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">OnyxDM.DataManager</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">com</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText">Obtains the specified message record from the database</p>
+                        <p class="TableText" style="margin-bottom: 0;">Uses a database function mapped to the attachmentSecondaryId 
+ property to retrieve a value for this property</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Remarks</h3>
+        <p>The recipientUserIdList and recipientGroupIdList elements are empty 
+ in the parametersReturn because these properties are write-only on inserts. 
+ OEAS creates <a href="messageDestination_object.htm">messageDestination</a> 
+ object instances for managing message distribution and read status. Onyx 
+ Employee Portal (OEP) reproduces the recipient list at the top of the 
+ message body.</p>
+        <p>The database function that obtains the attachmentSecondaryId property 
+ uses the values of the message object's attachmentType and attachmentId 
+ properties to obtain the value of the secondaryId property from the attached 
+ company, individual, incident, or workTicket object instance.</p>
+        <h3>Example</h3>
+        <p>Parameters
+        </p>
+        <p Class="Code" class="code">&lt;parameters&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;message objectType="message"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;6D2278F1-53A5-4C1E-8CA0-DAB02459123D&lt;/primaryId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/message&gt;</p>
+        <p Class="Code" class="code">&lt;/parameters&gt;</p>
+        <p>parametersReturn
+        </p>
+        <p Class="Code" class="code">&lt;parametersReturn&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;message objectType="message" content="all"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;6D2278F1-53A5-4C1E-8CA0-DAB02459123D&lt;/primaryId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;senderId&gt;sa&lt;/senderId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;senderName&gt;System Administrator&lt;/senderName&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;subject&gt;Ride to Client Lunch&lt;/subject&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;text&gt;TO: Test User 1;Test User 2</p>
+        <p Class="Code" class="code">_________________________________________</p>
+        <p Class="Code" class="code">I&#160;can&#160;carry&#160;one&#160;other&#160;person.&#160;I&#160;think&#160;everyone&#160;is&#160;going&#160;to&#160;meet&#160;in&#160;the&#160;3rd&#160;floor&#160;common&#160;area&#160;at&#160;11:30&#160;to&#160;figure&#160;out&#160;who's&#160;driving.</p>
+        <p Class="Code" class="code">&#160;</p>
+        <p Class="Code" class="code">Once&#160;we&#160;get&#160;to&#160;the&#160;restaurant,&#160;we'll&#160;figure&#160;out&#160;who's&#160;paying&#160;;-)&lt;/text&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;attachmentId null="1"/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;attachmentSecondaryId null="1"/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;attachmentType null="1"/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;attachmentCategory null="1"/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy&gt;sa&lt;/insertBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate&gt;2002-01-31 17:02:14&lt;/insertDate&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateBy&gt;sa&lt;/updateBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateDate&gt;2002-01-31 17:02:14&lt;/updateDate&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/message&gt;</p>
+        <p Class="Code" class="code">&lt;/parametersReturn&gt;</p>
+    </body>
+</html>

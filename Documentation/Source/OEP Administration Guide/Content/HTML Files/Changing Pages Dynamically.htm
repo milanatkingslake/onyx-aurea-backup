@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="812" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2><a name="top"></a>Changing Pages Dynamically</h2>
+        <p>Using <a href="About Design Mode.htm#top">UCW</a>, you can dynamically change <a href="Configuring OEP.htm#UCW">UCW-enabled pages</a> without any programming knowledge. </p>
+        <p>This sample UI configuration demonstrates hiding a tab and toolbar button by configuring action statements that depend on the user-selected value for another set of controls. </p>
+        <h4>Scenario used in this sample UI configuration </h4>
+        <p>The loan officers at your company want the Organization Chart tab (on the individual PowerPage) to be displayed only when needed, which is when the individual's title is specified in the individual record. The loan officers also want the Clone toolbar button to be available for active records only. </p>
+        <h4>Procedures in this sample UI configuration </h4>
+        <p>These procedures use Dynamic Forms Designer. For basic instructions on using Dynamic Forms Designer, see Adding and modifying action statements. </p>
+        <p>Follow these procedures to hide the Organization Chart tab when Title is empty and to disable the Clone toolbar button when Status is Inactive. </p>
+        <ul>
+            <li><a href="#Hiding">Hide the Organization Chart tab if Title is empty</a>
+            </li>
+            <li><a href="#Disablin">Disable the Clone toolbar button if Status is Inactive</a>
+            </li>
+            <li><a href="#Saving">Save all configurations and exit design mode</a>
+            </li>
+        </ul>
+        <h3><a name="Hiding"></a>Hiding the Organization Chart tab when Title is empty </h3>
+        <p>You can dynamically hide the Organization Chart tab when the record displayed on the individual PowerPage has no Title entry. </p>
+        <p>Because this procedure uses the Load event, you must reload the page after completing the procedure to see the changes. </p>
+        <p class="ProcedureHeading">To hide the Organization Chart tab when Title is empty (and show the tab when Title has a value): </p>
+        <ol>
+            <li>In Dynamic Forms Designer (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/To reset all configurations_8.jpg" style="width: 21px;height: 23px;" />) for the individual PowerPage, add an action statement to the <b>Load</b> event for the <b>Page</b> object.</li>
+            <li>In the <b>Description</b> text box, type: <i>Hide Organization Chart tab if Title is empty</i>. </li>
+            <li>Configure the condition as follows (checks for empty Title):</li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">From the <b>Object</b> drop-down list, expand <b>Control</b>, expand <b>Individual_Title</b>, and then select <b>Get Value</b>. </li>
+            <li class="List_Indent">From the <b>Operator</b> drop-down list, select Is <b>Empty</b>. </li>
+            <li class="List_Indent">Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To add a custom drop down.png" style="width: 14px;height: 14px;" /> in the Summary section to add the condition to the action statement. </li>
+        </ol>
+        <ol MadCap:continue="true">
+            <li>Configure the action as follows: </li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">From the <b>Object (Action)</b> drop-down list, expand <b>Control</b>, expand <b>Top_Tab</b>, and then select <b>Hide Item</b>. </li>
+            <li class="List_Indent">From the <b>Source</b> drop-down list, select <b>User Defined</b>; from the <b>Value</b> drop-down list, select <b>Organization Chart</b>. </li>
+        </ol>
+        <ol start="5">
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> to confirm changes. </li>
+            <li>Add another action statement to the <b>Load</b> event; in the <b>Description</b> text box, type: <i>Show Organization Chart tab if Title contains a value</i>. </li>
+            <li>Configure the condition as follows (checks for a Title value):</li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">From the <b>Object</b> drop-down list, expand <b>Control</b>, expand <b>Individual_Title</b>, and then select <b>Get Value</b>. </li>
+            <li class="List_Indent">From the <b>Operator</b> drop-down list, select <b>Is Not Empty</b>. </li>
+            <li class="List_Indent">Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To add a custom drop down.png" style="width: 14px;height: 14px;" /> in the Summary section to add the condition to the action statement. </li>
+        </ol>
+        <ol start="8">
+            <li>Configure the action as follows: </li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">From the <b>Object (Action)</b> drop-down list, expand <b>Control</b>, expand <b>Top_Tab</b>, and then select <b>Show Item</b>. </li>
+            <li class="List_Indent">From the <b>Source</b> drop-down list, select <b>User Defined</b>; from the <b>Value</b> drop-down list, select <b>Organization Chart</b>. </li>
+        </ol>
+        <ol start="9">
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> to confirm changes. </li>
+        </ol>
+        <h3><a name="Disablin"></a>Disabling the Clone toolbar button for inactive status records </h3>
+        <p>You can dynamically disable the Clone toolbar button when the record displayed on the individual PowerPage has an inactive status. Disabled buttons are displayed with a dithered or "grayed-out" appearance. </p>
+        <p>Because this procedure uses the Load event, you must reload the page after completing the procedure to see the changes. </p>
+        <p class="ProcedureHeading">To disable the Clone toolbar button for inactive status records: </p>
+        <ol>
+            <li>In Dynamic Forms Designer (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/To reset all configurations_8.jpg" style="width: 21px;height: 23px;" />) for the individual PowerPage, add an action statement to the <b>Load</b> event for the <b>Page</b> object.</li>
+            <li>In the <b>Description</b> text box, type: <i>Disable Clone toolbar button for inactive status records</i>. </li>
+            <li>Configure the condition as follows (checks Status for Inactive value):</li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">From the <b>Object</b> drop-down list, expand <b>Control</b>, expand <b>Individual_Status</b>, and then select <b>Get Value</b>. </li>
+            <li class="List_Indent">From the <b>Operator</b> drop-down list, select <b>Equal</b>; from &#160;the <b>Value</b> drop-down list, select <b>Inactive</b> .</li>
+            <li class="List_Indent">Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To add a custom drop down.png" style="width: 14px;height: 14px;" /> in the Summary section to add the condition to the action statement. </li>
+        </ol>
+        <ol start="4">
+            <li>Configure the action as follows: </li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">From the <b>Object (Action)</b> drop-down list, expand <b>Control</b>, expand <b>Top_Toolbar</b>, and then select <b>Disable Item</b>. </li>
+            <li class="List_Indent">Configure the <b>Item ID</b> source and value: From the <b>Source</b> drop-down list, select <b>User Defined</b>; from the <b>Value</b> drop-down list, select <b>Clone Individual</b>. </li>
+        </ol>
+        <ol start="5">
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> to confirm changes. </li>
+            <li>Add another action statement to the <b>Load</b> event; in the <b>Description</b> text box, type: <i>Enable Clone toolbar button if status is not inactive</i>.</li>
+            <li>Configure the condition as follows (checks for inactive status):</li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">From the <b>Object</b> drop-down list, expand <b>Control</b>, expand <b>Individual_Status</b>, and then select <b>Get Value</b>. </li>
+            <li class="List_Indent">From the <b>Operator</b> drop-down list, select <b>NotEqual</b>; from &#160;the <b>Value</b> drop-down list, select <b>Inactive</b> .</li>
+            <li class="List_Indent">Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To add a custom drop down.png" style="width: 14px;height: 14px;" /> in the Summary section to add the condition to the action statement. </li>
+        </ol>
+        <ol start="8">
+            <li>Configure the action as follows: </li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">From the <b>Object (Action)</b> drop-down list, expand <b>Control</b>, expand <b>Top_Toolbar</b>, and then select <b>Enable Item</b>. </li>
+            <li class="List_Indent">Configure the <b>Item ID</b> source and value: From the <b>Source</b> drop-down list, select <b>User Defined</b>; from the <b>Value</b> drop-down list, select <b>Clone Individual</b>. </li>
+        </ol>
+        <ol start="9">
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> to confirm changes. </li>
+        </ol>
+        <h3><a name="Saving"></a>Saving all configurations and exiting design mode </h3>
+        <p>When you complete all procedures in this topic, you must save the configurations. </p>
+        <p style="font-weight: bold;">To save all configurations and exit design mode: </p>
+        <ul>
+            <li>Close Dynamic Forms Designer and then click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Accessing UCW_1.jpg" style="width: 24px;height: 24px;" /> on the UCW toolbar to save all configurations and exit design mode. </li>
+        </ul>
+    </body>
+</html>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="453" MadCap:lastWidth="720">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>OnyxCollectionManager</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>
+            <MadCap:keyword term="OnyxCollectionManager" />OnyxCollectionManager</h3>
+        <p>The OnyxCollectionManager step component carries out a saveCollection 
+ process that explicitly calls the insert, update, and delete methods on 
+ an object. With this collection of single method operations, OEAS can 
+ commit successful methods and roll back failed methods. OnyxCollectionManager 
+ offers performance benefits over standard saveCollection methods when 
+ a call includes numerous object instances.</p>
+        <p>The default implementation of Onyx Employee Portal (OEP) calls saveCollection 
+ methods that use OnyxCollectionManager to process batch updates of incidents, 
+ reminders, tasks, and work tickets for the Task Manager feature.</p>
+        <p>For custom objects implementing insert, update, and delete methods, 
+ you can easily add to the object a saveCollection method that uses the 
+ OnyxCollectionManager. OnyxCollectionManager reuses any customizations 
+ that are applied to an object's insert, update, and delete methods. In 
+ order to use OnyxCollectionManager, the single action methods must exist 
+ on an object.</p>
+        <p>OnyxCollectionManager implements basic validation and relies on object-specific 
+ validation from each of the individual methods that it executes. Do not 
+ include an extra validation step, such as OnyxDataValidationStep, in a 
+ saveCollection that uses OnyxCollectionManager.</p>
+        <p>Because OnyxCollectionManager breaks a saveCollection method into separate 
+ transactions, do not use OnyxCollectionManager when the saveCollection 
+ itself requires customizations. For example, if a saveCollection includes 
+ a uniqueness check after it persists all objects in the database with 
+ the intent of preventing all collection actions if the check fails, then 
+ do not use OnyxCollectionManager. It is not designed to implement all-or-nothing 
+ transactions.</p>
+        <p>To use OnyxCollectionManager, insert a <a href="Step_Attributes.htm">COM step</a> in your method with the stepData 
+ set to OnyxCollectionManager.CollectionManager. See <a href="stepAdditionalData_collectionManager.htm">stepAdditionalData</a> 
+ for an example of that node. </p>
+    </body>
+</html>

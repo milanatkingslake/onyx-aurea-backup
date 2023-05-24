@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="1850" MadCap:lastWidth="946" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>retrieveList (forecast)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="retrieveList" />retrieveList method</h2>
+        <p>The retrieveList method of the <a href="forecast_object.htm">forecast</a> 
+ object searches the database and returns a rowSet containing the list 
+ of forecast items that match the input criteria.</p>
+        <p><a href="standard_retrieveList.htm">retrieveList standard method information</a>
+        </p>
+        <h3>Parameters</h3>
+        <table>
+            <col style="width: 4cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 4cm;" />
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Direction</th>
+                    <th>Data type</th>
+                    <th>Content type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ownerId (required)</td>
+                    <td>in</td>
+                    <td>string</td>
+                    <td>n/a</td>
+                    <td>The unique identifier for the object that 
+ owns the forecast</td>
+                </tr>
+                <tr>
+                    <td>ownerType (required)</td>
+                    <td>in</td>
+                    <td>i4</td>
+                    <td>n/a</td>
+                    <td>Specifies the <a href="standard_ownertype.htm#ownertypetable">type</a> 
+ of object for the given ownerId</td>
+                </tr>
+                <tr>
+                    <td>rowSet</td>
+                    <td>out</td>
+                    <td>object</td>
+                    <td>all(out)</td>
+                    <td>List of rows containing forecast information</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Columns returned in the rowSet object
+</p>
+        <table>
+            <col style="width: 5cm;" />
+            <col style="width: 5cm;" />
+            <col style="width: 7cm;" />
+            <thead>
+                <tr>
+                    <th>columnOrdinal</th>
+                    <th>columnName</th>
+                    <th>Physical column</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>primaryId</td>
+                    <td>forecast_header.forecast_header_id</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>secondaryId</td>
+                    <td>forecast_header.secondary_id</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>vchName</td>
+                    <td>forecast_header.name</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Steps</h3>
+        <table>
+            <col style="width: 5cm;" />
+            <col style="width: 5cm;" />
+            <col style="width: 7cm;" />
+            <thead>
+                <tr>
+                    <th>Step data</th>
+                    <th>Step type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>OnyxDataValidationStep.DataValidation</td>
+                    <td>com</td>
+                    <td>Validates input parameters</td>
+                </tr>
+                <tr>
+                    <td>OnyxDM.DataManager</td>
+                    <td>com</td>
+                    <td>Retrieves each forecastLine of detail from 
+ the database</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Example</h3>
+        <p>Parameters
+        </p>
+        <p Class="Code" class="C_Code">&lt;parameters&gt;</p>
+        <p Class="Code" class="C_Code">&lt;ownerId&gt;A1D8BBF0-0701-4C6B-9920-CEE7CF85A728&lt;/ownerId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;ownerType&gt;6&lt;/ownerType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/parameters&gt;</p>
+        <p>parametersReturn
+        </p>
+        <p Class="Code" class="C_Code">&lt;parametersReturn&gt;</p>
+        <p Class="Code" class="C_Code">&lt;rowSet objectType="rowSet" rowCount="1" columnCount="3" pageSize=""&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinitions collection="1" objectType="columnDefinition"&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Primary ID&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;primaryId&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;1&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;24&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;16&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;ID&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;secondaryId&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;2&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;24&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Name&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;vchName&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;3&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;104&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinitions&gt;</p>
+        <p Class="Code" class="C_Code">&lt;rows collection="1" objectType="row"&gt;</p>
+        <p Class="Code" class="C_Code">&lt;row&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c0&gt;69684253-B4B4-4995-89E4-F5BA9B119C00&lt;/c0&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c1&gt;51&lt;/c1&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c2&gt;&lt; Forecast &gt;&lt;/c2&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/row&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/rows&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/rowSet&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/parametersReturn&gt;</p>
+    </body>
+</html>

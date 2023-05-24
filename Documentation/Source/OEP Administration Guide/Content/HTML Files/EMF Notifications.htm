@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="843" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h3>EMF&#160;Notifications</h3>
+        <p>The notification types that can be edited in Onyx:</p>
+        <h4>Individual Email template</h4>
+        <p>A single email is sent for each event that occurs. An Individual email template is a html template for each notification type.</p>
+        <p>To edit an Individual email template for the notification type <b>Any incident assigned to me</b>:</p>
+        <ol>
+            <li>Expand the <b>Onyx</b> folder.</li>
+            <li>Double click to open the <b>AnyIncidentAssignedToMe</b> process.</li>
+            <li>Find and open the module <b>MSG_EMAIL_BODY</b> by double clicking on the module name.</li>
+            <li>For example if you wish to change the ID field to Description, open the module <b>MSG_PARAM_LOOKUP_XML</b> and add the field which needs to convert ID to Description and use the same in the module <b>MSG_EMAIL_BODY</b>.</li>
+        </ol>
+        <h4>Summary Email template</h4>
+        <p>A single summary email is sent for all events that occur in the day. Summary email body templates are based on LBO names. Out-of-box templates are Incident, Individual, Company, Task and Worknote. </p>
+        <p>Corresponding module names are <b>MSG_EMAIL_BODY_INCIDENT, MSG_EMAIL_BODY_INDIVIDUAL, MSG_EMAIL_BODY_COMPANY, MSG_EMAIL_BODY_TASK, and MSG_EMAIL_BODY_INCIDENT_WORKNOTE</b>.</p>
+        <p><b>To update an incident LBO notification type body template:</b>
+        </p>
+        <ol>
+            <li>Expand the Onyx folder.</li>
+            <li>Double click to open the SaveSummaryEmailTemplate process.</li>
+            <li>Find and open the module MSG_EMAIL_BODY_INCIDENT by double clicking on the module name. Add the custom fields for EMF body.</li>
+            <li>Update a subject in the header column of on_summary_email_subject table in PersistenceDB</li>
+        </ol>
+        <h4>Summary emails - Schedulers</h4>
+        <p><b>Scheduling Summary</b> email contains the following notifications:</p>
+        <ul>
+            <li>SendPrivateSummaryEmail for private notifications</li>
+            <li>SendPublicSummaryEmail for public notifications</li>
+        </ul>
+        <p><b>To schedule a PrivateSummaryEmail to process and send emails:</b>
+        </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Once schedule time is set for summary email, restart the EMF server to see the changes immediately. If you do not restart, the changes are reflected 5 minutes after the scheduled time lapse.</p>
+        <ol>
+            <li>Expand the <b>Onyx</b> folder.</li>
+            <li>Open <b>SendPrivateSummaryEmail</b> by double clicking on the process name.</li>
+            <li>Find and open the module <b>Schedule</b> by double clicking on the module name.</li>
+            <li>Update Start and End fields in the Repeating section as per the requirement.</li>
+            <li>Update start time <b>MSG_START_TIME</b> module with the value of <b>Start</b> field which was configured in previous step.</li>
+            <li>The time frame to run and send the Summary email can be defined in the module <b>MSG_END_TIME</b>. In this module the time has to be given in the minutes. Out-of-box this module runs for 4 hours.</li>
+        </ol>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/If there is a prompt to replace.png" style="width: 479px;height: 502px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <p><b>To schedule a PublicSummaryEmail to process and send emails:</b>
+        </p>
+        <ol>
+            <li>Expand the <b>Onyx</b> folder.</li>
+            <li>Open <b>SendPublicSummaryEmail</b> by double clicking on the process name.</li>
+            <li>Find and open the module <b>Schedule</b> by double clicking on the module name.</li>
+            <li>Update Start and End fields in the Repeating section as per the requirement.</li>
+            <li>Update start time <b>MSG_START_TIME</b> module with the value of <b>Start</b> field which was configured in previous step.</li>
+            <li>The time frame to run and send the Summary email can be defined in the module <b>MSG_END_TIME</b>. In this module the time has to be given in the minutes.</li>
+        </ol>
+        <p><b>To schedule a SendIndividualEmail to process and send emails:</b>
+        </p>
+        <ol>
+            <li>Expand the <b>Onyx</b> folder.</li>
+            <li>Open <b>SendIndividualEmail</b> by double clicking on the process name.</li>
+            <li>Find and open the module <b>Schedule</b> by double clicking on the module name.</li>
+            <li>Update Start and End fields in the Repeating section as per the requirement.</li>
+        </ol>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/EMF Notifications.png" style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;width: 505px;height: 512px;" />
+        </p>
+    </body>
+</html>

@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+    </head>
+    <body>
+        <h3> Configuring Navigator Date and Time Formats</h3>
+        <p>You can configure date and time formats in the Navigator using any of the following supported formats.</p>
+        <h4>Supported Date Formats</h4>
+        <p>The following table lists the supported date formats with description and example.</p>
+        <table>
+            <col style="width: 158px;" />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Input</th>
+                    <th>Description</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>YYYY</td>
+                    <td>Year in a four digit format.</td>
+                    <td>2014</td>
+                </tr>
+                <tr>
+                    <td>YY</td>
+                    <td>Year in a two digit format.</td>
+                    <td>14</td>
+                </tr>
+                <tr>
+                    <td>Y</td>
+                    <td>Year with any number of digits and sign.</td>
+                    <td> -25</td>
+                </tr>
+                <tr>
+                    <td>Q</td>
+                    <td>Quarter of year. Sets the month to the first month in quarter. </td>
+                    <td>1..4</td>
+                </tr>
+                <tr>
+                    <td>M MM</td>
+                    <td>Month Number: M refers to one digit month for months below 10. MM refers to two digits months. </td>
+                    <td>1..12</td>
+                </tr>
+                <tr>
+                    <td>MMM MMMM </td>
+                    <td>Month name in locale </td>
+                    <td>Jan..December</td>
+                </tr>
+                <tr>
+                    <td>D DD</td>
+                    <td> Day of month </td>
+                    <td>1..31</td>
+                </tr>
+                <tr>
+                    <td>Do</td>
+                    <td>Day of month with ordinal </td>
+                    <td>1st..31st</td>
+                </tr>
+                <tr>
+                    <td>DDD DDDD</td>
+                    <td style="font-weight: normal;"> Day of year</td>
+                    <td> 1..365</td>
+                </tr>
+                <tr>
+                    <td>X</td>
+                    <td>Unix timestamp </td>
+                    <td>1410715640.579</td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">X</p>
+                    </td>
+                    <td>
+                        <p>Unix ms timestamp </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1410715640579</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Supported Time Format</h4>
+        <p>The following table lists the supported time formats with description and example.</p>
+        <table>
+            <col style="width: 158px;" />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Input</th>
+                    <th>Description</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>H HH </td>
+                    <td>Hours in 24 hours format</td>
+                    <td> 0..23</td>
+                </tr>
+                <tr>
+                    <td>h hh </td>
+                    <td>Hours format (12 hour time used with a A)</td>
+                    <td> 1.. 12</td>
+                </tr>
+                <tr>
+                    <td>k kk </td>
+                    <td>Hours format (24 hour time from 1 to 24) </td>
+                    <td>1.. 24</td>
+                </tr>
+                <tr>
+                    <td>a A </td>
+                    <td>
+                        <p>Post or ante meridiem
+</p>
+                        <p class="tableNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;"> The one character a p are also considered valid.</p>
+                    </td>
+                    <td>
+am pm</td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">m mm </p>
+                    </td>
+                    <td>
+                        <p>Minutes </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">0..59</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">s ss</p>
+                    </td>
+                    <td>
+                        <p> Seconds</p>
+                    </td>
+                    <td>
+                        <p> 0..59</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>s ss sss </td>
+                    <td>
+                        <p>Fractional Seconds</p>
+                    </td>
+                    <td> 0..999</td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Z ZZ </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Offset from UTC as +-HH:mm, +-HHmm, or Z </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">+12:00</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Setting Mask Format</h4>
+        <p class="ProcedureHeading">To set the mask format</p>
+        <p>1. Access the Navigator_entity_field_master table of Persistence database.</p>
+        <p>2. Set the mask format for any of the date and time fields.</p>
+        <p><b>Example</b>
+        </p>
+        <p>Run the following SQL query on <code>Navigator_entity_field_master</code> table of Persistence database.</p>
+        <p>Update <code>Navigator_entity_field_master</code></p>
+        <p>Set <code>mask_format='CDF||DD/MM/YYYY HH:mm a'</code></p>
+        <p>Where<code> field_id=396</code></p>
+        <p>After running the query, the updated mask formats for various customers are as follows.</p>
+        <table>
+            <col style="width: 318px;" />
+            <col />
+            <thead>
+                <tr>
+                    <th>Customer Name </th>
+                    <th>Updated Mask Format</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Griffin, Anthony </td>
+                    <td>29/08/2017 12:17 pm</td>
+                </tr>
+                <tr>
+                    <td>Aquatic Experience </td>
+                    <td>13/07/2017 03:46 am</td>
+                </tr>
+                <tr>
+                    <td>Aquatic Experience </td>
+                    <td>12/07/2017 23:49 pm</td>
+                </tr>
+                <tr>
+                    <td>Aquatic Experience </td>
+                    <td>12/07/2017 19:14 pm</td>
+                </tr>
+                <tr>
+                    <td>Washington, Paddy</td>
+                    <td> 11/08/2017 14:00 pm</td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

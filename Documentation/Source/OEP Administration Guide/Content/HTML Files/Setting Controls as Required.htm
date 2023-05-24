@@ -1,0 +1,187 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="75" MadCap:lastWidth="701">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2><a name="top"></a>Setting Controls as Required</h2>
+        <p>Using <a href="About Design Mode.htm#top">UCW</a>, you can set controls on <a href="Configuring OEP.htm#UCW">UCW-enabled pages</a> to required without any programming knowledge. </p>
+        <p>This sample UI configuration demonstrates setting a control as required by configuring action statements that depend on the user-selected values for another set of controls. </p>
+        <h4>Scenario used in this sample UI configuration </h4>
+        <p>The manager of the remote sales team asks you to make the Type control a required entry when her staff adds or edits "active lead" records (on the individual edit page). This requirement ensures that the salespeople remember to select a hot, warm, or cold status for active leads. </p>
+        <p>The following graphic illustrates the Type control with an asterisk displayed to indicate that a selection is required. </p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Controls as Required.jpg" style="border-left-style: solid;border-left-width: 1px;border-left-color: ;border-right-style: solid;border-right-width: 1px;border-right-color: ;border-top-style: solid;border-top-width: 1px;border-top-color: ;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: ;" />
+        </p>
+        <h4>Procedures in this sample UI configuration </h4>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">These procedures use Dynamic Forms Designer. For basic instructions on using Dynamic Forms Designer, see Adding and modifying action statements. </p>
+        <p>Follow these procedures to set the Subtype control as required when the displayed record is an active lead. </p>
+        <ul>
+            <li><a href="#Displayi">Display an asterisk by the Subtype control for active leads </a>
+            </li>
+            <li><a href="#Removing">Remove the asterisk by the Subtype control for other records (when Status or Type is changed)</a>
+            </li>
+            <li><a href="#Saving">Save the msgError resource string as a page variable for use in the validation error message</a>
+            </li>
+            <li><a href="#Configur">Configure a validation error message using the saved page variable</a>
+            </li>
+            <li><a href="#Saving2">Save all configurations and exit design mode</a>
+            </li>
+        </ul>
+        <h3 style="page-break-before: always;"><a name="Displayi"></a>Displaying an asterisk by the Subtype control for display or update of active leads </h3>
+        <p>You can dynamically indicate the requirement for Subtype when the OEP user displays or updates an active lead on an individual edit page by doing one of the following: </p>
+        <ul>
+            <li>Loading a pre-existing record that predates the Subtype requirement for active leads (Load event for the Page object) </li>
+            <li>Changing the value for Status or Type (Change event for the Page object) </li>
+        </ul>
+        <p>In this procedure, the action statement uses the Boolean AND operator (the AND operator is implicit); all conditions must be satisfied for the action to occur. </p>
+        <p>Each event uses the same action statement. In this procedure, you configure the statement once and then clone (copy) the statement to the other event. </p>
+        <p>Because this procedure uses the Load event, you must reload the page after completing the procedure to see the changes. </p>
+        <p class="ProcedureHeading">To display an asterisk by the Subtype control for display or update of an active lead:</p>
+        <ol>
+            <li>In Dynamic Forms Designer (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/To reset all configurations_8.jpg" style="width: 21px;height: 23px;" />) for the individual edit page, add an action statement to the <b>Load</b> event for the <b>Page</b> object.</li>
+            <li>In the <b>Description</b> text box, type: <i>Add asterisk to Subtype if active lead </i></li>
+            <li>Configure the conditions as follows:</li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">From the <b>Object</b> drop-down list, expand <b>Control</b>, expand <b>Status</b>, and then select <b>Get Value</b>. </li>
+            <li class="List_Indent">From the <b>Operator</b> drop-down list, select <b>Equal</b>; from the <b>Value</b> drop-down list, select <b>Active</b>. </li>
+            <li class="List_Indent">Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To add a custom drop down.png" style="width: 14px;height: 14px;" /> in the Summary section to add the condition to the action statement. </li>
+            <li class="List_Indent">From the <b>Object</b> drop-down list, expand <b>Control,</b> expand <b>Type</b>, and then select <b>Get Value</b>. </li>
+            <li class="List_Indent">From the <b>Operator</b> drop-down list, select <b>Equal</b>; from the <b>Value</b> drop-down list, select <b>Lead</b>. </li>
+            <li class="List_Indent">Click the top-most <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To add a custom drop down.png" style="width: 14px;height: 14px;" /> in the Summary section (above the "OR" operator) to add the condition to the action statement. </li>
+            <li class="List_Indent">Both conditions must be satisfied for the action to occur; the conditions have an implicit "AND" operator between them. </li>
+        </ol>
+        <ol start="4">
+            <li>Configure the action as follows: From the <b>Object (Action)</b> drop-down list, expand <b>Control</b>, expand <b>Subtype</b>, and then select <b>Set Required (On)</b>. </li>
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> to confirm changes. </li>
+            <li><a href="Cloning Statements.htm#top">Clone the statement</a> and then move the cloned statement to the <b>Change</b> event for the <b>Page</b> object. </li>
+        </ol>
+        <h3><a name="Removing"></a>Removing the asterisk by the Subtype control for other records (when Status or Type is changed) </h3>
+        <p>You can remove the asterisk by the Subtype control when the OEP user causes the record to become a record type other than "active lead" by changing the value in the Status control or the Type control. </p>
+        <p>In this procedure, the action statement uses the Boolean OR operator; only one of the conditions must be satisfied for the action to occur. </p>
+        <p class="ProcedureHeading">To remove the asterisk by the Subtype control when Status or Type is changed, resulting in a record that is not an active lead:</p>
+        <ol>
+            <li>In Dynamic Forms Designer (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/To reset all configurations_8.jpg" style="width: 21px;height: 23px;" />) for the individual edit page, add an action statement to the <b>Change</b> event for the <b>Page</b> object.</li>
+            <li>In the <b>Description</b> text box, type: <i>Remove asterisk for Subtype if not active lead</i></li>
+            <li>Configure the condition as follows:</li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">From the <b>Object</b> drop-down list, expand <b>Control</b>, expand <b>Status</b>, and then select <b>Get Value</b>. </li>
+            <li class="List_Indent">From the <b>Operator</b> drop-down list, select <b>Not Equal</b>; from the <b>Value</b> drop-down list, select <b>Active</b>. </li>
+            <li class="List_Indent">Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To add a custom drop down.png" style="width: 14px;height: 14px;" /> in the Summary section to add the condition to the action statement. </li>
+            <li class="List_Indent">From the <b>Object</b> drop-down list, expand <b>Control</b>, expand <b>Type</b>, and then select <b>Get Value</b>. </li>
+            <li class="List_Indent">From the <b>Operator</b> drop-down list, select <b>Not Equal</b>; from the <b>Value</b> drop-down list, select <b>Lead</b>. </li>
+            <li class="List_Indent">Click the bottom-most <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To add a custom drop down.png" style="width: 14px;height: 14px;" /> in the Summary section (below the "OR" operator) to add the condition to the action statement. </li>
+        </ol>
+        <p class="Indent1">Only one of the conditions must be satisfied for the action to occur, as indicated by the interceding "OR" operator. </p>
+        <ol start="4">
+            <li>Configure the action as follows: From the Object (Action) drop-down list, expand Control, expand Subtype, and then select Set Required (Off). </li>
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> to confirm changes. </li>
+        </ol>
+        <h3><a name="Saving"></a>Saving a resource string as a page variable </h3>
+        <p>You can save the msgError resource string as a page variable for use in the validation error message. (The msgError resource string is available for this page at installation.) When you save resource strings as page variables, they become available for events that occur after the selected event for the current session of the selected page. For example, if you save the msgError resource string as a page variable at the Load event for the individual edit page, then the saved page variable is available for the Validate event, which occurs after the Load event. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">For information on adding custom resource strings, see <a href="Configuring UI and Message.htm#Using">Using UI Text Editor</a>.</p>
+        <p class="ProcedureHeading">To save the msgError resource string as a page variable: </p>
+        <ol>
+            <li>In Dynamic Forms Designer (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/To reset all configurations_8.jpg" style="width: 21px;height: 23px;" />) for the individual edit page, add an action statement to the <b>Load</b> event for the <b>Page</b> object. </li>
+            <li>In the <b>Description</b> text box, type: <i>Save msgError as page variable</i>. </li>
+            <li>From the <b>Object (Action)</b> drop-down list, expand <b>Common</b> and then select <b>Get Resource String</b>. </li>
+            <li>Configure the source and value for <b>Resource File ID</b> as follows: From the <b>Source</b> drop-down list, select <b>User Defined</b>; in the <b>Value</b> text box, type: <i>individualedit</i></li>
+            <li>Configure the source and value for <b>Resource Name</b> as follows: From the <b>Source</b> drop-down list, select <b>User Defined</b>; in the <b>Value</b> text box, type: <i>msgError</i></li>
+            <li>Select the <b>Save Result?</b> check box; in the <b>Variable</b> text box, type: <i>msgError</i></li>
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> to confirm changes. </li>
+        </ol>
+        <h3><a name="Configur"></a>Configuring a validation error message using the saved page variable </h3>
+        <p>You can configure a validation error message using the saved page variable from the msgError resource string (see earlier procedure <a href="#Saving">Saving a resource string as a page variable</a>). </p>
+        <p>In this procedure, the action statement uses the Boolean AND operator (the AND operator is implicit); all conditions must be satisfied for the action to occur. </p>
+        <p class="ProcedureHeading">To configure a validation error message using the saved page variable: </p>
+        <ol>
+            <li>In Dynamic Forms Designer (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/To reset all configurations_8.jpg" style="width: 21px;height: 23px;" />) for the individual edit page, add an action statement to the <b>Validate</b> event for the <b>Page</b> object. </li>
+            <li>In the <b>Description</b> text box, type: <i>Display validation message if empty Subtype on active lead</i>. </li>
+            <li>Configure the conditions as follows (checks for active leads with empty Subtype):</li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">From the <b>Object</b> drop-down list, expand <b>Control</b>, expand <b>Status</b>, and then select <b>Get Value</b>. </li>
+            <li class="List_Indent">From the <b>Operator</b> drop-down list, select <b>Equal</b>; from the <b>Value</b> drop-down list, select <b>Active</b>. </li>
+            <li class="List_Indent">Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To add a custom drop down.png" style="width: 14px;height: 14px;" /> in the Summary section to add the condition to the action statement. </li>
+            <li class="List_Indent">From the <b>Object</b> drop-down list, expand <b>Control</b>, expand <b>Type</b>, and then select <b>Get Value</b>. </li>
+            <li class="List_Indent">From the <b>Operator</b> drop-down list, select <b>Equal</b>; from the <b>Value</b> drop-down list, select <b>Lead</b>. </li>
+            <li class="List_Indent">Click the top-most <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To add a custom drop down.png" style="width: 14px;height: 14px;" /> in the Summary section (above the "OR" operator) to add the condition to the action statement. </li>
+        </ol>
+        <p class="Indent2">Both conditions must be satisfied for the action to occur; the conditions have an implicit "AND" operator between them. </p>
+        <ol style="list-style-type: lower-alpha;" MadCap:continue="true">
+            <li class="List_Indent">From the <b>Object</b> drop-down list, expand <b>Control</b>, expand <b>Sub_Type</b>, and then select <b>Get Value</b>. </li>
+            <li class="List_Indent">From the <b>Operator</b> drop-down list, select Is <b>Empty</b>. </li>
+            <li class="List_Indent">Click the top-most <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To add a custom drop down.png" style="width: 14px;height: 14px;" /> in the Summary section (above the "OR" operator) to add the condition to the action statement. </li>
+        </ol>
+        <p class="Indent2">All conditions must be satisfied for the action to occur; the conditions have an implicit "AND" operator between them. </p>
+        <ol start="4">
+            <li>Configure the action as follows: </li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">From the <b>Object (Action)</b> drop-down list, expand <b>Common</b>, expand <b>UI</b>, and then select <b>Show Validation Message Box</b>. </li>
+            <li class="List_Indent">From the <b>Object (Action)</b> drop-down list, expand <b>Common</b>, expand <b>UI</b>, and then select <b>Show Validation Message Box</b>. </li>
+        </ol>
+        <table>
+            <thead>
+                <tr>
+                    <th>(Row)</th>
+                    <th>For the Source, do this:</th>
+                    <th>For the Value, do this: </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Title</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Select <b>Page Variable</b></p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Select <b>msgError</b></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Message</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Select <b>User Defined</b></p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Type <i>Select a Subtype before saving an active lead.</i></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Icon Type</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Select <b>User Defined</b></p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Select <b>Exclamation</b></p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ol style="list-style-type: lower-alpha;" MadCap:continue="true">
+            <li class="List_Indent">Select the <b>Stop on Execute?</b> check box to prevent subsequent statements within the Validate event from executing if the conditions are met. </li>
+        </ol>
+        <p class="Indent2">For more information on the Stop on Execute? check box, see <a href="Actions and Conditions.htm#top">Actions and conditions</a>.</p>
+        <ol start="5">
+            <li>Click &#160;<img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> to confirm changes. </li>
+        </ol>
+        <h3><a name="Saving2"></a>Saving all configurations and exiting design mode </h3>
+        <p>When you complete all procedures in this topic, you must save the configurations. </p>
+        <p style="font-weight: bold;">To save all configurations and exit design mode: </p>
+        <ul>
+            <li>Close Dynamic Forms Designer and then click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Accessing UCW_1.jpg" style="width: 24px;height: 24px;" /> on the UCW toolbar to save all configurations and exit design mode. </li>
+        </ul>
+    </body>
+</html>

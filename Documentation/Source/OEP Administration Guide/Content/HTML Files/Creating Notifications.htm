@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="849" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2><a name="top"></a>Creating Notifications</h2>
+        <p>Currently notifications work on a multiple logical object. For example, to create a new notification type on Logical Object “obj”</p>
+        <ol>
+            <li>Make sure LBOAdapter is enabled in LBOAdapter.config file in the path ..\Program Files\Onyx\AppServer\Components\LBOAdapter.config on the object “obj”.</li>
+            <li>Add notification type in persistence DB.</li>
+            <li>If the secondary id of new notification type is for example “25”. Create an entry into “on_summary_email_subject” table with notification_id = 25.</li>
+            <li>Create a new process with the name “MyNewNotification”.</li>
+            <li>Edit the link between “Event Id” and “Return Accepted” modules in “OnyxNotificationBaseProcess” and append "OR" condition (you can copy it from other conditions). Edit “Against this expression(value)” field with “/25”.</li>
+            <li>Open “OnyxNotificationProcess_Execute” process and call “MyNewNotification” process from “Case Statements” module. Copy link properties of other notification types and paste to this link. And update “Against this expression(value)” field with "/25".</li>
+            <li>Enter "call parameter" values inside call parameters tab(copy the values from other existing process).</li>
+        </ol>
+        <h4><a name="Adding"></a>Adding custom notifications</h4>
+        <p>Based on your organization's requirements, you can create custom notifications to alert users about specific changes to Onyx records. Additionally, if you want to add any custom fields to the parameters or to the email template of an existing notification.</p>
+        <p>Your installation package includes a folder LBOAdapterTemplate to help you create a custom notification. This folder is located under Customization Support\Application Server (OEAS)\LBOAdapterTemplate. </p>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; ">To create a custom notification, refer to the folder in the following location Customization Support\Application Server (OEAS)\LBOAdapterTemplate. </p>
+        <p>To create a custom notification, refer to the folder in the following location Customization Support\Application Server (OEAS)\LBOAdapterTemplate. </p>
+        <p><b>To create a custom notification, you must:</b>
+        </p>
+        <p><a href="#Adding2">Add Event Notifications</a>
+        </p>
+        <h3><a name="Adding2"></a>Adding Event</h3>
+        <p>You can add an Event to a notification by adding data to the Event and EventMI tables. </p>
+        <ol>
+            <li>Go to the Event table in persistence database.</li>
+            <li>Add the appropriate LboObjectId that is present in LboObject table.</li>
+            <li>If there is no related LboObjectId found for the event, then first enter data for the Lbo Object in LboObject table.</li>
+        </ol>
+        <p><b>The following is an example to add a Support Incident Event</b>
+        </p>
+        <p><b>In the Event table:</b>
+        </p>
+        <ol>
+            <li>Generate an EventId(GUID).</li>
+            <li>Enter the SiteId and SecondaryId a unique value.</li>
+            <li>Enter the LboObjectId(Foreign key from LboObject table)</li>
+            <li>Enter the RecordStatus (If the event needs to be active make it "true")</li>
+            <li>Fill in the common columns of UpdateBy, UpdateDate, InsertBy, and InsertDate.</li>
+        </ol>
+        <p><b>In the EventMl table:</b>
+        </p>
+        <ol>
+            <li>Add the EventId (foreign key from Event table).</li>
+            <li>Enter the SiteId, add LanguageCode specific to the application and the EventName(description of the event).</li>
+        </ol>
+        <h4>Adding Change Type</h4>
+        <p>You can add a change type to a Notification by making changes in the ChangeType table in persistence database. The change type indicates the type of action to be performed for each event. </p>
+        <p>For example, to add a change type (Insert) to a Support Incident, go to the ChangeType table and add Insert to the change type record. In an OOB setup, the change types available are Insert, Update and Delete.</p>
+        <p><i>For new change type data need to be entered in following tables:</i>
+        </p>
+        <p><i>ChangeType</i>
+        </p>
+        <h4>Associate Change Type to Event</h4>
+        <p>You can combine Event Type and Change Type by adding data in the EventChangeType table. The data tells us what are the change types associated with each event.</p>
+        <h4>Adding filters to Event</h4>
+        <p>You can add specific Filters to EventFilter table in persistence database. EventId is the foreign key of Event table.</p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Once schedule time is set for the summary email, you need to restart the EMF serve for the changes to reflect immediately. The chamges will be reflected in the next 5min schedule
+by default.</p>
+        <h3 style="page-break-before: always;"><a name="Updating"></a>Updating Notification Type Table</h3>
+        <p>To add a new notification in OEP, you must add a new record in the NotificationType and NotificationTypeMl tables in Persistence database. In these tables NotificationType is the master table, so data need to be entered first in the NotificationType table before being entered in the NotificationTypeMl table.</p>
+        <p>Use the following information to update the NotificationType table for your custom notification.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Column Name</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">NotificationTypeId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter a unique GUID for the notification reference.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">SiteId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the Onyx site ID.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">SecondaryId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the Secondary ID for the notification. This is a unique value for each row in the table.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">NotificationDeliverTypeId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the Primary Key of the NotificationDeliveryType table to specify whether to deliver an individual or a summary email for the notification.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">FromEmail</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the value that will appear in the From email address field when sending emails.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">UIResourceName</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the security resource permission.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">RecordStatus</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter 1 for the notification to be available for selection in the Notifications Subscription window. Enter 0 to hide the notification in the Notification Subscription window. the value 0 is also used for calendar appointments in this table, because they do not appear in the Notification Subscription window.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">BrokerUrl</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The data in this column is used for communication between ONS and EMF for a specific Notification.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

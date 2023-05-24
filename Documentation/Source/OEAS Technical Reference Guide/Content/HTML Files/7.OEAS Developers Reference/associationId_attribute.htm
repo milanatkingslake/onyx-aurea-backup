@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="802" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>associationId attribute</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h6>
+            <MadCap:keyword term="associationId;associationId attribute" />associationId attribute</h6>
+        <p>The associationId attribute enables client applications to correlate 
+ error messages to an XML node in a step package. By correlating the error 
+ message to the cause of the error in the XML input, your error handling 
+ routines can identify the specific cause of the error. For example, when 
+ a method processes a collection of objects, the associationId attribute 
+ provides a link from the error to the object that caused the error.</p>
+        <p>The associationId attribute on the error node of the methodStatus XML 
+ is returned only if the value of statusType is "failure" or 
+ "successWithInfo." </p>
+        <p>Onyx step components typically use associationId elements to identify 
+ problems related to the input data. In such cases, the step components 
+ copy the problematic data to the parametersReturn node unchanged, and 
+ then add add the associationId to the element that contains that data. 
+ The following table lists conventions for copying the input data:</p>
+        <table>
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Error data source</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">The properties of an input object</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Clone the entire contents of the affected 
+ input object and add the associationId attribute to the object's element 
+ (as shown in the sample below)</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Non-object parameters of a method</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Clone all non-object parameters and add the 
+ associationId to the error-causing parameter</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The associationId attribute should be used only when it is possible 
+ to clearly identify the source of the error. If your custom component 
+ is unable to identify the exact source of the error (such as invalid parameter 
+ data for a stored procedure), or if the error involves top-level missing 
+ data (for example, if the input object cannot be found), it is not possible 
+ to use an associationId.</p>
+        <p style="font-weight: bold;">Example</p>
+        <p>The following sample code shows returnXml that contains an error message.</p>
+        <p>Notice that the error node has an associationId attribute. The associationId 
+ attribute contains a GUID, which is used in order to correlates the error 
+ node to the data that causes the error. To make this correlation clear, 
+ the associationId attribute appears in two places within the return XML: 
+ within the methodStatus element and within the parametersReturn element.</p>
+        <p Class="Code" class="code">&lt;returnXml&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;otmId&gt;0735541F-3298-4CEF-B902-1698270968F4&lt;/otmId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;methodStatus&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;statusType&gt;failure&lt;/statusType&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;error <span style="color: #800000;">associationId="EC2FE80A-83CA-49F1-8FB5-0A8D8FA75349"</span>&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;severity&gt;failure&lt;/severity&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;errorNumber&gt;3&lt;/errorNumber&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;errorDescription&gt;<span style="color: #800000;">You did not supply a required property: primaryId.</span>&lt;/errorDescription&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;errorType&gt;oetBusinessLogic&lt;/errorType&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;natLangId&gt;700008&lt;/natLangId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sourceType&gt;ostComponent&lt;/sourceType&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sourceName&gt;OnyxIncidentDAC.Incident&lt;/sourceName&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;timestamp&gt;2000-12-11 10:23:48&lt;/timestamp&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/error&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/methodStatus&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;parametersReturn&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;incident objectType="incident" action="retrieve" content="keysOnly" <span style="color: #800000;">associationId="EC2FE80A-83CA-49F1-8FB5-0A8D8FA75349"</span>&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/incident&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/parametersReturn&gt;</p>
+        <p Class="Code" class="code">&lt;/returnXml&gt;</p>
+        <p>For errors such as this, OEAS attaches the 
+ associationId attribute to the error node and to the data node that caused 
+ the error. OEAS returns the error node in the methodStatus XML, and clones 
+ the data that caused the error to the parametersReturn XML. </p>
+    </body>
+</html>

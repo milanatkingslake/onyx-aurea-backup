@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="741" MadCap:lastWidth="994">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Configuring Master-Detail Object Steps</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h6>
+            <MadCap:keyword term="Configuring Master-Detail Object Steps;master-detail object steps;method creation:master-detail object steps;configured;Steps" />Configuring masterDetail object steps</h6>
+        <p>Primary objects that participate in a masterDetail relationship, require 
+ configuring masterDetail object steps. In this case, should have the given 
+ method on the master object invoke a method on the subordinate object. 
+ A typical example is an order object instance that would have a collection 
+ of subordinate line item object instances. You might want to structure 
+ methods to insert, update, or retrieve the collection of line items (detail) 
+ whenever the order (master) is processed.</p>
+        <p>In order to facilitate this, the master object must include a property 
+ of type "object" whose object type matches the detail object. 
+ This property should be marked as a collection. Under Onyx standards, 
+ it would normally be named as the plural of the name of the detail object 
+ (detailObjectCollectionName).</p>
+        <p>OEAS accomplishes masterDetail coordination by specifying a method step 
+ in a master object's method. This method step invokes a separate method 
+ on the detail object. You use the following rule to compose the "Additional 
+ Data" (or stepAdditionalData) for communicating between the two methods.</p>
+        <p>The method step on the master object's method (e.g., insert) is typically 
+ named for the detail object whose method it called (detailObjectName). 
+ This method step contains additional data that specifies:</p>
+        <ul>
+            <li>stepName=detailObjectName;</li>
+            <li>dataPathPrefix=masterObjectName/</li>
+        </ul>
+        <p>The method called on the detail object (e.g., saveCollection) contains 
+ a list of steps of its own. These are typically data validation and ODM 
+ steps. These steps also contain more than the usual "Additional Data." 
+ The proper content is:</p>
+        <ul>
+            <li>stepName=individualStepName;</li>
+            <li>stepMethod=detailObjectMethodName;</li>
+            <li>dataPath=detailObjectCollectionName;</li>
+            <li>stepObject=detailObjectName</li>
+        </ul>
+        <p>Taken together the "dataPathPrefix" 
+ from the master's method and the "dataPath" from the detail's 
+ method provide the XPath used by the OTM to traverse the input XML and 
+ locate the data on which the detail object's method acts. This enables 
+ some separation between master and detail. For instance, this approach 
+ allows both the company and individual objects to use the same saveCollection 
+ method on the phone object. </p>
+    </body>
+</html>

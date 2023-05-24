@@ -1,0 +1,261 @@
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//   Function Name: ODialogShowOnyxSA
+//
+//     Description: This function displays a custom dialog that retrieves
+//                  a administrator domain account to be used to access the
+//					OnyxSA account on the SQL database.  It also prompts for a
+//					Password for the OnyxSA account.  Uses an account data struct
+//					to store the info in memory.
+//
+////////////////////////////////////////////////////////////////////////////////
+
+function ODialogShowOnyxSA( pstructAccount,nAllowPath,nANSIonly,nResult)
+
+STRING  szDlg, szTemp;
+NUMBER  bDone, nId, nMessage, nTemp,nSize;
+NUMBER  nvDatabaseInfo;
+INT     hwndDlg;
+STRING  szTitle;
+STRING  szLogin, szPassword, szConfirm;
+STRING  szErr;
+HWND    hwndControl;  // Window handle of dialog control
+INT 	nSpaceOkInPW;
+
+begin
+		szDlg = "dlgDbase";
+        szTitle = @INFO_DATABASE_ONYXSA;
+		
+		//if run back to back, get data out of reg
+		szTemp = "Software\\ONYX\\SetupPass\\"+szTitle;
+		RegDBGetKeyValueEx(szTemp,"Account",nTemp,szLogin,nSize);
+		if(szLogin != "")then
+			pstructAccount->szLogin = szLogin;
+		endif;
+		szTemp = "Software\\ONYX\\SetupPass\\"+szTitle;
+		RegDBGetKeyValueEx(szTemp,"Password",nTemp,szPassword,nSize);
+		if(szPassword != "")then
+			ODecryptEntryFromReg("HKLM",szTemp,"Password",szPassword,ENCRYPT_KEY);
+			pstructAccount->szPassword = szPassword;
+		endif;
+
+        // record data produced by this dialog
+        if (MODE=SILENTMODE) then
+           SdMakeName( szAppKey, szDlg, szTitle, nvDatabaseInfo );
+           SilentReadData( szAppKey, "Result", DATA_NUMBER, szTemp, nId );
+           return nId;
+        endif;
+
+		//only prompt if not a rundundant dialog
+		if (OMuteDialog(szTitle) = TRUE && nResult != BACK) then
+			return NEXT;
+		endif;
+
+		//do we disable back button?
+		OIsFirstDialog(szTitle);
+
+        // ensure general initialization is complete
+        if (!bSdInit) then
+           SdInit();
+        endif;
+
+        if (EzDefineDialog( szDlg, ISUSER, "", IDD_ONYXSA ) = DLG_ERR) then
+           return -1;
+        endif;
+
+		OIsFirstDialog(szTitle);  //disable back button if first dialog.
+
+		//populate vars if they are empty
+//		  OGetSQLValuesFromReg(&pstructAccount,COMP_DATABASE);
+		
+		//check to see if dialog is redundant
+//		if (OMuteDialog(szTitle) = TRUE) then
+//			nId = NEXT;
+//			return nId;
+//		endif;
+
+        // Loop in dialog until the user selects a standard button
+        bDone = FALSE;
+
+        while (!bDone)
+
+           nId = WaitOnDialog( szDlg );
+
+           switch(nId)
+           case DLG_INIT:
+                hwndDlg = CmdGetHwndDlg( szDlg );
+                SdGeneralInit( szDlg, hwndDlg, STYLE_NORMAL, szSdProduct );
+
+				//star out password edit control
+				SendMessage(_WinSubGetChildWindow(hwndDlg,IDFLD_SAPASSWORD),EM_SETPASSWORDCHAR, ASTERISK , 0);
+				SendMessage(_WinSubGetChildWindow(hwndDlg,IDFLD_SAPASSWORD_CONFIRM),EM_SETPASSWORDCHAR, ASTERISK , 0);
+
+                if (szTitle != "") then
+                	SetWindowText(hwndDlg, szTitle);
+					
+					//setup instruction string
+					Sprintf(szTemp,@PROMPT_DATABASE_ACCOUNT,gszProductName);
+	                CtrlSetText(szDlg, IDLBL_SAACCOUNT_INSTRUCT, szTemp);
+					Sprintf(szTemp,@PROMPT_DATABASE_ACCOUNT_PASSWORD,gszProductName);
+					CtrlSetText(szDlg, IDLBL_SAPASSWORD_INSTRUCT, szTemp);
+	
+	           	    CtrlSetText(szDlg, IDLBL_SAACCOUNT, @LABEL_DOMAIN);
+                	CtrlSetText(szDlg, IDLBL_SAPASSWORD, @LABEL_PASSWORD);
+					CtrlSetText(szDlg, IDLBL_SAPASSWORD_CONFIRM, @LABEL_CONFIRM);
+       	        	
+       	        	CtrlSetText(szDlg, IDFLD_SAACCOUNT, pstructAccount->szLogin);
+            	    CtrlSetText(szDlg, IDFLD_SAPASSWORD, pstructAccount->szPassword);
+					CtrlSetText(szDlg, IDFLD_SAPASSWORD_CONFIRM, pstructAccount->szPassword);
+
+            	    CtrlSetText(szDlg, 1, @BUTTON_NEXT);
+            	    CtrlSetText(szDlg, 9, @BUTTON_CANCEL);
+            	    CtrlSetText(szDlg, 12, @BUTTON_BACK);
+
+                endif;
+
+				//disable the login entry field if value is sa
+				StrToUpper(szTemp,pstructAccount->szLogin);
+				
+				// removed for 73081
+				// if(szTemp = "SA")then
+				//	hwndControl = GetDlgItem(hwndDlg, IDFLD_SAPASSWORD);
+				//	_WinSubEnableWindow ( hwndControl, 0 );
+				// endif;
+
+				// Set focus to first empty field in dialog
+				hwndControl = GetDlgItem(hwndDlg, 1); //default to next button
+				if(pstructAccount->szPassword = "")then
+       	        	hwndControl = GetDlgItem(hwndDlg, IDFLD_SAPASSWORD);
+       	        elseif(pstructAccount->szLogin = "")then
+       	        	hwndControl = GetDlgItem(hwndDlg, IDFLD_SAACCOUNT);
+       	        endif;
+       	        	
+           	    SetFocus(hwndControl);
+
+           case OK:
+           		bDone  = TRUE;
+                nId    = NEXT;
+                CtrlGetText (szDlg, IDFLD_SAACCOUNT, szLogin);
+                CtrlGetText (szDlg, IDFLD_SAPASSWORD, szPassword);
+                CtrlGetText (szDlg, IDFLD_SAPASSWORD_CONFIRM, szConfirm);
+
+
+                //check the name field
+                //OCheckForIllegalChars(szString,szMsg,nAllowPathChars,nBlankOK,nANSIonly)
+                if(OCheckForIllegalChars(szLogin,@FIELD_DOMAIN,nAllowPath,TRUE,nANSIonly) = FALSE)then
+            		bDone = FALSE;
+					hwndControl = GetDlgItem(hwndDlg,IDFLD_SAACCOUNT);
+      	        	SetFocus(hwndControl);
+                else
+                	//check entry lengths
+              		if(OCheckStringLength(szLogin,100,gszHelpUser) =FALSE )then;
+						bDone = FALSE;
+					endif;
+
+					if(OCheckStringLength(szPassword,20,gszHelpPassword) =FALSE )then;
+						bDone = FALSE;
+					endif;
+                	
+                	//check the fields for spaces
+	            	if(nSpaceOkInPW = FALSE)then
+	            		//OCheckForSpaceChar(szString,szMsg)
+	                	if(OCheckForSpaceChar(szLogin,@FIELD_DOMAIN) = FALSE)then
+    	               		bDone = FALSE;
+    	               	endif;
+      	        	
+        	        	//in same case also check for a blank confirm
+        	        	if(OCheckForIllegalChars(szPassword,@FIELD_PASSWORD,FALSE,TRUE,nANSIonly) = FALSE)then
+        	        		bDone = FALSE;
+        	        	endif;
+        	        endif;
+        	
+            	    //check that password matches confirmed
+                	if(szPassword != szConfirm)then
+                   		bDone = FALSE;
+           				MessageBox(@ERROR_PASSWORD_COMPARE,WARNING);
+	           		endif;
+    	
+        	        //set focus back to password
+            	    if(bDone = FALSE)then
+                		hwndControl = GetDlgItem(hwndDlg, IDFLD_SAPASSWORD);
+      	        		SetFocus(hwndControl);
+      	        	endif;
+      	        endif;
+
+				//these values used when processing SQL files.
+				//The szLogin (domain account name) will be put into the NetWorkUser table
+				//The szPassword will be put into the ExtendedUser table
+                pstructAccount->szLogin = szLogin;
+                pstructAccount->szPassword = szPassword;
+
+           case BACK:
+                nId    = BACK;
+                bDone  = TRUE;
+
+           case DLG_ERR:
+                SdError( -1, "ODialogShowOnyxSA" );
+                nId    = -1;
+                bDone  = TRUE;
+
+           case DLG_CLOSE:
+                SdCloseDlg( hwndDlg, nId, bDone );
+
+		   case IDFLD_PASSWORD:
+//		   		MessageBox("Replace with a star",WARNING);
+
+           default:
+                // check standard handling
+                 if (SdIsStdButton( nId ) && SdDoStdButton( nId )) then
+                    bDone = TRUE;
+                endif;
+           endswitch;
+
+        endwhile;
+
+        EndDialog( szDlg );
+        ReleaseDialog( szDlg );
+
+        SdUnInit( );
+
+        if (nId = OK) then
+
+        endif;
+
+        // record data produced by this dialog
+        SdMakeName( szAppKey, szDlg, szTitle, nvDatabaseInfo );
+        SilentWriteData( szAppKey, "Result", DATA_NUMBER, "", nId );
+
+	 	if(g_structLauncher.bIsChild || g_structLauncher.bShareData)then
+			//save data to reg for use in another setup latter.
+			szTemp = "Software\\ONYX\\SetupPass\\"+szTitle;
+			RegDBSetKeyValueEx(szTemp,"Account", REGDB_STRING, szLogin,-1);
+			OEncryptEntryToReg("HKLM",szTemp,"Password",szPassword,ENCRYPT_KEY);
+			
+			//data for redundant mute
+			if(nId = NEXT )then
+				OMuteDialogSetStatus(szTitle,"COMPLETE");
+			else
+				OMuteDialogSetStatus(szTitle,"");
+			endif;
+		endif;
+
+        return nId;
+
+end;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

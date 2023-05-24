@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="784" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>retrieveCollection methods</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h1>retrieveCollection methods </h1>
+        <p>You can create method calls using retrieveCollection methods for both 
+ merge templates and scripts. However, the use and functionality of the 
+ retrieveCollection method call is limited in that you must specify at 
+ method call design time how many and which objects you want returned from 
+ the collection. </p>
+        <p>For instance, a company.retrieve method call can return data from the 
+ company and data from any of the phones within the company object’s phones 
+ collection as long as you specify at design time how many and which phones 
+ you want to return. This is possible because the Method Call Designer 
+ can use XPath queries and list outputs to return the data. In Method Call 
+ Designer, you must create output details for each object from the collection 
+ that you want to return, using filters within the Element Path to return 
+ the appropriate object. For the phones collection, you would have to create 
+ an output detail for, say, the “cellular” phone and the “fax” phone, if 
+ those were the two phone objects you wanted to return. </p>
+        <p>The following examples demonstrate the Element Path filters used to 
+ return the business and fax phone numbers. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">You can find the value for phoneTypeId using Reference Table 
+ Administration.</p>
+        <p class="BodyTextIndent_1">company/phones/phone[phoneTypeId=6851]/phoneNumber </p>
+        <p class="BodyTextIndent_1">company/phones/phone[phoneTypeId=62]/phoneNumber </p>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; &#160;">For the method call to return accurate data, you must 
+ provide a filter that ensures that a single object is returned for each 
+ method call detail. When the method call detail filter allows the return 
+ of more than one object, only the first object encountered is passed to 
+ the user interface.</p>
+        <p style="font-weight: bold;">Scripting list variables </p>
+        <p>For the Scripting feature, the previous discussion is true for scalar 
+ variables. To retrieve multiple objects and put their property values 
+ into scalar variables, the number of objects whose values you want to 
+ capture must be specified at design time. However, for list variables 
+ you do not need to know the number of objects returned at design time. 
+ The drawback is that a list variable cannot be used to later update an 
+ object. </p>
+    </body>
+</html>

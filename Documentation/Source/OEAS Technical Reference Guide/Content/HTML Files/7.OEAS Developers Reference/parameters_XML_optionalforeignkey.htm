@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="791" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>parameters XML (optional foreign key)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>
+            <MadCap:keyword term="parameters" />
+            <MadCap:keyword term="parameters XML" />parameters XML</h4>
+        <p><a href="OnyxOptionalForeignKey.htm">OnyxOptionalForeignKey</a> step 
+ component removes denormalized data from the parameters XML. Denormalized 
+ data are any fields that represent the same logical information that could 
+ be stored in both parent and child records. These fields exist to enhance 
+ performance and usability in the system but introduce the potential for 
+ inconsistent data. The OnyxOptionalForeignKey works with the <a href="stepAdditionalData_optionalforeignkey.htm">stepAdditionalData</a> 
+ to determine which fields in the parameters XML to normalize. You tell 
+ the system at design time which fields in the parameters XML to check 
+ with the OnyxOptionalForeignKey step.</p>
+        <p style="font-weight: bold;">Example</p>
+        <p>parameters XML contains...</p>
+        <p Class="Code" class="code">&lt;company&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;primaryContactId&gt;someGUID&lt;/primaryContactId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;primaryContactFirstName&gt;Joe&lt;/primaryContactFirstName&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;primaryContactLastName&gt;Doe&lt;/primaryContactLastName&gt;</p>
+        <p Class="Code" class="code">&lt;/company&gt;</p>
+        <p>INDIVIDUAL Table contains...</p>
+        <table>
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>INDIVIDUAL_ID</th>
+                    <th>FIRST_NAME</th>
+                    <th>LAST_NAME</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">someGUID</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">John</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Doe</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Notice that the IDs match, but the first names do not match in the preceding 
+ example. This represents an inconsistency in the data and potential for 
+ breakdown in communication with a customer. You can supply design time 
+ information to the OED to prevent this from occurring. To do this you 
+ add the OnyxOptionalForeignKey step to the method and provide the necessary 
+ stepAdditionalData for the step.</p>
+        <p>after step, parameters XML contains...</p>
+        <p Class="Code" class="code">&lt;company&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;primaryContactId&gt;someGUID&lt;/primaryContactId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;primaryContactFirstName null="1"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;primaryContactLastName null="1"/&gt;</p>
+        <p Class="Code" class="code">&lt;/company&gt;</p>
+        <p>In the preceding example, the OnyxOptionalForeignKey step removed the 
+ values from the denormalized fields to ensure data integrity.</p>
+    </body>
+</html>

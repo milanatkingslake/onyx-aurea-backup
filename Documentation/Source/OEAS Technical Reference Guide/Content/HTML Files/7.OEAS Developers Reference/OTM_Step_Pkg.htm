@@ -1,0 +1,345 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:conditions="Default.Main" MadCap:lastBlockDepth="6" MadCap:lastHeight="5286.52" MadCap:lastWidth="3234">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Note_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Using the Step Package</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>
+            <MadCap:keyword term="Step package" />
+            <MadCap:keyword term="Step package:Using" />
+            <MadCap:keyword term="Using the step package" />
+            <MadCap:keyword term="Using" />
+            <MadCap:keyword term="Using:Step Package" />Using the step package</h3>
+        <p>The XML data processed by a business object method is passed to each 
+ COM step component as a reference to an instance of the IXMLDOMDocument 
+ interface. The contents of the interface are known as the step package. 
+ Each COM step in the method reads and, if necessary, updates the data 
+ provided in the package. When the method completes, the OTM returns part 
+ of the step package to the calling client application.</p>
+        <p>The step package contains three elements: context, parameters, and returnXML. 
+ The OTM inserts data into these elements by combining the data provided 
+ by the client with information about the current execution context.</p>
+        <h4>context</h4>
+        <p>The context element contains information that identifies the current 
+ execution context. Client applications using the ITransactionManager interface 
+ submit the session id obtained from an authentication component. The OTM 
+ then gets the context information from the Session Manager using the session 
+ id and adds it to the step package. Step components that call the IInternalTransactionManager 
+ interface must build the contents of the context element manually. In 
+ most cases, a component can copy the data from the step package it receives 
+ from the OTM.</p>
+        <p>The elements of the context XML are:</p>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Table_1.css');" class="TableStyle-Aptean_Table_1" cellspacing="0">
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 5cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 12cm;" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_1-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Element</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadD-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Description</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">applicationName</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">The current OEAS application.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">impersonatingUser</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">The userId of a user that has been given 
+ <span style="font-weight: bold;">Allow Impersonation</span><span> privileges 
+ in </span><span style="font-style: italic;">Security Administration</span><span> 
+ and is making this OEAS call on behalf of the user identified in the userId 
+ node.</span></p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">logName</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">The name of the log to use.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">logSettings</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">An integer value that identifies the current 
+ level of logging.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">originalUser</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">The Windows 2000 domain account that initiated 
+ the call to the OTM.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">otmId</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText">A GUID that is used to identify the current method call.</p>
+                        <p class="TableText" style="margin-bottom: 0;">This is useful when tracking a method call 
+ in the application log.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">partnerUser</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">A Boolean value specifying whether additional 
+ security will be applied for a user that .</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">permissionMask</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">A bitmask that contains information about 
+ the resources this user is allowed to access.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">preferredLanguage</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">A code that identifies the user's preferred 
+ language.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">sessionId</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText">A GUID that identifies the session.</p>
+                        <p class="TableText" style="margin-bottom: 0;">The client gets this value from the security 
+ components.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">sessionSecondsRemaining</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Contains the number of seconds remaining 
+ in the client application's session for the user as determined by OEAS 
+ using the GlobalSessionTimeOut system parameter.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">siteId</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">The site ID value.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">source</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">A code that identifies the client application 
+ used to establish the session in which the method call is made.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">userId</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">The ID of the end user calling the method.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The contents of a sample context element look like this:</p>
+        <p Class="Code" class="code">&lt;context&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;sessionId&gt;3EDF6244-B292-459C-BFFB-6916D496A315&lt;/sessionId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;userId&gt;wregor&lt;/userId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;partnerUser&gt;0&lt;/partnerUser&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;siteId&gt;1&lt;/siteId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;applicationName&gt;Onyx&lt;/applicationName&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;source&gt;MyClientApplication&lt;/source&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;preferredLanguage&gt;ENG&lt;/preferredLanguage&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;originalUser&gt;domain\wregor&lt;/originalUser&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;permissionMask&gt;ffffff...fffffffff&lt;/permissionMask&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;logName&gt;Onyx&lt;/logName&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;logSettings&gt;7&lt;/logSettings&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;impersonatingUser/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;sessionSecondsRemaining&gt;600&lt;/sessionSecondsRemaining&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;otmId&gt;4D465D36-C1B8-45DF-A08A-198B869859D7&lt;/otmId&gt;</p>
+        <p Class="Code" class="code">&lt;/context&gt;</p>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Note_Table_1.css');width: 80%;" class="TableStyle-Aptean_Note_Table_1" cellspacing="2">
+            <col style="width: 0.7cm;" class="TableStyle-Aptean_Note_Table_1-Column-Column1" />
+            <col class="TableStyle-Aptean_Note_Table_1-Column-Column1" style="width: 15.50cm;" />
+            <tbody>
+                <tr class="TableStyle-Aptean_Note_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyB-Column1-Body1" style="text-align: right;">
+                        <p>
+                            <img src="../../Resources/Images/Common/note_image.png" />
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText"><b>Note</b>: The permissionMask value has been abbreviated for display 
+ purposes. It is not a valid run time value.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>parameters</h4>
+        <p>The parameters element contains the input data provided by the caller 
+ that is used to complete the method. Each step locates the data that it 
+ needs to perform its requested action. Custom steps can modify the contents 
+ of this element to filter or validate the input parameters. Be careful 
+ when making changes to this data. The caller should pass in all parameters 
+ marked as "in" or "inOut" in the OED. The parameters 
+ element is not used for "out" parameters. All step output goes 
+ into the parametersReturn element within the returnXML element.</p>
+        <p>The contents of this element vary from one method to the next. The following 
+ example shows a sample parameters element for the retrieve method of the 
+ company object:</p>
+        <p Class="Code" class="code">&lt;parameters&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;company objectType="company"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;1687466B-1051-4CD7-98F1-3085D1A30EB9&lt;/primaryId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;phones objectType="phone" collection="1"/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;addresses objectType="address" collection="1"/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/company&gt;</p>
+        <p Class="Code" class="code">&lt;/parameters&gt; </p>
+        <h4>returnXml</h4>
+        <p>The entire contents of the returnXml element are passed to the client 
+ when the method completes. The returnXml element has the following children:</p>
+        <ul style="list-style: disc;" type="disc">
+            <li>otmId</li>
+            <li>context</li>
+            <li>methodStatus</li>
+            <li>parametersReturn</li>
+            <li>customData</li>
+        </ul>
+        <p>The OTM creates each of these elements within returnXml before executing 
+ the first step in a method, but it leaves their contents empty. Each element 
+ is explained below.</p>
+        <h3>otmId</h3>
+        <p>The otmId is a GUID that uniquely identifies the method call in the 
+ system. The OTM adds data to this element automatically. Use this id to 
+ track the call through the Onyx event log.</p>
+        <h3>context</h3>
+        <p>The context node contains a child sessionSecondsRemaining node. The 
+ sessionSecondsRemaining node contains the number of seconds remaining 
+ in the client application session. The session time out duration is configurable 
+ by the GlobalSessionTimeOut system parameter in <span style="font-style: italic;">System 
+ Parameter Administration</span><span> Onyx Enterprise Studio workbench. 
+ OEAS calculates this value and the step component does not need to consume 
+ the value, nor should it alter the contents of this node. </span></p>
+        <h3>methodStatus</h3>
+        <p>This element reports the current status of the method. It always contains 
+ one child element, statusType, which has a value of 'success', 'successwithinfo', 
+ or 'failure'. The OTM creates the element with a value of 'success' before 
+ executing any steps in the method. Each Onyx step component that follows 
+ checks this value before it attempts to perform its function. If statusType 
+ is 'failure', the step assumes the data it needs is unavailable or invalid, 
+ and it exits immediately. Steps can change the value of statusType, but 
+ should take care to not change it improperly (for example, they should 
+ not change a status of 'successWithInfo' to 'success'). For more information 
+ about the methodStatus element, see <a href="OTM_Ret_Status.htm">Returning 
+ Status</a>.</p>
+        <h3>parametersReturn</h3>
+        <p>This element contains the output data for the method. Each step inserts 
+ its result data into the parametersReturn element. The step component 
+ should send back all parameters marked as "out" or "inOut" 
+ in the OED. The contents of this element vary from one method to the next. 
+ The following example shows a sample parametersReturn element for the 
+ insert method of the company object:</p>
+        <p Class="Code" class="code">&lt;parametersReturn&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;company objectType="company" content="keysOnly"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;1CED2AEB-A3D1-4804-97F7-E9B1CA83A43A&lt;/primaryId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;phones objectType="phone" collection="1" content="keysOnly"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;phone objectType="phone" action="insert" content="keysOnly"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;FAC56875-D54E-4C52-ABD8-47491C931E25&lt;/primaryId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/phone&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/phones&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;addresses objectType="address" collection="1" content="keysOnly"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;address objectType="address" action="insert" content="keysOnly"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;94ADBEA5-942C-4ABB-A82F-8DD8D55B9D0D&lt;/primaryId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/address&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/addresses&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/company&gt;</p>
+        <p Class="Code" class="code">&lt;/parametersReturn&gt; </p>
+        <h3>customData</h3>
+        <p>This element contains any custom XML required by a custom step component. 
+ This element is not used by any of the components distributed by Onyx 
+ Software, and is reserved for your customization purposes.</p>
+        <p>Onyx supports the embeddedXML feature within the customData node, so 
+ you can take advantage of its performance benefits in your customizations.</p>
+        <h4>Step package example</h4>
+        <p>The contents of a sample step package appear below. This sample was 
+ taken from the ODM step of the company insert method.</p>
+        <p>
+            Sample step package XML.
+        </p>
+        <p Class="Code" class="code">&lt;stepPackage&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;context&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;sessionId&gt;3EDF6244-B292-459C-BFFB-6916D496A315&lt;/sessionId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;userId&gt;wregor&lt;/userId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;partnerUser&gt;0&lt;/partnerUser&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;siteId&gt;1&lt;/siteId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;applicationName&gt;Onyx&lt;/applicationName&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;source&gt;MyClientApplication&lt;/source&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;preferredLanguage&gt;ENG&lt;/preferredLanguage&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;originalUser&gt;domain\wregor&lt;/originalUser&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;permissionMask&gt;ffffffffffffffff83cfffffffff3097fb70000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000&lt;/permissionMask&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;logName&gt;Onyx&lt;/logName&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;logSettings&gt;7&lt;/logSettings&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;impersonatingUser/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;sessionSecondsRemaining&gt;600&lt;/sessionSecondsRemaining&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;otmId&gt;4D465D36-C1B8-45DF-A08A-198B869859D7&lt;/otmId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/context&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;parameters&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;company objectType="company"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;companyName&gt;bar&lt;/companyName&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;phones objectType="phone" collection="1"/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;addresses objectType="address" collection="1"/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;secondaryId null="1"/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;privateAccess&gt;0&lt;/privateAccess&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;readOnlyAccess&gt;0&lt;/readOnlyAccess&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/company&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/parameters&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;returnXml&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;otmId&gt;4D465D36-C1B8-45DF-A08A-198B869859D7&lt;/otmId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;context&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sessionSecondsRemaining&gt;600&lt;/sessionSecondsRemaining&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/context&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;methodStatus&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;statusType&gt;success&lt;/statusType&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/methodStatus&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;parametersReturn/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;customData/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/returnXml&gt;</p>
+        <p Class="Code" class="code">&lt;/stepPackage&gt; </p>
+    </body>
+</html>

@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:lastBlockDepth="6" MadCap:lastHeight="1644" MadCap:lastWidth="652" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Customizing the business objects</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="Business objects:Customizing" />
+            <MadCap:keyword term="Customizing" />
+            <MadCap:keyword term="Customizing:business objects" />Customizing the Business Objects</h2>
+        <p>You can modify the default behavior of the business objects so that 
+ they function according to the needs of your company. Before you modify 
+ them, it is important to understand the relationship between the compiled 
+ COM step components and the logical model in the <a href="Onyx_Enterprise_Dictionary.htm">Onyx 
+ Enterprise Dictionary (OED)</a>.</p>
+        <p>The OED defines each business object and the properties, methods, and 
+ steps associated with that object. The <a href="OTM.htm">Onyx Transaction 
+ Manager (OTM)</a> uses these definitions, at run-time, to implement business 
+ processes and data access transactions. When a client invokes a method, 
+ for instance, the OTM queries the OED cache for the <a href="Methods_and_Steps.htm">steps</a> 
+ associated with that method, and then executes those steps in the specified 
+ order. If the step is a "com" step, it instructs the OTM to 
+ instantiate a step component.</p>
+        <p>For example, imagine that a client invokes the execute method on the 
+ foo object. The foo.execute method consists of a single step that calls 
+ a step component responsible for managing foo data in the Onyx Enterprise 
+ Database. Suppose, however, that you want the execute method to perform 
+ two separate actions, not just one. Using the <a href="Object_Designer_Help.htm">Object 
+ Designer</a>, you can customize the execute method so that it consists 
+ of a second step, such as:</p>
+        <ul>
+            <li>Step 1: Call the CustomStep.Foo step component to manage a foo record 
+ in the database.</li>
+            <li><span style="font-weight: bold;">Step 2 (new step):</span><span style="font-weight: normal;"> 
+ Call another step component to automatically send literature to the customer.</span>
+            </li>
+        </ul>
+        <p>For any given method, you can add as many steps as you need.</p>
+        <p>Depending on your customization of the business objects in the OED, 
+ you might or might not have to <a href="Build_Stp_Comp.htm">create your 
+ own step component</a>. OEAS provides many opportunities for customization.</p>
+        <p>Consider the following customization opportunities:</p>
+        <table style="width: 100%;border-spacing: 0px;border-spacing: 0px;mc-table-style: url('../../Resources/TableStyles/Aptean_Table_1.css');" cellspacing="0" width="100%" class="TableStyle-Aptean_Table_1">
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_1-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead">Using the Object Designer, you:</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead">What else must you do?</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadD-Column1-Header1">
+                        <p class="TableHead">Comments</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">Add a custom object
+                        </p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">Create a corresponding database table. Using Object 
+ Designer, describe the table in the physical model, add an object to the 
+ logical model, and create a mapping between the logical and physical models.</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText">OEAS automatically implements CRUD methods for custom objects. If the 
+ custom object requires special logic other than create, retrieve, update, 
+ or delete, you have to implement the logic in either a custom step component, 
+ custom database logic, or both.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">Disable a default OEAS object</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">Resolve cross references.</p>
+                        <p class="TableText" style="margin-bottom: 0;">&#160;</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText">When you disable an object, the Object Designer verifies 
+ that doing so does not create incompatibility issues or otherwise break 
+ the system. When the Object Designer discovers such a conflict, it notifies 
+ you of the cross-dependencies for that object. In order for the system 
+ to function correctly, you must resolve all cross-dependency issues.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText"><a href="AddProp_Overview.htm">Add a property</a>
+                        </p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">Add a column to an existing database table. Using Object 
+ Designer, describe the column in the physical model, add a property to 
+ the logical model, and map the logical property to the physical model.</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText">&#160;</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">Mark a custom property as "Required"</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">Verify that OnyxDataValidationStep is included in any 
+ methods that require the property.</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText">&#160;</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">Delete a default OEAS property</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">Onyx warns against customizing default OEAS properties.</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText">Customizing default OEAS properties can break compatibility 
+ with other products, including the Onyx Employee Portal and the Onyx Enterprise 
+ Studio. Client applications integrated with OEAS can also be affected.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">Disable a default OEAS property</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">Onyx warns against customizing default OEAS properties.</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText">Customizing default OEAS properties can break compatibility 
+ with other products, including the Onyx Employee Portal and the Onyx Enterprise 
+ Studio. Client applications integrated with OEAS can also be affected.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">Mark a default OEAS property as "Not required"</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">Onyx warns against customizing default OEAS properties.</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText">Customizing default OEAS properties can break compatibility 
+ with other products, including the Onyx Employee Portal and the Onyx Enterprise 
+ Studio. Client applications integrated with OEAS can also be affected.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText"><a href="Overview_addMethod.htm">Add a custom method</a>
+                        </p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">Create custom database logic or a custom step component 
+ that implements the logic for your custom method and describe it in the 
+ logical model. For custom database logic, describe its signature in the 
+ physical model.</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p>&#160;</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText"><a href="Build_Stp_Comp.htm">Add a custom step</a>
+                        </p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">Create a custom step component that contains the logic 
+ for executing your custom step.</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p>&#160;</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">Modify the order of the steps</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">Test carefully to verify that this does not violate 
+ the logic of related steps.</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p>&#160;</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText">Disable a default OEAS method</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText">Nothing.</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" class="TableStyle-Aptean_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText">When you disable an object, the Object Designer verifies 
+ that doing so does not create incompatibility issues or otherwise break 
+ the system. When the Object Designer discovers such a conflict, it notifies 
+ you of the cross-dependencies for that object. In order for the system 
+ to function correctly, you must resolve all cross-dependency issues.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

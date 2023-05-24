@@ -1,0 +1,339 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="778" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>delete method</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>
+            <MadCap:keyword term="delete standard method" />
+            <MadCap:keyword term="delete method" />
+            <MadCap:keyword term="Standard business object methods:delete" />
+            <MadCap:keyword term="delete" />delete method</h4>
+        <p>
+            <MadCap:keyword term="cascade type" />A delete method either logically or physically deletes an object from 
+ the database. Secondary objects, as defined in the relationship section 
+ of the Onyx Enterprise Dictionary, may be logically or physically deleted 
+ depending on the cascade type of its <a href="OED_Relationships.htm">relationships</a>. 
+ </p>
+        <h5>Parameters</h5>
+        <p>This method accepts an object whose content="partial" as the 
+ input parameter, and returns an object with a "keysOnly" object 
+ as an output parameter. Pass the input XML within the root element named 
+ &lt;parameters&gt;.</p>
+        <table>
+            <col />
+            <col />
+            <col />
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Direction</th>
+                    <th>Data type</th>
+                    <th>Content in type</th>
+                    <th>Content out type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Object name</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">inOut</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">object</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">partial</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">keysOnly</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">An object whose content="partial" 
+ on input. Consult the following table for the necessary input parameters 
+ for that object.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Parameter</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Direction</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Data type</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Content in type</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Content out type</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Description</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The following properties are necessary for the "partial" object 
+ input parameter.</p>
+        <table>
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Data type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">primaryId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">string</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Unique identifier for the object.</p>
+                        <p class="Table_Text">The primaryId property is usually the sole property 
+ in the <a href="OED_Object_Keys.htm">object's primary key</a>. However, 
+ the primary key can contain a property with a different name, or in some 
+ cases it can contain multiple properties. All the properties that are 
+ part of the object's primary key must be present in the input parameters 
+ XML for a delete to succeed.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">onyxTimestamp</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">string</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Objects that have the onyxTimestamp property 
+ support concurrency control. The onyxTimestamp property is required for 
+ a delete if onyxTimestamp is present on the object.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h5>Steps</h5>
+        <p>All standard methods call the Onyx Data Validation Step for input data 
+ validation and either directly or indirectly call Onyx Data Manager to 
+ access the data tier. Many methods perform additional steps. For a table 
+ that lists the default steps of a specific business object method, refer 
+ to its method topic under the business object.</p>
+        <h5>Remarks</h5>
+        <p>The primary object key properties are required in the input parameters 
+ XML.</p>
+        <p>OEAS supports two kinds of deletes depending on the type of object. 
+ When you call the delete method, SQL generation determines which type 
+ of object is involved and generates the appropriate SQL code for either 
+ a logical or a physical delete of the object. A physical delete removes 
+ the record from the database table. A logical delete changes the value 
+ of a status field in the database record. The record is physically present 
+ in the database, but its status makes it unavailable to OEAS.</p>
+        <p>The following table shows the object types and the associated delete 
+ behavior.</p>
+        <table>
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Object type</th>
+                    <th>Delete behavior</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Domain (ex: incidentCategory or contactType)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Physical</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Transactional (ex: individual or incident)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Logical</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The cascade type of a relationship and the relationship type determine 
+ how a deletion affects the objects related to the deleted object.</p>
+        <table>
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Cascade type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Delete</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Deleting a primary object causes all secondary 
+ objects defined in the relationship section of the OED to be deleted.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Null</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Deleting a primary object removes links to 
+ the logically deleted object by all active objects. If the link is stored 
+ in its own table, &#160;the 
+ link row is logically deleted. If the link is a column inside the table, 
+ &#160;the value 
+ in the column is updated to NULL.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Restrict</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Deleting the object fails when it is linked 
+ to by active objects.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Foreign key constraints on transactional object properties prevent a 
+ domain object from being deleted if it is referred to by a transactional 
+ object. You must delete the reference in the transactional object before 
+ deleting the domain object. Onyx recommends <a href="Disabling_items.htm">deactivating</a> 
+ rather than deleting domain objects.</p>
+        <p>The following table describes relationship types and the cascade types 
+ that are valid for each relationship type. This information is stored 
+ for each object in the relationships section of the Onyx Enterprise Dictionary.</p>
+        <table>
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Relationship type</th>
+                    <th>Description</th>
+                    <th>Cascade type supported for a delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">association</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">For relationships to objects that may reference 
+ multiple types of objects through the same property. Very similar functionality 
+ to linkObject.</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Delete, restrict</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">direct</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">For objects that maintain a foreign key property 
+ directly in the table that stores object data.</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Delete, null, restrict</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">linkObject</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">For objects that participate in object linking. 
+ The link is in the owner_association table.</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Delete, restrict</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">masterDetail</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">For relationships between tightly-coupled 
+ objects, such as quote and quoteLine or customerProduct and customerProductDetail.</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Delete, restrict</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">variableDirect</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">For objects that have a set of properties 
+ that might define relationships to multiple types of objects.</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Delete, null, restrict</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The onyxTimestamp property helps to ensure that concurrency control 
+ is maintained. Concurrency control is supported only when an object has 
+ an onyxTimestamp property. Unless currency control is disabled (by specifying 
+ the ignore="1" attribute on the onyxTimestamp element), the 
+ input XML for a delete method must include the current onyxTimestamp value 
+ for the object instance. To get this value, a retrieve or retrieveCollection 
+ method usually precedes a delete method.</p>
+        <p>When attempting to delete an object instance that is already logically 
+ deleted, the delete is successful and no error is returned.</p>
+        <h5>Example</h5>
+        <p>The following XML shows a delete method that removes a company object 
+ instance.</p>
+        <p>
+            Parameters
+        </p>
+        <p Class="Code" class="code">&lt;parameters&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;company objectType="company"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;F9FC0043-3514-4F53-9ADF-1E063B5066A1&lt;/primaryId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;onyxTimestamp&gt;00000000000F11B1&lt;/onyxTimestamp&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/company&gt;</p>
+        <p Class="Code" class="code">&lt;/parameters&gt;</p>
+        <p>
+            parametersReturn
+        </p>
+        <p Class="Code" class="code">&lt;parametersReturn&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;company objectType="company" content="keysOnly"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;F9FC0043-3514-4F53-9ADF-1E063B5066A1&lt;/primaryId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/company&gt;</p>
+        <p Class="Code" class="code">&lt;/parametersReturn&gt;</p>
+    </body>
+</html>

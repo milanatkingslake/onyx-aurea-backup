@@ -1,0 +1,551 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="5" MadCap:lastHeight="845" MadCap:lastWidth="624">
+    <head><title>retrieveByWorkNoteId</title>
+    </head>
+    <body>
+        <h2>retrieveByWorkNoteId</h2>
+        <p>The retrieveByWorkNoteId method of the of the <a href="HTML Files/7.OEAS Developers Reference/incident_object.htm">incident</a> 
+ object searches the database by worknoteId dand returns a list of incident records. Owners include company and individual objects.</p>
+        <h3>Parameters</h3>
+        <table>
+            <col />
+            <col />
+            <col />
+            <col />
+            <col />
+            <tr>
+                <th style="color: #ffffff;font-weight: bold;background-color: #808080;">Parameter</th>
+                <th style="color: #ffffff;font-weight: bold;background-color: #808080;">Direction</th>
+                <th style="color: #ffffff;font-weight: bold;background-color: #808080;">Data type</th>
+                <th style="color: #ffffff;font-weight: bold;background-color: #808080;">Content type</th>
+                <th style="color: #ffffff;font-weight: bold;background-color: #808080;">Description</th>
+            </tr>
+            <tr>
+                <td>
+                    <p class="Table_Text">workNoteId (required)</p>
+                </td>
+                <td>
+                    <p class="Table_Text">in</p>
+                </td>
+                <td>
+                    <p class="Table_Text">String</p>
+                </td>
+                <td>
+                    <p class="Table_Text">n/a</p>
+                </td>
+                <td>
+                    <p class="Table_Text">Filter by the object that owns an incident</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="Table_Text">rowSet</p>
+                </td>
+                <td>
+                    <p class="Table_Text">out</p>
+                </td>
+                <td>
+                    <p class="Table_Text">object</p>
+                </td>
+                <td>
+                    <p class="Table_Text">all(out)</p>
+                </td>
+                <td>
+                    <p class="Table_Text">Contains rowSet column definitions and the incident table rows matching the owner and category criteria</p>
+                </td>
+            </tr>
+        </table>
+        <p>View the columns returned in the rowSet object </p>
+        <table>
+            <col />
+            <col />
+            <col />
+            <tr>
+                <th style="color: #ffffff;font-weight: bold;background-color: #808080;">columnOrdinal</th>
+                <th style="color: #ffffff;font-weight: bold;background-color: #808080;">columnName</th>
+                <th style="color: #ffffff;font-weight: bold;background-color: #808080;">Physical column</th>
+            </tr>
+            <tr>
+                <td>
+                    <p class="Table_Text">1</p>
+                </td>
+                <td>
+                    <p class="Table_Text">primaryId</p>
+                </td>
+                <td>
+                    <p class="Table_Text">incident.incident_id</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="Table_Text">2</p>
+                </td>
+                <td>
+                    <p class="Table_Text">secondaryId</p>
+                </td>
+                <td>
+                    <p class="Table_Text">incident.secondary_id</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="Table_Text">3</p>
+                </td>
+                <td>
+                    <p class="Table_Text">ownerPrimaryId</p>
+                </td>
+                <td>
+                    <p class="Table_Text">company.company_id or individual.individual_id</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="Table_Text">4</p>
+                </td>
+                <td>
+                    <p class="Table_Text">ownerSecondaryId</p>
+                </td>
+                <td>
+                    <p class="Table_Text">company.secondary_id or individual.secondary_id</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="Table_Text">5</p>
+                </td>
+                <td>
+                    <p class="Table_Text">vchParameterDesc</p>
+                </td>
+                <td>
+                    <p class="Table_Text">reference_parameter_ml.parameter.desc</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="Table_Text">6</p>
+                </td>
+                <td>
+                    <p class="Table_Text">FullName</p>
+                </td>
+                <td>
+                    <p class="Table_Text">incident.desc1 or individual.first_name,individual.last_name, and incident.desc1</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="Table_Text">7</p>
+                </td>
+                <td>
+                    <p class="Table_Text">chAssignedTo</p>
+                </td>
+                <td>
+                    <p class="Table_Text">incident.assigned_to</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="Table_Text">8</p>
+                </td>
+                <td>
+                    <p class="Table_Text">vchParameterDesc2</p>
+                </td>
+                <td>
+                    <p class="Table_Text">reference_parameter_ml.parameter.desc</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="Table_Text">9</p>
+                </td>
+                <td>
+                    <p class="Table_Text">vchParameterDesc1</p>
+                </td>
+                <td>
+                    <p class="Table_Text">reference_parameter_ml.parameter.desc</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="Table_Text">10</p>
+                </td>
+                <td>
+                    <p class="Table_Text">vchParameterDesc3</p>
+                </td>
+                <td>
+                    <p class="Table_Text">reference_parameter_ml.parameter.desc</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="Table_Text">11</p>
+                </td>
+                <td>
+                    <p class="Table_Text">iTotalTime</p>
+                </td>
+                <td>
+                    <p class="Table_Text">incident.total_time</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="Table_Text">12</p>
+                </td>
+                <td>
+                    <p class="Table_Text">iTotalLabor</p>
+                </td>
+                <td>
+                    <p class="Table_Text">incident.total_labor</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="Table_Text">13</p>
+                </td>
+                <td>
+                    <p class="Table_Text">chInsertBy</p>
+                </td>
+                <td>
+                    <p class="Table_Text">incident.insert_by</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="Table_Text">14</p>
+                </td>
+                <td>
+                    <p class="Table_Text">dtInsertDate</p>
+                </td>
+                <td>
+                    <p class="Table_Text">incident.insert_date</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="Table_Text">15</p>
+                </td>
+                <td>
+                    <p class="Table_Text">chUpdateBy</p>
+                </td>
+                <td>
+                    <p class="Table_Text">incident.update_by</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="Table_Text">16</p>
+                </td>
+                <td>
+                    <p class="Table_Text">dtUpdateDate</p>
+                </td>
+                <td>
+                    <p class="Table_Text">incident.update_date</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="Table_Text">17</p>
+                </td>
+                <td>
+                    <p class="Table_Text">onyxTimeStamp</p>
+                </td>
+                <td>
+                    <p class="Table_Text">incident.timestamp</p>
+                </td>
+            </tr>
+        </table>
+        <h3>Steps</h3>
+        <table>
+            <col />
+            <col />
+            <col />
+            <tr>
+                <th style="color: #ffffff;font-weight: bold;background-color: #808080;">Step data</th>
+                <th style="color: #ffffff;font-weight: bold;background-color: #808080;">Step type</th>
+                <th style="color: #ffffff;font-weight: bold;background-color: #808080;">Description</th>
+            </tr>
+            <tr>
+                <td>
+                    <p class="Table_Text">OnyxDataValidationStep.DataValidation</p>
+                </td>
+                <td>
+                    <p class="Table_Text">Com</p>
+                </td>
+                <td>
+                    <p class="Table_Text">Validates input parameters</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="Table_Text">OnyxDM.DataManager</p>
+                </td>
+                <td>
+                    <p class="Table_Text">Com</p>
+                </td>
+                <td>
+                    <p class="Table_Text">Retrieve list of incident objects based on owner criteria</p>
+                </td>
+            </tr>
+        </table>
+        <h3>Example</h3>
+        <p>Input Parameter: </p>
+        <p class="C_Code">&lt;parameters&gt;</p>
+        <p class="C_Code">&lt;ownerId&gt;8E2035E3-4CB3-4160-886A-675193DD50EB&lt;/ownerId&gt;</p>
+        <p class="C_Code">&lt;categoryId&gt;3&lt;/categoryId&gt;</p>
+        <p class="C_Code">&lt;/parameters&gt;</p>
+        <p>Output Parameter: </p>
+        <p class="C_Code">&lt;parametersReturn&gt;</p>
+        <p class="C_Code">&lt;rowSet objectType="rowSet" rowCount="7" columnCount="17" pageSize=""&gt;</p>
+        <p class="C_Code">&lt;columnDefinitions collection="1" objectType="columnDefinition"&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Primary ID&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;primaryId&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;1&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;16&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;16&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Sales ID&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;secondaryId&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;2&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;16&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Owner Primary ID&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;ownerPrimaryId&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;3&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;16&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;16&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Owner ID&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;ownerSecondaryId&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;4&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;112&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Type&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;vchParameterDesc&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;5&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Description&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;FullName&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;6&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Assigned&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;chAssignedTo&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;7&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;0&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;85&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Priority&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;vchParameterDesc2&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;8&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Status&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;vchParameterDesc1&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;9&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Source&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;vchParameterDesc3&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;10&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Total Time&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;iTotalTime&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;11&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;112&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Total Labor&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;iTotalLabor&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;12&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;112&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Insert By&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;chInsertBy&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;13&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;0&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;85&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Inserted&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;dtInsertDate&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;14&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;16&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;16&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;dateTime&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;23&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;3&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Update By&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;chUpdateBy&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;15&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;0&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;85&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Updated&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;dtUpdateDate&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;16&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;16&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;16&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;dateTime&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;23&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;3&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;OnyxTimestamp&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;onyxTimeStamp&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;17&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;528&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;8&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;/columnDefinitions&gt;</p>
+        <p class="C_Code">&lt;rows collection="1" objectType="row"&gt;</p>
+        <p class="C_Code">&lt;row&gt;</p>
+        <p class="C_Code">&lt;c0&gt;F043812E-EAFC-410D-8EE0-0847D91D8F13&lt;/c0&gt;</p>
+        <p class="C_Code">&lt;c1&gt;213&lt;/c1&gt;</p>
+        <p class="C_Code">&lt;c2&gt;8E2035E3-4CB3-4160-886A-675193DD50EB&lt;/c2&gt;</p>
+        <p class="C_Code">&lt;c3&gt;33&lt;/c3&gt;</p>
+        <p class="C_Code">&lt;c4&gt;Product Inquiry&lt;/c4&gt;</p>
+        <p class="C_Code">&lt;c5&gt;V/10Dollar Rebate Remove-it Registration&lt;/c5&gt;</p>
+        <p class="C_Code">&lt;c6&gt;AprilC&lt;/c6&gt;</p>
+        <p class="C_Code">&lt;c7&gt;High&lt;/c7&gt;</p>
+        <p class="C_Code">&lt;c8&gt;Pending&lt;/c8&gt;</p>
+        <p class="C_Code">&lt;c9&gt;Fax&lt;/c9&gt;</p>
+        <p class="C_Code">&lt;c10&gt;17&lt;/c10&gt;</p>
+        <p class="C_Code">&lt;c11&gt;3&lt;/c11&gt;</p>
+        <p class="C_Code">&lt;c12&gt;sa&lt;/c12&gt;</p>
+        <p class="C_Code">&lt;c13&gt;2002-01-10 21:38:37&lt;/c13&gt;</p>
+        <p class="C_Code">&lt;c14&gt;sa&lt;/c14&gt;</p>
+        <p class="C_Code">&lt;c15&gt;2003-10-14 19:23:03&lt;/c15&gt;</p>
+        <p class="C_Code">&lt;c16&gt;0000000000006643&lt;/c16&gt;</p>
+        <p class="C_Code">&lt;/row&gt;</p>
+        <p class="C_Code">&lt;row&gt;</p>
+        <p class="C_Code">&lt;c0&gt;6DB7CE10-A986-4DA6-B172-1800FE333B65&lt;/c0&gt;</p>
+        <p class="C_Code">&lt;c1&gt;64&lt;/c1&gt;</p>
+        <p class="C_Code">&lt;c2&gt;8E2035E3-4CB3-4160-886A-675193DD50EB&lt;/c2&gt;</p>
+        <p class="C_Code">&lt;c3&gt;33&lt;/c3&gt;</p>
+        <p class="C_Code">&lt;c4&gt;Pricing&lt;/c4&gt;</p>
+        <p class="C_Code">&lt;c5&gt;qemm8; win95b dosdata issue;&lt;/c5&gt;</p>
+        <p class="C_Code">&lt;c6&gt;BillGe&lt;/c6&gt;</p>
+        <p class="C_Code">&lt;c7&gt;High&lt;/c7&gt;</p>
+        <p class="C_Code">&lt;c8&gt;Closed&lt;/c8&gt;</p>
+        <p class="C_Code">&lt;c9&gt;Phone&lt;/c9&gt;</p>
+        <p class="C_Code">&lt;c10&gt;72&lt;/c10&gt;</p>
+        <p class="C_Code">&lt;c11&gt;2&lt;/c11&gt;</p>
+        <p class="C_Code">&lt;c12&gt;sa&lt;/c12&gt;</p>
+        <p class="C_Code">&lt;c13&gt;2002-01-10 02:00:51&lt;/c13&gt;</p>
+        <p class="C_Code">&lt;c14&gt;sa&lt;/c14&gt;</p>
+        <p class="C_Code">&lt;c15&gt;2003-10-14 19:21:21&lt;/c15&gt;</p>
+        <p class="C_Code">&lt;c16&gt;00000000000065FA&lt;/c16&gt;</p>
+        <p class="C_Code">&lt;/row&gt;</p>
+        <p class="C_Code">&lt;row&gt;</p>
+        <p class="C_Code">&lt;c0&gt;5198D861-5C1B-4A8A-A055-459AF5096D23&lt;/c0&gt;</p>
+        <p class="C_Code">&lt;c1&gt;262&lt;/c1&gt;</p>
+        <p class="C_Code">&lt;c2&gt;8E2035E3-4CB3-4160-886A-675193DD50EB&lt;/c2&gt;</p>
+        <p class="C_Code">&lt;c3&gt;33&lt;/c3&gt;</p>
+        <p class="C_Code">&lt;c4&gt;Medium Account&lt;/c4&gt;</p>
+        <p class="C_Code">&lt;c5&gt;Cannot get Cleansweep installed&lt;/c5&gt;</p>
+        <p class="C_Code">&lt;c6&gt;OAP01&lt;/c6&gt;</p>
+        <p class="C_Code">&lt;c7&gt;High&lt;/c7&gt;</p>
+        <p class="C_Code">&lt;c8&gt;Open&lt;/c8&gt;</p>
+        <p class="C_Code">&lt;c9&gt;Mail&lt;/c9&gt;</p>
+        <p class="C_Code">&lt;c10&gt;12&lt;/c10&gt;</p>
+        <p class="C_Code">&lt;c11&gt;4&lt;/c11&gt;</p>
+        <p class="C_Code">&lt;c12&gt;sa&lt;/c12&gt;</p>
+        <p class="C_Code">&lt;c13&gt;2002-01-10 21:38:55&lt;/c13&gt;</p>
+        <p class="C_Code">&lt;c14&gt;sa&lt;/c14&gt;</p>
+        <p class="C_Code">&lt;c15&gt;2003-10-14 19:22:08&lt;/c15&gt;</p>
+        <p class="C_Code">&lt;c16&gt;00000000000065C1&lt;/c16&gt;</p>
+        <p class="C_Code">&lt;/row&gt;</p>
+        <p class="C_Code">&lt;row&gt;</p>
+        <p class="C_Code">&lt;c0&gt;FCF7492A-A142-4099-B9F4-7EE67817B380&lt;/c0&gt;</p>
+        <p class="C_Code">&lt;c1&gt;240&lt;/c1&gt;</p>
+        <p class="C_Code">&lt;c2&gt;8E2035E3-4CB3-4160-886A-675193DD50EB&lt;/c2&gt;</p>
+        <p class="C_Code">&lt;c3&gt;33&lt;/c3&gt;</p>
+        <p class="C_Code">&lt;c4&gt;Large Account&lt;/c4&gt;</p>
+        <p class="C_Code">&lt;c5&gt;not able to use the modem in PW3&lt;/c5&gt;</p>
+        <p class="C_Code">&lt;c6&gt;AprilC&lt;/c6&gt;</p>
+        <p class="C_Code">&lt;c7&gt;Immediate&lt;/c7&gt;</p>
+        <p class="C_Code">&lt;c8&gt;Pending&lt;/c8&gt;</p>
+        <p class="C_Code">&lt;c9&gt;Fax&lt;/c9&gt;</p>
+        <p class="C_Code">&lt;c10&gt;79&lt;/c10&gt;</p>
+        <p class="C_Code">&lt;c11&gt;40&lt;/c11&gt;</p>
+        <p class="C_Code">&lt;c12&gt;sa&lt;/c12&gt;</p>
+        <p class="C_Code">&lt;c13&gt;2002-01-10 21:38:47&lt;/c13&gt;</p>
+        <p class="C_Code">&lt;c14&gt;sa&lt;/c14&gt;</p>
+        <p class="C_Code">&lt;c15&gt;2003-10-21 21:31:45&lt;/c15&gt;</p>
+        <p class="C_Code">&lt;c16&gt;00000000000065B0&lt;/c16&gt;</p>
+        <p class="C_Code">&lt;/row&gt;</p>
+        <p class="C_Code">&lt;/rows&gt;</p>
+        <p class="C_Code">&lt;/rowSet&gt;</p>
+        <p class="C_Code">&lt;/parametersReturn&gt;</p>
+    </body>
+</html>

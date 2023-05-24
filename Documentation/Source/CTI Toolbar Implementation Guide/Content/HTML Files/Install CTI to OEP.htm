@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="5" MadCap:lastHeight="871" MadCap:lastWidth="631">
+    <head>
+        <link href="../Resources/Stylesheets/consonacrm.css" rel="stylesheet" />
+    </head>
+    <body>
+        <H3 class="Heading"><a name="Chapter01_644126718_1065148"></a><a name="Chapter01_644126718_71122"></a>Step 4: Install Onyx CTI to OEP</H3>
+        <p class="BodyText">In this step, you run a Setup file that adds website files to the OEP server for the Onyx CTI toolbar and overwrites the OEP website files named in the procedure. </p>
+        <p class="Note">This procedure must be completed in the OEP development installation (development environment) for correct compilation of UCW changes affecting the website files. For more information on compiling UCW changes, see the <span class="_Override" style="font-style: normal;">OEP Technical Guide</span>. </p>
+        <p class="TaskHeading">To install Onyx CTI to the OEP server: </p>
+        <ol>
+            <li class="ListBullet">On the OEP development installation (development environment), ensure that the following website files are backed up: </li>
+        </ol>
+        <ul>
+            <li class="ListBullet_2"><span class="user-entered_text">YourOEPwebsite</span>\powerpage\application_main.js</li>
+            <li class="ListBullet_2"><span class="user-entered_text">YourOEPwebsite</span>\powerpage\oep_automate.asp</li>
+            <li class="ListBullet_2"><span class="user-entered_text">YourOEPwebsite</span>\powerpage\ucf_application_main.asp</li>
+            <li class="ListBullet_2"><span class="user-entered_text">YourOEPwebsite</span>\QuickSearch\search-client.js </li>
+        </ul>
+        <p class="BodyTextIndent_1">where YourOEPwebsite is the OEP installation directory (default: C:\Program Files\Onyx\Employee Portal).<br /></p>
+        <ol>
+            <li value="2" class="ListBullet">Copy the <b>\Setup\Website</b> folder from the Onyx CTI product CD to the OEP server.</li>
+            <li class="ListBullet">Within the copied Website folder, run the <b class="UI_elements">Setup.hta</b> file, bypassing any security warnings that might appear.</li>
+            <li class="ListBullet">In the<b> Onyx CTI OEP Setup</b> window, click <b class="UI_elements">Next</b>.</li>
+            <li class="ListBullet">Type the full path of the OEP installation folder, or click<b> Install Now</b> to use the default location (listed in the OEP Install Directory box).</li>
+            <li class="ListBullet">Click <b class="UI_elements">Finish</b>.</li>
+            <li class="ListBullet">Confirm that the Onyx CTI toolbar appears:</li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="ListBullet_2">Stop and restart your OEP Web server, such as by using the Internet Information Services (IIS) Manager tool or by executing the IISReset command (via Command Prompt).</li>
+            <li class="ListBullet_2">On the client machine used to access the toolbar, delete the files in Internet Explorer's Temporary Internet Files folder.</li>
+            <li class="ListBullet_2">Log on to OEP with the user name and password of a user that has been granted access to the toolbar. (The system administrator is granted toolbar access by default.)</li>
+        </ol>
+        <ol>
+            <li value="8">Compile and publish all UCW changes to finalize the website files.<br /></li>
+        </ol>
+        <p class="BodyTextIndent_1">For instructions on compiling and publishing UCW configurations, see the <span class="BookTitle">OEP Technical Guide</span>.</p>
+        <ol>
+            <li value="9" class="ListBullet">If you upgraded to OEP 7.6.1 and your website files (listed in <a href="Clean_the_migrat.htm">Step 1: Clean the migrated <MadCap:variable name="FrontMatter.ProductNameNoVersion" /> data for upgrade</a> of this procedure) previously included customizations, reapply those customizations.</li>
+            <li class="ListBullet">Manually copy the compiled website files from the OEP development installation to the production environment OEP server. (For the full paths of the website files, <a href="Clean_the_migrat.htm">Step 1: Clean the migrated  data for upgrade</a>of this procedure.)<br /></li>
+        </ol>
+    </body>
+</html>

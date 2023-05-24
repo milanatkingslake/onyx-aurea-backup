@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="100" MadCap:lastWidth="701">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h3>Twitter Integration</h3>
+        <p>Onyx <MadCap:variable name="Aptean_Variables.Version number" /> supports v1.1 APIs of Twitter. In the <b>Social Media</b> tab of the Onyx application, a user can enter a twitter handler in the Identifier field.</p>
+        <p><b>To register for the Twitter app</b>
+        </p>
+        <ol>
+            <li>Go to dev.twitter.com and login with your Twitter account credentials.</li>
+            <li>In the Twitter home page, select <b>My applications</b> from the user’s drop-down list.</li>
+            <li>Click on <b>Create a new application</b>.</li>
+            <li>Type the relevant information in the Twitter application, accept terms/conditions and click on <b>Create your Twitter application</b>.</li>
+            <li>From the app screen, click on the <b>Details</b> tab. The <b>OAuth Settings</b> section of the tab will display these two fields:</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">Consumer Key</li>
+            <li class="List_Indent">Consumer secret</li>
+        </ul>
+        <ol start="6">
+            <li>Copy the above values from the <b>OAuth Settings</b> to the OGS Config file for the following tags:</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">Consumer Key - token_ConsumerKey</li>
+            <li class="List_Indent">Consumer secret - token_ConsumerSecret</li>
+            <li class="List_Indent">twitter_Count – No. of tweets per request (max value 200)</li>
+        </ul>
+        <h4>Understanding the configuration changes for Twitter</h4>
+        <p>Onyx has multi-site support for Twitter. To enable the multi-site support, add _siteid (Id of the site) to the following config settings:</p>
+        <ul>
+            <li>Consumer Key - token_ConsumerKey_siteId</li>
+            <li>Consumer secret - token_ConsumerSecret_siteId</li>
+            <li>twitter_Count _siteId– No. of tweets per request (max value 200)</li>
+        </ul>
+        <p>In case there is no siteid settings present, it will take the value from default settings. For each siteid, it is recommended to have different app tokens to increase the upper limit for Twitter APIs. For Onyx we use the following REST APIs v1.1.</p>
+        <ul>
+            <li>GET stateuses-user_timeline</li>
+            <li>GET users-show</li>
+        </ul>
+        <p>For more information see <a href="https://dev.twitter.com/rest/public">https://dev.twitter.com/rest/public</a>.</p>
+        <p>&#160;</p>
+    </body>
+</html>

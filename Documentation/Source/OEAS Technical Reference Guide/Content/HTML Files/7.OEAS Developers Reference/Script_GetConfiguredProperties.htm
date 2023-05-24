@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="2015" MadCap:lastWidth="660" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>GetConfiguredProperties (DictionaryProxy)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>
+            <MadCap:keyword term="GetConfiguredProperties method" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />
+            <MadCap:keyword term="GetConfiguredProperties" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />GetConfiguredProperties method</h5>
+        <p>The GetConfiguredProperties method of the <a href="OED_DictProxy_Int.htm"><MadCap:keyword term="DictionaryProxy" />DictionaryProxy 
+ interface</a> retrieves the <a href="Configured_Properties.htm">configured 
+ properties</a> for a logical object. This method has been deprecated.</p>
+        <h3>Syntax</h3>
+        <p>Visual Basic/VBScript</p>
+        <p Class="Code" class="code"><span style="font-style: normal;">Function GetConfiguredProperties(</span>
+        </p>
+        <p Class="Code" class="code"><span style="font-style: normal;">ApplicationName As String, </span>
+        </p>
+        <p Class="Code" class="code"><span style="font-style: normal;">ObjectName As String) </span>
+        </p>
+        <p Class="Code" class="code"><span style="font-style: normal;">As Variant</span>
+        </p>
+        <p>Visual Basic/VBScript parameter descriptions</p>
+        <p><span style="font-style: italic;">ApplicationName</span>
+        </p>
+        <p class="BodyTextIndent_1">[in] A string containing the logical application name that 
+ determines which subset of the cache to use for a query.</p>
+        <p><span style="font-style: italic;">ObjectName</span>
+        </p>
+        <p class="BodyTextIndent_1">[in] A string that contains the name of the object.</p>
+        <p>JScript</p>
+        <p Class="Code" class="code"><span style="font-style: normal;">function GetConfiguredProperties(</span>
+        </p>
+        <p Class="Code" class="code"><span style="font-style: normal;">ApplicationName, </span>
+        </p>
+        <p Class="Code" class="code"><span style="font-style: normal;">ObjectName)</span>
+        </p>
+        <p Class="Code" class="BodyText">JScript parameter descriptions</p>
+        <p><span style="font-style: italic;">ApplicationName</span>
+        </p>
+        <p class="BodyTextIndent_1">[in] A string containing the logical application name that 
+ determines which subset of the cache to use for a query.</p>
+        <p><span style="font-style: italic;">ObjectName</span>
+        </p>
+        <p class="BodyTextIndent_1">[in] A string that contains the name of the object.</p>
+        <p>C#</p>
+        <p>Use with the .NET <a href="Primary_interop_assembly.htm">primary interop 
+ assembly</a> version of this component, OnyxDictionaryCacheProxyPIA.</p>
+        <p Class="Code" class="code">public&#160;object&#160;<span style="font-style: normal;">GetConfiguredProperties(</span></p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;string&#160;ApplicationName,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;string&#160;ObjectName)</p>
+        <p>C# parameter descriptions</p>
+        <p><span style="font-style: italic;">ApplicationName</span>
+        </p>
+        <p class="BodyTextIndent_1">[in] A string containing the logical application name that 
+ determines which subset of the cache to use for a query.</p>
+        <p><span style="font-style: italic;">ObjectName</span>
+        </p>
+        <p class="BodyTextIndent_1">[in] A string that contains the name of the object.</p>
+        <h3>Return value</h3>
+        <p>This method returns a two-dimensional array of variants that contains 
+ the configured properties for the specified object.</p>
+        <p>The C# version of this method returns a two-dimensional array as a System.Object 
+ type. To access the individual array elements the Object must be cast 
+ to Object[,] (an object array) and then either assign each element to 
+ a string or copy the value into a new string. For an example of this coding 
+ technique, see the C# code sample in the Example section of DictionaryProxy 
+ <a href="Script_GetPropertyConstraints.htm">GetPropertyConstraints</a> 
+ method.</p>
+        <h3>Remarks</h3>
+        <p>If the method fails, the number property of the error object contains 
+ a value equal to one of the predefined <a href="Error_Returns.htm">error 
+ constants</a> that indicates the status of the method call.</p>
+        <h3>Example</h3>
+        <p>The following example demonstrates how to use the GetConfiguredProperties 
+ method to determine the property name and internal name of business object 
+ properties that are tied to a column in a custom database table.</p>
+        <p>VBScript code sample</p>
+        <p Class="Code" class="code"><span style="color: #008000;">' Declare some variables</span>
+        </p>
+        <p Class="Code" class="code">dim&#160;str_obj,&#160;str_app,&#160;var_array,&#160;inx,&#160;jnx</p>
+        <p Class="Code" class="code">str_app&#160;=&#160;"appname"</p>
+        <p Class="Code" class="code">str_obj&#160;=&#160;"object"</p>
+        <p Class="Code" class="code"><span style="color: #008000;">' Call the cache through the proxy</span>
+        </p>
+        <p Class="Code" class="code">dim&#160;proxy</p>
+        <p Class="Code" class="code">set&#160;proxy&#160;=&#160;CreateObject("OnyxDictionaryCacheProxy.Dictionary")</p>
+        <p Class="Code" class="code">var_array&#160;=&#160;proxy.GetConfiguredProperties(str_app,&#160;str_obj)&#160;&#160;&#160;</p>
+        <p Class="Code" class="code">if&#160;err.number&#160;&lt;&gt;&#160;0&#160;then&#160;</p>
+        <p Class="Code" class="code">else&#160;&#160;&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;for&#160;inx&#160;=&#160;0&#160;to&#160;ubound(var_array,&#160;1)</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;for&#160;jnx&#160;=&#160;0&#160;to&#160;ubound(var_array,&#160;2)</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;<span style="color: #008000;">' Do something with the contents of the array</span></p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;next&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;next&#160;</p>
+        <p Class="Code" class="code">end&#160;if</p>
+        <p Class="Code" class="code">set&#160;proxy&#160;=&#160;nothing</p>
+        <h3>Related topics</h3>
+        <ul>
+            <li><a href="Configured_Properties.htm">Configured Properties</a>
+            </li>
+            <li><a href="Error_Returns.htm">OEDCacheStatusEnum</a>
+            </li>
+        </ul>
+    </body>
+</html>

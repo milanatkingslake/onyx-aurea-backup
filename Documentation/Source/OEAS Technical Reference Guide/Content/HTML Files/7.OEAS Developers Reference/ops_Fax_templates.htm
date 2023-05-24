@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:lastBlockDepth="4" MadCap:lastHeight="619" MadCap:lastWidth="980" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:conditions="Default.Obsolete">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Fax templates</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>Fax templates</h3>
+        <p>
+            <MadCap:keyword term="templates" />
+            <MadCap:keyword term="Fax templates" />In order to use the fax engine provided by the Onyx Processing Server 
+ (OPS) you must understand how to use fax templates. You use fax templates 
+ to transform the input <a href="ops_orderBatch_xml_structure.htm">orderBatch</a> 
+ XML and produce HTML or plain text format output. The fax engine faxes 
+ the output appropriately.</p>
+        <p>OPS includes a fax engine that uses fax templates associated with literatureProduct 
+ objects to transform one or more literatureOrderLine elements in the orderBatch 
+ XML into a fax sent to a customer. When the fax engine fulfills a literature 
+ order, it loads the stylesheet referenced in the <a href="literatureProduct_filepath.htm">filePath</a> 
+ property of the <a href="literatureProduct_object.htm">literatureProduct</a> 
+ object. The engine uses a stylesheet to transform all the fax literatureOrderLine 
+ nodes in the orderBatch XML. The XSL merges data from the <a href="literatureOrderLine_object.htm">literatureOrderLine</a> 
+ to create a personalized fax literature product.</p>
+        <p>To use fax templates with the OPS you must be familiar 
+ with the following:</p>
+        <ul>
+            <li>orderBatch XML and logical objects contained within 
+ it</li>
+            <li>XPath expressions</li>
+            <li>XSL stylesheets</li>
+        </ul>
+        <p>This book contains topics on using the sample fax templates provided 
+ with OPS and writing your own custom fax templates.</p>
+        <h3>Guidelines</h3>
+        <p>OPS uses an in-memory cache to improve the performance of fax template 
+ processing. The cache runs in the fax subsystem component. When the subsystem 
+ needs to open a fax template, it first looks in the cache. If it's not 
+ there, it loads it into the cache from the file path specified in the 
+ literatureProduct. This is important to know when you develop fax templates, 
+ because your changes, even though correctly saved to the file system, 
+ are not available to the subsystem if an older copy is in the cache. To 
+ clear the cache and reload the new version, you must shutdown all fax 
+ subsystems that might potentially use the template.</p>
+        <p>You should thoroughly test any fax templates that you create or modify. 
+ If your template causes an error, it could result in a malformed fax sent.</p>
+        <p>The stylesheet processing occurs within the context of a Windows Service 
+ with no user interaction. You should make sure that your template does 
+ not instantiate any dialog windows requiring user input.</p>
+        <MadCap:snippetBlock src="../../Resources/Snippets/What would you like to do.flsnp" />
+        <ul>
+            <li><a href="ops_Using_sample_fax_templates.htm">Learn about sample fax templates</a>
+            </li>
+            <li><a href="ops_Writing_custom_fax_templates.htm">Create a custom fax template</a>
+            </li>
+            <li><a href="ops_Testing_fax_templates.htm">Test fax templates</a>
+            </li>
+        </ul>
+    </body>
+</html>

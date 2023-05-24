@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="609" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head>
+            <link href="../../../Resources/TableStyles/Aptean_Note_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" /><title>Deletions</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>Deletions</h2>
+        <p>All deletions of transactional data are logical deletes, while all domain 
+ data deletions are physical deletes. A logical delete means that a record 
+ is not physically deleted from the database, but rather is updated to 
+ contain a non-zero value in its delete_status column. A logical deletion 
+ removes a record from active use; logically-deleted data is not visible 
+ to users and does not appear in any queries performed on active records. 
+ However, because the data is not actually deleted from the database, it 
+ is recoverable. </p>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; &#160;">Within OEAS documentation, all references to “delete” 
+ or “deletions” refer to a logical delete, unless in the context of domain 
+ data (such as is discussed with regard to OES tools). </p>
+        <h4>Cascade deletes</h4>
+        <p>Delete methods within OEAS cascade the delete to child objects according 
+ to the cascade type associated with the parent/child relationship. For 
+ further information regarding cascade types, see "Relationships" 
+ in <a href="../../7.OEAS Developers Reference/Customizing_Overview.htm">Customizing OEAS</a>.</p>
+        <h4>Deletions using an administration tool </h4>
+        <p>Administration tools are used to manage domain data. As stated previously, 
+ domain data deletions are physical, meaning the record is physically deleted 
+ from the database and is irrecoverable. In addition, deleting an item 
+ that has already been associated with another record is not permitted 
+ until you have removed the association, even if the associated record 
+ itself has been logically deleted. </p>
+        <p>When using the administration tools, Onyx recommends you deactivate 
+ data rather than delete data. When you deactivate data, it no longer appears 
+ to end users for active use, but it remains an active element of records 
+ previously created with it.</p>
+    </body>
+</html>

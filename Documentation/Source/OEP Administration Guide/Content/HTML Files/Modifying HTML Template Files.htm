@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="113" MadCap:lastWidth="701">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2><a name="top"></a>Modifying HTML Template Files</h2>
+        <p>Onyx uses metadata stored in Profile XML and HTML template files to control the information that is displayed in calendar appointments. Based on the organization's requirement, these files can be modified to add and remove fields that are displayed to users.</p>
+        <h4>Adding a new field</h4>
+        <p>To add a new field to the template body, you must modify the Profile XML file and the corresponding Template file.</p>
+        <p><b>To add a new field:</b>
+        </p>
+        <ol>
+            <li>Modify the Profile XML file corresponding to the appointment to enable the new field. To do this, see <a href="Adding Profile XML File.htm#Modifyin">Modifying the Profile XML file</a>.</li>
+            <li>Open the template file that corresponds to the notification that you want to modify. The default file path is <b>C:\Program Files\Onyx\AppServer\Applications\Onyx\OnyxNotificationService\Templates</b>.</li>
+            <li>Add a row for the new field that you want to add, in the following format, replacing the highlighted text in the second column with the template key that you noted while modifying the Profile XML file.</li>
+        </ol>
+        <p class="Indent1"><code>&lt;tr style=p&gt;</code>
+        </p>
+        <p class="Indent1"><code>&lt;td class="style1"&gt;</code>
+        </p>
+        <p class="Indent1"><code>&lt;b&gt;Type&lt;/b&gt; :</code>
+        </p>
+        <p class="Indent1"><code>&lt;/td&gt;</code>
+        </p>
+        <p class="Indent1"><code>&lt;td class="style2"&gt;</code>
+        </p>
+        <p class="Indent1"><code>##incident_type_desc##</code>
+        </p>
+        <p class="Indent1"><code>&lt;/td&gt;</code>
+        </p>
+        <p class="Indent1"><code>&lt;/tr&gt;</code>
+        </p>
+        <ol MadCap:continue="true">
+            <li>If required, change the styles used in the template body using internal or inline styles. Do not reference an external CSS to modify styles.</li>
+            <li>Save and close the Template file.</li>
+        </ol>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">To add a field to the Individual template subject, you must also modify the emailtemplates.config file. For information on doing this, see Appointment templates.</p>
+        <p>&#160;</p>
+    </body>
+</html>

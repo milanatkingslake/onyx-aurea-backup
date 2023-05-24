@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:id="content" MadCap:comment="content" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:fileTags="RoboHelpCheckList.Ran Smart Index,RoboHelpStatus.In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="824" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" /><title>update method</title>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body onload="onyxOnload()">
+        <h2>update method</h2>
+        <p>An update method persists modifications to an existing object instance.</p>
+        <h5>Parameters</h5>
+        <p>This method accepts an object whose content="all" as the input 
+ parameter, and returns a "keysOnly" object as an output parameter. 
+ You pass the input XML within the root element named &lt;parameters&gt;.</p>
+        <table>
+            <col />
+            <col />
+            <col />
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Direction</th>
+                    <th>Data type</th>
+                    <th>Content in type</th>
+                    <th>Content out type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">Object name</p>
+                    </td>
+                    <td style="width: 10%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="10%">
+                        <p class="Table_Text" style="margin-bottom: 0;">inOut</p>
+                    </td>
+                    <td style="width: 11%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="11%">
+                        <p class="Table_Text" style="margin-bottom: 0;">object</p>
+                    </td>
+                    <td style="width: 13%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="13%">
+                        <p class="Table_Text" style="margin-bottom: 0;">any</p>
+                    </td>
+                    <td style="width: 14%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="14%">
+                        <p class="Table_Text" style="margin-bottom: 0;">keysOnly</p>
+                    </td>
+                    <td style="width: 37%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="37%">
+                        <p class="Table_Text" style="margin-bottom: 0;">An object whose content="any" on 
+ input.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h5>Steps</h5>
+        <p>All standard methods call the Onyx Data Validation Step for input data 
+ validation and either directly or indirectly call Onyx Data Manager to 
+ access the data tier. Many methods perform additional steps. For a table 
+ that lists the default steps of a specific business object method, refer 
+ to its method topic under the business object.</p>
+        <h5>Remarks</h5>
+        <p>The primary object key properties are required in the input parameters 
+ XML.</p>
+        <p>The onyxTimestamp property helps to ensure that concurrency control 
+ is maintained. Concurrency control is supported only when an object has 
+ an onyxTimestamp property. Unless currency control is disabled (by specifying 
+ the ignore="1" attribute on the onyxTimestamp element), the 
+ input XML for an update method must include the current onyxTimestamp 
+ value for the object instance. To get this value, a retrieve or retrieveCollection 
+ method usually precedes an update method.</p>
+        <p>If, when updating an object, you use the ignore="1" attribute 
+ on the onyxTimestamp element, ensure that you provide values only for 
+ the properties that you changed. Otherwise, the update method may overwrite 
+ changes made by another user.</p>
+        <h5 align="left">Partial updates</h5>
+        <p>You can update all properties of an object, 
+ or just select properties of an object. Updating select properties of 
+ an object is called a "partial update." All business objects 
+ support partial update. </p>
+        <p>To perform a partial update of an object, supply in 
+ the input parameters XML only the property values whose changed values 
+ you want to persist to the database. There are two restrictions to performing 
+ a partial update:</p>
+        <ul>
+            <li>Properties with a "required" constraint 
+ in the OED cannot be set to NULL.</li>
+            <li>You cannot update just one property of an ID/type 
+ property pair; you must update both properties. Examples include ownerId/ownerType 
+ on secondary objects and associationId/associationType on the workTicketAssociation 
+ object.</li>
+        </ul>
+        <p>The following table shows the results of specifying an emailAddress 
+ element in various ways in the input XML for an update method.</p>
+        <table>
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Input XML</th>
+                    <th>Update result</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">&lt;emailAddress&gt;JDoe@onyx.com&lt;/emailAddress&gt;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">The email address for the object instance 
+ is set to JDoe@onyx.com.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">&lt;emailAddress null="1" /&gt;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The email address for the object instance is set to 
+ NULL.</p>
+                        <p class="Table_Text" style="margin-bottom: 0;">For the this update to succeed, the property 
+ must not be required on the object. A required property cannot be set 
+ to NULL.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">&lt;emailAddress&gt;&lt;/emailAddress&gt;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">In a partial update, an empty element results in no 
+ change to the email address property.</p>
+                        <p class="Table_Text" style="margin-bottom: 0;">For this update to succeed, the property 
+ must not be a primary object key, which is required for updates.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">[no emailAddress element on input]</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">In a partial update, an absent element results in no 
+ change to the email address property.</p>
+                        <p class="Table_Text" style="margin-bottom: 0;">For the this update to succeed, the property 
+ must not be a primary object key, which is required for updates.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h5>Example</h5>
+        <p>The following XML shows a retrieved incident object, followed by the 
+ same object with the description1 property modified, and a keysOnly object 
+ returned after the modified object instance is updated.</p>
+        <ul>
+            <li>View the original incident object retrieved
+        </li>
+            <li>Change the incident object description1 property to read "My description".</li>
+            <li>Parameters of the update method
+        </li>
+        </ul>
+    </body>
+</html>

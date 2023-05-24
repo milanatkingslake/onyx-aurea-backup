@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="391" MadCap:lastWidth="615" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" /><title>Structural rules for replace procedures</title>
+    </head>
+    <body>
+    
+        <h5>
+            <MadCap:keyword term="procedure;Structural rules;Structural rules:replace procedures;replace procedures;replace procedures:Structural rules" />Structural rules for replace procedures</h5>
+        <p>All stored procedures called in replace mode (called from the middle 
+ tier) must be coded to return a result structured according to the standards 
+ for that method type. Please review the section on <a href="customizingOEDB_result_set_interpretation.htm">result 
+ set interpretation</a> for information on formatting a result set.</p>
+        <h4>Replacing a SQL generation persistence call</h4>
+        <p>Onyx uses a standard structure for any stored procedure that is written 
+ to replace a SQL generation persistence call (insert or update method). 
+ These procedures must have a parameter for each object property. According 
+ to standards, these parameters are ordered according to the order of appearance 
+ of properties on the object. The maintenance properties on the object 
+ do not need to be included in this list of parameters; however, the stored 
+ procedure should be written to fill the maintenance columns. You should 
+ always include a user ID parameter for passing the context userID so that 
+ the proper information is available for filling the maintenance columns. 
+ You should also include the value for onyx_timestamp on updates. The parameter 
+ value should be checked against the value in the table. The update should 
+ be allowed to continue if the values match. For more information on maintenance 
+ properties, see <a href="workingWithOed_Standard_Maintenance_Properties.htm">Standard 
+ maintenance properties</a>.</p>
+        <p>Procedures written to replace a SQL generation persistence call must 
+ return a result set. </p>
+    </body>
+</html>

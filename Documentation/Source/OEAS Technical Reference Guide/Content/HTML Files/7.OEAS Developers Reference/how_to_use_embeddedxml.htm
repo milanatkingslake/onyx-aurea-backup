@@ -1,0 +1,316 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="742" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>How to use embeddedXML</title>
+        </head>
+        <h5>How to use embeddedXml</h5>
+        <p>How the embeddedXml element works:</p>
+        <ol>
+            <li>An OEAS retrieveList method calls a step component 
+ that typically returns a large list of data from the database.</li>
+            <li>The step component builds the rowSet data as an 
+ XML string, and inserts the data within the embeddedXml element.</li>
+        </ol>
+        <p>The embeddedXml element begins with exactly:</p>
+        <p class="code" style="margin-left: 80px;">&lt;embeddedXml&gt;&lt;![CDATA[</p>
+        <p>and ends with exactly:</p>
+        <p class="code">]]&gt;&lt;/embeddedXml&gt;</p>
+        <ul start="3">
+            <p>Note that the code must appear exactly as illustrated above: it 
+ cannot contain any white space between the embeddedXml element and CDATA 
+ section, not even the hard return that is sometimes used when formatting 
+ XML for visual display.</p>
+            <p>I<span class="hcp1">ncorrect</span> 
+ usage of this element
+            </p>
+            <p class="BodyTextIndent_1">The embeddedXml element in this XML sample is used incorrectly 
+ because white space separates it from the CDATA section.</p>
+            <p Class="Code" class="code">&lt;parametersReturn&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;<span class="hcp1">&lt;embeddedXml&gt;</span></p>
+            <p Class="Code" class="code"><span class="hcp1">&lt;![CDATA[</span>
+            </p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;rowSet objectType="rowSet" rowCount="2" columnCount="9"&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnDefinitions collection="1" objectType="columnDefinition"&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+            <p Class="Code" class="code">.</p>
+            <p Class="Code" class="code">.</p>
+            <p Class="Code" class="code">.</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;<span class="hcp1">]]&gt;</span></p>
+            <p Class="Code" class="code"><span class="hcp1">&lt;/embeddedXml&gt;</span>
+            </p>
+            <p Class="Code" class="code">&lt;parametersReturn&gt;</p>
+        </ul>
+        <ul>
+            <p>The following example shows the <span style="font-weight: normal;">correct</span> 
+ usage of the embeddedXml element and CDATA section, using sample rowSet 
+ data contained within the embeddedXml element.</p>
+            <p>C<span class="hcp1">orrect</span> 
+ usage of this element
+            </p>
+            <p Class="Code" class="code">&lt;parametersReturn&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;<span class="hcp1">&lt;embeddedXml&gt;&lt;![CDATA[</span></p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;rowSet objectType="rowSet" rowCount="2" columnCount="9"&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnDefinitions collection="1" objectType="columnDefinition"&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnHeading&gt;Parameter ID&lt;/columnHeading&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnName&gt;iParameterId&lt;/columnName&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;1&lt;/columnOrdinal&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnFlags&gt;24&lt;/columnFlags&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnHeading&gt;Description&lt;/columnHeading&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnName&gt;vchParameterDesc&lt;/columnName&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;2&lt;/columnOrdinal&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnFlags&gt;8&lt;/columnFlags&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnSize&gt;50&lt;/columnSize&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnType&gt;string&lt;/columnType&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnHeading&gt;Extra Data&lt;/columnHeading&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnName&gt;vchExtraData&lt;/columnName&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;3&lt;/columnOrdinal&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnFlags&gt;104&lt;/columnFlags&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnSize&gt;20&lt;/columnSize&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnType&gt;string&lt;/columnType&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnHeading&gt;Reference ID&lt;/columnHeading&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnName&gt;iReferenceId&lt;/columnName&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;4&lt;/columnOrdinal&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnFlags&gt;24&lt;/columnFlags&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnHeading&gt;Level&lt;/columnHeading&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnName&gt;tiLevel&lt;/columnName&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;5&lt;/columnOrdinal&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnFlags&gt;24&lt;/columnFlags&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnSize&gt;1&lt;/columnSize&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;3&lt;/columnPrecision&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnHeading&gt;Parent ID&lt;/columnHeading&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnName&gt;iParentId&lt;/columnName&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;6&lt;/columnOrdinal&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnFlags&gt;24&lt;/columnFlags&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnHeading&gt;Access Code&lt;/columnHeading&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnName&gt;iAccessCode&lt;/columnName&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;7&lt;/columnOrdinal&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnFlags&gt;24&lt;/columnFlags&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnHeading&gt;Character Code&lt;/columnHeading&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnName&gt;vchCharacterCode&lt;/columnName&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;8&lt;/columnOrdinal&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnFlags&gt;104&lt;/columnFlags&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnSize&gt;20&lt;/columnSize&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnType&gt;string&lt;/columnType&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnHeading&gt;Seq Number&lt;/columnHeading&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnName&gt;iSeqNum&lt;/columnName&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;9&lt;/columnOrdinal&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnFlags&gt;24&lt;/columnFlags&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/columnDefinitions&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;rows collection="1" objectType="row"&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;row&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c0&gt;127&lt;/c0&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c1&gt;Medium&lt;/c1&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c2/&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c3&gt;5&lt;/c3&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c4&gt;1&lt;/c4&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c5&gt;0&lt;/c5&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c6&gt;1&lt;/c6&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c7/&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c8/&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/row&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;row&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c0&gt;100029&lt;/c0&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c1&gt;Large&lt;/c1&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c2/&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c3&gt;5&lt;/c3&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c4&gt;1&lt;/c4&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c5&gt;0&lt;/c5&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c6&gt;1&lt;/c6&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c7/&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c8/&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/row&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/rows&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/rowSet&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;<span class="hcp1">]]&gt;&lt;/embeddedXml&gt;</span></p>
+            <p Class="Code" class="code">&lt;/parametersReturn&gt;</p>
+        </ul>
+        <ol start="3">
+            <li>
+                <p>The step component passes the XML to the Onyx 
+ Transaction Manager (<a href="OTM.htm">OTM</a>). If it is the last step 
+ in the OTM call, the OTM searches the stepPackage XML for the <span class="hcp1">&lt;embeddedXml&gt;&lt;![CDATA[</span> 
+ and <span class="hcp1">]]&gt;&lt;/embeddedXml&gt;</span> 
+ strings and removes them before sending the data to the calling client. 
+ The rowSet data between these strings remains intact. No processing is 
+ performed on this data while it is contained within the embeddedXml element 
+ and CDATA section.</p>
+            </li>
+        </ol>
+        <p>The following example shows the XML after the OTM removes the embeddedXml 
+ element and CDATA section. Note that the rowSet data is passed to the 
+ calling client as if the embeddedXml element and CDATA section never existed.</p>
+        <ul>
+            <p>Example
+            </p>
+            <p Class="Code" class="code">&lt;parametersReturn&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&lt;rowSet objectType="rowSet" rowCount="2" columnCount="9"&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnDefinitions collection="1" objectType="columnDefinition"&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnHeading&gt;Parameter ID&lt;/columnHeading&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnName&gt;iParameterId&lt;/columnName&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;1&lt;/columnOrdinal&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnFlags&gt;24&lt;/columnFlags&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnHeading&gt;Description&lt;/columnHeading&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnName&gt;vchParameterDesc&lt;/columnName&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;2&lt;/columnOrdinal&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnFlags&gt;8&lt;/columnFlags&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnSize&gt;50&lt;/columnSize&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnType&gt;string&lt;/columnType&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnHeading&gt;Extra Data&lt;/columnHeading&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnName&gt;vchExtraData&lt;/columnName&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;3&lt;/columnOrdinal&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnFlags&gt;104&lt;/columnFlags&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnSize&gt;20&lt;/columnSize&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnType&gt;string&lt;/columnType&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnHeading&gt;Reference ID&lt;/columnHeading&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnName&gt;iReferenceId&lt;/columnName&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;4&lt;/columnOrdinal&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnFlags&gt;24&lt;/columnFlags&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnHeading&gt;Level&lt;/columnHeading&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnName&gt;tiLevel&lt;/columnName&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;5&lt;/columnOrdinal&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnFlags&gt;24&lt;/columnFlags&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnSize&gt;1&lt;/columnSize&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;3&lt;/columnPrecision&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnHeading&gt;Parent ID&lt;/columnHeading&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnName&gt;iParentId&lt;/columnName&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;6&lt;/columnOrdinal&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnFlags&gt;24&lt;/columnFlags&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnHeading&gt;Access Code&lt;/columnHeading&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnName&gt;iAccessCode&lt;/columnName&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;7&lt;/columnOrdinal&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnFlags&gt;24&lt;/columnFlags&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnHeading&gt;Character Code&lt;/columnHeading&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnName&gt;vchCharacterCode&lt;/columnName&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;8&lt;/columnOrdinal&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnFlags&gt;104&lt;/columnFlags&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnSize&gt;20&lt;/columnSize&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnType&gt;string&lt;/columnType&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnHeading&gt;Seq Number&lt;/columnHeading&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnName&gt;iSeqNum&lt;/columnName&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;9&lt;/columnOrdinal&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnFlags&gt;24&lt;/columnFlags&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/columnDefinitions&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;rows collection="1" objectType="row"&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;row&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c0&gt;127&lt;/c0&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c1&gt;Medium&lt;/c1&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c2/&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c3&gt;5&lt;/c3&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c4&gt;1&lt;/c4&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c5&gt;0&lt;/c5&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c6&gt;1&lt;/c6&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c7/&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c8/&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/row&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;row&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c0&gt;100029&lt;/c0&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c1&gt;Large&lt;/c1&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c2/&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c3&gt;5&lt;/c3&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c4&gt;1&lt;/c4&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c5&gt;0&lt;/c5&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c6&gt;1&lt;/c6&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c7/&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c8/&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/row&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/rows&gt;</p>
+            <p Class="Code" class="code">&#160;&#160;&#160;&lt;/rowSet&gt;</p>
+            <p class="code" style="margin-bottom: 0;">&lt;/parametersReturn&gt;</p>
+        </ul>
+    </body>
+</html>

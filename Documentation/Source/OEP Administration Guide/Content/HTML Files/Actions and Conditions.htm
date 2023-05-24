@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="813" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2><a name="top"></a>Actions and Conditions</h2>
+        <p>Using Dynamic Forms Designer to write action statements alters OEP behavior dynamically as users interact with UCW-enabled OEP areas. Action statements can include conditions, which if true allow an action to execute. </p>
+        <p>The action and condition lists are organized by objects that represent UI elements, data for the currently displayed record, click event arguments, and so on. As you expand each object's node(s), the tree exposes the possible actions available for each object.</p>
+        <h4>Conditions </h4>
+        <p>Conditions are "get value" actions that compare the values to user-supplied expressions using operators available in a drop-down list. The Object/Action drop-down list in the Action section of the window contains many more actions than are available in the Object drop-down list in the Conditions section.</p>
+        <h4>Arguments </h4>
+        <p>When you select an action from the Object/Action drop-down list, any related arguments appear. Not all actions have arguments. Arguments are additional pieces of information that may or may not be required for an action to be successful. Each argument includes a source and a value. The source is selected from a drop-down list:</p>
+        <p class="Indent1"><b>User Defined:</b> Selecting this source displays a list of values (if the argument is limited to a list of values) or displays a text box for your typed entry. For example, user-defined values for the Item ID argument for the Top_Tab (Select Item) action are limited to the top tabs for the current page; user-defined values for the Title argument for the UI (Show Message Box) action are not limited, so a text box is displayed for your typed entry. </p>
+        <p class="Indent1"><b>Page Variable:</b> Selecting this source displays a list of page variables that contain values for the current area. </p>
+        <p>Argument data types are always string. Some actions use arguments that behave as Boolean data types, such as Set Recall and Set User Reminder; however, the data type is string.</p>
+        <h5>Additional action settings (Save Result? and Stop on Execute?)</h5>
+        <p>When you select an action from the action list, the Save Result? check box and the Stop on Execute? check box appear in the Action section of the Dynamic Forms Designer window. </p>
+        <p>The Save Result? check box stores the result of this statement as a page variable with the specified name. (The name is specified in the text box to the right of the check box, and it must be a valid JScript variable name.) Previously stored page variables are listed within the <a href="Post action.htm#Page">Page Variable</a> source for action arguments and within the Variables object for conditions. </p>
+        <p>The Stop on Execute? check box stops events after specific statements (such as stopping the save event if a statement returns a true condition, which indicates an error) and skipping statements that have the same purpose (such as validating data). For example, the Validate event for a particular page may contain five statements that validate entered data, with each statement executing if a true condition is returned for a particular entry. (In this example, a true condition indicates that the related entry is invalid.) The final value for validation events is the last returned value. If the last statement returns a false condition, the event is set to false, whether or not the entered data is valid. To prevent an erroneously false value for the validation event, you can end the event if any of its statements return a true condition. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Selecting Stop on Execute? does not affect the returned value. If you want to stop the event and set the returned value, you can use one of the Terminate Current Event actions, located under the <a href="Objects in the action and.htm#Common">Common</a> object in the list of actions.</p>
+        <h5>Example graphic of action and condition lists </h5>
+        <p>The following graphic of Dynamic Forms Designer for the company PowerPage shows the condition list (Object drop-down list in the Conditions section) and the action list (Object/Action drop-down list in the Action section). </p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Conditions.jpg" style="width: 574px;height: 485px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <h5>Items returned by actions </h5>
+        <p>Actions that retrieve data return the data as strings or integers. Actions that set values, evaluate expressions, display message boxes, show/hide controls, and so forth, return a Boolean value to indicate success or failure.</p>
+    </body>
+</html>

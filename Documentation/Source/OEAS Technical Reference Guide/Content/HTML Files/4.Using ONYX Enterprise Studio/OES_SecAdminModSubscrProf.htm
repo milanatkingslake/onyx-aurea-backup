@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="754" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Modifying a user’s subscription profile</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>Modifying a user’s subscription profile </h4>
+        <p>Modifying a user’s subscription profile follows the model for modifying 
+ most other objects in OES administration and design tools. </p>
+        <p class="ProcedureHeading">To modify a subscription profile: </p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li>In the navigation area, select the subscription 
+ profile.</li>
+            <li>In the edit area, make any desired changes. </li>
+        </ol>
+        <p class="Indent1">For more information on the attributes that you 
+ can change for the subscription profile, see <a href="OES_SecAdminMggUserProf.htm">Adding 
+ and deleting a user’s subscription profile</a>. </p>
+        <ol style="list-style: decimal;list-style-type: decimal;" MadCap:continue="true">
+            <li>Click <img src="../../Resources/Images/oes_iconSave0.jpg" /> on the toolbar to save your 
+ changes.</li>
+        </ol>
+        <p class="ProcedureHeading">Changing a user’s staging server </p>
+        <p>Complete the following series of tasks if you need to move a user’s 
+ mailbox to another staging server: </p>
+        <p class="ProcedureHeading">To change a user’s staging server: </p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li>Coordinate with the specific users and have them 
+ upsync any unsynchronized changes to their current staging server. You 
+ must wait for the sync server to process all records, and ensure that 
+ all data was successfully synchronized.</li>
+            <li>Complete all necessary steps to move the user’s 
+ mailbox. See the Microsoft Exchange product documentation for detailed 
+ instructions.</li>
+            <li>In Security Administration, change the <span class="UIElement" style="font-weight: bold;">Staging 
+ Server</span> and, if the user has a different ID on the two servers, 
+ the <span class="UIElement" style="font-weight: bold;">Staging Server User ID</span> attributes for 
+ the user’s subscription profile.</li>
+        </ol>
+        <p class="Indent1">For information on changing these attributes, see 
+ <a href="OES_SecAdminMggUserProf.htm">Adding and deleting a user’s subscription 
+ profile</a>. </p>
+        <ol style="list-style: decimal;list-style-type: decimal;" MadCap:continue="true">
+            <li>Reset the data for the user whose mailbox you 
+ are moving. See <a href="OES_SecAdminResetSubscrProf.htm">Resetting a 
+ user’s subscribed data</a> for more information.</li>
+            <li>After the next synchronization cycle is complete, 
+ manually delete the user’s synchronization folders in the original staging 
+ server.</li>
+            <li>Instruct the user to reconfigure his or her Outlook 
+ profile and favorites for the new staging server. See the OEP-Offline 
+ Getting Started Guide for detailed instructions.</li>
+        </ol>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Follow the same steps if the user is remaining on the same 
+ staging server, but the staging server ID has been changed. </p>
+    </body>
+</html>

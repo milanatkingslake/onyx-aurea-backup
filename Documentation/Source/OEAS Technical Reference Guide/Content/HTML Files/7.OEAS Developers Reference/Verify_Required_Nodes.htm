@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="590" MadCap:lastWidth="994" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Verify the Required Nodes</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h6>
+            <MadCap:keyword term="required;Nodes" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />Verify the required nodes</h6>
+        <p>When reading the step package, your step component must ensure that 
+ all required XML nodes are present in the XMLDOMDocument interface. If 
+ all XML nodes are present, your step component can complete its task successfully. 
+ If any of the XML nodes are missing, exit the function.</p>
+        <p>This example requires the following XML nodes:</p>
+        <ul>
+            <li>xmlCompanyName</li>
+            <li>xmlSymbol</li>
+        </ul>
+        <p Class="Code" class="code"><span style="color: #008000;">' The companyName is in the parametersReturn element. </span>
+        </p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;Set&#160;xmlCompanyName&#160;=&#160;XMLParser.selectSingleNode("//parametersReturn/company/customerName")</p>
+        <p Class="Code" class="code"><span style="color: #008000;">' The stockSymbol is in the parametersReturn element.</span>
+        </p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;Set&#160;xmlSymbol&#160;=&#160;XMLParser.selectSingleNode("//parametersReturn/company/stockSymbol")</p>
+        <p Class="Code" class="code"><span style="color: #008000;">' Check to make sure that we found the nodes we need,</span>
+        </p>
+        <p Class="Code" class="code"><span style="color: #008000;">' otherwise don't bother with execution.</span>
+        </p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;If&#160;Not&#160;xmlCompanyId&#160;Is&#160;Nothing&#160;And&#160;Not&#160;xmlSymbol&#160;Is&#160;Nothing&#160;Then</p>
+        <p Class="Code" class="code"><span style="color: #008000;">'Do the processing</span>
+        </p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;End&#160;If</p>
+    </body>
+</html>

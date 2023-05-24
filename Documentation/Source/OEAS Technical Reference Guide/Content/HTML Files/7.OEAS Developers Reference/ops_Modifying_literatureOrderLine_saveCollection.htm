@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="520.2993" MadCap:lastWidth="971" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Modifying literatureOrderLine saveCollection (OPS)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h1>
+            <MadCap:keyword term="Modifying" />
+            <MadCap:keyword term="Modifying:literatureOrderLine saveCollection" />
+            <MadCap:keyword term="literatureOrderLine saveCollection" />
+            <MadCap:keyword term="literatureOrderLine saveCollection:Modifying" />
+            <MadCap:keyword term="literatureOrderLine" />Modifying literatureOrderLine saveCollection</h1>
+        <p>Before modifying the literatureOrderLine saveCollection method, see 
+ the <a href="ops_Physical_model_customizations.htm">physical model customizations</a><MadCap:keyword term="OPS" /> 
+ topic. You modify the literatureOrderLine saveCollection method to perform 
+ a routingPrinter lookup on literatureOrderLine insert actions. Adding 
+ a post procedure call to the core step which inserts literatureOrderLine 
+ objects achieves this purpose. After the ODM completes the insert, the 
+ post procedure uses the primaryId of the newly created literatureOrderLine 
+ to lookup address information in the literatureOrderHeader and attempt 
+ to match it with a routingPrinter object. If it finds a match, it updates 
+ the literatureOrderLine printer name. Then when OPS fulfills the order, 
+ it uses the specified printer.</p>
+        <p>This customization involves adding the previously defined custom stored 
+ procedure to the Procedure Maps collection of the saveCollection core 
+ step. Using Object Designer, add a procedure map with the following attributes.</p>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Table_1.css');" class="TableStyle-Aptean_Table_1" cellspacing="0">
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 5cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 12cm;" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_1-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Attribute</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadD-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Value</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Procedure</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">cp_onyx_custom_routing_printer</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Map type</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">post</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">insert action</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">checked</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The Object Designer automatically stubs in the parameters for the procedure 
+ based on its definition in the physical model, but you must complete the 
+ mapping. In this case, the primaryId of the literatureOrderLine needs 
+ to be mapped to the input parameter. Under input maps, modify the p_literature_order_detail_id 
+ parameter with the following attributes.</p>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Table_1.css');" class="TableStyle-Aptean_Table_1" cellspacing="0">
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 5cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 12cm;" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_1-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Attribute</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadD-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Value</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Map type</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">property</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Property</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">primaryId</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>With this step, you completed the logical 
+ business object customizations. Before using the customization, you must 
+ <a href="ops_Configuring_and_populating_the_table.htm">configure and populate 
+ the table</a> for routingPrinter objects. </p>
+    </body>
+</html>

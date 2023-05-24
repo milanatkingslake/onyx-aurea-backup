@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="8" MadCap:lastHeight="1021.457" MadCap:lastWidth="942">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Input Maps</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+            <style>
+td ol,
+td ul
+{
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+</style>
+        </head>
+        <h6>
+            <MadCap:keyword term="Input Maps" />Input Maps</h6>
+        <p>The input maps collection identifies the stored procedure's parameters 
+ and identifies how they should be filled during the SQL Generation process 
+ of composing the procedure call. A couple of input map attributes are 
+ the name of the procedure parameter being mapped and the "map type" 
+ attribute which works in conjunction with another attribute, "map 
+ data." The following map types are available for input maps:</p>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Table_1.css');" class="TableStyle-Aptean_Table_1" cellspacing="0">
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 5cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 12cm;" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_1-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Map Type</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadD-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Description</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;"><span style="font-weight: bold;">property</span>
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">The map type <span style="font-weight: bold;">property</span> 
+ indicates that the procedure parameter should receive the value of a property 
+ on the object containing the method and step that owns the procedure map. 
+ This map type applies only when the object exists as a parameter on the 
+ containing method (for example, on "insert" or "saveCollection" 
+ methods).</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;"><span style="font-weight: bold;">methodParameter</span>
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">A map type of <span style="font-weight: bold;">methodParameter</span> 
+ indicates that the procedure parameter should receive the value of one 
+ of the method parameters of the method that contains the step being executed.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;"><span style="font-weight: bold;">contextVariable</span>
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText">A map type of <span style="font-weight: bold;">contextVariable</span> 
+ indicates that the procedure parameter should receive a value from the 
+ context XML supplied by the core components. The SQL Generation process 
+ has several pre-defined context variables for these values. Allowable 
+ "map data" values for the <span style="font-weight: bold;">contextVariable</span><span style="font-weight: normal;">:</span></p>
+                        <ul>
+                            <li><span style="font-weight: bold;">vSiteId - </span><span style="font-weight: normal;">the site ID for the application</span>
+                            </li>
+                            <li><span style="font-weight: bold;">vUser</span><span style="font-weight: normal;"> - the user ID of the current user</span>
+                            </li>
+                            <li><span style="font-weight: bold;">vLanguage 
+ -</span> an identifier for the user's preferred language</li>
+                            <li><span style="font-weight: bold;">vPartnerUser</span> 
+ - identifies if a user should be restricted based on access rules defined 
+ for partners</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;"><span style="font-weight: bold;">literal</span>
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText">A map type of <span style="font-weight: bold;">literal 
+ </span>contains a "map data" attribute that can be any string 
+ that resolves to a single-valued SQL statement, including a keyword (such 
+ as NULL) or a constant that the database can use for the parameter value. 
+ This literal value is passed in either as an input parameter for "replace" 
+ stored procedures, or it is compiled into the generated stored procedure.</p>
+                        <p class="TableText">These string literals may include valid XSL commands 
+ as well as SQL.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;"><span style="font-weight: bold;">XSL literal</span>
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;font-style: normal;">The map type of <span style="font-weight: bold;">XSL literal</span> indicates that the input 
+ value to a stored procedure (either a "replace" procedure or 
+ a generated procedure) is provided by running an XSL statement against 
+ the input XML, and passing in the result.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

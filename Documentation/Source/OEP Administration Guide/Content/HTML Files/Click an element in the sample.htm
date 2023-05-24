@@ -1,0 +1,289 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="844" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <p>Click an element in the sample configuration to learn more about what it does.</p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>&lt;dataTransforms&gt;</code>
+                    </p>
+                    <p>&#160;<a href="#dataTran">&lt;dataTransform&gt;</a></p>
+                    <p>&#160;&#160;<a href="#transfor">&lt;transformId&gt;incidentSales1&lt;/transformId&gt;</a></p>
+                    <p>&#160;&#160;<a href="#rowXPath">&lt;rowXPath&gt;/returnXml/parametersReturn/rowSet/rows/row&lt;/rowXPath&gt;</a></p>
+                    <p>&#160;&#160;<a href="#definiti">&lt;definitionXPath&gt;/returnXml/parametersReturn/rowSet/columnDefinitions&lt;/definitionXPath&gt;</a></p>
+                    <p>&#160;&#160;<a href="#columns">&lt;columns&gt;</a></p>
+                    <p>&#160;&#160;&#160;<code>&lt;column&gt;</code></p>
+                    <p>&#160;&#160;&#160;&#160;<a href="#sourceCo">&lt;sourceColumn&gt;c0&lt;/sourceColumn&gt;</a></p>
+                    <p>&#160;&#160;&#160;&#160;<a href="#descript">&lt;description&gt;Product Number&lt;/description&gt;</a></p>
+                    <p>&#160;&#160;&#160;&#160;<a href="To prevent the XSL from being.htm#useHeadi">&lt;useHeading&gt;1&lt;/useHeading&gt;</a></p>
+                    <p>&#160;&#160;&#160;&#160;<a href="#sequence">&lt;sequenceNumber&gt;0&lt;/sequenceNumber&gt;</a></p>
+                    <p>&#160;&#160;&#160;&#160;<a href="#formatTy">&lt;formatType&gt;text&lt;/formatType&gt;</a></p>
+                    <p>&#160;&#160;&#160;&#160;<a href="#customPa">&lt;customParam /&gt;</a></p>
+                    <p>&#160;&#160;&#160;&#160;<a href="#decimalP">&lt;decimalPlaces /&gt;</a></p>
+                    <p>&#160;&#160;&#160;&#160;<a href="#lookupNa">&lt;lookupName /&gt;</a></p>
+                    <p>&#160;&#160;&#160;&#160;<a href="#sourceCu">&lt;sourceCustomXSL /&gt;</a></p>
+                    <p>&#160;&#160;&#160;<code>&lt;/column&gt;</code></p>
+                    <p>&#160;&#160;<a href="#columns">&lt;/columns&gt;</a></p>
+                    <p>&#160;<a href="#dataTran">&lt;/dataTransform&gt;</a></p>
+                    <p><code>&lt;/dataTransforms&gt;</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <h5><a name="dataTran"></a>dataTransform Element</h5>
+        <p>The dataTransform element contains the specification for a data set to be converted to a table class friendly format. The element has four children, each of which are described here. </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Element</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#columns">columns</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Contains the data elements that will be used in the rendered list</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#definiti">definitionXPath</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">An XPath statement that can locate the columnDefinition element of a retrieveList data set</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#rowXPath">rowXPath</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">An XPath statement that can locate the individual rows of the data set</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#transfor">transformId</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">A unique identifier for the transform configuration</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h5><a name="definiti"></a>definitionXPath Element</h5>
+        <p>The definitionXPath element of the XListData configuration contains an XPath statement that can locate the columnDefinitions element in a retrieveList XML data set. </p>
+        <h6>Legal values</h6>
+        <p>Any valid XPath statement.</p>
+        <h6>Required</h6>
+        <p>No. The element has no default value. </p>
+        <h6>Remarks</h6>
+        <p>The XListData objects uses this information when automatically generating strings for column headings in the rendered list. The <i>appendResources</i> method uses this information when creating the strings. </p>
+        <p>This element has no use with a retrieveCollection data set. </p>
+        <h5><a name="rowXPath"></a>rowXPath Element</h5>
+        <p>The rowXPath element of the XListData configuration contains an XPath statement that can locate the row-level data within the source data set.</p>
+        <h6>Legal values</h6>
+        <p>Any valid XPath statement. </p>
+        <h6>Required</h6>
+        <p>Yes. &#160;</p>
+        <h6>Remarks</h6>
+        <p>For a retrieveList data set this element should reference the first &lt;row&gt; element. For a retrieveCollection data set this element should reference the first element within the collection. </p>
+        <h5><a name="transfor"></a>transformId Element</h5>
+        <p>The type element of the XListData configuration contains the unique identifier for the transform configuration.</p>
+        <h6>Legal values</h6>
+        <p>The identifier must be limited to alphanumeric characters. No white space or punctuation characters are allowed. </p>
+        <h6>Required</h6>
+        <p>Yes.</p>
+        <h5><a name="columns"></a>columns Element</h5>
+        <p>The columns element contains the specification for the data to be used in the table. Each child column element specifies a data column to copy to the source data XML that will be used in the rendered list. The following table lists the elements that can appear in the child column elements. </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Element</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#customPa">customParam</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies a custom parameter for a custom formatting function</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#decimalP">decimalPlaces</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies the number of decimal places to display for floating-point data</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#descript">description</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Contains human-readable information about the field</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#formatTy">formatType</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Indicates how the source data from the column will be converted during the transform</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#lookupNa">lookupName</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Identifies a lookup table for ID/description replacement</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#sequence">sequenceNumber</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies the order in which the data is added to the transformed XML</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#sourceCo">sourceColumn</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Identifies the source element for the row data</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#sourceCu">sourceCustomXSL</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Contains a XSLT statement to extract more complex data from the source</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="To prevent the XSL from being.htm#useHeadi">useHeading</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Indicates if the transform should use the columnDefinition data for a column heading</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h5><a name="customPa"></a>customParam Element</h5>
+        <p>The customParam element of the XListData configuration contains data that can be passed to a custom formatting function.</p>
+        <h6>Legal values</h6>
+        <p>Any legal XML text.</p>
+        <h6>Required</h6>
+        <p>No. The element has no default value.</p>
+        <h6>Remarks</h6>
+        <p>How this element can be used with the formatting of list data is explained in the topic <a href="Domain Data Lookups.htm#Data">Data formatting functions</a>. </p>
+        <h5><a name="decimalP"></a>decimalPlaces Element</h5>
+        <p>The decimalPlaces element of the XListData configuration specifies the number of decimal places that numeric values should be limited to.</p>
+        <h6>Legal values</h6>
+        <p>An integer. </p>
+        <h6>Required</h6>
+        <p>No. If omitted, the default value of the element is negative one (-1) and decimal values are rendered without truncation.</p>
+        <h6>Remarks</h6>
+        <p>This element is only used for data items of <a href="#formatTy">formatType</a> float.</p>
+        <h5><a name="descript"></a>description Element</h5>
+        <p>The description element of the XListData configuration contains human readable text to describe the purpose of the column.</p>
+        <h6>Legal values</h6>
+        <p>Any legal XML text is allowed. </p>
+        <h6>Required</h6>
+        <p>No. The element has no default value.</p>
+        <h6>Remarks</h6>
+        <p>This element is not read by the XListData class. It is provided as an aid to the developer.</p>
+        <h5><a name="formatTy"></a>formatType Element</h5>
+        <p>The description element of the XListData configuration .</p>
+        <h6>Legal values</h6>
+        <p>'text', 'boolean', 'date', 'dateTime', 'integer', 'float', 'time', 'custom1', and 'custom2'. </p>
+        <h6>Required</h6>
+        <p>Yes. </p>
+        <h6>Remarks</h6>
+        <p>See <a href="Domain Data Lookups.htm#Data">Data formatting functions</a> for more information on how the content of this element is used. </p>
+        <h5><a name="lookupNa"></a>lookupName Element</h5>
+        <p>The lookupName element of the XListData configuration contains the identifier of a lookup list to replace domain data numeric values with human-readable text.</p>
+        <h6>Legal values</h6>
+        <p>Any valid XML text.</p>
+        <h6>Required</h6>
+        <p>No. The element has no default value.</p>
+        <h6>Remarks</h6>
+        <p>See the topic <a href="Domain Data Lookups.htm#top">Domain data lookups</a> for more information on creating lookup lists.</p>
+        <h5><a name="sequence"></a>sequenceNumber Element</h5>
+        <p>The sequenceNumber element of the XListData configuration indicates the position of the data field column within the transformed XML.</p>
+        <h6>Legal values</h6>
+        <p>Any integer value greater than or equal to zero (0). Values must be sequential. </p>
+        <h6>Required</h6>
+        <p>Yes.</p>
+        <h6>Remarks</h6>
+        <p>The numbers are paired with the letter 'c' in the data XML used by an XListControl object. More information about the formatting of the output data is available in the topic <a href="Customizing Result Lists.htm#Input">Input data specification</a>.</p>
+        <h5><a name="sourceCo"></a>sourceColumn Element</h5>
+        <p>The sourceColumn element of the XListData configuration identifies the column from the source data to copy to the list data.</p>
+        <h6>Legal values</h6>
+        <p>Any valid XML text that can identify a column name. </p>
+        <h6>Required</h6>
+        <p>See below.</p>
+        <h6>Remarks</h6>
+        <p>Each column element must contain either this element or the <a href="#sourceCu">sourceCustomXSL</a> element. If both elements contain data, the sourceCustomXSL element takes precedence. </p>
+        <h5><a name="sourceCu"></a>sourceCustomXSL Element</h5>
+        <p>The sourceCustomXSL element of the XListData configuration contains executable XSL code that can dynamically create row data during the transform.</p>
+        <h6>Legal values</h6>
+        <p>Any valid executable XSL code. </p>
+        <h6>Required</h6>
+        <p>See below.</p>
+        <h6>Remarks</h6>
+        <p>Each column element must contain either this element or the <a href="#sourceCo">sourceColumn</a> element. If both elements contain data, this element takes precedence. </p>
+        <p>The XSL code in this element executes within the context of the row element path defined in the <a href="#rowXPath">rowXPath element</a>. &#160;</p>
+        <p>The XSL code in this element must be escaped before it can be processed successfully by the XListData object. </p>
+        <p>In the following sample fragment, the sourceCustomXSL element uses the value of the c2 column to determine where the source data is copied from. </p>
+        <p>This code checks the value of the row's c2 element to see if it is less than ten. If so, the data from column c7 is used as the source. If the value of c2 is greater than or equal to 10, the data from column c8 is used instead. </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>&lt;xsl:choose&gt;</code>
+                    </p>
+                    <p> <code>&lt;xsl:when test="c2 &amp;lt; 10"&gt;</code></p>
+                    <p><code> &lt;xsl:value-of select="c7" /&gt;</code>
+                    </p>
+                    <p><code> &lt;/xsl:when&gt;</code>
+                    </p>
+                    <p> <code>&lt;xsl:otherwise&gt;</code></p>
+                    <p><code> &#160;&lt;xsl:value-of select="c8" /&gt;</code>
+                    </p>
+                    <p> <code>&lt;/xsl:otherwise&gt;</code></p>
+                    <p><code> &lt;/xsl:choose&gt;</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>&#160;</p>
+    </body>
+</html>

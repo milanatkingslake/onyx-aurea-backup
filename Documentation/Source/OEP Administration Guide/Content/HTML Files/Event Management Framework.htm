@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="457" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h1 style="page-break-before: always;">Event Management Framework</h1>
+        <p>Event Management Framework (EMF) application is a tool that can monitor business data and notify selected recipients on significant events as and when it occurs. EMF has a workflow designer which is very easy to customize and provides a flexible way to react to events that are generated from Onyx CRM.</p>
+        <h4>EMF Architecture</h4>
+        <p>This section describes the software requirement and objective that have significant impact on the architecture.</p>
+        <h4>Onyx Platform</h4>
+        <p>Any change in data on the Onyx platform will initiate a request to EMF. The events are captured by LBO Adapters and notified to EMF.</p>
+        <h4><a name="EMF"></a>EMF Platform</h4>
+        <p>Onyx to EMF event notification occurs on http protocol. To support this, EMF has http listeners which listen to events that are generated from Onyx CRM. Interaction from EMF to Onyx occurs on http protocol and always uses onyx gateway services.</p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Event Management Framework.png" style="width: 361px;height: 457px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <h4 style="page-break-before: always;">Onyx-EMF Integration </h4>
+        <p>The prerequisite to Onyx-EMF integration is, install EMF version 6.2.0.13 and create an EMF repository. Refer to the EMF documentation for installation and how to create new repository.</p>
+        <p><b>To configure Onyx-EMF integration:</b>
+        </p>
+        <ol>
+            <li>Login in to the repository.</li>
+        </ol>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">To configure EMF, in the <b>Audit Log Configuration</b> dialog uncheck the option <b>Full logging of all changes</b> before the import of EMF processes.</p>
+        <ol MadCap:continue="true">
+            <li>Right-click on the repository name and import the file <code>Platform Components\EMF Server\EMFProcess\OnyxNotification.xemf</code></li>
+        </ol>
+        <p class="Image" style="page-break-after: always;">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Event Management Framework_1.png" style="width: 344px;height: 408px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <ol start="3">
+            <li style="page-break-before: avoid;">If there is a prompt to replace certain entities, select Replace and click on <b>OK</b>.</li>
+        </ol>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/If there is a prompt to replace.png" style="width: 502px;height: 526px;" />
+        </p>
+    </body>
+</html>

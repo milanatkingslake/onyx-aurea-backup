@@ -1,0 +1,296 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="783" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Empty Object Instances</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>
+            <MadCap:keyword term="Empty object instances" />Empty object instances</h5>
+        <p>An empty object instance is a skeletal representation of a business 
+ object. An empty object instance contains only the name of an object and 
+ an empty XML element for each of its properties. An empty object instance 
+ does not include the object's methods. </p>
+        <h6>Typical uses of empty object instances</h6>
+        <p>You typically use empty object instances to create an object template 
+ that is populated later, during run-time, with actual data. Empty object 
+ instances are typically used with insert and retrieve methods.</p>
+        <p class="BodyTextIndent_1"><span style="font-weight: bold;">Insert method:</span> 
+ For an insert method, you first use the <a href="GetObjectInstance.htm">GetObjectInstance</a> 
+ method to obtain an empty object instance from the <a href="Onyx_Enterprise_Dictionary.htm">Onyx 
+ Enterprise Dictionary</a> (OED) cache. You can then populate the empty 
+ instance with property values to create the object that you want to insert 
+ in the database. To complete the insert, you call OTM to insert the object 
+ in the database.</p>
+        <p class="BodyTextIndent_1"><span style="font-weight: bold;">Retrieve 
+ method:</span> Custom step components can, in their retrieve method, obtain 
+ an empty object instance and attach it to the XML output that is being 
+ returned. The step component can then update the values of the properties 
+ in this empty object instance. The primary benefit to using GetObjectInstance 
+ is that it saves you the trouble of creating elements in your XML DOM.</p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">You can use Onyx Logical Business Object Tester to get a 
+ quick view of objects you create in Object Designer, and to check the 
+ order of properties and ensure that you entered them all correctly.</p>
+        <h6>Empty object instance example</h6>
+        <p>The following example, which refers to a sample business object called 
+ "contract," illustrates how an <a href="Object_Defintions.htm">object's 
+ definition</a> compares to its representation as an empty object instance. 
+ </p>
+        <p>Object definition: In the object definition for the sample contract 
+ object, each attribute and property is completely defined.</p>
+        <p>
+            View the contract object definition.
+        </p>
+        <p Class="Code">&lt;businessObject&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&lt;id&gt;F53C95B6-C3FD-4042-8DA4-C285742605F&lt;/id&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&lt;valid&gt;1&lt;/valid&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&lt;name&gt;contract&lt;/name&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&lt;description&gt;basic contract info tracking&lt;/description&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&lt;released&gt;1&lt;/released&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&lt;system&gt;0&lt;/system&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&lt;installedBy&gt;Onyx&lt;/installedBy&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&lt;version&gt;1.0&lt;/version&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&lt;disabled&gt;0&lt;/disabled&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&lt;objectTypeEnum&gt;900&lt;/objectTypeEnum&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&lt;domainObject&gt;0&lt;/domainObject&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&lt;partnerObject&gt;0&lt;/partnerObject&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&lt;properties&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;property&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;id&gt;7CBAB5C5-7C5A-42F9-9933-F1EEA378083B&lt;/id&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;name&gt;primaryId&lt;/name&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;description&gt;Uniquely identifies the contract&lt;/description&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;dataType&gt;string&lt;/dataType&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;objectType/&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;content/&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;collection&gt;0&lt;/collection&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;generateId&gt;odmGuid&lt;/generateId&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;installedBy&gt;Onyx&lt;/installedBy&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;disabled&gt;0&lt;/disabled&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;readOnly&gt;0&lt;/readOnly&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;propertyConstraints&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;propertyConstraint&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &#160;&#160;&lt;id&gt;94EB0D9B-D493-4488-BC10-BFEBDC596234&lt;/id&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &#160;&#160;&lt;type&gt;required&lt;/type&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &#160;&#160;&lt;value&gt;1&lt;/value&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;installedBy&gt;Onyx&lt;/installedBy&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &#160;&#160;&lt;/propertyConstraint&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/propertyConstraints&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/property&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;property&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;id&gt;7CBAB5C5-7C5A-42F9-9933-F1EEA378083B&lt;/id&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;name&gt;ownerId&lt;/name&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;description&gt;Identifies the customer of the contract&lt;/description&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;dataType&gt;string&lt;/dataType&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;objectType/&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;content/&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;collection&gt;0&lt;/collection&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;generateId/&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;installedBy&gt;Onyx&lt;/installedBy&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;disabled&gt;0&lt;/disabled&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;readOnly&gt;0&lt;/readOnly&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;propertyConstraints&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;propertyConstraint&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &#160;&#160;&lt;id&gt;94EB0D9B-D493-4488-BC10-BFEBDC596234&lt;/id&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &#160;&#160;&lt;type&gt;required&lt;/type&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &#160;&#160;&lt;value&gt;1&lt;/value&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;installedBy&gt;Onyx&lt;/installedBy&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &#160;&#160;&lt;/propertyConstraint&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/propertyConstraints&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/property&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;property&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;id&gt;E8B9824C-A3E3-4922-812B-1D80C3FAFD98&lt;/id&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;name&gt;length&lt;/name&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;description&gt;Duration of contract&lt;/description&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;dataType&gt;int&lt;/dataType&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;objectType/&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;content/&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;collection&gt;0&lt;/collection&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;generateId/&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;installedBy&gt;Onyx&lt;/installedBy&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;disabled&gt;0&lt;/disabled&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;readOnly&gt;0&lt;/readOnly&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;propertyConstraints&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;propertyConstraint&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &#160;&#160;&lt;id&gt;99C04F9E-B2C7-4342-8C00-3CA7406DD324&lt;/id&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &#160;&#160;&lt;type&gt;required&lt;/type&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &#160;&#160;&lt;value&gt;1&lt;/value&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;installedBy&gt;Onyx&lt;/installedBy&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &#160;&#160;&lt;/propertyConstraint&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/propertyConstraints&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/property&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;property&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;id&gt;5CAF0768-3844-4265-B172-1F84531D00AA&lt;/id&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;name&gt;startDate&lt;/name&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;description&gt;Date the contract takes effect&lt;/description&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;dataType&gt;dateTime&lt;/dataType&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;objectType/&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;content/&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;collection&gt;0&lt;/collection&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;generateId/&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;installedBy&gt;Onyx&lt;/installedBy&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;disabled&gt;0&lt;/disabled&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;readOnly&gt;0&lt;/readOnly&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/property&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;property&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;id&gt;DA0B316A-ED7B-4270-8720-305C02B2A65&lt;/id&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;name&gt;type&lt;/name&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;description&gt;bolierplate contract to use&lt;/description&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;dataType&gt;object&lt;/dataType&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;objectType&gt;contractType&lt;/objectType&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;isKey&gt;0&lt;/isKey&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;installedBy&gt;Onyx&lt;/installedBy&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;disabled&gt;0&lt;/disabled&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;propertyConstraints&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;propertyConstraint&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &#160;&#160;&lt;id&gt;F0248970-28F2-4228-9527-B8A916F6CB3C&lt;/id&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &#160;&#160;&lt;type&gt;required&lt;/type&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &#160;&#160;&lt;value&gt;1&lt;/value&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;installedBy&gt;Onyx&lt;/installedBy&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &#160;&#160;&lt;/propertyConstraint&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/propertyConstraints&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/property&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&lt;/properties&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&lt;objectKeys&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;objectKey&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;id&gt;D3DB9603-07FA-484E-8266-40989226217E&lt;/id&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;name&gt;primaryKey&lt;/name&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;description&gt;Primary Key&lt;/description&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;objectKeyType&gt;primary&lt;/objectKeyType&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;keyProperties&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;keyProperty&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;propertyId&gt;7CBAB5C5-7C5A-42F9-9933-F1EEA378083B&lt;/propertyId&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/keyProperty&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/keyProperties&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/objectKey&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&lt;/objectKeys&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&lt;uniquenessConstraint&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;objectKeyId/&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&lt;/uniquenessConstraint&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&lt;methods&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;method&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;id&gt;BC17BED3-1DB8-4937-94EE-802F0A073F56&lt;/id&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;name&gt;insert&lt;/name&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;description&gt;Creates a new instance of a specified object.&lt;/description&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;installedBy&gt;Onyx&lt;/installedBy&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;methodType&gt;insert&lt;/methodType&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;disabled&gt;0&lt;/disabled&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;parameters&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;parameter&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;id&gt;3721D438-2DBF-4AD9-BAB7-50EC5F85244D&lt;/id&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;name&gt;alert&lt;/name&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;description&gt;A contract object instance&lt;/description&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;direction&gt;inOut&lt;/direction&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;objectType&gt;contract&lt;/objectType&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;dataType&gt;object&lt;/dataType&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;contentIn&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;contentType&gt;all&lt;/contentType&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;properties/&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/contentIn&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;contentOut&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;contentType&gt;keysOnly&lt;/contentType&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;initialNatLangId/&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;properties/&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/contentOut&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;default/&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;collection&gt;0&lt;/collection&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;installedBy&gt;Onyx&lt;/installedBy&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;disabled&gt;0&lt;/disabled&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/parameter&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/parameters&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;steps&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;step&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;id&gt;18675D72-C6E1-4A35-85D7-19F961AD1F10&lt;/id&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;stepName&gt;validate&lt;/stepName&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;description&gt;data validation step&lt;/description&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;stepType&gt;com&lt;/stepType&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;stepData&gt;OnyxDataValidationStep.DataValidation&lt;/stepData&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;stepAdditionalData&gt;stepObject=contract;stepMethod=insert;dataPath=;&lt;/stepAdditionalData&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ODMTemplate/&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;installedBy&gt;Onyx&lt;/installedBy&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;disabled&gt;0&lt;/disabled&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/step&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;step&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;id&gt;EA72BA8A-7994-4F2A-977B-A482233A8CC9&lt;/id&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;stepName&gt;core&lt;/stepName&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;description&gt;Insert a new contract object&lt;/description&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;stepType&gt;com&lt;/stepType&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;stepData&gt;OnyxDM.DataManager&lt;/stepData&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;stepAdditionalData&gt;stepName=core;stepObject=contract;stepMethod=insert;dataPath=;&lt;/stepAdditionalData&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ODMTemplate/&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;installedBy&gt;Onyx&lt;/installedBy&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;disabled&gt;0&lt;/disabled&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/step&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/steps&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sortProperties/&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/method&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;method&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;id&gt;648F99E5-367C-4EB7-BAD4-DD57737146A8&lt;/id&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;name&gt;retrieve&lt;/name&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;description&gt;Returns a single instance of a specified object.&lt;/description&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;installedBy&gt;Onyx&lt;/installedBy&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;methodType&gt;retrieve&lt;/methodType&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;disabled&gt;0&lt;/disabled&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;parameters&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;parameter&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;id&gt;0AA44B68-DA00-4934-A6F2-3731B9EC6F9C&lt;/id&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;name&gt;contract&lt;/name&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;description&gt;A contact object instance.&lt;/description&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;direction&gt;inOut&lt;/direction&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;objectType&gt;contract&lt;/objectType&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;dataType&gt;object&lt;/dataType&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;contentIn&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;contentType&gt;keysOnly&lt;/contentType&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;properties/&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/contentIn&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;contentOut&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;contentType&gt;all&lt;/contentType&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;initialNatLangId/&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;properties/&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/contentOut&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;default/&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;collection&gt;0&lt;/collection&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;installedBy&gt;Onyx&lt;/installedBy&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;disabled&gt;0&lt;/disabled&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/parameter&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/parameters&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;steps&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;step&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;id&gt;3EDCF1AF-CFE6-4125-B2EE-EEC31D30B82F&lt;/id&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;stepName&gt;validate&lt;/stepName&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;description&gt;data validation step&lt;/description&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;stepType&gt;com&lt;/stepType&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;stepData&gt;OnyxDataValidationStep.DataValidation&lt;/stepData&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;stepAdditionalData&gt;stepObject=contract;stepMethod=retrieve;dataPath=;&lt;/stepAdditionalData&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ODMTemplate/&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;installedBy&gt;Onyx&lt;/installedBy&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;disabled&gt;0&lt;/disabled&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/step&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;step&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;id&gt;98B4F159-E722-4D75-8214-F7D4EAD5C1D8&lt;/id&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;stepName&gt;core&lt;/stepName&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;description&gt;Retrieve an alert&lt;/description&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;stepType&gt;com&lt;/stepType&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;stepData&gt;OnyxDM.DataManager&lt;/stepData&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;stepAdditionalData&gt;stepName=core;stepObject=contract;stepMethod=retrieve;dataPath=;&lt;/stepAdditionalData&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ODMTemplate/&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;installedBy&gt;Onyx&lt;/installedBy&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;disabled&gt;0&lt;/disabled&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/step&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/steps&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&lt;/methods&gt;</p>
+        <p Class="Code">&lt;/businessObject&gt;</p>
+        <p><b>Empty object instance:</b> In the 
+ empty object instance for the contract object, however, the names and 
+ properties are elements without values. The empty object instance does 
+ not contain any methods.</p>
+        <p Class="Code">&lt;contract objectType="contract" content="all"&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&lt;primaryId/&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&lt;ownerId/&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&lt;length/&gt; </p>
+        <p Class="Code">&#160;&#160;&#160;&lt;startDate/&gt;</p>
+        <p Class="Code">&#160;&#160;&#160;&lt;type/&gt; </p>
+        <p Class="Code">&lt;/contract&gt;&#160;</p>
+    </body>
+</html>

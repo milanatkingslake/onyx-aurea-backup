@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="3" MadCap:lastHeight="834" MadCap:lastWidth="624">
+    <head>
+    </head>
+    <body>
+        <h1> Code Samples</h1>
+        <h3>Example 1: Get Active countries using Onyx SDK</h3>
+        <p>To get the active countries we get the countryRetreive method from <code>COUNTRYLBOOBJECT</code>. Set the <code>COUNTRYLBOOBJECT.PROPERTIES.ACTIVE = “1”</code> and excute the LboMethod using the <code>countryRetreive.ExecuteJson</code>. Then we converted the parametersReturn JSON into a simple List of <code>CountryModel</code>.</p><pre xml:space="preserve"><p><code>Class SampleClass {
+private static void SampleMethod()
+{
+using (IOnyxUserContext onyxUserContext = OnyxFactoryUserContext.OnyxContext.Context("sa", "onyx", "Onyx", "1", "OnyxSDK"))
+            {
+                IList&lt;CountryModel&gt; activeCountries = new List&lt;CountryModel&gt;();
+
+                ILboMethod countryRetreive = onyxUserContext.OnyxMetadata.GetLboMethod(
+                                                COUNTRYLBOOBJECT.NAME,
+                                                COUNTRYLBOOBJECT.METHODS.RETRIEVECOLLECTION.NAME);
+                JObject parameter = countryRetreive.GetJsonParameterStructure();
+
+                parameter[OnyxDataConstants.PARAMTERS]
+                    [COUNTRYLBOOBJECT.METHODS.RETRIEVECOLLECTION.PARAMETER.COUNTRIES]
+                    [COUNTRYLBOOBJECT.NAME]
+                    [COUNTRYLBOOBJECT.PROPERTIES.ACTIVE] = "1";
+
+                var parametersReturn = countryRetreive.ExecuteJson(onyxUserContext, parameter);
+               
+                JToken countriesJToken = parametersReturn[OnyxDataConstants.RETURN_XML]
+                                                    [OnyxDataConstants.PARAMETERS_RETURN]
+                                                    [COUNTRYLBOOBJECT.METHODS.RETRIEVECOLLECTION.PARAMETER.COUNTRIES]
+                                                    [COUNTRYLBOOBJECT.NAME];
+                if (countriesJToken != null)
+                {
+                    if (countriesJToken.Type == JTokenType.Array)
+                    {
+                        var countries = countriesJToken as JArray;
+                        foreach (JObject country in countries) {
+                            var countryModel = new CountryModel();
+                            countryModel.Active = JSonHelper.GetJsonNodeBoolean(country, COUNTRYLBOOBJECT.PROPERTIES.ACTIVE, false);
+                            countryModel.AddressFormat = JSonHelper.GetJsonNodeString(country, COUNTRYLBOOBJECT.PROPERTIES.ADDRESSFORMAT);
+                            countryModel.CountryCode = JSonHelper.GetJsonNodeString(country, COUNTRYLBOOBJECT.PROPERTIES.COUNTRYCODE);
+                            countryModel.CountryName = JSonHelper.GetJsonNodeString(country, COUNTRYLBOOBJECT.PROPERTIES.COUNTRYNAME);
+                            countryModel.PhoneMask = JSonHelper.GetJsonNodeString(country, COUNTRYLBOOBJECT.PROPERTIES.PHONEMASK);
+                            countryModel.PostCodeMask = JSonHelper.GetJsonNodeString(country, COUNTRYLBOOBJECT.PROPERTIES.POSTCODEMASK);
+                            activeCountries.Add(countryModel);
+                        }
+                    }
+                    else if (countriesJToken.Type == JTokenType.Object)
+                    {
+                        var country = countriesJToken as JObject;
+                        var countryModel = new CountryModel();
+                        countryModel.Active = JSonHelper.GetJsonNodeBoolean(country, COUNTRYLBOOBJECT.PROPERTIES.ACTIVE, false);
+                        countryModel.AddressFormat = JSonHelper.GetJsonNodeString(country, COUNTRYLBOOBJECT.PROPERTIES.ADDRESSFORMAT);
+                        countryModel.CountryCode = JSonHelper.GetJsonNodeString(country, COUNTRYLBOOBJECT.PROPERTIES.COUNTRYCODE);
+                        countryModel.CountryName = JSonHelper.GetJsonNodeString(country, COUNTRYLBOOBJECT.PROPERTIES.COUNTRYNAME);
+                        countryModel.PhoneMask = JSonHelper.GetJsonNodeString(country, COUNTRYLBOOBJECT.PROPERTIES.PHONEMASK);
+                        countryModel.PostCodeMask = JSonHelper.GetJsonNodeString(country, COUNTRYLBOOBJECT.PROPERTIES.POSTCODEMASK);
+                        activeCountries.Add(countryModel);
+                    }
+                }
+            }
+}
+}
+public class CountryModel
+    {
+        public string CountryCode { get; set; }
+        public string CountryName { get; set; }
+        public string PhoneMask { get; set; }
+        public string PostCodeMask { get; set; }
+        public string AddressFormat { get; set; }
+        public bool Active { get; set; }
+    }
+</code></p><h3>Example 2 : Customer search using Onyx SDK</h3><p>Passing a <code>Dictionary&lt;string, string&gt;</code> of searchData will return a <code>IList&lt;CustomerSearchModel&gt;</code>.</p><p><code>Class SampleClass {
+private static IList&lt;CustomerSearchModel&gt; CustomerSearch(Dictionary&lt;string, string&gt; searchData)
+        {
+            using (IOnyxUserContext onyxUserContext = OnyxFactoryUserContext.OnyxContext.Context("sa", "onyx", "Onyx", "1", "OnyxSDK"))
+            {
+                IList&lt;CustomerSearchModel&gt; returnData = new List&lt;CustomerSearchModel&gt;();
+                ILboMethod customerList = onyxUserContext.OnyxMetadata.
+                                        GetLboMethod(CUSTOMERLBOOBJECT.NAME, CUSTOMERLBOOBJECT.METHODS.RETRIEVELIST.NAME);
+                JObject parameter = customerList.GetJsonParameterStructure();
+
+                foreach (var value in searchData)
+                    parameter[OnyxDataConstants.PARAMTERS][value.Key] = value.Value;
+
+                JObject parametersReturn = customerList.ExecuteJson(onyxUserContext, parameter);
+                
+                JArray rowSetData = JSonHelper.GetRowSetData(parametersReturn[OnyxDataConstants.RETURN_XML][OnyxDataConstants.PARAMETERS_RETURN]
+                    [OnyxDataConstants.ROW_SET] as JObject, true);
+
+                foreach (JObject data in rowSetData)
+                {
+                    CustomerSearchModel customerSearchModel = SampleClass.GetCustomerSearchModel(data);
+                    returnData.Add(customerSearchModel);
+                }
+                return returnData;
+            }
+        }
+        public static CustomerSearchModel GetCustomerSearchModel(JObject jsonData)
+        {
+            CustomerSearchModel customerSearchModel = null;
+
+            if (jsonData != null)
+            {
+                customerSearchModel = new CustomerSearchModel();
+
+                customerSearchModel.Address1 = JSonHelper.GetJsonNodeString(jsonData, CUSTOMERLBOOBJECT.METHODS.RETRIEVELIST.PARAMETER.ROWSET.VCHADDRESS1);
+                customerSearchModel.City = JSonHelper.GetJsonNodeString(jsonData, CUSTOMERLBOOBJECT.METHODS.RETRIEVELIST.PARAMETER.ROWSET.VCHCITY);
+                customerSearchModel.Class = JSonHelper.GetJsonNodeString(jsonData, CUSTOMERLBOOBJECT.METHODS.RETRIEVELIST.PARAMETER.ROWSET.ICUSTOMERTYPE);
+                customerSearchModel.CompanyOrContact = JSonHelper.GetJsonNodeString(jsonData, CUSTOMERLBOOBJECT.METHODS.RETRIEVELIST.PARAMETER.ROWSET.VCHCOMPANYCONTACTNAME);
+                customerSearchModel.Country = JSonHelper.GetJsonNodeString(jsonData, CUSTOMERLBOOBJECT.METHODS.RETRIEVELIST.PARAMETER.ROWSET.CHCOUNTRYDESC);
+                customerSearchModel.CountryCode = JSonHelper.GetJsonNodeString(jsonData, CUSTOMERLBOOBJECT.METHODS.RETRIEVELIST.PARAMETER.ROWSET.CHCOUNTRYCODE);
+                customerSearchModel.CustomerId = JSonHelper.GetJsonNodeString(jsonData, CUSTOMERLBOOBJECT.METHODS.RETRIEVELIST.PARAMETER.ROWSET.SECONDARYID);
+                customerSearchModel.Email = JSonHelper.GetJsonNodeString(jsonData, CUSTOMERLBOOBJECT.METHODS.RETRIEVELIST.PARAMETER.ROWSET.EMAILADDRESS);
+                customerSearchModel.Name = JSonHelper.GetJsonNodeString(jsonData, CUSTOMERLBOOBJECT.METHODS.RETRIEVELIST.PARAMETER.ROWSET.VCHNAME);
+                customerSearchModel.Phone = JSonHelper.GetJsonNodeString(jsonData, CUSTOMERLBOOBJECT.METHODS.RETRIEVELIST.PARAMETER.ROWSET.VCHPHONENUMBER);
+                customerSearchModel.PostCode = JSonHelper.GetJsonNodeString(jsonData, CUSTOMERLBOOBJECT.METHODS.RETRIEVELIST.PARAMETER.ROWSET.VCHPOSTCODE);
+                customerSearchModel.PrimaryId = JSonHelper.GetJsonNodeString(jsonData, CUSTOMERLBOOBJECT.METHODS.RETRIEVELIST.PARAMETER.ROWSET.PRIMARYID);
+                customerSearchModel.Region = JSonHelper.GetJsonNodeString(jsonData, CUSTOMERLBOOBJECT.METHODS.RETRIEVELIST.PARAMETER.ROWSET.CHREGIONCODE);
+                customerSearchModel.State = JSonHelper.GetJsonNodeString(jsonData, CUSTOMERLBOOBJECT.METHODS.RETRIEVELIST.PARAMETER.ROWSET.REGIONNAME);
+                customerSearchModel.SubType = JSonHelper.GetJsonNodeString(jsonData, CUSTOMERLBOOBJECT.METHODS.RETRIEVELIST.PARAMETER.ROWSET.SUBTYPE);
+                customerSearchModel.Title = JSonHelper.GetJsonNodeString(jsonData, CUSTOMERLBOOBJECT.METHODS.RETRIEVELIST.PARAMETER.ROWSET.VCHTITLEDESC);
+                customerSearchModel.Type = JSonHelper.GetJsonNodeString(jsonData, CUSTOMERLBOOBJECT.METHODS.RETRIEVELIST.PARAMETER.ROWSET.TYPE);
+            }
+            return customerSearchModel;
+        }
+}
+
+public class CustomerSearchModel
+    {
+        public string PrimaryId { get; set; }
+        public string CustomerId { get; set; }
+        public string Class { get; set; }
+        public string Name { get; set; }
+        public string Type { get; set; }
+        public string SubType { get; set; }
+        public string Title { get; set; }
+        public string Address1 { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string Region { get; set; }
+        public string CountryCode { get; set; }
+        public string Country { get; set; }
+        public string PostCode { get; set; }
+        public string CompanyOrContact { get; set; }
+        public string Phone { get; set; }
+        public string Email</code> { get; set; }
+    }
+</p></pre>
+    </body>
+</html>

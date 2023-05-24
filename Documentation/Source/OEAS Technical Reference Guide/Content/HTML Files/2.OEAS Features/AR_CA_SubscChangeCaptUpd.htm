@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="758" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Insert</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>Insert </h5>
+        <p>The change-capture logic of an insert trigger ensures that when a new 
+ object is inserted, the subscription_item sync_action field of any related 
+ primary objects is set to 5, resulting in a re-cascade of the primary 
+ objects. The re-cascade of the primary objects then causes an auto-subscription 
+ of that new object for subscribers who have previously subscribed to the 
+ primary objects. </p>
+        <p>For instance, suppose an end-user has subscribed to an incident with 
+ resultant cascaded subscriptions to that incident’s tasks. When a new 
+ task for that incident is subsequently inserted, the insert trigger for 
+ the task table causes a re-cascade of the owner incident ensuring that 
+ a subscription to the new task is created for the user and a copy of that 
+ task is synchronized to OEP-Offline during his next synchronization. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;"> In the previous example, the newly inserted task could have 
+ originated either online or offline. For instance, another subscriber 
+ might also have subscribed to the owner incident and created a new task 
+ while working offline. When that subscriber synchronizes, that new task 
+ is inserted into the database, setting off the insert trigger, just as 
+ if it had originated online. Subsequently, all subscribers who have subscribed 
+ to the owner incident will sync the new task.</p>
+        <p>You should note the following: </p>
+        <ul>
+            <li>The insert change-capture logic causes re-cascade 
+ of the primary objects by updating those primary objects’ subscription_item 
+ sync_action values to 5, but only if the current sync_action value is 
+ 1. This prevents re-cascading records that have been unsubscribed or deleted.</li>
+            <li>When a customer address or phone is inserted, 
+ the insert change-capture logic sets the owner’s (individual or company) 
+ sync_action value to 1 rather than 5. This is because addresses and phones 
+ are automatically subscribed with customers and do not require a separate 
+ subscription. Therefore, the owner customer only needs to be re-synchronized 
+ and not re-cascaded.</li>
+            <li>Incidents and tasks are both stored in the incident 
+ table in the OEDB. For this reason, there is no separate insert task trigger, 
+ but there is logic in the insert incident trigger to evaluate the category 
+ of the item being inserted to determine if it is an incident or a task. 
+ This is necessary to ensure the appropriate owners (individuals or companies 
+ for incidents, or incidents for tasks) are updated in subscription_item.</li>
+            <li>Forecasts and quotes are both stored in the QuoteHeader 
+ table in the OEDB. However, because both are owned by incidents there 
+ is no need for special logic to evaluate the category of the item being 
+ inserted to determine if it is a quote or a forecast. </li>
+            <li>When a reminder is inserted, the insert change-capture 
+ logic sets the owner’s (incident or task) sync_action value to 1 rather 
+ than 5. This is because reminders are automatically subscribed with incidents 
+ and tasks and do not require a separate subscription. Therefore, the owner 
+ only needs to be re-synchronized and not re-cascaded.</li>
+        </ul>
+    </body>
+</html>

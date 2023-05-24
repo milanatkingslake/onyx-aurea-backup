@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="827" MadCap:lastWidth="628">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2><a name="top"></a>Masked Editing</h2>
+        <p>Masked editing is a means by which you can:</p>
+        <ul>
+            <li>Restrict users from entering certain characters into certain fields on the user interface. </li>
+            <li>Format data that is returned from the database, so that it displays as desired in the user interface. </li>
+        </ul>
+        <p>There are two aspects to masked editing: applying mask rules and formatting the results.</p>
+        <h4>Applying masks rules</h4>
+        <p> A rule contains information that indicates what <a href="#Masking">type of character</a> is allowed at any given position. For example, a rule that contains "#####" specifies a requirement of five digits. No letters or punctuation are allowed, nor may any characters be left blank.</p>
+        <h4>Formatting returned data</h4>
+        <p>A masking rule can also define the format of text with the inclusion of literal characters. For example, if a rule contains "###-####", the dash ("-") character is a literal that cannot be edited by the user. The rule requires that the user enter seven digits. The resulting output contains those digits with the literal dash character between the third and the fourth digits.</p>
+        <p style="mc-hyphenate: never;">When the user applies the mask in the new mask edit control, the text is validated when the user tabs out of the field. If there is an error in the mask, the field is highlighted in red and on hovering over the field, an error message is displayed.</p>
+        <h4>Onyx masked editing objects</h4>
+        <p>Two components are available for performing masked editing of user-entered text: </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Component</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="For the Postal mode the mask.htm#Masked">Masked edit control</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">An ActiveX control for use in interactive client-side applications.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><i>Masked data component</i>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">A COM object for use in either server-side or client-side applications.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The characters used to create masks are explained in the <a href="#Masking">Masking characters</a> topic. </p>
+        <h3><a name="Masking"></a>Masking Characters</h3>
+        <p>The characters for a mask are interpreted according to the mode of the masking component. There are two modes, Standard and Postal. The mode is set through the MaskRules property.</p>
+        <p style="page-break-before: avoid;page-break-after: avoid;">This information is intended only for use for masking in OEP. OEAS also supports masking, but it does not support the same mask rules as OEP. More specifically, OEAS does not support postal masking except for a very limited set of characters. See the <i>OEAS Developer's Reference</i> for information on which masking characters are supported when masks are applied during business object method calls. </p>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; ">Leading spaces in a data field are often trimmed by the application server when the contents of the field are written to the database. If you create a mask that allows spaces as the first user-enterable items in a masked data field, they will not be saved when the data is saved, causing unexpected behavior when the data is later  retrieved and displayed to the user.</p>
+        <p>The following table shows the supported characters for the <b>Standard</b> mode of the Onyx masking components. </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Mask character</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">9</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Digit (0-9) or decimal point.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">A, a</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Any uppercase or lowercase letter (A-Z or a-z).</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">D, d</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Digit (0-9) or space. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">H, h</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Any hexadecimal character (0-9, A-F, or a-f).</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">L, l</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Any letter (A-Z or a-z). If an uppercase letter is input, it is converted to lowercase.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">N, n</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Any alphanumeric character (0-9, A-Z, or a-z).</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">U, u</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Any letter (A-Z or a-z). If a lowercase letter is input, it is converted to uppercase.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">X, x</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Any character, including Unicode characters on systems that support Unicode. Use X for all far-east Unicode characters. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">/</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Converts a mask character to a literal. To display a forward-slash character as a literal, use two consecutive forward-slash characters. For example "D//D" displays a digit entry position, followed by a single forward slash, followed by another digit entry position.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>&#160;</p>
+    </body>
+</html>

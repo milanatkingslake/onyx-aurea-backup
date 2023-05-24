@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="702" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:ignoredWords="SQLGen">
+    <head>
+        <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>What are OEAS Step Components?</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h1>What are OEAS Step Components? </h1>
+        <p>Step components are compiled COM components that are 
+ responsible for performing a predefined set of actions. OEAS step components 
+ differ from OEAS business objects in several significant ways. In general, 
+ step components: </p>
+        <ul>
+            <li>Are pre-compiled, binary COM+ components that 
+ run within a COM+ library application.</li>
+            <li>Are instantiated using the step data stored in 
+ the OED.</li>
+            <li>Implement special logic or system integration 
+ functionality beyond the basic delete, insert, retrieve, and update methods 
+ of a typical business object.</li>
+        </ul>
+        <p>OEAS includes one step component, Onyx Data Manager, that implements 
+ every method that uses <a href="../2.What is New/ar_ca_whatsnew_sql_generation_(sqlgen).htm">SQLGen</a>. 
+ For more information, see Onyx <a href="../../7.OEAS Developers Reference/DAC_Prop.htm">Step components.</a></p>
+        <p>During OEAS setup, the OnyxEASUser COM+ role is not set up as a Power User account by default and may therefore not have permissions to access every directory on the machine. Therefore, do not put step components in directories such as the desktop or directories under \WINNT\Profiles. Ensure that the OnyxEASUser has directory access to all step components.</p>
+        <p>All step components implement the IStep interface.</p>
+        <p class="Image"> <img src="../../../Resources/Images/AR_StepComponent_SQL.jpg" style="width: 263px;height: 143px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" /></p>
+        <p>The OTM instantiates step components from their corresponding methods/steps 
+ whenever a client calls a method. The step component receives step package 
+ XML from the OTM and performs its processing. If necessary, it modifies 
+ the step package and then returns it to the OTM. Step components can also 
+ leverage the IInternalTransactionManager interface to make calls to logical 
+ business objects. </p>
+    </body>
+</html>

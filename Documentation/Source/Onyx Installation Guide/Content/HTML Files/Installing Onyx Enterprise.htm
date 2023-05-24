@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="796" MadCap:lastWidth="624">
+    <head><title>Installing Onyx Enterprise Studio</title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2>Installing Onyx Enterprise Studio</h2>
+        <p>Onyx Enterprise Studio (OES) is the Web-based user interface for Onyx administration tools and design tools. In this procedure, you name two authentication websites: one for Onyx Authentication and the other for Integrated Windows Authentication. You also specify the site ID to connect to the Onyx database, and the location to install OES program files.</p>
+        <p>If you are installing OES on a different server than the OEAS, you must create an application proxy for communication between the servers. For more information, see <a href="Creating Proxy Connection.htm">Creating a Proxy Connection</a>.</p>
+        <p>Be sure to have the following information ready before you begin:</p>
+        <ul>
+            <li>The name of the logical application that you are installing OES for.</li>
+            <li style="list-style-type: disc;">If you are installing OES on a different server from the OEAS, the name of the OEAS for which to set up OES.</li>
+            <li style="list-style-type: disc;">The Onyx Authentication virtual website name, and the Onyx user ID and password used to log on to the website. This is the URL you will use to connect to the OES.</li>
+            <li style="list-style-type: disc;">If you plan to use Integrated Windows Authentication, the Windows Authentication virtual website name, and the Windows user ID and password used to logon to the website. This is the URL you will use to connect to the OES. The Windows Authentication website name must not be the same as the Onyx Authentication website name.</li>
+        </ul>
+        <p class="Indent1">If you are logged onto a webpage with Integrated Windows Authentication, you cannot use the same browser session to log on to a Onyx webpage using Onyx authentication. To log on to OES (or another Onyx webpage) using Onyx authentication, you must use a new browser instance.</p>
+        <ul>
+            <li>The site ID to connect to the Onyx database.</li>
+        </ul>
+        <p class="Indent1">Onyx supports only one site per OEDB. If you create a second site in the OEDB Site table and then run the OES Setup as an individual setup, the OES Setup inserts in the Site ID box the first site ID that it encounters. Make sure that this site ID is the one that you want to administer with OES.</p>
+        <ul>
+            <li>The directory location to install the OES program files.</li>
+        </ul>
+        <p class="Note1" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Onyx does not support installing the OEAS and OES to the same directory.</p>
+        <p class="ProcedureHeading">To set up Onyx Enterprise Studio:</p>
+        <ol>
+            <li>On the server where you intend to install OES, log on with an account that has full administrative privileges.</li>
+        </ol>
+        <p class="Indent1">If you're installing OES on a different server than the one that OEAS is set up on, ensure that the log on account has full administrative privileges on both the servers.</p>
+        <ol MadCap:continue="true">
+            <li>In your Onyx installation package, navigate to <b>Platform Components </b>&gt;<b> Web Server </b>&gt;<b> Onyx Enterprise Studio</b>, and then run <b>EnterpriseStudio.exe</b>.</li>
+        </ol>
+        <p class="Indent1">The <b>Welcome</b> window appears.</p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/To set up Onyx Enterprise.png" style="width: 503px;height: 378px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <ol MadCap:continue="true">
+            <li>Click <b>Next</b>.</li>
+        </ol>
+        <p class="Indent1">The <b>Logical Application</b> window appears.</p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/Click Next_1.png" style="width: 503px;height: 377px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <ol MadCap:continue="true">
+            <li>Select the name of the OEAS logical application for which you are installing OES, and then click <b>Next</b>.</li>
+        </ol>
+        <p class="Indent1">The <b>Onyx Authentication Web Site Name</b> window appears.</p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/The Onyx Authentication Website.png" style="width: 503px;height: 377px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <ol MadCap:continue="true">
+            <li>Retain the default website name (OnyxEnterpriseStudio_Onyx) or type a different name, and then click <b>Next</b>.</li>
+        </ol>
+        <p class="Indent1">The <b>Windows Authentication Web Site Name</b> window appears.</p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/The Onyx Authentication Website_1.png" style="width: 503px;height: 377px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <ol MadCap:continue="true">
+            <li>Retain the default website name (OnyxEnterpriseStudio_Windows) or type a different name.</li>
+            <li>Click <b>Next</b>.</li>
+        </ol>
+        <p class="Indent1">The <b>Web Site Default Site ID</b> window appears.</p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/The Onyx Authentication Website_2.png" style="width: 503px;height: 377px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <ol MadCap:continue="true">
+            <li>Accept the default site ID for the OES website or enter a different one.</li>
+        </ol>
+        <p class="Note1" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">The default site ID in the <b>Site ID</b> box is the Onyx database site ID. The OES website uses this site ID to connect to the database.</p>
+        <ol MadCap:continue="true">
+            <li>Click <b>Next</b>.</li>
+        </ol>
+        <p class="Indent1">The <b>Destination Folder</b> window appears where you specify the location for the OES files.</p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/The Destination Folder window_1.png" style="width: 502px;height: 377px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <ol MadCap:continue="true">
+            <li>Accept the default file location or click <b>Change</b>, and then select a different location.</li>
+        </ol>
+        <p class="Note1" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">If any of the Setup files already exist in the selected location, a message appears. You can choose to overwrite the existing files, or you can select a different location.</p>
+        <ol MadCap:continue="true">
+            <li>Click <b>Next</b>.</li>
+        </ol>
+        <p class="Indent1">The <b>Start Copying Files </b>window appears. This window displays the information you had entered in the preceding windows.</p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/The Start Copying Files window.png" style="width: 502px;height: 377px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <ol MadCap:continue="true">
+            <li>Verify that the information displayed is accurate, and then click <b>Next</b>.</li>
+        </ol>
+        <p class="Note1" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">To change any of the information displayed, revert to the preceding windows in the wizard and change the information as required.</p>
+        <p class="Indent1">The <b>Ready to Install the Program</b> window appears.</p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/The Ready to Install the Program_3.png" style="width: 503px;height: 377px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <ol MadCap:continue="true">
+            <li>Click <b>Install</b>.</li>
+        </ol>
+        <p class="Indent1">A series of status boxes track progress as the setup program copies OES files and creates the virtual websites that you specified for both kinds of user authentication.</p>
+        <p class="Indent1">The <b>Installation Wizard Completed</b> window appears, indicating that the setup has successfully Installed Onyx Enterprise Studio.</p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/The Installation Wizard Completed.png" style="width: 503px;height: 377px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <ol MadCap:continue="true">
+            <li>Click <b>Finish</b>.</li>
+            <li>Create a proxy connection for the OES server to communicate with the OEAS server. For information about creating proxy, see <a href="Creating Proxy Connection.htm">Creating Proxy Connection</a>.</li>
+        </ol>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Each time you run OES Setup, Setup creates a COM+ application associated with the OES website. You can remove extra COM+ applications from Windows Administrative Tools, under Component Services.</p>
+    </body>
+</html>

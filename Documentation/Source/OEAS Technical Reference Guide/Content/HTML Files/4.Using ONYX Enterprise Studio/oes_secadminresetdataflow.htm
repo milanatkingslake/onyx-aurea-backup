@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="5" MadCap:lastHeight="423" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Reset data flow</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>Reset data flow </h5>
+        <p>The following steps represent the data flow when a user’s subscribed 
+ data is reset: </p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li>Using Security Administration, the administrator 
+ checks the <span class="UIElement" style="font-weight: bold;">Reset User at Next Sync</span> check 
+ box, and clicks <span class="UIElement" style="font-weight: bold;">Save</span>.</li>
+            <li>During the upsync of the next synchronization 
+ cycle:</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">The sync subsystem deletes all of the user’s 
+ folders in Exchange. Any unsynchronized changes (including items not yet 
+ inserted into the OEDB) are lost.</li>
+            <li class="List_Indent">The sync subsystem calls the subscriptionItem.reset 
+ method in OEAS.</li>
+            <li class="List_Indent">The reset method marks all subscribed items 
+ for the user to be synchronized to OEP-Offline by changing their sync_action 
+ to “1”, and deletes the subscription_item record for any items that are 
+ no longer subscribed online.</li>
+            <li class="List_Indent">The reset method clears the reset flag on 
+ the user’s subscription profile.</li>
+            <li class="List_Indent">The sync subsystem creates a new set of folders 
+ in Exchange for the user.</li>
+        </ul>
+        <ol style="list-style: decimal;list-style-type: decimal;" start="3">
+            <li>During the downsync portion of the synchronization 
+ cycle, the subscription items that were reset begin downsyncing to the 
+ newly created folders.</li>
+        </ol>
+    </body>
+</html>

@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" class="" MadCap:lastBlockDepth="4" MadCap:lastHeight="473" MadCap:lastWidth="624">
+    <head><title>Onyx CTI architecture</title>
+        <script language="JavaScript">
+        </script>
+        <link href="../Resources/Stylesheets/Aptean_word.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body onload="onyxOnload()">
+        <H1 class="Heading">Onyx CTI architecture</H1>
+        <p class="BodyText">Onyx CTI is comprised of the following components:</p>
+        <ul style="list-style: disc;" type="disc">
+            <li class="ListBullet"><a href="#OnyxCTIToolbar">Onyx CTI toolbar</a>
+            </li>
+            <li class="ListBullet"><a href="#CTIConnectionObjects">CTI Connection 
+ objects</a>
+            </li>
+            <li class="ListBullet"><a href="#ICTIConnectorInterface">ICTIConnector 
+ interface</a>
+            </li>
+            <li class="ListBullet"><a href="#OTMAutomateHelper">OTM Automate Helper</a>
+            </li>
+            <li class="ListBullet"><a href="#CTIEventChannel">CTI Event Channel</a>
+            </li>
+        </ul>
+        <p class="BodyText">The Onyx CTI architecture integrates CTI functionality into OEP while 
+ abstracting the actual implementation of the connector and the backend 
+ CTI system. Abstracting the implementation allows Onyx CTI to support 
+ multiple vendor-specific connectors and CTI systems without requiring 
+ additional development. </p>
+        <p class="BodyText">The architecture also enables Onyx CTI to support multiple CTI systems 
+ in a single installation of OEP by allowing administrators to map Onyx 
+ users to specific CTI connectors using the <a href="ctiAgentAssociation_object.htm">ctiAgentAssociation 
+ object</a>. </p>
+        <p class="BodyText">The Onyx CTI architecture is shown in the following illustration: </p>
+        <p class="Image">
+            <img src="../Resources/Images/OnyxCTIArchitecture.jpg" style="border-left-style: solid;border-left-width: 1px;border-left-color: ;border-right-style: solid;border-right-width: 1px;border-right-color: ;border-top-style: solid;border-top-width: 1px;border-top-color: ;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: ;width: 426px;height: 431px;" />
+        </p>
+        <MadCap:pageBreak />
+        <p class="ElementHeader_Two"><a name="OnyxCTIToolbar"></a><b>Onyx CTI toolbar</b> <![CDATA[ ]]></p>
+        <p class="BodyText">The Onyx CTI toolbar appears in OEP to provide CTI functionality to 
+ call center agents. The toolbar displays current status information for 
+ each agent and call, in addition to CTI system status. The configurable 
+ toolbar buttons enable agents to change their status, answer and hang 
+ up calls, and perform other call actions. </p>
+        <p class="ElementHeader_Two"><a name="CTIConnectionObjects"></a><b>CTI Connection objects</b>
+        </p>
+        <p class="BodyText">The CTI Connection objects are a collection of JavaScript classes that 
+ control Onyx CTI. These objects maintain the state of the Onyx CTI toolbar, 
+ provide the integration with OEP and OEAS, and control the interaction 
+ between the Onyx CTI toolbar and the ICTIConnector interface. </p>
+        <p class="BodyText">The CTI Connection objects receive commands from the toolbar and then 
+ forward the commands to the appropriate method on the ICTIConnector interface. 
+ They also handle events raised by the ICTIConnector interface (or its 
+ underlying client-side components), using the Event Channel functionality 
+ in OEP to publish CTI events for use by the toolbar or other parts of 
+ OEP. </p>
+        <p class="ElementHeader_Two"><a name="ICTIConnectorInterface"></a><b>ICTIConnector interface</b>
+        </p>
+        <p class="BodyText">The <a href="ICTIConnector_interface.htm">ICTIConnector interface</a> 
+ is a JavaScript class that enables communication between your CTI system 
+ (via the <a href="Building_custom_CTI_connectors.htm">custom connector 
+ you build</a>) and Onyx CTI. All methods and properties in this class 
+ are designed to be overridden.</p>
+        <p class="BodyText">The ICTIConnector interface isolates Onyx CTI from any CTI system-specific 
+ functional calls or data format. This isolation enables you to customize 
+ Onyx CTI without affecting the underlying CTI functionality and allows 
+ Onyx CTI to display a common toolbar in OEP for multiple, differing CTI 
+ systems. </p>
+        <p class="ElementHeader_Two"><a name="OTMAutomateHelper"></a><b>OTM Automate Helper</b>
+        </p>
+        <p class="BodyText">Onyx CTI supports <a href="Automated_display_of_OEP_records.htm">automating 
+ the OEP interface</a> based on the details of an incoming call. Based 
+ on Interactive Voice Response (IVR) data or other information, Onyx CTI 
+ can identify the caller within OEP and display the related customer record, 
+ incident record, or script within the OEP interface. </p>
+        <p class="BodyText">In addition, the CTI system or IVR device can add instructions to display 
+ specific incident records and scripts to the agent, based on the information 
+ gathered from the caller. For example, if the CTI system identifies a 
+ caller as a priority customer, it can display the Priority Customer script 
+ that is tailored to meet that customer's needs. </p>
+        <p class="ElementHeader_Two"><a name="CTIEventChannel"></a><b>CTI Event Channel</b>
+        </p>
+        <p class="BodyText">The CTI Event Channel is an instance of the XEventChannel object that 
+ provides a publish and subscribe mechanism for communication between the 
+ CTI Connection objects and the Onyx CTI toolbar.</p>
+    </body>
+</html>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="933" MadCap:lastWidth="991">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" /><title>Behavioral rules for replace procedures</title>
+    </head>
+    <body>
+        <h5>
+            <MadCap:keyword term="procedure;replace procedures;replace procedures:Behavioral rules;Behavioral rules;Behavioral rules:replace procedures" />Behavioral rules for replace procedures</h5>
+        <p>During execution, standard stored procedures should always return a 
+ result set. This is true regardless of error conditions. Not opening the 
+ result set will cause run-time errors in the Onyx Data Manager. The stored 
+ procedure is also expected to perform error handling and return an appropriate 
+ return code value.</p>
+        <p>The Onyx Data Manager expects certain rules to be followed for return 
+ code values. These are:</p>
+        <ul>
+            <li>any positive value is an error</li>
+            <li>a zero value denotes success</li>
+            <li>any negative value denotes success with additional 
+ information (such as a national_language table message_code value specifying 
+ a column heading, a.k.a., an initialNatLangId or "grid header pointer 
+ code").</li>
+        </ul>
+        <p>Following these rules, the following sample from the end of a retrieveList 
+ procedure will either return a result set from a temporary table or pass 
+ back an error raised prior to this final select. Similar error handling 
+ code should be used for customized stored procedures:</p>
+        <p Class="Code" class="code"><span style="font-weight: normal;">&#160;&#160;&#160;IF 
+ @return_code &lt;= 0</span>
+        </p>
+        <p Class="Code" class="code">&#160;&#160;&#160;BEGIN</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;SELECT 
+ t.customer_id,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;t.secondary_id,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;t.customer_type_enum,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;t.customer_name</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;FROM 
+ #customer_information t</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;END</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;ELSE</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;BEGIN</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;exec 
+ opCommonReportMethodStatus NULL,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;@return_code,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;@message_code,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;@error,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;@message_parameter</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;END 
+ </p>
+        <p Class="Code" class="code">&#160;&#160;&#160;RETURN 
+ @return_code</p>
+        <p>The Onyx standards for returning database 
+ and national language errors are implemented by the opCommonReportMethodStatus 
+ stored procedure. This procedure will format the result set expected by 
+ the middle tier for national language and database errors returned by 
+ retrieveList methods. It may also return error, informational, or success 
+ status information from other types of standard methods. </p>
+        <p>For additional information see <a href="customizingOEDB_result_set_interpretation.htm">result 
+ set interpretation</a>.</p>
+    </body>
+</html>

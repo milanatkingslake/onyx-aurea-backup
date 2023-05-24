@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:lastBlockDepth="4" MadCap:lastHeight="805" MadCap:lastWidth="624" MadCap:ignoredWords="IsCollection;IsPrimaryGroup;lboname;methodname;PageTitle;PrimaryId;MenuItem" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+    </head>
+    <body>
+        <H3>Configuring DoMore Groups</H3>
+        <p>The <b>DoMore Groups</b> allow you to select the associated actions of a group quickly, just by clicking the parent action of the group on Detail screen.</p>
+        <p class="ProcedureHeading">To configure the DoMore Groups</p>
+        <ol>
+            <li>Open the required XML(s) file in edit mode from the <code>\Onyx\AppServer\Applications\Onyx\OnyxGatewayService\App_Data\Profiles</code> folder. For the list of screens and their XML file names, see <a href="About_metadata_XML_files.htm">Understanding XML files</a>.</li>
+            <li>Add the following element node in the required XML file(s):</li>
+        </ol>
+        <ul>
+            <li class="List_Indent"><strong>ID</strong>
+            </li>
+        </ul>
+        <p class="Indent2"><code>&lt;MenuItem  MenuItemId="0" DisplayName="Add Actions" Icon="CommonDoMore.png" ResourceId=""  Action="quickactions" PageTitle="Quick Actions"&gt;</code>
+        </p>
+        <p class="CodeIndent3"><code>&lt;SubMenuItem  MenuItemId="1" DisplayName="Add company" Icon="AddCompanyDoMore.png"  ResourceId="UI:OM.company.add"  Action="addCompany"&gt;<br></br>&lt;/SubMenuItem&gt;</code>
+        </p>
+        <p class="CodeIndent3"><code>&lt;SubMenuItem  MenuItemId="2" DisplayName="Add incident" Icon="AddIncidentDoMore.png" ResourceId="UI:OM.incident.add"  Action="AddIncident"&gt;<br></br>&lt;Filter Property="ownerId"    ContextVariable="$secondaryId" /&gt;<br></br>&lt;/SubMenuItem&gt;</code>
+        </p>
+        <p class="CodeIndent3"><code>&lt;SubMenuItem  MenuItemId="3" DisplayName="Add work ticket"  Icon="AddWorkTicketsDoMore.png" ResourceId=""  Action="AddWorkTicket"&gt;<br></br>&lt;/SubMenuItem&gt;</code>
+        </p>
+        <p class="CodeIndent3"><code>&lt;SubMenuItem  MenuItemId="4" DisplayName="Add to my favorites" Icon="CommonDoMore.png" ResourceId=""  Action="AddMeAsFavorite" ContactTypeDid="67"&gt;<br></br>&lt;/SubMenuItem&gt;</code>
+        </p>
+        <p class="CodeIndent3"><code>&lt;SubMenuItem  MenuItemId="5" DisplayName="Directions" Icon="DirectionsDoMore.png"  ResourceId=""  Action="map" Web ="False" LinkColumnName="address1,address2,address3,city,regionCode,postCode,countryCode"&gt; &lt;/SubMenuItem&gt;</code>
+        </p>
+        <p class="Indent2"><code>&lt;/MenuItem&gt;</code>
+        </p>
+        <p class="Note1" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">You need to add <code>TapType="quickactions"</code> in any <code>Field</code> node of the detail section and <code>Action="quickactions"</code> in the <code>MenuItem</code> node to configure the DoMore Group on detail section.</p>
+        <p class="Note1" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">If multiple <code>MenuItem</code> nodes are configered with <code>Action="quickactions"</code> in an XML, it takes the details from the last <code>MenuItem</code> node to display the sub menu items</p>
+        <ul>
+            <li><b>DoMore actions</b>
+            </li>
+        </ul>
+        <p class="Indent2"><code>&lt;MenuItem  MenuItemId="0" DisplayName="Add Actions" Icon="CommonDoMore.png" ResourceId=""  Action="" PageTitle="Quick Actions"&gt;</code>
+        </p>
+        <p class="CodeIndent3"><code>&lt;SubMenuItem  MenuItemId="1" DisplayName="Add company" Icon="AddCompanyDoMore.png"  ResourceId="UI:OM.company.add"  Action="addCompany"&gt;<br></br>&lt;/SubMenuItem&gt;</code>
+        </p>
+        <p class="CodeIndent3"><code>&lt;SubMenuItem  MenuItemId="2" DisplayName="Add incident" Icon="AddIncidentDoMore.png" ResourceId="UI:OM.incident.add"  Action="AddIncident"&gt;<br></br>&lt;Filter Property="ownerId"    ContextVariable="$secondaryId" /&gt;<br></br>&lt;/SubMenuItem&gt;</code>
+        </p>
+        <p class="CodeIndent3"><code>&lt;SubMenuItem  MenuItemId="3" DisplayName="Add work ticket"  Icon="AddWorkTicketsDoMore.png" ResourceId=""  Action="AddWorkTicket"&gt;<br></br>&lt;/SubMenuItem&gt;</code>
+        </p>
+        <p class="CodeIndent3"><code>&lt;SubMenuItem  MenuItemId="4" DisplayName="Add to my favorites" Icon="CommonDoMore.png" ResourceId=""  Action="AddMeAsFavorite" ContactTypeDid="67"&gt;<br></br>&lt;/SubMenuItem&gt;</code>
+        </p>
+        <p class="CodeIndent3"><code>&lt;SubMenuItem  MenuItemId="5" DisplayName="Directions" Icon="DirectionsDoMore.png"  ResourceId=""  Action="map" Web ="False" LinkColumnName="address1,address2,address3,city,regionCode,postCode,countryCode"&gt;<br />&lt;/SubMenuItem&gt;</code>
+        </p>
+        <p class="Indent2"><code>&lt;/MenuItem&gt;</code>
+        </p>
+        <ol start="3">
+            <li>Save and close the XML file.</li>
+            <li>Log on to <b>Onyx Mobile </b>and verify the changes.</li>
+        </ol>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">All sub menu items of a group have to be configured within a single <code>MenuItem</code> node.</p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">It is not possible to configure the DoMore groups on the following actions:<br />• S3 Utility<br />• Image Attachment Utility<br />• Prompted Action</p>
+    </body>
+</html>

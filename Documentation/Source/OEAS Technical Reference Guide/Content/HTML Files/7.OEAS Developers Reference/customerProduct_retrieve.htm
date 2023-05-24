@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="858" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>retrieve (customerProduct)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="retrieve" />retrieve method</h2>
+        <p>The retrieve method of the <a href="customerproduct_object.htm"><MadCap:keyword term="customerProduct" />customerProduct</a> 
+ object searches the database by primary ID and returns a customerProduct 
+ object and its associated customerProductDetail objects.</p>
+        <p><a href="standard_retrieve.htm">retrieve standard method information</a>
+        </p>
+        <h3>Steps</h3>
+        <table>
+            <col style="width: 5cm;" />
+            <col style="width: 5cm;" />
+            <col style="width: 7cm;" />
+            <thead>
+                <tr>
+                    <th>Step data</th>
+                    <th>Step type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OnyxDataValidationStep.DataValidation</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Validates input parameters</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OnyxMasterDetailRetrievalStep.MasterDetailRetrieval</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Propagates primaryId value of master object 
+ into the ownerId properties of the customerProductDetails collection</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OnyxDM.DataManager</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Retrieve a customer record and its collection 
+ of associated CustomerProductDetail records</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">customerProductDetail.retrieveCollection</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">method</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Retrieve a customerProductDetail collection 
+ which contains all customerProductDetails associated with a customerProduct</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Example</h3>
+        <p>Input             Parameter:        </p>
+        <p Class="Code" class="C_Code">&lt;parameters&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;customerProduct objectType="customerProduct"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;33CF7350-B3B0-43AD-B8D3-582D29ACDF06&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;/customerProduct&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/parameters&gt;</p>
+        <p>Output Parameter:<![CDATA[
+        ]]></p>
+        <p Class="Code" class="C_Code">&lt;parametersReturn&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;customerProduct objectType="customerProduct" content="all"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;33CF7350-B3B0-43AD-B8D3-582D29ACDF06&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;secondaryId&gt;MyProduct1&lt;/secondaryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerId&gt;C71BB76E-A0DA-4F18-9224-8A5E4250FD9F&lt;/ownerId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerType&gt;1&lt;/ownerType&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;contactId null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;productNumber&gt;newProduct2&lt;/productNumber&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;serialNumber null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;quantity null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;purchaseDate null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;trackingId null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;sourceId null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;statusId null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;privateAccess&gt;0&lt;/privateAccess&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;readOnlyAccess&gt;0&lt;/readOnlyAccess&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;user1 null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;user2 null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;user3 null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;user4 null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;user5 null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;user6 null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;user7 null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;user8 null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;user9 null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;user10 null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;productDescription&gt;newProduct2&lt;/productDescription&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;trackingCode null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;trackingCodeName null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;trackingCodeDescription null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy&gt;erw&lt;/insertBy&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate&gt;2001-11-28 21:37:01&lt;/insertDate&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateBy&gt;erw&lt;/updateBy&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateDate&gt;2001-11-28 21:37:02&lt;/updateDate&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;onyxTimestamp&gt;0000000009B3C9F6&lt;/onyxTimestamp&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;locked null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;lockedBy null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;customerProductDetails collection="1" objectType="customerProductDetail" content="all"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;customerProductDetail objectType="customerProductDetail" content="all"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;B18679A3-3D24-46B1-A713-6A2F9F54323C&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerId&gt;33CF7350-B3B0-43AD-B8D3-582D29ACDF06&lt;/ownerId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;lineId&gt;1&lt;/lineId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;user1 null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;user2 null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;user3 null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;user4 null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;user5 null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;user6 null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;user7 null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;user8 null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;user9 null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;user10 null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;date1 null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;date2 null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy&gt;erw&lt;/insertBy&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate&gt;2001-11-28 21:37:02&lt;/insertDate&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateBy&gt;erw&lt;/updateBy&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateDate&gt;2001-11-28 21:37:02&lt;/updateDate&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/customerProductDetail&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/customerProductDetails&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;/customerProduct&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/parametersReturn&gt;</p>
+    </body>
+</html>

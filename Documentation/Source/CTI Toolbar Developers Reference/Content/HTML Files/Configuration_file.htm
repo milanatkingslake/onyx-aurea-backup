@@ -1,0 +1,479 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" class="" MadCap:lastBlockDepth="6" MadCap:lastHeight="847" MadCap:lastWidth="624">
+    <head><title>Configuration file</title>
+        <script language="JavaScript">
+        </script>
+        <link href="../Resources/Stylesheets/Aptean_word.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <H4 class="Heading">Configuration file</H4>
+        <p class="BodyText">Onyx CTI requires multiple copies of the configuration 
+ filethe 
+ main configuration file plus a configuration file for each connector. 
+ </p>
+        <ul style="list-style: disc;" type="disc">
+            <li class="ListBullet">The main configuration 
+ file specifies the default custom connector. Other settings in 
+ this file are used only when the configuration file for the default connector 
+ cannot be found; otherwise, these other settings are ignored. </li>
+            <li class="ListBullet">Each connector-specific 
+ configuration file defines the custom connector's supported behavior 
+ and functionality for the Onyx CTI toolbar. The default connector specified 
+ in this file is ignored. </li>
+        </ul>
+        <p class="BodyText">We recommend that you use a copy of the default configuration file as 
+ your starting point when building a new connector. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">To confirm that your changes appear as expected, delete the 
+ files in Internet Explorer's Temporary Internet Files folder. </p>
+        <p class="BodyText">Full path of the default configuration file (also the main configuration 
+ file): <code>YourOEPwebsite\cti\cti_config.xml</code>, 
+ where <code>YourOEPwebsite</code> is your 
+ OEP installation directory.</p>
+        <p class="BodyText">The configuration file includes sections for the following 
+ types of meta-data: </p>
+        <ul style="list-style: disc;" type="disc">
+            <li class="ListBullet">Default connector </li>
+            <li class="ListBullet">General</li>
+            <li class="ListBullet">Toolbars </li>
+            <li class="ListBullet">Agent states </li>
+            <li class="ListBullet">Call states </li>
+        </ul>
+        <p class="BodyText">
+            View example configuration file
+        </p>
+        <p class="Code" style="font-family: 'Courier New';"><code>&lt;?xml version="1.0" encoding="utf-8" ?&gt;</code> <![CDATA[ ]]></p>
+        <p class="Code" style="font-family: 'Courier New';">&lt;root&gt; </p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&lt;defaultConnector&gt;100000&lt;/defaultConnector&gt; </p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&lt;general&gt; </p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&lt;debugMode value="0"/&gt; </p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&lt;autoAnswer value="0"/&gt; </p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&lt;displayLogon value="1"/&gt; </p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&lt;populateMakeCall value="1"/&gt; </p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&lt;allowedPhoneChars value="#*,"/&gt; </p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&lt;oepLanguageVersion value="eng" /&gt; </p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&lt;/general&gt; </p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&lt;toolbars&gt; </p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&lt;control interface="toolbar" titleResource="CtiTitle" type="toolbarGeneric" id="ctiToolbar"&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control visible="1" interface="command" type="commandContainer" id="spnSpacer1"&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/control&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control visible="1" interface="command" type="commandButton" id="agentReady" resourceId=""&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;state value="1" tipResource="tipAgentReady" image="Ready"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/control&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control visible="1" interface="command" type="commandButton" id="agentIdle" resourceId=""&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;state value="1" tipResource="tipAgentIdle" image="Idle"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/control&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control visible="1" interface="command" type="commandButton" id="agentWrapUp" resourceId=""&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;state value="1" tipResource="tipAgentWrapUp" image="Wrapup"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/control&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control visible="1" interface="command" type="commandContainer" id="spnSpacer2"&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/control&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control visible="1" interface="command" type="commandButton" id="callMake" resourceId=""&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;state value="1" tipResource="tipCallMake" image="MakeCall"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/control&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control visible="1" interface="command" type="commandButton" id="callHangUp" resourceId=""&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;state value="1" tipResource="tipCallHangUp" image="Hangup"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/control&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control visible="1" value="1" interface="command" type="commandMultiState" id="callHold" resourceId=""&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;state value="1" tipResource="tipCallHold" image="Hold"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;state value="2" tipResource="tipCallUnHold" image="Unhold"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/control&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control visible="0" interface="command" type="commandButton" id="callTransfer" resourceId=""&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;state value="2" tipResource="tipCallTransfer" image="Transfer"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/control&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control visible="0" interface="command" type="commandButton" id="callConference" resourceId=""&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;state value="2" tipResource="tipCallConference" image="Conference"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/control&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control visible="1" interface="command" type="commandContainer" id="spnSpacer3"&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/control&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/control&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&lt;/toolbars&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&lt;commands&gt;&lt;/commands&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&lt;agentStates&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;agentState state="1"&gt;&lt;!-- AGENTSTATE_READY --&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentIdle" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentReady" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentWrapUp" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callMake" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callHangUp" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callHold" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callTransfer" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callConference" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/agentState&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;agentState state="2"&gt;&lt;!-- AGENTSTATE_IDLE --&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentIdle" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentReady" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentWrapUp" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callMake" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callHangUp" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callHold" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callTransfer" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callConference" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/agentState&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;agentState state="3"&gt;&lt;!-- AGENTSTATE_LIVE --&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentIdle" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentReady" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentWrapUp" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callMake" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callHangUp" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callHold" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callTransfer" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callConference" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/agentState&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;agentState state="4"&gt;&lt;!-- AGENTSTATE_WRAPUP --&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentIdle" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentReady" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentWrapUp" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callMake" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callHangUp" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callHold" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callTransfer" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callConference" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/agentState&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/agentStates&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&lt;callStates&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;callState state="1" hold="0"&gt;&lt;!-- CALLSTATE_OUTDIAL --&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentIdle" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentReady" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentWrapUp" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callMake" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callHangUp" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callHold" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callTransfer" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callConference" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/callState&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;callState state="2" hold="0"&gt;&lt;!-- CALLSTATE_ACDIN --&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentIdle" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentReady" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentWrapUp" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callMake" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callHangUp" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callHold" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callTransfer" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callConference" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/callState&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;callState state="3" hold="0"&gt;&lt;!-- CALLSTATE_CONSULTING --&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentIdle" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentReady" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentWrapUp" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callMake" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callHangUp" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callHold" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callTransfer" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callConference" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/callState&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;callState state="4" hold="0"&gt;&lt;!-- CALLSTATE_CONSULTED --&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentIdle" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentReady" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentWrapUp" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callMake" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callHangUp" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callHold" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callTransfer" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callConference" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/callState&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;callState state="6" hold="0"&gt;&lt;!-- CALLSTATE_CONFERENCE --&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentIdle" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentReady" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentWrapUp" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callMake" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callHangUp" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callHold" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callTransfer" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callConference" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/callState&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;callState state="7" hold="1"&gt;&lt;!-- CALLSTATE_ONHOLD_ACD --&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentIdle" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentReady" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentWrapUp" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callMake" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callHangUp" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callHold" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callTransfer" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callConference" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/callState&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;callState state="8" hold="1"&gt;&lt;!-- CALLSTATE_ONHOLD_OUT --&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentIdle" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentReady" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentWrapUp" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callMake" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callHangUp" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callHold" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callTransfer" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callConference" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/callState&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;callState state="9" hold="0"&gt;&lt;!-- CALLSTATE_CONSULTCONFERENCE --&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentIdle" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentReady" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentWrapUp" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callMake" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callHangUp" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callHold" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callTransfer" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callConference" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/callState&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;callState state="10" hold="0"&gt;&lt;!-- CALLSTATE_CONSULTTRANSFER --&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentIdle" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentReady" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentWrapUp" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callMake" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callHangUp" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callHold" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callTransfer" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callConference" enabled="1" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/callState&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;callState state="11" hold="0"&gt;&lt;!-- CALLSTATE_TRANSFER_START --&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentIdle" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentReady" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentWrapUp" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callMake" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callHangUp" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callHold" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callTransfer" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callConference" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/callState&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;callState state="12" hold="0"&gt;&lt;!-- CALLSTATE_CONFERENCE_START --&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentIdle" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentReady" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="agentWrapUp" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callMake" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callHangUp" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callHold" enabled="0" visible="1"/&gt;</p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callTransfer" enabled="0" visible="1"/&gt;</p>
+        <p class="code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;control controlId="callConference" enabled="0" visible="1"/&gt; </p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/callState&gt; </p>
+        <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/callStates&gt; </p>
+        <p class="Code" style="font-family: 'Courier New';">&lt;/root&gt;</p>
+        <p class="BodyText">The following table describes the elements of the configuration file, 
+ including related attributes: </p>
+        <table>
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Element</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">defaultConnector</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Root element of the default connector section. In the main configuration file, specifies the primaryId 
+ of the default connector. The default connector is used if the database 
+ does not specify a connector for the logged-in agent. In connector-specific configuration files, this setting 
+ is ignored. For more information on agent-connector mappings, see the 
+ <a href="ctiAgentAssociation_object.htm">ctiAgentAssociation object</a>.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">general</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Root element of the general section. Contains settings 
+ that enable or disable functionality in the toolbar and that specify certain 
+ configurable data used by Onyx CTI. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">debugMode</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enables or disables the display of the Open 
+ CTI Test Driver toolbar button, which displays the <a href="Test_driver_controls.htm">test 
+ driver interface</a>. (default value: 0)<br /> Available values: <br />0 - disable <br />1 - enable </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">autoAnswer</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enables or disables automatic answering of incoming 
+ calls by Onyx CTI. When enabled, agents are prompted to accept or reject 
+ each call. When disabled, each call that is routed to the agent is automatically 
+ accepted and the caller and agent are connected without any prompt. (default 
+ value: 0)<br />Available values:<br /> 0 - disable <br />1 - enable </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">displayLogon</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enables or disables the display of the Log 
+ On window when the Logon toolbar button 
+ is clicked. Disabling the display of this window is helpful when the environment 
+ has been customized to remove the requirement for a password and user 
+ name. (default value: 1)<br />Available values: <br />0 - disable <br />1 - enable </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">populateMakeCall</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enables or disables the automatic population of the 
+ Place Call window with the primary phone 
+ number from the currently open customer page. <br />Available values: <br />0 - disable<br /> 1 - enable </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">allowedPhoneChars</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Contains a list of characters allowed in external phone 
+ numbers. This list of values is used to validate a phone number before 
+ the number is sent to the connector. The values in this list are considered 
+ valid and are allowed. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">oepLanguageVersion</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies the language of the OEP language-specific 
+ code base. Onyx CTI uses this setting to make appropriate calls to the 
+ common code. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a name="toolbars"></a>toolbars</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Root element of the toolbars section. Contains meta-data 
+ for the Onyx CTI toolbar and its buttons. Elements and attributes in this 
+ section are from the common OEP toolbar control. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">control</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Defines the Onyx CTI toolbar. Do not change this element 
+ when configuring or customizing the toolbar.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">control</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Contains the settings for each control on the Onyx CTI 
+ toolbar. <br /><b>Attributes</b>:<br /><b>visible</b> - Specifies whether or not the control is visible. 
+ Used for commandContainer types of controls only.<br /><b>Available values</b>: <br />0 
+ (invisible) or <br />1 (visible).<br /><b>interface</b> - Defines the control element as a toolbar 
+ or command.<br />type - Specifies the type of control. <br /><b>Available values</b>:<br /><b>commandContainer</b> - Empty container. &#160;This 
+ control can be used for layout spacing purposes or any valid HTML elements 
+ can be added to the toolbar by adding them as child elements of this control.<br /><b>commandButton</b> - Button that has only one <a href="#state">state</a> 
+ (no toggling). <br /><b>commandMultiState</b> - Button that has multiple <a href="#state">states</a> 
+ for toggling (such as hold and resume). <br /><b>Id</b> - Specifies the control ID. &#160;Must 
+ correspond to the controlId attribute of the control element in the <a href="#agentStates">agentStates</a> and <a href="#callStates">callStates</a> 
+ sections of this file. <br /><b>resourceId</b> - Not used by the Onyx CTI toolbar. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a name="state"></a>state</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Contains the settings for the specified parent control 
+ state. <br /><b>Attributes</b>: value - Identifies the controls state using a unique 
+ numeric identifier. There is no limit to the number of states a control 
+ can have. <br /><b>tipResource</b> - Lists the resource string ID for the identified 
+ control state. Resource string IDs are also listed in the <a href="Resource_string_files.htm">resource 
+ string files</a> (name attribute). The resource string files define the 
+ text displayed in the Onyx CTI interface.<br /><b>Image</b> - Specifies the file name corresponding to the 
+ control state's image. The image file must be placed in the following 
+ folder: <code style="font-style: italic;">YourOEPwebsite</code><code>\cti\images\toolbar\,</code> 
+ where <code>YourOEPwebsite</code> is your 
+ OEP installation directory.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a name="agentStates"></a>agentStates</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Root element of the agent states section. Contains the 
+ collection of agentState elements controlling the availability and visibility 
+ of the Onyx CTI toolbar buttons according to the agent's current state. 
+ Onyx CTI uses this meta-data to render the toolbar whenever the agent 
+ state changes; therefore, each agent state defined in the <a href="Enumeration_file.htm">enumeration 
+ file</a> must be represented in this section. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">agentState </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Contains the collection of control elements for the 
+ identified <code>agentState</code> element. <br /><b>Attributes</b>:<br /><code>state</code> - Specifies the agent state. Must correspond to 
+ a state definition in the <a href="Enumeration_file.htm">enumeration file</a>.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">control </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Contains the settings for the identified control when 
+ the agent is in the identified state. Attributes:<br /><b> controlId </b>- Specifies the control ID. &#160;Must 
+ correspond to the Id attribute of the control element in the <a href="#toolbars">toolbars</a> 
+ section of this file.<br /><b> enabled</b> - Enables or disables the control.<br /> Available 
+ values:<br /> 0 (disable) or <br />1 (enable).<br /><b> visible</b> - Specifies whether or not the control is visible.<br /> 
+ Available values:<br /> 0 (invisible) or<br /> 1 (visible). </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a name="callStates"></a>callStates</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Root element of the call states section. Contains the 
+ collection of callState elements controlling the availability and visibility 
+ of the Onyx CTI toolbar buttons according to the call's current state. 
+ Onyx CTI uses this meta-data to render the toolbar whenever the call state 
+ changes; therefore, each call state defined in the <a href="Enumeration_file.htm">enumeration 
+ file</a> must be represented in this section. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">callState</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Contains the collection of control elements for the 
+ identified callState element. <br /><b>Attributes</b>:<br /><b>state</b> - Identifies the call state. Must correspond to 
+ a state definition in the <a href="Enumeration_file.htm">enumeration file</a>.<br /><b>hold</b> - Displays the appropriate button for holding calls 
+ or resuming held calls, depending on the call state. <br />Available values: 
+ <br /> 0 (displays the Hold Current Call button) 
+ or<br /> 1 (displays the Resume Current Call button). 
+ </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">control</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Contains the settings for the identified control when 
+ the call is in the identified state. <b>Attributes: </b><br /><b>controlId</b> - Specifies the control ID. &#160;Must 
+ correspond to the Id attribute of the control element in the <a href="#toolbars">toolbars</a> 
+ section of this file. <br /><b>enabled</b> - Enables or disables the control. Available 
+ values: 0 (disable) or 1 (enable). <br /><b>visible</b> - Specifies whether or not the control is visible. 
+ Available values: 0 (invisible) or 1 (visible). </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

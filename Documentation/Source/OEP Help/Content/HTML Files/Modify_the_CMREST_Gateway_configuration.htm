@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:conditions="Primary.PrintOnly" MadCap:lastBlockDepth="4" MadCap:lastHeight="777" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="../SkinSupport/MadCap.css" rel="stylesheet" type="text/css" /><title>Modifying Onyx Gateway Service  Configuration</title>
+        <link href="../Resources/TableStyles/Aptean_Note_Table_3.css" rel="stylesheet" />
+        <link href="../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" />
+    </head>
+    <body>
+        <H4 class="Heading">Modifying Onyx Gateway Service  Configuration</H4>
+        <p class="TaskHeading">To modify the <span class="CCM variablesComponent - CM Service Gateway">Onyx Gateway Service</span> configuration:</p>
+        <ol>
+            <li class="ListBullet_1" value="1">On the <span style="font-weight: bold;" class="CCM variablesComponent - OEAS">OEAS</span> server, stop the <span style="font-weight: bold;" class="CCM variablesComponent - CM Service Gateway">Onyx Gateway Service</span>.</li>
+            <li class="ListBullet_1" value="2">Back up the <b>Onyx Gateway Service installation</b> folder and all its contents. The default installation path is C:\Program Files (x86)\Onyx\AppServer\Applications\Onyx.</li>
+            <li class="ListBullet_1" value="3">In the OGS installation folder, double-click <b>CustomEntityHelper.exe</b>.</li>
+        </ol>
+        <p class="BodyTextIndent_2">The <b>Custom Entity Helper</b> window appears.</p>
+        <ol MadCap:continue="true">
+            <li class="ListBullet_1" value="4">In the <b>Entity Name</b> box, type a name for the custom entity that you want to create. Ensure that the value you enter here matches the value you enter in the <b>entity_name</b> field of the <b>navigator_entity_master</b>  table.</li>
+            <li class="ListBullet_1" value="5">Click the <b>Create Entity</b> button. This creates a file in the OGS folder with the name &lt;EntityName&gt;.dll, where &lt;EntityName&gt;is the name you entered.</li>
+            <li class="ListBullet_1" value="6">After you have created all the entities that you want to use, recreate the CMService.dll to include the new entities.</li>
+        </ol>
+        <ol style="list-style-type: lower-roman;">
+            <li class="ListBullet_2" value="1">In the <b>All Custom Entity Names</b> box, enter all the existing custom entity names, separated by commas.</li>
+        </ol>
+        <p class="Important" MadCap:autonum=" &lt;b&gt;Important:&lt;/b&gt; ">Recreating the CMService.dll removes all previously created custom entities, so you must enter all the custom entity names created so far each time you recreate the CMService.dll. </p>
+        <ol style="list-style-type: lower-roman;" MadCap:continue="true">
+            <li class="ListBullet_2" value="2">Verify that one &lt;EntityName&gt;.dll file exists for each custom entity name that you entered in the box.</li>
+            <li class="ListBullet_2" value="3">Click the <b>Create CMService</b> button to recreate the CMService.dll including all the custom entities.</li>
+        </ol>
+        <ol start="7">
+            <li class="ListBullet_1" value="7">From the <span class="CCM variablesComponent - CM Service Gateway">Onyx Gateway Service</span> folder, open the <span class="CCM variablesComponent - CM Service Gateway">Onyx Gateway Service</span> configuration file, and search for the comment.‘&lt;!—insert custom entity endpoints here --&gt;’.</li>
+            <li class="ListBullet_1" value="8">Insert the following endpoint node under the comment ‘&lt;!—insert custom entity endpoints here --&gt;’, where &lt;EntityName&gt;is the value you entered for the entity in step 4.</li>
+        </ol>
+        <p class="BodyTextIndent_2"><code>&lt;endpoint address="ServiceGateway/&lt;EntityName&gt;/"binding="webHttpBinding"				  contract="CmService.Service.I&lt;EntityName&gt;"/&gt;</code>
+        </p>
+        <ol MadCap:continue="true">
+            <li class="ListBullet_1" value="9">Start <span style="font-weight: bold;" class="CCM variablesComponent - CM Service Gateway">Onyx Gateway Service</span>.</li>
+            <li class="ListBullet_1" value="10">Verify the configuration to test that the custom entity is being called. To do this, in <b>Microsoft Internet Explorer</b>, type the following URL, replacing &lt;entity-name&gt;with a custom entity name you created.</li>
+        </ol>
+        <p class="BodyTextIndent_2"><code>http://&lt;app-server-name&gt;:69/ServiceGateway/&lt;entity-name&gt;/Search/?</code>
+        </p>
+        <p class="BodyTextIndent_1">Onyx should return an error message in the following format, indicating that the call was successful, but that the search failed due to a lack of additional parameters.</p>
+        <p class="BodyTextIndent_2"><code>&lt;returnXml&gt;</code>
+        </p>
+        <p class="BodyTextIndent_2"><code>&lt;methodStatus&gt;</code>
+        </p>
+        <p class="BodyTextIndent_2"><code>&lt;statusType&gt;failure&lt;/statusType&gt;</code>
+        </p>
+        <p class="BodyTextIndent_2"><code>&lt;error&gt;</code>
+        </p>
+        <p class="BodyTextIndent_2"><code>&lt;title&gt;Navigator&lt;/title&gt;</code>
+        </p>
+        <p class="BodyTextIndent_2"><code>&lt;caption&gt;Custom Entity search failed&lt;/caption&gt;</code>
+        </p>
+        <p class="BodyTextIndent_2"><code>&lt;messageHandle&gt;00000000-0000-0000-0000-000000000000&lt;/messageHandle&gt;</code>
+        </p>
+        <p class="BodyTextIndent_2"><code>&lt;severity&gt;failure&lt;/severity&gt;</code>
+        </p>
+        <p class="BodyTextIndent_2"><code>&lt;dialog moreButton="False" /&gt;</code>
+        </p>
+        <p class="BodyTextIndent_2"><code>&lt;/error&gt;</code>
+        </p>
+        <p class="BodyTextIndent_2"><code>&lt;/methodStatus&gt;</code>
+        </p>
+        <p class="BodyTextIndent_2"><code>&lt;/returnXml&gt;</code>
+        </p>
+    </body>
+</html>

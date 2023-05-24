@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:conditions="Default.Main" MadCap:lastBlockDepth="5" MadCap:lastHeight="694" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Preventing access to secured records</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>Preventing access to secured records </h3>
+        <p>OEAS and OEP provide several security measures to prevent end-users 
+ from accessing records in OEP-Offline that they do not have permissions 
+ to access in OEP. </p>
+        <p>These security measures include the following. </p>
+        <ul>
+            <li>OEP UI resources for subscription are not available 
+ to non OEP-Offline users</li>
+            <li>OEP UI enforces that if a user cannot access a 
+ particular type of record, they cannot access the detail form, so they 
+ cannot subscribe it. </li>
+            <li>OEAS security prevents the sync service from retrieving 
+ objects that are secured by impersonating the subscribing user for retrieves.</li>
+        </ul>
+        <p>Subscriptions to secured records can still occur, as described below. 
+ However, in all of these cases, although a subscription to the private 
+ record is created for the end-user, OEAS security prevents its retrieval 
+ and it is not synchronized to OEP-Offline for the user. Furthermore, when 
+ the server synchronization is unable to retrieve the record for this reason, 
+ it changes the record’s sync_action to 0, so that it will not continue 
+ to attempt to retrieve it during subsequent synchronizations. </p>
+        <p>Subscription to a secured record can occur as follows: 
+ </p>
+        <ul>
+            <li>The platform follows the defined cascade subscription 
+ rules and does not include security measures here to prevent subscription 
+ to records that are not accessible. </li>
+        </ul>
+        <p class="Indent1">For instance, if you have a cascade rule set that automatically 
+ subscribes incidents when a company is subscribed to, an end-user could 
+ subscribe to a company and have cascaded subscriptions created for all 
+ of that company’s incidents, even if one or more of those incidents were 
+ marked as private. </p>
+        <ul>
+            <li>An advanced subscriber can subscribe an end-user 
+ to an item to which he/she does not have access.</li>
+            <li>An offline user might have already subscribed 
+ to a record that is subsequently set as private by another OEP user.</li>
+        </ul>
+    </body>
+</html>

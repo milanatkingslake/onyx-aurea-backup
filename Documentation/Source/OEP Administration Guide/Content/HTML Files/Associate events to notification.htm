@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="354" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h4>Associate events to notification type</h4>
+        <p>After creating the notification type, the notification has to be associated with specific events like Incident, Address, Email Address etc., Each notification can be associated with single or multiple events. This association will be done in "NotificationEvent" table.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Column Name</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">NotificationEventId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter a unique GUID for the notification event.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">SiteId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the Onyx site ID.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">SecondaryId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the Secondary ID for the notification. This is a unique value for each row in the table.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">NotificationTypeId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the foreign key of the NotificationType table.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">EventId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the foreign key of the NotificationType table.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4 style="page-break-before: always;">Adding change fields to notification event</h4>
+        <p>To optimize notifications, we use NotificationEventChange table in persistence db. For example, if there is a notification “Incident assigned to me is Resolved”, and the status is changed to "Resolved" in OEP, then only ONS will process the request.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Column Name</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">NotificationEventChangeId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter a ChangeId for the notification event.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">SiteId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the Onyx site ID.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">SecondaryId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the Secondary ID for the notification. This is a unique value for each row in the table.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">NotificationTypeId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the foreign key of the NotificationType table.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">PropertyName</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the property name of the object. For ex. StatusId in incident.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>&#160;</p>
+        <p>&#160;</p>
+    </body>
+</html>

@@ -1,0 +1,227 @@
+// Copyright (C) 1997 InstallShield Software Corp.
+//
+// By RMD, October 1997
+
+// Lines of Code adding in dword functionality by David Somers with help/explanations as to how to
+// convert Hex in Ishield from Bill at Installshield...
+
+// By Olaf Stroehle, 02. June, 1999:
+// Added check for existence of key, in order to implement correct loggin/deinstallation
+
+function ProcessREGFile(szFilename)
+    LIST listREGContents;
+    STRING svCurrentEntry, svCurrentKey, svCurrentRoot;
+    STRING svTemp, svName, svValue;
+    NUMBER nMode, nEqualSign, nCurrentRoot, nValue, nStrLen, nCount, nMult, nCountNum, nDecValue;
+
+    STRING svTest, svHex;
+    BOOL    bDword;
+
+begin
+
+// read the REG file into a string list
+listREGContents = ListCreate(STRINGLIST);
+
+// if unable to read REG file, return error code
+if (ListReadFromFile(listREGContents, szFilename) < 0) then
+//    then MessageBox("Unable to read REG file.", SEVERE);
+    return -1;
+endif;
+
+// get the first line of the REG file...
+ListGetFirstString(listREGContents, svCurrentEntry);
+
+// ...if it isn't "REGEDIT4", return an error code
+if (!(svCurrentEntry % "REGEDIT4") && !(svCurrentEntry % "Windows Registry Editor")) then
+//    MessageBox("File is not a proper REG file.", SEVERE);
+    return -1;
+endif;
+
+// read each line in turn, processing it as we go
+while (ListGetNextString(listREGContents, svCurrentEntry) != END_OF_LIST)
+    if (svCurrentEntry != "") then
+        StrSub(svTemp, svCurrentEntry, 0, 1);
+        if (svTemp != ";") then // it's not a ";" comment line
+            StrSub(svTemp, svCurrentEntry, 0, 2);
+            if (svTemp != "//") then // it's not a "//" comment line
+
+// look for an equal sign...
+                nEqualSign = StrFind(svCurrentEntry, "=");
+
+// ... if there isn't one, it's a key...
+                if (nEqualSign < 0) then
+                    // remove leading and trailing spaces
+                    RemoveSpaces(svCurrentEntry);
+                    // remove square brackets
+                    RemoveFirstAndLastChars(svCurrentEntry);
+                    // parse current root...
+                    GetRootAndKey(svCurrentRoot, svCurrentKey, svCurrentEntry);
+                    // ...and get the constant corresponding to it
+                    nCurrentRoot = GetRoot(svCurrentRoot);
+
+                    // set the default root and create the key
+                    RegDBSetDefaultRoot(nCurrentRoot);
+
+// Added check for existence of key, in order to implement correct loggin/deinstallation
+                    if ( RegDBKeyExist (svCurrentKey) < 0 )
+                    then
+                      RegDBCreateKeyEx ( svCurrentKey, "" );
+                    endif;
+
+// ...otherwise it's a name/value pair
+                else
+                    // name is all characters before equal sign
+                    StrSub(svName, svCurrentEntry, 0, nEqualSign);
+                    // value is all characters after
+                    StrSub(svValue, svCurrentEntry, nEqualSign + 1, StrLength(svCurrentEntry) - nEqualSign);
+
+                    // remove leading and trailing spaces
+                    RemoveSpaces(svName);
+                    RemoveSpaces(svValue);
+                    // if name is "@", it's the default value name
+                    if (svName = "@") then
+                        svName = "";
+                    else
+                    // remove quotes around name
+                    // TO DO:
+                    //    currently does not process
+                    //    dword, hex, or binary values
+                        RemoveFirstAndLastChars(svName);
+                    endif;
+                    // Check for dword and process.  If not, remove quotes around value
+                    StrSub (svTest, svValue, 0, 5);
+                    if svTest = "dword" then
+                        bDword = TRUE;
+                        StrSub (svHex, svValue, 6, StrLength(svValue) - 5);
+
+                            nStrLen = StrLength (svHex);
+                            nCount = nStrLen;
+                            nDecValue = 0;
+                            while (nCount > 0)
+                                StrSub (svTemp, svHex, (nStrLen - nCount), 1);
+                                switch (svTemp)
+                                    case "f"            : nMult= 15;
+                                    case "e"            : nMult= 14;
+                                    case "d"            : nMult= 13;
+                                    case "c"            : nMult= 12;
+                                    case "b"            : nMult= 11;
+                                    case "a"            : nMult= 10;
+                                    case "9"            : nMult= 9;
+                                    case "8"            : nMult= 8;
+                                    case "7"            : nMult= 7;
+                                    case "6"            : nMult= 6;
+                                    case "5"            : nMult= 5;
+                                    case "4"            : nMult= 4;
+                                    case "3"            : nMult= 3;
+                                    case "2"            : nMult= 2;
+                                    case "1"            : nMult= 1;
+                                    case "0"            : nMult= 0;
+                                endswitch;
+
+                                switch (nCount)
+                                    case 8            : nCountNum= 0x10000000;
+                                    case 7            : nCountNum= 0x1000000;
+                                    case 6            : nCountNum= 0x100000;
+                                    case 5            : nCountNum= 0x10000;
+                                    case 4            : nCountNum= 0x1000;
+                                    case 3            : nCountNum= 0x100;
+                                    case 2            : nCountNum= 0x10;
+                                    case 1            : nCountNum= 0x1;
+                                endswitch;
+
+                                while (nMult > 0)
+                                    nDecValue = nDecValue + nCountNum;
+                                    nMult = nMult - 1;
+                                endwhile;
+                                nCount = nCount - 1;
+                            endwhile;
+                            NumToStr (svValue, nDecValue);
+
+                    else
+                        RemoveFirstAndLastChars(svValue);
+                    endif;
+
+                    // finally, set the value
+                    if bDword = TRUE then
+                        RegDBSetKeyValueEx(svCurrentKey, svName, REGDB_NUMBER, svValue, -1);
+                    else
+                        RegDBSetKeyValueEx(svCurrentKey, svName, REGDB_STRING, svValue, -1);
+                    endif;
+                    bDword = FALSE;
+                endif;
+            endif;
+        endif;
+    endif;
+endwhile;
+
+end;
+
+// RemoveSpaces removes any leading or trailing spaces from a string
+
+function RemoveSpaces(svString)
+    STRING svTemp1, svTemp2;
+
+begin
+
+remove_leading_space:
+    StrSub(svTemp1, svString, 0, 1);
+    if (svTemp1 = " ") then
+        StrSub(svTemp2, svString, 1, StrLength(svString) - 1);
+        svString = svTemp2;
+        goto remove_leading_space;
+    endif;
+
+remove_trailing_space:
+    StrSub(svTemp1, svString, StrLength(svString) - 1, 1);
+    if (svTemp1 = " ") then
+        StrSub(svTemp2, svString, 0, StrLength(svString) - 1);
+        svString = svTemp2;
+        goto remove_trailing_space;
+    endif;
+
+end;
+
+// removing surrounding chars.: brackets and quotation marks
+
+function RemoveFirstAndLastChars(svString)
+begin
+    StrSub(svString, svString, 1, StrLength(svString) - 2);
+end;
+
+// parse key string into root and subkey
+function GetRootAndKey(svRoot, svKey, szString)
+NUMBER nFirstSlash;
+begin
+    nFirstSlash = StrFind(szString, "\\");
+    StrSub(svRoot, szString, 0, nFirstSlash);
+    StrSub(svKey, szString,
+        nFirstSlash + 1, StrLength(szString) - nFirstSlash);
+end;
+
+// determine the approprate built-in constant for the root key string
+function GetRoot(szString)
+begin
+    switch (szString)
+        case "HKEY_LOCAL_MACHINE":
+            return HKEY_LOCAL_MACHINE;
+        case "HKEY_CLASSES_ROOT":
+            return HKEY_CLASSES_ROOT;
+        case "HKEY_CURRENT_USER":
+            return HKEY_CURRENT_USER;
+        case "HKEY_USERS":
+            return HKEY_USERS;
+    endswitch;
+end;
+
+
+
+
+
+
+
+
+
+
+
+
+

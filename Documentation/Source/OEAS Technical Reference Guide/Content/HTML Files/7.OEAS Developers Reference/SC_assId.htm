@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="1285.457" MadCap:lastWidth="648" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>associationId Guidelines</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>
+            <MadCap:keyword term="associationId guidelines" />
+            <MadCap:keyword term="associationId" />associationId guidelines</h4>
+        <p>Onyx step components follow some simple conventions when adding associationId 
+ attributes to the XML data returned to a calling client. Follow these 
+ guidelines when using an associationId to tie data to a component-generated 
+ message.</p>
+        <p>Each associationId attribute exists in two places within the XML returned 
+ to a client application: inside an error or message element within methodStatus, 
+ and inside an element within parametersReturn. The following XML snippet 
+ shows an associationId pair that ties an error to a problematic object.</p>
+        <p Class="Code" class="code">&lt;returnXml&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;otmId&gt;4F5E6E55-E46B-4CFC-BA86-76CB730E38AC&lt;/otmId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;context&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;sessionSecondsRemaining&gt;600&lt;/sessionSecondsRemaining&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/context&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;methodStatus&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;statusType&gt;failure&lt;/statusType&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;error associationId="7BC0D0BD-BE6A-47C0-9B44-E265D249C8FF"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;severity&gt;failure&lt;/severity&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;errorNumber&gt;50027&lt;/errorNumber&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;errorDescription&gt;You failed to supply a primary key property: primaryId. &#160;A primary key is required to update, delete or retrieve an object.&lt;/errorDescription&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;errorType&gt;oetBusinessLogic&lt;/errorType&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;natLangId&gt;750027&lt;/natLangId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sourceType&gt;ostComponent&lt;/sourceType&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;sourceName&gt;company.retrieve&lt;/sourceName&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;timestamp&gt;2006-03-14 13:37:12&lt;/timestamp&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/error&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/methodStatus&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;parametersReturn&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;company objectType="company" associationId="7BC0D0BD-BE6A-47C0-9B44-E265D249C8FF"/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/parametersReturn&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;customData/&gt;</p>
+        <p Class="Code" class="code">&lt;/returnXml&gt; </p>
+        <p>Onyx step components typically use associationId elements to identify 
+ problems related to the input data. In such cases, the step components 
+ copy the problematic data to the parametersReturn node unchanged and then 
+ add add the associationId to the element that contains that data. The 
+ following table lists conventions for copying the input data:</p>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Table_1.css');" class="TableStyle-Aptean_Table_1" cellspacing="0">
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 5cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 12cm;" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_1-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Error data source</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadD-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Action</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">The properties of an input object</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Clone the entire contents of the affected 
+ input object and add the associationId attribute to the object's element 
+ (as shown in the sample above).</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Non-object parameters of a method</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Clone all non-object parameters and add the 
+ associationId to the error-causing parameter</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>associationId attributes should only be used 
+ when it is possible to clearly identify the source of the error. If the 
+ component is unable to identify the exact source of the error (for example, 
+ invalid parameter data for a stored procedure), or if the error involves 
+ top-level missing data (for example, the input object cannot be found), 
+ it is not possible to use an associationId. </p>
+    </body>
+</html>

@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="5" MadCap:lastHeight="778" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Sample business model</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>Sample business model</h4>
+        <p><span>This sample business model provides an overview of the common 
+ configurations of territories, conditions, expressions and assignment 
+ sets in the Assignment Studio.</span>
+        </p>
+        <h5>Who are we?</h5>
+        <p>Global Widget, Inc. is a west coast business 
+ that sells Widgets and the super Giga-Widget to other companies. Sales 
+ opportunities are gathered from a number of sources and entered by people 
+ unfamiliar with the details of the companies’ sales organization. However, 
+ Global Widget requires face-to-face contact with their customers in order 
+ to make an effective sales pitch. </p>
+        <p>The company has two regional sales offices: 
+ one in Seattle, Washington and the other in Sacramento, California. Each 
+ regional sales office includes an account manager and a senior sales executive 
+ as well as a team of sales people.</p>
+        <h5>How do we sell?</h5>
+        <p>The sales people all work for commissions. For 
+ fairness, new leads are distributed to the pool of sales people using 
+ the Round Robin assignment type. There is a complication -- only the senior 
+ sales executive is allowed to work with sales opportunities for the rare 
+ but valuable Giga-Widget product. The regional account manager is the 
+ internal contact for each company and sales incident.</p>
+        <h5>After the sale, support steps in</h5>
+        <p>Global Widget also provides its customers with 
+ a support organization. The support organization consists of two teams: 
+ Team A is the front-line personnel and Team B is the senior support engineers. 
+ Team A has the ability to escalate incidents to Team B (senior-level engineers), 
+ when they are unable to solve the issue in a timely manner. </p>
+        <p>The following link presents a diagram 
+ that translates business rules for Global Widget into territories, conditions, 
+ expressions, and assignment sets in the Assignment Studio.</p>
+        <p style="font-style: italic;">Business 
+ model diagram</p>
+        <h5>Choosing processes</h5>
+        <p>After the territory assignment structure is 
+ defined, the administrator enables OPM processes for the evaluation of 
+ the assignment conditions. For Global Widget, processes are required for 
+ the insert and update of incidents and companies.</p>
+        <p>Step 1: The administrator considers how company 
+ or individual records will be inserted or updated by employees.</p>
+        <ul style="list-style: disc;" type="disc">
+            <li class="List_Indent">Global Widget, Inc. is a business-to-business 
+ operation. Sales people interact with companies but not individuals. Employees 
+ create and update customer records on a daily basis. </li>
+        </ul>
+        <p class="Indent2"><span style="font-weight: bold;">Best practice</span>: The business 
+ rules do not include individual data. A company territory is defined and 
+ the company insert process is enabled. </p>
+        <p>Step 2: The administrator considers how <a href="AR_ca_AssignStudioincidentterritories.htm">incidents 
+ are tracked and assigned to leads</a>.</p>
+        <ul style="list-style: disc;" type="disc">
+            <li class="List_Indent">Global Widget requires the ability to track incoming 
+ incidents on a daily basis. </li>
+        </ul>
+        <p class="Indent2"><span style="font-weight: bold;">Best practice</span>: The rules 
+ do not include customers. An incident territory is defined and the incident 
+ insert process is enabled. Since the rules for handling incidents do not 
+ include customer properties, there is no need to enable the customer update 
+ process. Only combined territories will require the customer update process.</p>
+        <ul style="list-style: disc;" type="disc">
+            <li class="List_Indent">When support engineers are unable to resolve incidents 
+ in a timely manner, they need the ability to re-assign incidents to senior-level 
+ support engineers. In this case, incidents are re-assigned to the Auto 
+ Assign user. The senior-level support engineers are created as an assignment 
+ set for the Auto Assign user in Assignment Administration. For more information, 
+ see the <a href="ar_ca_assignstudioaboutproccond.htm">Manual assignment 
+ of incidents</a>. </li>
+        </ul>
+        <p class="Indent2"><span style="font-weight: bold;">Best practice</span>: The rules 
+ include only incident data, however, the escalation occurs when an incident 
+ is updated. Territories are defined and the incident insert and update 
+ processes are enabled.</p>
+    </body>
+</html>

@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="432" MadCap:lastWidth="624">
+    <head><title>Upgrading Onyx Gateway Service</title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2>Upgrading Onyx Gateway Service</h2>
+        <p>Perform the following the steps to upgrade Onyx Gateway Service.</p>
+        <p class="ProcedureHeading">To Upgrade Onyx Gateway Service</p>
+        <ol>
+            <li>Navigate to <b>Platform Components </b>&gt;<b> Application Server (OEAS) </b>&gt;<b>OnyxGatewayService</b>, and then run <b>OnyxGatewayService.exe</b>.</li>
+        </ol>
+        <p class="Indent1">The <b>Onyx Gateway Service</b> confirmation window appears.</p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/Upgrading Onyx Gateway Service.png" style="visibility: visible;width: 482px;height: 172px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <ol MadCap:continue="true">
+            <li>Click <b>Yes</b> to upgrade <b>Onyx Gateway Service</b>.</li>
+        </ol>
+        <p class="Indent1">The <b>Resuming the Installation</b> window appears.</p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/Upgrading Onyx Gateway Service_1.png" style="visibility: visible;width: 514px;height: 393px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <ol MadCap:continue="true">
+            <li>Click <b>Next</b>.</li>
+        </ol>
+        <p class="Indent1">The <b>Files in Use</b> window appears.</p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/Upgrading Onyx Gateway Service_2.png" style="visibility: visible;width: 514px;height: 393px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <ol MadCap:continue="true">
+            <li>Select <b>Automatically cloxe and attempt to restart applicaton</b>, and click <b>OK</b>.</li>
+        </ol>
+        <p class="Indent1">After the installation is complete, the <b>Installation Wizard Completed</b> window appears.</p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/After the installation is.png" style="visibility: visible;width: 514px;height: 393px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <ol MadCap:continue="true">
+            <li>Click <b>Finish</b>.</li>
+            <li>Open the  <b>OnyxGatewayWindowsService.exe.config</b> file from the <b>\Customization Support\Application Server (OEAS)\OnyxGatewayService</b> folder in release folder and <b>\Program Files\Onyx\AppServer\Applications\Onyx\OnyxGatewayService</b> folder of the machine that has OGS installed.</li>
+        </ol>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; &#160;">Take a back up of the <b>OnyxGatewayWindowsService.exe.config</b> file from the <b>\Program Files\Onyx\AppServer\Applications\Onyx\OnyxGatewayService</b> folder.</p>
+        <MadCap:pageBreak />
+        <ol MadCap:continue="true">
+            <li>Compare the <b>OnyxGatewayWindowsService.exe.config</b> file from both directories and merge the required changes from the file present in the <b>\Customization Support\Application Server (OEAS)\OnyxGatewayService</b> folder into the file present in the <b>\Program Files\Onyx\AppServer\Applications\Onyx\OnyxGatewayService</b> folder.</li>
+        </ol>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; &#160;">When you merge the changes, it is required to retain the following information in the <b>OnyxGatewayWindowsService.exe.config</b> file, which is present in the <b>\Program Files\Onyx\AppServer\Applications\Onyx\OnyxGatewayService</b> folder.:<br />• The <code>key="extraData"</code> and <code>key="InstanceName"</code> attributes in the <code>&lt;appSettings&gt;</code> node.<br />• The <code>&lt;connectionStrings&gt;</code> node.<br />• Custom <code>&lt;endpoint&gt;</code> node, if any.</p>
+        <p>&#160;</p>
+    </body>
+</html>

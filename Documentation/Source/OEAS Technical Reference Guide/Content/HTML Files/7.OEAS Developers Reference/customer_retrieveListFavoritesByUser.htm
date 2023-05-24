@@ -1,0 +1,419 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="860" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>retrieveListFavoritesByUser (customer)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="retrieveListFavoritesByUser" />retrieveListFavoritesByUser method</h2>
+        <p>The retrieveListFavoritesByUser method of the <a href="customer_object.htm">customer</a> 
+ object returns a list of favorite customers, which are individuals and 
+ companies for which the userId is set up as an internal contact of type 
+ "Favorite." The data is returned as a rowSet object in the XML.</p>
+        <p><a href="standard_retrieveList.htm">retrieveList standard method information</a>
+        </p>
+        <h3>Parameters</h3>
+        <table>
+            <col style="width: 4cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 4cm;" />
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Direction</th>
+                    <th>Data type</th>
+                    <th>Content type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">objectType<br />(required)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">in</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">string</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Specifies type to search for: individual 
+ = 1, company = 2, 9 = customer (both)</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">userId<br />(required)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">in</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">string</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Specifies the "Favorite" internal 
+ contact to search for</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">rowSet</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">out</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">object</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">all(out)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Contains returned XML consisting of a columnDefinitions 
+ collection and a rows collection representing each record in the database 
+ that matches the specified input XML search criteria</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Columns returned in the rowSet object
+        </p>
+        <table wrapperparagraphselector="P" style="width: 100%;border-spacing: 0px;border-spacing: 0px;" width="100%">
+            <col />
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>columnOrdinal</th>
+                    <th>columnName</th>
+                    <th>Physical column</th>
+                    <th>Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">1</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">primaryId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">individual.individual_id or company.company_id</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The unique value that identifies the company 
+ or individual.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">2</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">secondaryId</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">individual.secondary_id or company.secondary_id</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The user-friendly ID that identifies the 
+ company or individual.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">3</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">objectType</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The customer type: individual = 1, company 
+ = 2.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">4</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">salutation</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">individual.salutation</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The prefix that precedes an individual's 
+ name such as Mr., Mrs., or Dr. Null for company rows.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">5</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">firstName</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">individual.first_name or contact.first_name</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The first name of the individual or company 
+ contact.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text">6</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">middleName</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">individual.middle_name</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The middle name of the individual. Null for 
+ company records.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">7</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">lastName</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">individual.last_name or contact.last_name</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The last name of the individual or company 
+ contact.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">8</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">suffix</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">individual.suffix</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The title that follows an individual's name, 
+ such as Jr. Null for company rows.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">9</p>
+                    </td>
+                    <td style="width: 28%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="28%">
+                        <p class="Table_Text" style="margin-bottom: 0;">companyName</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">individual.company_name or company.company_name</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The name of company an individual is associated 
+ with, or the name of a company.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Steps</h3>
+        <table>
+            <col style="width: 5cm;" />
+            <col style="width: 5cm;" />
+            <col style="width: 7cm;" />
+            <thead>
+                <tr>
+                    <th>Step data</th>
+                    <th>Step type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">OnyxDataValidationStep.DataValidation</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Validates input parameters</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">OnyxDM.DataManager</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Retrieves a list of favorite customers</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Remarks</h3>
+        <p>Only the firstName and lastName of the primary contact are 
+ returned for companies. All of the columns are returned for individuals.</p>
+        <p>This method uses the IndivFavoriteContactTypeId and CompFavoriteContactTypeId 
+ system parameters. You can modify these values using the OES Administration 
+ Workbench System Parameter Administration tool. The IndivFavoriteContactTypeId 
+ specifies which contact type is the favorite for the individual contact 
+ category. If the objectType input parameter is 1, the method returns all 
+ individuals where the userId is an internal contact and the contact type 
+ matches the IndivFavoriteContactTypeId. The CompFavoriteContactTypeId 
+ specifies which company contact type is the favorite for the company contact 
+ category. If the objectType input parameter is 2, the method returns all 
+ companies where the userId is an internal contact and the contact type 
+ matches the CompFavoriteContactTypeId. If the objectTypeinput parameter 
+ is 9, both sets are returned.</p>
+        <p>This method supports paging functionality. For more information, 
+ see the <a href="standard_retrieveList.htm#paging_functionality">Paging 
+ functionality</a>.</p>
+        <h3>Example</h3>
+        <p>Input             Parameter:
+        </p>
+        <p Class="Code" class="C_Code">&lt;parameters&gt;</p>
+        <p Class="Code" class="C_Code">&lt;objectType&gt;2&lt;/objectType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;userId&gt;sa&lt;/userId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/parameters&gt;</p>
+        <p>
+            Output Parameter:<![CDATA[        ]]></p>
+        <p class="C_Code">&lt;parametersReturn&gt;</p>
+        <p class="C_Code">&lt;rowSet objectType="rowSet" rowCount="1" columnCount="9" pageSize=""&gt;</p>
+        <p class="C_Code">&lt;columnDefinitions collection="1" objectType="columnDefinition"&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Primary ID&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;primaryId&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;1&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;24&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;16&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Secondary ID&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;secondaryId&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;2&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;24&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Object Type&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;objectType&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;3&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;112&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Salutation&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;saluation&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;4&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;112&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;First Name&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;firstName&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;5&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Middle Name&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;middleName&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;6&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;112&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Last Name&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;lastName&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;7&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Suffix&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;suffix&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;8&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;112&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Company Name&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;companyName&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;9&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;8&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;/columnDefinitions&gt;</p>
+        <p class="C_Code">&lt;rows collection="1" objectType="row"&gt;</p>
+        <p class="C_Code">&lt;row&gt;</p>
+        <p class="C_Code">&lt;c0&gt;74CAF57C-238E-42D2-81EF-72392EF3B6A0&lt;/c0&gt;</p>
+        <p class="C_Code">&lt;c1&gt;3&lt;/c1&gt;</p>
+        <p class="C_Code">&lt;c2&gt;2&lt;/c2&gt;</p>
+        <p class="C_Code">&lt;c3 null="1"&gt;&lt;/c3&gt;</p>
+        <p class="C_Code">&lt;c4 null="1"&gt;&lt;/c4&gt;</p>
+        <p class="C_Code">&lt;c5 null="1"&gt;&lt;/c5&gt;</p>
+        <p class="C_Code">&lt;c6 null="1"&gt;&lt;/c6&gt;</p>
+        <p class="C_Code">&lt;c7 null="1"&gt;&lt;/c7&gt;</p>
+        <p class="C_Code">&lt;c8&gt;Bahboo&lt;/c8&gt;</p>
+        <p class="C_Code">&lt;/row&gt;</p>
+        <p class="C_Code">&lt;/rows&gt;</p>
+        <p class="C_Code">&lt;/rowSet&gt;</p>
+        <p class="C_Code">&lt;/parametersReturn&gt;</p>
+    </body>
+</html>

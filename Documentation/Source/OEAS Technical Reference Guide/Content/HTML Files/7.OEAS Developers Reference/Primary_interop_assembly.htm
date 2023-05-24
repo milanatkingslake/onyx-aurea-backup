@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="1067" MadCap:lastWidth="994" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Primary interop assemblies</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>
+            <MadCap:keyword term="primary;Primary interop assemblies" />Primary interop assemblies</h3>
+        <p>The best practice for obtaining smooth integration of .NET step components 
+ with components of OEAS is to reference the signed primary interop assemblies 
+ in your Visual Studio project. The IStepStringPIA.DLL interop assembly 
+ should be referenced by a .NET step component that implements the IStepString 
+ interface.</p>
+        <p>If .NET applications call Onyx core COM+ components, your .NET project 
+ should reference the corresponding interop assembly for the Onyx component:</p>
+        <ul>
+            <li>GetAppDataPIA.dll</li>
+            <li>IStepStringPIA.DLL</li>
+            <li>OnyxAuthenticatePIA.DLL</li>
+            <li>OnyxAuthNTPIA.DLL</li>
+            <li>OnyxDictionaryCacheProxyPIA.DLL</li>
+            <li>OnyxEBusQEPIA.dll</li>
+            <li>OnyxEDCachePIA.dll</li>
+            <li>OnyxLogPIA.dll</li>
+            <li>OnyxNatLangCachePIA.dll</li>
+            <li>OnyxNatLangProxyPIA.DLL</li>
+            <li>OnyxSMPIA.DLL</li>
+            <li>OnyxTMPIA.DLL</li>
+        </ul>
+        <p>The primary interop assemblies are located on the OEAS installation 
+ CD in the following folder:</p>
+        <p>CD\Customization Support\Onyx Enterprise Application Server\MS .NET Support</p>
+        <p style="font-weight: bold;">To implement the primary interop assemblies:</p>
+        <ol>
+            <li align="left" class="ListBullet_1">Copy the primary interop assemblies 
+ that you need from the OEAS installation CD to the \Program Files\Onyx\Primary 
+ Interop Assemblies\ folder. You might have to create this folder.</li>
+            <li align="left" class="ListBullet_1">Add the copied primary interop assemblies 
+ to the Assembly Cache so that the assembly can be used by any step component 
+ in your .NET environment. To add an assembly, use the Microsoft .Net Framework 
+ Configuration Tool in Administrative Tools, or use the gacutil.exe utility 
+ from the command line as follows:</li>
+        </ol>
+        <p><span style="font-family: 'Courier New';">\&lt;PATH_TO_EXE&gt;\gacutil 
+ /i "C:\Program Files\Onyx\Primary Interop Assemblies\IStepStringPIA.dll"</span>
+        </p>
+        <ul>
+            <p>The &lt;PATH_TO_EXE&gt; depends on your system. You 
+ might have to search the file system for the location of the utility, 
+ or your .Net Framework installation might not include the utility.</p>
+        </ul>
+        <ol start="3">
+            <li align="left" class="ListBullet_1">You might need to adjust the .NET step 
+ component's security settings for it to execute properly in the .NET environment.</li>
+        </ol>
+        <ol style="list-style: lower-alpha;list-style-type: lower-alpha;">
+            <li class="Sec_List">Open the .NET Framework Configuration Tool from 
+ the Administrative Tools menu.</li>
+            <li class="Sec_List">Click Runtime Security Policy in the Navigation 
+ tree and select Increase Assembly Trust in the pane on the right.</li>
+            <li class="Sec_List">Follow the directions 
+ that appear in the wizard to increase the level of trust granted to the 
+ .NET step component. </li>
+        </ol>
+    </body>
+</html>

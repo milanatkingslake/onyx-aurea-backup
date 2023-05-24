@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="851" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h4><a name="top"></a>How the Customization Works</h4>
+        <p>After the files are in place you can test the sample by loading a company record and clicking <img src="../Resources/Images/ONYX 77 OEP Administration Guide/How the Customization Works.png" style="width: 23px;height: 22px;" /> in the toolbar. The JavaScript function checks the cached customer business object XML for a value in the property user5. The value of the property is then added to a URL for the CNN financial Web site, which opens in a new browser window. If no data is present in the property, a message box appears that explains that no stock information is available for the customer.</p>
+        <h4>Adding the button</h4>
+        <p>The function vbDrawCustomButton in the file drawcustombutton.asp checks the type of the customer being loaded onto the PowerPage. If the type is company, the button is added to the output HTML for customerheader.asp. The code that adds the button appears in the following code fragment. </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>' If the customer type is company, draw the button.</code> <![CDATA[ ]]></p>
+                    <p><code>if lcase(strCustType) = "company" then</code>
+                    </p>
+                    <p><code>' Button tag</code> <![CDATA[ ]]></p>
+                    <p><code>Response.Write "&lt;img align='middle' id='iconCustom' name='iconCustom' _</code>
+                    </p>
+                    <p><code>src='../images/icons/iconpapclip_clear0.gif' onClick='jsCustomAction()' alt='Custom Action' "</code>
+                    </p>
+                    <p><code>' This function writes out the mouseover and click actions. </code>
+                    </p>
+                    <p><code>vbWriteImageEvents(true)</code>
+                    </p>
+                    <p><code>' And close the img tag. </code>
+                    </p>
+                    <p><code>Response.Write "&gt;"</code>
+                    </p>
+                    <p><code>else</code>
+                    </p>
+                    <p><code>... ' Do nothing</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>The example uses a button graphic 'borrowed' from the Messenger feature (a paperclip with a line through it). Note the use of the vbWriteImageEvents function. This function outputs the standard set of events with functions that automatically handle mouseover and click actions. For information about the buttons in use throughout OEP, see <a href="#Button">Button standards</a>.</p>
+        <h4>Opening the window</h4>
+        <p>When a user clicks the custom button, the function jsCustomAction in customactions.js does two things:</p>
+        <ul>
+            <li>It obtains the stock ticker symbol data from the cached business object XML.</li>
+            <li>Displays the information for the user.</li>
+        </ul>
+        <p>The code that locates the stock symbol data appears in the following code fragment. </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>...</code>
+                    </p>
+                    <p><code>strType = top.goCurrentCustomer.getCustomerType();</code>
+                    </p>
+                    <p><code>// If we have a company (which we always should) </code>
+                    </p>
+                    <p><code>// look for the stock ticker symbol.</code> <![CDATA[ ]]></p>
+                    <p><code>if (strType == '2')</code>
+                    </p>
+                    <p><code>{</code>
+                    </p>
+                    <p><code>// Find the element for the stock ticker from the local DOM.</code>
+                    </p>
+                    <p><code>try {</code>
+                    </p>
+                    <p><code>oNode = top.goCurrentCustomer.getCustomerXmlDom().selectSingleNode("//company/user5");</code>
+                    </p>
+                    <p><code>}</code> <![CDATA[ ]]></p>
+                    <p><code>...</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>The object goCurrentCustomer is a global object that is available in the main frame's scope. The getCustomerType method retrieves customer type value by reading the cached XML. The getCustomerXmlDom method obtains a reference to the cached XML for the customer record. From here you can collect information from the XML using the standard set of DOM functions.</p>
+        <p>The function retrieves the data from the object property and verifies that the string is not empty. If so, it opens a new window that shows the information for the company's stock price. If there is no data in the object property, a message box appears that informs the user that no stock information is available for the customer.</p>
+        <p>This customization could be modified to retrieve any data from the company or individual business object. By creating custom properties through the OEAS you can add just about anything to a business object and use it within OEP. </p>
+        <h4><a name="Button"></a>Button Standards</h4>
+        <p>All buttons in OEP follow a simple standard for implementation purposes. By following this standard you can add buttons whose mouse events are handled by OEP common code. </p>
+        <p class="Tip" MadCap:autonum="&lt;b&gt;Tip:&lt;/b&gt; &#160;">The UI Configuration Workbench (UCW) lets you configure toolbars and their buttons on certain OEP pages. See <a href="Configuring OEP.htm#top">Configuring OEP</a> and <a href="About Design Mode.htm#top">About UCW</a> for more information. Toolbar buttons added with UCW conform to the standards listed here.</p>
+        <h4>Button states</h4>
+        <p>Each button has four states. Each state is described in the following table. </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>State</th>
+                    <th>Description</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">0</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Normal - transparent background, no border.</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">
+                            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/How the Customization Works_1.png" style="width: 23px;height: 22px;" />
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">2</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Mouseover - colored background, colored border, contents shifted one pixel up and one pixel to the left, contents have a grey shadow.</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">
+                            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/How the Customization Works_2.png" style="width: 23px;height: 22px;" />
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">3</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Clicked (mousedown) - colored background (darker than state 2), colored border, contents in their normal position (not shifted).</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">
+                            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/How the Customization Works_3.png" style="width: 23px;height: 22px;" />
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">4</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Disabled - transparent background, icon contents grey.</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">
+                            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/How the Customization Works_4.png" style="width: 23px;height: 22px;" />
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>All Onyx icons are 23 pixels wide by 22 pixels tall and have a color depth of 8 bits. The number for the state of the icon is appended to the name before the extension. The icons in the above table are named iconQSMerge0.gif, iconQSMerge2.gif, iconQSMerge3.gif, and iconQSMerge4.gif.</p>
+    </body>
+</html>

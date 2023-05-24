@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="424" MadCap:lastWidth="678">
+    <head>
+        <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Synchronization Errors</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>Synchronization Errors</h3>
+        <p>Synchronization errors are handled on a per-item basis. If one item 
+ fails to upsync, the other items waiting to upsync are processed. An exception 
+ is when the failed item is an insert and other items are descendants of 
+ it. For example, if a quote header errors, its quote lines cannot upsync 
+ either. </p>
+        <p>If the sync subsystem cannot upsync an offline record or retrieve an 
+ online record required for collision handling, it does not call the Collision 
+ Handler but generates an error. It reports the error to the offline user 
+ on the <span class="UIElement" style="font-weight: bold;">Errors</span> tab of the Synchronization 
+ Issues page of OEP-Offline. The user’s response usually should be to save 
+ the record and resubmit it for upsyncing. </p>
+        <p>After each client synchronization, users should check the Synchronization 
+ Issues page on the OEP-Offline client application to resolve any items 
+ in error or conflict. While a record on the staging server has a synchronization 
+ error, any updates to that record made by OEP online users are not downsynced 
+ to the staging server. </p>
+        <p>Synchronization errors can occur when: </p>
+        <ul>
+            <li>A business rule has been violated (for example, 
+ a user tries to insert a record without providing all of the necessary 
+ data).</li>
+            <li>A component involved in the synchronization process 
+ fails to complete its work (for example, the staging server or the OEDB 
+ is down).</li>
+        </ul>
+        <p>OEP-Offline users can fix synchronization errors by editing the record 
+ and resaving it. Alternatively, users can choose to discard their offline 
+ version and revert to the previous online version. </p>
+    </body>
+</html>

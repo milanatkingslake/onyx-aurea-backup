@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="716" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Query Engine</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>
+            <MadCap:keyword term="Query Engine" />Query Engine</h3>
+        <p>The Query Engine is the component responsible for moving data to and 
+ from the Onyx Enterprise Database. ODM uses the Query Engine interface, 
+ <a href="QEInterface.htm">IEBusQE</a>, to execute ad hoc SQL  code or to call stored 
+ procedures. The Query Engine is intended for use only by step components 
+ in OEAS. It does not have a scriptable interface, and components that 
+ do not reside on the OEAS server cannot call it. </p>
+        <p>The Query Engine is designed for speed and efficiency. It does not use 
+ XML, nor does it validate the syntax of the SQL  code that it receives. 
+ It passes the strings directly to the Onyx Enterprise Database. Any errors 
+ that result from an attempt to process the SQL  code are returned 
+ to the calling component.</p>
+        <p>Each method in IEBusQE includes an argument for an application name. 
+ The Query Engine uses this application name to obtain data source connection 
+ information from application server registry settings. This level of abstraction 
+ protects components from changes to database settings and supports multiple 
+ applications, each having their own database server.</p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">The Query Engine is designed for use only with the database 
+ included with this release of the OEAS. Using the Query Engine with different 
+ applications to access other database schemas is not supported and may 
+ result in unexpected errors.</p>
+        <p>This section contains the following topics:</p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Topic</th>
+                    <th>How the Query Engine...</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;"><a href="QE_C_Proc.htm">Connection process</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">...communicates with the Onyx Enterprise 
+ Database</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;"><a href="qe_supporteddatetimerange.htm">Supported 
+ date &amp; time range</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">...accepts date and time data </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;"><a href="QE_Input_Param.htm">Stored procedure 
+ parameters</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">...handles parameters to stored procedures</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;"><a href="QE_Result_Sets.htm">Result sets</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">...formats data returned from the Onyx Enterprise 
+ Database</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;"><a href="QE_Ext_Info.htm">Extended information</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">...supports column information in the result 
+ set</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;"><a href="QE_Err_Info.htm">Error and status 
+ information</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">...handles errors and status messages</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

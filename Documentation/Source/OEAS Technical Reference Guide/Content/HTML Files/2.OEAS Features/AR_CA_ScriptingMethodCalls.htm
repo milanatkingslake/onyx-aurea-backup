@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="791" MadCap:lastWidth="647" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Method calls</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>Method calls </h4>
+        <p>A method call is a data-driven wrapper for a logical business object 
+ method and defined set of input and output parameters. You use the Method 
+ Call Designer to define the method call, then use the Script Designer 
+ to associate it with a script step. </p>
+        <p>You can call a method that returns a value to the script, manipulates 
+ data elsewhere in the OEDB, or triggers another event, such as sending 
+ an email. A series of method calls can be associated with a single step. 
+ </p>
+        <p>A method call is either a pre step method call or 
+ a post step method call, depending on when it is carried out in relation 
+ to a script step: </p>
+        <ul>
+            <li>Pre step method calls are carried out at the beginning 
+ of a step, before data is sent to the Web page that the end-user sees. 
+ You can use them to populate variable lists of possible responses in certain 
+ kinds of prompts.</li>
+            <li>Post step method calls are carried out after a 
+ step has been saved and before the variables are updated and the branching 
+ rules are evaluated. Post method calls are often used to set variable 
+ values for evaluation in condition statements. You can also use post method 
+ calls to manipulate data in the OEDB.</li>
+        </ul>
+        <p>You can create method calls for OEAS methods that 
+ accept as input either a single object or simple (non-object) data types. 
+ The following method types generally fit this description: </p>
+        <ul>
+            <li>custom</li>
+            <li>delete</li>
+            <li>insert</li>
+            <li>retrieve</li>
+            <li>retrieveCollection </li>
+            <li>retrieveList</li>
+            <li>update</li>
+        </ul>
+        <p>Within scripting, method calls support use of the saveCollection method. 
+ The number of items in the collection is fixed when the method call is 
+ designed. For example, a method call that is designed to save two phone 
+ numbers always saves two phone numbers. You can not use it to save three 
+ phone numbers or a single phone number. </p>
+        <p>For objects that have properties containing collections of other objects, 
+ method calls can save the top-level object and a fixed number of objects 
+ in each child collection. The number of items to be saved in each child 
+ collection is fixed with the design of the method call. For instance, 
+ you can design a method call to save a company with three phone numbers 
+ and two addresses. But such a method call must be bound to scripting variables 
+ containing three phone numbers and two addresses. </p>
+        <p>Regarding output values, method calls can use XPath queries and list 
+ outputs to return data. For example, you can call company.retrieve and 
+ return data from the company and any of the phones within the company's 
+ phones collection. </p>
+    </body>
+</html>

@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="2312.11" MadCap:lastWidth="971">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Note_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Relationships</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>
+            <MadCap:keyword term="Relationships#association" />Relationships</h5>
+        <p>The relationships collection is a container that holds all relationships 
+ in which a business object participates as the secondary object with one 
+ or more of its properties as a "logical foreign key" to another 
+ object. These relationships may or may not have corresponding foreign 
+ keys defined on the data tier.</p>
+        <p>A relationship identifies a connection or correlation between two objects. 
+ Every relationship has attributes that identify the primary object and 
+ the secondary object participating in the relationship. In addition, each 
+ relationship also holds subordinate "key map" elements that 
+ identify the correspondence between properties of the two objects, which 
+ actually defines the relationship. Instances of the secondary object will 
+ contain the "logical foreign key" that refers to the "key 
+ map" properties of the primary object.</p>
+        <p>For example, an "order" object and a "product" object 
+ can be related on properties holding a "product number" on both 
+ objects. The "product" object is the primary object since the 
+ "product number" property on the "order" object refers 
+ to the primary key property on the product object.</p>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Table_1.css');" class="TableStyle-Aptean_Table_1" cellspacing="0">
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 5cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 5cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 7cm;" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_1-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Object</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Relationship</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadD-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Role</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">order</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">order.productNumber -&gt; product.productNumber</p>
+                        <p class="TableText" style="margin-bottom: 0;">(where productNumber is the product object's 
+ primary key property)</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">secondary object</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">product</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">&#160;</td>
+                    <td class="TableStyle-Aptean_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">primary object</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p><a name="relationshipTable"></a>The following five relationship types 
+ are available to define the relationship.</p>
+        <table wrapperparagraphselector="P" style="width: 100%;margin-top: 14pt;border-spacing: 0px;border-spacing: 0px;mc-table-style: url('../../Resources/TableStyles/Aptean_Table_1.css');" cellspacing="0" width="100%" class="TableStyle-Aptean_Table_1">
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_1-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Type</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Location of logical foreign key</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Supports multiple object types</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadD-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Supported cascade type(s)</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;"><a href="#association">association</a>
+                        </p>
+                    </td>
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">secondary object base table</p>
+                    </td>
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">yes</p>
+                    </td>
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">delete and restrict</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;"><a href="#direct">direct</a>
+                        </p>
+                    </td>
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">secondary object base table</p>
+                    </td>
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">no</p>
+                    </td>
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">delete, null, and restrict</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;"><a href="#domain">domain</a>
+                        </p>
+                    </td>
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">secondary object base table</p>
+                    </td>
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">no</p>
+                    </td>
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">restrict</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;"><a href="#linkObject">linkObject</a>
+                        </p>
+                    </td>
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">owner_association table</p>
+                    </td>
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">yes</p>
+                    </td>
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">delete, null, and restrict</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;"><a href="#masterDetail">masterDetail</a>
+                        </p>
+                    </td>
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">secondary object base table</p>
+                    </td>
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">no</p>
+                    </td>
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">delete and restrict</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;"><a href="#variableDirect">variableDirect</a>
+                        </p>
+                    </td>
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">secondary object base table</p>
+                    </td>
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">yes</p>
+                    </td>
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">delete, null, and restrict</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Relationship Types</h3>
+        <h3><a name="association"></a>association</h3>
+        <p>An association relationship type is used when one of the objects involved 
+ in the relationship is an association object and has multiple owners. 
+ This serves the purpose of relating two other objects while providing 
+ context to the relationship. The types of those other objects may vary. 
+ The properties specified as participating in an association relationship 
+ must be required properties. No domain objects may participate in association 
+ relationships. Association relationships do not allow the null cascade 
+ type.</p>
+        <p>For instance, the externalContact object can associate individual to 
+ company objects (or company to company). In addition, the externalContact 
+ object gives context to the relationship by storing the type of contact 
+ that exists between the individual and company objects.</p>
+        <h3><a name="direct"></a>direct</h3>
+        <p>The <span style="font-weight: normal;">direct</span> relationship type 
+ is used when a single relationship is created on a set of properties. 
+ These types of relationships are normally enforced with foreign key constraints 
+ on the data tier.</p>
+        <h3><a name="domain"></a>domain</h3>
+        <p>The <span style="font-weight: normal;">domain</span> relationship type 
+ is used when the primary object in the relationship is a domain object.</p>
+        <h3><span style="font-weight: bold;"><a name="linkobject"></a></span>linkObject</h3>
+        <p>The linkObject relationship type is used when an object can have multiple 
+ owners and is only valid when neither object is a domain object. The parent 
+ (owner) object is the primary object in the relationship, while the child 
+ (owned) object is the secondary object. The database persists linkObject 
+ relationships in the owner_association table.</p>
+        <p>Onyx does not use this relationship in any of its objects by default. 
+ Onyx recommends using the variableDirect relationship instead of the linkObject 
+ relationship.</p>
+        <h3><a name="masterDetail"></a>masterDetail</h3>
+        <p>The masterDetail relationship type is a special form of the direct relationship 
+ type. This type follows all of the rules of the direct relationship type 
+ with some additions. The detail object is always accessed through the 
+ methods of the master object. A collection of detail objects uses the 
+ master object onyxTimestamp value to implement concurrency control. This 
+ allows the collection of detail objects to be treated as a single entity 
+ for concurrency control, even though they are persisted in multiple records 
+ in the data tier.</p>
+        <p>This relationship is useful when the master object may own multiple 
+ detail objects that persist and retrieve line item information to and 
+ from the database. It is usually not desirable to have "User A" 
+ updating line item three while "User B" is deleting line item 
+ four, as neither user is aware of the other's actions</p>
+        <h3><a name="variableDirect"></a>variableDirect</h3>
+        <p>The variableDirect relationship type is used when an object has a set 
+ of properties that may define relationships to multiple types of objects. 
+ Except for this condition, it is very similar to the direct relationship 
+ type. Unlike the linkObject type, the variableDirect relationship does 
+ not necessarily imply ownership. Unlike the association type, a variableDirect 
+ relationship does not require one participant to be an association object.</p>
+        <h3>Cascade Types</h3>
+        <p>Each relationship also has a cascade type. The following table summarizes 
+ the valid cascade types.</p>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Table_1.css');" class="TableStyle-Aptean_Table_1" cellspacing="0">
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 5cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 12cm;" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_1-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Cascade Type</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadD-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Description</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;"><span style="font-weight: bold;">restrict</span>
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">The <span style="font-weight: bold;">restrict</span><span style="font-weight: normal;"> cascade type will prevent a delete from 
+ occurring if there is an instance of a secondary object that references 
+ the primary object that is to be deleted. This is the only supported choice 
+ when the primary object is a domain object.</span></p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;"><span style="font-weight: bold;">delete</span>
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">The <span style="font-weight: bold;">delete</span><span style="font-weight: normal;"> cascade type will propagate the delete from 
+ the primary object to the secondary object. If the secondary object is 
+ the primary object in any other relationships, the delete is then propagated 
+ to the secondary object in those relationships. This process continues 
+ recursively, using the defined relationships to propagate the delete to 
+ all affected objects instances.</span></p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;"><span style="font-weight: bold;">null</span>
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">The <span style="font-weight: bold;">null</span><span style="font-weight: normal;"> cascade type will remove the link to the 
+ primary object from all secondary objects. No other data on the object 
+ should change with the exception of properties used to track update activity.</span></p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Each relationship has other attributes as well which include a unique 
+ name, a description, cardinality (or multiplicity) information and some 
+ versioning information.</p>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Note_Table_1.css');width: 80%;" class="TableStyle-Aptean_Note_Table_1" cellspacing="2">
+            <col style="width: 0.7cm;" class="TableStyle-Aptean_Note_Table_1-Column-Column1" />
+            <col class="TableStyle-Aptean_Note_Table_1-Column-Column1" style="width: 15.50cm;" />
+            <tbody>
+                <tr class="TableStyle-Aptean_Note_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyB-Column1-Body1" style="text-align: right;">
+                        <p>
+                            <img src="../../Resources/Images/Common/note_image.png" />
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText"><b>Note</b>: The cardinality information is for documentation purposes 
+ only and is not used by OEAS.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>For further information on relationships and 
+ corresponding cascade types, see the <a href="standard_delete.htm">delete 
+ method</a> details. </p>
+    </body>
+</html>

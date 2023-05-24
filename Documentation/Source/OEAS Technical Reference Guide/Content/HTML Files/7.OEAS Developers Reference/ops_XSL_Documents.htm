@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="727" MadCap:lastWidth="660" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Email templates (OPS)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>
+            <MadCap:keyword term="templates" />
+            <MadCap:keyword term="Email templates" />Email templates</h3>
+        <p>
+            <MadCap:keyword term="OPS" />In order to use the email engine provided by the Onyx Processing Server 
+ (OPS) you must understand how to use Email templates. You use Email templates 
+ to transform the input <a href="ops_orderBatch_xml_structure.htm">orderBatch</a> 
+ XML and produce HTML or plain text format output. The email engine emails 
+ the output appropriately.</p>
+        <p>OPS includes an email engine that uses Email templates associated with 
+ literatureProducts to transform one or more literatureOrderLine elements 
+ in the orderBatch XML into an email message to a customer. When the email 
+ engine fulfills a literature order, it loads the stylesheet referenced 
+ in the <a href="literatureProduct_filepath.htm">filePath</a> property 
+ of the <a href="literatureProduct_object.htm">literatureProduct</a> object. 
+ The engine uses a stylesheet to transform all the email literatureOrderLine 
+ nodes in the orderBatch XML. The XSL merges data from the <a href="literatureOrderLine_object.htm">literatureOrderLine</a> 
+ to create a personalized email literature product.</p>
+        <p>To use Email templates with the OPS you must be familiar 
+ with the following:</p>
+        <ul>
+            <li>orderBatch XML and logical objects contained within 
+ it</li>
+            <li>XPath expressions</li>
+            <li>XSL stylesheets</li>
+        </ul>
+        <p>This book contains topics on using the sample Email templates provided 
+ with OPS and writing your own custom email templates.</p>
+        <h3>Guidelines</h3>
+        <p>OPS uses an in-memory cache to improve the performance of email template 
+ processing. The cache runs in the email subsystem component. When the 
+ subsystem needs to open an email template, it first looks in the cache. 
+ If it's not there, it loads it into the cache from the file path specified 
+ in the literatureProduct. This is important to know when you develop email 
+ templates, because your changes, even though correctly saved to the file 
+ system, are not available to the subsystem if an older copy is in the 
+ cache. To clear the cache and reload the new version, you need to shutdown 
+ all email subsystems that may potentially use the template.</p>
+        <p>You should thoroughly test any Email templates that you create or modify. 
+ If your template causes an error, it could result in a malformed email 
+ sent.</p>
+        <p>The stylesheet processing occurs within the context of a Windows Service 
+ with no user interaction. You should make sure that your template does 
+ not instantiate any dialog windows requiring user input.</p>
+        <MadCap:snippetBlock src="../../Resources/Snippets/What would you like to do.flsnp" />
+        <ul>
+            <li><a href="ops_Using_Default_XSL_Stylesheets.htm">Learn about sample email templates</a>
+            </li>
+            <li><a href="ops_Writing_Custom_XSL_Stylesheets.htm">Create a custom email template</a>
+            </li>
+            <li><a href="ops_Debugging_XSL_Stylesheets.htm">Test an email template</a>
+            </li>
+        </ul>
+    </body>
+</html>

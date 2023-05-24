@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="781" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Configuring OPS event logging</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>Configuring OPS event logging </h4>
+        <p>To enable, disable, or configure event logging for 
+ OPS and the sync subsystem, you specify values for the following registry 
+ settings (their location is provided in the procedure that follows these 
+ descriptions). </p>
+        <ul>
+            <li>GlobalLogSettings </li>
+        </ul>
+        <p class="Indent1">This value specifies what kind of information is logged to the OPS 
+ event log. The possible values are 1 (errors only), 2 (warnings only) 
+ or 3 (both errors and warnings). </p>
+        <ul>
+            <li>FileOutput </li>
+        </ul>
+        <p class="Indent1">This entry specifies the directory (such as C:\OPSLogs) to which 
+ the log files are to be written. </p>
+        <ul>
+            <li>MessageEventLogLevel </li>
+        </ul>
+        <p class="Indent1">This entry specifies the logging level for messages logged to the 
+ event log. </p>
+        <p class="Indent1">The following table gives the possible decimal values and the kind 
+ of information that they generate. You can specify different combinations 
+ of types of entries by entering the added value of the types of data that 
+ you want to log. For example, one of the most commonly desired combinations 
+ is errors, warnings, and debug data. To specify this combination of logging, 
+ you would enter 7, the sum of 1, 2, and 4. Another commonly used combination, 
+ errors and the timer, is specified by entering 33. </p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Decimal value </th>
+                    <th>Meaning </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">1 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Error—generates an entry for each error 
+ </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">2 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Warning—generates an entry for each warning 
+ </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">4 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Debug—generates more information about 
+ the errors and warnings that have been logged </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">8 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Info—generates an entry for events such 
+ as the starting and stopping of the subsystem </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">16 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Trace—generates an entry that reports that 
+ a process is starting or stopping and describes the process </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">32 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Timer—includes the time of each event that 
+ generates an entry </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">63 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Everything—generates entries that include 
+ all the above data </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ul>
+            <li>MessageXmlLogLevel</li>
+        </ul>
+        <p class="Indent1">If you choose to log events to an XML log file, this entry specifies 
+ the desired level of logging. It has the same possible values and meanings 
+ as MessageEventLogLevel. Setting a value other than 0 for this entry enables 
+ OPS logging to XML-formatted files. Note, however, that logging to an 
+ XML file can slow performance. </p>
+        <ul>
+            <li>MessageFileLogMaxSize </li>
+        </ul>
+        <p class="Indent1">The file size in bytes at which OPS starts a new log file. By default, 
+ the value is 5242800 bytes. The possible range of values is unlimited. 
+ If you enter 0, the file size is unlimited. </p>
+        <ul>
+            <li>MessageFileLogLevel </li>
+        </ul>
+        <p class="Indent1">This entry specifies the desired level of logging for a text log 
+ file for the sync subsystem. It has the same possible values and meanings 
+ as MessageEventLogLevel. </p>
+        <ul>
+            <li>MessageXmlFileName </li>
+        </ul>
+        <p class="Indent1">If you choose to log events to an XML file, this entry specifies 
+ the name of the file. </p>
+        <ul>
+            <li>MessageFileLogName </li>
+        </ul>
+        <p class="Indent1">This entry specifies the root and extension of the file name for 
+ the sync subsystem text log file. </p>
+        <p class="Indent1">OPS builds the file name with the syntax “applicationName-siteid-subsystemPrimaryId_ 
+ MessageFileLogNameRoot[_suffix].MessageFileLogNameExtension”. </p>
+        <p class="Indent1">In this syntax, “suffix” is an incrementing integer that OPS generates 
+ to distinguish between multiple log files. </p>
+        <p class="Indent1">Suppose the following: </p>
+        <ul>
+            <li class="List_Indent">You specify “opssync.log” for MessageFileLogName.</li>
+            <li class="List_Indent">The name of the OEAS logical application is 
+ “Onyx”. </li>
+            <li class="List_Indent">The site ID is 1.</li>
+            <li class="List_Indent">The subsystem primary ID is 100001. </li>
+        </ul>
+        <p>OPS would name the first two log files as follows: </p>
+        <p>“Onyx-1-100001_opssync.log” </p>
+        <p class="ProcedureHeading">To set up and configure the log file: </p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li>Log on to the OPS server using an account with 
+ local administrative privileges.</li>
+            <li>Open the registry editor Regedit.exe.</li>
+            <li>In the left pane of the Registry Editor, navigate 
+ to and select the following key:</li>
+        </ol>
+        <p class="Indent1"><span class="UIElement" style="font-weight: bold;">HKEY_LOCAL_MACHINE\SOFTWARE\ONYX\ProcessingServer\Service\Applications\application_name\OnyxLog</span>
+        </p>
+        <p class="Indent1">where <span class="UIElement" style="font-weight: bold;">application_name</span> 
+ is the name of the OEAS logical application that the OPS server access. 
+ </p>
+        <ol style="list-style: decimal;list-style-type: decimal;" MadCap:continue="true">
+            <li>According to your business needs, change the values 
+ for the entries described in the preceding list and table.</li>
+            <li>Close the Registry Editor.</li>
+        </ol>
+    </body>
+</html>

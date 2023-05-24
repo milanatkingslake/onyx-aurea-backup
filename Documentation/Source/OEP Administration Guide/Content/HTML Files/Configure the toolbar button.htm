@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="844" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h5><a name="top"></a>Configure the toolbar button to clear all UDFs (optional)</h5>
+        <p>You can configure a toolbar button to clear the values of the specified controls. </p>
+        <p>This procedure configures the existing toolbar button (<a href="Creating a Tab.htm#Adding7">previously configured to launch Google.com</a>) to clear the values of the UDFs on the Supplemental tab. This procedure also demonstrates the usefulness of cloning statements. </p>
+        <p class="ProcedureHeading">To configure the toolbar button to clear all UDFs: </p>
+        <ol>
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To reset all configurations_8.jpg" style="width: 21px;height: 23px;" /> on the UCW toolbar for the company edit page to display Dynamic Forms Designer. </li>
+            <li>Deactivate or delete the action statement that configures the toolbar button to launch Google.com: </li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">Expand <b>Control</b> in the Events pane, expand <b>Toolbar_Supplemental</b> (the toolbar's <b>Admin ID</b> property), expand the <b>Item Click (Item ID) (Item Value)</b> event, and then select the action statement identified by the description "Launch Google.com with toolbarItemBtn" (as entered in a <a href="Creating a Tab.htm#Adding7">previous UI configuration</a>).</li>
+            <li class="List_Indent">Choose an action: </li>
+        </ol>
+        <ul>
+            <li class="BulletList2">To deactivate the statement, clear the <b>Active</b> check box and then click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> to confirm changes. </li>
+            <li class="BulletList2">To delete the statement, click<img src="../Resources/Images/ONYX 77 OEP Administration Guide/Deleting toolbar items from.jpg" style="width: 21px;height: 22px;" />. </li>
+        </ul>
+        <ol start="3">
+            <li>Add an action statement to the <b>Item Click (Item ID) (Item Value)</b> event for <b>Toolbar_Supplemental</b>.</li>
+            <li>In the <b>Description</b> text box, type: <i>Clear UDF_Public</i></li>
+            <li>Add a condition to specify the Button toolbar item (<i>toolbarItemBtn</i>): </li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">In the <b>Object</b> drop-down list located in the Conditions section, expand <b>Event Arguments</b> and then select <b>Item ID</b>. </li>
+            <li class="List_Indent">From the <b>Operator</b> drop-down list, select <b>Equal</b>; in the <b>Value</b> text box, type: <i>toolbarItemBtn</i></li>
+            <li class="List_Indent">Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To add a custom drop down.png" style="width: 14px;height: 14px;" /> in the Summary section to add the condition to the action statement. </li>
+        </ol>
+        <ol start="6">
+            <li>Configure the action to clear the UDF_Public control as follows: </li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">From the <b>Object (Action)</b> drop-down list, expand <b>Control</b>, expand <b>UDF_Public</b>, and then select <b>Set Value</b>. </li>
+            <li class="List_Indent">From each <b>Source</b> drop-down list, select <b>User Defined</b>; from the <b>Value</b> drop-down list, select <b>Not Checked</b>. </li>
+        </ol>
+        <ol start="7">
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> to confirm changes. </li>
+            <li><a href="Cloning Statements.htm#top">Clone the statement</a> three times. </li>
+        </ol>
+        <p class="Indent1">The cloned statements appear below the original statement under the <b>Item Click (Item ID) (Item Value)</b> event for <b>Toolbar_Supplemental</b>.<br /></p>
+        <ol MadCap:continue="true">
+            <li>For each cloned statement, change the description and action to be specific to a different UDF control as indicated in the following table, and then click &#160;<img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> to confirm changes. (Typed entries are indicated by italics; selected entries are indicated by boldface). </li>
+        </ol>
+        <table>
+            <thead>
+                <tr>
+                    <th>Cloned statement (position below original statement)</th>
+                    <th>Description</th>
+                    <th>Object (Action)</th>
+                    <th>Source</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Second</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Clear UDF_ID</i>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>UDF_ID (Set Value)</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>User Defined</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">(empty)</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Third</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Clear UDF_OS</i>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>UDF_OS (Set Value)</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>User Defined</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">(empty)</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Fourth</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Clear UDF_Browser</i>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>UDF_Browser (Set Value)</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>User Defined</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">(empty)</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="Indent1">Use Navigation Designer (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/To reset all configurations_6.jpg" style="width: 23px;height: 24px;" />) to <a href="Configuring Page Navigation.htm#Modifyin2">change the toolbar button's properties</a>, such as its tooltip or image. </p>
+        <ol MadCap:continue="true">
+            <li>Close Dynamic Forms Designer and then click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Accessing UCW_1.jpg" style="width: 24px;height: 24px;" /> on the UCW toolbar to save all configurations and exit design mode. </li>
+        </ol>
+        <p>Congratulations! You have completed all sample UI configurations in the <a href="Creating a Tab.htm#top">Creating a tab</a> book. </p>
+        <p style="page-break-before: always;">The following graphic illustrates the custom tab on the company edit page as it appears after you complete all procedures in this book. To view the related procedure for a UI element, click the element on the graphic. </p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Configure the toolbar button.png" style="border-left-style: solid;border-left-width: 1px;border-left-color: ;border-right-style: solid;border-right-width: 1px;border-right-color: ;border-top-style: solid;border-top-width: 1px;border-top-color: ;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: ;" />
+        </p>
+        <p>&#160;</p>
+    </body>
+</html>

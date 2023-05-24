@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="794" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Adding a subscription relationship</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>Adding a subscription relationship </h5>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li>In the navigation area, navigate to and expand 
+ the appropriate subscribable object to which you want to add a subscription 
+ relationship, and select the <span class="UIElement" style="font-weight: bold;">Relationships</span> 
+ node.</li>
+        </ol>
+        <p class="Indent1">The Relationships view appears in the edit area. 
+ </p>
+        <ol style="list-style: decimal;list-style-type: decimal;" MadCap:continue="true">
+            <li>In the edit area, select the relationship that 
+ you want to add as a subscription relationship. The list of available 
+ relationships contains only those relationships that exist in the OED 
+ that have not yet been created as a subscription relationship. </li>
+        </ol>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Even though company_incident_contactId and company_task_contactId 
+ are listed, they are not used in OEP. Adding these relationships to incident 
+ or task objects has no effect unless you have customized OEP to use them. </p>
+        <ol style="list-style: decimal;list-style-type: decimal;" MadCap:continue="true">
+            <li>Click <span class="UIElement" style="font-weight: bold;">Make Subscription 
+ Relationship</span>.</li>
+        </ol>
+        <p class="Indent1">A new subscription relationship (with the same 
+ name as the OED relationship you chose) appears in the navigation area 
+ followed by an asterisk (*). </p>
+        <ol style="list-style: decimal;list-style-type: decimal;" MadCap:continue="true">
+            <li>In the edit area, define the attributes for the 
+ subscription relationship.</li>
+        </ol>
+        <p class="Indent1"><b class="Bold" style="font-weight: bold;">ID -</b> The ID attribute is not 
+ editable as it is a primary key field. This attribute is a unique application-defined 
+ identification number given to each subscription relationship created. 
+ </p>
+        <p class="Indent1"><b class="Bold" style="font-weight: bold;">OED Relationship -</b> This attribute 
+ is not editable. It identifies the underlying OED relationship that you 
+ chose for the subscription relationship. </p>
+        <p class="Indent1"><b class="Bold" style="font-weight: bold;">Relationship Description -</b> This 
+ attribute is not editable. It is the OED relationship description for 
+ the relationship that you chose for the subscription relationship. </p>
+        <p class="Indent1"><b class="Bold" style="font-weight: bold;">Name -</b> This attribute is the 
+ user-friendly name you provide for the subscription relationship. There 
+ is no requirement for the name to have any particular relation to the 
+ underlying OED relationship. The name can be a maximum of 50 characters. 
+ </p>
+        <p class="Indent1"><b class="Bold" style="font-weight: bold;">Description -</b> The <span class="UIElement" style="font-weight: bold;">Description</span> 
+ attribute is the brief description of the subscription relationship that 
+ you provide. The description can be a maximum of 255 characters. </p>
+        <p class="Indent1"><b class="Bold" style="font-weight: bold;">Active -</b> The <span class="UIElement" style="font-weight: bold;">Active</span> 
+ attribute controls whether or not the subscription relationship is recognized 
+ by the cascade process so that any rules or roles associated with it can 
+ be used to cascade related objects. </p>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; &#160;">Do not set a subscription relationship to inactive 
+ after deployment of OEP-Offline. Once the relationship is inactive, unsubscriptions 
+ and deletions are not cascaded to the secondary objects of the relationship, 
+ which can result in orphaned records in OEP-Offline. In the case of deletions, 
+ the subscription_item_cleanup.sql script (see <a href="../3.Configuring OEAS Features/AR_SubRemSubItemData.htm">Removing 
+ deleted data from subscription_item</a>) removes the orphaned records. 
+ In the case of unsubscriptions, you must remove the orphaned records manually. </p>
+        <ol style="list-style: decimal;list-style-type: decimal;" MadCap:continue="true">
+            <li>Define the rules for the subscription relationship. 
+ These rules define automatic (cascading) subscription, unsubscription, 
+ and deletion behavior between the primary and secondary objects in a relationship. 
+ For more information about the impact of these rules, see <a href="../2.OEAS Features/AR_CA_SubscRelatRules.htm">Subscription 
+ relationships, rules, and roles</a>.</li>
+        </ol>
+        <p class="Indent1"><b class="Bold" style="font-weight: bold;">Always subscribe the primary object 
+ -</b> Selecting this attribute for the subscription relationship ensures 
+ that when a subscriber subscribes to the secondary object in the relationship, 
+ an automatic cascaded subscription is created for that subscriber to the 
+ primary object in the relationship. </p>
+        <p class="Warning" MadCap:autonum=" &#160;&#160;&lt;b&gt;Warning:&lt;/b&gt; &#160;">The <span class="UIElement" style="font-weight: bold;">Always subscribe the primary 
+ object</span> rules that are provided by default are required rules. Changing 
+ these default rules to false can adversely affect the display of records 
+ in OEP-Offline. It can also cause incomplete unsubscription and deletion 
+ cascades resulting in unnecessary synchronization of records and orphaned 
+ offline records (records that the end-user cannot access).</p>
+        <p class="Indent1"><b class="Bold" style="font-weight: bold;">Subscribe primary object and cascade 
+ its subscription relationships -</b> Selecting this attribute for the 
+ subscription relationship ensures that when a subscriber subscribes to 
+ the secondary object in the relationship, automatic cascaded subscriptions 
+ are created for that subscriber to the primary object in the relationship. 
+ </p>
+        <p class="Indent1"><b class="Bold" style="font-weight: bold;">Subscribe secondary object and cascade 
+ its subscription relationships -</b> Selecting this attribute for the 
+ subscription relationship ensures that when a subscriber subscribes to 
+ the primary object in the relationship, automatic cascaded subscriptions 
+ are created for that subscriber to the secondary objects in the relationship. 
+ </p>
+        <p class="Indent1"><b class="Bold" style="font-weight: bold;">Cascade only the secondary objects 
+ that meet this filter expression -</b> This attribute contains a SQL expression 
+ used in a WHERE clause that limits the automatically subscribed secondary 
+ object instances. Providing a filter expression for the subscription relationship 
+ ensures that when an end-user subscribes to the primary object in the 
+ relationship, automatic cascaded subscriptions are created for that subscriber 
+ to only the secondary objects in the relationship that meet the filter 
+ expression. This rule can only be set if you have enabled the <span class="UIElement" style="font-weight: bold;">Subscribe 
+ secondary object and cascade its subscription relationships </span>rule. 
+ This attribute can be a maximum of 500 characters. </p>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">The filter expression must be valid SQL. Invalid SQL 
+ can cause cascades involving this relationship to fail. For information 
+ about creating a valid filter expression, see <a href="OES_SubDesFiltering.htm">Filtering 
+ secondary object cascaded subscriptions</a>. . </p>
+        <ol style="list-style: decimal;list-style-type: decimal;" start="6">
+            <li>Click <img src="../../Resources/Images/oes_iconSave0.jpg" /> to save your changes.</li>
+        </ol>
+    </body>
+</html>

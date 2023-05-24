@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="5" MadCap:lastHeight="780" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Recommendations for running the reset</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>Recommendations for running the reset </h5>
+        <p>When the user needing a reset is not in urgent need, the easiest approach 
+ to running the reset is to run it after hours or at a time when the users 
+ are not usually connecting and synchronizing. This could be done manually 
+ or with a batch program that calls the OTM and updates the appropriate 
+ subscriptionProfile record(s), setting the reset flag to true, using the 
+ subscriptionProfile.saveCollection method. </p>
+        <p>When an immediate reset is required for the user, you might want to 
+ create a separate subsystem for the reset. </p>
+        <p class="ProcedureHeading">To reset a user’s subscribed data using a separate subsystem: 
+ </p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li>Using OPS Administration, create a separate subsystem 
+ that you plan to use only for resets. Do not start it yet.</li>
+            <li>Using Security Administration:</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">Switch the user to be reset from the normal 
+ subsystem to the reset subsystem.</li>
+            <li class="List_Indent">Check the <span class="UIElement" style="font-weight: bold;">Reset User 
+ at Next Sync</span> box for the user’s subscription profile.</li>
+            <li class="List_Indent">Save your changes.</li>
+        </ul>
+        <ol style="list-style: decimal;list-style-type: decimal;" MadCap:continue="true">
+            <li>Wait until the current cycle of the normal subsystem 
+ is done to make sure all the users to be reset have been handled and are 
+ not processed by the normal subsystem anymore. </li>
+        </ol>
+        <p class="Indent1">To determine when the current cycle of the normal subsystem has 
+ completed, you can view the CPU usage of OPSSync.exe in Task Manager. 
+ At the end of the cycle it is down to 0% until the next cycle starts. 
+ </p>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">More than one OPSSync.exe is listed in Task Manager if 
+ you have more than one synchronization subsystem. To avoid the dilemma 
+ that this can cause, consider stopping the normal subsystem(s). Once the 
+ processes are no longer listed in Task Manager, you could start the reset 
+ subsystem. Remember that once you have completed this task, you will need 
+ to restart the other subsystems. </p>
+        <ol style="list-style: decimal;list-style-type: decimal;" MadCap:continue="true">
+            <li>Using OPS Administration, start the reset subsystem.</li>
+            <li>Wait until the reset subsystem has processed all 
+ the users and the reset is completed. </li>
+        </ol>
+        <p class="Indent1">To determine when the reset cycle is complete, you can use SQL Server 
+ Enterprise Manager or Query Analyzer to run the following query for each 
+ user that we reset: </p>
+        <p class="Indent1"><code>SELECT COUNT(*)</code>
+        </p>
+        <p class="Indent1"><code>FROM subscription_item</code>
+        </p>
+        <p class="Indent1"><code>WHERE (subscription_user_id=”&lt;userID&gt;”) 
+ AND (sync_action&lt;&gt;0)</code>
+        </p>
+        <p class="Indent1">Where &lt;userID&gt; represents the user ID of the user that you 
+ are checking. </p>
+        <p class="Indent1">For each user, the result of the query is 0 when all items for the 
+ indicated user have been downsynced. </p>
+        <ol style="list-style: decimal;list-style-type: decimal;" MadCap:continue="true">
+            <li>Using OPS Administration, stop the reset subsystem.</li>
+            <li>Using Security Administration, switch the user 
+ back to the normal subsystem and save your changes.</li>
+        </ol>
+    </body>
+</html>

@@ -1,0 +1,274 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="8" MadCap:lastHeight="776" MadCap:lastWidth="624">
+    <head>
+        <link href="../Resources/TableStyles/Aptean_Table_3.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../Resources/TableStyles/Aptean_Note_Table_3.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" /><title>Making Batch Updates</title>
+    </head>
+    <body>
+        <H2 class="Heading">Making Batch Updates</H2>
+        <p class="BodyText">You can use this feature to update multiple records in Navigator. This facilitates making bulk updates as needed without a need to save each record. This saves time, ensures speed, and a provides an organized method to initiate follow up actions resulting in enhanced customer care. </p>
+        <p class="Note_1" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">In Navigator, you can make batch updates only for incidents, work tickets, and tasks provided the proper UI resources are allocated by the Administrator.</p>
+        <p class="BodyText">The UI resources needed to batch updates are:</p>
+        <table style="width: 90%;mc-table-style: url('../Resources/TableStyles/Aptean_Table_1.css');" class="TableStyle-Aptean_Table_1" cellspacing="0">
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_1-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">#</th>
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">UI Resources</th>
+                    <th class="TableStyle-Aptean_Table_1-HeadD-Column1-Header1">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">1</td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">UI:OEP.incident.batchUpdate.service</td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">To Batch Update  Services entity</td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">2</td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p>UI:OEP.incident.batchUpdate.support</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">To Batch Update  Support entity</td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">3</td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p>UI:OEP.incident.batchUpdate.sales</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">To Batch Update  Sales entity</td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">4</td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p>UI:OEP.batchupdate.workticket</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">To Batch Update Work tickets entity</td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">5</td>
+                    <td class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p>UI:OEP.batchupdate.task</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyA-Column1-Body1">To Batch Update tasks entity</td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="Important" MadCap:autonum=" &lt;b&gt;Important:&lt;/b&gt; ">Required permissions must be granted In OES by your System Administrator for you to access the above resources before you can make batch updates in OEP. </p>
+        <p class="ElementHeader">Requirements</p>
+        <p class="BodyText">Before you make a batch update, make sure that the following requirements are met with:</p>
+        <ul>
+            <li class="ListBullet_1">In persistencedb, the <b>Navigator_entity_field_master</b> table contains a list of columns for which batch updates can be done. </li>
+            <li class="ListBullet_1">For the batch update to be enabled for a field:</li>
+        </ul>
+        <ul style="list-style-type: circle;">
+            <li class="ListBullet_2">The <b>is_batch_update</b> column is set to <b>1</b></li>
+            <li class="ListBullet_2">The <b>use_type</b> column is set to <b>2</b>.</li>
+        </ul>
+        <ul>
+            <li class="ListBullet_1">The <b>field_state</b> column should have a value of either 2 or 4.</li>
+        </ul>
+        <p class="BodyTextIndent_1">Where:</p>
+        <ul style="list-style-type: circle;">
+            <li class="ListBullet_2">2 is indicative of presence in the <b>Available</b> column.</li>
+            <li class="ListBullet_2">4 is indicative of presence in the <b>Result</b> grid.</li>
+        </ul>
+        <ul>
+            <li class="ListBullet_1">The order of the fields to be displayed on the <b>Batch Update</b> window is controlled by the <b>batch_sequence_index</b> column.</li>
+        </ul>
+        <p class="BodyTextIndent_1">For example, if the <b>field_name</b> column is set as per <b>batch_sequence_index</b>, <b>Type</b> becomes the first entity followed by other entities (sample images are shown below). </p>
+        <p class="BodyTextIndent_1">
+            <img src="../Resources/Images/sql_query.png" />
+        </p>
+        <p class="BodyTextIndent_1">
+            <img src="../Resources/Images/batch_update.png" />
+        </p>
+        <p class="Important" MadCap:autonum=" &lt;b&gt;Important:&lt;/b&gt; ">Only the Database Administrator can configure the entity display order, inclusions, or exclusions.</p>
+        <ul>
+            <li class="ListBullet_1">Batch Update is supported for the following column types:</li>
+        </ul>
+        <ul style="list-style-type: circle;">
+            <li class="ListBullet_2">Combo box</li>
+            <li class="ListBullet_2">Drop down</li>
+            <li class="ListBullet_2">Product pick up</li>
+            <li class="ListBullet_2">Text box</li>
+            <li class="ListBullet_2">Date</li>
+            <li class="ListBullet_2">Date range</li>
+            <li class="ListBullet_2">Tree</li>
+        </ul>
+        <ul>
+            <li class="ListBullet_1">To map a particular field name from the <b>navigator_entity_filed_master</b> table to a LBO property, mapping needs to be done in the <b>navigatorbatchupdatemapping.xml</b> file available in the following folder (<b>NavigatorProfiles</b> in OGS configuration).</li>
+        </ul>
+        <p class="BodyTextIndent_1"><b>C:\program\Files\Onyx\AppServer\Applications\Onyx\OnyxGatewayService\App_Data\NavigatorProfiles</b>
+        </p>
+        <p class="BodyTextIndent_1">Example of mapped image:</p>
+        <p class="BodyTextIndent_1">
+            <img src="../Resources/Images/mapped_image.png" />
+        </p>
+        <p class="TaskHeading">To make batch updates:</p>
+        <ol>
+            <li class="ListBullet_1">Run a query in Navigator for the search type <b>Service Requests</b>.</li>
+        </ol>
+        <p class="BodyTextIndent_1">Example:</p>
+        <p class="BodyTextIndent_1">
+            <img src="../Resources/Images/search_batch.png" />
+        </p>
+        <table style="mc-table-style: url('../Resources/TableStyles/Aptean_Note_Table_3.css');" class="TableStyle-Aptean_Note_Table_3" cellspacing="2">
+            <col class="TableStyle-Aptean_Note_Table_3-Column-Column1" style="width: 0.7cm;" />
+            <col class="TableStyle-Aptean_Note_Table_3-Column-Column1" style="width: 15cm;" />
+            <tbody>
+                <tr class="TableStyle-Aptean_Note_Table_3-Body-Body1">
+                    <td class="TableStyle-Aptean_Note_Table_3-BodyB-Column1-Body1">
+                        <p>
+                            <img src="../Resources/Images/Common/tip_image.png" />
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Note_Table_3-BodyA-Column1-Body1">
+                        <p class="TableText"><b>Tips</b>:</p>
+                        <ul>
+                            <li class="ListBullet_1">The image is shown for the <b>Service Requests</b> option. Follow the same procedures to make batch updates for Sales, Support, Tasks, and Work Tickets. </li>
+                            <li class="ListBullet_1">Also, you can run queries for other entities similar to <b>Search Type</b>. However, any one option among Service Requests, Sales, Support, Tasks, and Work Tickets in <b>Search Type</b> must be present before running queries for other entities.</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ol MadCap:continue="true">
+            <li class="ListBullet_1">Select the check boxes for the required records. </li>
+        </ol>
+        <p class="BodyTextIndent_1">Example:</p>
+        <p class="BodyTextIndent_1">
+            <img src="../Resources/Images/search_batch_2.png" />
+        </p>
+        <ol MadCap:continue="true">
+            <li class="ListBullet_1">Click the <b>Process Selected Records</b> button, and then <b>click Update Selected Records</b>.</li>
+        </ol>
+        <p class="BodyTextIndent_1">The <b>Batch Update</b> window appears.</p>
+        <p class="BodyTextIndent_1">
+            <img src="../Resources/Images/search_batch_3.png" />
+        </p>
+        <p class="Note_1" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">For Making batch updates for Sales Incidents, the UI Resources explained in the table below must be enabled for the entities to appear. Only the System Administrator can enable the UI Resources. </p>
+        <table style="mc-table-style: url('../Resources/TableStyles/Aptean_Table_3.css');width: 100%;" class="TableStyle-Aptean_Table_3" cellspacing="0">
+            <col class="TableStyle-Aptean_Table_3-Column-Column1" />
+            <col class="TableStyle-Aptean_Table_3-Column-Column1" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_3-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_3-HeadE-Column1-Header1">Enable this UI resource...</th>
+                    <th class="TableStyle-Aptean_Table_3-HeadD-Column1-Header1">To set...</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_3-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">UI:OEP.Navigator.SalesOpportunity.RecallDatePart</td>
+                    <td class="TableStyle-Aptean_Table_3-BodyD-Column1-Body1">
+                        <p>Recall date entity</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_3-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">UI:OEP.Navigator.SalesOpportunity.TypeDesc</td>
+                    <td class="TableStyle-Aptean_Table_3-BodyD-Column1-Body1">Type entity</td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_3-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">UI:OEP.Navigator.SalesOpportunity.ProductDesc</td>
+                    <td class="TableStyle-Aptean_Table_3-BodyD-Column1-Body1">Product entity</td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_3-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">UI:OEP.Navigator.SalesOpportunity.StatusDesc</td>
+                    <td class="TableStyle-Aptean_Table_3-BodyD-Column1-Body1">Status entity</td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_3-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">UI:OEP.Navigator.SalesOpportunity.PriorityDesc</td>
+                    <td class="TableStyle-Aptean_Table_3-BodyD-Column1-Body1">Priority entity</td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_3-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">UI:OEP.Navigator.SalesOpportunity.SourceDesc</td>
+                    <td class="TableStyle-Aptean_Table_3-BodyD-Column1-Body1">Source entity</td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_3-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+UI:OEP.Navigator.SalesOpportunity.TrackingCode2
+</td>
+                    <td class="TableStyle-Aptean_Table_3-BodyD-Column1-Body1">Tracking code entity</td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_3-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">UI:OEP.Navigator.SalesOpportunity.AssignedName</td>
+                    <td class="TableStyle-Aptean_Table_3-BodyD-Column1-Body1">Assigned Name entity</td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_3-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_3-BodyA-Column1-Body1" colspan="2">
+                        <p colspan="2" class="TableText">Similarly, UI resources must be set for Service, Support, Work Tickets, and Tasks. The UI resources are available in the <b>Navigator_entity_field_master</b> table.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ol MadCap:continue="true">
+            <li class="ListBullet_1">Set your preferences from the listed items against entity or entities. The entities available are explained in the following table. </li>
+        </ol>
+        <table style="mc-table-style: url('../Resources/TableStyles/Aptean_Table_3.css');" class="TableStyle-Aptean_Table_3" cellspacing="0">
+            <col class="TableStyle-Aptean_Table_3-Column-Column1" />
+            <col class="TableStyle-Aptean_Table_3-Column-Column1" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_3-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_3-HeadE-Column1-Header1">Batch Update Window</th>
+                    <th class="TableStyle-Aptean_Table_3-HeadD-Column1-Header1">Available Entity</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_3-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                        <p class="TableText">Incident (Sales, Service, and Support)</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_3-BodyD-Column1-Body1">
+                        <ul>
+                            <li class="ListBullet_1">Type</li>
+                            <li class="ListBullet_1">Assigned to</li>
+                            <li class="ListBullet_1">Product</li>
+                            <li class="ListBullet_1">Status</li>
+                            <li class="ListBullet_1">Priority</li>
+                            <li class="ListBullet_1">Source</li>
+                            <li class="ListBullet_1">Tracking Code</li>
+                            <li class="ListBullet_1">Recall Date. When selected, the <b>Update</b> and <b>Delete</b> options are displayed.</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_3-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">Work Tickets</td>
+                    <td class="TableStyle-Aptean_Table_3-BodyD-Column1-Body1">
+                        <ul>
+                            <li class="ListBullet_1" style="font-weight: normal;">Assigned to</li>
+                            <li class="ListBullet_1" style="font-weight: normal;">Source</li>
+                            <li class="ListBullet_1" style="font-weight: normal;">Severity</li>
+                            <li class="ListBullet_1" style="font-weight: bold;"><span style="font-weight: normal;">Status</span>
+                            </li>
+                            <li class="ListBullet_1" style="font-weight: normal;">Product</li>
+                            <li class="ListBullet_1" style="font-weight: normal;">Priority</li>
+                            <li class="ListBullet_1" style="font-weight: normal;">Version Found</li>
+                            <li class="ListBullet_1" style="font-weight: normal;">Version Fixed</li>
+                            <li class="ListBullet_1" style="font-weight: normal;">Version Shipped</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_3-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_3-BodyB-Column1-Body1">Task</td>
+                    <td class="TableStyle-Aptean_Table_3-BodyA-Column1-Body1">
+                        <ul>
+                            <li class="ListBullet_1">Status</li>
+                            <li class="ListBullet_1">Priority</li>
+                            <li class="ListBullet_1">Recall Date</li>
+                            <li class="ListBullet_1">Assigned to</li>
+                        </ul>
+                        <p class="Important" MadCap:autonum=" &lt;b&gt;Important:&lt;/b&gt; ">The category of the records should be the same - .Sales, Product Support, or Customer Service. You cannot select multiple category of records for single batch updates. For example,  you cannot combine Sales with Product Support.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ol start="5">
+            <li class="ListBullet_1">Click the <b>Save</b> button.</li>
+            <li class="ListBullet_1">The preferences set for the selected records are displayed in the <b>Result</b> grid.</li>
+        </ol>
+        <p class="Note_1" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Batch Update can also be done on custom column  included for various entities, such as Sales, Service, Support Incidents, Tasks, and Work tickets and UI resource can also be allocated for the custom fields. </p>
+    </body>
+</html>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:conditions="Default.Main" MadCap:lastBlockDepth="2" MadCap:lastHeight="220" MadCap:lastWidth="673">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Method calls: considerations when using</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>Method calls: considerations when using </h4>
+        <p>When possible, put method calls that manipulate data (such as update, 
+ insert, and delete method calls) or create objects (such as email messages) 
+ at the end of the script. When viewing a previous step, all pre method 
+ calls are executed and any data modifications (such as sending an email) 
+ occur again. </p>
+        <p>In a pre method call, do not use a method that modifies data. Instead, 
+ call the method in a post method call of the preceding step. If a user 
+ returns to a step that contains a pre method call to a method that modifies 
+ data, the method can overwrite responses that the user had made when originally 
+ completing the step. </p>
+        <p>When creating a method call, include method call inputs that provide 
+ the method with data that the database requires. Lack of required data 
+ causes the method call to fail. </p>
+    </body>
+</html>

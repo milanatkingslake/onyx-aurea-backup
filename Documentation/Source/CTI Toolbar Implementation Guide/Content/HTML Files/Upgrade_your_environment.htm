@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="244" MadCap:lastWidth="898">
+    <head>
+        <link href="../Resources/Stylesheets/consonacrm.css" rel="stylesheet" />
+    </head>
+    <body>
+        <H3 class="Heading">Upgrade your Onyx environment to 7.6.1</H3>
+        <p class="BodyText">If you are upgrading Onyx CTI, you must first upgrade OEAS (including the OEDB) and OEP, which requires data migration. Follow all of the instructions in the <span class="BookTitle">Data Migration Toolkit Guide</span>, with special attention to the following step occurring before migration: </p>
+        <ul>
+            <li class="ListBullet"><b class="Bold">Correct all referential integrity issues identified by the pre-migration scripts. </b>These scripts identify referential integrity issues in the core platform tables, some of which contain Onyx CTI data. (Referential integrity issues in the Onyx CTI tables are identified after migration in <a href="Clean_the_migrat.htm">Step 1: Clean the migrated  data for upgrade</a>.) Issues specific to Onyx CTI 7.6.1 data include invalid user IDs in the UI_Resource table (chInsertBy) for the UI:OEP.CTI.Toolbar resource, which also affect dependent records, such as resource associations in the userResource object. You can correct identified instances of invalid user IDs by either adding the user ID to the Users table or updating the record’s insert_by value to a valid user ID. Only tables and data that meet referential integrity requirements will be migrated. </li>
+        </ul>
+        <p class="BodyText">For more information on the data migration process, see the <span class="BookTitle">Data Migration Toolkit Guide</span>. </p>
+    </body>
+</html>

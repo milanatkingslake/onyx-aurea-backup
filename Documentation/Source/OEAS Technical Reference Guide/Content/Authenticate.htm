@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="813" MadCap:lastWidth="945">
+    <head><title>Authenticate</title>
+    </head>
+    <body>
+        <h2>Authenticate Method</h2>
+        <p>The authenticate method of the externalUser object authenticates the logon credentials of the external user who is attempting to log on. This method returns the user access level information if authentication succeeds. If authentication fails, then it returns an error.</p>
+        <h4>Parameters</h4>
+        <table>
+            <col />
+            <col />
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Direction</th>
+                    <th>Data type</th>
+                    <th>Content type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">userId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">In</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">string</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">n/a</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The userId of the user who is attempting to log on.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">password </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">In</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">string</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">n/a</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The password submitted by the user.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">userAccessLevel</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">out</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">string</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">n/a</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The userId returned if the logon attempt authenticates successfully.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Steps</h4>
+        <table>
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Step Data</th>
+                    <th>Step Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OnyxDataValidationStep.DataValidation </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Data validation</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Data validation step</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OnyxOSLFEncryptStep.OSLFEncryptStep</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Encrypt password</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Remarks</h4>
+        <p>The password is encrypted using standard OEAS encryption. It is then compared to the encrypted password stored in the table for that external user. If the password is correct, then a valid value for the userAccessLevel return parameter is provided. This userAccessLevel corresopnds with the userID to which the external user is mapped</p>
+        <p>External users are mapped to one of two user types, based on the selection used when creating the externalUser. Default values of userAccessLevel are:</p>
+        <ul style="list-style-type: disc;margin-left: 36pt;">
+            <li>If access level = 'Lead' then userAccessLevel = 'ExternalUserLead'</li>
+            <li>If access level = 'Customer' then userAccessLevel = 'ExternalUserCust'</li>
+        </ul>
+        <h4>Example</h4>
+        <p>View the parameters </p>
+        <p class="C_Code">&lt;parameters&gt;</p>
+        <p class="C_Code">&#160;&#160;&lt;userId&gt;Tim1&lt;/userId&gt;</p>
+        <p class="C_Code">&#160;&#160;&lt;password&gt;onyx&lt;/password&gt;</p>
+        <p class="C_Code">&lt;/parameters&gt;</p>
+        <p>View the parametersReturn </p>
+        <p class="C_Code">&lt;parametersReturn&gt;</p>
+        <p class="C_Code">&#160;&#160; &lt;parameters objectType="externalUser" /&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&lt;userAccessLevel&gt;ExternalUserLead&lt;/userAccessLevel&gt;</p>
+        <p class="C_Code">&lt;/parametersReturn&gt;</p>
+    </body>
+</html>

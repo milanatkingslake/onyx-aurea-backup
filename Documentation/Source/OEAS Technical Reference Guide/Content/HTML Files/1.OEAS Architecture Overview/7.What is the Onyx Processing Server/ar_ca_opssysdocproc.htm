@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="738" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head>
+            <link href="../../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" /><title>Processing System Documents</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>Processing System Documents</h4>
+        <p>When a fulfillment subsystem begins to process a batch of order lines, 
+ one or more new order lines are added for each system document associated 
+ with the subsystem. For a batch system document, a new order that contains 
+ one order line for the document is added to the batch. For an order system 
+ document, a new order line is added to each order in the batch. OPS always 
+ processes order lines for system documents before processing order lines 
+ for literature products. </p>
+        <p>The following example illustrates the orders and order lines inserted 
+ during OPS processing of system documents. </p>
+        <p style="font-weight: bold;">Example: System document processing </p>
+        <p>Ten literature orders are submitted for one “XB Product Brochure” and 
+ one “Welcome letter.” A print subsystem is configured with the system 
+ documents as shown in the following table. </p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Literature product name </th>
+                    <th>System document type </th>
+                    <th>Fulfillment type </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Emailed Batch Report </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Batch system document </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Email HTML as attachment </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Printed Batch Report </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Batch system document </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Print document </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Customer Packing Slip </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Order system document </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Print document </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>OPS processes orders these orders as follows: </p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li>The fulfillment subsystem retrieves the 10 orders 
+ in one batch.</li>
+        </ol>
+        <p class="Indent1">The batch has total of 20 order lines. (10 orders 
+ x 2 order lines each = 20 order lines)</p>
+        <ol style="list-style: decimal;list-style-type: decimal;" MadCap:continue="true">
+            <li>One order line is added to each order for the 
+ “Customer Packing Slip.”</li>
+        </ol>
+        <p class="Indent1">The batch now has 30 order lines.</p>
+        <ol style="list-style: decimal;list-style-type: decimal;" MadCap:continue="true">
+            <li>One new order is added to the batch with the following 
+ two order lines:</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">One order line for the “Emailed Batch Report” 
+ (because this order line is for an email fulfillment type, an email subsystem 
+ processes it)</li>
+            <li class="List_Indent">One order line for the “Printed Batch Report”</li>
+        </ul>
+        <ol style="list-style: decimal;list-style-type: decimal;" start="4">
+            <li>The subsystem processes the batch with the following 
+ batch system document output:</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">One “Emailed Batch Report” emailed to subsystem’s 
+ administrator’s address</li>
+            <li class="List_Indent">One “Printed Batch Report” printed</li>
+        </ul>
+        <ol style="list-style: decimal;list-style-type: decimal;" start="5">
+            <li>The final order printed output is 10 sets of the 
+ following:</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">1 - “XB Product Brochure”</li>
+            <li class="List_Indent">1 - “Welcome letter”</li>
+            <li class="List_Indent">1 - “Customer Packing Slip”</li>
+        </ul>
+        <p>Note that if you create a system document with an email fulfillment 
+ type, the system document is sent to the administrator's email address 
+ as defined for the subsystem in OPS Administration. To handle the system 
+ document differently, you can create a customized email routing rule to 
+ route the system document to the appropriate recipient.</p>
+        <p class="BodyText" MadCap:conditions="Default.Obsolete">The "Email To" field for order system documents incorrectly lists the Literature order recipient's email address instead of the administrator's email address. However, the email is delivered to the administrator as expected.</p>
+    </body>
+</html>

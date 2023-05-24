@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="5" MadCap:lastHeight="838" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h4>Configuring a result list to use icon columns</h4>
+        <p>Create icons according to the conventions listed above. Using the list of available domain values, select a prefix and name the files accordingly. </p>
+        <p>In the render configuration XML file, set the <a href="To prevent the XSL from being.htm#bodyImag">bodyImageSource</a> element identical to the file prefix. To include an icon column heading set a value for the <a href="To prevent the XSL from being.htm#headerIm">headerImageSource</a> element. When the user places the mouse pointer over the column heading icon, a tooltip appears with the column heading text. Depending on your list configuration, the tooltip text is either <a href="Writing the formatting functions.htm#Auto-gen">auto-generated</a> or copied from the <a href="To prevent the XSL from being.htm#captionR">captionResId</a> element. This text is also used for the column in the List Configuration Dialog.</p>
+        <p>In the JavaScript code that prepares the table, set the <i>IconFilePath</i> property to the directory where the graphic files are stored.</p>
+        <p>When the table is rendered, the control replaces the data values with the appropriate icons. </p>
+        <h4>Handling Page Resize Events</h4>
+        <p>A result list on page does not automatically refresh when its parent DIV element is resized. The DHTML onresize event requires that the list control have its setListHeight method called to guarantee that the contents of the list remain visible. The easiest way to do this is to set the height equivalent to the offetHeight of the parent DIV element. For example, the following code can be used to refresh the list when the page is resized. </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>var iHeight = document.getElementById("listContainerDiv").offsetHeight;</code>
+                    </p>
+                    <p><code>oXListCtrl.setListHeight(iHeight);</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; &#160;"> This event code should not be used for the XListControl resize event discussed in the topic <a href="Customizing Result Lists.htm#List">List events</a>. Doing so will cause an infinite loop (the XListControl fires its own resize event after the setListHeight method is called). </p>
+        <h4>Resource Files</h4>
+        <p>Strings for column headings are manipulated by using the <a href="Customizing Resource Files.htm#XResourc">XResourceManager</a> object. Each XListControl instance of a list must have a resource manager object attached to it for the column headings to appear in the list. These strings can be loaded from a file on the server or created dynamically at run time. </p>
+        <p>Almost all OEP lists that use XListControl have their column headings generated automatically from the data provided by OEAS. See <a href="Writing the formatting functions.htm#Auto-gen">Auto-generating column headings</a> for more information on doing this with custom lists. </p>
+        <p>Once the list has been rendered, changes to the strings in the resource manager have no effect on the rendered list.</p>
+        <h3><a name="XListDat"></a>XListData Class</h3>
+        <p>An instance of the XListData class converts data returned from retrieveList and retrieveCollection business object method calls into the format acceptable to the XListControl class. </p>
+        <p>How a data set is converted is determined by XML configuration settings. These settings can be stored in files on the Web server or generated on the client at run time. The configuration determines the following:</p>
+        <ul>
+            <li>Which data columns to include in the list data</li>
+            <li>Which data columns require special formatting (for example, numbers with decimal places and dates)</li>
+            <li>Which data columns should have numeric identifier data replaced with human-readable data</li>
+            <li>Which data columns (for retrieveList data sets) should have their database column information copied to a resource manager object</li>
+        </ul>
+        <p>After the configuration is loaded, the <i>transformData</i> method converts the source XML into the XListControl format. The <i>Output</i> property contains the finished XML. </p>
+        <p>Information about the configuration implementation for the XListData conversion XML is available in the topic <a href="Writing the formatting functions.htm#XListDat">XListData transformation configuration</a>.</p>
+        <p>To learn more about the properties and methods of the XListData class, see <a href="Customizing Result Lists.htm#XListDat">XListData object</a>.</p>
+    </body>
+</html>

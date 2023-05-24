@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:conditions="Default.Main" MadCap:lastBlockDepth="6" MadCap:lastHeight="3060" MadCap:lastWidth="968">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Note_Table_3.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Add template</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h6>
+            <MadCap:keyword term="Add template" />Adding the template</h6>
+        <p>The template is part of an XML structure that must conform to the XSL 
+ schema. The <span style="font-weight: bold;">xsl:template</span> element 
+ that you add must be a child of the <span style="font-weight: bold;">xsl:stylesheet</span><MadCap:keyword term="templates" /> 
+ element. For the sake of clarity and organization, group the template 
+ code with the other script control templates.</p>
+        <p>Having located and backed up <a href="c_scriptControlType_Get_script_delivery_step_file.htm">script_delivery_step.xsl 
+ file</a>, you are ready to add the template to the file.</p>
+        <h3>To add the template to script_delivery_step.xsl:</h3>
+        <ol>
+            <li>Open script_delivery_step.xsl in a text editor.</li>
+            <li>Position the cursor at the first blank line after 
+ the line containing:</li>
+        </ol>
+        <p Class="Code" class="code">&lt;!--************************************ the controls themselves</p>
+        <ol start="3">
+            <li>Copy and paste the following XSL template definition 
+ into the file.</li>
+        </ol>
+        <ol start="4">
+            <li>Continue to the "<a href="c_scriptControlType_Add_template_binding.htm">Adding 
+ the template binding</a>" steps.</li>
+        </ol>
+        <h3>Template code</h3>
+        <p>Code</p>
+        <p Class="Code" class="code">&lt;!-- customerSearch control --&gt;</p>
+        <p Class="Code" class="code">&lt;xsl:template name="control_customerSearch"&gt;</p>
+        <p Class="Code" class="code">&#160;&lt;xsl:param name="safePromptId"/&gt;</p>
+        <p Class="Code" class="code">&#160;&lt;span id="controlPrompt_{$safePromptId}"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&lt;xsl:attribute name="responseCode"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;xsl:value-of select="/root/scriptSession/scriptSessionSteps/scriptSessionStep[primaryId = $scriptSessionStepId]/scriptSessionPromptResponses/scriptSessionPromptResponse[scriptPromptId = current()/@primaryId]/responseCode"/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&lt;/xsl:attribute&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&lt;xsl:attribute name="value"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;xsl:value-of select="/root/scriptSession/scriptSessionSteps/scriptSessionStep[primaryId = $scriptSessionStepId]/scriptSessionPromptResponses/scriptSessionPromptResponse[scriptPromptId = current()/@primaryId]/value"/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&lt;/xsl:attribute&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&lt;xsl:attribute name="default"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;xsl:value-of select="@default"/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&lt;/xsl:attribute&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&lt;input id="customerId_{$safePromptId}" size="50" disabled="true"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&lt;!--put in the primaryId for the response made--&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;xsl:attribute name="responsePrimaryId"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&lt;xsl:value-of select="/root/scriptSession/scriptSessionSteps/scriptSessionStep[primaryId = $scriptSessionStepId]/scriptSessionPromptResponses/scriptSessionPromptResponse[scriptPromptId = current()/@primaryId]/primaryId"/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/xsl:attribute&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&lt;/input&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&lt;img tabindex="{position()}" </p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;onmouseup="javascript:this.src='../images/icons/iconopenwindow1.gif';"&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;onmousedown="this.src='../images/icons/iconopenwindow0.gif';"&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;onmouseover="javascript:this.src='../images/icons/iconopenwindow2.gif'"&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;onmouseout="javascript:this.src='../images/icons/iconopenwindow1.gif';"&#160;&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;src="../images/icons/iconopenwindow1.gif"&#160;align="top"/&gt;&#160;&#160;&#160;&#160;</p>
+        <p Class="Code" class="code">&#160;&lt;/span&gt; </p>
+        <p Class="Code" class="code">&lt;/xsl:template&gt;</p>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Note_Table_3.css');width: 80%;" class="TableStyle-Aptean_Note_Table_3" cellspacing="2">
+            <col style="width: 0.7cm;" class="TableStyle-Aptean_Note_Table_3-Column-Column1" />
+            <col class="TableStyle-Aptean_Note_Table_3-Column-Column1" style="width: 13cm;" />
+            <tbody>
+                <tr class="TableStyle-Aptean_Note_Table_3-Body-Body1">
+                    <td class="TableStyle-Aptean_Note_Table_3-BodyB-Column1-Body1" style="text-align: right;">
+                        <p class="TableText">
+                            <img src="../../Resources/Images/Common/note_image.png" />
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Note_Table_3-BodyA-Column1-Body1">
+                        <p class="TableText"><b>Note</b>: The template name must be the same name used for control_type_code 
+ in the <a href="c_scriptControlType_Add_domain_data.htm">domain data</a> 
+ and for the <a href="c_scriptControlType_Add_javascript_class.htm">Javascript 
+ class</a> function. The name is case sensitive.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p style="font-weight: bold;">The template does the following:</p>
+        <p style="font-weight: bold;">Declares an input parameter</p>
+        <p class="BodyTextIndent_1">The stylesheet uses this parameter to pass the ID of the 
+ prompt that owns the control.</p>
+        <p Class="Code" class="code">&#160;&#160;&lt;xsl:param name="safePromptId"/&gt;</p>
+        <p style="font-weight: bold;">Defines the HTML</p>
+        <p class="BodyTextIndent_1">The template provides exemplar text to render the control. 
+ For this control, the template includes an <span style="font-weight: bold;">input</span> 
+ element to display the customer name in a textbox, an <span style="font-weight: bold;">img</span> 
+ element for a button to launch the customer <span style="font-weight: bold;">Search</span> 
+ dialog box, and a <span style="font-weight: bold;">span</span><span style="font-weight: normal;"> 
+ element to group the textbox and the button</span>. The <span style="font-weight: bold;">span</span><span style="font-weight: normal;"> element includes three attributes that the 
+ Javascript class references. These are used for storing the values from 
+ the array returned by the customer search dialog, and if it were enabled, 
+ setting a default value in the control. </span>The template also defines 
+ an attribute <span style="font-weight: bold;">responsePrimaryId</span> 
+ on the <span style="font-weight: bold;">input</span><span style="font-weight: normal;"> 
+ element</span> that binds the control response to the scriptSessionPromptResponse 
+ primaryId.</p>
+        <p Class="Code" class="code">&#160;&lt;<span style="font-weight: bold;">span</span> id="controlPrompt_{$safePromptId}"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&lt;xsl:attribute name="<span style="font-weight: bold;">responseCode</span>"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;xsl:value-of select="/root/scriptSession/scriptSessionSteps/scriptSessionStep[primaryId = $scriptSessionStepId]/scriptSessionPromptResponses/scriptSessionPromptResponse[scriptPromptId = current()/@primaryId]/responseCode"/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&lt;/xsl:attribute&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&lt;xsl:attribute name="<span style="font-weight: bold;">value</span>"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;xsl:value-of select="/root/scriptSession/scriptSessionSteps/scriptSessionStep[primaryId = $scriptSessionStepId]/scriptSessionPromptResponses/scriptSessionPromptResponse[scriptPromptId = current()/@primaryId]/value"/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&lt;/xsl:attribute&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&lt;xsl:attribute name="<span style="font-weight: bold;">default</span>"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;xsl:value-of select="@default"/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&lt;/xsl:attribute&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&lt;<span style="font-weight: bold;">input</span> id="customerId_{$safePromptId}" size="50" disabled="true"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&lt;!--put in the primaryId for the response made--&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;xsl:attribute name="<span style="font-weight: bold;">responsePrimaryId</span>"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&lt;xsl:value-of select="/root/scriptSession/scriptSessionSteps/scriptSessionStep[primaryId = $scriptSessionStepId]/scriptSessionPromptResponses/scriptSessionPromptResponse[scriptPromptId = current()/@primaryId]/primaryId"/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/xsl:attribute&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&lt;/<span style="font-weight: bold;">input</span>&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&lt;<span style="font-weight: bold;">img</span> tabindex="{position()}" </p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;onmouseup="javascript:this.src='../images/icons/iconopenwindow1.gif';"&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;onmousedown="this.src='../images/icons/iconopenwindow0.gif';"&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;onmouseover="javascript:this.src='../images/icons/iconopenwindow2.gif'"&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;onmouseout="javascript:this.src='../images/icons/iconopenwindow1.gif';"&#160;&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;src="../images/icons/iconopenwindow1.gif"&#160;align="top"/&gt;&#160;&#160;&#160;&#160;</p>
+        <p Class="Code" class="code">&#160;&lt;/<span style="font-weight: bold;">span</span>&gt;</p>
+    </body>
+</html>

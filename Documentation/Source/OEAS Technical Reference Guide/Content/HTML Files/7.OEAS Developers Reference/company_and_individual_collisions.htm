@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="1638" MadCap:lastWidth="994">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>company and individual collisions</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>
+            <MadCap:keyword term="individual collisions;company" />company and individual collisions</h5>
+        <p>The collision handler uses the customer algorithm when it processes 
+ company and individual collisions. The company and individual objects 
+ consist of a set of customer data (name, company type, title, and so forth), 
+ a collection of phone data, and a collection of address data. Among the 
+ phones and addresses, there is one primary phone number and one primary 
+ address. For the purpose of examining collisions, the customer algorithm 
+ couples the customer data with the primary phone and address. This means 
+ that a change to a primary phone or address is also a change to the customer 
+ data. Note that OEP also saves customer data when alternate phones are 
+ changed, so a change to any phone number online can cause a conflict, 
+ even if no other customer data was changed.</p>
+        <p>The conditions listed below are the circumstances during synchronization 
+ cycles that cause the OEP-Offline client and the synchronization subsystem 
+ to call the collision handler to process company and individual collisions.</p>
+        <p>The default collision handler settings of the company and individual 
+ objects:</p>
+        <ul>
+            <li>The algorithm type is customer.</li>
+            <li>The collision handler ignores maintenance properties 
+ and other read-only properties. Ignoring certain properties increases 
+ the number of collisions that are resolved without user intervention. 
+ For details about the ignored properties, see <i>Subscription Designer Help.</i></li>
+        </ul>
+        <p><span style="font-weight: bold;">Conditions:</span><span style="font-weight: normal;"> The customer data and primary phone and 
+ address of the offline and online versions are identical. There are differences 
+ between the two versions only in the read-only properties and maintenance 
+ properties.</span>
+        </p>
+        <ul>
+            <li>What the collision handler does after the sync 
+ subsystem or OEP-Offline client calls it:</li>
+        </ul>
+        <p class="Indent1">In the case of a data collision, specifies 
+ the noOp action.</p>
+        <p class="Indent1">In the case of a message collision, specifies 
+ the conflict action.</p>
+        <ul>
+            <li>What the sync subsystem does after it calls the 
+ collision handler:</li>
+        </ul>
+        <p class="Indent1">Nothing, since the noOp action was returned. 
+ A server synchronization eventually downsyncs the online version to the 
+ staging server data store.</p>
+        <ul>
+            <li>What the OEP-Offline client does after it calls 
+ the collision handler:</li>
+        </ul>
+        <p class="Indent1">The user may choose to keep either the offline 
+ version or the online version.</p>
+        <p><span style="font-weight: bold;">Conditions:</span> 
+ The customer data and primary phone and address of the offline and online 
+ versions have changed in the offline record, but in the online record 
+ only read-only or maintenance properties have changed.</p>
+        <ul>
+            <li>What the collision handler does after the sync 
+ server or OEP-Offline client calls it:</li>
+        </ul>
+        <p class="Indent1">In the case of a data collision, updates 
+ the onyxTimestamp on the offline version and specifies the retry action.</p>
+        <p class="Indent1">In the case of a message collision, specifies 
+ the conflict action.</p>
+        <ul>
+            <li>What the sync subsystem does after it calls the 
+ collision handler:</li>
+        </ul>
+        <p class="Indent1">Calls the update method to persist the offline 
+ version to the OEDB. If it succeeds, the new version of the item is eventually 
+ downsynced.</p>
+        <ul>
+            <li>What the OEP-Offline client does after it calls 
+ the collision handler:</li>
+        </ul>
+        <p class="Indent1">Displays both versions to the user as a conflict, 
+ since the conflict action was returned. The user may choose to keep either 
+ the offline version or the online version.</p>
+        <p><span style="font-weight: bold;">Conditions:</span><span style="font-weight: normal;"> <![CDATA[ ]]></span>The customer data and primary phone 
+ and address of the offline and online versions have changed and are not 
+ identical.</p>
+        <ul>
+            <li>What the collision handler does after the sync 
+ server or OEP-Offline client calls it:</li>
+        </ul>
+        <p class="Indent1">Specifies the conflict action. The online 
+ version is returned as primary and offline version is returned as secondary.</p>
+        <ul>
+            <li>What the sync subsystem does after it calls the 
+ collision handler:</li>
+        </ul>
+        <p class="Indent1">Downsyncs the online version with the offline 
+ version as conflict data.</p>
+        <ul>
+            <li>What the OEP-Offline client does after it calls 
+ the collision handler:</li>
+        </ul>
+        <p class="Indent1">Displays both versions to the user as a conflict. 
+ The user may choose to keep either the offline version or the online version.</p>
+        <p><span style="font-weight: bold;">Conditions:</span><span style="font-weight: normal;"> <![CDATA[ ]]></span>The customer data and primary phone 
+ and address of the offline and online versions are identical, but alternate 
+ phones or addresses have changed.</p>
+        <ul>
+            <li>What the collision handler does after the sync 
+ server or OEP-Offline client calls it:</li>
+        </ul>
+        <p class="Indent1">Specifies the conflict action.</p>
+        <ul>
+            <li>What the sync subsystem does after it calls the 
+ collision handler:</li>
+        </ul>
+        <p class="Indent1">Downsyncs the online version with the offline 
+ version as conflict data.</p>
+        <ul>
+            <li>What the OEP-Offline client does after it calls 
+ the collision handler:</li>
+        </ul>
+        <p class="Indent1">Displays both versions 
+ to the user as a conflict. The user may choose to keep either the offline 
+ version or the online version. </p>
+    </body>
+</html>

@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="850" MadCap:lastWidth="624" MadCap:ignoredWords="SQLGen">
+    <head>
+        <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head>
+            <link href="../../../Resources/TableStyles/Aptean_Table_2.css" rel="stylesheet" MadCap:stylesheetType="table" />
+            <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" /><title>Security</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>Security</h2>
+        <p>The new OEAS raises the bar on application security by implementing 
+ the following:</p>
+        <p style="font-weight: bold;">Principle of least privilege</p>
+        <p class="BodyTextIndent_1">In general, the principle of least privileges means that 
+ an application is configured to use the lowest and most specific level 
+ of permissions required to accomplish its task. The application does not 
+ create or require any users to be members of a local or domain administrator 
+ or power user group. For more information, see <a href="#Least_privileges_overview">Least 
+ privilege overview</a>.</p>
+        <p style="font-weight: bold;">File attachments</p>
+        <p class="BodyTextIndent_1">Onyx File Agent (OFA) supports file attachments for OEAS 
+ client applications. OFA replaces the previous architecture in which the 
+ client application directly accessed a Windows file share to read and 
+ write attachments. With OFA. the client application calls a COM+ component 
+ to store and retrieve file attachments. Only the OFA component needs read 
+ and write access to the file share where attachments are stored. The Email 
+ Send Step and Email Monitor Subsystem continue to use direct access to 
+ the file share for file attachment functionality.</p>
+        <p style="font-weight: bold;">Upgraded Email Send Step</p>
+        <p class="BodyTextIndent_1">The Email Send Step, responsible for sending 
+ email from OEP, has been upgraded to support user ID and password authentication 
+ with an SMTP server. This step also supports secure sockets layer (SSL) 
+ communication with the SMTP server. SSL is an encrypted form of communication 
+ for passing the user credentials over networks. OEAS Configuration Utility 
+ enables customers to select any of the following authentication protocols. 
+ </p>
+        <ul style="list-style: disc;" type="disc">
+            <li>Anonymous: no 
+ authentication.</li>
+            <li>Basic: a hard-coded user 
+ ID and password with clear text authentication. Onyx provides a <a href="../../6.OEAS Utilities/ar_utilities_opsencrypt.htm">utility 
+ for encrypting</a> the password before entering it in the configuration 
+ tool.</li>
+            <li>NTLM: Windows user credentials. 
+ </li>
+        </ul>
+        <p class="BodyTextIndent_1">Customers can enable SSL with any of these protocols.</p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Onyx does not support Transport Layer Security (TLS).</p>
+        <p style="font-weight: bold;">Session Time-out</p>
+        <p class="BodyTextIndent_1">In previous versions, background processes in a client 
+ application could prevent a client session from ever timing out, even 
+ when the user left the client window idle for extended periods of time. 
+ To remedy this issue, the OEAS application includes a new OTM interface 
+ which makes session updates optional. In addition there is a new element 
+ in the step package XML, passed between logical method calls by the client, 
+ called sessionSecondsRemaining. This new element gives the UI information 
+ on impending session time-outs. OEAS 
+ administrators configure this feature using the GlobalSessionTimeOut and 
+ OEPEnableSessionTimeOut system parameters.</p>
+        <p style="font-weight: bold;">Web Services with Windows Authentication</p>
+        <p class="BodyTextIndent_1">New virtual directories for Web Services support Windows 
+ authentication for distributed applications. Previously, OEAS Web Services 
+ only supported Onyx authentication, and the virtual directory names did 
+ not reflect any authentication type. Now, OEAS Web Services setup prompts 
+ for authentication type, before installing virtual directories. Setup 
+ users can select either the Onyx or the Windows authentication types. 
+ Depending on the selected type, setup creates one of the following pairs 
+ of directories. To use both types of authentication, the user must run 
+ the setup program twice, once for each authentication type.</p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Onyx authentication</th>
+                    <th>Windows authentication</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEASAuth_Onyx</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">OEASAuth_Windows</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEAS_Onyx</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">OEAS_Windows</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4><a name="Least_privileges_overview"></a>
+      Least privilege overview</h4>
+        <p>The least privilege principle impacts the following areas and processes 
+ of OEAS.</p>
+        <p style="font-weight: bold;"><a name="whats_new_security_OEDB"></a>      OEDB Setup and Runtime</p>
+        <p>OEDB setup requires database owner privileges to create and populate 
+ database roles and compile database code. To avoid giving OEDB setup system 
+ administrator privileges, an administrator must configure a database owner 
+ login manually or with a supplied script. Setup prompts for the user that 
+ already has full rights on the target database.</p>
+        <p>Setup creates the roles OnyxPublic and OnyxLMViews to restrict access 
+ to database resources. Grants of the execute privilege on stored procedures 
+ restrict execution to members of the OnyxPublic role. The List Manager 
+ user can execute ad-hoc SQL statements, so the procedure that executes 
+ List Manager queries (opSearchQueryExecute) uses a special role, OnyxLMViews, 
+ restricted to SELECT permission on List Manager views in OEDB. Members 
+ of OnyxLMViews are not members of OnyxPublic, so they cannot execute queries 
+ on any other stored procedures, functions, or views.</p>
+        <p>All stored procedures use an EXECUTE AS SELF syntax that enables <a href="ar_ca_whatsnew_sql_generation_(sqlgen).htm">SQLGen</a> to process 
+ SQL statements generated from the OED at run time. The EXECUTE AS SELF 
+ syntax causes each statement to execute in the context of the database 
+ user that created the procedure (the database owner) rather than in the 
+ context of the database user calling the procedure (OnyxEASSql). </p>
+        <p>SQLGen never generates dynamic SQL statements composed directly from 
+ ad-hoc user input. When dynamic SQL statements are required, SQLGen creates 
+ parameterized queries. This approach mitigates any potential for the security 
+ flaw known as "SQL injection."</p>
+        <p>SQLGen uses a wrapper procedure, opSqlGenWrapper, to call compiled stored 
+ procedures and execute generated SQL statements at run time. Because the 
+ opSqlGenWrapper procedure can execute dynamic SQL statements that are 
+ passed to it, it includes an EXECUTE AS CALLER command. This command causes 
+ the wrapper procedure to execute as the OnyxEASSql user and therefore 
+ only has permission to execute compiled procedures, functions, and views 
+ but not ad-hoc SQL statements based on user input.</p>
+        <p style="font-weight: bold;">OEAS Setup and Runtime</p>
+        <p>The OEAS COM+ user is no longer a member of the Power Users group which 
+ has more privileges than are required for OEAS to perform its function. 
+ The only additional permission this account has beyond "guest" 
+ status is the ability to log on as a batch job. </p>
+        <p>OEAS uses OnyxEASSql database user for run-time connections to OEDB. 
+ As mentioned previously, OEDB setup makes this user a member of the database 
+ public role and gives it no other special privilege. However, setup makes 
+ the user a member of the OnyxPublic role, giving it permission to execute 
+ stored procedures, functions, and views.</p>
+        <p style="font-weight: bold;">OPS Setup and Runtime</p>
+        <p>By default, the OPS service user's permissions are reduced to the lowest 
+ possible level. The Onyx Processing Server (OPS) user is no longer a member 
+ of the administrator group on the local machine, unless the customer uses 
+ the print fulfillment subsystem. For the print fulfillment functionality 
+ to work, the OPS service user must be a member of the local administrators 
+ group. If a customer uses the Email Monitor or Synchronization subsystems, 
+ the OPS user must be configured as a domain account with access to the 
+ appropriate Exchange server.</p>
+        <p style="font-weight: bold;">Publishing</p>
+        <p>After a customer makes changes to metadata in Onyx 
+ Enterprise Dictionary (OED), they publish a working copy to deploy the 
+ changes. Because the publish process includes compiling database stored 
+ procedures, Object Designer prompts the user for SQL login credentials. 
+ This login should have db_owner privileges. This process requires that 
+ the OEAS COM+ application be shut down in order to clear memory caches. 
+ A COM+ shutdown requires administrator privileges on the local machine. 
+ Object Designer implements the publish process, and its user must have 
+ sufficient privileges to initiate the publish process. A customer can:</p>
+        <ul style="list-style: disc;" type="disc">
+            <li>Log into Object Designer 
+ using Windows authentication.</li>
+            <li>Give the Object Designer 
+ web application anonymous user the necessary privileges and log into Object 
+ Designer using Onyx authentication.</li>
+            <li>Log into Object Designer 
+ using Onyx authentication (with default privileges), allow the "stop 
+ COM+" step to fail, and manually perform the OnyxEASApp COM+ restart. 
+ For more information on the "stop COM+" step, see <a href="AR_ca_whatsnew_OED_publish_process.htm">OED 
+ publish process</a>.</li>
+        </ul>
+    </body>
+</html>

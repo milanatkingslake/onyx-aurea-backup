@@ -1,0 +1,780 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="833" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2><a name="top"></a>Advanced Configuration Examples</h2>
+        <p>The advanced configurations in this book provide instructions for implementing the following UCW design mode configurations that require Advanced View coding.</p>
+        <h3><a name="Bundling"></a>Bundling Multiple Actions</h3>
+        <p>This example demonstrates how to use Advanced View in Dynamic Forms Designer and the invokeAction function to bundle actions using an if…else statement. An action statement that bundles actions can execute multiple actions more efficiently. Also, as shown in this example, you can use Advanced View to incorporate an if …else statement that performs one of two actions based on a condition.</p>
+        <p>When entering or updating a company record and the Status is changed to “Hot,” highlight the Telephones section of the company edit page. When the status is changed to any other status value, highlight the URL box.</p>
+        <p class="ProcedureHeading">To implement this example:</p>
+        <ol>
+            <li>In Dynamic Forms Designer for the company edit page, expand <b>Control</b>, expand <b>Status</b>, and then add an action statement to the <b>Change</b> event.</li>
+            <li>In the <b>Description</b> box at the top of the Action Designer pane, type a description of the action statement. Example description: "Bundle actions example."</li>
+            <li>Configure the condition as followings:</li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">In the <b>Object</b> drop-down list located in the Conditions section, expand <b>Control</b>, expand <b>Status</b>, and then select <b>Get Value</b>. </li>
+            <li class="List_Indent">From the <b>Operator</b> drop-down list, select <b>Equal</b>; and from the <b>Value</b> drop-down list, select <b>Hot</b>. &#160;</li>
+            <li class="List_Indent">Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To add a custom drop down.png" style="width: 14px;height: 14px;" /> in the <b>Summary</b> section to add the condition to the action. </li>
+        </ol>
+        <ol start="4">
+            <li>Configure the first action as following: in the <b>Object / Action</b> drop-down list, expand <b>Control</b>, expand <b>Telephones</b>, and then select <b>SetHighlight (On)</b>. </li>
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Adding Statements_1.jpg" style="width: 24px;height: 22px;" /> to enable Advanced View and display the <b>Code</b> section. </li>
+        </ol>
+        <p class="Indent1">Contents of the Code section </p>
+        <table style="width: 100%;">
+            <col />
+            <tbody>
+                <tr>
+                    <td>
+                        <p><code>if ((invokeAction("indirect", "companyStatus", "getValue",</code>
+                        </p>
+                        <p><code>new Array("eventArgument1", psEventArgument1), </code>
+                        </p>
+                        <p><code>new Array("eventArgument2", psEventArgument2)).value == "313"))</code>
+                        </p>
+                        <p><code>{</code>
+                        </p>
+                        <p>&#160;&#160;&#160;<code>&#160;// Action Invoke ""setHighlightOn" on "telephones"</code></p>
+                        <p><code>oUcfActionReturn = invokeAction("indirect", "telephones", "setHighlightOn",</code>
+                        </p>
+                        <p><code>new Array("eventArgument1", psEventArgument1), </code>
+                        </p>
+                        <p><code>new Array("eventArgument2", psEventArgument2));</code>
+                        </p>
+                        <p><code>// terminate event if stop set, and return action object</code>
+                        </p>
+                        <p><code>if (oUcfActionReturn.stop) {</code>
+                        </p>
+                        <p>&#160;&#160;&#160;<code>&#160;return oUcfActionReturn;</code></p>
+                        <p><code>}</code>
+                        </p>
+                        <p><code>}</code>
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ol start="6">
+            <li>On a line at the bottom of the Code section, type: else</li>
+            <li>Position the cursor below else, and then press CTRL+K to display the list of actions within the <b>Code</b> section.</li>
+            <li>Expand <b>Control</b>, expand <b>URL</b>, and then select <b>Set Highlight (On)</b>. This selection inserts the code for this action in the <b>Code</b> section. </li>
+        </ol>
+        <p class="Indent1">Contents of the Code section </p>
+        <table style="width: 100%;">
+            <col />
+            <tbody>
+                <tr>
+                    <td>
+                        <p><code>if ((invokeAction("indirect", "companyStatus", "getValue",</code>
+                        </p>
+                        <p><code>new Array("eventArgument1", psEventArgument1), </code>
+                        </p>
+                        <p><code>new Array("eventArgument2", psEventArgument2)).value == "313"))</code>
+                        </p>
+                        <p><code>{</code>
+                        </p>
+                        <p>&#160;&#160;&#160;&#160;<code>// Action Invoke ""setHighlightOn" on "telephones"</code></p>
+                        <p><code>oUcfActionReturn = invokeAction("indirect", "telephones", "setHighlightOn",</code>
+                        </p>
+                        <p><code>new Array("eventArgument1", psEventArgument1),</code>
+                        </p>
+                        <p><code>new Array("eventArgument2", psEventArgument2));</code>
+                        </p>
+                        <p><code>// terminate event if stop set, and return action object</code>
+                        </p>
+                        <p><code>if (oUcfActionReturn.stop) {</code>
+                        </p>
+                        <p>&#160;<code>&#160;&#160;&#160;return oUcfActionReturn; </code></p>
+                        <p><code>}</code>
+                        </p>
+                        <p><code>}</code>
+                        </p>
+                        <p><code>else</code>
+                        </p>
+                        <p><code>invokeAction("indirect", "companyUrl", "setHighlightOn")</code>
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ol MadCap:continue="true">
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> to save the action statement and then close the <b>Dynamic Forms Designer</b> window. </li>
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Accessing UCW_1.jpg" style="width: 24px;height: 24px;" /> on the UCW toolbar to save all configurations and exit design mode. </li>
+        </ol>
+        <p class="ProcedureHeading">To test this example:</p>
+        <ol>
+            <li>Display a record in the OEP company edit page.</li>
+            <li>Change the contents of the Status value to either Warm or Cold. </li>
+        </ol>
+        <p class="Indent1">Check that the Url text box is highlighted.</p>
+        <ol MadCap:continue="true">
+            <li>Save the record.</li>
+            <li>Redisplay the record in the company edit page.</li>
+            <li>Change the Status value to Hot. </li>
+        </ol>
+        <p class="Indent1">Check that the Telephones section is highlighted.</p>
+        <h3><a name="Applying"></a>Applying Custom Styles to a Page</h3>
+        <p>This example applies HTML element styles to the company edit page using ASP Editor Dynamic Forms Designer. The styles put a border around the &lt;div&gt; element identified as "SectionDetailsMain."</p>
+        <p>Onyx does not recommend that you modify the underlying HTML of a UCW-enabled area; therefore, do not create or modify element identifiers or classes. You can add styles and override existing styles of elements by typing specifications directly into the ASP editor.</p>
+        <p class="ProcedureHeading">To implement this example:</p>
+        <ol>
+            <li>In Dynamic Forms Designer for the company edit page, expand <b>Server</b> and then expand <b>Body</b>.</li>
+        </ol>
+        <p class="Indent1">The Before and After events are displayed in the Events pane. These events indicate available insertion points relative to the BODY element of the company edit ASP page. </p>
+        <ol MadCap:continue="true">
+            <li>Select the <b>Before</b> event and then click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To add a custom drop down.png" style="width: 14px;height: 14px;" /> to display the ASP/HTML section on the right of the window. </li>
+            <li>In the <b>Description</b> box above the ASP/HTML section, type a description of the ASP statement.</li>
+            <li>In the <b>ASP/HTML</b> section, type the following:</li>
+        </ol>
+        <table style="width: 100%;">
+            <col />
+            <tbody>
+                <tr>
+                    <td>
+                        <p><code>&lt;style&gt;</code>
+                        </p>
+                        <p><code>#SectionDetailsMain{border-top: 3px solid red; border-bottom: 3px solid red; border-left: 1px solid gray; border-right: 1px solid gray; padding: 5px;}</code>
+                        </p>
+                        <p><code>&lt;/style&gt;</code>
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ol MadCap:continue="true">
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> to save the ASP statement and then close the Dynamic Forms Designer window. </li>
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Accessing UCW_1.jpg" style="width: 24px;height: 24px;" /> on the UCW toolbar to save all configurations and exit design mode. </li>
+            <li>To test the page appearance, load the individual edit page. If the changes do not appear, clear the Temporary Internet files from the client that you are using and reload the page. </li>
+        </ol>
+        <h3><a name="Applying2"></a>Applying a Custom CSS to a Page</h3>
+        <p>UCW-enabled OEP pages accept custom cascading style sheet (CSS) files by specifying link statements using ASP Editor in the Dynamic Forms Designer. This example applies borders to the sections of the individual edit page. The OEP product CD contains the referenced CSS file in the Examples directory.</p>
+        <p>Onyx recommends that you avoid modifying the underlying HTML of a UCW-enabled page; therefore, do not create or modify element identifiers or classes. You can add styles and override existing styles of elements with custom CSSs.</p>
+        <p class="ProcedureHeading">To implement this example:</p>
+        <ol>
+            <li>Copy the custom.css file located on the OEP product CD in the ..\Documentation\Technical Guide\Examples\StyleSheet directory to the YourOEPwebsite\ucf\data\custom\{your company name} directory in your development environment.</li>
+            <li>In Dynamic Forms Designer for the individual edit page, expand <b>Server</b> and then expand <b>Body</b>.</li>
+        </ol>
+        <p class="Indent1">The Before and After events are displayed in the Events pane. These events indicate available insertion points relative to the BODY element of the company edit ASP page. </p>
+        <ol MadCap:continue="true">
+            <li>Select the <b>Before</b> event and then click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To add a custom drop down_2.jpg" style="width: 24px;height: 24px;" /> to display the ASP/HTML section on the right of the window. </li>
+            <li>In the <b>Description</b> text box above the ASP/HTML section, type a description of the ASP statement. </li>
+            <li>In the <b>ASP/HTML</b> section, type the following link statement: </li>
+        </ol>
+        <table>
+            <tr>
+                <td>
+                    <p><code>&lt;link rel="stylesheet" type="text/css" href="..\ucf\data\custom\{your company name}\custom.css"&gt;</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <ol MadCap:continue="true">
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> to save the ASP statement and then close Dynamic Forms Designer. </li>
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Accessing UCW_1.jpg" style="width: 24px;height: 24px;" /> on the UCW toolbar to save all configurations and exit design mode. </li>
+            <li>To test the page appearance, load the individual edit page. If the changes do not appear, clear the temporary Internet files from the client that you are using and reload the page. </li>
+        </ol>
+        <h3><a name="Adding2"></a>Adding a Date/time Control</h3>
+        <p>This example adds a textbox control to the company edit page that displays the date and time that the company record was last modified. Because the updateDate is stored in the database in UTC format, Advanced View code is required to convert the updateDate to the local time at the OEP client. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;"> The toolbox date control and the intrinsic simple date control (these controls display a date only; they do not display a time) do not perform time zone conversions.</p>
+        <p class="ProcedureHeading">To implement this example:</p>
+        <ol>
+            <li>Display the company edit page and enter <a href="Accessing UCW.htm#top">design mode</a>.</li>
+            <li>Add two textbox toolbox controls to the Details section of the page. Position the controls under the DUNS text box.</li>
+            <li>Configure one of the control's properties using the Properties entries shown in the following table. Typed entries are indicated by italics; selected entries are indicated by boldface. For property settings not listed in the tables, accept their default values (which can be empty). </li>
+        </ol>
+        <table>
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Entry</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Admin ID</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Last_Update_Display</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Tooltip Text</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Displays the date and time of the last update</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Label</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Last Update</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Mode</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Read-only</b>
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ol MadCap:continue="true">
+            <li>Configure the other textbox control bound to company.updateDate using the following Properties entries. </li>
+        </ol>
+        <table>
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Entry</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Admin ID</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Last_Update_Hide</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Object</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Company</b>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Property</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>updateDate</b>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Mode</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Read-only</b>
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ol MadCap:continue="true">
+            <li>Add an unconditional action statement on the <b>Load</b> event that hides the Last_Update_Hide control. For more information, see <a href="Showing the Controls Panes.htm#Hiding">Hiding section and controls</a>.</li>
+            <li>Add an unconditional action on the <b>Load</b> event. This action consists of Advanced View code the retrieves the updateDate from the hidden control, converts it from UTC to the local time at the OEP client, and sets the displayed control to the converted date and time.</li>
+            <li>In the <b>Description</b> box above the Code section, type a description of the action. </li>
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Adding Statements_1.jpg" style="width: 24px;height: 22px;" /> to enable Advanced View.</li>
+            <li>Put the following sample JavaScript code into the <b>Code</b> section. </li>
+        </ol>
+        <table>
+            <tr>
+                <td>
+                    <p><code>try{ </code>
+                    </p>
+                    <p>&#160;<code>&#160;&#160;// This is the displayed control with the local dateTime</code></p>
+                    <p>&#160;&#160;&#160;<code>var sIdVisibleControl = 'uid_1153519424601_6106_34__id34';</code></p>
+                    <p>&#160;&#160;<code>&#160;// This is the hidden control with the UTC dateTime</code></p>
+                    <p>&#160;&#160;<code>&#160;var sIdHiddenControl = 'uid_1153519339711_3104_28__id21';</code></p>
+                    <p>&#160;&#160;&#160;<code>// Get the value of the hidden control...</code></p>
+                    <p>&#160;&#160;<code>&#160;var sValue = invokeAction('indirect', sIdHiddenControl, 'getValue').value;</code></p>
+                    <p>&#160;&#160;&#160;<code>// ...convert it to local time if it's not blank...</code></p>
+                    <p>&#160;&#160;<code>&#160;if (sValue != '') {</code></p>
+                    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>var oXDatetime = new XDatetime();</code></p>
+                    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>sValue = oXDatetime.convertUTCToLocal(sValue, DATEFORMAT_DATETIME);</code></p>
+                    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>if(sValue &lt; 0) sValue = '';</code></p>
+                    <p>&#160;&#160;&#160;&#160;<code>}</code></p>
+                    <p>&#160;&#160;&#160;<code>// ...and store it in the visible control</code></p>
+                    <p>&#160;&#160;<code>&#160;invokeAction('indirect', sIdVisibleControl, 'setValue',</code> <![CDATA[ ]]></p>
+                    <p>&#160;&#160;&#160;&#160;&#160;&#160;<code>new Array('value', sValue));</code></p>
+                    <p><code>}</code>
+                    </p>
+                    <p><code>catch(oError){</code>
+                    </p>
+                    <p><code>// display error message - unable to load datetime</code>
+                    </p>
+                    <p><code>}</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <ol MadCap:continue="true">
+            <li>Obtain the IDs (uid_1153864612372_3552_28__id58, for example) for the two textbox controls that you specified previously. In the Code section, position the cursor below the code entered in the previous step. Use the Ctrl-K keystroke to display the object/action list in the Code section. From the object action list select <b>Control</b> and then <b>Last_Update_Display</b>. Select any action from the list. The code for the selected action displays, and the ID is the second argument in the invokeAction call. Display action code for the Last_Update_Hide control in the same manner.</li>
+            <li>Cut and paste the IDs into the code getValue and setValue invokeAction calls. The code comments indicate where to paste the IDs. Delete the code that you used to obtain the control ID.</li>
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> to save the action.</li>
+            <li>Add an unconditional action on the <b>Save</b> event. This action consists of Advanced View code the retrieves the updateDate from the displayed control, converts it from the local time to UTC, and sets the displayed control to the converted date and time.</li>
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Adding Statements_1.jpg" style="width: 24px;height: 22px;" /> to enable Advanced View.</li>
+        </ol>
+        <ol start="15">
+            <li>Put the following sample JavaScript code into the <b>Code</b> section. </li>
+        </ol>
+        <table>
+            <tr>
+                <td>
+                    <p><code>try{</code>
+                    </p>
+                    <p>&#160;&#160;<code>&#160;var oXDatetime = newXDatetime();</code></p>
+                    <p>&#160;&#160;<code>&#160;// This is the displayed control with the local dateTime</code></p>
+                    <p>&#160;&#160;<code>&#160;var sValue = invokeAction('indirect', 'uid_1153519424601_6106_34__id34', 'getValue');</code></p>
+                    <p>&#160;&#160;&#160;<code>sValue = oXDatetime.convertLocalToUTC(sValue, DATEFORMAT_DATETIME);</code></p>
+                    <p>&#160;&#160;<code>&#160;if(sValue &lt; 0) sValue = '';</code></p>
+                    <p>&#160;&#160;&#160;<code>// This is the hidden control with the UTC dateTime</code></p>
+                    <p>&#160;&#160;&#160;<code>invokeAction('indirect', 'uid_1153519339711_3104_28__id21', 'setValue',</code> <![CDATA[ ]]></p>
+                    <p>&#160;&#160;&#160;&#160;&#160;&#160;<code>new Array('value', sValue));</code></p>
+                    <p><code>}</code>
+                    </p>
+                    <p><code>catch(oError){</code>
+                    </p>
+                    <p><code>// display error message - unable to persist datetime</code>
+                    </p>
+                    <p><code>}</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <ol MadCap:continue="true">
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> to save the action.</li>
+            <li>Close the Dynamic Forms Designer.</li>
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Accessing UCW_1.jpg" style="width: 24px;height: 24px;" /> on the UCW toolbar to save all configurations and exit design mode. </li>
+        </ol>
+        <h3><a name="Filterin"></a>Filtering Domain Data by Profile</h3>
+        <p>This example filters the Source control on the incident edit page. The filtering is done using Advanced View in Dynamic Forms Designer. This code removes one or more values from the Source dropdown list on the incident page. With the filter, OEP displays a subset of Source values to choose from.</p>
+        <h4>Scenario used in this example UI configuration </h4>
+        <p>The primary task of the telephone agents in a company is to field inbound calls and email messages and create customer and incident records resulting from those inquiries. The calls are the result of a marketing campaign that provides potential customers with an 800 number and an email address for contacting the company. Therefore, the only valid incident Source values for these telephone agents are “Phone” and “Email.” This example &#160;removes “Mail” and “Fax” from the drop-down list. </p>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; &#160;">When planning configurations that affect the domain data that OEP users can select, consider what problems may arise. For instance, determine how to handle or avoid the situation where an OEP user attempts to update a record that contains domain data values that do not appear in the user's drop-down lists. This example does not contain code to mitigate such problems.</p>
+        <p class="ProcedureHeading">To implement this example:</p>
+        <ol>
+            <li>Display the PowerPage for a customer, select the <b>Sales</b> tab, and select <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Advanced Configuration Examples.png" style="width: 23px;height: 22px;" />to display the incident edit page. Enter <a href="Accessing UCW.htm#top">design mode</a> for the incident edit page.</li>
+            <li>Drag the <b>Source</b> UI control from the page to the <a href="Configuring UI Controls.htm#About">Intrinsic Controls</a> pane.</li>
+            <li>Drag the <b>Dropdown</b> toolbox control from the Toolbox window to the location previously occupied by the Source control.</li>
+            <li>Configure the control's properties using the following entries.</li>
+        </ol>
+        <table>
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Entry</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Admin ID</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Filtered_Source</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Tooltip Text</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Displays filtered source list</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Label</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Source</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Field Name</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>incident.source</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Parent ID</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>3</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Property</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>sourceId</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Mode</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Read/Write</b>
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="Indent1">This configuration information binds the dropdown control to the sourceId property of the incident object when incidents are sales opportunities (Parent ID equals 3).</p>
+        <ol MadCap:continue="true">
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Accessing UCW_1.jpg" style="width: 24px;height: 24px;" /> on the UCW toolbar to save all configurations and exit design mode. </li>
+            <li>In Dynamic Forms Designer for the incident edit page, add an unconditional action statement to the <b>Load</b> event for the <b>Page</b> object. This action is used temporarily to obtain XML used by OEP to populate the Source control.</li>
+            <li>In the <b>Description</b> box above the Code section, type a description of the action. </li>
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Adding Statements_1.jpg" style="width: 24px;height: 22px;" /> to enable Advanced View.</li>
+            <li>Put the following sample JavaScript code into the <b>Code</b> section. </li>
+        </ol>
+        <table>
+            <tr>
+                <td>
+                    <p><code>// Call the getValueTextCollection action to get Source items for Filtered_Source.</code>
+                    </p>
+                    <p><code>// Note that the second parameter, the identifier of the control</code> <![CDATA[ ]]></p>
+                    <p><code>// (uid_1153760193605_1921_55__id23 is unique and must be obtained from your </code>
+                    </p>
+                    <p><code>// implementation.</code>
+                    </p>
+                    <p><code>sourceData = invokeAction("indirect", "uid_1153760193605_1921_55__id23",</code> <![CDATA[ ]]></p>
+                    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>"getValueTextCollection");</code> <![CDATA[ ]]></p>
+                    <p><code>// Display the contents of sourceData in an alert message.</code> <![CDATA[ ]]></p>
+                    <p><code>alert(sourceData);</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <ol MadCap:continue="true">
+            <li>Obtain the ID for the Dropdown toolbox control that you specified previously. In the Code section, position the cursor below the code entered in the previous step. Use the Ctrl-K keystroke to display the object/action list in the Code section. From the object action list, select <b>Control</b> and then <b>Filtered_Source</b>, which is the Admin ID of the Dropdown toolbox control. Select any action from the list. If you chose the Get Value action, for example, the following code appears:</li>
+        </ol>
+        <table>
+            <tr>
+                <td>
+                    <p><code>/* Get value from 'Filtered_Source' */ invokeAction("indirect", "uid_1153346314029_4496_49__id83", "getValue")</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p class="Indent1">Cut and paste the identifier of the Filtered_Source control into the getValueTextCollection call. Delete the code that you used to obtain the control ID.</p>
+        <ol MadCap:continue="true">
+            <li>With the cursor in the Code section, press Ctrl-D to enter developer mode. Press Ctrl-I to execute the code, which opens an alert window that displays the contents of the sourceData variable. This variable contains XML that defines the dropdown list items of the Source control. The XML displayed in the alert window is:</li>
+        </ol>
+        <table>
+            <tr>
+                <td>
+                    <p><code>&lt;items sortType="numeric" sortDirection="ascending"&gt;</code>
+                    </p>
+                    <p>&#160;&#160;&#160;<code>&lt;item value="" text="" sequence="1"/&gt;</code></p>
+                    <p>&#160;&#160;&#160;<code>&lt;item value="126" text="Mail" sequence="2"/&gt;</code></p>
+                    <p>&#160;&#160;&#160;<code>&lt;item value="132" text="Phone" sequence="3"/&gt;</code></p>
+                    <p>&#160;&#160;&#160;<code>&lt;item value="114" text="E-mail" sequence="4"/&gt;</code></p>
+                    <p>&#160;&#160;&#160;<code>&lt;item value="115" text="Fax" sequence="5"/&gt;</code></p>
+                    <p><code>&lt;/items&gt;</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <ol MadCap:continue="true">
+            <li>Record the XML and either disable or delete the action that you used to obtain the Source XML.</li>
+            <li>Add an action statement to the <b>Load</b> event for the <b>Page</b> object.</li>
+            <li>Configure the action as follows: </li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">From the <b>Object (Action)</b> drop-down list, expand <b>Control</b>, expand <b>Filtered_Source</b>, and then select <b>Set Reference Data</b>. </li>
+            <li class="List_Indent">From the <b>Source</b> drop-down list for <b>Reference Data XML</b>, select <b>User Defined</b>; in the <b>Value</b> box, enter the XML string for Source with the Fax and Mail item elements removed. Also remove the first item element, which has an empty value attribute. Renumber the sequence attribute for the remaining Phone and E-mail item elements. If necessary, remove line breaks in the XML. The XML string to enter in the <b>Value</b> box is:</li>
+        </ol>
+        <table>
+            <tr>
+                <td>
+                    <p><code>&lt;items sortType="numeric" sortDirection="ascending"&gt;&lt;item value="132"</code> <![CDATA[ ]]></p>
+                    <p><code>text="Phone" sequence="1"/&gt;&lt;item value="114" text="E-mail" sequence="2"/&gt;&lt;/items&gt;</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <ol style="list-style-type: lower-alpha;" MadCap:continue="true">
+            <li>From the Source drop-down list for Reselect Value, select User Defined; from the Value drop-down list, select Yes to force the control to reselect its persisted value (if any) from the newly set reference data. If the persisted value is not defined in the new reference data, the control displays an empty control. Selecting No removes any persisted value from the control so that the OEP user can select from the new reference data.</li>
+        </ol>
+        <ol start="15">
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> to save the action.</li>
+            <li>To prevent validation errors, <a href="Deactivating Statements.htm#top">deactivate</a> the following default Onyx action statements, which reference the removed default Source control. </li>
+        </ol>
+        <ul>
+            <li class="List_Indent">Load object:</li>
+        </ul>
+        <ul style="list-style-type: circle;">
+            <li class="BulletList2">Onyx: Set Source Required</li>
+            <li class="BulletList2">Onyx: Specify Source Get Resource for Validation</li>
+        </ul>
+        <ul>
+            <li class="List_Indent">Validate object:</li>
+        </ul>
+        <ul style="list-style-type: circle;">
+            <li class="BulletList2">Onyx: Source (Required) </li>
+        </ul>
+        <ol start="17">
+            <li>Close the Dynamic Forms Designer.</li>
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Accessing UCW_1.jpg" style="width: 24px;height: 24px;" /> on the UCW toolbar to save all configurations and exit design mode. </li>
+        </ol>
+        <h3><a name="Adding"></a>Adding an HTML Container Control</h3>
+        <p>This example adds a tab to the individual PowerPage that displays a domain lookup page from an external website. The domain lookup string is derived from the contents of the Email text box control. Using an HTML Container toolbox control, this example demonstrates how to give users one-click access to information. It shows how quickly external pages or custom OEP pages can be configured for display from the tabs on OEP pages.</p>
+        <p class="ProcedureHeading">To implement this example:</p>
+        <ol>
+            <li>Enter design mode for the individual PowerPage.</li>
+            <li>Use Navigation Designer to add a custom bottom tab to the individual PowerPage. Save the tab with the following properties. </li>
+        </ol>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Caption (name)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">emailLookup</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Email Lookup</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="Indent1">For basic instructions on adding custom tabs, see <a href="Deleting toolbars.htm#Configur">Configuring tabs</a>. </p>
+        <ol MadCap:continue="true">
+            <li>Drag an HTML Container toolbox control from the Toolbox window to the custom tab's panel corner (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/Configuring Layout_1.png" style="width: 10px;height: 10px;" />).</li>
+        </ol>
+        <p class="Indent1">For basic instructions on adding custom controls to a page, see <a href="Configuring UI Controls.htm#Adding">Adding and moving controls</a>.</p>
+        <ol MadCap:continue="true">
+            <li>Write the control's ID property (first property in the Properties window) to a file. Example ID: "uid_1147926514330_4762_88__id22"</li>
+        </ol>
+        <p class="Indent1">The control ID identifies the HTML Container toolbox control added in the previous step. Use the control ID as the second argument for the getUiContainer method, which is called by the code used in the next step.</p>
+        <ol MadCap:continue="true">
+            <li>Add an Load event to the individual PowerPage using Advanced View that contains the code below. If you cut and paste this code in Advanced View, you may need to make some minor edits, such as removing extra line breaks, to prevent syntax errors.</li>
+        </ol>
+        <p style="font-weight: bold;">Contents of the code section </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>// This is a conditional statement that insures the domain lookup is attempted </code>
+                    </p>
+                    <p><code>// only when the individualEmail control is not empty.</code>
+                    </p>
+                    <p>&#160;</p>
+                    <p><code>if ((/*Get value from 'Individual_Email'*/ invokeAction("indirect", "individualEmail",</code>
+                    </p>
+                    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>"getValue", new Array("eventArgument1", psEventArgument1),</code> <![CDATA[ ]]></p>
+                    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>new Array("eventArgument2", psEventArgument2)).value != "")) </code></p>
+                    <p>&#160;</p>
+                    <p><code>// Retrieve the email string from the individualEmail control and save it to a variable</code>
+                    </p>
+                    <p><code>{</code>
+                    </p>
+                    <p><code>var individualEmail = invokeAction("indirect", "individualEmail", "getValue", </code>
+                    </p>
+                    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>new Array("eventArgument1", psEventArgument1), new Array("eventArgument2",</code></p>
+                    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>psEventArgument2)).value;</code></p>
+                    <p>&#160;</p>
+                    <p><code>// Get a reference to the HTML container control using the control ID that was noted when</code>
+                    </p>
+                    <p><code>// the HTML container control has added to the individual Powerpage</code>
+                    </p>
+                    <p>&#160;</p>
+                    <p><code>var oContainer = moUcfFrameworkRuntime.getUiContainer("indirect","uid_1153346314029_4496_49__id83" );</code>
+                    </p>
+                    <p>&#160;&#160;<code>&#160;if (oContainer) {</code></p>
+                    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>// Remove the user name and @ from the email address</code></p>
+                    <p>&#160;&#160;&#160;&#160;&#160;&#160;<code>&#160;var domainStart = individualEmail.substring(0, individualEmail.lastIndexOf('@')+1);</code></p>
+                    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>var domainString = individualEmail.substring(domainStart.length, individualEmail.length+1);</code></p>
+                    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>// Display the domain lookup web page</code></p>
+                    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>oContainer.innerHTML = "&lt;html&gt;&lt;body style='width:100%;height:100%'&gt;</code></p>
+                    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;iframe id='webPageHolder' </code></p>
+                    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&#160;src='http://registrar.verisign-grs.com/cgi-bin/whois?whois_nic=" + domainString + "' </code></p>
+                    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&#160;style='width:100%;height:100%' &gt;&lt;/iframe&gt;&lt;/body&gt;&lt;/html&gt;";</code></p>
+                    <p>&#160;&#160;<code>&#160;}</code></p>
+                    <p><code>}</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <ol MadCap:continue="true">
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> to save the action statement and then close Dynamic Forms Designer.</li>
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Accessing UCW_1.jpg" style="width: 24px;height: 24px;" /> on the UCW toolbar to save all configurations and exit design mode. </li>
+        </ol>
+        <h3><a name="Adding3"></a>Adding a Data-bound HTML Container Control </h3>
+        <p>This example adds a HTML container toolbox control to the company edit page that is bound to the dunsNumber property of the company object. The HTML container control lets you specify custom formatting for a control. In this case. for demonstration purposes, it specifies a text box with a red background and a white font for displaying the control's value. In order to create a DUNS control with alternate formatting, you must remove the <a href="Configuring UI Controls.htm#About">intrinsic</a>, or default, DUNS control and replace it with an HTML container control.</p>
+        <p>A data-bound HTML container control requires you to create handlers using Advanced View code that enable set value and get value functionality, which is required for writing and retrieving values that the database persists. The JavaScript code in the following procedure demonstrates this functionality.</p>
+        <p class="ProcedureHeading">To implement this example:</p>
+        <ol>
+            <li>Display the PowerPage for a company, and click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Advanced Configuration Examples.jpg" style="width: 22px;height: 24px;" /> to display the company edit page. Enter <a href="Accessing UCW.htm#top">design mode</a>.</li>
+            <li>Drag the <b>D-U-N-S</b> UI control from the page to the <b>Intrinsic Controls pane.</b></li>
+            <li>Drag the <b>HTML Container</b> toolbox control from the Toolbox pane to the location previously occupied by the D-U-N-S control.</li>
+            <li>Configure the control's properties using the following entries in the Properties pane. Typed entries are indicated by italics; selected entries are indicated by boldface. For property settings not listed in the tables, accept their default values (which can be empty). </li>
+        </ol>
+        <table>
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Entry</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Admin ID</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Duns_Custom</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Property</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>dunsNumber</b>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Mode</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Read/Write</b>
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="Indent1">This configuration information binds the dropdown control to the dunsNumber property of the company object.</p>
+        <ol MadCap:continue="true">
+            <li>In Dynamic Forms Designer for the company edit page, add an unconditional action statement to the <b>Load</b> event for the <b>Page</b> object. This action contains the code that enables the HTML container control.</li>
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Adding Statements_1.jpg" style="width: 24px;height: 22px;" /> to enable Advanced View.</li>
+            <li>In the <b>Description</b> box at the top of the Action Designer pane, type a description of the action statement. Example description: "Load custom DUNS control."</li>
+            <li>Put the following sample JavaScript code into the <b>Code</b> section. This code enables the HTML container control. </li>
+        </ol>
+        <p style="font-weight: bold;">JavaScript code </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>/* Create / Set Page Variable "myToolboxControl" equal to "uid_1153499472681_1375_63__id29" */</code> <![CDATA[ ]]></p>
+                    <p><code>invokeAction("direct", "ucf.common", "setPageVariable", new Array("name", "myToolboxControl"),</code> <![CDATA[ ]]></p>
+                    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&#160;&#160;new Array("value", "uid_1153499472681_1375_63__id29"));</code></p>
+                    <p>&#160;</p>
+                    <p><code>function html_getValue() {</code>
+                    </p>
+                    <p><code>// Get the toolbox ID from the myToolboxContol page variable</code>
+                    </p>
+                    <p>&#160;&#160;&#160;<code>var sHtmlContainerId = invokeAction("direct", "ucf.variable:myToolboxControl", "getValue").value;</code></p>
+                    <p>&#160;&#160;<code>&#160;var oInput = document.getElementById(sHtmlContainerId + "input");</code></p>
+                    <p>&#160;&#160;&#160;<code>if (oInput) {</code></p>
+                    <p>&#160;&#160;&#160;&#160;<code>&#160;&#160;return new UcfActionReturn(oInput.value);</code></p>
+                    <p>&#160;&#160;<code>&#160;} else {</code></p>
+                    <p>&#160;&#160;&#160;&#160;&#160;&#160;<code>return new UcfActionReturn("", false);</code></p>
+                    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&#160;&#160;}</code></p>
+                    <p>&#160;&#160;<code>&#160;}</code></p>
+                    <p><code>function html_setValue(psValue) {</code>
+                    </p>
+                    <p><code>// Get the toolbox ID from the myToolboxContol page variable</code>
+                    </p>
+                    <p>&#160;&#160;&#160;<code>var sHtmlContainerId = invokeAction("direct", "ucf.variable:myToolboxControl", "getValue").value;</code></p>
+                    <p>&#160;&#160;&#160;<code>var oInput = document.getElementById(sHtmlContainerId + "input");</code></p>
+                    <p>&#160;&#160;<code>&#160;if (oInput) {</code></p>
+                    <p>&#160;&#160;&#160;&#160;&#160;<code>&#160;oInput.value = psValue;</code></p>
+                    <p>&#160;&#160;&#160;&#160;&#160;&#160;<code>} </code></p>
+                    <p>&#160;&#160;&#160;&#160;&#160;<code>&#160;return new UcfActionReturn(true);</code></p>
+                    <p>&#160;&#160;<code>&#160;}</code></p>
+                    <p><code>// Get the toolbox ID from the myToolboxContol page variable</code>
+                    </p>
+                    <p>&#160;&#160;<code>&#160;var sHtmlContainerId = invokeAction("direct", "ucf.variable:myToolboxControl", "getValue").value;</code></p>
+                    <p>&#160;&#160;&#160;<code>var oContainer = moUcfFrameworkRuntime.getUiContainer("indirect", sHtmlContainerId);</code></p>
+                    <p><code>// Retrieve the current tab index value that UCW maintains</code>
+                    </p>
+                    <p>&#160;&#160;&#160;<code>var sTabIndex = oContainer.getAttribute("ucfTabIndex");</code></p>
+                    <p>&#160;</p>
+                    <p>&#160;&#160;&#160;<code>if (oContainer) {</code></p>
+                    <p>&#160;&#160;&#160;&#160;&#160;&#160;<code>// Create a red textbox control with a label. Note that the tab index</code></p>
+                    <p>&#160;&#160;&#160;&#160;&#160;&#160;<code>// is set for the control using the contents of sTabIndex.</code></p>
+                    <p>&#160;&#160;&#160;&#160;&#160;&#160;<code>oContainer.setAttribute("ucfControlRef", sHtmlContainerId + "input");</code></p>
+                    <p>&#160;&#160;&#160;&#160;&#160;&#160;<code>oContainer.innerHTML = "&lt;span id='" + sHtmlContainerId + "label' &#160;class='ucfLabel'&gt;D-U-N-S&lt;/span&gt;&lt;input id='" + sHtmlContainerId + "input' type='text' style='width:100%;background-color:red;color:white;font-weight:bold;' tabindex='"+sTabIndex+"'/&gt;";</code></p>
+                    <p>&#160;&#160;&#160;&#160;&#160;&#160;<code>var sWidth = getUcfLabelWidth(sHtmlContainerId);</code></p>
+                    <p>&#160;&#160;&#160;&#160;&#160;<code>&#160;var oLabel = document.getElementById(sHtmlContainerId + "label");</code></p>
+                    <p>&#160;&#160;&#160;&#160;&#160;&#160;<code>oLabel.style.width = sWidth ;</code></p>
+                    <p><code>}</code>
+                    </p>
+                    <p><code>//Enable the setValue and getValue functions using these internal variables</code>
+                    </p>
+                    <p><code>invokeAction("indirect", sHtmlContainerId, "setVariable", new Array("id", "_getValueHandler"), new Array("value", html_getValue));</code>
+                    </p>
+                    <p><code>invokeAction("indirect", sHtmlContainerId, "setVariable", new Array("id", "_setValueHandler"), new Array("value", html_setValue));</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p style="font-weight: bold;">The preceding code demonstrates these items:</p>
+        <ul>
+            <li class="BulletList2">Invoking the html_getValue() and html_setValue() functions by setting the contents of the_setValueHandler and _getValueHandler internal variables to those functions.</li>
+            <li class="BulletList2">Obtaining a reference to the HTML container object using the UcfFrameworkRuntime object. The ID string stored in the myToolboxControl variable is found in the Properties pane when OEP is in design mode and the HTML container control is selected. </li>
+            <li class="BulletList2">Setting the contents of the HTML container, including a label for the textbox, using the innerHTML property of the container. </li>
+            <li class="BulletList2">Setting the tab index for the HTML container by retrieving the current ucfTabIndex value and using it to set the tabindex attribute of the textbox that is specified in the innerHTML. </li>
+            <li class="BulletList2">Determining the area required for the control (when a page resize event occurs) using the getUcfLabelWidth utility function from the following file: OEPebsite\ucf\infrastructure\page_manager\common_utility_functions.js.</li>
+        </ul>
+        <ol start="9">
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> to save the action.</li>
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Moving Statements.png" style="width: 13px;height: 15px;" /> to move the action above the "Onyx: Load" legacy action. Because the Onyx load action requires the DUNS custom control's setValue handler in order to display the data-bound property in the custom DUNS control, the custom DUNS control action must load prior to the Onyx load action.</li>
+            <li>Close the Dynamic Forms Designer.</li>
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Accessing UCW_1.jpg" style="width: 24px;height: 24px;" /> on the UCW toolbar to save all configurations and exit design mode. </li>
+        </ol>
+        <h5><a name="About"></a>About the HTML Container Control</h5>
+        <p>The HTML container control is a Dynamic Forms Designer toolbox control that enables UI designers to create a custom control that contains HTML that you provide. Adding the HTML container control from the Toolbox creates a placeholder for the control (&lt;div&gt;), but to render it requires custom code entered manually through Advanced View in Dynamic Forms Designer. Designers can use the HTML container control to create controls that are not provided in Dynamic Forms Designer. For example, this control can display custom HTML that hosts external pages or ActiveX controls. </p>
+        <p>There is no limit to the number of HTML container controls that can exist on a page, but they cannot be copied using the clone functionality of the Dynamic Forms Designer. Each control must be created separately.</p>
+        <p>The HTML container control has two internal variables (_setValueHandler and _getValueHandler) that allow Dynamic Forms Designer custom code to set handler functions for setValue and getValue actions. A special action, fireChange, enables custom code to force a change event to be invoked. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">For more information about _setValueHandler and _getValueHandler, see <a href="#Adding3">Adding a data-bound HTML container control</a>.</p>
+    </body>
+</html>

@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="120" MadCap:lastWidth="701">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2 style="page-break-before: always;"><a name="top"></a>Scheduling Calendar Appointments</h2>
+        <p>You can define schedules for the delivery of calendar appointments to your users to optimize resource utilization and suit the demands of your business.</p>
+        <p><b>To schedule calendar appointments:</b>
+        </p>
+        <ol>
+            <li>On the OEAS server, stop the Onyx.ONS service.</li>
+            <li>Go to the Onyx Notification Service installation path, and open the Schedules.config file. The default file location is C:\Program Files\Onyx\AppServer\Applications\Onyx\OnyxNotificationService\Config\Schedules.config.</li>
+            <li>Using an editor such as Notepad, create schedules to match your business needs. For more information, see <a href="#Example">Example code for schedules</a>.</li>
+        </ol>
+        <p>The following table provides a description of each property.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Schedule ID</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter a unique identification number for the schedule you want to set. You can set multiple schedules for each schedule type. Once saved, do not change this value.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Type</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the type of schedule you want to create. To create a schedule for calendar appointments, enter CALENDAR_SYNC as the type. Once saved, do not change this value. You can create multiple schedules for a single schedule type.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Enable</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter true to enable the schedule. Enter false if you do not plan to enable the schedule immediately. When this value is set to false, no emails or appointments are sent during the schedule time.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">StartTime</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the time, in 24-hour format, at which the scheduler service will begin processing notification emails and calendar appointments. We recommend a minimum gap of 5 minutes between two schedules of the same type.</p>
+                        <p class="Table_Text">Note that all times are in UTC timezone.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">EndTime</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the time, in 24-hour format, at which the scheduler service will stop processing notification emails and calendar appointments. To set a schedule that runs 24 hours a day, enter '''' as the value for the EndTime attribute.</p>
+                        <p class="Table_Text">Note that all times are in UTC timezone.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ol MadCap:continue="true">
+            <li>After creating the schedules you need, save and close the Schedules file.</li>
+            <li>Restart the Onyx.ONS&#160;service.</li>
+        </ol>
+        <h4 style="page-break-before: always;"><a name="Example"></a>Example XML for schedules</h4>
+        <p>Example code for a single schedule</p>
+        <p class="Indent1"><code>&lt;? xml version="1.0" encoding="utf-8"?&gt;</code>
+        </p>
+        <p class="Indent1"><code>&lt;Schedules&gt;</code>
+        </p>
+        <p class="Indent1"><code>&lt;Schedule ID="1" Type="CALENDAR_SYNC" Enable="true" StartTime="0000" EndTime="0500" /&gt;</code>
+        </p>
+        <p class="Indent1"><code>&lt;/Schedules&gt;</code>
+        </p>
+        <p>Example code for multiple schedules</p>
+        <p class="Indent1"><code>&lt;? xml version="1.0" encoding="utf-8" ?&gt;</code>
+        </p>
+        <p class="Indent1"><code>&lt;Schedules&gt;</code>
+        </p>
+        <p class="Indent1"><code>&lt;Schedule ID="1" Type="CALENDAR_SYNC" Enable="true" StartTime="0900" EndTime="1800" /&gt;</code>
+        </p>
+        <p class="Indent1"><code>&lt;Schedule ID="2" Type="CALENDAR_SYNC" Enable="true" StartTime="1830" EndTime="0830" /&gt; &lt;!—This is the second schedule for CALENDAR_SYNC type)</code>
+        </p>
+        <p class="Indent1"><code>&lt;/Schedules&gt;</code>
+        </p>
+    </body>
+</html>

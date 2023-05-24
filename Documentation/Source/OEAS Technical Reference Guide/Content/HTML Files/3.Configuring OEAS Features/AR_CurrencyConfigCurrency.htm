@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="747" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Configuring currency codes</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>Configuring currency codes </h3>
+        <p>Currency codes are used by the Forecasts and Quotes feature to establish 
+ forecasts and quotes in currencies other than the base currency of the 
+ products selected for the forecast or quote. End users can select the 
+ currency code for a quote or forecast from a list box in the user interface. 
+ Once selected, the currency code controls the display of international 
+ currencies, such as the pound or the yen. OEAS uses the selected currency 
+ code to determine the currency conversion values to use to convert the 
+ currency. </p>
+        <p>Within Product Administration, the currency types are also displayed 
+ in a drop-down list so that you can assign a base currency type to a product. 
+ </p>
+        <p>Currency code data is installed by default with installation 
+ of the Onyx Enterprise Database (OEDB), and includes the following information 
+ for each currency type: </p>
+        <ul>
+            <li>The currency name</li>
+            <li>A currency code that is used as part of the unique 
+ identification for each currency</li>
+            <li>The locale ID, which is the ANSI standard locale 
+ ID for the currency type (the locale ID is used to format the currency 
+ type in association with the monetary value)</li>
+        </ul>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Within OEP, the currencies are displayed in a drop-down list 
+ on the properties page of a forecast or quote. If you have implemented 
+ secondary currencies for the Forecasts and Quotes feature, two drop-down 
+ lists are provided, one for the primary currency of forecast or quote, 
+ and one for the secondary currency.</p>
+        <p>Using the Currency table in Table Administration, 
+ you can administer currency codes by: </p>
+        <ul>
+            <li>Creating new currency codes</li>
+            <li>Modifying existing currency codes</li>
+            <li>Setting a currency code to active or inactive</li>
+            <li>Deleting existing currency codes</li>
+        </ul>
+        <p>See "Table Administration Help" for further details. </p>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; &#160;"> If you implement multiple currency support, and if you 
+ modify any of the currency codes, you must also modify the currency conversion 
+ data to reflect those changes. Specifically, the currency_code_from and 
+ currency_code_to fields in the currency_conversion table must match a 
+ value in the currency_code field in the currency table. Otherwise, certain 
+ currency conversions that you perform may not work properly. For more 
+ information about currency conversion data, see <a href="ar_currencyconfigcurrconv.htm">Configuring 
+ currency conversion data.</a></p>
+        <p>The Currency fields displayed by Table Administration are listed in 
+ the following table. </p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Field </th>
+                    <th>Description </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">currencyCode</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Not editable (once it is created), because 
+ it is a primary key field. currencyCode is the ANSI standard currency 
+ code abbreviation for a particular currency. When adding a new currency, 
+ a unique currencyCode must be provided. This field’s data values are referenced 
+ in many other places in the application. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">description</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">A currency description is provided for each 
+ currency type that is visible in areas of the application where end-users 
+ can select a currency type. The default data lists the chCurerncyCode 
+ abbreviation in parentheses with the description, but this is optional. 
+ This column is editable. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">localeId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">The value stored in chLocaleId is the ANSI 
+ standard code that represents the currency formatting that is applied 
+ to the monetary values of a particular currency type. This column is editable. 
+ </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">active</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Indicates if a record is active or not active. 
+ If active is 1, the record is active and available throughout the application. 
+ If active is 0, the record remains in the table but is not available throughout 
+ the application. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

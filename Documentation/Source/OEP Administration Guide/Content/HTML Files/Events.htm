@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="414" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2><a name="top"></a>Events</h2>
+        <p>This section contains the events that appear in the Dynamic Forms Designer event panel. The events are grouped into objects so that events associated with specific UI controls are separate from events that pertain to the page as a whole. The event list differs for each UCW-enabled page. The following table lists the event objects. </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Object</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#Control">Control</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Identifies events associated with UI controls, usually as a result of user interaction with UI elements on a page.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#Page">Page</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Identifies events associated with the page as a whole, such as loading of a page or validating user input.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#Server">Server</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Identifies server-side events associated with the page.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The following graphic of the Events tree in Dynamic Forms Designer shows the event objects for the company PowerPage.</p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Events.jpg" style="width: 542px;height: 455px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <h3><a name="Control"></a>Control Events</h3>
+        <p>Control objects, which appear in the Events pane of the Dynamic Forms Designer window, represent client-side events for UI elements, such as controls (including activated UDFs), tabs, toolbars, and, for the main application frame, Header Bar buttons and Navigation Bar links. Controls that UCW designers add to a page will also appear in this list.</p>
+        <p>In the Events pane, controls and custom toolbars are identified by their Admin ID properties while default toolbars, default tabs, and custom tabs are contained within toolbar or tab groups, such as "Top_Tab." For more information about the Admin ID property, see the <a href="Showing the Controls Panes.htm#Control">Control properties reference</a>.</p>
+        <p>Control events occur when OEP users update values associated with UI controls or when they select toolbar or tab items. On the other hand, a change event does not fire when Dynamic Forms action statements set the value of controls.</p>
+        <p>You can configure action statements for controls that have associated events. You cannot configure action statements for controls that do not have associated events. Such controls are display-only. OEP users cannot select or update values associated with display-only controls. The company and individual PowerPages contain many display-only controls. The company edit and individual edit pages contain many user-interactive controls.</p>
+        <p style="font-weight: bold;">The following table lists the control events:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Event</th>
+                    <th>Available for these control objects</th>
+                    <th>Occurs when an OEP user...</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Change</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">UI controls, such as drop-down lists and check boxes </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Changes the contents or selection of a UI control.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Item Click <i>(Item ID)</i></p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Tabs </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Clicks the tab identified by the Item ID.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Item Click <i>(Item ID) (Item Value)</i></p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Toolbars</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Clicks the toolbar item identified by the Item ID and Item Value.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Pause </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Elapsed time pause button on the incident edit and task edit pages only </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Clicks the elapsed time pause button on the incident edit and task edit pages. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Start</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Elapsed time start button on the incident edit and task edit pages only </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Clicks the elapsed time start button on the incident edit and task edit pages. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3><a name="Page"></a>Page Events</h3>
+        <p>The Page object, which appears in the Events pane of the Dynamic Forms Designer window, represents page client-side events for the current context (selected page or the main application frame). You can add action statements to the events listed for the Page object. Default Onyx action statements are prefixed with "Onyx."</p>
+        <p>The following table lists the page event objects. </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Event</th>
+                    <th>Occurs...</th>
+                    <th>Event</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Before Unload</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">When a user attempts to navigate away from page or close the browser window. </p>
+                        <p>This event lets you create action statements that warn the user of the consequences of closing the page, for example, that unsaved changes will be lost. If action statements under a Before Unload event use the Terminate and Return String action, the specified string is displayed in the Internet Explorer "Are you sure you want to navigate away from this page?" alert displayed to the user. Note that OEP automatically warns the user if the user made changes to standard controls on the page. </p>
+                        <p>Because the user may choose to cancel the navigation and stay at the current page, the fact that the beforeUnload event has fired does not necessarily mean that the page is about to be unloaded. Any actions to be executed only when the page is definitely about to be unloaded should be placed under the Unload Event instead.</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Before Unload</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Change</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">When a change event occurs for any of the page's controls. </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Change</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Clear</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">When data is removed from the page.</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Clear</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Delete</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">When the user deletes the record that the page displays.</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Delete</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Load</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">When a browser loads the page.</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Load</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Resize</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">When a page loads and when an OEP user resizes, maximizes, minimizes, and restores a page. This event resizes the division markers (&lt;div&gt;) on the page. Because resize can fire many times, do not attach significant actions (such as displaying a dialog box) to the resize event. </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Resize</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Retrieve</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">When the page uses an Onyx Enterprise Application Server (OEAS) method call to retrieve data.</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Retrieve</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Save</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">When an OEP user saves the page (assuming that all required validation is completed). The page uses an Onyx Enterprise Application Server (OEAS) method call to insert or update data.</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Save</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Unload</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">When the page is unloaded from the browser.</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Unload</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Validate</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">When the user attempts to save the page; before a save. The browser performs client-side validation actions at this event.</p>
+                        <p class="Table_Text">Dynamic Forms Designer actions can prevent pages from saving when a conditional action statement used for validation indicates that the user entered invalid data or did not supply required information. In this case use the <a href="Objects in the action and.htm#UI">Show Validation Message Box</a> action to alert the user and set the action statement return value to false (this prevents the save). You can also prevent a save by using the <a href="Objects in the action and.htm#Common">Terminate Current Event (Return Boolean)</a> action that returns a value of false. For an example of using the Show Validation Message Box action, see <a href="Setting Controls as Required.htm#Configur">Configuring a validation error message</a>.</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Validate</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3><a name="Server"></a>Server Object</h3>
+        <p>The Server object appears in the Events pane of the Dynamic Forms Designer window. Body is the only object under Server, and you can add an ASP statement to the this object that insert server-side ASP code either before or after the &lt;body&gt; section of an ASP page. For more information, see <a href="Configuring Page Appearance.htm#top">Configuring page appearance (ASP Editor)</a>.</p>
+    </body>
+</html>

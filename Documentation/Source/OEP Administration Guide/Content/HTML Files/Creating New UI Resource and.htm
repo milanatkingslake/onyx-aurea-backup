@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="808" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h3><a name="top"></a>Creating New UI Resource and Granting Permissions</h3>
+        <p>UI resources enable you to define the actions that your users can or cannot perform. Onyx provides UI resources for all default UI elements, such as entities, fields, and actions buttons. For each custom UI element that you add to your Onyx system, you must create a new UI resource and grant the necessary permissions. </p>
+        <p class="ProcedureHeading">To create a new UI resource:</p>
+        <ol>
+            <li>Log on to <b>OES Security Administration</b>, and expand <b>Resources</b>.</li>
+        </ol>
+        <ol MadCap:continue="true">
+            <li>In the navigation area, select <b>UIResources</b> and click the <b>Add</b> button at the top left.</li>
+            <li>In the <b>Edit Resource</b> window, type the Resource ID in the specified format, and enter a Description to identify the resource.</li>
+        </ol>
+        <p class="Indent1">For reference, look for resources with Navigator in the name.</p>
+        <ol MadCap:continue="true">
+            <li>Click <b>Manage Permissions</b>.</li>
+            <li>In the navigation area expand <b>Roles</b>.</li>
+            <li>Select the following roles one by one, and click the <b>Add</b> button in the <b>Edit Resources</b> window: Administrator, OEP.administrator, OEP.user, and OEP.poweruser.</li>
+            <li>Click <b>Done</b> when you’ve finished adding the desired roles.</li>
+            <li>Click <b>Save</b>.</li>
+            <li>Update the relevant table in the Persistence database with the UI resource ID you created.</li>
+        </ol>
+        <p style="font-weight: bold;">The tasks explained in this topic are:</p>
+        <ul>
+            <li><a href="#UI">UI Resource Format</a>
+            </li>
+            <li style="list-style-type: disc;"><a href="#Updating">Updating UI Resource in Persistence Database</a>
+            </li>
+        </ul>
+        <h4><a name="UI"></a>UI Resource Format&#160;</h4>
+        <p>When you create UI resource IDs for Navigator, we recommend that you follow the format: UI:OEP.&lt;Entity_name.UI Element.Resource_Permission&gt;, where:</p>
+        <ul>
+            <li>Entity_name is the name of the search type that the field is added to.</li>
+            <li style="list-style-type: disc;">UI Element is the UI resource name that you want to grant permissions for. This value is optional for some entity level UI resources.</li>
+            <li style="list-style-type: disc;">Resource_Permission is the permission for the resource.</li>
+        </ul>
+        <h4><a name="Updating"></a>Updating UI Resource in Persistence Database</h4>
+        <p>After creating the UI resource IDs, you must update the appropriate tables in the Persistence database.</p>
+        <p>To do this, from the UI Resource ID, remove the text that specifies the permissions, and copy the remaining text to the ResourceName column in the appropriate table.</p>
+        <p>For example, if the new UI resource for a custom field is UI:OEP.SupportIncident.PriorityDesc.View, then enter 'UI:OEP.SupportIncident.PriorityDesc' in the ResourceName field in the navigator_entity_field_master table.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>UI resource type</th>
+                    <th>UI resource ID format</th>
+                    <th>Resource name value to update in Persistence database</th>
+                    <th>Table to update</th>
+                    <th>Column to update</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Search Type entity name</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">UI:OEP.&lt;Resource Name&gt;.&lt;Resource_Permission&gt;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">UI:OEP.&lt;Resource Name&gt;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">navigator_entity_master</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">EntityResourceName</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Search criteria field or result grid column</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">UI:OEP.&lt;Resource Name&gt;.&lt;Resource_Permission&gt;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">UI:OEP.&lt;Resource Name&gt;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">navigator_entity_field_master</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">ResourceName</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Result grid action menu</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">UI:OEP.&lt;Resource Name&gt;.&lt;Resource_Permission&gt;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">UI:OEP.&lt;Resource Name&gt;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">navigator_entity_master</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">GAMEntityResourceName</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Result grid action button</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">UI:OEP.&lt;Resource Name&gt;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">UI:OEP.&lt;Resource Name&gt;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">ActionButton</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">ResourceName</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="779" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Always subscribe the primary object</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h1>Always subscribe the primary object </h1>
+        <p>The <span class="UIElement" style="font-weight: bold;">Always subscribe the primary object </span>rule 
+ can be set only at the relationship level and is used to provide cascading 
+ subscriptions that protect data integrity. It is also used to determine 
+ which secondary objects should be unsubscribed or deleted when a primary 
+ object is unsubscribed or deleted. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">A default set of subscription relationships with the 
+ <b>Always subscribe the primary object</b> rule 
+ set to true is provided with installation of OEAS. These relationships 
+ are required and this rule should not be modified. For more information 
+ about the default required relationships, see <a href="AR_CA_SubscDefaults.htm">Default 
+ subscription relationships and rules</a>.</p>
+        <p>Setting this rule to true for a subscription relationship ensures that 
+ when an end-user subscribes to the secondary object in the relationship, 
+ an automatic (cascaded) subscription to the relationship’s primary object 
+ is created for that subscriber. In addition, the cascade process checks 
+ for this same rule on any relationships of the primary object, and, if 
+ found, will subscribe that relationship’s primary object to the subscriber 
+ as well. The cascade process continues to auto-subscribe records to the 
+ subscriber in this manner until there is no further relationship to process. 
+ For example, when the top-level object is reached, when a duplicate (already 
+ subscribed) object is reached, or when an object is reached that either 
+ does not have a primary object relationship or that does not have a primary 
+ object relationship with the <span class="UIElement" style="font-weight: bold;">Always subscribe the 
+ primary object </span>rule set to true.</p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">The original subscription to the secondary object can be 
+ a result of the end-user explicitly subscribing to the object herself, 
+ an advanced subscriber subscribing the object to the user, or another 
+ cascade process. In any case, once the subscription is created, the cascade 
+ process will proceed as described when this rule is set to true.</p>
+        <p style="font-weight: bold;">Example: </p>
+        <p>Suppose you have the following: </p>
+        <ul>
+            <li>A subscribable company object.</li>
+            <li>A subscribable incident object with a subscription 
+ relationship between the company and incident objects based on the OEDB 
+ <em class="Emphasis">company owner of an incident</em> relationship, for 
+ which the <span class="UIElement" style="font-weight: bold;">Always subscribe the primary object </span>rule 
+ is set to true.</li>
+            <li>A subscribable task object with a subscription 
+ relationship between the incident and task objects based on the OEDB <em class="Emphasis">incident owner of a task</em> relationship, for which the 
+ <span class="UIElement" style="font-weight: bold;">Always subscribe the primary object </span>rule 
+ is set to true.</li>
+        </ul>
+        <p>When an end-user subscribes to a task, an automatic (cascaded) subscription 
+ to the incident that owns the task is created for that end-user, as well 
+ as a subsequent cascaded subscription to the company that owns that incident. 
+ </p>
+    </body>
+</html>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="807.4567" MadCap:lastWidth="968">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Steps</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h6>
+            <MadCap:keyword term="step" />Steps</h6>
+        <p>The steps collection is a container that holds all of the steps that 
+ define individual activities for a method.</p>
+        <p>Steps, which are owned by a method, describe an individual action or 
+ activity within the scope of work performed by the method. For example, 
+ a method's first step is often to perform validation tests on parameter 
+ data before database actions are performed by subsequent steps.</p>
+        <p>The following three values are available for the <a href="Methods_and_Steps.htm#StepTypes">step 
+ type</a> attribute:</p>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Table_1.css');" class="TableStyle-Aptean_Table_1" cellspacing="0">
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 5cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 12cm;" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_1-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Step Type</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadD-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Description</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;"><span style="font-weight: bold;">com</span>
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">A <span style="font-weight: bold;">com</span> 
+ step causes a specified COM+ object to be called on the business tier.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;"><span style="font-weight: bold;">method</span>
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">A <span style="font-weight: bold;">method</span> 
+ step causes a call to a specified method on another object.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;"><span style="font-weight: bold;">transaction</span>
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">A <span style="font-weight: bold;">transaction</span> 
+ step signifies either the beginning or end of a COM+ distributed transaction. 
+ (Note: Transaction steps are not used in this release of OEAS.)</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Steps have specific attributes which include a name that must be unique 
+ within the method, a description, and a "step data" attribute 
+ that identifies what process should be launched. For a <span style="font-weight: bold;">com</span> 
+ step, the "step data" value is the ProgId identifying the COM+ 
+ object to be executed. COM+ objects that are to be called in a step (otherwise 
+ known as step components) must support the <a href="istep_iface.htm">IStep 
+ interface</a>. For a <span style="font-weight: bold;">method</span> step, 
+ the "step data" value identifies a method to be called on a 
+ business object.</p>
+        <p>Another important step attribute is "additional data." This 
+ is a semi-colon (;) delimited, keyword-value pair string that is used 
+ to communicate additional information to the component or method being 
+ called (see <a href="OEAS_onyx_step_components.htm">Onyx Step Components</a> 
+ for more information). The step also has an attribute called "override 
+ template" that is not used in this release of OEAS and must be left 
+ blank.</p>
+        <p>When calling ODM, the following step additional data are required.</p>
+        <ul>
+            <li>stepName = &lt;Name of the step&gt; Ex: core;</li>
+            <li>stepObject = &lt;Name of the step object&gt; Ex: 
+ actionBatch;</li>
+            <li>stepMethod = &lt;Name of the step method&gt; Ex: 
+ retrieveListByStatusIds;</li>
+            <li>dataPath = &lt;Name of the collection&gt; Ex: 
+ addresses;</li>
+        </ul>
+        <p>In addition to its attributes, a step may 
+ also own a collection of <a href="OED_Procedure_Maps.htm">procedure maps</a>. 
+ </p>
+    </body>
+</html>

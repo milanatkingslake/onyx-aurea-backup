@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="625" MadCap:lastWidth="624">
+    <head>
+    </head>
+    <body>
+        <H1 class="Heading">Installing and upgrading Onyx CTI</H1>
+        <p>This chapter explains how to prepare for installing or upgrading Onyx Computer Telephony Integration (Onyx CTI) and how to perform the installation or upgrade. </p>
+        <p>Onyx CTI is an add-on feature that integrates your computer telephony system with Onyx. </p>
+        <H2 class="Heading">Preparing for the installation or upgrade</H2>
+        <p class="BodyText">Before installing or upgrading to Onyx CTI <MadCap:variable name="CCM variables.Document - Version number" />:</p>
+        <ul>
+            <li class="ListBullet"><a href="Upgrade_your_environment.htm">Upgrade your Onyx environment to <MadCap:variable name="CCM variables.Document - Version number" /></a>
+            </li>
+            <li class="ListBullet"><a href="Ensure_that_your_environ.htm">Ensure that your environment meets all system requirements</a> <![CDATA[ ]]></li>
+            <li class="ListBullet" MadCap:conditions="FrontMatter.Comment"><a href="Back_up_your_environment.htm">Back up your environment</a> <![CDATA[ ]]></li>
+            <li class="ListBullet"><a href="Gather_the_required_Setu.htm">Gather the required Setup information</a>
+            </li>
+        </ul>
+        <H3 class="Heading">Upgrade your Onyx environment to <MadCap:variable name="CCM variables.Document - Version number" /></H3>
+        <p>If you are upgrading Onyx CTI, you must first upgrade OEAS (including the OEDB) and OEP, which requires data migration. Follow all of the instructions in the <span class="BookTitle" style="font-style: italic;">Data Migration Toolkit Guide</span>, with special attention to the following step occurring before migration: </p>
+        <ul>
+            <li class="ListBullet"><b class="Bold">Correct all referential integrity issues identified by the pre-migration scripts. </b>These scripts identify referential integrity issues in the core platform tables, some of which contain Onyx CTI data. (Referential integrity issues in the Onyx CTI tables are identified after migration in <a href="Clean_the_migrat.htm">Step 1: Clean the migrated  data for upgrade</a>). Issues specific to Onyx CTI <MadCap:variable name="CCM variables.Document - Version number" /> data include invalid user IDs in the UI_Resource table (chInsertBy) for the UI:OEP.CTI.Toolbar resource, which also affect dependent records, such as resource associations in the userResource object. You can correct identified instances of invalid user IDs by either adding the user ID to the Users table or updating the record’s insert_by value to a valid user ID. Only tables and data that meet referential integrity requirements will be migrated. </li>
+        </ul>
+        <p>For more information on the data migration process, see the <i>Data Migration Toolkit Guide</i>. </p>
+    </body>
+</html>

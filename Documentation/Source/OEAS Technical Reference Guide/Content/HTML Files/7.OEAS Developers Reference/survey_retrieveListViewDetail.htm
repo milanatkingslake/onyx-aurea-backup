@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:lastBlockDepth="6" MadCap:lastHeight="126" MadCap:lastWidth="701" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+    </head>
+    <body>
+        <head><title>retrieveListViewDetail (survey)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="retrieveListViewDetail" />retrieveListViewDetail method</h2>
+        <p>The retrieveListViewDetail method of the <a href="survey_object.htm">survey</a> object returns information about the surveys of the specified type. The result set mimics the <a href="searchViewDetail_object.htm">searchViewDetail</a> 
+ object.</p>
+        <p><a href="standard_retrieveList.htm">retrieveList standard method information</a>
+        </p>
+        <h3>Parameters</h3>
+        <table>
+            <col style="width: 4cm;">
+            </col>
+            <col style="width: 3cm;">
+            </col>
+            <col style="width: 3cm;">
+            </col>
+            <col style="width: 3cm;">
+            </col>
+            <col style="width: 4cm;">
+            </col>
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Direction</th>
+                    <th>Data type</th>
+                    <th>Content type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">customerType</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">in</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">i4</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">-</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The customerType is 1 for
+the individual or 2 for the company</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">surveyType</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">in</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">i4</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">n/a</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Returns the surveys.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">rowSet</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">out</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">object</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">all</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Contains the rowSet column definitions and the incident table rows matching with the owner and category criteria</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Steps</h3>
+        <table>
+            <col style="width: 5cm;">
+            </col>
+            <col style="width: 5cm;">
+            </col>
+            <col style="width: 7cm;">
+            </col>
+            <thead>
+                <tr>
+                    <th>Step data</th>
+                    <th>Step type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OnyxDataValidationStep.DataValidation</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Validates the input parameters</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OnyxDM.DataManager</p>
+                    </td>
+                    <td style="background-color: #ffffff;">
+                        <p class="Table_Text">com</p>
+                    </td>
+                    <td style="background-color: #ffffff;">
+                        <p class="Table_Text">Retrieves the collection of the survey object</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Example</h3>
+        <p style="font-weight: bold;">Input Parameter:</p>
+        <p class="C_Code">&lt;parameters&gt;</p>
+        <p class="C_Code">&lt;customerType&gt;1&lt;/customerType&gt;</p>
+        <p class="C_Code">&lt;surveyType&gt;11&lt;/surveyType&gt;</p>
+        <p class="C_Code">&lt;/parameters&gt;</p>
+        <p style="font-weight: bold;">Output Parameter:</p>
+        <p class="C_Code">&lt;parametersReturn&gt;</p>
+        <p class="C_Code">- &lt;rowSet objectType="rowSet" rowCount="1" columnCount="25"&gt;</p>
+        <p class="C_Code">- &lt;columnDefinitions collection="1" objectType="columnDefinition"&gt;</p>
+        <p class="C_Code">- &lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Company Primary ID&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;searchTableName&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;1&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;112&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">- &lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading /&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;searchTableAlias&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;2&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;112&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">- &lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading /&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;name&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;3&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;rows collection="1" objectType="row"&gt;</p>
+        <p class="C_Code">- &lt;row&gt;</p>
+        <p class="C_Code">&lt;c0 null="1" /&gt;</p>
+        <p class="C_Code">&lt;c1 null="1" /&gt;</p>
+        <p class="C_Code">&lt;c2&gt;1996 Seminar Survey&lt;/c2&gt;</p>
+        <p class="C_Code">&lt;c3&gt;1996 Seminar Survey&lt;/c3&gt;</p>
+        <p class="C_Code">&lt;c4&gt;3&lt;/c4&gt;</p>
+        <p class="C_Code">&lt;c5 null="1" /&gt;</p>
+        <p class="C_Code">&lt;c6&gt;TABLE&lt;/c6&gt;</p>
+        <p class="C_Code">&lt;c7 null="1" /&gt;</p>
+        <p class="C_Code">&lt;c8&gt;INSTANT&lt;/c8&gt;</p>
+        <p class="C_Code">&lt;c9 null="1" /&gt;</p>
+        <p class="C_Code">&lt;c10 null="1" /&gt;</p>
+        <p class="C_Code">&lt;c11 null="1" /&gt;</p>
+        <p class="C_Code">&lt;c12&gt;0&lt;/c12&gt;</p>
+        <p class="C_Code">&lt;c13&gt;0&lt;/c13&gt;</p>
+        <p class="C_Code">&lt;c14&gt;0&lt;/c14&gt;</p>
+        <p class="C_Code">&lt;c15&gt;0&lt;/c15&gt;</p>
+        <p class="C_Code">&lt;c16&gt;0&lt;/c16&gt;</p>
+        <p class="C_Code">&lt;c17 null="1" /&gt;</p>
+        <p class="C_Code">&lt;c18 null="1" /&gt;</p>
+        <p class="C_Code">&lt;c19&gt;surveyQuestion&lt;/c19&gt;</p>
+        <p class="C_Code">&lt;c20&gt;retrieveListViewDetail&lt;/c20&gt;</p>
+        <p class="C_Code">&lt;c21&gt;&lt;parameters&gt;&lt;customerType&gt;1&lt;/customerType&gt;&lt;surveyId&gt;29&lt;/surveyId&gt;&lt;/parameters&gt;&lt;/c21&gt;</p>
+        <p class="C_Code">&lt;c22&gt;//parametersReturn/rowSet/rows/row&lt;/c22&gt;</p>
+        <p class="C_Code">&lt;c23 null="1" /&gt;</p>
+        <p class="C_Code">&lt;c24 null="1" /&gt;</p>
+        <p class="C_Code">&lt;/row&gt;</p>
+        <p class="C_Code">&lt;/rows&gt;</p>
+        <p class="C_Code">&lt;/rowSet&gt;</p>
+        <p class="C_Code">&lt;/parametersReturn&gt;</p>
+    </body>
+</html>

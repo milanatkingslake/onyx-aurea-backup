@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:conditions="Primary.PrintOnly" MadCap:lastBlockDepth="6" MadCap:lastHeight="1184.165" MadCap:lastWidth="635" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="../SkinSupport/MadCap.css" rel="stylesheet" type="text/css" /><title>Adding Navigator Menu or Bookmark Item</title>
+        <link href="../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" />
+        <link href="../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" />
+    </head>
+    <body>
+        <H4 class="Heading">Adding Navigator Menu or Bookmark Item</H4>
+        <p class="BodyText">You must modify the configuration file to add the custom entity as a menu or bookmark item to the Navigator menu on the <span class="CCM variablesProduct - CCM Suite (abbrev)">Onyx</span> navigation bar.</p>
+        <p class="TaskHeading">To add a custom entity as a menu or bookmark item:</p>
+        <ol>
+            <li class="ListBullet_1" value="1">On the <span class="CCM variablesTier - presentation">OEP</span>server, navigate to <b>C:\Program Files (x86)\Onyx\EmployeePortal\</b>, and open the <b>Config.xml</b>file.</li>
+            <li class="ListBullet_1" value="2">Navigate to the node - <b>&lt;header:def id="HeaderBarRoot"&gt;</b></li>
+            <li class="ListBullet_1" value="3">Under that, navigate to the child node - <b>&lt;header:item id="QuickSearch"&gt;</b></li>
+            <li class="ListBullet_1" value="4">Under this node, create a new entry to add the custom entity as a menu item.</li>
+            <li class="ListBullet_1" value="5">Create another entry to add the custom entity as a bookmark item.</li>
+        </ol>
+        <p class="BodyText">If you add more than 20 custom bookmarks and menu items to the Navigator menu  on the Navigation bar, and the menu extends below the browser pane, some bookmarks  or menu items may not be visible. To resolve this issue, remove the items that  you do not require, ensuring that all items fit within the browser pane.</p>
+        <p class="BodyText"><a name="Example -Menu and Bookmark"></a>Example data for the Attribute Table for Menu and Bookmark items</p>
+        <table style="mc-table-style: url('../Resources/TableStyles/Aptean_Table_1.css');" class="TableStyle-Aptean_Table_1" cellspacing="0">
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 4cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 6cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 6cm;" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_1-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableText">Attribute Name</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableText">Description for Menu Items</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadD-Column1-Header1">
+                        <p class="TableText">Description for Bookmark Items</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">id</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">Enter the entity name followed by the keyword Search. For example, if the entity name is Customers, then the Id should be CustomersSearch</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText">Enter the entity  name followed by the keyword Bookmarks. For example, if the entity name is Customers, then the id should read as CustomersBookmarks. This value, which is case sensitive, maps the menu item of the entity to the bookmark(s).</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">ucf:uid</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">Globally Unique Identifier (GUID). Generate a new GUID and use the same. For information on generating GUIDs, refer to MSDN (http://msdn.microsoft.com/en-us/library/aa475087.aspx)</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText">Globally Unique Identifier (GUID) – Generate a new GUID and use the same. Refer to the GUID Generation topic in MSDN to review the steps for generating GUIDs: http://msdn.microsoft.com/en-us/library/aa475087.aspx</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">popUp</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">Enter 0 (zero) as the value</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText">Enter 0 (zero) as the value</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">flyout</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">Not applicable for menu items</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText">Enter 1 (one) as the value</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">url</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">Leave this blank</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText">Leave this blank</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">target</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">Enter idFrameNavigator as the value</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText">Enter idFrameNavigator as the value</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">targetArgument</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">Use the same value that you entered in the entitiy_name field in the navigator_entity_field_master table in the Persistence DB. This value, which is case sensitive, maps the database to the CM application.</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText">Leave this blank</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText">captionId</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText">To support localization for the caption of the menu item, add a new entry in the ‘config.xml’ file that is located under C:\Program Files (x86)\onyx\employeeportal\ in the <span class="CCM variablesComponent - OEP">OEP</span>server:
+&lt;string name="menu_customerSearch" id="" text="Customer"/&gt;
+Use the value of the ‘name’ attribute for captionId attribute. The value supplied as the ‘text’ attribute appears in the <span class="CCM variablesComponent - OEP">OEP</span>.
+</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText">To support localization for the caption of the bookmark item, add a new entry in the ‘config.xml ‘which is under C:\Program Files (x86)\onyx\employeeportal\eng on the <span class="CCM variablesComponent - OEP">OEP</span>server:
+&lt;string name="menu_customerBookMarks" id="" text="Customer Bookmarks"/&gt;
+Use the value of the ‘name’ attribute for captionId attribute. The value supplied as the ‘text’ attribute appears in the <span class="CCM variablesComponent - OEP">OEP</span>.
+</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

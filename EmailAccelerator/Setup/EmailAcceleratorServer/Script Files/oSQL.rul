@@ -1,0 +1,1571 @@
+//////////////////////////////////////////////////////////////////////
+//runs all SQL files for setup based on runorder files if available.
+//If mutiple runorder files and/or data bases involved, file order is
+//obtained from setup.ini.
+//////////////////////////////////////////////////////////////////////
+function ORunAllSQLItems(szKey,nErrorAbort)
+STRING szFile,szRunOrderFile,szCount;
+INT nCount,nLoop,nIncrement,nStart,nEnd;
+LIST listOfFiles;
+begin
+	szFile = SRCDIR ^ "setup.ini";
+	listOfFiles = ListCreate(STRINGLIST);
+	
+	//first read in all runorder files to get a count.
+	nCount = 1;
+	NumToStr(szCount,nCount);
+	nLoop = GetProfString (szFile,"SQLOrder","File"+szCount,szRunOrderFile);
+	if(szRunOrderFile != "")then
+		//loop through all entries in ini
+		while(nLoop = 0)
+			ListAddString(listOfFiles,szRunOrderFile,AFTER);
+			nCount++;
+			NumToStr(szCount,nCount);
+			nLoop = GetProfString (szFile,"SQLOrder","File"+szCount,szRunOrderFile);
+		endwhile;
+	endif;
+	
+	//determine start and stop status bar numbers
+	nCount = ListCount(listOfFiles);
+	if(nCount > 0)then
+		nIncrement = 100/nCount;
+		nEnd = nIncrement;
+	endif;
+	
+	//run through list of files.
+	nLoop = ListGetFirstString(listOfFiles,szRunOrderFile);
+	if(szRunOrderFile != "")then
+		//setup status bar, if it's to be used
+		SdShowMsg("", FALSE);
+		SetStatusWindow(0,@STATUS_SQL_FILES);  //start at zero.
+		Disable(FEEDBACK_FULL);
+
+		//loop through all entries in ini
+		while(nLoop != END_OF_LIST)
+			//determine DB to use.
+			if(szRunOrderFile % g_structDatabase.szSubDir)then //db 1 subdir in entry?
+	      		ORunSQLScripts( &g_structDatabase,"",szRunOrderFile,nStart,nEnd,nErrorAbort );		//unencripted
+				ORunSQLScripts( &g_structDatabase,szKey,szRunOrderFile,nStart,nEnd,nErrorAbort );	//encripted
+//        		ORunSQLScripts( &g_structDatabase,"",szRunOrderFile,nStart,nEnd,nErrorAbort );		//unencripted
+			elseif(szRunOrderFile % g_structDatabase2.szSubDir)then //db 2 subdir
+        		ORunSQLScripts( &g_structDatabase2,"",szRunOrderFile,nStart,nEnd,nErrorAbort );
+			    ORunSQLScripts( &g_structDatabase2,szKey,szRunOrderFile,nStart,nEnd,nErrorAbort );
+//        		ORunSQLScripts( &g_structDatabase2,"",szRunOrderFile,nStart,nEnd,nErrorAbort );
+			else //default to db 1 if no subdir found.
+				gszMsg = @ERROR_SQL_INI+"\nSQLOrder: %s\nSubDir 1: %s\nSubDir 2: %s";
+				Sprintf(gszMsg,gszMsg,szRunOrderFile,g_structDatabase.szSubDir,g_structDatabase2.szSubDir);
+				ODebugDsp(gszMsg,13);
+				ORunSQLScripts( &g_structDatabase,"","",nStart,nEnd,nErrorAbort );		//unencripted
+				ORunSQLScripts( &g_structDatabase,szKey,"",nStart,nEnd,nErrorAbort );	//encripted
+//				ORunSQLScripts( &g_structDatabase,"","",nStart,nEnd,nErrorAbort );		//unencripted
+		endif;	
+	
+			//get the next value.
+			nLoop = ListGetNextString(listOfFiles,szRunOrderFile);
+			nStart = nStart + nIncrement;
+			nEnd = nEnd + nIncrement;
+		endwhile;
+
+		//make it look finished.
+		SetStatusWindow(100,@STATUS_SQL_FILES_FINISHED);
+		Delay(1);
+		Disable(STATUS);		
+		
+	else
+		//no run order data in setup.ini.  Run as normal
+		ORunSQLScripts( &g_structDatabase,"","",0,100,nErrorAbort );		//unencripted
+		ORunSQLScripts( &g_structDatabase,szKey,"",0,100,nErrorAbort );	//encripted
+//		ORunSQLScripts( &g_structDatabase,"","",0,100,nErrorAbort );		//unencripted
+	endif;
+	
+end;
+
+// ------------------------------------------------------------------------------------------
+// Function Name:  ODBValidate
+//    Parameters:  [in]  structure DATABASE_INFO POINTER   pDB
+//                 [out] STRING                            szErr
+//       Returns:
+//   Description:  Validates the server, database, login ID and password supplied in the
+//                 DATABASE_INFO structure.  If there's an error szErr is set to the error
+//                 text returned from OnyxIns.dll.
+//
+// NOTE: see SQL.H for very inportant undocumented flag data info for opening the SQL DB
+// ------------------------------------------------------------------------------------------
+function ODBValidate( pDB, p_szErr )
+
+STRING szErr[255],szResult[255],szKey,szLog,szTemp;
+NUMBER iStat,flOptions,evLog;
+POINTER pIns;
+BOOL bOK;
+
+begin
+	//check for values in db data struct.
+	if(pDB->szServer = "" || pDB->szDatabase = "" || pDB->szLogin = "")then
+		if(pDB->szLogin = "sa")then
+			gszMsg = @ERROR_SQL_LOGIN2;
+		else
+			gszMsg = @ERROR_SQL_LOGIN;
+		endif;
+		OLog(gszMsg);
+		MessageBox(gszMsg,WARNING);
+		return FALSE;
+	endif;
+
+	//no spaces in login and password
+	if(OCheckForSpaceChar(pDB->szLogin,gszHelpUser) =FALSE )then
+		return FALSE;
+	endif;
+//	if(OCheckForSpaceChar(pDB->szPassword,gszHelpPassword) =FALSE )then
+//		return FALSE;
+//	endif;
+	
+	//check for max lengths.
+	if(OCheckStringLength(pDB->szServer,100,@HELP_S) =FALSE )then;
+		return FALSE;
+	endif;
+	if(OCheckStringLength(pDB->szDatabase,100,@HELP_B) =FALSE )then;
+		return FALSE;
+	endif;
+	if(OCheckStringLength(pDB->szLogin,40,gszHelpUser) =FALSE )then;
+		return FALSE;
+	endif;
+	if(OCheckStringLength(pDB->szPassword,40,gszHelpPassword) =FALSE )then;
+		return FALSE;
+	endif;
+	
+	szKey = "key";
+	szLog = SUPPORTDIR ^ "sql.log";
+	bOK = TRUE;
+	flOptions = 0x001F;  //1.3 version all but Test and OldDataFormat  (1.2 version was 0x007F which was all but Test)
+	evLog = 0x001D;      //log all but the warnings.
+
+    ChangeDirectory(SUPPORTDIR);
+    if (UseDLL(SUPPORTDIR ^ ONYXINSDLL) < 0) then
+    	gszMsg = @ERROR_LOADDLL + " "+ONYXINSDLL;
+        MessageBox(gszMsg, SEVERE);
+        OLog(gszMsg);
+        return FALSE;
+        ChangeDirectory(SRCDIR);
+    endif;
+
+	//  Function:   OpenInstaller()
+	//  Synopsis:   opens a instance of a database installer
+	//  Arguments:  ver         - expected API version
+	//              pszServer   - name of database server
+	//              pszDatabase - name of database
+	//              pszUser     - logon user name
+	//              pszPassword - logon password
+	//              pszKey      - encryption key used on SQL files
+	//              pszLog      - path of log file
+	//              evLog       - log event list
+	//              flOptions   - options
+	//              ppins       - out parameter for installer object
+	//              pszError    - out buffer for error message
+	//              cchError    - size of buffer
+//    iStat = ISOpenInstaller(210,pDB->szServer, pDB->szDatabase, pDB->szLogin, pDB->szPassword, szKey, szLog ,evLog,flOptions, &pIns, szErr, 255);
+    iStat = OpenInstallerA(210,pDB->szServer, pDB->szDatabase, pDB->szLogin, pDB->szPassword, szKey, szLog ,evLog,flOptions, &pIns, szErr, 255);
+    if(iStat < 0)then
+    	gszMsg = @PROMPT_DATABASE_BAD_CONNECTION+"\n\n"+szErr;
+		MessageBox(gszMsg, WARNING);
+		OLog(gszMsg);
+		bOK = FALSE;
+	endif;
+
+    if (iStat >= 0) then
+		//Check for other SQL DB requirments
+		if (OCheckSQLRequirements(pIns) = FALSE) then
+			bOK = FALSE;
+    	endif;
+
+//        ISCloseInstaller(pIns, 0, szErr, 255);
+        CloseInstallerA(pIns, 0, szErr, 255);
+    endif;
+
+    UnUseDLL(SUPPORTDIR ^ ONYXINSDLL);
+	ChangeDirectory(SRCDIR);
+    return bOK;
+
+end;
+
+
+function OCheckExistingDatabase(pDB)
+//Checks the existing database and decides if it should rebuild or new install
+//This should only be used by OEDB setup
+	STRING szErr[255],szResult[255],szKey,szLog,szTemp,szParameter,szVerFound;
+	STRING szErrVer,szItem,szIniDatabaseVer,szCommand;
+	NUMBER iStat,flOptions,evLog,nResult;
+	POINTER pIns;
+	BOOL bOK;
+	STRING svComponentSource, svComponent, svFileGroup, svFile;
+	NUMBER nvError;
+begin
+
+    ChangeDirectory(SUPPORTDIR);
+    if (UseDLL(SUPPORTDIR ^ ONYXINSDLL) < 0) then
+    	gszMsg = @ERROR_LOADDLL + " "+ONYXINSDLL;
+        MessageBox(gszMsg, SEVERE);
+        OLog(gszMsg);
+        return FALSE;
+        ChangeDirectory(SRCDIR);
+    endif;
+	
+    iStat = OpenInstallerA(210,pDB->szServer, pDB->szDatabase, pDB->szLogin, pDB->szPassword, szKey, szLog ,evLog,flOptions, &pIns, szErr, 255);
+    if(iStat < 0)then
+    	gszMsg = @PROMPT_DATABASE_BAD_CONNECTION+"\n\n"+szErr;
+		MessageBox(gszMsg, WARNING);
+		OLog(gszMsg);
+		bOK = FALSE;
+	endif;
+
+	//If the system parameter DB version is equal, we should do a rebuild
+	//If it's not there, we should do a new install
+	szItem = "SQL_Product1";
+	OGetValueFromINI(szItem,"VersionKey",szParameter);
+	OGetValueFromINI("Versions","DatabaseVersion",szIniDatabaseVer);	
+	szParameter = 'EnterpriseDBVersion';
+	//szCommand = "select parameter_value from system_parameter where parameter_code = 'EnterpriseDBVersion'";
+	//nResult = ExecuteQueryA(pIns,szCommand,0,szVerFound,512,szErrVer,512);
+	
+	nResult = _GetVerFromDB(pIns,szParameter,szVerFound,szErrVer);
+
+    UnUseDLL(SUPPORTDIR ^ ONYXINSDLL);
+	ChangeDirectory(SRCDIR);
+	
+	if (OIsValueEqual(szIniDatabaseVer,szVerFound)) then
+	//The versions are the same, do a rebuild
+		if (DialogShowRebuildCodeWarning() = BACK) then
+			bOK = FALSE;
+		else
+			bOK = TRUE;
+			gszDatabaseInstallType = DATABASE_REBUILD;		
+		endif;
+	else
+		if (szVerFound = "") then
+		//If there was an error, it's probably because the system parameter wasn't there
+		// so do a new install
+			bOK = TRUE;
+			gszDatabaseInstallType = DATABASE_NEWINSTALL;			
+		else
+			if (OIsValueEqualOrLess(szIniDatabaseVer,szVerFound) = TRUE) then;
+			//Here's where we would do an upgrade.  For now we'll quit.
+				bOK = FALSE;				
+				Sprintf(gszMsg,@ERROR_SQL_VER4,pDB->szDatabase,szVerFound,szIniDatabaseVer);
+				MessageBox(gszMsg,WARNING);
+			else
+			//This must mean the version installed is greater or some other issue
+			// we must just quit in this case
+				bOK = FALSE;
+				Sprintf(gszMsg,@ERROR_SQL_VER3,pDB->szDatabase,szVerFound,szIniDatabaseVer);
+				MessageBox(gszMsg,WARNING);
+			endif;
+		endif;
+	endif;
+	
+    return bOK;
+
+end;
+
+// ------------------------------------------------------------------------------------------
+// Function Name:  ORunSQLScripts
+//    Parameters:	pointer the the data structure containing DB login data.
+//					encription key.
+//       Returns:
+//   Description:	Based on the key passed in, this function looks in the
+//					SQLE and SQLU folders off of SUPPORTDIR
+//					and executes all of the SQL files it finds contained in these.
+//
+//					A Run order file can be specified.  This file can contain file and SQL strings
+//					Files and strings will be executed in the order listed.
+//
+// NOTE: see SQL.H for very inportant undocumented flag data info for opening the SQL DB
+// ------------------------------------------------------------------------------------------
+
+function ORunSQLScripts(pDB,szKey,szRunOrder,nStart,nEnd,nErrorAbort)
+STRING szFname,szFnameOnly,szSearchDir,szSearchFile,szTable,szFileExt;
+STRING szErr[512],szTemp,szMsg[512],szData,szCount;
+NUMBER nFiles,nUnused,evOptions,flOptions,iStat,nCount,nOptions;
+NUMBER nPercent,nNumOfFiles,nIncrement,nLoop,nLen,nEqual,nComma,nEveryOther,nSkipCount;
+POINTER pIns,pInsEnc;
+LIST listOfFiles;
+BOOL bRunOrder,bSkip,bFile;
+NUMBER nvExitCode;
+LIST lstParameters;
+begin
+
+	//setup vars.
+    szSearchFile = "*.*";
+	lstParameters = ListCreate(STRINGLIST);
+    //set flags
+    evOptions = EV_ERROR + EV_OPERATION + EV_CAUSE + EV_MESSAGE; //values are: 1 + 4 + 8 + 1000H = 100D hex or 4109 dec.
+    flOptions = FL_CRASH_LOG;  //store log info imediately, do not buffer.
+	nOptions = 0;  //used by the SQL functions not by openinstaller
+	
+	//determine if encripted or not based on key value provided in misc of media component.
+	if(szKey = "")then
+	    szSearchDir = SQLUDIR;		//establish dir
+	else
+		szSearchDir = SQLEDIR;
+		//evOptions = EV_ERROR + EV_OPERATION + EV_CAUSE + EV_RESULT;  //1.3 version
+
+	endif;
+		
+	//override options if debug mode is set
+	if(g_structSetupMode.nDebug = 14)then
+		evOptions = 0xFFFF;
+		//flOptions = 0xFFFF;
+		flOptions = flOptions + FL_TEST;
+		ODebugDsp("ONYXINS in TEST mode.  No changes will be made to the DB",14);
+	endif;
+	
+	
+ 	//if a run order file specified use it.
+ 	if(szRunOrder != "")then
+ 		szRunOrder = szSearchDir ^ szRunOrder;
+		if(pDB->szSubDir != "")then
+			szSearchDir = szSearchDir ^ pDB->szSubDir;
+		endif;
+		if(Is(FILE_EXISTS,szRunOrder) = FALSE)then
+			gszMsg = @ERROR_SQL_RUNORDER1;
+			Sprintf(gszMsg,gszMsg, szRunOrder);
+			ODebugDsp(gszMsg,13);
+			return;
+ 		endif;
+ 	else
+ 	  	//if run order not specified, still look for one
+ 	  	//Must use .txt extension.
+ 		//add subdir if one
+		if(pDB->szSubDir != "")then
+			szSearchDir = szSearchDir ^ pDB->szSubDir;
+		endif;
+ 		FindAllFiles( szSearchDir,"*.txt",szRunOrder, RESET );
+ 	endif;
+ 	
+	//get all entries in run order file and put into a list.
+	if(szRunOrder != "")then
+		listOfFiles = ListCreate(STRINGLIST);
+		if(ListReadFromFile (listOfFiles,szRunOrder) =0 )then
+   			
+			//set to loop through list of files and execute each sql as listed.
+			nFiles = ListGetFirstString(listOfFiles,szFname);
+			bRunOrder = TRUE;
+
+			//setup display status values
+			SdShowMsg("",FALSE);
+			Enable(STATUS);  //status setup in ORunALLSQLFiles();
+			nIncrement = SizeWindow(STATUS, 500, 700);
+			nNumOfFiles = ListCount(listOfFiles);
+			nIncrement = nEnd/nNumOfFiles;
+			if(nIncrement = 0)then
+				//set number up one for every End (normally 100) increment.  This will skip updating the status.
+				if(nNumOfFiles > nEnd)then
+					nEveryOther = 1;
+					if(nNumOfFiles > nEnd * 2)then
+						nEveryOther = 2;
+						if(nNumOfFiles > nEnd * 3)then
+							nEveryOther = 4;
+							if(nNumOfFiles > nEnd * 4)then
+								nEveryOther = 5;
+							endif;
+						endif;
+					endif;
+				endif;
+			endif;
+			nPercent = nStart;
+			
+		endif;
+	else
+		//look for SQL files to execute if no run order file.
+		//use same nFiles loop var for either runorder or findfiles.
+		nFiles = FindAllFiles( szSearchDir, szSearchFile, szFname, RESET );
+		if(nFiles <0 )then
+			//no files
+			return;
+		endif;
+	endif;
+
+	//open onyxins proxy dll
+    ChangeDirectory(SUPPORTDIR);
+    if (UseDLL(SUPPORTDIR ^ ONYXINSDLL) < 0) then
+    	gszMsg = @ERROR_LOADDLL + ONYXINSDLL;
+        MessageBox(gszMsg, SEVERE);
+        OLog(gszMsg);
+    	ChangeDirectory(SRCDIR);
+        return -1;
+	else
+		ODebugDsp("Opened OnyxIns.DLL",14);
+    endif;
+
+	//open the SQL DB and login.
+	//Returns a handle to the DB and puts it into "pIns"
+	//szKey determines if encrypted or not.  A blank szKey is Unencrypted.
+	iStat = OpenInstallerA(210,pDB->szServer, pDB->szDatabase, pDB->szLogin, pDB->szPassword,"", SUPPORTDIR ^ "sql.log",evOptions,flOptions, &pIns, szErr, 512);  //ver 1.4
+    if (iStat < 0) then
+	    OReplacePasswordWithStar(szErr);
+        Sprintf(gszMsg,@ERROR_SQL_OPEN, iStat, szErr);
+        OLog(gszMsg);
+		MessageBox(gszMsg,SEVERE);
+		if(nErrorAbort)then
+			OAbort();
+		endif;
+		
+		if(UnUseDLL(SUPPORTDIR ^ ONYXINSDLL) <0 )then
+			ODebugDsp("Failed to close OnyxIns.DLL",14);
+		else
+			ODebugDsp("Closed OnyxIns.DLL",14);
+		endif;
+        ChangeDirectory(SRCDIR);
+        return -1;
+    else
+    	Sprintf(gszMsg,@SQL_OPENED+"\nServer: %s\nDatabase: %s\nUsername: %s\nPassword: %s\nEncryption Key: %s",pDB->szServer, pDB->szDatabase, pDB->szLogin, "*","");
+		ODebugDsp(gszMsg,13);
+	endif;
+
+
+	//open the SQL DB and login for encrypted use.
+	//Returns a handle to the DB and puts it into "pIns"
+	//szKey determines if encrypted or not.  A blank szKey is Unencrypted.
+	if (szKey != "") then
+		//Turn off DB encryption if the debug level is set to 23 or there was an override command line argument
+		if(g_structSetupMode.nDebug != 23)then
+			flOptions = flOptions + FL_MODIFY_SQL;
+		else
+			MessageBox("SQL Encryption has been turned OFF",WARNING);
+			OLog("SQL Encryption OFF");
+		endif;
+
+		//check for turn off encryption on DB from a commandline switch
+		_CheckForEncOveride(flOptions);
+
+		
+		iStat = OpenInstallerA(210,pDB->szServer, pDB->szDatabase, pDB->szLogin, pDB->szPassword,szKey, SUPPORTDIR ^ "sql.log",evOptions,flOptions, &pInsEnc, szErr, 512);  //ver 1.4
+    	if (iStat < 0) then
+	    	OReplacePasswordWithStar(szErr);
+        	Sprintf(gszMsg,@ERROR_SQL_OPEN, iStat, szErr);
+        	OLog(gszMsg);
+			MessageBox(gszMsg,SEVERE);
+			if(nErrorAbort)then
+				OAbort();
+			endif;
+		
+			if(UnUseDLL(SUPPORTDIR ^ ONYXINSDLL) <0 )then
+				ODebugDsp("Failed to close OnyxIns.DLL",14);
+			else
+				ODebugDsp("Closed OnyxIns.DLL",14);
+			endif;
+        	ChangeDirectory(SRCDIR);
+        	return -1;
+    	else
+    		Sprintf(gszMsg,@SQL_OPENED+"\nServer: %s\nDatabase: %s\nUsername: %s\nPassword: %s\nEncryption Key: %s",pDB->szServer, pDB->szDatabase, pDB->szLogin, "*",szKey);
+			ODebugDsp(gszMsg,13);
+		endif;
+	endif;
+
+	//set identifier to OFF for processing scripts.
+	szTemp = "set quoted_identifier off";
+//	if(ISExecuteString(pIns,szTemp,0,szErr,512) < 0)then
+	if(ExecuteStringA(pIns,szTemp,0,szErr,512) < 0)then
+		Sprintf(gszMsg, @ERROR_SQL_QUOTE, iStat, szErr);
+		MessageBox(gszMsg,SEVERE);
+	endif;
+	
+	if(ExecuteStringA(pInsEnc,szTemp,0,szErr,512) < 0)then
+		Sprintf(gszMsg, @ERROR_SQL_QUOTE, iStat, szErr);
+		MessageBox(gszMsg,SEVERE);
+	endif;
+
+	//new OCCINS.EXE settings
+	//loop though all settings in setup.ini
+	nCount = 1;
+	while nLoop = 0
+		szTemp = "";
+		NumToStr(szCount,nCount);
+		OGetValueFromINI("SQL1","Setting"+szCount,szTemp);
+		if (szTemp != "")then
+			if(ExecuteStringA(pIns,szTemp,0,szErr,512) < 0)then
+				Sprintf(gszMsg, @ERROR_SQL_QUOTE, iStat, szErr);
+				MessageBox(gszMsg,SEVERE);
+				OLog(gszMsg);
+			else
+				OLog("Setting in database: "+szTemp);
+			endif;
+		else
+			nLoop = 1; //exit loop
+		endif;
+		nCount = nCount + 1;
+	endwhile;
+
+//We no longer need to disable tracing for SQLGen installations	
+//	//disable trace ability, if not in debug mode
+//	if((g_structSetupMode.nDebug = 0) && (szKey != ""))then
+//		_DisableTracing(pIns,pDB->szDatabase);
+//	endif;
+	
+	//sequence through all files (either list of files, or dir contents from findfiles.)
+	VarSave(SRCTARGETDIR);
+	nLoop = 0;
+ 	while (nFiles = 0)
+
+ 		//look for blank lines
+		szTemp = szFname;
+		_StrReplace (szTemp, " ", "", nCount, MAX_STRING);
+   		if(szTemp = "")then
+   			bSkip = TRUE;
+		else
+			//look for commented out lines
+ 			StrSub(szTemp,szFname,0,1);
+ 			if(szTemp = ";")then
+ 				bSkip = TRUE;
+ 			endif;
+ 		endif;
+ 	
+ 		if(!bSkip)then  //do not process blank lines or comments.
+       		
+ 			StrSub(szTemp,szFname,0,6);
+			StrToUpper(szTemp,szTemp);
+			nEqual = StrFind(szFname,"=");
+			if(nEqual > 0)then
+				//rest of string is data.
+				nLen = StrLength(szFname);
+				StrSub(szData,szFname,nEqual+1,nLen-nEqual-1);
+	
+				//if a string
+				if(szTemp = "STRING")then
+					if(nEqual < 6)then
+						//error on format
+						gszMsg = @ERROR_SQL_RUNORDER2 + "\nRunOrder file: %s\nEntry: %s";
+						Sprintf(gszMsg,gszMsg, szRunOrder,szFname);
+						OLog(gszMsg);
+						SetDialogTitle(DLG_USER_CAPTION,"Run Order File Error");
+						MessageBox(gszMsg,SEVERE);					
+					else
+						OParseMacros(szData);
+						if(ExecuteStringA(pIns,szData,0,szErr,512) < 0)then
+							OReplacePasswordWithStar(szData);
+							gszMsg =  @ERROR_SQL_RUNORDER3+"\n\tString: %s\n\tError Num: %d\n\tError Msg: %s";
+							Sprintf(gszMsg,gszMsg,pDB->szDatabase,szData,iStat,szErr);
+							OLog(gszMsg);
+							OCatStrings(gszMsg,"\n\n",@MSG_CONTINUE);
+							if(AskYesNo(gszMsg,YES) = NO)then
+								OAbort();
+    	 					endif;
+						else
+							Sprintf(gszMsg,@SQL_STRING+"\n\tServer %s\n\tDatabase: %s\n\tString: %s",pDB->szServer, pDB->szDatabase, szData);
+							ODebugDsp(gszMsg,13);
+						endif;
+
+					endif;
+	
+				//a message to display
+				elseif(szTemp = "DISPLA")then
+   						if(bRunOrder)then
+						SetStatusWindow(nPercent,szData);
+	   				else
+       					SdShowMsg(szData, TRUE);
+	   				endif;
+	   				Delay(1);
+	   				
+				//There is a data file to bcp into the database
+				elseif(szTemp = "BCPFIL")then
+									
+					//parse the line. format is:  bcpfile,table
+					nComma = StrFind(szData,",");
+					if(nComma > 0)then
+						//rest of string is data.
+						nLen = StrLength(szData);
+						StrSub(szTable,szData,nComma+1,nLen-nComma);
+						StrSub(szData,szData,0,nComma);
+					else
+						//if table is not specified, use name of file as table name
+						ParsePath (szTable,szData,FILENAME_ONLY);
+					endif;
+
+					//Get any parameters that will be sent to the command line.
+					ListDestroy (lstParameters);
+					lstParameters = ListCreate (STRINGLIST);
+					OParseMacros (szData);
+					StrGetTokens (lstParameters, szData, " ");
+					ListGetFirstString (lstParameters, szTemp);
+					ListDeleteString (lstParameters);
+					
+					ParsePath (szTable,szData,FILENAME_ONLY);
+					SetStatusWindow(nPercent,@STATUS_SQL_FILES +" "+ szTable);
+					
+					//Start up the BCP utility
+					iStat = OSpawnBCP(pDB, szTemp, lstParameters, nvExitCode, SW_HIDE);
+					if (nvExitCode != 0) then
+						OReplacePasswordWithStar ( szData );
+						gszMsg = @ERROR_SQL_BCP;
+ 						Sprintf ( gszMsg, gszMsg, szData);
+   						OLog ( gszMsg );
+ 						OCatStrings (gszMsg, "\n\n", @MSG_CONTINUE);
+ 						if ( AskYesNo( gszMsg, YES ) = NO ) then
+ 							OAbort();			
+ 						endif;
+					endif;
+
+				endif;
+				
+			//there is a SQL file to run.
+			else
+				bFile = TRUE;
+				if(bRunOrder)then
+					szFname = szSearchDir ^ szFname;  //need full path to file.
+				endif;
+ 				if(Is(FILE_EXISTS,szFname))then
+       				//Use this to trim the spaces off the end of the path
+       				LongPathFromShortPath(szFname);
+       				
+   					ParsePath (szFnameOnly,szFname,FILENAME);
+	   				ParsePath (szFileExt,szFname,EXTENSION_ONLY);
+	   				StrToUpper(szFnameOnly,szFnameOnly);
+	   				StrToUpper(szFileExt,szFileExt);	   				
+       				
+    	   			if(bRunOrder)then
+   		   				SetStatusWindow(nPercent,@STATUS_SQL_FILES +" "+ szFnameOnly);
+			   		else
+    		   			SdShowMsg(@STATUS_SQL_FILES + szTemp, TRUE);
+	       			endif;
+      		
+		       		//loop for running the SQL files.
+	    	   		nLoop = 0;
+					while(nLoop = 0)  //for repeating a file if an error occurs.
+											
+    		   			//SdShowMsg(@STATUS_SQL_FILES + szFname, TRUE);											
+	    				//run the SQL file.
+						//Sprintf(gszMsg,@SQL_OPENED+"\nServer: %s\nDatabase: %s\nUsername: %s\nPassword: %s\nEncryption Key: %s",pDB->szServer, pDB->szDatabase, pDB->szLogin, "*",szKey);
+						//MessageBox(gszMsg,INFORMATION);
+    					if(szFileExt = "ENC")then
+    						iStat = ExecuteFileA(pInsEnc, szFname,nOptions, szErr, 512);
+    					else
+    						iStat = ExecuteFileA(pIns, szFname,nOptions, szErr, 512);
+       					endif;
+    					      					
+       					if (iStat < 0) then
+							if(iStat = -1012)then
+								//new for version 1.4.  No data in file.
+								OLog("NOTE:  No data in file: "+szFname);
+								nLoop = 1; //exit loop
+							else
+								OReplacePasswordWithStar(szErr);
+       							szMsg = @ERROR_SQL_FILE + szFnameOnly;
+       							Sprintf(szMsg,szMsg+"\n%d: %s", iStat, szErr);
+								if(nErrorAbort)then
+									//cannot continue.
+									OCatStrings(szMsg,"\n\n",@ERROR_CANNOT_CONTINUE);
+									MessageBox(szMsg,SEVERE);
+
+									Sprintf(gszMsg,"Failed to excute the following File on SQL database:\n\tDB Pointer: %d\n\tServer: %s\n\tDatabase: %s\n\tFile: %s",pIns,pDB->szServer, pDB->szDatabase,szFname);
+									ODebugDsp(gszMsg,13);
+									OAbort();
+								else
+	       							szMsg = szMsg + "\n\n"+@ERROR_SQL_FILE2;
+			       					if(AskYesNo(szMsg,YES) = NO)then
+    	   								nLoop = 1;
+										szMsg = @ERROR_SQL_FILE3;
+										if(AskYesNo(szMsg,YES) = NO)then
+											OAbort();
+										endif;
+    	  							endif;       				
+      							endif;
+      						endif;
+		       			else
+		       				//executefile worked ok.
+		       				nLoop = 1;
+							
+							//debug mode is 13
+							if(g_structSetupMode.nDebug = 13)then;
+								Sprintf(gszMsg,"Executed the following File on SQL database:\nDB Pointer: %d\nServer: %s\nDatabase: %s\nFile: %s",pIns,pDB->szServer, pDB->szDatabase,szFname);
+								if(AskYesNo(gszMsg + "\nTo turn this off select NO",YES) = NO )then
+									g_structSetupMode.nDebug = 0;
+								endif;
+							endif;
+	    	   			endif;
+	       			endwhile;
+    	   		else
+    	   			gszMsg = @ERROR_SQL_FILE + szFname;
+	       			MessageBox(gszMsg,WARNING);
+    	   			OLog(gszMsg);
+       			endif;
+
+       		endif;
+       	endif;
+       	
+       	// get next string or file.
+       	if(bRunOrder)then
+   	   		if(ListGetNextString(listOfFiles,szFname) = END_OF_LIST)then
+				nFiles = -1; //force exit from loop.lines.
+       		endif;
+
+   	   		//clear flags
+   	   		bSkip = FALSE;
+	   	   	bFile = FALSE;
+
+			//update the status percent.
+       		if(nEveryOther > 0)then
+       			if(nIncrement = 1)then
+       				nIncrement = 0;
+       			else
+       				if(nSkipCount = nEveryOther)then
+       					nIncrement = 1; //go ahead and increment the status bar one.
+       					nSkipCount = 0; //reset
+       				endif;
+       				nSkipCount = nSkipCount + 1;
+       			endif;
+       		endif;
+	  	   	nPercent = nPercent + nIncrement;
+			if(nPercent > nEnd) then
+				nPercent = nEnd;
+			endif;
+	    else
+    	   	nFiles = FindAllFiles( szSearchDir, szSearchFile, szFname, CONTINUE );
+       	endif;
+       		
+    endwhile;
+
+//We no longer need to disable/enable tracing for SQLGEN
+//	//Enable trace ability, if we are using SQL 7.0 and not in debug mode
+//	if((g_structSetupMode.nDebug = 0) && (szKey != "")
+//		&& (!OIsValueEqualOrGreater("8.00.000", g_structDatabase.szSQL_Ver)))then
+//		_EnableTracing(pIns,pDB->szDatabase);
+//	endif;
+
+	//all done, close down the DB
+    iStat = CloseInstallerA(pIns, 0, szErr, 512);
+    if (iStat < 0) then
+       SprintfBox(WARNING,gszMsg,"",@ERROR_SQL_CLOSE, iStat, szErr);
+    endif;
+    if (pInsEnc != 0) then
+    	iStat = CloseInstallerA(pInsEnc, 0, szErr, 512);
+    	if (iStat < 0) then
+       		SprintfBox(WARNING,gszMsg,"",@ERROR_SQL_CLOSE, iStat, szErr);
+    	endif;
+    endif;
+
+	//turn display off.
+	if(bRunOrder)then
+		SetStatusWindow(100,@STATUS_SQL_FILES +" "+ szData);  //look finished
+		Delay(1);
+		Disable(STATUS);
+		SdShowMsg(@MSG_UPDATE_SYSTEM, TRUE);
+	else
+    	SdShowMsg("", FALSE);
+    endif;
+
+	//clean up
+	ChangeDirectory(SRCDIR);
+	
+	if(UnUseDLL(SUPPORTDIR ^ ONYXINSDLL) <0 )then
+		ODebugDsp("Failed to close OnyxIns.DLL",14);
+	else
+		ODebugDsp("Closed OnyxIns.DLL",14);
+	endif;
+	
+	if(bRunOrder)then
+		ListDestroy(listOfFiles);
+	endif;
+
+	return;
+end;
+
+//-----------------------------------------------
+//Turns off tracing in the SQL database.
+//Function assumes db server is SQL 7.0 or greater.
+//-----------------------------------------------
+function _DisableTracing(pIns,szDB)
+INT iStat;
+STRING szTemp;
+STRING szErr[512],szMsg;
+begin
+
+	// IF db server is SQL2000, use the stopTrace sproc.
+	// ELSE, use the SQL7 compatible pauseTrace sproc.
+	
+	if(OIsValueEqualOrGreater("8.00.000",g_structDatabase.szSQL_Ver))then
+		//put trace stopping sql file onto SQL 2K db
+		szTemp = SUPPORTDIR ^ "disabletrace.enc";
+		iStat = ExecuteFileA(pIns,szTemp,0,szErr,512);
+		if(iStat <0 )then
+    		szMsg = @ERROR_SQL_FILE + szTemp;
+       		Sprintf(szMsg,szMsg+"\n%d: %s", iStat, szErr);
+       		MessageBox(szMsg,WARNING);
+       		return FALSE;
+    	endif;
+
+		//use stopTrace for SQL 2K
+		szTemp = "ospsuStopTrace  \"stop\"";
+		
+	else
+		//put trace pausing sql file onto SQL 7 db
+		szTemp = SUPPORTDIR ^ "disabletrace_SQL7.enc";
+		iStat = ExecuteFileA(pIns,szTemp,0,szErr,512);
+		if(iStat <0 )then
+    		szMsg = @ERROR_SQL_FILE + szTemp;
+       		Sprintf(szMsg,szMsg+"\n%d: %s", iStat, szErr);
+       		MessageBox(szMsg,WARNING);
+       		return FALSE;
+    	endif;
+    	
+		//use pauseTrace for SQL 7
+		szTemp = "ospsuPauseTrace \"pause\"";
+	endif;
+	
+	//Execute the proper sproc, stored in szTemp	
+	iStat = ExecuteStringA(pIns,szTemp,0,szErr,512);
+	if(iStat < 0)then
+		SprintfBox(WARNING, @ERROR_SQL_COMMAND,szTemp, iStat, szErr);
+		return FALSE;
+	endif;
+	return TRUE;
+	
+end;
+
+//-----------------------------------------------
+//turns on tracing in the SQL database.
+//now specific just for SQL 7.0.
+//-----------------------------------------------
+function _EnableTracing(pIns,szDB)
+INT iStat;
+STRING szTemp;
+STRING szErr[512],szMsg;
+begin
+	//run pause trace.
+	szTemp = "ospsuPauseTrace \"start\"";
+	iStat = ExecuteStringA(pIns,szTemp,0,szErr,512);
+	if(iStat < 0)then
+		SprintfBox(WARNING, @ERROR_SQL_COMMAND,szTemp, iStat, szErr);
+		return FALSE;
+	endif;
+	
+	//remove trace pausing sql file from db
+	szTemp = SUPPORTDIR ^ "disabletracedrop_SQL7.enc";
+	iStat = ExecuteFileA(pIns,szTemp,0,szErr,512);
+	if(iStat <0 )then
+    	szMsg = @ERROR_SQL_FILE + szTemp;
+       	Sprintf(szMsg,szMsg+"\n%d: %s", iStat, szErr);
+       	MessageBox(szMsg,WARNING);
+       	return FALSE;
+    endif;
+    return TRUE;
+end;
+
+////////////////////////////////////////////////////////////////////////
+//
+// Looks in the registry and media for default SQL database login values.
+//
+////////////////////////////////////////////////////////////////////////
+function OGetSQLValuesFromReg(pstructDatabase, szComp,szProduct)
+STRING szKey,szTemp, svApp, svData, svServer, svDB;
+INT nvSize,nvType, nResult, nResult1;
+LIST appList, dataList, serverList, dbList;
+begin
+	
+	RegDBSetDefaultRoot (HKEY_LOCAL_MACHINE );
+
+	appList = ListCreate(STRINGLIST);
+	dataList = ListCreate(STRINGLIST);
+	serverList = ListCreate(STRINGLIST);
+	dbList = ListCreate(STRINGLIST);
+
+	szKey = "SOFTWARE\\ONYX\\"+ szProduct + "\\Applications";
+	RegDBQueryKey(szKey, REGDB_KEYS, appList);
+
+	//if there is at least 1 app in the list, use the first app's connection info
+	if (ListGetFirstString (appList, svApp) = 0) then
+		
+		RegDBGetKeyValueEx (szKey^svApp^"QE", svApp, nvType, svData, nvSize);
+		StrGetTokens(dataList, svData, ";");
+		ListGetFirstString(dataList, szTemp);
+		
+		while(nResult != END_OF_LIST)
+		
+			if( szTemp % "data source") then	
+				StrGetTokens(serverList, szTemp, "=");
+				ListGetFirstString(serverList, svServer);
+				ListGetNextString(serverList, svServer);
+					pstructDatabase->szServer = svServer;
+			endif;
+
+			if( szTemp % "initial catalog") then	
+				StrGetTokens(dbList, szTemp, "=");
+				ListGetFirstString(dbList, svDB);
+				ListGetNextString(dbList, svDB);
+					pstructDatabase->szDatabase = svDB;
+			endif;
+			
+			nResult = ListGetNextString(dataList, szTemp);
+
+		endwhile;		
+	endif;
+	
+	if(pstructDatabase->szLogin = "")then
+		ComponentGetData (BASE_MEDIA,szComp,COMPONENT_FIELD_MISC,nvType,szTemp);
+			if(szTemp != "")then
+				pstructDatabase->szLogin = szTemp;
+			endif;
+	endif;	
+	
+	//set description value default.
+	pstructDatabase->szDescription = szProduct;
+	
+	ListDestroy(dbList);
+	ListDestroy(serverList);
+	ListDestroy(dataList);
+	ListDestroy(appList);
+end;
+
+////////////////////////////////////////////////////////////////////////
+//
+// Looks in the setup.ini for default SQL database login values.
+//
+////////////////////////////////////////////////////////////////////////
+function OGetSQLValuesFromINI(pstructDatabase,szSection)
+STRING szFile,szTemp;
+INT nvSize,nvType;
+begin
+	szFile = SRCDIR ^ "setup.ini";
+	pstructDatabase->szINISection = szSection;
+	
+	//Read in data
+	OGetValueFromINI(szSection,"description",szTemp);
+	if(szTemp != "")then pstructDatabase->szDescription = szTemp;endif;
+	OGetValueFromINI(szSection,"server",szTemp);
+	if(szTemp != "")then pstructDatabase->szServer = szTemp;endif;
+	OGetValueFromINI(szSection,"database",szTemp);
+	if(szTemp != "")then pstructDatabase->szDatabase = szTemp;endif;
+	OGetValueFromINI(szSection,"login",szTemp);
+	if(szTemp != "")then pstructDatabase->szLogin = szTemp;endif;
+//	OGetValueFromINI(szSection,"Password",szTemp);
+//	if(szTemp != "")then pstructDatabase->szPassword = szTemp;endif;
+	OGetValueFromINI(szSection,"subdir",szTemp);
+	if(szTemp != "")then pstructDatabase->szSubDir = szTemp;endif;
+	OGetValueFromINI(szSection,"SQLVersion",szTemp);
+	if(szTemp != "")then pstructDatabase->szSQL_Ver = szTemp;endif;
+//	OGetValueFromINI(szSection,"OEPVersion",szTemp);
+//	if(szTemp != "")then pstructDatabase->szOEP_Ver = szTemp;endif;
+
+end;
+
+function _CheckForEncOveride(flOptions)
+STRING szTemp;
+begin
+	//check commandline for switch
+	StrToUpper(szTemp,g_structCmdLine.szEncryption);
+	if(szTemp = "OFF")then
+		flOptions = FL_CRASH_LOG;  //reset the options to normal
+		MessageBox("Turning Encryption on DB off",INFORMATION);
+	endif;
+end;
+
+/////////////////////////////////////////////////////////////////////////////
+// Will look for named pipes or TCPIP in reg, based on protocol passed in.
+// Choices are:
+//		"DBNMPNTW" for named pipes
+//		"DBMSSOCN" for TCP/IP
+//		""  to remove the entry (used to restore machine without entry)
+/////////////////////////////////////////////////////////////////////////////
+function OSwitchDSQuery(szProtocol)
+STRING szKey,szValue,szMsg;
+INT nType,nSize;
+begin
+	szKey = "SOFTWARE\\Microsoft\\MSSQLServer\\Client\\ConnectTo";
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	
+	RegDBGetKeyValueEx(szKey,"DSQUERY",nType,szValue,nSize);
+	if(szValue != "" )then
+		if(szValue != szProtocol)then
+			if(szProtocol = "DBNMPNTW")then
+				szMsg = @PROMPT_NAMED_PIPES;
+			elseif(szProtocol = "DBMSSOCN")then
+				szMsg = @PROMPT_TCPIP;
+			endif;
+			
+			if(AskYesNo(szMsg,YES)=NO)then
+				abort;
+			endif;
+			//save original value.
+			g_structSetupMode.szSQLProtocol = szValue;
+		else;
+			//nothing to do
+			g_structSetupMode.szSQLProtocol = "BLANK";
+			return TRUE;
+		endif;
+	endif;
+	
+	//change or add protocol to the one passed in, only if value is determined.
+	if(g_structSetupMode.szSQLProtocol != "")then
+		szProtocol = g_structSetupMode.szSQLProtocol;
+		if(szProtocol = "BLANK")then
+			szProtocol = "";
+		endif;
+		RegDBSetKeyValueEx(szKey,"DSQUERY",REGDB_STRING,szProtocol,-1);
+		return TRUE;
+	endif;
+end;
+
+/////////////////////////////////////////////////////////////////////////////
+// Will Set SQL comunication protocol to named pipes or TCPIP in reg, based on protocol passed in.
+// Choices are:
+//		"DBNMPNTW" for named pipes
+//		"DBMSSOCN" for TCP/IP
+//		""  to remove the entry (used to restore machine without entry)
+/////////////////////////////////////////////////////////////////////////////
+function OSetDSQuery(szProtocol)
+STRING szKey,szValue,szMsg;
+INT nType,nSize;
+begin
+	szKey = "SOFTWARE\\Microsoft\\MSSQLServer\\Client\\ConnectTo";
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	if(RegDBSetKeyValueEx(szKey,"DSQUERY",REGDB_STRING,szProtocol,-1) = 0 )then
+		g_structSetupMode.szSQLProtocol = szProtocol;
+		return TRUE;
+	endif;
+	return FALSE;
+end;
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Restores DSQuery SQL db protocol entry in reg, base on value passed in.
+// Choices are:
+//		"DBNMPNTW" for named pipes
+//		"DBMSSOCN" for TCP/IP
+//		""  to remove the entry (used to restore machine without entry)
+/////////////////////////////////////////////////////////////////////////////
+function ORestoreDSQuery(szProtocol)
+STRING szKey;
+begin
+	szKey = "SOFTWARE\\Microsoft\\MSSQLServer\\Client\\ConnectTo";
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	if(szProtocol = "BLANK")then
+		//remove the entry from the reg
+		RegDBDeleteValue(szKey,"DSQUERY");
+	elseif(szProtocol != "")then
+		RegDBSetKeyValueEx(szKey,"DSQUERY",REGDB_STRING,szProtocol,-1);
+	endif;
+end;
+
+//------------------------------------------------------------------------
+// Function _CheckWTUpgrade
+//  Verifes that the work ticket conversion utility has been run when
+//  performing an upgrade.
+// Returns TRUE on success and FALSE if the WTUtility was not run.
+//------------------------------------------------------------------------
+function _CheckWTUpgrade(pDB)
+STRING szKey, szLog, szErr[1024], szCheckFile, szDropFile, szResult, szCommand, szTemp, szCount;
+INT evOptions, flOptions, nReturn, iStat, nCount, nLoop;
+POINTER pIns;
+
+begin
+	szLog = SUPPORTDIR ^ "sql.log";
+	nReturn = TRUE;
+	evOptions = EV_ERROR + EV_OPERATION + EV_CAUSE + EV_MESSAGE; //values are: 1 + 4 + 8 + 1000H = 100D hex or 4109 dec.
+    flOptions = FL_CRASH_LOG;  //store log info imediately, do not buffer.
+
+    szCommand = "if exists (select * from systemparameter where chparametercode = N'EnableWorkTickets') and not exists (select * from sysobjects where name= N'QAIncidentDetails' and type = N'U') select 1 else select 0";
+
+    ComponentGetData (BASE_MEDIA,COMP_O1_RUN_SQL,COMPONENT_FIELD_MISC,nReturn,szKey);
+	if(szKey = "")then
+		szKey = "key"; //default key if not one specified.
+	endif;
+	
+	//open connection
+	ChangeDirectory(SUPPORTDIR);
+   	if (UseDLL(SUPPORTDIR ^ ONYXINSDLL) < 0) then
+    	gszMsg = @ERROR_LOADDLL + " "+ONYXINSDLL;
+   	    MessageBox(gszMsg, SEVERE);
+       	OLog(gszMsg);
+        return FALSE;
+       	ChangeDirectory(SRCDIR);
+   	endif;
+   	iStat = OpenInstallerA(210,pDB->szServer, pDB->szDatabase, pDB->szLogin, pDB->szPassword,szKey, SUPPORTDIR ^ "sql.log",evOptions,flOptions, &pIns, szErr, 512);  //ver 1.4   	
+   	if(iStat < 0)then
+   		gszMsg = @PROMPT_DATABASE_BAD_CONNECTION+"\n\n"+szErr;
+		MessageBox(gszMsg, WARNING);
+		OLog(gszMsg);
+		nReturn = FALSE;
+	endif;
+	
+	//put spoc onto system if pINSold was 0
+   	if (pIns != 0) then		
+		//run query
+	   	iStat = ExecuteQueryA(pIns,szCommand,0,szResult,512,szErr,512);
+   		if(iStat < 0)then
+			//query failed.
+			gszMsg =  @ERROR_SQL_RUNORDER3+"\n\nString: %s\nError Num: %d\nError Msg: %s";
+			Sprintf(gszMsg,gszMsg,pDB->szDatabase,szCommand,iStat,szErr);
+			OLog(gszMsg);
+			MessageBox(gszMsg,WARNING);
+			return FALSE;
+		else
+			Sprintf(gszMsg,@SQL_STRING+"\nServer %s\nDatabase: %s\nString: %s",pDB->szServer, pDB->szDatabase,"wbospssCheckLogin_Temp");
+			ODebugDsp(gszMsg,13);
+		endif;	
+	
+		//close connection if query was successful
+		if(pIns != 0)then
+		   	CloseInstallerA(pIns, 0, szErr, 255);
+	    	UnUseDLL(SUPPORTDIR ^ ONYXINSDLL);
+		endif;
+		ChangeDirectory(SRCDIR);
+	endif;
+	
+	if(szResult = "0")then
+		nReturn = FALSE;
+	else
+		nReturn = TRUE;
+	endif;
+
+    return nReturn;
+			
+end;	
+
+
+
+//-------------------------------------------------------------------------
+//checks the db for the existance of an Server account.
+//returns 0 if account not found, or account found and password does not match
+//returns 1 if account is found and password matches
+//-------------------------------------------------------------------------
+function _CheckSQLAccount(pDB,pSQL)
+STRING szKey,szLog,szErr[1024],szCheckFile,szDropFile,szResult,szCommand,szTemp,szCount;
+INT evOptions,flOptions,nReturn,iStat,nCount,nLoop;
+POINTER pINS;
+
+begin
+	szLog = SUPPORTDIR ^ "sql.log";
+	nReturn = TRUE;
+    evOptions = EV_ERROR + EV_OPERATION + EV_CAUSE + EV_MESSAGE; //values are: 1 + 4 + 8 + 1000H = 100D hex or 4109 dec.
+    flOptions = FL_CRASH_LOG;  //store log info imediately, do not buffer.
+
+	//open connection
+	ChangeDirectory(SUPPORTDIR);
+   	if (UseDLL(SUPPORTDIR ^ ONYXINSDLL) < 0) then
+    	gszMsg = @ERROR_LOADDLL + " "+ONYXINSDLL;
+   	    MessageBox(gszMsg, SEVERE);
+       	OLog(gszMsg);
+        return FALSE;
+       	ChangeDirectory(SRCDIR);
+   	endif;
+
+	//Log in as the specified user
+   	iStat = OpenInstallerA(210,pDB->szServer, pDB->szDatabase, pSQL->szLogin, pSQL->szPassword,"", szLog,evOptions,flOptions, &pINS, szErr, 512);  //ver 1.4   	
+   	if(iStat < 0)then
+   		//gszMsg = @PROMPT_DATABASE_BAD_CONNECTION+"\n\n"+szErr;
+		//MessageBox(gszMsg, WARNING);
+		//OLog(gszMsg);
+		nReturn = FALSE;
+	endif;
+
+	//close connection if query was successful
+	if(pINS != 0)then
+		CloseInstallerA(pINS, 0, szErr, 255);
+	   	UnUseDLL(SUPPORTDIR ^ ONYXINSDLL);
+	endif;
+	ChangeDirectory(SRCDIR);
+	
+    return nReturn;
+
+end;
+
+//-------------------------------------------------------------------------
+//checks to see if the passed account is a database owner
+//returns 0 if account not found, or account found and is not a DB owner
+//returns 1 if account is found and account is a DB owner
+//-------------------------------------------------------------------------
+function _CheckSQLAccountDbOwner(pDB,pSQL)
+STRING szLog,szErr[1024],szResult,szCommand,szTemp,szCount;
+INT evOptions,flOptions,nReturn,iStat,nCount,nLoop;
+POINTER pINS;
+begin
+	szLog = SUPPORTDIR ^ "sql.log";
+	nReturn = TRUE;
+    evOptions = EV_ERROR + EV_OPERATION + EV_CAUSE + EV_MESSAGE; //values are: 1 + 4 + 8 + 1000H = 100D hex or 4109 dec.
+    flOptions = FL_CRASH_LOG;  //store log info imediately, do not buffer.
+	
+	//Build the query to check for db_owner
+	szCommand = "SELECT l.name FROM sys.database_principals u";
+	szCommand = szCommand + " JOIN (sys.database_role_members m JOIN sys.database_principals r ON m.role_principal_id = r.principal_id)";
+    szCommand = szCommand + " ON u.principal_id = m.member_principal_id JOIN sys.server_principals l ON u.sid = l.sid";
+ 	szCommand = szCommand + " WHERE u.type <> 'R' AND l.name = '" + pDB->szLogin + "' AND r.name = 'db_owner'";
+
+	//open connection
+	ChangeDirectory(SUPPORTDIR);
+   	if (UseDLL(SUPPORTDIR ^ ONYXINSDLL) < 0) then
+    	gszMsg = @ERROR_LOADDLL + " "+ONYXINSDLL;
+   	    MessageBox(gszMsg, SEVERE);
+       	OLog(gszMsg);
+        return FALSE;
+       	ChangeDirectory(SRCDIR);
+   	endif;
+
+   	iStat = OpenInstallerA(210,pDB->szServer, pDB->szDatabase, pDB->szLogin, pDB->szPassword,"", SUPPORTDIR ^ "sql.log",evOptions,flOptions, &pINS, szErr, 512);  //ver 1.4   	
+   	if(iStat < 0)then
+   		gszMsg = @PROMPT_DATABASE_BAD_CONNECTION+"\n\n"+szErr;
+		MessageBox(gszMsg, WARNING);
+		OLog(gszMsg);
+		nReturn = FALSE;
+	endif;
+
+   	//If there is a valid connection...
+   	if (pINS != 0) then				
+
+		//need for blank entries
+		if(ExecuteStringA(pINS,"set quoted_identifier off",0,szErr,512) < 0)then
+			Sprintf(gszMsg, @ERROR_SQL_QUOTE, iStat, szErr);
+			MessageBox(gszMsg,SEVERE);
+		endif;
+
+		//run query
+   		iStat = ExecuteQueryA(pINS,szCommand,0,szResult,512,szErr,512);
+   		if(iStat < 0)then
+			//query failed.
+			gszMsg =  @ERROR_SQL_RUNORDER3+"\n\nString: %s\nError Num: %d\nError Msg: %s";
+			Sprintf(gszMsg,gszMsg,pDB->szDatabase,szCommand,iStat,szErr);
+			OLog(gszMsg);
+			MessageBox(gszMsg,WARNING);
+			return FALSE;
+		else
+			Sprintf(gszMsg,@SQL_STRING+"\nServer %s\nDatabase: %s\nString: %s",pDB->szServer, pDB->szDatabase,"wbospssCheckLogin_Temp");
+			ODebugDsp(gszMsg,13);
+		endif;			
+		//close connection if query was successful
+		CloseInstallerA(pINS, 0, szErr, 255);
+	endif;
+
+	UnUseDLL(SUPPORTDIR ^ ONYXINSDLL);
+	ChangeDirectory(SRCDIR);
+	
+	if(szResult = pDB->szLogin)then
+		nReturn = TRUE;
+	else
+		//account existed and the password is not the same
+		nReturn = FALSE;
+	endif;
+
+    return nReturn;
+
+end;
+
+
+
+//-------------------------------------------------------------------------
+//checks to see if the passed account exists in a database, using another account
+//returns 0 if account not found
+//returns 1 if account is found
+//-------------------------------------------------------------------------
+function _CheckOtherSQLAccount(pDB,szOtherAccount)
+STRING szLog,szErr[1024],szResult,szCommand,szTemp,szCount;
+INT evOptions,flOptions,nReturn,iStat,nLoop;
+NUMBER nCount;
+POINTER pINS;
+begin
+	szLog = SUPPORTDIR ^ "sql.log";
+	nReturn = TRUE;
+    evOptions = EV_ERROR + EV_OPERATION + EV_CAUSE + EV_MESSAGE; //values are: 1 + 4 + 8 + 1000H = 100D hex or 4109 dec.
+    flOptions = FL_CRASH_LOG;  //store log info imediately, do not buffer.
+	
+	//Build the query to check for the user
+	szCommand = "select count(*) from sys.database_principals where name = '" + szOtherAccount + "'";
+
+	//open connection
+	ChangeDirectory(SUPPORTDIR);
+   	if (UseDLL(SUPPORTDIR ^ ONYXINSDLL) < 0) then
+    	gszMsg = @ERROR_LOADDLL + " "+ONYXINSDLL;
+   	    MessageBox(gszMsg, SEVERE);
+       	OLog(gszMsg);
+        return FALSE;
+       	ChangeDirectory(SRCDIR);
+   	endif;
+
+   	iStat = OpenInstallerA(210,pDB->szServer, pDB->szDatabase, pDB->szLogin, pDB->szPassword,"", SUPPORTDIR ^ "sql.log",evOptions,flOptions, &pINS, szErr, 512);  //ver 1.4   	
+   	if(iStat < 0)then
+   		gszMsg = @PROMPT_DATABASE_BAD_CONNECTION+"\n\n"+szErr;
+		MessageBox(gszMsg, WARNING);
+		OLog(gszMsg);
+		nReturn = FALSE;
+	endif;
+
+   	//If there is a valid connection...
+   	if (pINS != 0) then				
+
+		//need for blank entries
+		if(ExecuteStringA(pINS,"set quoted_identifier off",0,szErr,512) < 0)then
+			Sprintf(gszMsg, @ERROR_SQL_QUOTE, iStat, szErr);
+			MessageBox(gszMsg,SEVERE);
+		endif;
+
+		//run query
+   		iStat = ExecuteQueryA(pINS,szCommand,0,szResult,512,szErr,512);
+   		if(iStat < 0)then
+			//query failed.
+			gszMsg =  @ERROR_SQL_RUNORDER3+"\n\nString: %s\nError Num: %d\nError Msg: %s";
+			Sprintf(gszMsg,gszMsg,pDB->szDatabase,szCommand,iStat,szErr);
+			OLog(gszMsg);
+			MessageBox(gszMsg,WARNING);
+			return FALSE;
+		else
+			Sprintf(gszMsg,@SQL_STRING+"\nServer %s\nDatabase: %s\nString: %s",pDB->szServer, pDB->szDatabase,"wbospssCheckLogin_Temp");
+			ODebugDsp(gszMsg,13);
+		endif;			
+
+		//close connection if query was successful
+		if(pINS != 0)then
+//		   	ISCloseInstaller(pINS, 0, szErr, 255);
+		   	CloseInstallerA(pINS, 0, szErr, 255);
+	    	UnUseDLL(SUPPORTDIR ^ ONYXINSDLL);
+		endif;
+		ChangeDirectory(SRCDIR);
+	endif;
+	
+	nReturn = StrToNum(nCount, szResult);
+	if(nCount > 0)then
+		nReturn = TRUE;
+	else
+		//query returned a count of 0, so the specified user does not exist.
+		nReturn = FALSE;
+	endif;
+
+    return nReturn;
+
+end;
+
+
+//-------------------------------------------------------------------------
+// Insert the OPS user records
+// The values used in this function can be overridden by setup.ini
+// The sprocs should be placed in a file group and
+// extracted into SUPPORTDIR.
+//-------------------------------------------------------------------------
+function OPSLoginInfo(pDB,pSQL)
+STRING szKey,szLog,szErr[1024],szCheckFile,szDropFile,szResult;
+STRING szCommand,szTemp,szCount,szLang, szName, szDesc;
+INT evOptions,flOptions,nReturn,iStat,nCount,nLoop;
+POINTER pINS;
+begin
+	szLog = SUPPORTDIR ^ "sql.log";
+
+
+	//Get the name of the OPS service user
+	OGetValueFromINI("OPS", "OPSUserName", szName);
+	if (szName = "" ) then
+		szName = "OPSSvcUser";
+	endif;
+	
+	if (StrLength ( szName ) > 10 ) then
+		StrSub(szName, szName, 0, 10);
+	endif;
+	
+	OGetValueFromINI("OPS", "OPSUserDesc", szDesc);
+	if ( szDesc = "" ) then
+		szDesc = "OPS service user";
+	endif;
+	
+	//double any single quotes
+	_StrReplace (szDesc, "'", "''", nReturn, MAX_STRING);
+	
+	if (StrLength ( szDesc ) > 30 ) then
+		StrSub(szDesc, szDesc, 0, 30);
+	endif;
+	
+	// You can override this in setup.ini using $(MACROS)
+	OGetValueFromINI("OPS","SQLCommand",szCommand);
+	if(szCommand = "")then
+		szCommand = "opAddUserAndExtendedUser N'" + szName + "', '', N'" + szDesc + "', ";
+		szCommand = szCommand + "N'" + g_structNTAccount.szLogin + "', " ;
+		szCommand = szCommand + "N'" +g_structDatabase.szLanguageCode + "', " + g_structVWS3.szSiteId;
+	else
+		OParseMacros(szCommand);
+	endif;
+	
+	//open connection
+	ChangeDirectory(SUPPORTDIR);
+   	if (UseDLL(SUPPORTDIR ^ ONYXINSDLL) < 0) then
+    	gszMsg = @ERROR_LOADDLL + " "+ONYXINSDLL;
+   	    MessageBox(gszMsg, SEVERE);
+       	OLog(gszMsg);
+        return FALSE;
+       	ChangeDirectory(SRCDIR);
+   	endif;
+		
+	nReturn = TRUE;
+  	
+   	iStat = OpenInstallerA(210,pDB->szServer, pDB->szDatabase, pDB->szLogin, pDB->szPassword,szKey, SUPPORTDIR ^ "sql.log",evOptions,flOptions, &pINS, szErr, 512);  //ver 1.4   	
+
+   	if(iStat < 0)then
+   		gszMsg = @PROMPT_DATABASE_BAD_CONNECTION+"\n\n"+szErr;
+		MessageBox(gszMsg, WARNING);
+		OLog(gszMsg);
+		nReturn = FALSE;
+	endif;
+
+   	//put spoc onto system if pINSold was 0
+   	if (pINS != 0) then				
+
+		//run query
+   		iStat = ExecuteStringA(pINS,szCommand,0,szResult,512);
+   		if(iStat < 0)then
+			//query failed.
+			gszMsg =  @ERROR_SQL_RUNORDER3+"\n\nString: %s\nError Num: %d\nError Msg: %s";
+			Sprintf(gszMsg,gszMsg,pDB->szDatabase,szCommand,iStat,szErr);
+			OLog(gszMsg);
+			MessageBox(gszMsg,WARNING);
+			return FALSE;
+		else
+			Sprintf(gszMsg,@SQL_STRING+"\nServer %s\nDatabase: %s\nString: %s",pDB->szServer, pDB->szDatabase,"wbospssCheckLogin_Temp");
+			ODebugDsp(gszMsg,13);
+		endif;			
+
+		//close connection if query was successful
+		if(pINS != 0)then
+		   	CloseInstallerA(pINS, 0, szErr, 255);
+	    	UnUseDLL(SUPPORTDIR ^ ONYXINSDLL);
+		endif;
+		ChangeDirectory(SRCDIR);
+	endif;
+	
+	if(szResult = "0")then
+		nReturn = FALSE;
+	else
+		// some sort of failure.
+		nReturn = TRUE;
+	endif;
+
+    return nReturn;
+
+end;
+
+
+//-------------------------------------------------------------------------
+//checks the db that the account has <szRole> privs.
+//returns 0 if account not found, or not correct privs
+//returns 1 if account is a member of specified role.
+// pDB - pointer to DATABASE_INFO structure
+// pSQL - pointer to ACCOUNT_INFO structure
+// szRole - Name of role to query for.
+//-------------------------------------------------------------------------
+function _CheckDbRole(pDB,pSQL, szRole)
+STRING szKey,szLog,szErr[1024],szCheckFile,szDropFile,szResult,szCommand,szTemp,szCount;
+INT evOptions,flOptions,nReturn,iStat,nCount,nLoop;
+POINTER pINS;
+begin
+
+	// check for implicit SA user, localized into language.ini
+	//OGetValueFromINI(szSection,szKey,szValue)
+
+
+	szLog = SUPPORTDIR ^ "sql.log";
+	szCheckFile = SUPPORTDIR ^ "tempUserDBRole.enc";
+	szDropFile = SUPPORTDIR ^ "tempDropUserDBRole.enc";
+	nReturn = TRUE;
+    evOptions = EV_ERROR + EV_OPERATION + EV_CAUSE + EV_MESSAGE + EV_DEBUG; //values are: 1 + 4 + 8 + 1000H = 100D hex or 4109 dec.
+    flOptions = FL_CRASH_LOG;  //store log info imediately, do not buffer.
+	szCommand = "ospspUserDbRole_temp '" + pSQL->szLogin + "', '" + szRole + "'";
+	
+	ComponentGetData (BASE_MEDIA,COMP_O1_RUN_SQL,COMPONENT_FIELD_MISC,nReturn,szKey);
+	if(szKey = "")then
+		szKey = "key"; //default key if not one specified.
+	endif;
+		
+	//check for sql files
+	if(OFileExist(szCheckFile) = FALSE)then
+		return FALSE;
+	endif;
+	if(OFileExist(szDropFile) = FALSE)then
+		return FALSE;
+	endif;
+
+	//open connection
+	ChangeDirectory(SUPPORTDIR);
+   	if (UseDLL(SUPPORTDIR ^ ONYXINSDLL) < 0) then
+    	gszMsg = @ERROR_LOADDLL + " "+ONYXINSDLL;
+   	    MessageBox(gszMsg, SEVERE);
+       	OLog(gszMsg);
+        return FALSE;
+       	ChangeDirectory(SRCDIR);
+   	endif;
+
+   	iStat = OpenInstallerA(210,pDB->szServer, pDB->szDatabase, pDB->szLogin, pDB->szPassword,szKey, SUPPORTDIR ^ "sql.log",evOptions,flOptions, &pINS, szErr, 512);  //ver 1.4   	
+   	if(iStat < 0)then
+   		gszMsg = @PROMPT_DATABASE_BAD_CONNECTION+"\n\n"+szErr;
+		MessageBox(gszMsg, WARNING);
+		OLog(gszMsg);
+		nReturn = FALSE;
+	endif;
+
+   	//put spoc onto system if pINSold was 0
+   	if (pINS != 0) then				
+
+		//need for blank entries
+
+		if(ExecuteStringA(pINS,"set quoted_identifier off",0,szErr,512) < 0)then
+			Sprintf(gszMsg, @ERROR_SQL_QUOTE, iStat, szErr);
+			MessageBox(gszMsg,SEVERE);
+		endif;
+
+		iStat = ExecuteFileA(pINS,szCheckFile,0,szErr,512);
+		if (iStat < 0) then
+			gszMsg = @ERROR_SQL_FILE + szCheckFile;
+			Sprintf(gszMsg,gszMsg+"\n%d: %s", iStat, szErr);
+			MessageBox(gszMsg,WARNING);
+		endif;   					
+	
+		//run query
+   		iStat = ExecuteQueryA(pINS,szCommand,0,szResult,512,szErr,512);
+   		// changed to -1 to avoid an error message with the SUCCES_WITH_INFO return
+   		if(iStat < 0)then
+			//query failed.
+			gszMsg =  @ERROR_SQL_RUNORDER3+"\n\nString: %s\nError Num: %d\nError Msg: %s";
+			Sprintf(gszMsg,gszMsg,pDB->szDatabase,szCommand,iStat,szErr);
+			OLog(gszMsg);
+			MessageBox(gszMsg,WARNING);
+			return FALSE;
+		else
+			Sprintf(gszMsg,@SQL_STRING+"\nServer %s\nDatabase: %s\nString: %s",pDB->szServer, pDB->szDatabase,"ospspUserDbRole_temp");
+			ODebugDsp(gszMsg,13);
+		endif;			
+
+		//drop spoc
+		iStat = ExecuteFileA(pINS,szDropFile,0,szErr,512);
+		if (iStat < 0) then
+			OReplacePasswordWithStar(szErr);
+			gszMsg = @ERROR_SQL_FILE + szDropFile;
+	       	Sprintf(gszMsg,gszMsg+"\n%d: %s", iStat, szErr);
+			MessageBox(gszMsg,WARNING);
+			return FALSE;
+		endif;		
+
+		//close connection if query was successful
+		if(pINS != 0)then
+//		   	ISCloseInstaller(pINS, 0, szErr, 255);
+		   	CloseInstallerA(pINS, 0, szErr, 255);
+	    	UnUseDLL(SUPPORTDIR ^ ONYXINSDLL);
+		endif;
+		ChangeDirectory(SRCDIR);
+	endif;
+	
+	if(szResult = "0")then
+		nReturn = FALSE;
+	else
+		//account existed and the password is not the same
+		nReturn = TRUE;
+	endif;
+
+    return nReturn;
+
+end;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

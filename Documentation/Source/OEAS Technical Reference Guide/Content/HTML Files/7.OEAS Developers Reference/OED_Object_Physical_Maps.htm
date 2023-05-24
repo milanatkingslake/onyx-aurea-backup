@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="8" MadCap:lastHeight="1183.457" MadCap:lastWidth="942">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Note_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/TableStyles/Aptean_Note_Table_3.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Object Physical Maps</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>
+            <MadCap:keyword term="Object Physical Maps" />Object Physical Maps</h5>
+        <p>The object physical maps collection is a container owned by a business 
+ object that holds all of the mappings that connect the object's properties 
+ to physical database <a href="OED_Columns.htm">columns</a>. This collection 
+ holds the elements that describe correspondence between the logical model 
+ and the database.</p>
+        <p>In general, each object physical map is a mapping between a property 
+ on an object and a column in a database table. In addition to having attributes 
+ for the property, table and column, the map also has attributes that identify 
+ function and type. The functions that maps perform are:</p>
+        <ul>
+            <li>persistence (SQL insert and update statements)</li>
+            <li>retrieval (SQL select statements)</li>
+            <li>filter (inclusion in WHERE clauses of SQL statements)</li>
+        </ul>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Note_Table_3.css');width: 80%;" class="TableStyle-Aptean_Note_Table_3" cellspacing="2">
+            <col style="width: 0.7cm;" class="TableStyle-Aptean_Note_Table_3-Column-Column1" />
+            <col class="TableStyle-Aptean_Note_Table_3-Column-Column1" style="width: 13cm;" />
+            <tbody>
+                <tr class="TableStyle-Aptean_Note_Table_3-Body-Body1">
+                    <td class="TableStyle-Aptean_Note_Table_3-BodyB-Column1-Body1" style="text-align: right;">
+                        <p class="TableText">
+                            <img src="../../Resources/Images/Common/note_image.png" />
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Note_Table_3-BodyA-Column1-Body1">
+                        <p class="TableText"><b>Note</b>: There can be more than one map for a single property or column. 
+ The same property can have two persistance maps to two different columns 
+ that can also be in two different tables. <a href="workingWithOed_Mapping_Multi-Language_Support.htm">Mapping 
+ multi-language support</a> illustrates this point.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The following three map types are available for the functional mapping 
+ of a property to a column:</p>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Table_1.css');" class="TableStyle-Aptean_Table_1" cellspacing="0">
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 5cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 12cm;" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_1-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Map Type</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadD-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Description</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;font-weight: bold;">complex function</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Allows a function to be called if the function 
+ either:</p>
+                        <ul>
+                            <li>Accepts more than one 
+ parameter, or </li>
+                            <li><span style="margin-left: 48px;">
+ A</span><span>ccepts a parameter that is different than the property's 
+ value</span>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;"><span style="font-weight: bold;">direct</span>
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Indicates that a property value is written 
+ or read directly from a database column without intervening interpretation 
+ of any kind.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;"><span style="font-weight: bold;">function</span>
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Indicates that a database function is used 
+ in the generation of SQL. The property's value is the function's sole 
+ input parameter on persistence and, conversely, the column's value is 
+ the function's sole input value if the map is a retrieval map.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;font-weight: bold;">literal</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">When persisting data to the database, the 
+ <span style="font-weight: bold;">literal</span> type indicates that a 
+ literal value is used instead of a property value.</p>
+                        <p class="TableText" style="margin-bottom: 0;">When the map is a retrieval map, &#160;the 
+ <span style="font-weight: bold;">literal</span> type indicates that a 
+ literal value is used instead of a column value. </p>
+                        <p class="TableText" style="margin-bottom: 0;">This type enables you to persist data to 
+ columns when no corresponding property exists, or to retrieve a literal 
+ value into a property when no corresponding database column exists. The 
+ literal value must resolve into a constant, a literal, or a single-valued 
+ SQL statement.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;font-weight: bold;">XSL literal</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Enable you to retrieve a value from the input 
+ XML that may not be accessed through a property, context variable, or 
+ a method parameter. XSL literals can also include conditional logic by 
+ using elements such as the xsl:choose statement. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Note_Table_1.css');width: 80%;" class="TableStyle-Aptean_Note_Table_1" cellspacing="2">
+            <col style="width: 0.7cm;" class="TableStyle-Aptean_Note_Table_1-Column-Column1" />
+            <col class="TableStyle-Aptean_Note_Table_1-Column-Column1" style="width: 15.50cm;" />
+            <tbody>
+                <tr class="TableStyle-Aptean_Note_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyB-Column1-Body1" style="text-align: right;">
+                        <p>
+                            <img src="../../Resources/Images/Common/note_image.png" />
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText"><b>Note</b>: Persistence maps are used for both insert 
+ and update methods within the database. When writing specialized functions 
+ for performing such tasks as ID or serial number generation, the database 
+ functions mapped here should be written to behave differently on insert 
+ versus update. Specifically, they might simply "pass through" 
+ a value when a valid value is received for the mapped property but automatically 
+ generate a value when the mapped property is input as a NULL value. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

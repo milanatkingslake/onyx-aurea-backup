@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="542" MadCap:lastWidth="624">
+    <head><title>Modifying Client Access Policy File</title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2>Modifying Client Access Policy File</h2>
+        <ol>
+            <li>On your OEAS server, back up the ClientAccessPolicy.xml file in case you need to revert to it.</li>
+            <li>Replace the contents of the file with the following code:</li>
+        </ol>
+        <p class="Indent1"><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;</code>
+        </p>
+        <p class="Indent1"><code>&lt;access-policy&gt;</code>
+        </p>
+        <p class="Indent1"><code>&lt;cross-domain-access&gt;</code>
+        </p>
+        <p class="Indent1"><code>&lt;policy&gt;</code>
+        </p>
+        <p class="Indent1"><code>&lt;allow-from http-methods="*" http-request-headers="*"&gt;</code>
+        </p>
+        <p class="Indent1"><code>&lt;domain uri="http://*" /&gt;</code>
+        </p>
+        <p class="Indent1"><code>&lt;domain uri="https://*" /&gt;</code>
+        </p>
+        <p class="Indent1"><code>&lt;/allow-from&gt;</code>
+        </p>
+        <p class="Indent1"><code>&lt;grant-to&gt;</code>
+        </p>
+        <p class="Indent1"><code>&lt;resource path="/" include-subpaths="true"/&gt;</code>
+        </p>
+        <p class="Indent1"><code>&lt;/grant-to&gt;</code>
+        </p>
+        <p class="Indent1"><code>&lt;/policy&gt;</code>
+        </p>
+        <p class="Indent1"><code>&lt;/cross-domain-access&gt;</code>
+        </p>
+        <p class="Indent1"><code>&lt;/access-policy&gt;</code>
+        </p>
+        <ol MadCap:continue="true">
+            <li>Save and close the ClientAccessPolicy.xml file.</li>
+        </ol>
+    </body>
+</html>

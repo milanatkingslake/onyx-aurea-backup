@@ -1,0 +1,302 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="777" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head>
+            <link href="../../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" /><title>Batch Subsystem Processing and Control</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>Batch Subsystem Processing and Control</h4>
+        <p>Batch subsystem processing of an action batch falls into three stages: 
+ </p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li><b class="Bold" style="font-weight: bold;">Reservation stage
+. </b> Retrieval (“reservation”) of an action batch from OEAS. When a batch 
+ system reserves an action batch, the status is updated from New to In 
+ Process and the action batch is marked with the subsystem's ID. At this 
+ point, only the reserving subsystem can process the action batch.</li>
+            <li><b class="Bold" style="font-weight: bold;">Processing stage
+. </b> The subsystem processes the action batch.</li>
+            <li><b class="Bold" style="font-weight: bold;">Completion stage
+. </b> When processing stops, the action batch status is updated either 
+ to Completed or, in case of failures, to Error.</li>
+        </ol>
+        <p>The batch subsystem’s response to starting, stopping, pausing, or continuing 
+ the OPS service depends on whether the subsystem is currently processing 
+ an action batch. </p>
+        <p>If an action batch is not currently in process, the subsystem responds 
+ immediately to the starting, stopping, pausing, or continuing of the OPS 
+ service. However, if action batches are currently in process, the subsystem 
+ responds as described in the following table. </p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Action </th>
+                    <th>Actions in process </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Stop </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Subsystem stops after processing completes 
+ on the current action batch. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Pause </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Subsystem pauses after processing completes 
+ on the current action batch. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Continue </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Subsystem begins processing the next action 
+ batch, if available. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p style="font-weight: bold;">Example: Batch subsystem processing </p>
+        <p>The following example illustrates how a batch subsystem processes action 
+ batches based on the subsystem settings. These settings highlight the 
+ processing behavior of the batch subsystem and are not intended to serve 
+ as a model for your configuration. </p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Field name </th>
+                    <th>Setting </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Start Time </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">6:00 pm </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Stop Time </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">6:30 pm </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Run Interval </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">5 minutes </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Governor Interval </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">200 milliseconds </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The following table shows the action batches in the queue. </p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Type of action </th>
+                    <th>Action details </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Inserting a sales incident </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1 sales incident inserted for 1000 individuals 
+ </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Inserting an external contact </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1 external contact inserted for 10 companies 
+ </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The following table shows how the action subsystem processes action 
+ batches according to these settings. </p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Step</th>
+                    <th>Time </th>
+                    <th>Action </th>
+                    <th>Number of action batches remaining after action </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Between 6:30 pm Day 1 and 6:00 pm Day 2 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">During this 23-1/2 hour period, no processing 
+ occurs. </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">2 action batches </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">2</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">6:00 pm, Day 2 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">The subsystem checks the queue, and retrieves 
+ and processes one action batch. When processing of the first action batch 
+ is complete, the subsystem checks the queue again, and retrieves and processes 
+ the next action batch. After this processing is complete at 6:12pm, the 
+ subsystem checks the queue again. Because there is no action batch in 
+ the queue, the subsystem has no more activity until the next interval 
+ begins. </p>
+                        <p class="Table_Text" style="color: #000000;">Note that the 6:05 pm and 6:10 pm intervals 
+ have been skipped because the subsystem was busy processing action batches. 
+ </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">0 action batches </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">3</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">6:15 pm, Day 2 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The subsystem checks the queue. Because no 
+ action batches are in the queue, the subsystem has no more activity until 
+ the end of the next run interval. </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">0 action batches </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">4</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">6:17 pm, Day 2 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">One action batch to insert 1 support incident 
+ for 5000 individuals is added to the queue. </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1 action batch </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">5</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">6:20 pm, Day 2 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The subsystem checks the queue. It retrieves 
+ and processes one action batch. After this processing is complete, the 
+ subsystem checks the queue again. Because no action batches are in the 
+ queue, the subsystem has no more activity from 6:32 pm until the next 
+ interval begins. </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">0 action batches </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">6</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">6:34 pm, Day 2 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">One action batch to insert 1 sales incident 
+ for 100 individuals is added to the queue. </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1 action batch </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">7</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">6:35 pm, Day 2 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Because the time is outside the operation window, 
+ the subsystem does not check the queue. </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1 action batch </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Highlights of the example are as follows: </p>
+        <p><b class="Bold" style="font-weight: bold;">Step 1. </b>The batch subsystem 
+ does not check the queue for an action batch to process when it is outside 
+ the operation window. </p>
+        <p><b class="Bold" style="font-weight: bold;">Step 2. </b>The subsystem 
+ continues to retrieve action batches and process them until the queue 
+ is empty. Once the queue is emptied, the subsystem has no more activity 
+ until the end of the interval. If the queue always contains action batches, 
+ processing continues throughout the processing window. </p>
+        <p><b class="Bold" style="font-weight: bold;">Steps 5 and 7. </b>The 
+ subsystem does not stop processing an existing batch when the end of the 
+ operation window arrives. When the action batch is complete, if the end 
+ of the operation window has not arrived, the subsystem checks the queue. 
+ </p>
+    </body>
+</html>

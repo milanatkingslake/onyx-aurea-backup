@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="2243" MadCap:lastWidth="634" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Note_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>GetConfiguredProperties (ICache)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>
+            <MadCap:keyword term="GetConfiguredProperties method" />
+            <MadCap:keyword term="GetConfiguredProperties" />GetConfiguredProperties method</h4>
+        <p>The GetConfiguredProperties method of the <a href="ICache_Interface.htm"><MadCap:keyword term="ICache" />ICache 
+ interface</a> retrieves the configured properties for a logical object. 
+ This method has been deprecated.</p>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Note_Table_1.css');width: 80%;" class="TableStyle-Aptean_Note_Table_1" cellspacing="2">
+            <col style="width: 0.7cm;" class="TableStyle-Aptean_Note_Table_1-Column-Column1" />
+            <col class="TableStyle-Aptean_Note_Table_1-Column-Column1" style="width: 15.50cm;" />
+            <tbody>
+                <tr class="TableStyle-Aptean_Note_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyB-Column1-Body1" style="text-align: right;">
+                        <p>
+                            <img src="../../Resources/Images/Common/note_image.png" />
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText"><b>Note</b>: This release of OEAS supports configured properties as a 
+ legacy feature from a prior release of OEAS. If you need to map properties 
+ to custom tables, use the Object Physical Maps section of the Object Designer.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Syntax</h3>
+        <p><b>IDL</b>
+        </p>
+        <p Class="Code" class="code">HRESULT&#160;GetConfiguredProperties(</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;[in]&#160;BSTR&#160;ApplicationName,&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;[in]&#160;BSTR&#160;ObjectName,&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;[out]&#160;SAFEARRAY(VARIANT)*&#160;ConfiguredProperties,&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;[out,&#160;retval]&#160;OEDCacheStatusEnum*&#160;Status);</p>
+        <p>
+            IDL parameter descriptions
+        </p>
+        <p>ApplicationName</p>
+        <p class="BodyTextIndent_1">[in] A string containing the logical application name that 
+ determines which subset of the cache to use for a query.</p>
+        <p>ObjectName</p>
+        <p class="BodyTextIndent_1">[in] A string that contains the name of the object.</p>
+        <p>ConfiguredProperties</p>
+        <p class="BodyTextIndent_1">Output. A two-dimensional array of variants (SAFEARRAY) 
+ that contains the configured properties for the specified object.</p>
+        <p>Status</p>
+        <p class="BodyTextIndent_1">[out retval] An enumeration of type <a href="Error_Returns.htm">OEDCacheStatusEnum</a> 
+ that contains the status of the method call.</p>
+        <p class="BodyText" style="font-weight: bold;">Visual Basic</p>
+        <p Class="Code" class="code"><span style="font-style: normal;">Function GetConfiguredProperties(</span>
+        </p>
+        <p Class="Code" class="code"><span style="font-style: normal;">ApplicationName As String, </span>
+        </p>
+        <p Class="Code" class="code"><span style="font-style: normal;">ObjectName As String, </span>
+        </p>
+        <p Class="Code" class="code"><span style="font-style: normal;">ConfiguredProperties() As Variant) </span>
+        </p>
+        <p Class="Code" class="code"><span style="font-style: normal;">As OEDCacheStatusEnum</span>
+        </p>
+        <p>Visual Basic parameter descriptions</p>
+        <p>ApplicationName</p>
+        <p class="BodyTextIndent_1">[in] A string containing the logical application name that 
+ determines which subset of the cache to use for a query.</p>
+        <p>ObjectName</p>
+        <p class="BodyTextIndent_1">[in] A string that contains the name of the object.</p>
+        <p>ConfiguredProperties</p>
+        <p class="BodyTextIndent_1">[out] A two-dimensional array of variants (SAFEARRAY) that 
+ contains the configured properties for the specified object.</p>
+        <p><b>C#</b>
+        </p>
+        <p>Use with the .NET <a href="Primary_interop_assembly.htm">primary interop 
+ assembly</a> version of this component, OnyxEDCachePIA.</p>
+        <p Class="Code" class="code"><span style="font-style: normal;">public OEDCacheStatusEnum GetConfiguredProperties(</span>
+        </p>
+        <p Class="Code" class="code"><span style="font-style: normal;">string ApplicationName, </span>
+        </p>
+        <p Class="Code" class="code"><span style="font-style: normal;">string ObjectName, </span>
+        </p>
+        <p Class="Code" class="code"><span style="font-style: normal;">out System.Array ConfiguredProperties) </span>
+        </p>
+        <p>C# parameter descriptions</p>
+        <p>ApplicationName</p>
+        <p class="BodyTextIndent_1">[in] A string containing the logical application name that 
+ determines which subset of the cache to use for a query.</p>
+        <p>ObjectName</p>
+        <p class="BodyTextIndent_1">[in] A string that contains the name of the object.</p>
+        <p>ConfiguredProperties</p>
+        <p class="BodyTextIndent_1">[out] A two-dimensional array that contains the configured 
+ properties for the specified object.</p>
+        <h3>Return values</h3>
+        <p>This method returns an enumeration of type OEDCacheStatusEnum that contains 
+ the status of the method call. See the <a href="Error_Returns.htm">OEDCacheStatusEnum</a> 
+ topic for a description of individual enumeration values.</p>
+        <h3>Example</h3>
+        <p>The following Visual Basic code demonstrates how to use the GetConfiguredProperties 
+ method to determine the property name and internal name of business object 
+ properties that are tied to a column in a custom database table.</p>
+        <p Class="Code" class="code">Dim&#160;oCache&#160;As&#160;OnyxDictionaryCacheLib.DictionaryCache</p>
+        <p Class="Code" class="code">Dim&#160;status&#160;As&#160;OnyxDictionaryCacheLib.OEDCacheStatusEnum</p>
+        <p Class="Code" class="code">Dim&#160;configuredProperties()&#160;As&#160;Variant</p>
+        <p Class="Code" class="code">Dim&#160;sPropertyName&#160;As&#160;String</p>
+        <p Class="Code" class="code">Dim&#160;sInternalName&#160;As&#160;String</p>
+        <p Class="Code" class="code"><span style="color: #008000;">'Set the cache and identify the object and property in the metho</span>d</p>
+        <p Class="Code" class="code">Set&#160;oCache&#160;=&#160;New&#160;OnyxDictionaryCacheLib.DictionaryCache&#160;</p>
+        <p Class="Code" class="code">status&#160;=&#160;oCache.GetConfiguredProperties("Onyx",&#160;"incident",&#160;configuredProperties())</p>
+        <p Class="Code" class="code"><span style="color: #008000;">'Set the variables to the content of the array</span>
+        </p>
+        <p Class="Code" class="code">If&#160;status&#160;=&#160;ocsSuccess&#160;Then</p>
+        <p Class="Code" class="code">&#160;&#160;sPropertyName&#160;=&#160;configuredProperties(0,&#160;ocpPropertyName)</p>
+        <p Class="Code" class="code">&#160;&#160;sInternalName&#160;=&#160;configuredProperties(0,&#160;ocpInternalName)</p>
+        <p Class="Code" class="code">End&#160;If&#160;</p>
+        <h3>Related topics</h3>
+        <ul>
+            <li><a href="Error_Returns.htm">OEDCacheStatusEnum</a>
+            </li>
+        </ul>
+    </body>
+</html>

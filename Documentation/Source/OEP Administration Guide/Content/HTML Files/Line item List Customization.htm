@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="866" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h3><a name="top"></a>Line-item List Customization</h3>
+        <p>The columns that display information about the products that comprise a forecast or quote are defined within the file YourOEPwebsite\ForecastQuote\QuoteMain_ListDef.xml on the OEP server. The columns appear in the same order as they are listed within the XML. Within the file, each “column” element contains the attributes of the column. The following XML fragment is a sample extract from the file: </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>&lt;XML id=”xListDef”&gt;</code>
+                    </p>
+                    <p><code>&lt;listcols&gt;</code>
+                    </p>
+                    <p> <code>&lt;column&gt;</code></p>
+                    <p> &#160;<code>&lt;coltitle&gt;&lt;% = OTMStr2SafeHTML(res_List_Title_Col1) %&gt;&lt;/coltitle&gt;</code></p>
+                    <p> &#160;<code>&lt;datafield&gt;*delete&lt;/datafield&gt;</code></p>
+                    <p> <code>&lt;selectable&gt;N&lt;/selectable&gt;</code></p>
+                    <p><code> &lt;sortable&gt;N&lt;/sortable&gt;</code>
+                    </p>
+                    <p> &#160;<code>&lt;quotetype&gt;FQ&lt;/quotetype&gt;</code></p>
+                    <p> <code>&lt;/column&gt;</code></p>
+                    <p> <code>&lt;column&gt;</code></p>
+                    <p><code>....</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>The data within the file is processed as an ASP script, so dynamic configurations can be created. The file is processed as part of the QuoteMain.asp file.</p>
+        <p>Each column has five properties that are set within the XML. The properties and their purpose are described below.</p>
+        <p>Property description table </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Valid Values</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">coltitle</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Any</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The heading for the column in the UI. Modify the constants in the file Res\ForecastQuote\QuoteMain_ListDef_res.asp.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">datafield</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">lineid</p>
+                        <p class="Table_Text">rowid</p>
+                        <p class="Table_Text">productid</p>
+                        <p class="Table_Text">description</p>
+                        <p class="Table_Text">unitprice</p>
+                        <p class="Table_Text">quantity</p>
+                        <p class="Table_Text">disctype</p>
+                        <p class="Table_Text">discvalue</p>
+                        <p class="Table_Text">confidence</p>
+                        <p class="Table_Text">shipdate</p>
+                        <p class="Table_Text">comments</p>
+                        <p class="Table_Text">updatedby</p>
+                        <p class="Table_Text">insertedby</p>
+                        <p class="Table_Text">*delete - show delete check box</p>
+                        <p class="Table_Text">*discounted - discounted value for line</p>
+                        <p class="Table_Text">*discamount - discount amount for line</p>
+                        <p class="Table_Text">*discvalue - discount value entered</p>
+                        <p class="Table_Text">*extended - extended value for line</p>
+                        <p class="Table_Text">*updatedate - formatted update date</p>
+                        <p class="Table_Text">*insertdate - formatted insert date</p>
+                        <p class="Table_Text">User Defined Fields (UDFs) use the format quotelineudfx (where x is 1 -10)</p>
+                        <p class="Table_Text">The following fields are only used if EnableSecondaryCurrency is set to Yes in the SystemParameters table.</p>
+                        <p class="Table_Text">unitprice2</p>
+                        <p class="Table_Text">discamount2</p>
+                        <p class="Table_Text">discounted2</p>
+                        <p class="Table_Text">extended2</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The name of the quoteline field.</p>
+                        <p class="Table_Text">A prefix of “*” indicates a field that is either calculated or has special formatting or function.</p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">UDF datafields can be of the following type:</p>
+                        <p class="Table_Text">Text box</p>
+                        <p class="Table_Text">Drop-down</p>
+                        <p class="Table_Text">Hierarchical drop-down</p>
+                        <p class="Table_Text">Check box</p>
+                        <p class="Table_Text">Mask</p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">UDF data values correspond to the Reference Administration Tool QuoteLineItem.UserX fields.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">selectable</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Y, N</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Y - Enables this field to be selected as a link.</p>
+                        <p class="Table_Text">N - This field is not selectable as a link.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">sortable</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">N, NUMBER, DATE, or STRING</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">N or the type of the sort.</p>
+                        <p class="Table_Text">N defines the column as not sortable. The type defines the sort to enable.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">quotetype</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">FQ, F, or Q.</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">FQ - Configures the column element to appear in both the Forecast and Quote detail interfaces.</p>
+                        <p class="Table_Text">F - Appear only in the Forecast detail</p>
+                        <p class="Table_Text">Q - Appear only in the Quote detail.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;"> To change the column caption on the list view, you must modify the resource file Res\ForecastQuote\QuoteMain_ListDef_Res.asp. The default user-defined field captions set through the OEAS Reference Table Administration tool do not appear in this main quote interface (but they do appear in the line-item detail window). See the <a href="Customizing Resource Files.htm#top">Customizing resource files</a> topic for more information about resource files. </p>
+        <h3>Other Customization Options</h3>
+        <p>Other forecast and quote customization options are identified here.</p>
+        <p>Default and secondary currency codes</p>
+        <p>The default currency code and the secondary currency code can be configured through OES System Parameter Administration. The parameter for the default currency is DefaultCurrencyCode. For this setting, enter the currency that all forecasts and quotes use as their default currency. The parameter for secondary currency is EnableSecondaryCurrency. For this setting, enter Y to enable users to choose an additional currency in which the forecast or quote is calculated.</p>
+        <h4>Change user-defined field entries</h4>
+        <p>Use OES Reference Table Administration to change user-defined field (UDF) captions. OEP only displays UDFs in the user interface if their captions have been edited and an edit has been made to an ASP file on the server. Refer to your OEAS documentation for information on using the Table Administration tool.</p>
+        <p>To enable the display of UDFs in a quote document, edit the following line in YourOEPwebsite/ForecastQuote/QuoteMain.asp:</p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>const DISPLAY_LIST_UDF = false &#160;' turn UDF display on/off</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <h4>Change the value of the variable to true. </h4>
+        <p>Once this line has been changed, edit the file YourOEPwebsite/ForecastQuote/QuoteMain_ListDef.xml as described in the topic <a href="#top">Line-item list customization</a> to enable the display of UDFs within the line-tem lists. </p>
+    </body>
+</html>

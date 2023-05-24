@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="1789" MadCap:lastWidth="686" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>GetObjectList (DictionaryProxy)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>
+            <MadCap:keyword term="GetObjectList method" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />
+            <MadCap:keyword term="GetObjectList" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />GetObjectList method</h5>
+        <p>The GetObjectList method of the <a href="OED_DictProxy_Int.htm"><MadCap:keyword term="DictionaryProxy" />DictionaryProxy 
+ interface</a> retrieves an XML string from the Onyx Enterprise Dictionary 
+ (OED) cache for a given logical application. </p>
+        <h3>Syntax</h3>
+        <p>Visual Basic/VBScript</p>
+        <p Class="Code" class="code">Function&#160;GetObjectList(</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;ApplicationName&#160;As&#160;String)</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;As&#160;String</p>
+        <p>
+            Visual Basic/VBScript parameter descriptions
+        </p>
+        <p><span style="font-style: italic;">ApplicationName</span>
+        </p>
+        <p class="BodyTextIndent_1">[in] A string containing the logical application name that 
+ determines which subset of the cache to use for a query.</p>
+        <h3>JScript</h3>
+        <p Class="Code" class="code">function&#160;GetObjectList(</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;ApplicationName)</p>
+        <p>
+            JScript parameter descriptions
+        </p>
+        <p><span style="font-style: italic;">ApplicationName</span>
+        </p>
+        <p class="BodyTextIndent_1">[in] A string containing the logical application name that 
+ determines which subset of the cache to use for a query.</p>
+        <p>C#</p>
+        <p>Use with the .NET <a href="Primary_interop_assembly.htm">primary interop 
+ assembly</a> version of this component, OnyxDictionaryCacheProxyPIA.</p>
+        <p Class="Code" class="code">public&#160;string&#160;GetObject<span style="font-style: normal;">List(</span></p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;string&#160;ApplicationName)</p>
+        <p>
+            C# parameter descriptions
+        </p>
+        <p><span style="font-style: italic;">ApplicationName</span>
+        </p>
+        <p class="BodyTextIndent_1">[in] A string containing the logical application name that 
+ determines which subset of the cache to use for a query.</p>
+        <h3>Return Value</h3>
+        <p>This method returns an XML string from the OED cache for the given logical 
+ application. The string is composed of the businessObject collection. 
+ The returned XML structure is abbreviated and does not include child collection 
+ elements (properties and methods) of the businessObject elements.</p>
+        <h3>Example</h3>
+        <p>The following Visual Basic code demonstrates how to use the GetObjectList 
+ method to retrieve the OED businessObjects XML structure.</p>
+        <p>Visual Basic code sample</p>
+        <p Class="Code" class="code">Dim&#160;strAppName,&#160;strObjectList</p>
+        <p Class="Code" class="code">strAppName&#160;=&#160;"Onyx"</p>
+        <p Class="Code" class="code">Dim&#160;proxy</p>
+        <p Class="Code" class="code">Set&#160;proxy&#160;=&#160;CreateObject("OnyxDictionaryCacheProxy.Dictionary")</p>
+        <p Class="Code" class="code">strObjectList&#160;=&#160;proxy.GetObjectList(strAppName)</p>
+        <p Class="Code" class="code">If&#160;Err.Number&#160;&lt;&gt;&#160;0&#160;Then</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;'&#160;Do&#160;something&#160;with&#160;the&#160;error&#160;object</p>
+        <p Class="Code" class="code">Else</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;'&#160;Do&#160;something&#160;with&#160;the&#160;contents&#160;of&#160;the&#160;string</p>
+        <p Class="Code" class="code">End&#160;If</p>
+        <p Class="Code" class="code">Set&#160;proxy&#160;=&#160;Nothing</p>
+        <p>The following snippet illustrates the structure returned.</p>
+        <p Class="Code" class="code">&lt;businessObjects format="1.0"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;businessObject&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;id&gt;6A23CA2F-8C8C-4062-8394-644345EDABD9&lt;/id&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;valid&gt;1&lt;/valid&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;name&gt;actionBatch&lt;/name&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;description&gt;actionBatch&lt;/description&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;released&gt;1&lt;/released&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;system/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;installedBy&gt;Onyx&lt;/installedBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;version&gt;5.00.000.0.0.0&lt;/version&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;disabled/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/businessObject&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;...&#160;</p>
+        <p Class="Code" class="code">&lt;/businessObjects&gt;</p>
+    </body>
+</html>

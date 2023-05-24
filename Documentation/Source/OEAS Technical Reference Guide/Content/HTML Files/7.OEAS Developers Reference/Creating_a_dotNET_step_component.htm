@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="3975" MadCap:lastWidth="1188">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Creating a .NET step component</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>
+            <MadCap:keyword term="step;NET step component" />Creating a .NET step component</h3>
+        <p>A step component developed using .NET has the following 
+ requirements:</p>
+        <ul>
+            <li>Implements the <a href="IStepString_interface.htm">IStepString</a> 
+ interface</li>
+            <li>Returns either a "continue" or "stop" 
+ message to the Onyx Transaction Manager</li>
+            <li>Has a "com" step type definition in 
+ the Onyx Enterprise Dictionary</li>
+            <li>Has a Strong Name (For more information, see MSDN 
+ documentation)</li>
+        </ul>
+        <p>The basic steps for creating a .NET step component 
+ are:</p>
+        <ol>
+            <li>Create a Microsoft Visual Studio project, preferably 
+ using a C# class library (if you want to take advantage of our sample 
+ code).</li>
+            <li>Add a reference to <a href="Primary_interop_assembly.htm">IStepStringPIA.DLL</a> 
+ in the project. If necessary, browse for the specific DLL.</li>
+            <li>Add a reference to the System.EnterpriseServices 
+ core class in the project.</li>
+            <li>In the library/project, create a class that will be the step component. 
+ This class requires a COM-callable wrapper, which enables the .NET step 
+ component to be called by COM objects.<p>See the sample code below for the class CSharpStep. The command 
+ lines used in the procedures that follow refer to example class CSharpStep.</p></li>
+            <li>Create a strong key for your class with this command:</li>
+        </ol>
+        <p class="Code" style="margin-left: 43px;"><span style="font-family: 'Courier New';">sn -k CSharpStep.snk</span>
+        </p>
+        <p class="Indent1">In the COM-callable wrapper, set the AssemblyKeyFileAttribute 
+ assembly attribute to the location of this key.</p>
+        <ol start="6">
+            <li align="left" class="ListBullet_1">Add the .Net step component to the Assembly 
+ Cache using the Microsoft .Net Framework Configuration Tool in Administrative 
+ Tools or the gacutil.exe utility from the command line as follows:</li>
+        </ol>
+        <p class="Code" style="margin-left: 43px;"><span style="font-family: 'Courier New';">\&lt;PATH_TO_EXE&gt;\gacutil /i "C:\Program Files\Onyx\Primary Interop Assemblies\IStepStringPIA.dll"</span>
+        </p>
+        <ol>
+            <p>The &lt;PATH_TO_EXE&gt; depends on your system. You 
+ might have to search the file system for the location of the utility, 
+ or your .Net Framework installation might not include the utility.</p>
+        </ol>
+        <ol start="7">
+            <li>Using Windows Explorer and the Component Services 
+ administration tool, register the .NET step component with COM+ by dragging 
+ and dropping the CustomStep.dll into the Components folder of OnyxEASLib.</li>
+            <li>Examine the OnyxEASLib COM+ application package 
+ and view the property pages of the .NET step component to verify its settings. 
+ The .NET step component requires the same COM+ settings as the other step 
+ components in the OnyxEASLib COM+ application package.</li>
+            <li>The .NET step component must be executable by the OnyxEASUser user, which has the <i>Log on as a batch job</i> right. If you choose to locate the .NET step component with the rest of the OEAS components (typically C:\Program Files\Onyx\AppServer\Components), then OnyxEASUser has execution rights for the .NET step component. If you put the .NET step component in a different directory, ensure to give execution rights on that directory to the OnyxEASUser user.</li>
+            <li>You may need to adjust the .NET step component's 
+ security settings for it to execute properly in the .NET environment.</li>
+        </ol>
+        <ol style="list-style: lower-alpha;list-style-type: lower-alpha;">
+            <li class="Sec_List">Open the .NET Framework Configuration application 
+ from the Administrative Tools menu.</li>
+            <li class="Sec_List">Click Runtime Security Policy and select Increase 
+ Assembly Trust in the pane on the right.</li>
+            <li class="Sec_List">Follow the directions that appear in the wizard 
+ to increase the level of trust granted to the .NET step component.</li>
+        </ol>
+        <h3>Example</h3>
+        <p>The class you create should inherit from the <a href="IStepString_interface.htm">IStepString</a> 
+ interface and use several COM+ related attributes, as demonstrated by 
+ the sample code. If you use this sample code, make sure that your step 
+ component has rights to access the registry.</p>
+        <p>
+            Sample code
+        </p>
+        <p Class="Code" class="code">using&#160;System;</p>
+        <p Class="Code" class="code">using&#160;IStepStringPIA;</p>
+        <p Class="Code" class="code">using&#160;System.Diagnostics;</p>
+        <p Class="Code" class="code">using&#160;System.Runtime.InteropServices;</p>
+        <p Class="Code" class="code">using&#160;System.Reflection;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;//AssemblyVersion</p>
+        <p Class="Code" class="code">using&#160;System.EnterpriseServices;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;//ServicedComponent,&#160;TransactionAttribute</p>
+        <p Class="Code" class="code">//&#160;ServicedComponent&#160;and&#160;the&#160;TransactionAttribute&#160;allow&#160;COM+&#160;support&#160;(transactions)</p>
+        <p Class="Code" class="code">//You&#160;may&#160;want&#160;to&#160;update&#160;or&#160;add&#160;these&#160;entries&#160;to&#160;AssemblyInfo.cs&#160;instead.&#160;If&#160;you&#160;do&#160;not,&#160;you</p>
+        <p Class="Code" class="code">//will&#160;need&#160;to&#160;comment&#160;out&#160;any&#160;existing&#160;entries&#160;in&#160;AssemblyInfo.cs.</p>
+        <p Class="Code" class="code">[assembly:&#160;Guid("FAEA210E-6035-481c-97DC-ECE718C4137C")]&#160;//TLBID:&#160;Use&#160;GUIDGEN</p>
+        <p Class="Code" class="code">[assembly:&#160;AssemblyVersion("1.0.*")]</p>
+        <p Class="Code" class="code">[assembly:&#160;AssemblyKeyFileAttribute("..\\..\\CSharpStep.snk")]</p>
+        <p Class="Code" class="code">[assembly:ApplicationAccessControl(Value=true,</p>
+        <p Class="Code" class="code">Authentication=AuthenticationOption.Default,AccessChecksLevel=AccessChecksLevelOption.ApplicationComponent)]</p>
+        <p Class="Code" class="code">namespace&#160;CSharpStep</p>
+        <p Class="Code" class="code">{</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;///&#160;&lt;summary&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;///&#160;Summary&#160;description&#160;for&#160;CSharpStep.</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;///&#160;&lt;/summary&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;///</p>
+        <p Class="Code" class="code">&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;///&#160;&lt;remarks&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;///&#160;Note&#160;that&#160;ServicedComponent&#160;inherits&#160;from&#160;ContextBoundObject,&#160;which</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;///&#160;in&#160;turn&#160;inherits&#160;from&#160;MarshallByRefObject.&#160;It&#160;also&#160;implements&#160;IRemoteDispatch&#160;and</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;///&#160;IDisposable.</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;///&#160;&lt;/remarks&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;[ClassInterface(ClassInterfaceType.None),&#160;&#160;&#160;&#160;&#160;&#160;//IStepString&#160;is&#160;the&#160;Default</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;Guid("E98905DC-BDBA-4dc4-84B1-9AFA2D938EEC"),&#160;&#160;//CLSID:&#160;Use&#160;GUIDGEN</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;ProgId("CSharpStep.CSharpStep"),&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;Transaction(TransactionOption.Supported)</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;]</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;public&#160;class&#160;CSharpStep:&#160;ServicedComponent,&#160;IStepString</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;{</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;public&#160;string&#160;Execute&#160;(&#160;string&#160;ApplicationName&#160;,&#160;string&#160;LogicalObjectName&#160;,&#160;string</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;LogicalMethodName&#160;,&#160;string&#160;StepAdditionalData&#160;,&#160;ref&#160;string&#160;sStepPackageXmlString&#160;)</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;try</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;EventLog&#160;el&#160;=&#160;CreateLogger();</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;if(sStepPackageXmlString.Length&#160;&gt;&#160;0)</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;el.WriteEntry(sStepPackageXmlString,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;EventLogEntryType.Information);</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;else</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;el.WriteEntry(&#160;"Problem",&#160;EventLogEntryType.Error);</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;//DO&#160;WORK&#160;HERE</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ContextUtil.SetComplete();</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;return&#160;"continue";</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;catch</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;EventLog&#160;errorLog&#160;=&#160;CreateLogger();</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;errorLog.WriteEntry(&#160;"Exception&#160;Occured",&#160;EventLogEntryType.Error);</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ContextUtil.SetAbort();</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;return&#160;"continue";</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;private&#160;EventLog&#160;CreateLogger()</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;EventLog&#160;el;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;if(!EventLog.SourceExists("CSharpStep"))</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;EventLog.CreateEventSource("CSharpStep",&#160;"CSharpStepLog");</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;//Create&#160;an&#160;EventLog&#160;instance&#160;and&#160;assign&#160;its&#160;source.</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;el&#160;=&#160;new&#160;EventLog();</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;el.Source&#160;=&#160;"CSharpStep";</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;return&#160;el;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;}</p>
+    </body>
+</html>

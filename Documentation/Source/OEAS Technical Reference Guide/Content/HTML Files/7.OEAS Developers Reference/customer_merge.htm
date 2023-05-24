@@ -1,0 +1,379 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="847" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>merge (customer)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="merge" />merge method</h2>
+        <p>The merge method of the <a href="customer_object.htm">customer</a> object 
+ merges two customer objects (two company objects or two individual objects) 
+ into a single object. The database is searched by the sourcePrimaryId 
+ (to identify the record to be merged) and targetPrimaryId (to identify 
+ the record to be merged into).</p>
+        <h3>Parameters</h3>
+        <table>
+            <col style="width: 4cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 4cm;" />
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Direction</th>
+                    <th>Data type</th>
+                    <th>Content type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">sourcePrimaryId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">in</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">string</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">The source customer to be merged into the 
+ target customer.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">targetPrimaryId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">in</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">string</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">The target customer of the merge method. 
+ The source customer will be merged into the target customer.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Steps</h3>
+        <table>
+            <col style="width: 5cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 8cm;" />
+            <thead>
+                <tr>
+                    <th>Step data</th>
+                    <th>Step type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">OnyxDataValidationStep.DataValidation</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Validates input parameters.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">OnyxDM.DataManager</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Merges two customer records: either an individual 
+ into another individual, or a company into another company.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Remarks</h3>
+        <p>The merge method combines the data of two customer records into a single 
+ customer record. When the merge method is performed on two customer objects, 
+ the properties of one object (called the source object) are merged with 
+ the properties of another object (called the target object). After the 
+ merge method is performed successfully, the target object inherits all 
+ of the related data from the source object, and the source object is deleted 
+ (logical delete).</p>
+        <p>The sourcePrimaryId is the customerId of the source object, the customer 
+ record to be merged. The targetPrimaryId is the customerId of the target 
+ object, the customer record to be merged into. The merge is accomplished 
+ from the source record to the target record. The merge method verifies 
+ that the caller is merging two customer records of the same type (either 
+ two company records or two individual records). If the source and target 
+ are of different types, the merge is terminated and an error is returned. 
+ If either the source or target objects are locked, the merge is terminated. 
+ For more information, see "Concurrency control."</p>
+        <p>The merge method applies the following general rules 
+ when merging the customer:</p>
+        <ul>
+            <li>If both the source object and the target object 
+ contain a value for a property, the value of the property for the target 
+ object takes precedence.</li>
+            <li>If a property of the target object is empty or 
+ NULL, the merge method copies the source property to the target property.</li>
+        </ul>
+        <p>After the merge method is performed successfully, all objects that are 
+ associated with the source object (such as addresses, phones, external 
+ contact, internal contact, incidents, products, campaigns, survey associations, 
+ subscriptions, and literature orders) are automatically associated to 
+ the target object.</p>
+        <p>After merging the two customer records, the source object is logically 
+ deleted from the database.</p>
+        <p>If your installation uses the OEP-Offline subscription service or other 
+ subscription services, a synchronization can cause merge to fail. When 
+ the OEDB and an offline client are synchronizing a customer that a user 
+ is attempting to merge, the user receives a failure message that asks 
+ the user to try the merge again in a few minutes. </p>
+        <p>Note in the table below that the source object has a primary and a single 
+ alternate phone object and that the target has a primary and two alternate 
+ phone objects. After the objects are merged, the target object has a primary 
+ and three alternate phone objects. The phoneTypeId and ownerId of the 
+ phone object are unique.</p>
+        <p>The following table shows the effect of the merge method on the phone 
+ objects when performed on two hypothetical company objects. The source 
+ object is merged (copied) into the property value of the target object.</p>
+        <p>
+            Table of phones before and after a merge
+        </p>
+        <table>
+            <col style="width: 4cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 3cm;" />
+            <thead>
+                <tr>
+                    <th>phone</th>
+                    <th>before mergeSource phone</th>
+                    <th>before mergeTarget phone</th>
+                    <th>after mergeTarget phone</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">phone[0]</p>
+                        <p class="TableText" style="margin-bottom: 0;">.primary</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">1</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">phone[0]</p>
+                        <p class="Table_Text" style="margin-bottom: 0;">.phoneTypeId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">115 - Note that this phone object is the 
+ same type as an alternate phone in the target object. If the phoneTypeId 
+ were not already in the target, this phone would become a new alternate 
+ phone object in the target.</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">4</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">4 - Note that this phone object is maintained 
+ as the primary phone from the target object.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">phone[0]</p>
+                        <p class="Table_Text" style="margin-bottom: 0;">.phoneNumber</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">2535550124</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">2535550125</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">2535550125</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">phone[1]</p>
+                        <p class="Table_Text" style="margin-bottom: 0;">.primary</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">0</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">0</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">0</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">phone[1]</p>
+                        <p class="Table_Text" style="margin-bottom: 0;">.phoneTypeId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">7 - Note, because this phoneTypeId does not 
+ already exist in the target, this phone object becomes an alternate phone 
+ in the target object.</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">115</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">115 - Note that this phone object is the 
+ same type in both the source object and the target object and is maintained 
+ as an alternate phone object with the unique phoneTypeId for the owner.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">phone[1]</p>
+                        <p class="Table_Text" style="margin-bottom: 0;">.phoneNumber</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">3605550987</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">2535551235</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">2535551235</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">phone[2]</p>
+                        <p class="Table_Text" style="margin-bottom: 0;">.primary</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Null (No phone[2] exists)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">0</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">0</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">phone[2]</p>
+                        <p class="Table_Text" style="margin-bottom: 0;">.phoneTypeId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Null (No phone[2] exists)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">119</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">119</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">phone[2]</p>
+                        <p class="Table_Text" style="margin-bottom: 0;">.phoneNumber</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Null (No phone[2] exists)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">3605550988</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">3605550988</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">phone[3]</p>
+                        <p class="Table_Text" style="margin-bottom: 0;">.primary</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Null (No phone[3] exists)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Null (No phone[3] exists)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">0</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">phone[3]</p>
+                        <p class="Table_Text" style="margin-bottom: 0;">.phoneTypeId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Null (No phone[3] exists)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Null (No phone[3] exists)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">7 - Note that this alternate phone object 
+ was the alternate phone from the source object.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">phone[3]</p>
+                        <p class="Table_Text" style="margin-bottom: 0;">.phoneNumber</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Null (No phone[3] exists)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Null (No phone[3] exists)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">3605550987</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Example</h3>
+        <p>This example searches the database for two customers. The source customer 
+ is merged into the target customer. </p>
+        <p>Input Parameter:</p>
+        <p Class="Code" class="C_Code">
+            <!--&nbsp;$MVD$:spaceretainer()&nbsp;-->&lt;parameters&gt;</p>
+        <p Class="Code" class="C_Code">
+            <!--&nbsp;$MVD$:spaceretainer()&nbsp;-->&#160;&#160;&lt;sourcePrimaryId&gt;3E4E8C7C-9546-4AE1-945D-4663CA42973C&lt;/sourcePrimaryId&gt;</p>
+        <p Class="Code" class="C_Code">
+            <!--&nbsp;$MVD$:spaceretainer()&nbsp;-->&#160;&#160;&lt;targetPrimaryId&gt;B0522CE8-0FED-4028-A211-5DB0D1780D71&lt;/targetPrimaryId&gt;</p>
+        <p Class="Code" class="C_Code">
+            <!--&nbsp;$MVD$:spaceretainer()&nbsp;-->&lt;/parameters&gt;</p>
+        <p>Output Parameter:</p>
+        <p Class="Code" class="C_Code">&lt;parametersReturn&gt;&lt;/parametersReturn&gt;</p>
+    </body>
+</html>

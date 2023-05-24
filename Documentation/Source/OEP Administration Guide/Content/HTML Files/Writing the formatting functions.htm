@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="861" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h4>Writing the formatting functions</h4>
+        <p>The number function that processes float and integer values accepts three arguments. The first argument contains a string of the number data that is to be formatted. The second argument is a Boolean that indicates whether the number is to be treated as an integer. The third argument, which is only included if the second argument is false, indicates the number of decimal places to which the value should be limited. This third argument is taken from the <a href="Click an element in the sample.htm#decimalP">decimalPlaces element</a> of the data transform configuration. </p>
+        <p>The date-processing function accepts two arguments. The first argument contains a string of the data that is to be formatted. Date information from OEAS will almost always be in universal format (for example, 2001-05-10 10:04:43). The second argument is an integer that indicates the type of data that should be returned. If the argument is 0, the returned value should contain the date and time. If the argument is 1, the returned value should only contain the date. If the value is 2, the returned value should only contain the time. </p>
+        <p>Functions for processing custom data accept two arguments. The first contains the data to process, the second contains the value of the <a href="Click an element in the sample.htm#customPa">customParam element</a> from the data transform configuration. </p>
+        <p>All functions return a string that contains the processed data. This string is inserted into the transformed XML. </p>
+        <h4>Function scope</h4>
+        <p>An XListData object accesses these functions through global variables that are declared in XListControl.js. Custom code that manipulates the lists must assign function references to these variables before attempting to transform list data. The names of the variables appear in the following table. </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Variable name</th>
+                    <th>Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">mlistDT_CustomFunction1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Used for custom formatting (formatType of custom1). Does not need to be set if no custom formatting is necessary.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">mlistDT_CustomFunction2</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Used for custom formatting (formatType of custom2). Does not need to be set if no custom formatting is necessary.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">mlistDT_DateFunction</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Used for date and time formatting</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">mlistDT_NumberFunction</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Used for integer and float formatting</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4><a name="Auto-gen"></a>Auto-generating Column Headings</h4>
+        <p>XML data sets from retrieveList business objects contain elements that describe the column data (data types, string lengths, etc). One of these elements contains a simple description that can be used as a column heading. There are column settings in both the XListData transformation configuration and the XListControl render configuration that cause the objects to copy the retrieveList column information for display in the rendered list. During processing in the client browser, the XListData object copies the column headings to an XResourceManager object. The resource manager is then attached to the XListControl, which extracts the resource strings for use in the user interface. &#160; </p>
+        <p style="font-weight: bold;">To configure a list for auto generation of column headings, do the following:</p>
+        <ul>
+            <li>In the XListData transformation configuration, set the <a href="To prevent the XSL from being.htm#useHeadi">useHeading element</a> to '1' for each column that will have its heading information copied for possible use in the list.</li>
+            <li>After the configuration is loaded into an instance of the XListData class, use the <i>appendResources</i> method to copy the headings to a resource manager. </li>
+            <li>In the XListControl render configuration, set the <a href="To prevent the XSL from being.htm#captionA">captionAuto element</a> to '1' for each column that will have its heading information copied from a resource manager and displayed in the list.</li>
+            <li>Use the <i>attachResource</i> method to add the resource manager with the column heading data to the XListControl instance.</li>
+        </ul>
+        <p>When the list is rendered, the column heading information stored in OEAS appears in the list heading.</p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Column headings for retrieveCollection methods cannot be auto generated. They must be added to a resource manager and referenced in the XListControl render configuration. </p>
+        <h4><a name="XListEve"></a>XListEvent Class</h4>
+        <p>An instance of the XListEvent class aids in the processing of events fired by a rendered list on an OEP page. The class is intended for use within the event handling and data retrieval functions that must be attached to the XListControl object before a list can be rendered. </p>
+        <p>The class parses the <a href="Customizing Result Lists.htm#Event2">event XML</a> and provides methods for simple retrieval of the event data. </p>
+        <p>The event XML can be used as an argument for the class' constructor. An instance of the class can be reused with different event XML through the setEventData method. Examples of both appear in the following code fragment. </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>var oListEvent = new XListEvent(psEventXML);</code>
+                    </p>
+                    <p><code>...</code>
+                    </p>
+                    <p><code>// Reset the event data</code>
+                    </p>
+                    <p><code>oListEvent.setEventData(psNewEventXML);</code>
+                    </p>
+                    <p><code>...</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>To learn more about the methods of the XListEvent class, see <i>XListEvent object</i> in the Programmer's reference. </p>
+        <p>To learn more about list events in general, see <a href="Customizing Result Lists.htm#Event">Event handling</a>.</p>
+        <h3>Editing Configuration Files</h3>
+        <p>Data configuration for an instance of the table class takes place in two stages. The first stage selects the data columns that will be used in the table. This stage also converts the data set into a format that the list class can understand. </p>
+        <p>The second configuration file specifies the initial display format for the data in the list. This stage also determines which data columns are passed to the event handler functions when a user interacts with a list. </p>
+        <p>Maximum rows settings are stored in a configuration file at the root of the application. Edit this file to limit the number of records that users can return from the database. </p>
+        <p>Click a link in the following table to learn more about the format of a configuration file. </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Topic</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#XListDat">XListData transformation configuration</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Describes the format for data transformation configurations</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="To prevent the XSL from being.htm#XListCon">XListControl render configuration</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Describes the format for list rendering configurations</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="To prevent the XSL from being.htm#Maximum">Maximum rows settings</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Describes the file that stores information for default maximum row retrieval settings</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4><a name="XListDat"></a>XListData Transformation Configuration</h4>
+        <p>The first step in preparing a data set for use with the XListControl object is identifying which portions of the data will be used in the table. Most of the data is selected to be displayed to the user, but other portions may be hidden from view and used for other actions within the user interface (for example, for other database record retrievals). </p>
+        <p>The configuration information for data selection is stored in an XML file. This information is used by the XListData object when processing data sets. The XML structure of the configuration file identifies the data portions to use in the table and includes information on any possible processing. </p>
+        <p>Throughout the OEP file set, the data transformation configuration files follow a convention where the feature name is paired with suffix of _data_config.xml. For example, the file for the audit log list is named auditlog_data_config.xml.</p>
+        <p>The XListData object is configured to look for a specific dataTransform element (identified by child transformId element) within the configuration XML. &#160;</p>
+    </body>
+</html>

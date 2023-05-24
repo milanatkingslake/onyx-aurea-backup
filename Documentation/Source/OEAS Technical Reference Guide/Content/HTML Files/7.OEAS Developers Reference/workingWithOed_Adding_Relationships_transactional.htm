@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="878" MadCap:lastWidth="1020">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Adding relationships (transactional)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>
+            <MadCap:keyword term="relationship creation:adding" />
+            <MadCap:keyword term="Relationships" />Adding relationships</h5>
+        <p>Four <a href="workingWithOed_Creating_relationships.htm">relationships</a> 
+ are required to describe how the contract object coordinates with the 
+ rest of the object model.</p>
+        <h3>The domain relationship to contractType</h3>
+        <p>The contract object is related to the contractType object you created 
+ in the <a href="workingWithOed_Creating_Domain_Objects.htm">Creating a 
+ domain object</a> section. In this relationship, the contractType object 
+ is a source of information and the contract object refers to it, so contractType 
+ is the primary object. In the OD, by convention, you always place relationships 
+ on the secondary object. Add the relationship to the contract object. 
+ You name the relationship as "contractType-contract-contractType."</p>
+        <p>This relationship involves a domain object, so its relationship type 
+ is automatically "domain." Once that relationship type is chosen, 
+ the only valid choice for cascade type is "restrict." Because 
+ the contractType property on our secondary object is a required property, 
+ the cardinality for the primary object (contractType) is "1." 
+ If it was not required, the cardinality would be "0-1" or "zero-to-one" 
+ because the value for contractType could be null. Because you want to 
+ allow many contracts having the same contractType, but enforce no rule 
+ that a contractType must have a contract, the cardinality on the secondary 
+ object (contract) is "0-*" or "zero-to-many." Taken 
+ together, these values are the shorthand for a "one-to-zero-or-many" 
+ relationship. It is a very common configuration.</p>
+        <p>Finally, you specify the object properties involved by adding a "Key 
+ Map" to the relationship. In this case primary object's property 
+ is "primaryId" and the secondary object's property is "contractType." 
+ This is a "foreign key" type of relationship for anyone used 
+ to thinking in database terms.</p>
+        <p>Note that this relationship mirrors a foreign key constraint in the 
+ database (see Table Creation Code Sample).</p>
+        <h3>The direct relationship to company</h3>
+        <p>The contract object is related to the company object through the contractor 
+ property. This is a "<a href="workingWithOed_Relationship_Attributes.htm">direct</a>" 
+ relationship, and the appropriate cascade type is "delete." 
+ It is another "one-to-zero-or-many" relationship, as described 
+ in the previous paragraph. The key maps should relate the primaryId of 
+ the company object to the contractor property.</p>
+        <p>Note that this relationship mirrors a foreign key constraint in the 
+ database (see Table Creation Code Sample).</p>
+        <h3>The two contractee relationships</h3>
+        <p>The contract object can be related to the company object through the 
+ contractee property. This is a "<a href="workingWithOed_Relationship_Attributes.htm">variableDirect</a>" 
+ relationship, and the appropriate cascade type is "delete." 
+ It is another "one-to-zero-or-many" relationship, as described 
+ above. The key maps should relate the primaryId of the company object 
+ to the contractee property.</p>
+        <p>The contract object can be related to the individual object through 
+ the contractee property. This is a "variableDirect" relationship, 
+ and the appropriate cascade type is "delete." It is another 
+ "one-to-zero-or-many" relationship, as described above. The 
+ key maps should relate the primaryId of the individual object to the contractee 
+ property.</p>
+        <p>These maps are important because they are 
+ used for both concurrency control and for referential integrity. There 
+ is no way to construct these foreign keys in the database directly as 
+ a native constraint. OEAS uses this information from the OED to programmatically 
+ enforce referential integrity for foreign keys through SQL generation 
+ and proprietary stored procedure code. </p>
+    </body>
+</html>

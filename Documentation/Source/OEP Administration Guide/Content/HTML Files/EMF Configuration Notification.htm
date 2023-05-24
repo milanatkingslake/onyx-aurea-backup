@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="5" MadCap:lastHeight="100" MadCap:lastWidth="701">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h3 style="page-break-before: always;">EMF Configuration Notification Queue Cleanup</h3>
+        <p>The EMF process <b>NotificationQueueCleanUp</b> will move records from the queue table to the completed queue table. This will ensure that the master table always has records to be processed, thereby improving performance when the table is queried as well. Technically the record from the tables <b>on_notification_queue</b> and <b>on_notification_queue_extension</b> are moved to <b>on_notification_queue_complete</b>.</p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;"> It is recommended to schedule all EMF Notification queue clean up processes during non productive hours. </p>
+        <h4>PrivateSummaryQueueCleanUp </h4>
+        <p>The EMF process <b>PrivateSummaryQueueCleanUp</b> will move records from the queue table to the completed queue table. This will ensure that the master table always has records to be processed, thereby improving performance when the table is queried as well. Technically the record from the tables <b>on_pri_summary_email_bdy_que</b>, <b>on_pri_summary_email_bdy</b> and <b>on_pri_summary_email_que</b> are moved to <b>on_pri_summary_email_bdy_que_cmp</b>, <b>on_pri_summary_email_bdy_cmp</b> and <b>on_pri_summary_email_que_cmp</b> respectively.</p>
+        <h4>PublicSummaryQueueCleanUp</h4>
+        <p>The EMF process <b>PublicSummaryQueueCleanUp</b> will move records from the queue table to the completed queue table. This will ensure that the master table always has records to be processed, thereby improving performance when the table is queried as well. Technically the record from the tables <b>on_pub_summary_email_body</b> and <b>on_pub_summary_email_queue</b> are moved to <b>on_pub_summary_email_bdy_cmp</b> and <b>on_pub_summary_email_que_cmp</b> respectively.</p>
+        <h4>IndividualQueueCleanUp</h4>
+        <p>The EMF process <b>IndividualQueueCleanUp</b> will move records from the queue table to the completed queue table. This will ensure that the master table always has records to be processed, thereby improving performance when the table is queried as well. Technically the record from the tables <b>on_individual_email_queue</b> and <b>on_individual_email</b> are moved to <b>on_individual_email_queue_cmp</b> and <b>on_individual_email_complete</b> respectively.</p>
+        <h4>NotificationQueueErrorProcess</h4>
+        <p>The EMF process <b>NotificationQueueErrorProcess</b> will re-execute the notification queue if there is an error record of three times in a given interval.</p>
+        <p>&#160;</p>
+    </body>
+</html>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="972" MadCap:lastWidth="1020">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Primary Key Properties</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h6>
+            <MadCap:keyword term="primary" />
+            <MadCap:keyword term="property creation:primary key" />
+            <MadCap:keyword term="Primary key properties" />
+            <MadCap:keyword term="Properties" />Primary key properties</h6>
+        <p>Each object you create needs a primary key. In the simple case, an object's 
+ primary key consists of a single property. Unless an object describes 
+ an <a href="oed_relationships.htm#relationshipTable">association</a> (intersection) 
+ of other objects, it should have a singular key. Association objects can 
+ have composite keys, keys made up of more than one property, that are 
+ "borrowed" from the other objects whose association they describe. 
+ When an object is transactional, the Onyx standard is to supply it with 
+ its own singular unique key property even when it is an association object 
+ (for example, externalContact).</p>
+        <p>Every property used in a primary key should have a <a href="property_constraints.htm">property 
+ constraint</a> identifying that it is a "required" property.</p>
+        <h3>Single key property for a transactional object</h3>
+        <p>The Onyx standard name for a simple key property is <a href="standard_primaryId.htm">primaryId</a>. 
+ The XML data type for this property is "string" and SQL generation 
+ expects it to contain a GUID. To ensure that the ODM knows to generate 
+ unique GUID values for the primary key property you supply the value "odmGuid" 
+ in the "Generate ID" field in Object Designer.</p>
+        <h3>Single key property for a domain object</h3>
+        <p>There are two classifications of single primary key properties used 
+ for domain objects, generated and natural. Sometimes you will want a key 
+ that is automatically generated. Other times you will want a key value 
+ that is entered directly by users. These keys that are typically entered 
+ by a user are called natural keys. An example of a natural key is the 
+ countryCode property on the country object. Use natural keys only when 
+ the key value itself needs to human readable and if the key is used in 
+ other places.</p>
+        <p>Do not use natural keys to hold data that might change over the course 
+ of a record's lifetime, or that might contain duplicates. For example, 
+ a customer's name would be a poor candidate for a natural key, since your 
+ customers may change their names, and several customers may have the same 
+ name.</p>
+        <h3>Generated domain object keys</h3>
+        <p>The Onyx standard name for a simple key property is primaryId. The XML 
+ data type for this property is "i4" and SQL generation expects 
+ it to contain an integer generated in the database tier. To ensure that 
+ the ODM knows the values for the primary key property are generated in 
+ the database you supply the value "db" in the "Generate 
+ ID" field in Object Designer.</p>
+        <h3>Natural domain object keys</h3>
+        <p>The Onyx standard name for a natural key property is the object name 
+ with the suffix "Code" appended. The XML data type for this 
+ property is "string" and SQL generation expects it to contain 
+ a legal text value. To ensure that the ODM knows the values for the primary 
+ key property are not generated automatically leave the "Generate 
+ ID" field in Object Designer empty. Also, map the key as "direct." 
+ To ensure that users do not insert a record without specifying the primary 
+ key, natural keys should have a "required" property constraint.</p>
+        <h3>Composite keys for association objects</h3>
+        <p>Only use composite keys for domain objects 
+ that represent an association. The names of the properties should reflect 
+ the objects from which they are "borrowed" (for example, questionResponse). 
+ The data types should be identical to the types of the key properties 
+ that are being borrowed. For example, if you associate the object "green" 
+ and "blue" in a new "blueGreen" object, the "primaryId" 
+ properties of the two base objects appear on the blueGreen object as "greenId" 
+ and "blueId." To ensure that the ODM knows the values for the 
+ primary key properties are not generated automatically leave the "Generate 
+ ID" field in Object Designer empty. You must also map the keys according 
+ to the way they were mapped on the base objects. Additionally, it is advisable 
+ to specify <a href="workingWithOed_Creating_relationships.htm">relationships</a> 
+ in the OED that tell SQL generation that these keys come from other objects 
+ (foreign keys). </p>
+    </body>
+</html>

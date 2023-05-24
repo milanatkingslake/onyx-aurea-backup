@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="100" MadCap:lastWidth="701">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <p class="ProcedureHeading">To update the Persistence database tables:</p>
+        <ol>
+            <li>Ensure that you have synchronized the OTDB and Persistence database so that the latest domain data is available in the Persistence database. For information on doing this, see the Onyx Installation Guide.</li>
+            <li>In each language-dependent table, create one row of domain data for each language code.</li>
+        </ol>
+        <p class="Indent1">For example, in the navigator_entity_master_ml table, create one row for 'Companies' with language code=ENG. Create another row for 'Société' with language code=FRA, and so on for each language code that you have created.</p>
+        <h4><a name="Localize"></a>Localize Onyx Gateway Service error messages</h4>
+        <p>To update error messages that are controlled through the Onyx Gateway Service , you must modify the NavigatorMessages.txt file with the language-appropriate text, and then create a DLL for each language. Before you begin, be sure to have a list of the culture names for each language in which you want to localize Navigator. Perform this process on a computer that has Microsoft Visual Studio 2010 installed.</p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">To find the culture name for a language, refer to <a href="http://msdn.microsoft.com/en-us/library/system.globalization.cultureinfo(v=vs.80).aspx">http://msdn.microsoft.com/en-us/library/system.globalization.cultureinfo(v=vs.80).aspx</a></p>
+        <p class="ProcedureHeading">To create the resources DLL:</p>
+        <ol>
+            <li>In your Onyx <MadCap:variable name="Aptean_Variables.Version number" /> installation package, navigate to <b>\Customization Support\CRArchitecture\CMRestGateway</b>, and copy the NavigatorMessages.txt file to a computer on which you have installed Microsoft Visual Studio 2010.</li>
+            <li>Open <b>.NET SDK Command Prompt</b> and perform the following steps:</li>
+        </ol>
+        <ul style="list-style-type: disc;margin-left: 44pt;">
+            <li class="List_Indent">Enter a command to point to the directory where you copied the NavigatorMessages.txt file.</li>
+            <li class="List_Indent">Execute the following command, substituting the bracketed text with the appropriate values. This converts the NavigatorMessages.txt file into a .resources file.</li>
+        </ul>
+        <p class="C_Code">resgen NavigatorMessages.txt NavigatorMessages.&lt;culture-name&gt;.resources</p>
+        <p class="Indent1">An example of the command: resgen NavigatorMessages.txt NavigatorMessages.ja-jp.resources</p>
+        <ul style="list-style-type: disc;margin-left: 44pt;">
+            <li class="List_Indent">Execute the following command, substituting the bracketed text with the appropriate values. This creates the required DLL.</li>
+        </ul>
+        <p class="C_Code">al /t:lib /embed:NavigatorMessages.&lt;culture-name&gt;.resources /culture:&lt;culture-name&gt; /out:NavigatorMessages.resources.dll</p>
+        <p class="Indent1">An example of the command: <code>&gt;al /t:lib /embed:NavigatorMessages.ja-jp.resources /culture:ja-jp /out:NavigatorMessages.resources.dll</code></p>
+        <ol start="3">
+            <li>On the <b>OEAS server computer</b>, navigate to <code>C:\Program Files\Onyx\AppServer\Applications\Onyx\OnyxGatewayService</code></li>
+            <li>Create one folder for each language, and name it with the culture name, such as ja-jp for Japanese.</li>
+        </ol>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">When no language-specific dll is present, the culture-neutral dll is used to retrieve error messages..The default location for the culture-neutral dll is <code>C:\Program Files\Onyx\AppServer\Applications\Onyx\OnyxGatewayService\NavigatorMessages.dll. </code><br /></p>
+        <ol MadCap:continue="true">
+            <li>Copy the DLL for each language into the respective language folder.</li>
+            <li>In an editor such as Notepad, open the <b>CMGateway config.exe</b> file.</li>
+            <li>Find the text <b>Configuration\AppSettings</b>, and type text in the following format, substituting the bracketed text with the appropriate values.</li>
+        </ol>
+        <p class="C_Code">&lt;add key="&lt;CM-Language-Code&gt;" value="&lt;.net-culture-name&gt;"/&gt;</p>
+        <p class="Indent1">An example of the text: <code>&lt;add key="JPN" value="ja-jp"/&gt;</code></p>
+        <ol start="8">
+            <li>Save and close the configuration file.</li>
+            <li>To modify an error message, make the necessary modifications in the <b>NavigatorMessages.txt</b> file, recreate the DLL, and copy it to the appropriate language folder, following the steps listed above.</li>
+        </ol>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; &#160;">Be sure to back up the modified .txt file. You will need it when you want to make further modifications and when you want to upgrade to a newer version of Onyx.</p>
+        <h4><a name="Localize2"></a>Localize Email Priority and Script Status domain data</h4>
+        <p>You must also modify the XML files for Email Priority and Script Status to include domain data in each language that you want to support.</p>
+        <ol>
+            <li>On the OEAS server, navigate to the app_data folder within your Onyx Gateway Service install folder. The default location for this folder is <code>C:\Program Files\Onyx\AppServer\Applications\Onyx\OnyxGatewayService\App_Data.</code></li>
+            <li>Open the EmailPriorityDomainData.xml file, and add the domain data for Email Priority in each language that you want to support. The domain data in the default installation language is already present and does not need to be added.</li>
+            <li>After you've finished adding the data, save and close the file.</li>
+            <li>Open the ScriptStatusDomainData.xml file, and add the domain data for Script Status in each language that you want to support. The domain data in the default installation language is already present and does not need to be added.</li>
+            <li>After you've finished adding the data, save and close the file.</li>
+        </ol>
+        <h4 MadCap:conditions="Default.Obsolete">Localize Navigator UI</h4>
+        <p MadCap:conditions="Default.Obsolete">In a Onyx language pack, the Navigator.Resources.dll file and the Navigator Config.xml file are localized by default in the corresponding language. Perform the following steps only if you want to further modify these files.</p>
+    </body>
+</html>

@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="799" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>context element</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>
+            <MadCap:keyword term="context element" />context element</h4>
+        <p>The context element contains information that identifies the context 
+ from which the client application is calling.</p>
+        <p>Client applications that use the <a href="ITMgr_Intfc.htm">ITransactionManager 
+ interface</a> submit the session ID that is obtained from an authentication 
+ component. For more information on authentication components, see <a href="Overview_Auth.htm">Authentication overview</a>. The <a href="Overview_Sess.htm">Session Manager</a> passes 
+ the OTM the context information, based on the user's session ID, and adds 
+ it to the step package.</p>
+        <p>Custom step components that call the IInternalTransactionManager interface 
+ must build the contents of the context element manually. In most cases, 
+ your step component can copy the data from from the step package that 
+ it receives from the OTM.</p>
+        <p>The elements of the context element are:</p>
+        <table>
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Element</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">applicationName</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">The name of the OEAS application.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">logName</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">The name of the Onyx log to use when logging 
+ messages.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">logSettings</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">An integer value that identifies the current 
+ level of logging.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">originalUser</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">The Windows 2000 domain account that initiated 
+ the call to the OTM.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">otmId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">A GUID that is used to identify the current 
+ method call. This is useful when tracking a method call in the application 
+ log.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">permissionMask</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">A bitmask that contains information about 
+ the resources this user is allowed to access.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">preferredLanguage</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">A code that identifies the national language 
+ table used by the client application.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">sessionId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">A GUID that identifies the current session. 
+ The client gets this value from an authentication component.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">sessionSecondsRemaining</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">An integer value representing the number 
+ of seconds remaining in the client application's session for the user 
+ as determined by OEAS using the GlobalSessionTimeOut system parameter.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">siteId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">The site ID value.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">source</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">A code that identifies the client application 
+ that called the OTM.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">userId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">The username of the client calling the OTM.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p style="font-weight: bold;">Example</p>
+        <p>The contents of a sample context element look like this:</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&lt;context&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&lt;sessionId&gt;343B353F-87AD-4BCA-94E1-8CC6DC1EA9AE&lt;/sessionId&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&lt;userId&gt;rogerw&lt;/userId&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&lt;partnerUser&gt;0&lt;/partnerUser&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&lt;siteId&gt;1&lt;/siteId&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&lt;applicationName&gt;Onyx&lt;/applicationName&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&lt;source&gt;OEP&lt;/source&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&lt;preferredLanguage&gt;ENG&lt;/preferredLanguage&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&lt;originalUser&gt;ISSAQUAH\RogerW&lt;/originalUser&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&lt;permissionMask&gt;fffffffffffff...0000000000000000000&lt;/permissionMask&gt;&lt;!-- abbreviated: not a valid mask --&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&lt;logName&gt;Onyx&lt;/logName&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&lt;logSettings&gt;7&lt;/logSettings&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&lt;impersonatingUser/&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&lt;sessionSecondsRemaining&gt;600&lt;/sessionSecondsRemaining&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&lt;otmId&gt;075DEE49-4DAD-426C-9475-BE2B59F80402&lt;/otmId&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&lt;/context&gt;</p>
+    </body>
+</html>

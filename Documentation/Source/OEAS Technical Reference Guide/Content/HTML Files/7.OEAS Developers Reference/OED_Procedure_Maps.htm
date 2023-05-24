@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="838.4567" MadCap:lastWidth="968">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Note_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Procedure Maps</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h6>
+            <MadCap:keyword term="procedure;Procedure Maps" />Procedure maps</h6>
+        <p>The procedure maps collection contains individual maps that allow steps 
+ to utilize stored procedures on the data tier. A step may be connected 
+ to one or more stored procedures in the physical database and each such 
+ connection is called a procedure map. A procedure map enables the step 
+ to make a specific stored procedure call.</p>
+        <p>Procedure maps contain a collection of elements and attributes that 
+ include the name of the stored procedure to be called. Equally important 
+ is the "map type" attribute, which instruct OEAS core components 
+ how to call the stored procedure.</p>
+        <p>The "map type" attribute can contain any of the following 
+ three values:</p>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Table_1.css');" class="TableStyle-Aptean_Table_1" cellspacing="0">
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 5cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 12cm;" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_1-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Map type</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadD-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Description</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;"><span style="font-weight: bold;">replace</span>
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">When a procedure map type is <span style="font-weight: normal;">replace</span>, 
+ the "replace" procedure becomes the entire activity performed 
+ by the step. There may be only one <span style="font-weight: normal;">replace</span> 
+ map type for a step.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;"><span style="font-weight: bold;">pre</span>
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">When a procedure map type is <span style="font-weight: normal;">pre, 
+ </span>the "pre" procedure happens before the normal work of 
+ the step. There may be multiple <span style="font-weight: normal;">pre</span> 
+ procedure maps for a single step. However, you may not combine <span style="font-weight: normal;">pre</span> 
+ procedure maps with a <span style="font-weight: normal;">replace</span> 
+ procedure map.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;"><span style="font-weight: bold;">post</span>
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">For a <span style="font-weight: normal;">post 
+ map type, </span>the "post" procedure happens after the normal 
+ work of the step. There may be multiple <span style="font-weight: normal;">post</span> 
+ procedure maps for a single step. However, you may not combine <span style="font-weight: normal;">post</span> 
+ procedure maps with a <span style="font-weight: normal;">replace</span> 
+ procedure map.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>For procedure maps used on "<a href="standard_saveCollection.htm">saveCollection</a>" 
+ methods, some additional functionality is provided. Each pre or post procedure 
+ map may be applied for a specific action (insert or update, for example), 
+ or be applied for the entire collection. If the map is applied for the 
+ "collection", then it is performed before any action in that 
+ collection. If the map is applied for the "collection by owner," 
+ then the procedure is called once for each distinct owner in the collection. 
+ For example, this can be useful for validating address type when updating 
+ multiple addresses for multiple customers simultaneously. If it is applied 
+ for a specific action, then it is inserted directly before or after that 
+ particular action. For further information on method types, see <a href="oeas_methods.htm">OEAS 
+ methods</a>.</p>
+        <p>In order to enable the SQL Generation process to compose these procedure 
+ calls, the procedure map contains two important collections. One collection 
+ is the <a href="OED_Input_Maps.htm">input maps</a> - these identify stored 
+ procedure parameters and how to fill them. The other collection is the 
+ <a href="OED_Output_Maps.htm">output maps</a> - these identify what method 
+ parameter(s) receive parameter values or result set data returned by the 
+ procedure.</p>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Note_Table_1.css');width: 80%;" class="TableStyle-Aptean_Note_Table_1" cellspacing="2">
+            <col style="width: 0.7cm;" class="TableStyle-Aptean_Note_Table_1-Column-Column1" />
+            <col class="TableStyle-Aptean_Note_Table_1-Column-Column1" style="width: 15.50cm;" />
+            <tbody>
+                <tr class="TableStyle-Aptean_Note_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyB-Column1-Body1" style="text-align: right;">
+                        <p>
+                            <img src="../../Resources/Images/Common/note_image.png" />
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText"><b>Note</b>: Before a procedure map can be added, it must 
+ first be described in the Procedures section of the Physical Model. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

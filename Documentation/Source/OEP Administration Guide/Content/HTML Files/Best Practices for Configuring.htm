@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="802" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2><a name="top"></a>Best Practices for Configuring OEP</h2>
+        <p>Consider the following recommendations when configuring OEP. </p>
+        <h4>Don't:</h4>
+        <p><b>Don't customize UCW-enabled areas</b>
+        </p>
+        <p>Use UCW to configure <a href="Configuring OEP.htm#UCW">UCW-enabled OEP areas</a>. Don't write custom code directly to these areas. Customizing UCW-enabled areas complicates the process of upgrading from this version of OEP to the next. &#160;</p>
+        <p><b>Don't modify source files for UCW-enabled areas</b>
+        </p>
+        <p>Don't modify the source files of UCW-enabled OEP areas, and don't directly modify any file that is stored within the UCF directory (other than to the ucf/data/custom/directory, which is intended for your use). Modifying source files complicates the process of upgrading from this version of OEP to the next. &#160;&#160;</p>
+        <p>For broad configurations, consider implementing the <a href="Advanced Configuration Examples.htm#About">HTML Container</a> (using UCW) or creating an entirely custom OEP page (which you cannot do using UCW). </p>
+        <h4>Do:</h4>
+        <p><b>Use UCW tools wherever possible</b>
+        </p>
+        <p><a href="Configuring OEP.htm#top">UCW</a> provides several tools that enable you to configure OEP in ways that previously could be accomplished only by writing custom code. UI configurations that you implement with UCW can be upgraded from one version of OEP to the next without requiring you to re-implement them. </p>
+        <p><b>Coordinate with other designers</b> <![CDATA[ ]]></p>
+        <p>UCW supports a multi-user development environment, meaning that several designers can configure OEP at the same time. It is important that you coordinate your configuration tasks with those of the other designers. </p>
+        <p>Ensure that:</p>
+        <ul>
+            <li>Only one UCW designer works on a <a href="Configuring OEP.htm#UCW">UCW-enabled area</a> at one time, per OEP profile. If multiple designers configure the same area of the baseline UI or profile-specific UI simultaneously, unpredictable results may occur. </li>
+            <li>You <a href="Troubleshooting Configuration.htm#Compilin">compile</a> all changes to your custom UI before publishing it to your test or production environments. </li>
+        </ul>
+        <p><b>Test your changes frequently</b>
+        </p>
+        <p>It's possible to design a page that may not render as expected. Using UCW, for instance, it is possible to add such lengthy captions that their full text cannot be read, and it's possible to add a toolbar with so many buttons that not all of them can fit on the page (and therefore cannot be clicked by users).</p>
+        <p>Therefore, test each of your modifications frequently to ensure that they look and behave as expected.</p>
+        <p><b>Back up your work</b>
+        </p>
+        <p>We strongly encourage you to back up your configurations at various stages of development. Save and back up your work frequently.</p>
+        <p>Before making substantial modifications to your OEP configuration, back up all UCW files located in your YourOEPwebsite\ucf\data directory.</p>
+        <p><b>Use source control to manage your configurations</b>
+        </p>
+        <p>Using source control provides you a much finer degree of history and change control than machine-level backup alone.</p>
+        <p><b>Place custom files in the recommended folders</b>
+        </p>
+        <p>Place custom files in the following folder: YourOEPwebsite\ucf\data\custom\company_name</p>
+    </body>
+</html>

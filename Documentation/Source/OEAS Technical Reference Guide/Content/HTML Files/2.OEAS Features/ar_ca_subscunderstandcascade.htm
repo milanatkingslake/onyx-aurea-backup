@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:conditions="Default.Main" MadCap:lastBlockDepth="6" MadCap:lastHeight="805" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Understanding the cascade process</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>Understanding the cascade process </h3>
+        <p>Once a transactional object is marked for subscription, its subscription 
+ status is tracked by the subscription_item table. This includes the objects 
+ that a user explicitly subscribes to, unsubscribes from, or deletes, and 
+ those objects to which the user has cascaded subscriptions, unsubscriptions, 
+ and deletions because they are related to the aforementioned objects. 
+ The information contained by the subscription_item table is then used 
+ by the synchronization process to determine which OEAS records are to 
+ be taken offline, refreshed to the offline database, or removed from the 
+ offline database. A field in subscription_item called sync_action is used 
+ to track the subscription status for each subscribed record. </p>
+        <p>The following table describes the possible states of subscription as 
+ determined by the subscription_item sync_action value. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Several of the subscription states are set by changes capture 
+ triggers. For more information about these triggers, see <a href="ar_ca_subscchangecapt.htm">Change-capture 
+ triggers</a>. </p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Value </th>
+                    <th>Name </th>
+                    <th>Description </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">0 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Processed </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">A sync_action value of 0 indicates the record 
+ has been successfully synchronized to the staging server. It does not 
+ need to be synchronized or cascaded. </p>
+                        <p class="Table_Text" style="color: #000000;">This value is set by the synchronization process. 
+ </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">1 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Refresh </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">A sync_action value of 1 indicates the record 
+ is subscribed and needs to be synchronized (or re-synchronized) to the 
+ staging server because the record in the staging server is either out 
+ of date or has never been synchronized. </p>
+                        <p class="Table_Text" style="color: #000000;">This value is set by the cascade process and 
+ by change capture triggers. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">2 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Remove </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">A sync_action value of 2 indicates the record 
+ has been unsubscribed and that the offline data needs to be deleted from 
+ Exchange. </p>
+                        <p class="Table_Text" style="color: #000000;">Once this message is conveyed to Exchange, 
+ sync_action is set to 8. </p>
+                        <p class="Table_Text">This value is set by the cascade process. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">3 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Subscribe </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">A sync_action value of 3 indicates the record 
+ is subscribed and needs to be cascaded. Once the cascade occurs and any 
+ related records to which cascade rules apply are subscribed, sync_action 
+ for this record is set to 1. </p>
+                        <p class="Table_Text" style="color: #000000;">This value is set only by an end-user or advanced 
+ subscriber explicitly subscribing to the record. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">4 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Unsubscribe </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">A sync_action value of 4 indicates the record 
+ has been unsubscribed and needs to be cascaded to unsubscribe its child 
+ records. Once the cascade occurs, the sync_action is set to 2. </p>
+                        <p class="Table_Text" style="color: #000000;">This value is set by explicit unsubscription 
+ of the record by the end user. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">5 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Re-cascade </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">A sync_action value of 5 for a record indicates 
+ a new related record has been created that might require a cascaded subscription. 
+ When cascade occurs, the original record is re-cascaded and a cascaded 
+ subscription occurs for the new record if indicated. The sync_action for 
+ the original record is then set to 1. </p>
+                        <p class="Table_Text" style="color: #000000;">This value is set by an insert change-capture 
+ trigger. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">6 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Deleted </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">A sync_action of 6 means the record has been 
+ deleted (either logically or physically) or is a related secondary record 
+ of a deleted record. </p>
+                        <p class="Table_Text" style="color: #000000;">This value is set by the cascade process. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">7 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">DeleteCascade </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">A sync_action of 7 means that the record has 
+ been deleted (either logically or physically), but needs to be processed 
+ by the cascade process to set its related secondary records to deleted 
+ (syncAction=6). Once this record has been processed, its sync_action is 
+ also set to 6. </p>
+                        <p class="Table_Text" style="color: #000000;">A sync_action value of 7 is set by an update/delete 
+ change-capture trigger. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">8 </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">UnsubscribePending </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">A sync_action of 8 indicates that the record 
+ has been unsubscribed online and marked in Exchange for removal offline. 
+ The record is logically deleted from subscription_item (the delete_status 
+ column for the subscription_iItem entry is set to 1) after it is successfully 
+ removed from offline. </p>
+                        <p class="Table_Text" style="color: #000000;">This value is set by the synchronization process. 
+ </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The following section describes the role of sync_action outside of the 
+ cascade process, during synchronization. For more information about the 
+ role of sync_action within the Cascade process, see <a href="AR_CA_SubscSyncActionInCasc.htm">The 
+ role of the sync_action value in the cascade process</a>. </p>
+    </body>
+</html>

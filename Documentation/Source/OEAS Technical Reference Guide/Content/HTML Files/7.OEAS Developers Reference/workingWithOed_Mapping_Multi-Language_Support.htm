@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="1051" MadCap:lastWidth="994">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Mapping Multi-Language Support</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h6>
+            <MadCap:keyword term="Multiple Language Support;Mapping;Multi-Language Support:Mapping" />Mapping multiple language support</h6>
+        <p>
+            <MadCap:keyword term="property mapping:multi-language support" />
+            <MadCap:keyword term="object physical mapping:multi-language support" />
+            <MadCap:keyword term="Mapping:Multi-Language Support" />
+            <MadCap:keyword term="Multi-Language Support" />Mapping multi-language support objects and 
+ tables illustrates an interesting point. OEAS implements multiple language 
+ support with multiple tables in the database for a given object in the 
+ logical model. The multiple tables include:</p>
+        <ul style="list-style: disc;" type="disc">
+            <li>A base table</li>
+            <li>A multiple language 
+ extension table</li>
+            <li>A multiple language 
+ view table</li>
+        </ul>
+        <p>The multiple language extension table contains 
+ the data that can be localized as well as key data. The base table contains 
+ key data and non-localizable data. The view table joins the base and multiple 
+ language extension tables into a single table used for specific language 
+ data retrieval. It is possible for a single property to have separate 
+ mappings to the physical model. Typically, for objects with multi-language 
+ support the persistence and filter mappings for a property connect to 
+ a column in one table while the retrieval mapping connects the property 
+ to a column in the multiple language view. Some properties map to the 
+ base table and the view, other properties map to the extension table and 
+ the view. A single property should always have its filter and persistence 
+ mappings pointed to the same column in a single table. </p>
+        <p>For example the actionBatchStatusCode property 
+ of the actionBatchStatus object includes two object physical maps in the 
+ OED. One maps to the base table for persistence and filtering as shown 
+ in the following graphic.</p>
+        <p>
+            <img src="../../Resources/Images/actionBatchStatusCode_map11.jpg" />
+        </p>
+        <p>The other maps to the view table for retrievals 
+ as shown in the following graphic.</p>
+        <p>
+            <img src="../../Resources/Images/actionBatchStatusCode_map2.jpg" />
+        </p>
+    </body>
+</html>

@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="842" MadCap:lastWidth="624">
+    <head><title>Configuring Onyx File Agent</title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h3>Configuring Onyx File Agent</h3>
+        <p class="ProcedureHeading">To configure Onyx File Agent:</p>
+        <ol>
+            <li>Open the <b>Computer Management tool</b> on the server (that is, from where the OFA needs to be installed) and add the<i> OEP web site anonymous</i> user account to the local <b>OnyxFAUsers</b> group.</li>
+        </ol>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">The OEP anonymous login user is located in the OFA server &gt; IIS Manager/Properties/ ‘Directory Security’ tab /‘Enable Authentication’ section.</p>
+        <ol MadCap:continue="true">
+            <li>Following are the example of the <b>OnyxFAUsers</b> group members added:</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">Administrator (local)</li>
+            <li class="List_Indent">Domain\Administrator </li>
+            <li class="List_Indent">Domain\OnyxFAUser</li>
+            <li class="List_Indent">IUSR</li>
+        </ul>
+        <ol start="3">
+            <li>Create an OEP FileShare directory on the server. This is generally named as <b>OEPFileshare</b>.</li>
+            <li>Navigate to <b>\\utilities\Attachments\FileLinkDirectoryScript</b>, and then copy the <b>createTree.vbs</b> script to the folder you just created.</li>
+            <li>Run the script to set up the tree structure.</li>
+            <li>Log on to OES, and then open Table <b>Administration</b>.</li>
+            <li>Select <b>File Location</b>.</li>
+            <li>Click on the <b>plus mark (+)</b> button.</li>
+            <li>Type the Primary ID number.</li>
+            <li>Type a description for the OEP File Share (can be <i>OEPFileShare</i>).</li>
+            <li>Type the path for the file share. For example, : <b>\\serverName\OEPFileShare</b></li>
+        </ol>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Use the virtual server name as value when using Virtual Machines.</p>
+        <ol MadCap:continue="true">
+            <li>Click <b>Save</b>.</li>
+            <li>Right-click the <b>OEPFileShare</b> folder, and then click <b>Sharing and Security</b>.</li>
+            <li>Select <b>Share this folder</b>.</li>
+            <li>Click <b>Permissions</b>.</li>
+            <li>Add <b>OFAUsers</b> (this is a group, automatically created after you have installed OFA). </li>
+            <li>Add <b>OnyxEASUser</b>.</li>
+            <li>For all the users, provide <b>Read/Write</b> permissions.</li>
+            <li>Click <b>OK</b>.</li>
+            <li>Add the Onyx GatewayService user in the OnyxFAApp step component. </li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">Expand Component services and open to the <b>OnyxFAApp</b> step component.</li>
+            <li class="List_Indent">Under <b>OnyxFAApp</b> expand <b>Roles</b> then expand <b>OnyxFARestricted</b>.</li>
+            <li class="List_Indent">Click <b>OnyxFARestricted -&gt; Users</b>. </li>
+            <li class="List_Indent">Add <b>OGSUser</b>.</li>
+        </ol>
+        <ol start="20">
+            <li>Restart the server.</li>
+        </ol>
+        <p class="Indent1">You can now add attachments to OEP.</p>
+    </body>
+</html>

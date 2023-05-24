@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:lastBlockDepth="4" MadCap:lastHeight="629" MadCap:lastWidth="929" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Schema Differences</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>Schema Differences</h2>
+        <p>The new Onyx Enterprise Database (OEDB) schema includes 
+ many differences from the previous version. For definitive documentation, 
+ see the OEDB schema poster included on the OEAS CD. The poster includes 
+ table and column names, data types, and field lengths. These schema changes 
+ simplify the rules governing <a href="ar_ca_whatsnew_sql_generation_(sqlgen).htm">SQL 
+ generation</a> and prevent data integrity issues. Some notable changes 
+ include:</p>
+        <ul style="list-style: disc;" type="disc">
+            <li>Database tables no longer include a dtModifiedDate 
+ column for synchronizing off-line client applications. If a client application 
+ previously used dtModifiedDate, it should be modified to use update_date 
+ instead.</li>
+            <li>List Manager actions, which used to be stored 
+ in the SSearchResults table and processed by the List Handler, are now 
+ stored in the action_batch table and are processed by OPS Batch Subsystem.</li>
+            <li>Dates are stored in UTC. As in previous versions, 
+ client applications are responsible for converting to and from local time 
+ if necessary.</li>
+            <li>Tables containing data that requires localization 
+ have a new structure. These are implemented as groups of three database 
+ objects, a base table, a multi-language extension table, and a multi-language 
+ view. For more information, see <a href="../../7.OEAS Developers Reference/customizingOEDB_Multi-Language_Extension_Tables.htm">Multiple language support</a>.</li>
+            <li>Transactional object primary IDs are now uniqueidentifier 
+ (GUID) data type. The Data Migration Toolkit takes care of migrating existing 
+ IDs into the new data type. </li>
+            <li>Write and privacy protection on data records are 
+ implemented in read_only_access and private_access (bit) columns, respectively.</li>
+            <li>The delete_status column replaces tiRecordStatus 
+ on transactional records. &#160;The 
+ value "1" means that a record was logically deleted, while "2" 
+ means that a record was logically delete by a cascade delete from its 
+ parent object.</li>
+            <li>The record_status column replaces tiRecordStatus 
+ on domain tables.</li>
+            <li><a href="AR_ca_whatsnew_Referential_integrity.htm">Referential 
+ integrity</a> is enforced throughout the database through the use of foreign 
+ keys.</li>
+            <li>Generated stored procedures implement all CRUD 
+ methods. In addition, generated stored procedures implement cascading 
+ deletes, when the transactional relationships defined in OED metadata 
+ call for this behavior.</li>
+            <li>Tasks and Incidents have separate tables called 
+ task and incident, respectively.</li>
+            <li>Forecasts and Quotes have separate tables. The 
+ forecast_header and forecast_detail tables contain Forecast data, while 
+ the quote_header and quote_detail tables contain Quote data.</li>
+            <li>All work notes are now stored in the work_note_header 
+ and work_note_detail tables. The existing workNote LBO continues to be 
+ supported for backward compatibility.</li>
+            <li>All tables include standard maintenance columns. 
+ For more information, see <a href="../../7.OEAS Developers Reference/customizingoedb_customizing_the_oedb.htm">Customizing the OEDB</a>.</li>
+            <li>The data model has been normalized. For example, 
+ phone data is no longer included in customer tables but stored in a separate 
+ phone table.</li>
+        </ul>
+    </body>
+</html>

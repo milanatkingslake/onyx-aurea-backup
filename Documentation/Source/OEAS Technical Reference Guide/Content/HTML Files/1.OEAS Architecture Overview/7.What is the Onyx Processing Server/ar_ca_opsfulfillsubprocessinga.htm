@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="716" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head>
+            <link href="../../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" /><title>Fulfillment Subsystem Processing and Control</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>Fulfillment Subsystem Processing and Control </h4>
+        <p>When the fulfillment subsystem processes a batch of order lines, the 
+ order lines goes through the following three stages: </p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li><b class="Bold" style="font-weight: bold;">Reservation. </b>Order lines are retrieved from OEAS for processing. This action is called 
+ <em class="Emphasis">reserving</em> the order lines. When a fulfillment 
+ subsystem reserves an order line, the status is updated from New to In 
+ Process and the line is marked with the subsystem's ID and batch ID. Once 
+ reserved, only the reserving subsystem can process the order line.</li>
+            <li><b class="Bold" style="font-weight: bold;">Fulfillment. </b>The subsystem fulfills the order lines via email or print.</li>
+            <li><b class="Bold" style="font-weight: bold;">Completion. </b>Status of each order lines is updated to Completed. In the event of a 
+ failure, the order line’s status is updated to Error.</li>
+        </ol>
+        <p>A fulfillment subsystem’s response to stopping, pausing, or continuing 
+ depends on whether the subsystem is currently processing order lines. 
+ If processing is not currently taking place, the subsystem responds immediately 
+ to the action. If, however, the subsystem is currently processing order 
+ lines, the subsystem responds as described in the following table. </p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Action </th>
+                    <th>Subsystem response </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Stop </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Subsystem stops after processing completes 
+ for the current order line. Remaining order lines in the order are not 
+ processed until you restart the subsystem. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Pause </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Subsystem pauses after processing completes 
+ for the current order line. Remaining order lines are not processed until 
+ you continue the subsystem. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Continue </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Subsystem processes remaining order lines for 
+ the order whose processing was interrupted. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>If a subsystem is stopped or fails after the reservation stage, the 
+ batch is considered <em class="Emphasis">incomplete</em> because there are 
+ order lines with the status of In Process remaining in the batch. When 
+ you restart the subsystem, it automatically resumes processing incomplete 
+ batches. All order lines with a status of In Process are processed first. 
+ If for some reason the reserving subsystem is unavailable for processing, 
+ the order lines will not be processed unless their status is updated to 
+ New. </p>
+        <p>Print and email subsystems process batches of order 
+ lines similarly: </p>
+        <ul>
+            <li>When a subsystem begins processing, it first checks 
+ for incomplete batches. </li>
+            <li>The subsystem does not reserve or begin processing 
+ a new batch until it has completed processing on the incomplete batches. 
+ </li>
+            <li>The subsystem processes the oldest incomplete 
+ batch first. </li>
+            <li>The subsystem logs a warning to the Event Log 
+ when it resumes processing an incomplete batch.</li>
+        </ul>
+        <p class="TableText">View <a href="ar_ca_opsfulfillsubprocessing.htm">an example</a> of Fulfillment subsystem processing.</p>
+    </body>
+</html>

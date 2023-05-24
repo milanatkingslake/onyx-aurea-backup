@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="303" MadCap:lastWidth="1020">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+       
+        <h3>
+            <MadCap:keyword term="Multiple Language Support" />Multiple language support</h3>
+        <p>If you are modeling a domain object that requires multiple language 
+ support, you can accomplish this through SQL generation by following a 
+ few design considerations. You will need to create a <a href="customizingOEDB_Extension_Table.htm">multi-language 
+ extension table</a> that is related to your <a href="customizingOEDB_Base_Table.htm">base 
+ domain table</a> according to specific rules, as well as a <a href="customizingOEDB_Multiple_Language_View.htm">multiple 
+ language view</a>.</p>
+        <p>Multi-language domain data is persisted in a one-to-many table relationship 
+ that stores many descriptions (one for each possible preferred language) 
+ for a single code or DID (domain identifier) value. The multiple language 
+ view provides a single database object that can be queried on to retrieve 
+ all of the appropriate data. SQL generation automatically filters the 
+ data of the view by the user's preferred language so that the language-appropriate 
+ description is displayed by the user interface.</p>
+        <p>The <a href="customizingOEDB_Multiple_Language_View.htm">multiple 
+ language view</a> should join the base table and the multi-language extension 
+ table on a join on the primary key columns of the base table. You should 
+ create the metadata describing this view using the Object Designer, as 
+ if the view were a table. However, in the Object Designer be certain to 
+ check the <span style="font-weight: bold;">Multi Language Table</span> 
+ box for both the multi-language extension table and the view. </p>
+    </body>
+</html>

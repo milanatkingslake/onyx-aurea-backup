@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="3211" MadCap:lastWidth="660" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>GetPropertyConstraints (DictionaryProxy)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>
+            <MadCap:keyword term="GetPropertyConstraints method" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />
+            <MadCap:keyword term="GetPropertyConstraints" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />GetPropertyConstraints method</h5>
+        <p>The GetPropertyConstraints method of the <a href="OED_DictProxy_Int.htm"><MadCap:keyword term="DictionaryProxy" />DictionaryProxy 
+ interface</a> retrieves the <a href="Property_Constraints.htm">constraints 
+ for a property</a> of a business object.</p>
+        <h3>Syntax</h3>
+        <p class="BodyTextIndent_1">Visual Basic/VBScript</p>
+        <p Class="Code" class="code">Function&#160;GetPropertyConstraints(</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;ApplicationName&#160;As&#160;String,&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;ObjectName&#160;As&#160;String,&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;PropertyName&#160;As&#160;String)&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;As&#160;Variant</p>
+        <p>Visual Basic/VBScript parameter descriptions</p>
+        <p><span style="font-style: italic;">ApplicationName</span>
+        </p>
+        <p class="BodyTextIndent_1">[in] A string containing the logical application name that 
+ determines which subset of the cache to use for a query.</p>
+        <p><span style="font-style: italic;">ObjectName</span>
+        </p>
+        <p class="BodyTextIndent_1">[in] A string that contains the name of the object.</p>
+        <p class="BodyText" style="font-style: italic;">PropertyName</p>
+        <p class="BodyTextIndent_1">[in] A string that contains the property name.</p>
+        <p>JScript</p>
+        <p Class="Code" class="code">function&#160;GetPropertyConstraints(</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;ApplicationName,&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;ObjectName,&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;PropertyName)</p>
+        <p>JScript parameter descriptions</p>
+        <p><span style="font-style: italic;">ApplicationName</span>
+        </p>
+        <p class="BodyTextIndent_1">[in] A string containing the logical application name that 
+ determines which subset of the cache to use for a query.</p>
+        <p><span style="font-style: italic;">ObjectName</span>
+        </p>
+        <p class="BodyTextIndent_1">[in] A string that contains the name of the object.</p>
+        <p class="BodyText" style="font-style: italic;">PropertyName</p>
+        <p class="BodyTextIndent_1">[in] A string that contains the property name.</p>
+        <p>C#</p>
+        <p>Use with the .NET <a href="Primary_interop_assembly.htm">primary interop 
+ assembly</a> version of this component, OnyxDictionaryCacheProxyPIA.</p>
+        <p Class="Code" class="code">public&#160;object&#160;GetPropertyConstraints<span style="font-style: normal;">(</span></p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;string&#160;ApplicationName,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;string&#160;ObjectName,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;string&#160;PropertyName)</p>
+        <p>C# parameter descriptions</p>
+        <p><span style="font-style: italic;">ApplicationName</span>
+        </p>
+        <p class="BodyTextIndent_1">[in] A string containing the logical application name that 
+ determines which subset of the cache to use for a query.</p>
+        <p><span style="font-style: italic;">ObjectName</span>
+        </p>
+        <p class="BodyTextIndent_1">[in] A string that contains the name of the object.</p>
+        <p class="DataType" style="font-style: italic;">PropertyName</p>
+        <p class="BodyTextIndent_1">[in] A string that contains the property name.</p>
+        <h3>Return value</h3>
+        <p>This method returns a two-dimensional array of variants that contains 
+ the property constraints for the business object.</p>
+        <p>The C# version of this method returns a two-dimensional array as a System.Object 
+ type. To access the individual array elements the Object must be cast 
+ to Object[,] (an object array) and then either assign each element to 
+ a string or copy the value into a new string. For an example of this coding 
+ technique, see the C# code sample in the Example section.</p>
+        <p>If the method fails, the number property of the error object contains 
+ a value equal to one of the predefined <a href="Error_Returns.htm">error 
+ constants</a> that indicates the status of the method call.</p>
+        <h3>Example</h3>
+        <p>The following VBScript sample demonstrates how to use the GetPropertyConstraints 
+ method to determine the restraints, if any, on a business object property.</p>
+        <p>VBScript code sample</p>
+        <p Class="Code" class="code"><span style="color: #008000;">' Declare some variables</span>
+        </p>
+        <p Class="Code" class="code">dim&#160;str_app,&#160;str_obj,&#160;str_prop,&#160;var_array,&#160;inx,&#160;jnx</p>
+        <p Class="Code" class="code">str_app&#160;=&#160;"appname"</p>
+        <p Class="Code" class="code">str_obj&#160;=&#160;"object"</p>
+        <p Class="Code" class="code">str_prop&#160;=&#160;"property"</p>
+        <p Class="Code" class="code"><span style="color: #008000;">' Call the cache through the proxy</span>
+        </p>
+        <p Class="Code" class="code">dim&#160;proxy</p>
+        <p Class="Code" class="code">set&#160;proxy&#160;=&#160;CreateObject("OnyxDictionaryCacheProxy.Dictionary")</p>
+        <p Class="Code" class="code">var_array&#160;=&#160;proxy.GetPropertyConstraints(str_app,&#160;str_obj,&#160;str_prop)&#160;&#160;&#160;</p>
+        <p Class="Code" class="code">if&#160;err.number&#160;&lt;&gt;&#160;0&#160;then&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;<span style="color: #008000;">' Do something with the error object</span></p>
+        <p Class="Code" class="code">else&#160;&#160;&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;for&#160;inx&#160;=&#160;0&#160;to&#160;ubound(var_array,&#160;1)</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;for&#160;jnx&#160;=&#160;0&#160;to&#160;ubound(var_array,&#160;2)</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;<span style="color: #008000;">' Do something with the contents of the array</span></p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;next&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;next&#160;</p>
+        <p Class="Code" class="code">end&#160;if</p>
+        <p Class="Code" class="code">set&#160;proxy&#160;=&#160;nothing</p>
+        <p>C# code sample</p>
+        <p Class="Code" class="code">OnyxDictionaryCacheProxyPIA.DictionaryClass&#160;dict;</p>
+        <p Class="Code" class="code">dict&#160;=&#160;new&#160;OnyxDictionaryCacheProxyPIA.DictionaryClass();</p>
+        <p Class="Code" class="code">object&#160;dictObj&#160;=&#160;dict.GetPropertyConstraints("Onyx",&#160;"company",&#160;"primaryId");</p>
+        <p Class="Code" class="code">object[,]&#160;oRes;</p>
+        <p Class="Code" class="code">oRes&#160;=&#160;(object[,])dictObj;</p>
+        <p Class="Code" class="code">string&#160;[][]&#160;sOutArray;</p>
+        <p Class="Code" class="code">//Convert&#160;2D&#160;array</p>
+        <p Class="Code" class="code">if(&#160;oRes&#160;!=&#160;null)</p>
+        <p Class="Code" class="code">{</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;int&#160;d0&#160;=&#160;oRes.GetLength(0);</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;int&#160;d1&#160;=&#160;oRes.GetLength(1);</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;sOutArray&#160;=&#160;new&#160;string[d0][];</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;for(&#160;int&#160;i=0&#160;;&#160;i&lt;d0&#160;;&#160;i++&#160;)</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;{&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;string[]&#160;sArray&#160;=&#160;new&#160;string[d1];</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;for(&#160;int&#160;j=0&#160;;&#160;j&lt;d1&#160;;&#160;j++&#160;)</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;{</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;sArray[j]&#160;=&#160;oRes[i,j].ToString();</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;sOutArray[i]&#160;=&#160;sArray;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;}</p>
+        <p Class="Code" class="code">}</p>
+        <p Class="Code" class="code">else</p>
+        <p Class="Code" class="code">{</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;sOutArray&#160;=&#160;new&#160;string[0][];</p>
+        <p Class="Code" class="code">}&#160;</p>
+        <h3>Related topic</h3>
+        <ul>
+            <li><a href="Property_Constraints.htm">Property 
+ Constraints</a>
+            </li>
+        </ul>
+    </body>
+</html>

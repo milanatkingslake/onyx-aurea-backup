@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="555" MadCap:lastWidth="1020" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Communicating with the Database</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>
+            <MadCap:keyword term="Communicating with the database" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />
+            <MadCap:keyword term="database" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />
+            <MadCap:keyword term="database:Communicating with" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />
+            <MadCap:keyword term="Communicating with" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />
+            <MadCap:keyword term="Communicating with:Database" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />Communicating with the database</h3>
+        <p>All Onyx components that communicate with Onyx Enterprise Database use 
+ the <a href="Query_Engine.htm">Onyx Query Engine</a> to communicate with 
+ the Database. The Query Engine was built using Microsoft's OLE DB technology. 
+ Onyx recommends that custom step components use the Onyx Query Engine 
+ to communicate with the Onyx Enterprise Database, but custom step components 
+ are free to use any technology they choose to communicate with a database 
+ server.</p>
+        <h4>Using the Onyx Query Engine</h4>
+        <p>The Onyx Query Engine simplifies the process of connecting to the Enterprise 
+ Database by storing the relevant connection information in the application 
+ server's registry. The connection data is placed in the registry during 
+ OEAS installation and can be updated using the OEAS Configuration Utility. 
+ A step component need only submit an application name, and the Query Engine 
+ handles the process of connecting to the database server by reading the 
+ connection information directly from the registry.</p>
+        <p>The Query Engine's optimizations provide efficient access to the standard 
+ Onyx database schema. As a result, the Query Engine cannot be used to 
+ connect to non-Onyx databases. Review the Query Engine documentation for 
+ information on using it within a custom step component.</p>
+        <h4>Using other data access technologies</h4>
+        <p>You'll need to use a different data access technology when you want 
+ to connect to a non-Onyx database, or when you need to move unsupported 
+ data types in or out of custom tables in the Onyx database. The only requirement 
+ for using a different technology is that it must be usable through COM+. 
+ One such technology is Microsoft's ActiveX Data Objects (ADO).</p>
+        <p>Because you are not using the Onyx Query Engine, 
+ and because step components are paired with client applications only for 
+ the duration of the Execute method call, a step component may have to 
+ reconnect to the database each time it is called depending on the approach 
+ you use to database connections. When the IStep_Execute method completes, 
+ the component may have to close the connection and free up any other database 
+ resources it is using. </p>
+    </body>
+</html>

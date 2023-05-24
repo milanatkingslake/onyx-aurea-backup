@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="782" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>stepAdditionalData element</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>
+            <MadCap:keyword term="stepAdditionalData;stepAdditionalData element" />stepAdditionalData element</h4>
+        <p>The OTM passes the stepAdditionalData element to the appropriate step 
+ component <span style="font-style: italic;">outside </span>of the <a href="OTM_Step_Pkg.htm">step 
+ package</a>.</p>
+        <p>Step components use the stepAdditionalData element as a means to know 
+ which method to call internally, within the step component. The stepAdditionalData 
+ parameter is a string of name/value pairs, separated by semi-colons, that 
+ is defined in the Onyx Enterprise Dictionary and passed straight through 
+ the OTM to the appropriate step component.</p>
+        <p class="Warning" MadCap:autonum=" &#160;&#160;&lt;b&gt;Warning:&lt;/b&gt; &#160;">To view the stepAdditionalData for Onyx step components, use 
+ the Object Designer to view any of the business objects' <a href="Step_Attributes.htm">step 
+ attributes</a>.</p>
+        <p>The following name/value pairs are commonly used by Onyx step components:</p>
+        <table>
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Pair Name</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">stepName</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Contains the user friendly name of a step 
+ in the logical method.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">stepObject</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Contains the name of the object containing 
+ the step.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">stepMethod</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Contains the name of the method containing 
+ the step.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">dataPath</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Contains the dataPath 
+ value required only for ODM steps on saveCollection or retrieveCollection 
+ methods, and it should be set to the name of the collection parameter 
+ on the method (eg. dataPath=addresses; for address.saveCollection).</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">dataPathPrefix</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Used only by steps whose type = "method," 
+ the dataPathPrefix parameter is pre-pended to the dataPath of the referenced 
+ method when the method's steps are merged into the steps for the logical 
+ method.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>
+            Examples of the dataPathPrefix element
+        </p>
+        <p>Example 1: company.insert</p>
+        <table>
+            <col style="width: 113px;" />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>stepType</th>
+                    <th>stepData</th>
+                    <th>stepAdditionalData</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">OnyxDM.DataManager</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">"stepName=core;stepObject=company;stepMethod=insert;dataPath="</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">method</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">phone.saveCollection</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">"stepName=phone;dataPathPrefix=company/"</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Example 2: phone.saveCollection</p>
+        <table>
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>stepType</th>
+                    <th>stepData</th>
+                    <th>stepAdditionalData</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">data manager</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">OnyxDM.DataManager</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">"stepName=core;stepObject=phone;stepMethod=saveCollection;dataPath=phones/"</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Example 3: Merged steps for company.insert, as retrieved from OED Cache 
+ GetSteps() method:</p>
+        <table>
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>stepType</th>
+                    <th>stepData</th>
+                    <th>stepAdditionalData</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">OnyxDM.DataManager</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">"stepName=core;stepObject=company;stepMethod=insert;dataPath="</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">OnyxDM.DataManager</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">"stepName=core;stepMethod=saveCollection;dataPath=company/phones;stepObject=phone"</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>You can use stepAdditionalData in OEAS to send step-specific design 
+ time information to step components. The IStep Execute method includes 
+ stepAdditionalData as a parameter.</p>
+    </body>
+</html>

@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="610" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Steps</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h6>
+            <MadCap:keyword term="method creation:steps" />
+            <MadCap:keyword term="step" />Steps</h6>
+        <p>You can specify several types of steps on a method. For more information, 
+ see <a href="Methods_and_Steps.htm">Methods and Steps</a>. When the Onyx 
+ Transaction Manager (OTM) encounters a "com" step, it calls 
+ the COM+ object specified by the progId appearing in the step data. You 
+ use "method" steps to call a method on another object. When 
+ the OTM encounters a "method" step, it spawns an internal version 
+ of the OTM which then executes the specified object method.</p>
+        <p>When you create a method that uses SQL generation and/or needs to call 
+ a stored procedure, you must define at least two standard steps for the 
+ method. The first step should call the data validation component. The 
+ other step should call the Onyx Data Manager (ODM). The following table 
+ supplies information on how to set up these standard steps. You may want 
+ to specify additional steps to these two, but these are the minimum required 
+ steps. The additional steps can come between data validation and the ODM 
+ step, but Onyx recommends that you always call the data validation step 
+ first.</p>
+        <h3>Configuring the standard COM steps</h3>
+        <table>
+            <col />
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Standard Step Name</th>
+                    <th>Type</th>
+                    <th>Prog ID (Step Data)</th>
+                    <th>stepAdditionalData</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">validate</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">OnyxDataValidationStep.DataValidation</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">stepObject=objectName;stepMethod=methodName;dataPath=;</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">core</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">OnyxDM.DataManager</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">stepName=stepName;stepObject=objectName;stepMethod=methodName;dataPath=;</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

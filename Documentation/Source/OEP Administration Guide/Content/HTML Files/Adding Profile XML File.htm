@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="113" MadCap:lastWidth="701">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2><a name="top"></a>Adding Profile XML File</h2>
+        <p>A Profile XML file is a collection of nodes that determine which fields appear in the notification email that users receive. You can add a new profile XML file for your custom notification if the default profile XML files do not meet your requirements. </p>
+        <p>For information on the default profile XML files available in your Onyx installation, see About template files.</p>
+        <p><b>To create a profile XML file:</b>
+        </p>
+        <ol>
+            <li>Open a new XML file.</li>
+            <li>Using one of the default profile XML files as an example, create one node for each field that you want to include in your email notification.</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">Element name: Enter the LBO property name for the field you want to include.</li>
+            <li class="List_Indent">IsSubjectTag: Set this attribute to 'true' if you want the field to appear in the email subject. Otherwise enter 'false'.</li>
+            <li class="List_Indent">IsBodyTag:&#160;Set this attribute to 'true' if you want the field to appear in the email body. Otherwise enter 'false'.</li>
+            <li class="List_Indent">TemplateKey: Enter a value in the format ##[text]##. This value must be entered in the HTML template file for the field to display.</li>
+        </ul>
+        <p class="Indent1">The following is an example of a node as it appears in the Profile XML file.</p>
+        <p class="Indent1"><code>&lt;Description </code>
+        </p>
+        <p class="Indent1"><code>IsSubjectTag="true"</code>
+        </p>
+        <p class="Indent1"><code>IsBodyTag="true"</code>
+        </p>
+        <p class="Indent1"><code>TemplateKey="##desc1##"&gt;</code>
+        </p>
+        <p class="Indent1"><code>&lt;/Description&gt;</code>
+        </p>
+        <ol start="3">
+            <li>Create a node named action. This represents the action on the record that triggers the notification. For example, whether the notification is triggered when a record is inserted, updated, or deleted. </li>
+            <li>Create a node named actionUser. This represents the user performing the action that triggers the notification.</li>
+        </ol>
+        <p class="Indent1">The following is an example of an action and an actionuser node:</p>
+        <p class="Indent1"><code>&lt;action IsSubjectTag="true" IsBodyTag="true" TemplateKey="##action##"&gt;&lt;/action&gt;</code>
+        </p>
+        <p class="Indent1"><code>&lt;actionUser IsSubjectTag="true" IsBodyTag="true" TemplateKey="##action_user##"&gt;&lt;/actionUser&gt;</code>
+        </p>
+        <ol MadCap:continue="true">
+            <li>After creating nodes for each required field, save the profile XML file in the installed path folder. For example, c:\Program Files\Onyx\AppServer\Applications\Onyx\OnyxNotificationService\Profiles folder with an appropriate name.</li>
+        </ol>
+        <h2><a name="Modifyin"></a>Modifying Profile XML File</h2>
+        <p>Onyx uses metadata stored in Profile XML and HTML template files to control the information that is displayed in calendar appointments. Based on the organization's requirement, these files can be modified to add and remove fields that are displayed to users.</p>
+        <p><b>To add a field to the template:</b>
+        </p>
+        <ol>
+            <li>On your OEAS server, open the Profile XML file that you want to modify. The default file path is C:\Program Files\Onyx\AppServer\Applications\Onyx\OnyxNotificationService\Profiles.</li>
+        </ol>
+        <p>The fields that are not currently a part of the template are commented out. The field name is the same as that of the corresponding LBO property.</p>
+        <ol MadCap:continue="true">
+            <li>To include a field in the template, uncomment it in the Profile XML.</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">To include the field in the template subject, set the IsSubjectTag attribute to True.</li>
+            <li class="List_Indent">To include a field in the template body, set the IsBodyTag attribute to True.</li>
+            <li class="List_Indent">Note the value of the TemplateKey attribute which you will need to use later.</li>
+        </ul>
+        <ol style="margin-left: 44pt;" start="3">
+            <li>Save and close the Profile XML file.</li>
+        </ol>
+    </body>
+</html>

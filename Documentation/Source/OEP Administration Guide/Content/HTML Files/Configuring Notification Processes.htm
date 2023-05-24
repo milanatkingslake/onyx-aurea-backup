@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="827" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2 style="page-break-before: always;"><a name="top"></a>Configuring Notification Processes</h2>
+        <p>Before you can begin using the Notifications feature, you must install EMF in your environment.</p>
+        <h3>Mapping the database to the EMF server</h3>
+        <p>Before configuring EMF to work with Onyx, configure Onyx to be able to connect with the EMF server.</p>
+        <ol>
+            <li>In the Persistence database, open the NotificationType table.</li>
+            <li>In the brokerURL column for each row in the table, type the EMF server name and port number.</li>
+        </ol>
+        <h3>Importing default processes</h3>
+        <ol>
+            <li>In your Onyx installation package, navigate to Platform Components&gt;EMF Server&gt;EMFProcess.</li>
+            <li>Copy the OnyxNotification.xemf file to your EMF server.</li>
+            <li>Login to the repository.</li>
+        </ol>
+        <p class="Indent1">To configure EMF, in the <b>Audit Log Configuration</b> dialog uncheck the option <b>Full logging of all changes</b> before the import of EMF processes.</p>
+        <ol MadCap:continue="true">
+            <li>Right-click on the Root Folder, and click Import.</li>
+            <li>Navigate to the folder where you copied the OnyxNotification.xemf file.</li>
+            <li>Select the OnyxNotification.xemf file, and click Import. A window appears with a check box against each entity that will be imported.</li>
+        </ol>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Configuring Notification Processes.png" style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;width: 282px;height: 304px;" />
+        </p>
+        <ol>
+            <li>Select Prompt for action to be prompted if a selected entity already exists so that you can review which entities get replaced.</li>
+            <li>Click OK to start the import.</li>
+            <li>When the import is complete, the default processes are created in EMF under Root Folder&gt;Onyx.</li>
+        </ol>
+        <h3>Configuring Data Source</h3>
+        <p>Map the JDBC data source to your database and OEAS server.</p>
+        <ol>
+            <li>Navigate to Data Sources and open the JDBC Data Source window.</li>
+            <li>Enter a Connection Name to identify the Onyx connection. Accept the default value in the Driver/Data Source field.</li>
+            <li>Enter the System Administrator user name and password to connect to the database and the Application server.</li>
+            <li>Under Properties, </li>
+        </ol>
+        <ul>
+            <li class="List_Indent">In the serverName field, enter the name of your database server and SQL server instance.</li>
+            <li class="List_Indent">In the serverName field, enter the name of your database server and SQL server instance.</li>
+        </ul>
+        <ol start="5">
+            <li>Click Apply and close the window.</li>
+        </ol>
+        <h3>Configuring SMTP Services</h3>
+        <p>Map the EMF SMTP Services to your Exchange server.</p>
+        <ol>
+            <li>Navigate to Services&gt;SMTP Services&gt;OnyxExchangeServer, and open the SMTP Service window.</li>
+            <li>Enter the Name for the SMTP configuration.</li>
+            <li>In the From field, enter a name that will be displayed in the email notification.</li>
+            <li>In the From address field, enter a valid email address that will be used to send email notifications.</li>
+            <li>In the Email Server field, enter the IP address of the email server.</li>
+            <li>Enter the Port number to use to communicate with the email server.</li>
+            <li>Enter the time in seconds after which EMF will stop trying to connect with the email server.</li>
+            <li>Select the authentication type.</li>
+            <li>Enter the User name and password corresponding to the email address that will be used to send email notifications.</li>
+            <li>Click OK to save your changes and close the window.</li>
+        </ol>
+        <h3><a name="Configur"></a>Configuring Notifications</h3>
+        <p>Before you can begin using the Notifications feature, you must configure Onyx to be able to connect with the email server that you intend to use.</p>
+        <p class="ProcedureHeading" style="page-break-before: always;">To configure notifications:</p>
+        <ol>
+            <li>In OES, enter the system parameter for the OGS path. This is required to communicate with OGS and publish event data.</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">In OES System Parameter Administration, scroll to the parameter GenericPublish.</li>
+            <li class="List_Indent">Enter the parameter value in the format <code>http://[AppServerAddress]:[OGS Port Number]/ServiceGateway/Notification/GenericPublish/</code>, replacing <code>AppServerAddress]</code> with the IP address or name of the app server, and <code>[OGS Port Number]</code> with the port number configured for OGS.</li>
+            <li class="List_Indent">Save your changes.</li>
+        </ul>
+        <h3><a name="Enabling"></a>Enabling Notifications</h3>
+        <p>The Notifications feature is enabled by default. Use this information to re-enable the feature if you have previously disabled it.</p>
+        <ul>
+            <li>To enable a previously disabled notification, see <a href="Disabling Notifications.htm#Enabling">Enabling Specific Notifications</a>. </li>
+            <li>To disable one or more notifications, see <a href="Disabling Notifications.htm#Disablin">Disabling Specific Notifications</a>.</li>
+            <li>To disable the Notifications feature, see <a href="Disabling Notifications.htm#top">Disabling Notifications</a>.</li>
+        </ul>
+        <p class="ProcedureHeading">To re-enable Notifications: </p>
+        <ol>
+            <li>Show the Notifications tab within the User Preferences screen. </li>
+        </ol>
+        <ul>
+            <li class="List_Indent">On the OEP server, navigate to the <b>config.xml</b> file. The default file location is <b>C:\Program Files\Onyx\EmployeePortal\config.xml</b>.</li>
+            <li class="List_Indent">In an editor such as Notepad, open the <b>config.xml</b> file.</li>
+            <li class="List_Indent">Search for the node <b>&lt;tabDef:tab id="Notification</b>.</li>
+            <li class="List_Indent">Set the value of the attribute <b>visible</b> to <b>1</b>.</li>
+            <li class="List_Indent">Save and close the <b>config.xml</b> file.</li>
+        </ul>
+    </body>
+</html>

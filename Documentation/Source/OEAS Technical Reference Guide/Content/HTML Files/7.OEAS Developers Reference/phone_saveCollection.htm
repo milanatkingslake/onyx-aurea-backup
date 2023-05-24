@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="1479" MadCap:lastWidth="946" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+    </head>
+    <body>
+        <head><title>saveCollection (phone)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="saveCollection" />saveCollection method</h2>
+        <p>The saveCollection method of the <a href="phone_object.htm">phone</a> 
+ object performs multiple actions at once: inserting, updating, and deleting 
+ objects, as appropriate.</p>
+        <p><a href="standard_saveCollection.htm">saveCollection standard method 
+ information</a>
+        </p>
+        <h3>Steps</h3>
+        <table>
+            <col style="width: 5cm;" />
+            <col style="width: 5cm;" />
+            <col style="width: 7cm;" />
+            <thead>
+                <tr>
+                    <th>Step data</th>
+                    <th>Step type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>OnyxDataValidationStep.DataValidation</td>
+                    <td>com</td>
+                    <td>Data validation step</td>
+                </tr>
+                <tr>
+                    <td>OnyxNotification.LBOAdapter
+</td>
+                    <td>com</td>
+                    <td>This step  is added for notification feature. It captures data before updating the object
+</td>
+                </tr>
+                <tr>
+                    <td>OnyxDM.DataManager</td>
+                    <td>com</td>
+                    <td>
+                        <p class="TableText">Perform multiple actions with phone objects</p>
+                        <p class="TableText">Uses a literal persistence map that persists zero (0) 
+ in the restricted column of the phone table</p>
+                        <p class="TableText" style="margin-bottom: 0;">
+                            <MadCap:keyword term="phones" />Calls a post-procedure to check for two or 
+ more phones a) marked as primary and having same owner or b) with same 
+ phone type and same owner; if true, returns an error message and performs 
+ a rollback of all actions</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>OnyxNotification.LBOAdapter
+</td>
+                    <td>com</td>
+                    <td>This step  is added for notification feature. It captures data after saving the object
+</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Example</h3>
+        <p>Parameters
+        </p>
+        <p Class="Code" class="C_Code">&lt;parameters&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;phones&#160;objectType="phone"&#160;collection="1"&#160;content="all"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;phone&#160;objectType="phone"&#160;content="all"&#160;action="update"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;89FF690C-3B70-413E-AF0E-9BF4A13F36A6&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primary&gt;1&lt;/primary&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerId/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerType/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;phoneTypeId&gt;11&lt;/phoneTypeId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;phoneNumber&gt;2065554646&lt;/phoneNumber&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;readOnlyAccess&gt;0&lt;/readOnlyAccess&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;privateAccess&gt;0&lt;/privateAccess&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy&gt;guest&lt;/insertBy&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate&gt;2001-05-18&#160;16:12:18&lt;/insertDate&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateBy&gt;guest&lt;/updateBy&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;updateDate&gt;2001-05-18&#160;17:19:43&lt;/updateDate&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;locked&#160;null="1"/&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onyxTimestamp&gt;000000000E52D67D&lt;/onyxTimestamp&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/phone&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;phone&#160;objectType="phone"&#160;content="all"&#160;action="delete"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;5903DBF1-73C3-4FC4-8C57-BAAA29986CBD&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;onyxTimestamp&gt;000000000E3D7C62&lt;/onyxTimestamp&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/phone&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;/phones&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/parameters&gt;</p>
+        <p>parametersReturn
+        </p>
+        <p Class="Code" class="C_Code">&lt;parametersReturn&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;phones&#160;objectType="phone"&#160;collection="1"&#160;content="keysOnly"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;phone&#160;objectType="phone"&#160;content="keysOnly"&#160;action="update"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;89FF690C-3B70-413E-AF0E-9BF4A13F36A6&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/phone&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;phone&#160;objectType="phone"&#160;content="keysOnly"&#160;action="delete"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;5903DBF1-73C3-4FC4-8C57-BAAA29986CBD&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/phone&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;/phones&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/parametersReturn&gt;</p>
+    </body>
+</html>

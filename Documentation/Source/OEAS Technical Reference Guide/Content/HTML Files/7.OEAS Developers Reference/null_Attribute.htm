@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="804" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>null Attribute</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>
+            <MadCap:keyword term="null Attribute" />null attribute</h5>
+        <p>A null value is a value that is indefinite or unknown. In a numeric 
+ field, for instance, null is different than zero because zero is a definite 
+ or known value. Similarly, in a character field, null is different than 
+ a blank space because a blank space is a definite or known value.</p>
+        <p>Because the data in OEAS passes to and from the Onyx Enterprise Database 
+ (a SQL database) in an XML stream, maintaining the representation of a 
+ null value during the translation between XML and SQL can be troublesome. 
+ SQL, of course, can represent null values and handles them readily. XML, 
+ however, does not have a standard for representing null values. In XML, 
+ in fact, it is impossible to represent a null value without using a special 
+ attribute because XML can represent only empty values, not null values. 
+ For example, the following primaryId property is empty, not null:</p>
+        <p Class="Code" class="code">&lt;primaryId /&gt;</p>
+        <p>OEAS treats empty values as null values. That is, if you pass an empty 
+ value to and/or from the database, OEAS handles them both equally, as 
+ null values.</p>
+        <p>Nonetheless, OEAS uses an attribute—called null—to explicitly identify 
+ null values when passing them to and from the database. A "null" 
+ attribute set to "1" means that the value being passed is null, 
+ regardless of the value of the data being passed in the same element. 
+ When the attribute is set to any value other than "1", the "null" 
+ attribute is ignored.</p>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; &#160;">Onyx recommends that you explicitly identify null values 
+ by using the "null" attribute. Failure to do so can cause conflicts 
+ between your customizations and future versions of OEAS.</p>
+        <p>The following XML elements are accurate representations of a null value:</p>
+        <p Class="Code" class="code">&lt;primaryId <span style="color: #800000;">null="1"</span>&gt;&lt;/primaryId&gt;</p>
+        <p>and</p>
+        <p Class="Code" class="code">&lt;primaryId <span style="color: #800000;">null="1"</span>&gt;42351&lt;/primaryId&gt;</p>
+        <p>The following XML elements, however, are misrepresentations of a null 
+ value. When the "null" attribute does not equal "1", 
+ the attribute is ignored and the XML is read for the value indicated.</p>
+        <table>
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>XML notation</th>
+                    <th>Result in the Database</th>
+                    <th>Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">&lt;primaryId /&gt;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Although this XML represents an empty value, OEAS treats 
+ it as a null value.</p>
+                        <p class="Table_Text" style="margin-bottom: 0;">Onyx recommends against passing null values 
+ as empty values.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">&lt;primaryId null="0"&gt;23471&lt;/primaryId&gt;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">23471</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Since the "null" attribute was 
+ not set to "1", OEAS accepts the value passed as the primaryId.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">&lt;primaryId&gt;0&lt;/primaryId&gt;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">0 (zero)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">No "null" attribute was provided.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">&lt;description null="2"&gt;&lt;/description&gt;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">empty</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Since the "null" attribute was 
+ not set to "1", OEAS accepts the value passed as the primaryId.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">&lt;description&gt; &lt;/description&gt;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">NULL</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Because OEAS disregards all leading and trailing 
+ spaces, OEAS handles this value (two blank spaces) as an empty or null 
+ value.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h5>null Attribute Ignored</h5>
+        <p>The saveListTableData method of the tableAdministration 
+ object ignores the null attribute when it is specified on a property. 
+ </p>
+    </body>
+</html>

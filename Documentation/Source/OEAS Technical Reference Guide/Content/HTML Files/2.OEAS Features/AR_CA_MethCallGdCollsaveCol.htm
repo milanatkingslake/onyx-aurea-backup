@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="788" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>saveCollection methods</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h1>saveCollection methods </h1>
+        <p>You can create saveCollection method calls for scripts, enabling you 
+ to save, delete, and/or update multiple objects of a collection with a 
+ single method call. This includes when you are working with coupled objects 
+ in that you can create XML to handle multiple instances of the child element. 
+ For instance, it is possible to create a method call that saves a new 
+ individual, his or her primary phone number, and multiple alternate phone 
+ numbers. </p>
+        <p>This is possible because of the way that the Method Call feature builds 
+ the XML to pass to the OEAS method. When a method call is invoked, each 
+ input method call detail creates a node at the leaf level of the elementPath 
+ which, once created, is never again selected or updated. Each node created 
+ is appended to the last matching child of the previous level in the elementPath. 
+ Duplicate element paths are allowed and result in the creation of duplicate 
+ nodes. This allows you to create multiple children within a collection, 
+ because properties are always appended to the last child object. </p>
+        <p style="font-weight: bold;">Important considerations </p>
+        <p>Consider the following when you design saveCollection 
+ method calls: </p>
+        <ul>
+            <li>All method call details are order dependent. Each 
+ method call detail is processed in order, based on the method call detail 
+ sequence number.</li>
+            <li>You must specify a single action (insert, update, 
+ or delete) for each object of the collection using the <span class="UIElement" style="font-weight: bold;">Attribute 
+ List</span> attribute of the object node method call detail (See the phone(1) 
+ and phone(2) method call details in the following example). Valid attributes 
+ for this purpose are: action=insert, action=update, and action=delete.</li>
+        </ul>
+        <p style="font-weight: bold;">saveCollection example </p>
+        <p>Expanding on the previously mentioned example of individual 
+ phones, you can design a method call that meets the following requirements: 
+ </p>
+        <ul>
+            <li>Inserts an individual’s first name, middle name, 
+ last name, and email address</li>
+            <li>Inserts the individual’s business phone number 
+ as the primary phone number</li>
+            <li>Inserts the individual’s cellular phone number 
+ as an alternate phone number</li>
+        </ul>
+        <p>In the Method Call Designer, the saveCollection method call details 
+ would appear as in the following graphic. The phone(1) method call detail 
+ creates the first individual/phones/phone node, and the method call details 
+ that follow it (until the phone(2) detail) are the phone elements that 
+ are appended to that node. The phone(2) method call detail creates the 
+ second individual/phones/phone node, and the method call details that 
+ follow it are the phone elements that are appended to that node. </p>
+        <p class="Image">
+            <img src="../../Resources/Images/AR_MethodCallsaveCollection.jpg" style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+    </body>
+</html>

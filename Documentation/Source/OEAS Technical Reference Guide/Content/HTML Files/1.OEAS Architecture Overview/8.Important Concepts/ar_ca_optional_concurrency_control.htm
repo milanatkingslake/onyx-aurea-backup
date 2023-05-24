@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="791" MadCap:lastWidth="624">
+    <head>
+        <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head>
+            <link href="../../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" /><title>Optional Concurrency Control</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>Optional Concurrency Control</h3>
+        <p>To bypass concurrency control, use the ignore attribute on the onyxTimestamp 
+ element in an update or delete method’s input XML. The ignore attribute 
+ must be set to 1 to be effective and is valid only for the onyxTimestamp 
+ element: &lt;onyxTimestamp ignore="1" /&gt;. The update or delete 
+ action of the saveCollection method also supports optional currency control. 
+ </p>
+        <p>If a business object does not have an onyxTimestamp property, then the 
+ object does not perform concurrency control. You can update or delete 
+ such objects regardless of whether you have the most recent data for the 
+ object. </p>
+        <p>By disabling concurrency control and using the partial update capability, 
+ a client application or an integration can update certain properties on 
+ an object that the user is not themselves updating, or even though the 
+ user might set a value, the application or process performing the partial 
+ update takes precedence.</p>
+        <p>For example, a client application allows a Web hit to update the status 
+ of a support incident. A partial update occurs only to the status property 
+ even though the client does not have access to the current onyxTimestamp 
+ value. </p>
+        <p>The following example input XML for an update method on the incident 
+ object shows a valid use of ignore. </p>
+        <p class="C_Code">&lt;parameters&gt;</p>
+        <p class="C_Code">&lt;incident objectType="incident"&gt;</p>
+        <p class="C_Code">&lt;primaryId&gt;D32737F3-1970-4DB1-8D00-DC42E273F103 &lt;/primaryId&gt;</p>
+        <p class="C_Code">&lt;statusId&gt;101515&lt;/statusId&gt;</p>
+        <p class="C_Code">&lt;onyxTimestamp ignore="1" /&gt;</p>
+        <p class="C_Code">&lt;/incident&gt;</p>
+        <p class="C_Code">&lt;/parameters&gt;</p>
+        <p>When the ignore attribute is present on the onyxTimestamp element with 
+ a value of 1, any text content of onyxTimestamp is irrelevant. When ignore 
+ is any value other than 1, the attribute itself is ignored. The ignore 
+ attribute has priority over the null attribute. If both ignore=”1” and 
+ null=”1” are specified for onyxTimestamp, the concurrency control check 
+ is not performed. OEAS never returns the ignore attribute in the parametersReturn, 
+ except when an error occurs. In this case, the entire input XML is returned. 
+ </p>
+        <p>The following table contains examples of using the onyxTimestamp element 
+ to specify whether concurrency control checks occur for a business object 
+ that has the onyxTimestamp property. </p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>onyxTimestamp element in the input parameters </th>
+                    <th>Is the concurrency control check performed? </th>
+                    <th>update or delete result </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">&lt;onyxTimestamp&gt;0000000000005645 &lt;/onyxTimestamp&gt; </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Yes </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Normal currency control processing occurs. 
+ </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">&lt;onyxTimestamp ignore=”1” /&gt; </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">No </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The method can succeed without concurrency 
+ control. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">&lt;onyxTimestamp ignore=”1”&gt;0000000000005645 &lt;/onyxTimestamp&gt; 
+ </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">No </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The method can succeed without concurrency 
+ control because the ignore attribute has precedence over the value of 
+ the element. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">&lt;onyxTimestamp ignore=”1” null=”1” /&gt; 
+ </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">No</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The method can succeed without concurrency 
+ control because the ignore attribute has precedence over the null attribute. 
+ </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">&lt;onyxTimestamp ignore=”64”&gt;0000000000005645 &lt;/onyxTimestamp&gt; 
+ </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Yes</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The ignore attribute is irrelevant when it 
+ is not equal to 1, and normal concurrency control processing occurs. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="794" MadCap:lastWidth="624" MadCap:conditions="Default.Main">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>About processing conditions</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>About processing conditions</h4>
+        <p>Conditions contain expressions (logical statements) 
+ that are processed by rules. The following example shows the United States 
+ territory, its Washington territory, the HighTech condition, and the HighTechGroup 
+ assignment set.</p>
+        <p class="Image">
+            <img src="../../Resources/Images/AR_Diagramrules.jpg" style="border: none;width: 347px;height: 193px;float: none;border-style: none;border-style: none;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" width="347" height="193" border="0" />
+        </p>
+        <p>Contained in the HighTech condition are the following 
+ expressions:</p>
+        <ul style="list-style: disc;" type="disc">
+            <li>countryCode = US</li>
+            <li>regionCode = WA</li>
+            <li>marketSector = 1002</li>
+        </ul>
+        <p>The rule is: If countryCode = US and regionCode = WA and marketSector 
+ = 1002 then create the assignments for the HighTechGroup. If the condition 
+ evaluates to true (that is, if all of its expressions evaluate to true), 
+ UserA is assigned to the incident. </p>
+        <h4>Evaluating conditions</h4>
+        <p>The Assignment Studio evaluates conditions in order, from the top to 
+ the bottom of the Assignment Tree (navigation area). Through this sequence 
+ of evaluation, a company, individual, or incident record is associated 
+ with the first condition that evaluates to true, even when lower conditions 
+ might also evaluate to true. </p>
+        <p>When a condition evaluates to true, customer and incident records are 
+ associated with the appropriate internal contacts, and incidents are reassigned 
+ to the appropriate internal contacts, customers, and territories. Processing 
+ runs in the background and is not visible to end users. </p>
+        <p>Unlike the company and individual update process, the incident update 
+ process is not configured to run on every incident update. For incidents, 
+ the update process only runs when an OEP 
+ user manually re-assigns an incident to a particular user called the Auto 
+ Assign user. For more information, see <a href="AR_CA_AssignStudioManualassignmentincidents.htm">Manual 
+ assignment of incidents</a>.</p>
+        <p class="Warning" MadCap:autonum=" &#160;&#160;&lt;b&gt;Warning:&lt;/b&gt; &#160;">You can reorder processing of a territory's contained territories, 
+ conditions, and expressions by using the <img src="../../Resources/Images/iconup0.jpg" style="border: none;border-style: none;float: none;width: 26px;height: 26px;" width="26" height="26" border="0" /> and <img src="../../Resources/Images/icondown0.jpg" style="border: none;border-style: none;float: none;width: 26px;height: 26px;" width="26" height="26" border="0" /> arrows on the toolbar to reposition items. For example, you 
+ could reposition a high-priority condition, such as month long campaign 
+ at the top of the list of conditions to ensure first priority for processing.</p>
+        <h4>Assignment Studio business objects</h4>
+        <p>Assignment Studio business objects are responsible for providing information 
+ to the OPM processes about internal contacts, incident assignments and 
+ their related conditions.</p>
+        <h4>OPM processes</h4>
+        <p>The Onyx Enterprise Dictionary (OED) calls the BRM processes for the 
+ insert and update of companies, individuals, and incidents. You must enable 
+ the steps to call whatever processes are appropriate for your business. 
+ . 
+ For best practices, see the <a href="AR_ca_AssignStudioExample__Business_model.htm">Sample 
+ business model</a>.</p>
+        <p>About processing conditions</p>
+        <p>The following end user workflow describes how conditions 
+ are evaluated and processed through OEAS and OPM:</p>
+        <ul style="list-style: disc;" type="disc">
+            <li>The OEP user creates a company, individual, or 
+ incident record and saves it to the Onyx database.</li>
+            <li>At run time, the OPM process retrieves an ordered, 
+ filtered list of expressions (grouped by condition) from OEAS.</li>
+            <li>The OPM process finds the first condition that 
+ is true for the record and stops evaluating the expressions. (A condition 
+ is true when all of its expressions are true.)</li>
+            <li>OPM associates new and updated records with the 
+ territory that owns the condition.</li>
+            <li>OPM assigns the incident and creates the correct 
+ internal contact records.</li>
+        </ul>
+        <p>Condition processing runs in the background and is not visible to end 
+ users. </p>
+    </body>
+</html>

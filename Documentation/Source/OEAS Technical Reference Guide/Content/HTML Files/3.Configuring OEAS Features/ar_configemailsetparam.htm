@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:id="content" MadCap:comment="content" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:fileTags="RoboHelpStatus.In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="691" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <h3>Setting system parameters for the Email feature </h3>
+        <p>You can use system parameters to modify the default behavior of the 
+ database and the end-user interface. Following are descriptions of the 
+ system parameters that you can configure for the Email feature in System 
+ Parameter Administration. For more information, see <i>System Parameter Administration Help</i>.</p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>System Parameter </th>
+                    <th>Description </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">EmailSendStepSmtpMode </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">This system parameter specifies whether the 
+ SMTP service used by the OnyxEmailSendStep is co-located on the OEAS server 
+ or on a remote server. Valid values are: local or remote.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">EmailSendStepSmtpServer </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">When the OEAS server is not local to the SMTP 
+ server, this system parameter specifies the DNS name or IP address of 
+ the SMTP server. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">EmailCreateFileLinkforLit </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">This system parameter determines whether to 
+ create a fileLink record when an OEP user attaches a literature item to 
+ an email message. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>For security reasons, after installing OEAS you need 
+ to manually configure it if you want to use the OnxyEmailSendStep (also 
+ known as OEP Email). You should either:</p>
+        <ul>
+            <li>Reconfigure the Email feature system parameters 
+ to use a remote SMTP server (EmailSendStepSmtpMode and EmailSendStepSmtpServer)</li>
+        </ul>
+        <p class="Indent1">or</p>
+        <ul>
+            <li>Run a Microsoft script to grant the OnyxEASUser 
+ access to read the IIS Metabase so that OEP Email can use the local SMTP 
+ server. </li>
+        </ul>
+        <p>
+      &#160;&#160;&#160;&#160;The 
+ command to do this is:</p>
+        <p class="C_Code">
+      &#160;&#160;&#160;&#160;cscript adadd.vbs computerName\OnyxEASUser</p>
+        <p>You can obtain the "adadd.vbs" script by downloading it from 
+ <a href="http://support.microsoft.com/kb/816789">http://support.microsoft.com/kb/816789</a></p>
+    </body>
+</html>

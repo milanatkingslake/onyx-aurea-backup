@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="5" MadCap:lastHeight="840" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2>Heartbeat Customizations</h2>
+        <p>OEP implements a session preservation system that optionally keeps client connections active within the OEAS server. Sessions do not timeout because heartbeat calls that check for new Messenger messages and for reminders at regular intervals. When the OEAS system parameter OEPEnableSessionTimeout is set to N (disable), the heartbeat calls maintains the server session because OEAS considers these calls to be no different from user-initiated calls. This setting allows a client user the freedom to leave OEP open on their desktop for as long as they like without experiencing a session timeout. </p>
+        <p>When OEPEnableSessionTimeout is set to Y, OEAS differentiates between heartbeat calls and user-initiated calls. When an OEP user has not interacted with OEP within a defined time limit and session timeout is enabled, the OEP session is ended. The GlobalSessionTimeOut system parameter defines the time limit, which has a 20% grace period. For example, if GlobalSessionTimeOut is 600 seconds, the session ends after 720 seconds of inactivity.</p>
+        <p>By making updates to the JavaScript file <i>YourOEPwebsite</i>/common/javascript/notification.js, you can change the interval length and add custom actions to the heartbeat's function.</p>
+        <h4>Interval adjustment</h4>
+        <p>The default heartbeat interval is five minutes, which is half of the length of the default lifespan of an OEAS session. To change the heartbeat interval, update the following line within the notification.js file: </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>var mlHeartbeatIntervalNormal = 300000;</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>The length is measured in milliseconds, so the above value is equal to five minutes.</p>
+        <p>To prevent sessions from timing out, the heartbeat interval must be less than the lifespan of an unused OEAS session. The OEAS session size is specified by the system parameter GlobalSessionTimeOut. The default OEAS session timeout is 600 seconds (10 minutes). For timing reasons, it is not wise to change the client heartbeat interval to a value greater than the system timeout.</p>
+        <h4>Adding other checks</h4>
+        <p>When the heartbeat interval expires, the function <b>jsGetNotificationCounts</b> is called and checks the server for new Messenger messages, active reminders, and new keywords. The function takes a single Boolean argument, which indicates whether or not a dialog box should appear if new messages are present.</p>
+        <p>You can update this function and the contents of the server-side script file <i>YourOEPwebsite</i>\getnotificationcounts_xmlhttp.asp to provide any functionality that must happen in the background and on a regular basis. </p>
+        <h4>Adding the heartbeat to modal windows</h4>
+        <p>The heartbeat code is initialized when the main OEP window loads. This code remains active during regular operations and maintains the OEAS session automatically. The only time this code does not execute is when an OEP feature opens a modal window or dialog box. Thus, a modal window opened from within OEP must reinitialize the heartbeat code within its own scope. Once the modal dialog closes, the heartbeat within the main frame resumes automatically.</p>
+        <p>All modal windows that exist as part of the standard OEP code base contain JavaScript code to maintain the heartbeat while they are open. If you add a modal window or dialog box to a feature, you must do the following to maintain the heartbeat:</p>
+        <ul>
+            <li>Include references to the JavaScript files <i>YourOEPwebsite</i>/common/javascript/notification.js and <i>YourOEPwebsite</i>/res/common/javascript/notificationres.js.</li>
+            <li>Call the function jsInitHeartbeat with the argument 'false' when the modal window loads (passing false prevents Messenger notification from firing while the modal dialog is open).</li>
+        </ul>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;"> A modal window is any window that is opened using the showModalDialog method of the DHTML window object. All other windows are modeless and do not require any code to maintain the heartbeat. </p>
+    </body>
+</html>

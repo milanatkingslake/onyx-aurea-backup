@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="5" MadCap:lastHeight="810" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2>OTM Logging</h2>
+        <p>OEP contains a built-in tool for logging all business object method calls made through the OTM. Information about each call is written to a pair of text files on the OEP server. Developers can then review these files to monitor data moving in and out of OEAS, and to obtain more information on the number of calls made through the OTM during system operation. </p>
+        <p>The logging feature creates only a minor impact on OEP performance, but the log files themselves can grow quite large. For example, when OEP completes initialization the size of the details file is over three megabytes. </p>
+        <h4>Setup</h4>
+        <p>As the OTM can be accessed from both the client-side and server-side OTM Helper objects, there are separate files that must be edited for each side to be activated.</p>
+        <p>The server-side path is YourOEPwebsite/common/include/otm_helper.asp. </p>
+        <p>The client-side path is YourOEPwebsite/common/include/otm_helper_end_point.asp.</p>
+        <p>The lines of code to edit appear near the top of each file. They are: </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>class="Code"&gt;Const OTM_HELPER_XMLLOG = true</code>
+                    </p>
+                    <p><code>Const OTM_HELPER_XMLLOG_PATH = "c:\otmlogfolder\"</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; &#160;">The folder information stored in OTM_HELPER_XMLLOG_PATH must identify an absolute path to an existing folder. If either of these conditions is not met, OEP will report an error during system initialization. </p>
+        <p>By naming different folder paths, or by leaving one side configured not to log, you can separate or limit the information about the calls by side. </p>
+        <p>Any edits to the otm_helper.asp file will cause the OEP server application to restart. The file should only be edited when the delay of reinitialization won't adversely affect end users. </p>
+        <h4>The files</h4>
+        <p>Logging information is saved according to OEAS session ID. For each logged session there are two files: a calls file and a details file. Filenames are prefixed by session ID. For example, the two files created for the session ID 660019F4-0841-4A11-B265-5617CCE81D7F are:</p>
+        <ul>
+            <li>660019F4-0841-4A11-B265-5617CCE81D7F-calls.log</li>
+            <li>660019F4-0841-4A11-B265-5617CCE81D7F-detail.log</li>
+        </ul>
+        <p>The calls file contains summary information for each method call. The file includes the time the call was made, the business object and method executed, and the OEP ASP file that made the call. &#160; </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>23-Jul-02 11:31:18 &#160;customer &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;retrieveSummaryInfo &#160;&#160;/YourOEPwebsite/incident/Incident_GetContactInfo_xmlhttp.asp</code>
+                    </p>
+                    <p><code>23-Jul-02 11:31:19 &#160;externalContact &#160;retrieveListByOwner &#160;&#160;/YourOEPwebsite/common/include/otm_helper_end_point.asp</code>
+                    </p>
+                    <p><code>23-Jul-02 11:34:38 &#160;notification &#160;&#160;&#160;&#160;getNotificationCounts /YourOEPwebsite/getnotificationcounts_xmlhttp.asp</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>The details file contains the specifics of each call. This includes the input and output XML and any error information. &#160; </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>Timestamp: 23-Jul-02 11:26:26</code>
+                    </p>
+                    <p><code>OEAS Call: systemParameter.retrieve</code>
+                    </p>
+                    <p><code>COM+ call returned: no error</code>
+                    </p>
+                    <p><code>VBScript error: no error</code>
+                    </p>
+                    <p><code>In &#160;XML:</code>
+                    </p>
+                    <p><code>&lt;parameters&gt;...&lt;/parameters&gt;</code>
+                    </p>
+                    <p><code>Out XML:</code>
+                    </p>
+                    <p><code>&lt;returnXml&gt;...&lt;/returnXml&gt;</code>
+                    </p>
+                    <p><code>Custom data:</code>
+                    </p>
+                    <p><code>&lt;customData&gt;&lt;/customData&gt;</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>You can delete the files at anytime while the system is active. OEP will recreate them if they are missing. </p>
+    </body>
+</html>

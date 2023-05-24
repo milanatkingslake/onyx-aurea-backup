@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h4>Updating the NotificationTypeMl table</h4>
+        <p>Use the following information to update the NotificationTypeMl table for your custom notification.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Column Name</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">NotificationTypeId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter a unique GUID for the notification reference.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">SiteId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the Onyx site ID.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">LanguageCode</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the code for the installation language from the language table. ENG indicates English and JPN indicates Japanese.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">NotificationTypeName</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the name for the custom notification that will appear in the drop-down list in the Notification Subscription window.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">NotificationDescription</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter a brief description for the notification that explains the notification's purpose.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Sample script to update the NotificationType and NotificationTypeMl tables</h4>
+        <p>Use the following sample script to update the tables for new notifications.</p>
+        <p class="Indent1">declare @NotificationDeliveryTypeId uniqueidentifier</p>
+        <p class="Indent1">declare @NotificationTypeId uniqueidentifier</p>
+        <p class="Indent1">select @NotificationDeliveryTypeId = NotificationDeliveryTypeId</p>
+        <p class="Indent1">from NotificationDeliveryType</p>
+        <p class="Indent1">where secondaryId=2</p>
+        <p class="Indent1">set @NotificationTypeId=NEWID()</p>
+        <p class="Indent1">Insert into NotificationType</p>
+        <p class="Indent1">values (@NotificationTypeId , 1, 20, @NotificationDeliveryTypeId, 'DONOTREPLY@avolin.com',</p>
+        <p class="Indent1">'ProductProfile.xml', 'sa', getUTCdate(),'sa',getUTCdate(), 1, 'http://localhost:55000/20', 'UI:OEP:Notifications')</p>
+        <p class="Indent1">select @NotificationTypeId = NotificationTypeId</p>
+        <p class="Indent1">from NotificationType</p>
+        <p class="Indent1">where SecondaryId=20</p>
+        <p class="Indent1">Insert into NotificationTypeMl</p>
+        <p class="Indent1">Values(@NotificationTypeId, 1, 'ENG', 'Any incident assigned to me', 'You will be notified when an incident is assigned to you.')</p>
+    </body>
+</html>

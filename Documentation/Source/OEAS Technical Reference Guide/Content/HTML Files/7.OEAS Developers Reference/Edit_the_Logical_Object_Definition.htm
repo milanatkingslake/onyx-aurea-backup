@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="877" MadCap:lastWidth="994">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Step 5: Modify the Company Object</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>
+            <MadCap:keyword term="company object" />Modify the company object</h5>
+        <p>The Company object must be modified to:</p>
+        <ol>
+            <li>Add the stock ticker symbol property. This property 
+ is where the step component returns the stock ticker symbol data.</li>
+            <li>Add a call to the step component into the Company 
+ object's retrieve method.</li>
+        </ol>
+        <p style="font-weight: bold;">Step 1 - Adding the stock ticker symbol property</p>
+        <p>Follow the procedure described in the <a href="AddProp_Overview.htm">Adding 
+ a Property</a> example topic to add the stock ticker symbol property to 
+ the company object.</p>
+        <p style="font-weight: bold;">Step 2 - Adding the step component to the retrieve method</p>
+        <p>Perform the following procedure to add the step component 
+ call to the Company object retrieve method.</p>
+        <ol>
+            <li>Open Onyx Enterprise Studio Object Designer.</li>
+            <li>Navigate to <span style="font-weight: bold;"><MadCap:keyword term="Steps" />Logical 
+ Business Objects\company\Methods\retrieve\Steps</span>.</li>
+            <li>Click the Add <img src="../../Resources/Images/iconAdd1.gif" /> button to create 
+ a new step.</li>
+            <li>In the Name: field, enter a user friendly name 
+ for the step such as retrieveStockSymbol.</li>
+            <li>Enter the following fields:<p Class="Code" class="code">Description:&#160;Custom&#160;Step&#160;Component&#160;Call</p><p Class="Code" class="code">Step&#160;Type:&#160;com</p><p Class="Code" class="code">Step&#160;Data&#160;(ProgID):&#160;CustomStep.StepComponent</p><p Class="Code" class="code">Additional&#160;Data:&#160;stepName=400;stepObject=company;stepMethod=retrieve;dataPath=</p><p Class="Code" class="code">Override&#160;Template:&#160;(leave&#160;blank)</p><p Class="Code" class="code">Installed&#160;By:&#160;Customization</p><p Class="Code" class="code">Disabled:&#160;(leave&#160;unchecked)</p></li>
+            <li>Click the Save <img src="../../Resources/Images/iconSave1.gif" /> button to save your 
+ changes.</li>
+            <li>Optionally, you can click the Validate <img src="../../Resources/Images/iconValidate1.gif" /> button to verify that the modifications you made are acceptable. 
+ When you publish, the validation is also performed, so this is an optional 
+ step.</li>
+            <li>Click the Publish <img src="../../Resources/Images/iconPublish1.gif" /> button. Answer 
+ Yes to the prompt that asks if you want to overwrite the current OED.</li>
+            <li>In the next step, you will shut down the Onyx 
+ App COM+ to cause the OED to reload.</li>
+        </ol>
+    </body>
+</html>

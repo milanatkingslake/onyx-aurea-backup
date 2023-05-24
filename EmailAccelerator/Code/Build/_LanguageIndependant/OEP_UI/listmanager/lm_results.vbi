@@ -1,0 +1,434 @@
+'<script language="vbscript">  'This tag is to fake Interdev into recognizing this file as a vbscript file 
+' Copyright Aptean 2017. All rights reserved.
+
+	Dim moTableBuilder
+	Dim msTableName
+	dim mbTableBuilt
+	dim msViewId
+	dim mbResultsExpanded
+	dim moBulkActionListNode
+	dim moPreviousSelectedRow
+	dim msPreviousSelectedRowOriginalClass
+	dim mbExceedMaxRow
+	dim msBulkActionColumnOrdinal
+	
+	
+	mbTableBuilt = false
+	mbExceedMaxRow = false
+			
+	Function vbInit()
+		jsInitMainFrameRef()
+		mbResultsExpanded = false
+		set moPreviousSelectedRow = nothing
+		msPreviousSelectedRowOriginalClass = ""
+	End Function
+	
+	Function vbBuildTable(psTableName, poRowsetDom, psViewId)
+		dim sRowcount
+		dim sPageSize
+		dim lRowcount
+		dim lPageSize
+		dim oTableXSL
+		dim oXSLTemplate
+		dim oXSLProc 
+		dim oRowsetDOM
+		dim oVisibleNode
+
+		spanRowcount.innerHTML = ""
+		
+		sRowcount = poRowsetDom.selectSingleNode("/return/rowSet").getAttribute("rowCount")
+		sPageSize = poRowsetDom.selectSingleNode("/return/rowSet").getAttribute("pageSize")
+		set oVisibleNode = poRowsetDom.selectSingleNode("/return/rowSet/columnDefinitions/columnDefinition[columnVisible='1' or columnVisible='True']")
+		if oVisibleNode is nothing then
+			spanRowcount.innerHTML = ""
+			document.all.iddiv_resultlist.innerHTML = ""
+			call window.parent.frameLM.children("lm_main").contentWindow.vbShowResultsFrame(false)
+			jsMessageBox res_NonVisible_Column		
+			exit function	
+		end if
+
+		if sRowCount <> "" and isnumeric(sRowCount) then
+			lRowcount = clng(sRowCount)
+		else
+			lRowcount = 0
+		end if
+		if sPageSize <> "" and isnumeric(sPageSize) then
+			lPageSize = clng(sPageSize)
+		else
+			lPageSize = 0
+		end if
+		if lRowcount = lPageSize then
+			if lRowcount > 0 then
+				jsMessageBox replace(res_MaxRows, "~1", lPageSize)
+				mbExceedMaxRow = true
+			end if
+		else
+			if lRowcount > clng(msWarningLevelRowCount) then
+				jsMessageBox replace(res_Warning,"~1",msWarningLevelRowCount)
+			end if
+		end if
+		
+		spanRowcount.innerHTML = replace(res_TotalRecords, "~1", lRowcount)
+		
+		msTableName = psTableName
+		msViewId = psViewId
+		
+		set oTableXSL =	CreateObject("Msxml2.FreeThreadedDOMDocument")
+		set oXSLTemplate =	CreateObject("Msxml2.XSLTemplate")		
+		oTableXSL.async = false		
+		call loadXmlDocumentFile(oTableXSL,"lm_table.xsl")
+		set oXSLTemplate.stylesheet = oTableXSL
+		set oXSLProc = oXSLTemplate.createProcessor
+
+		Set oRowsetDOM = CreateObject("MSXML2.FreeThreadedDomDocument")
+		if not oRowsetDOM.loadXML(poRowsetDOM.xml) then
+			call jsMessageBox("Internal Error - failed to load poRowsetDOM.xml",0,4,res_LM_Title) 
+			exit function		
+		end if
+		vbXmlPreProcess(oRowsetDOM)
+
+		oXSLProc.input = oRowsetDOM
+		oXSLProc.addParameter "tableName", msTableName
+		oXSLProc.addParameter "enumsNode", window.parent.frameLM.children("lm_main").contentWindow.goEnumsNode
+		oXSLProc.transform
+
+		document.all.iddiv_resultlist.innerHTML = oXSLProc.output
+		
+		Call setTimeout("jsResize()", 500)
+		call vbBuildBulkActionList(psViewId)
+
+		If Err.number <> 0 Then
+			call jsMessageBox("Internal Error - Unable to transform Rowset DOM. " & Err.Description, mbBUTTONS_OK, mbICON_EXCLAMATION, "")
+			exit function
+		End If
+
+		mbTableBuilt = true
+	End Function
+
+	sub vbCustomerClick(psCustId)
+		dim oMainFrame
+		dim oSelectedRow
+
+		if not moPreviousSelectedRow is nothing then
+			moPreviousSelectedRow.className = msPreviousSelectedRowOriginalClass
+		end if
+		set oSelectedRow = window.event.srcElement.parentElement
+		set moPreviousSelectedRow = oSelectedRow
+		msPreviousSelectedRowOriginalClass = oSelectedRow.className		
+		oSelectedRow.className = "TableRowSELECT"
+
+		set oMainFrame = jsGetMainFrameRef()
+		call oMainFrame.jsLoadObjectCustomer(psCustId)
+
+	end sub
+	
+	sub vbWorkticketClick(psWorkticketId)
+		dim oMainFrame
+		dim oSelectedRow
+
+		if not moPreviousSelectedRow is nothing then
+			moPreviousSelectedRow.className = msPreviousSelectedRowOriginalClass
+		end if
+		set oSelectedRow = window.event.srcElement.parentElement
+		set moPreviousSelectedRow = oSelectedRow
+		msPreviousSelectedRowOriginalClass = oSelectedRow.className		
+		oSelectedRow.className = "TableRowSELECT"
+
+		set oMainFrame = jsGetMainFrameRef()
+		
+		call oMainFrame.jsOpenObjectWorkTicket(psWorkticketId)
+	end sub
+	
+	
+	function vbBuildBulkActionList(psViewId)
+		dim oActionNodes
+		dim oActionNode
+		dim lCount
+		dim sHTML
+		dim oQueryNode
+		dim bDisableBulkActionList
+		
+		set oQueryNode = window.parent.frameLM.children("lm_main").contentWindow.goQueryNode
+		if oQueryNode.selectSingleNode("//query/bulkActionColumnOrdinal") is nothing then
+			bDisableBulkActionList = true
+		elseif len(oQueryNode.selectSingleNode("//query/bulkActionColumnOrdinal").text)=0 then
+			bDisableBulkActionList = true		
+		else
+			bDisableBulkActionList= false
+			msBulkActionColumnOrdinal = oQueryNode.selectSingleNode("//query/bulkActionColumnOrdinal").text
+		end if	
+		
+		if isempty(moBulkActionListNode) then
+			dim oXMLDOM
+			set oXMLDOM = CreateObject("MSXML2.DOMDocument")
+			oXMLDOM.async = false
+			oXMLDOM.setProperty "SelectionLanguage", "XPath"
+			call loadXmlDocumentFile(oXMLDOM,"lm_bulkaction.xml")
+			set moBulkActionListNode = oXMLDOM.selectSingleNode("bulkActions")
+
+			' we have to fill in all the desciptions with the relevant res strings
+			set oActionNode = moBulkActionListNode.selectSingleNode("bulkAction[@id = 'exportExcelClientSide']")
+			if not(oActionNode is nothing) then
+				oActionNode.setAttribute "description", res_Bulk_Action_ExcelClientSide
+			end if
+			set oActionNode = moBulkActionListNode.selectSingleNode("bulkAction[@id = 'exportExcel']")
+			if not(oActionNode is nothing) then
+				oActionNode.setAttribute "description", res_Bulk_Action_Excel
+			end if
+			set oActionNode = moBulkActionListNode.selectSingleNode("bulkAction[@id = 'exportCSV']")
+			if not(oActionNode is nothing) then
+				oActionNode.setAttribute "description", res_Bulk_Action_CSV
+			end if
+			set oActionNode = moBulkActionListNode.selectSingleNode("bulkAction[@id = 'incidentSales']")
+			if not(oActionNode is nothing) then
+				oActionNode.setAttribute "description", res_Bulk_Action_Sales
+			end if
+			set oActionNode = moBulkActionListNode.selectSingleNode("bulkAction[@id = 'incidentService']")
+			if not(oActionNode is nothing) then
+				oActionNode.setAttribute "description", res_Bulk_Action_Service
+			end if
+			set oActionNode = moBulkActionListNode.selectSingleNode("bulkAction[@id = 'incidentSupport']")
+			if not(oActionNode is nothing) then
+				oActionNode.setAttribute "description", res_Bulk_Action_Support
+			end if
+			set oActionNode = moBulkActionListNode.selectSingleNode("bulkAction[@id = 'externalContact']")
+			if not(oActionNode is nothing) then
+				oActionNode.setAttribute "description", res_Bulk_Action_ExternalContact
+			end if
+			set oActionNode = moBulkActionListNode.selectSingleNode("bulkAction[@id = 'internalContact']")
+			if not(oActionNode is nothing) then
+				oActionNode.setAttribute "description", res_Bulk_Action_InternalContact
+			end if
+			set oActionNode = moBulkActionListNode.selectSingleNode("bulkAction[@id = 'campaign']")
+			if not(oActionNode is nothing) then
+				oActionNode.setAttribute "description", res_Bulk_Action_Campaign
+			end if
+			set oActionNode = moBulkActionListNode.selectSingleNode("bulkAction[@id = 'literature']")
+			if not(oActionNode is nothing) then
+				oActionNode.setAttribute "description", res_Bulk_Action_Literature
+			end if
+'ONYX EMAIL ACCELERATOR CUSTOMIZATION
+			set oActionNode = moBulkActionListNode.selectSingleNode("bulkAction[@id = 'emailAccelerator']")
+			if not(oActionNode is nothing) then
+				oActionNode.setAttribute "description", res_Bulk_Action_EmailAccelerator
+			end if	
+'ONYX EMAIL ACCELERATOR CUSTOMIZATION
+			set oActionNode = moBulkActionListNode.selectSingleNode("bulkAction[@id = 'surveys']")
+			if not (oActionNode is nothing) then
+				oActionNode.setAttribute "description", res_Bulk_Action_Survey
+			end if
+			set oActionNode = moBulkActionListNode.selectSingleNode("bulkAction[@id = 'script']")
+			if not (oActionNode is nothing) then
+				oActionNode.setAttribute "description", res_Bulk_Action_Script
+			end if
+			set oActionNode = moBulkActionListNode.selectSingleNode("bulkAction[@id = 'territoryReassignment']")
+			if not (oActionNode is nothing) then
+				oActionNode.setAttribute "description", res_Bulk_Action_Territory_Reassignment
+			end if
+'disable the LM subscription feature
+mbHasSubscriptionPermission = false
+			' add or remove the subscription action
+			if mbHasSubscriptionPermission then	
+				set oActionNode = moBulkActionListNode.selectSingleNode("bulkAction[@id = 'quickSubscribe']")
+				if not (oActionNode is nothing) then
+					oActionNode.setAttribute "description", res_Bulk_Action_QuickSubscribe
+				end if
+				set oActionNode = moBulkActionListNode.selectSingleNode("bulkAction[@id = 'quickUnsubscribe']")
+				if not (oActionNode is nothing) then
+					oActionNode.setAttribute "description", res_Bulk_Action_QuickUnsubscribe
+				end if
+				if not mbIsNotProxyUserAndOnlyOneService then
+					set oActionNode = moBulkActionListNode.selectSingleNode("bulkAction[@id = 'advancedSubscription']")
+					if not (oActionNode is nothing) then
+						oActionNode.setAttribute "description", res_Bulk_Action_AdvancedSubscription
+					end if
+				else
+					set oActionNode = moBulkActionListNode.selectSingleNode("bulkAction[@id = 'advancedSubscription']")
+					if not (oActionNode is nothing) then
+						moBulkActionListNode.removeChild oActionNode
+					end if							
+				end if
+			else
+				set oActionNode = moBulkActionListNode.selectSingleNode("bulkAction[@id = 'quickSubscribe']")
+				if not (oActionNode is nothing) then
+					moBulkActionListNode.removeChild oActionNode
+				end if
+				set oActionNode = moBulkActionListNode.selectSingleNode("bulkAction[@id = 'quickUnsubscribe']")
+				if not (oActionNode is nothing) then
+					moBulkActionListNode.removeChild oActionNode
+				end if
+				set oActionNode = moBulkActionListNode.selectSingleNode("bulkAction[@id = 'advancedSubscription']")
+				if not (oActionNode is nothing) then
+					moBulkActionListNode.removeChild oActionNode
+				end if			
+			end if
+		end if			
+	
+		' select all the actions that match our view and platform or all view and all platforms		
+		set oActionNodes = moBulkActionListNode.selectNodes("bulkAction[(views/view = 'all' or views/view = '" & psViewId & "') and (platforms/platform = 'all' or platforms/platform = '" & msPlatform & "' )]")
+		
+		if bDisableBulkActionList then
+			sHTML = "<select disabled=true id='idselect_bulkinserttype'><option value='0' selected>" & res_Bulk_Action_0 & "</option>"
+		else
+			
+			sHTML = "<select id='idselect_bulkinserttype'><option value='0' selected>" & res_Bulk_Action_0 & "</option>"		
+		end if	
+		if oActionNodes.length > 0 then
+			for lCount = 0 to oActionNodes.length - 1
+				set oActionNode = oActionNodes.item(lCount)
+				sHTML = sHTML & "<option value='" & oActionNode.getAttribute("id") & "'>" & oActionNode.getAttribute("description") & "</option>"
+			next
+		end if
+		sHTML = sHTML & "</select>"
+		document.all.spanBulkActions.innerHTML = sHTML
+	end function	
+	
+	sub vbClearBulkActionList()
+		document.all.spanBulkActions.innerHTML = "<select id='idselect_bulkinserttype'><option value='0' selected>" & res_Bulk_Action_0 & "</option>"
+	end sub
+	
+	function vbExportExcelClientSide() 
+
+		dim oExcel
+		dim oSheet
+		dim oTableHeader 
+		dim oTableBody
+		dim oCell
+		dim iRow
+		dim iCol
+		dim iRowCount
+		dim iColCount 
+		dim sTableHeaderName
+		dim sTableBodyName
+		dim sPathName
+		dim bRowSelected
+
+		on error resume next
+		
+		sTableHeaderName = "idtable_" & msTableName & "header"
+		sTableBodyName = "idtable_" & msTableName & "body"
+		 
+		err.clear		
+		
+		bRowSelected = false
+		set oTableBody = document.all.item(sTableBodyName)
+		for iRow = 0 to oTableBody.rows.length - 1 
+			set oInputNodes = oTableBody.rows(iRow).cells(0).getElementsByTagName("INPUT")
+			if oInputNodes.length > 0 then
+				if (oInputNodes.item(0).checked) then
+					bRowSelected = true
+					exit for
+				end if	
+			end if
+		next
+		if not bRowSelected then
+			call jsMessageBox(res_NoSelectedRecords, 0, 4, res_Error)
+			exit function
+		end if
+
+
+		set oExcel = CreateObject("Excel.Application")
+		if err.number <> 0 then
+			call jsMessageBox(res_FailToCreateObject, 0, 4, res_Error)
+			err.clear
+			exit function
+		end if
+		
+		oExcel.Visible = true
+		call oExcel.Workbooks.Add()
+		set oSheet = oExcel.Workbooks(1).Worksheets("Sheet1")
+		call oSheet.Activate()
+		iRowCount = 0
+
+		set oTableHeader = document.all.item(sTableHeaderName)
+		for iRow = 0 to oTableHeader.rows.length-1 
+			iRowCount = iRowCount + 1 
+			iColCount = 0
+			for iCol = 1 to oTableHeader.rows(iRow).cells.length - 1
+				set oCell = oTableHeader.rows(iRow).cells(iCol)
+				if not isNull(oCell.style.display) then
+					if not (ucase(oCell.style.display) = "NONE") then
+						iColCount = iColCount + 1 
+						oSheet.cells(iRowCount,iColCount) = oCell.innerText
+					end if
+				else
+					iColCount = iColCount + 1 
+					oSheet.cells(iRowCount,iColCount) = oCell.innerText					
+				end if	
+			next
+		next 
+
+		set oTableBody = document.all.item(sTableBodyName)
+		for iRow = 0 to oTableBody.rows.length - 1 
+			set oInputNodes = oTableBody.rows(iRow).cells(0).getElementsByTagName("INPUT")
+			if oInputNodes.length > 0 then
+				if (oInputNodes.item(0).checked) then
+					iRowCount=iRowCount + 1
+					iColCount = 0
+					for iCol = 1 to oTableBody.rows(iRow).cells.length -1
+						set oCell = oTableBody.rows(iRow).cells(iCol)
+						if not isNull(oCell.style.display) then
+							if not (ucase(oCell.style.display) = "NONE") then
+								iColCount = iColCount + 1
+								oSheet.cells(iRowCount,iColCount).NumberFormat="@"
+								oSheet.cells(iRowCount,iColCount) = oCell.innerText
+							end if
+						else
+							iColCount = iColCount + 1
+							oSheet.cells(iRowCount,iColCount).NumberFormat="@"
+							oSheet.cells(iRowCount,iColCount) = oCell.innerText
+						end if	
+					next
+				end if	
+			end if
+		next
+
+		if err.number <> 0 then
+			call jsMessageBox(res_FailToExport, 0, 4, res_Error)
+			err.clear
+			set oExcel = nothing
+			exit function		
+		end if
+
+		if err.number <> 0 then
+			call jsMessageBox(jsReplace(res_FailToSaveFile, "~1",sPathName), 0, 4, res_Error)				
+			oExcel.ActiveWorkBook.Close(false)
+			oExcel.Quit()
+			err.clear
+			set oExcel = nothing
+			exit function
+		end if
+			
+		set oExcel = nothing
+
+	end function	
+		
+	Private Sub vbXmlPreProcess(poXml)
+		Dim oDateColOrdinals
+		Dim oDateColOrdinal
+		Dim oDateCells
+		Dim oDateCell
+		Dim sLocPath
+		Dim sConCat
+		
+		sLocPath = ""
+		sConCat = ""
+		Call poXml.setProperty("SelectionLanguage", "XPath")
+		Set oDateColOrdinals = poXml.selectNodes("//columnDefinition[columnType='dateTime']/columnOrdinal")
+		Set oDateColOrdinal = oDateColOrdinals.nextNode()
+		Do While Not oDateColOrdinal Is Nothing
+			sLocPath = sLocPath & sConCat & "position()=" & oDateColOrdinal.text
+			sConCat = " or "
+			Set oDateColOrdinal = oDateColOrdinals.nextNode()
+		Loop
+		
+		If sLocPath & "" <> "" Then
+			Set oDateCells = poXml.selectNodes("//row/*[" & sLocPath & "]")
+			Set oDateCell = oDateCells.nextNode()
+			Do While Not oDateCell Is Nothing
+				oDateCell.text = window.jsConvertUniversalFormatToLocalFormat(oDateCell.text, true)
+				Set oDateCell = oDateCells.nextNode()
+			Loop
+		End If
+	End Sub
+	

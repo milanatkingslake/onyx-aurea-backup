@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="755" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Retrieving and filtering publishable data</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>Retrieving and filtering publishable data </h4>
+        <p>When you create a publishable object, you must specify an object method 
+ with which to retrieve the domain data from the underlying OEAS business 
+ object. In most cases, objects have a retrieveCollection that you can 
+ use for this purpose. However, when an object does not have an appropriate 
+ retrieveCollection method, you can use the extract method of the publishableObject 
+ business object. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">You specify the object method with which to retrieve the 
+ domain data using Subscription Designer, as described in the <span style="font-style: italic;">OEAS 
+ Administrator’s Reference</span>.</p>
+        <p>Whether you use a domain object’s retrieveCollection method or the publishableObject’s 
+ extract method depends on what if any filtering you want performed on 
+ the returned domain data. </p>
+        <p><b class="Bold" style="font-weight: bold;">Standard filtering:</b> You can filter 
+ the domain data of a publishable object by applying a filter to the method 
+ call that retrieves the domain data from OEAS (the retrieveCollection 
+ method call). You can provide filter criteria for any of the properties 
+ of the method’s input XML. </p>
+        <p><b class="Bold" style="font-weight: bold;">Advanced filtering:</b> When an object 
+ does not have a retrieveCollection method, or when the retrieveCollection 
+ method does not support the filtering you need (for example, data from 
+ a specific date range), you can use the publishableObject’s extract method 
+ to filter the domain data. The extract method input XML accepts a view 
+ name, and from that view returns the filtered data as XML (similar to 
+ the standard retrieveCollection). </p>
+        <p>Specifically, the extract method calls wbospspPublishableObjectExtract, 
+ which performs a “<span class="code">SELECT * FROM [viewName]_DP_VIEW</span>” 
+ and returns the results. The result set returned consists of a column 
+ for each column in the view, which is then transformed into a retrieveCollection-like 
+ XML format. </p>
+        <p>The views themselves are created specifically for domain data publishing. 
+ Their purpose is to emulate the object collection structure in the client-side 
+ file that is used for domain data. The column aliases of the view are 
+ used as element names in the collection. The naming convention for these 
+ views is as follows: lboName_DP_VIEW. The “DP” stands for domain data 
+ publishing. This suffix is added in the stored procedure as a security 
+ precaution. Should a user gain access to the extract() method, he could 
+ not obtain data from any of the database views other than the domain data 
+ view. </p>
+        <p>The following domain data publishing views are created with the default 
+ installation of OEP-Offline to support the publishable objects provided 
+ with that installation.</p>
+        <p class="Image">
+            <img src="../../Resources/Images/AR_CA_Skeleton_Features_SQLa58.jpg" style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">The default “DP” views on tables with a tiRecordStatus column 
+ (e.g the “active” property) only return tiRecordStatus=1 (active) rows 
+ because inactive rows are not needed by OEP-Offline. Some tables do not 
+ have a tiRecordSatus column, in which case all rows are considered active 
+ and are returned.</p>
+    </body>
+</html>

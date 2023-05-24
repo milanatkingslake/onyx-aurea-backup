@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="856" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h4><a name="top"></a>Add ActionType Attribute</h4>
+        <p>In collections objects like address, emailAddress, or phones, an action is sent as “saveCollection”. This could also be a customized action name from the LBO adapter. To update the action type, change the action name in “ oldValueLBO” and newValueLbo and select “update”.</p>
+        <p>The out-of-the-box action to Add an Action Type is:</p>
+        <p><code>&lt;action id="2" name="Add ActionType Attribute" interface="Onyx.ONS.AdapterExtension.Base.ICollectionObject" &gt;</code>
+        </p>
+        <h4>Filtering Actions</h4>
+        <p>Along with the pre-process actions, the Onyx application provides the following filtering actions:</p>
+        <ul>
+            <li><a href="#Discard">Discard Empty Data Event</a>
+            </li>
+            <li><a href="#Discard2">Discard Invalid Event</a>
+            </li>
+        </ul>
+        <ul style="list-style-type: circle;">
+            <li class="List_Indent"><a href="#Ignore">Ignore</a>
+            </li>
+        </ul>
+        <ul style="list-style-type: circle;">
+            <li class="List_Indent"><a href="ignoreWithCondition.htm#top">ignoreWithCondition</a>
+            </li>
+        </ul>
+        <h4><a name="Discard"></a>Discard Empty Data Event</h4>
+        <p>NewData and OldData nodes may contain only object names. For example, if only individual details (email id of the individual) is updated without an address in the record, then the address object will be reflected as empty data.</p>
+        <p>The out-of-the-box action to discard empty data is:</p>
+        <p><code>&lt;action id="3" name="Discard Empty Data Event" interface="Onyx.ONS.AdapterExtension.Base.IEmptyEvent" /&gt;</code>
+        </p>
+        <h4><a name="Discard2"></a>Discard Invalid Event</h4>
+        <p>Only certain entities in an object like firstname, salutation etc., can be removed from an object.</p>
+        <p>The out-of-the-box action to discard an Invalid Event is:</p>
+        <p><code>&lt;action id="4" name="Discard Invalid Event" interface="Onyx.ONS.AdapterExtension.Base.IInvalidEvent" &gt;</code>
+        </p>
+        <p><code>&lt;ignore&gt;</code>
+        </p>
+        <p><code>&lt;updateBy /&gt;</code>
+        </p>
+        <p><code>&lt;updateDate /&gt;</code>
+        </p>
+        <p><code>&lt;onyxTimestamp /&gt;</code>
+        </p>
+        <p><code>&lt;/ignore&gt;</code>
+        </p>
+        <p><code>&lt;ignoreWithCondition&gt;</code>
+        </p>
+        <p><code>&lt;conditions&gt;</code>
+        </p>
+        <p><code>&lt;primary newValueSql="True" newValueLbo="1" /&gt;</code>
+        </p>
+        <p><code>&lt;/conditions&gt;</code>
+        </p>
+        <p><code>&lt;ignore&gt;</code>
+        </p>
+        <p><code>&lt;firstName /&gt;</code>
+        </p>
+        <p><code>&lt;middleName/&gt;</code>
+        </p>
+        <p><code>&lt;lastName/&gt;</code>
+        </p>
+        <p><code>&lt;salutation/&gt;</code>
+        </p>
+        <p><code>&lt;suffix /&gt;</code>
+        </p>
+        <p><code>&lt;companyName/&gt;</code>
+        </p>
+        <p><code>&lt;/ignore&gt;</code>
+        </p>
+        <p><code>&lt;/ignoreWithCondition&gt;</code>
+        </p>
+        <p><code>&lt;ignoreWithCondition&gt;</code>
+        </p>
+        <p><code>&lt;conditions&gt;</code>
+        </p>
+        <p><code>&lt;deleteStatus newValueSql="2" newValueLbo="2" /&gt;</code>
+        </p>
+        <p><code>&lt;/conditions&gt;</code>
+        </p>
+        <p><code>&lt;ignore&gt;</code>
+        </p>
+        <p><code>&lt;deleteStatus /&gt;</code>
+        </p>
+        <p><code>&lt;/ignore&gt;</code>
+        </p>
+        <p><code>&lt;/ignoreWithCondition&gt;</code>
+        </p>
+        <p><code>&lt;ignoreWithCondition&gt;</code>
+        </p>
+        <p><code>&lt;conditions&gt;</code>
+        </p>
+        <p><code>&lt;primary oldValueSql="True" newValueSql="False" oldValueLbo="1" newValueLbo="0"/&gt;</code>
+        </p>
+        <p><code>&lt;/conditions&gt;</code>
+        </p>
+        <p><code>&lt;ignore&gt;</code>
+        </p>
+        <p><code>&lt;primary /&gt;</code>
+        </p>
+        <p><code>&lt;/ignore&gt;</code>
+        </p>
+        <p><code>&lt;/ignoreWithCondition&gt;</code>
+        </p>
+        <p><code>&lt;/action&gt;</code>
+        </p>
+        <p style="page-break-before: always;">The Discard Invalid Event is divided into:</p>
+        <h4><a name="Ignore"></a>Ignore</h4>
+        <p>This action will ignore all child nodes. For example, a change in the event “updateDate” inside an ignore node, will not be updated as the system will ignore the event.</p>
+        <p>The out-of-the-box action looks for Ignore is:</p>
+        <p><code>&lt;ignore&gt;</code>
+        </p>
+        <p><code>&lt;updateBy /&gt;</code>
+        </p>
+        <p><code>&lt;updateDate /&gt;</code>
+        </p>
+        <p><code>&lt;onyxTimestamp /&gt;</code>
+        </p>
+        <p><code>&lt;/ignore&gt;</code>
+        </p>
+    </body>
+</html>

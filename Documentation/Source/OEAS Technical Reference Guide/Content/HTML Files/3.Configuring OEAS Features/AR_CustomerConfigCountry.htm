@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="793" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Configuring country data</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>Configuring country data </h3>
+        <p>Country data is used by the Customers feature for both the address object 
+ and the region object. Countries appear to end users in a list on the 
+ <span class="UIElement" style="font-weight: bold;">Company</span> and <span class="UIElement" style="font-weight: bold;">Individual</span> 
+ forms, and when the end users select a country to associate with a customer, 
+ the country they select determines the list of regions that they can also 
+ associate with the customer. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Country domain data is also used by the Literature Orders 
+ feature. For more information regarding this feature, see <a href="../2.OEAS Features/AR_CA_LiteratureLitOrders.htm">Literature 
+ Orders</a>.</p>
+        <p>The country domain data is installed by default during 
+ installation of the OEDB, and includes the following information for each 
+ country: </p>
+        <ul>
+            <li>The country name</li>
+            <li>A country code that is used as part of the unique 
+ identification for each country</li>
+            <li>A phone mask for each country</li>
+            <li>A zip (post) code map for each country</li>
+        </ul>
+        <p>Using the Country table in Table Administration, you 
+ can administer the country domain data&#160;by: </p>
+        <ul>
+            <li>Creating new countries</li>
+            <li>Modifying existing countries</li>
+            <li>Setting a country to active or inactive</li>
+            <li>Deleting a country</li>
+        </ul>
+        <p>See <i>Table Administration Help</i> 
+ for further details. </p>
+        <p>The following table lists the editable fields displayed in Table Administration. </p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Element </th>
+                    <th>Description </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">countryCode (required) </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Not editable, once it has been created, as 
+ it is a primary key field. A unique code assigned to each country. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">countryName (required) </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">The name of each country that corresponds to 
+ the two-letter country code. All names entered at installation are standard 
+ but you can make changes to these names as necessary. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">phoneMask </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">The phone mask used for each country. When 
+ you insert the country’s telephone code here it then appears in the phone 
+ mask for all customers from that country. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">postCodeMask </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">The postcode mask used for each country, which 
+ also appears in the <span class="UIElement" style="font-weight: bold;">Post Code</span> list on the customer page whenever a particular 
+ country is selected. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">addressFormat </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">The specific address format required for mailings 
+ sent to the country. If no address format is known, you can leave this 
+ property NULL. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">active (required) </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">Specifies whether the country data is active 
+ or inactive: 1 is active, 0 is inactive. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>In the Country table, you can create field masks for phone_mask and 
+ post_code_mask. See <i>Masking</i> for further 
+ information. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">There is no support for the Region table in Table Administration. 
+ This table must be accessed and maintained through a query tool such as 
+ Microsoft SQL Query Analyzer.</p>
+    </body>
+</html>

@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="1994" MadCap:lastWidth="743" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Print templates (OPS)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h1>
+            <MadCap:keyword term="Word_Template_Guidelines" />
+            <MadCap:keyword term="print templates" />
+            <MadCap:keyword term="templates" />Print templates</h1>
+        <p>To write custom print templates, you must already be familiar with how 
+ to create and edit Word documents. In particular, you should be familiar 
+ with the idea of merging data with boilerplate content. The basic idea 
+ is that you create MergeFields to replace them with the actual data from the print engine XML. To achieve this, a .NET component called GemBox.Document is used. </p>
+        <p>Knowledge on MailMerge and orderBatch XML is must. You can find the XML file at <code>..\Program Files (x86)\Onyx\ProcessingServer \Document Templates</code>  on the OPS server.</p>
+        <h3>Mail Merge</h3>
+        <p>Mail merge enables merging or importing data from a .NET object, also known as data source, to a DocumentModel instance, also known as template document.</p>
+        <p>Binding between data source and template document is provided by the <code>Field </code>class. The <code>FieldType</code> property of this class is <code>MergeField</code>  and the <code>GetInstructionText()</code> method of th e<code>Field </code> returns text that refers to the name of the property or column in data source. In mail merge process, an instance of the <code>Field </code>class is replaced by the actual data returned from the data source for the given property or column name. For more information about mail merge functionality, refer to <a href="http://www.gemboxsoftware.com/Document/help/html/Mail_Merge.htm">http://www.gemboxsoftware.com/Document/help/html/Mail_Merge.htm</a>.</p>
+        <h3>Creating mail merge field in documents</h3>
+        <p>You can a mail merge document by using one of the below listed methods:</p>
+        <ol>
+            <li>Using MS Office GUI</li>
+            <li>Without using the GUI</li>
+        </ol>
+        <h4>To perform mail merge by using MS Office GUI</h4>
+        <ol style="list-style-type: decimal;margin-left: 36pt;" start="1">
+            <li>Open the document in MS Word. </li>
+            <li>On&#160;the Menu Bar, click the <b>Insert</b> tab, click <b>Quick Parts</b>, and then click <b>Field</b>.</li>
+        </ol>
+        <li>
+            <img src="../../Resources/Images/Mail_Merge_Insert.png" style="width: 741px;height: 154px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </li>
+        <ol style="list-style-type: decimal;margin-left: 36pt;" start="1" MadCap:continue="true">
+            <li>In the <b>Field</b> from the <b>Field names</b> list, select the MergeField list item.</li>
+            <li>Fill the <b>Field name</b> field with a name same as one of the fields/column name from data source.</li>
+            <li>Optionally, select the required format from the <b>Format</b> list.</li>
+            <li>Click <b>OK</b>.</li>
+        </ol>
+        <h4>To Perform mail merge without using GUI</h4>
+        <ol style="list-style-type: decimal;margin-left: 36pt;" start="1">
+            <li>Open a document in MS Word. </li>
+            <li>Press ctrl+F9</li>
+            <li>Type the merge field name within the { }. For example, if TestField is the merge field, then type <code>MERGEFIELD&#160; TestField&#160; \* MERGEFORMAT</code> within the curly braces.</li>
+        </ol>
+        <p class="Image_1">
+            <img src="../../Resources/Images/MailMerger_F9.png" style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <p>&#160;Merge Field appears as <code>{ MERGEFIELD&#160; TestField&#160; \* MERGEFORMAT&#160; }</code> or as <code>&lt;&lt; TestField &gt;&gt;</code>. <code>“&#160; \* MERGEFORMAT ”</code>&#160; in the earlier syntax is used for formatting the associated merge filed.To toggle between MergeField views <code>{ MERGEFIELD&#160; TestField&#160; \* MERGEFORMAT&#160; }</code> or <code>&lt;&lt; TestField &gt;&gt;</code>, use the combination of keys&#160; Alt+F9.</p>
+        <p class="BodyText" MadCap:conditions="Default.Obsolete">The convention used to identify locations in the template where data 
+ is to be inserted is the most important concept. Onyx sample print templates 
+ use the keyword <a href="ops_Using_sample_print_templates.htm#opsDataPath"><MadCap:keyword term="OPS" />opsDataPath</a> 
+ to identify data insertion locations. The data-insertion point has the 
+ following general format.</p>
+        <ul>
+            <li class="ListBullet_1" MadCap:conditions="Default.Obsolete">opsDataPath={<span style="font-style: italic;">data 
+ item name</span>}</li>
+        </ul>
+        <p class="BodyText" MadCap:conditions="Default.Obsolete">The names in italics, contained within the braces {}, indicate specific 
+ data items that you want to have inserted into the template. If you are 
+ writing a custom print template, you can use the Onyx convention or one 
+ of your own choosing.</p>
+        <h3 class="ElementHeader" MadCap:conditions="Default.Obsolete"><a name="Word_Template_Guidelines"></a>Authoring Guidelines</h3>
+        <p class="BodyText" MadCap:conditions="Default.Obsolete"><span style="font-style: normal;font-weight: normal;">The following 
+ guidelines are recommendations for writing your own Print templates:</span>
+        </p>
+        <ul>
+            <li class="ListBullet_1" MadCap:conditions="Default.Obsolete">The 
+ OPSProcessDocument method is called in the context of a Windows Service 
+ process. Do not attempt to perform any operations, or output any data, 
+ that requires a user interface.</li>
+            <li class="ListBullet_1" MadCap:conditions="Default.Obsolete">Onyx recommends you not implement error handling 
+ in this subroutine. The calling component, OnyxPSPrintEngine, already 
+ implements error handling and logging. If you let errors propagate back 
+ to the calling component, it will handle and log the errors appropriately. 
+ Return status to 
+ the print engine through the <span style="font-style: italic;font-weight: normal;">sStatus</span> parameter.</li>
+            <li class="ListBullet_1" MadCap:conditions="Default.Obsolete">All 
+ OPS template files used by the OPS Print Engine must be set as read-only 
+ when you deploy it to the OSP server. Making the file read-only is important 
+ for the following reasons:</li>
+        </ul>
+        <ul style="list-style-type: circle;">
+            <li class="ListBullet_2" MadCap:conditions="Default.Obsolete">Setting 
+ the template read-only reduces the possibility that the file can be opened 
+ by an adminstrator, changes made, and the file inadvertently written back 
+ to the file system.</li>
+            <li class="ListBullet_2" MadCap:conditions="Default.Obsolete">Setting 
+ the template read-only eliminates the possiblity of locking the file. 
+ If the Print Engine tries to open a locked file, it will hang.</li>
+        </ul>
+        <ul>
+            <li class="ListBullet_1" MadCap:conditions="Default.Obsolete">Be 
+ sure to use the Microsoft XML v4.0 parser. 
+ OPS requires this version of the MS XML parser. 
+ When you develop Print templates on a computer other than the one that 
+ OPS was installed on, you must assure that you have installed the Microsoft 
+ XML v4.0 component on that computer.</li>
+            <li class="ListBullet_1" MadCap:conditions="Default.Obsolete">Related to the 
+ previous guideline, check the Print template references to assure that 
+ all required references are satisfied. To check the references, follow 
+ the steps described in the <a href="ops_Custom_Word_Document_Templates.htm">following 
+ example</a> to bring up the template's References dialog box.<p class="BodyText" MadCap:conditions="Default.Obsolete">If any of the references in the list indicate "MISSING", 
+ then a required component is not present on your computer and it must 
+ be installed.</p></li>
+        </ul>
+        <MadCap:snippetBlock src="../../Resources/Snippets/What would you like to do.flsnp" MadCap:conditions="Default.Obsolete" />
+        <ul>
+            <li class="ListBullet_1" MadCap:conditions="Default.Obsolete"><a href="ops_Using_sample_print_templates.htm">Learn about sample print templates</a>
+            </li>
+            <li class="ListBullet_1" MadCap:conditions="Default.Obsolete"><a href="ops_Custom_Word_Document_Templates.htm">Create a custom print template</a>
+            </li>
+            <li class="ListBullet_1" MadCap:conditions="Default.Obsolete"><a href="ops_Debugging_Word_Document_Templates.htm">Test print templates</a>
+            </li>
+        </ul>
+    </body>
+</html>

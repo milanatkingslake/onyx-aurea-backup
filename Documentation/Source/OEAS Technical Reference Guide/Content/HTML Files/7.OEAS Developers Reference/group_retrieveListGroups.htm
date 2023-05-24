@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="3036" MadCap:lastWidth="1070" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>retrieveListGroups (group)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="retrieveListGroups" />retrieveListGroups method</h2>
+        <p>The retrieveListGroups method of the <a href="group_Object.htm">group</a> 
+ object returns information about groups owned by the specified parent 
+ group.</p>
+        <p><a href="standard_retrieveList.htm">retrieveList standard method information</a>
+        </p>
+        <h3>Parameters</h3>
+        <table wrapperparagraphselector="P" style="width: 100%;margin-top: 14pt;border-spacing: 0px;border-spacing: 0px;" width="100%">
+            <col />
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Data type</th>
+                    <th>Direction</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">parentGroupId</td>
+                    <td style="width: 13%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="13%">string</td>
+                    <td style="width: 12%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="12%">in</td>
+                    <td style="width: 45%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="45%">A group that owns other groups.</td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">active</td>
+                    <td style="width: 13%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="13%">i4</td>
+                    <td style="width: 12%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="12%">in</td>
+                    <td style="width: 45%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="45%"><span style="color: #000000;">An integer that specifies 
+ whether to return active groups or inactive groups. If the active element 
+ of the input parameters XML is empty, NULL, or not present, all groups 
+ are returned, active and inactive. When active contains 1, all active 
+ groups are returned. If the element contains 0, inactive groups are returned. 
+ If active contains an invalid value, such as 2, the method succeeds, but 
+ no groups are returned.</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">rowSet</td>
+                    <td style="width: 13%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="13%">object</td>
+                    <td style="width: 12%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="12%">out</td>
+                    <td style="width: 45%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="45%">Row set of group information.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Columns returned in the rowSet object
+        </p>
+        <table>
+            <col style="width: 5cm;" />
+            <col style="width: 5cm;" />
+            <col style="width: 7cm;" />
+            <thead>
+                <tr>
+                    <th>columnOrdinal</th>
+                    <th>columnName</th>
+                    <th>Physical column</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>chGroupId</td>
+                    <td>user_group_ml_view.group_code</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>chGroupDesc</td>
+                    <td>user_group_ml_view.group_desc</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>tiRecordStatus</td>
+                    <td>user_group_ml_view.record_status</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Steps</h3>
+        <table>
+            <col style="width: 5cm;" />
+            <col style="width: 5cm;" />
+            <col style="width: 7cm;" />
+            <thead>
+                <tr>
+                    <th>Step data</th>
+                    <th>Step type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>OnyxDataValidationStep.DataValidation</td>
+                    <td>com</td>
+                    <td>Validates input parameters</td>
+                </tr>
+                <tr>
+                    <td>OnyxDM.DataManager</td>
+                    <td>com</td>
+                    <td>Retrieves a rowSet object listing groups 
+ owned by the specified parent groupId</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Remarks</h3>
+        <p>The retrieveListGroups search is case sensitive.</p>
+        <h3>Example</h3>
+        <p>Parameters
+        </p>
+        <p Class="Code" class="C_Code">&lt;parameters&gt;</p>
+        <p Class="Code" class="C_Code">&lt;parentGroupId&gt;direct_sal&lt;/parentGroupId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;active&gt;1&lt;/active&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/parameters&gt;</p>
+        <p>parametersReturn
+        </p>
+        <p Class="Code" class="C_Code">&lt;parametersReturn&gt;</p>
+        <p Class="Code" class="C_Code">&lt;rowSet objectType="rowSet" rowCount="11" columnCount="3" pageSize=""&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinitions collection="1" objectType="columnDefinition"&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Group Id&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;chGroupId&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;1&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;8&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;85&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Description&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;chGroupDesc&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;2&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Active&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;tiRecordStatus&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;3&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;24&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;2&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;boolean&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinitions&gt;</p>
+        <p Class="Code" class="C_Code">&lt;rows collection="1" objectType="row"&gt;</p>
+        <p Class="Code" class="C_Code">&lt;row&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c0&gt;DIRECT_F11&lt;/c0&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c1&gt;RJD Room&lt;/c1&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c2&gt;1&lt;/c2&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/row&gt;</p>
+        <p Class="Code" class="C_Code">&lt;row&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c0&gt;DIRECT_F13&lt;/c0&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c1&gt;Columbia - Sales&lt;/c1&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c2&gt;1&lt;/c2&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/row&gt;</p>
+        <p Class="Code" class="C_Code">&lt;row&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c0&gt;DIRECT_F14&lt;/c0&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c1&gt;Columbia - MOS&lt;/c1&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c2&gt;1&lt;/c2&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/row&gt;</p>
+        <p Class="Code" class="C_Code">&lt;row&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c0&gt;DIRECT_F2&lt;/c0&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c1&gt;ARB Room&lt;/c1&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c2&gt;1&lt;/c2&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/row&gt;</p>
+        <p Class="Code" class="C_Code">&lt;row&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c0&gt;DIRECT_F3&lt;/c0&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c1&gt;JCP Room&lt;/c1&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c2&gt;1&lt;/c2&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/row&gt;</p>
+        <p Class="Code" class="C_Code">&lt;row&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c0&gt;DIRECT_F4&lt;/c0&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c1&gt;RJK Room&lt;/c1&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c2&gt;1&lt;/c2&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/row&gt;</p>
+        <p Class="Code" class="C_Code">&lt;row&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c0&gt;DIRECT_F5&lt;/c0&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c1&gt;TWL Room&lt;/c1&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c2&gt;1&lt;/c2&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/row&gt;</p>
+        <p Class="Code" class="C_Code">&lt;row&gt;</p>
+        <p Class="Code" class="code">&lt;c0&gt;DIRECT_F6&lt;/c0&gt;</p>
+        <p Class="Code" class="code">&lt;c1&gt;RSR Room&lt;/c1&gt;</p>
+        <p Class="Code" class="code">&lt;c2&gt;1&lt;/c2&gt;</p>
+        <p Class="Code" class="code">&lt;/row&gt;</p>
+        <p Class="Code" class="code">&lt;row&gt;</p>
+        <p Class="Code" class="code">&lt;c0&gt;DIRECT_F7&lt;/c0&gt;</p>
+        <p Class="Code" class="code">&lt;c1&gt;RJG Room&lt;/c1&gt;</p>
+        <p Class="Code" class="code">&lt;c2&gt;1&lt;/c2&gt;</p>
+        <p Class="Code" class="code">&lt;/row&gt;</p>
+        <p Class="Code" class="code">&lt;row&gt;</p>
+        <p Class="Code" class="code">&lt;c0&gt;DIRECT_F8&lt;/c0&gt;</p>
+        <p Class="Code" class="code">&lt;c1&gt;LJP Room&lt;/c1&gt;</p>
+        <p Class="Code" class="code">&lt;c2&gt;1&lt;/c2&gt;</p>
+        <p Class="Code" class="code">&lt;/row&gt;</p>
+        <p Class="Code" class="code">&lt;row&gt;</p>
+        <p Class="Code" class="code">&lt;c0&gt;DIRECT_F9&lt;/c0&gt;</p>
+        <p Class="Code" class="code">&lt;c1&gt;CMS Room&lt;/c1&gt;</p>
+        <p Class="Code" class="code">&lt;c2&gt;1&lt;/c2&gt;</p>
+        <p Class="Code" class="code">&lt;/row&gt;</p>
+        <p Class="Code" class="code">&lt;/rows&gt;</p>
+        <p Class="Code" class="code">&lt;/rowSet&gt;</p>
+        <p Class="Code" class="code">&lt;/parametersReturn&gt;</p>
+    </body>
+</html>

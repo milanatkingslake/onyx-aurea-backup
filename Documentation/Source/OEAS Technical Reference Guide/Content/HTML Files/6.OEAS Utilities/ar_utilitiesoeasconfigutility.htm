@@ -1,0 +1,226 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:id="content" MadCap:comment="content" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:fileTags="RoboHelpStatus.In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="786" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" /><title>OEAS Configuration Utility</title>
+    </head>
+    <body>
+        <h1>OEAS Configuration Utility </h1>
+        <p>The OEAS Configuration Utility is a program with which you can change 
+ the following settings without having to run the Onyx Configure Enterprise 
+ Application Server Setup: </p>
+        <ul>
+            <li>OES SQL account information (SQL account name 
+ and password)</li>
+            <li>SQL Server name</li>
+            <li>OEDB name</li>
+            <li>Connection timeout</li>
+            <li>Query timeout</li>
+            <li>Maximum number of rows returned by most queries</li>
+            <li>Event log settings specifying the level of detail 
+ logged to the Windows Event Viewer</li>
+            <li>SMTP email protocol settings</li>
+        </ul>
+        <p>The Onyx Configure Enterprise Application Server Setup program overwrites 
+ these values with default values or with values that you supply as you 
+ run the program. After running the Onyx Configure Enterprise Application 
+ Server Setup, you can change the values by running the OEAS Configuration 
+ Utility. </p>
+        <p>The following procedures explain how to use the OEAS Configuration Utility. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">To install and use the OEAS Configuration Utility, you must 
+ be logged on to the OEAS server with an account that has local administrative 
+ privileges. </p>
+        <p>Several of the following procedures instruct you to stop the System 
+ Application COM+ application, if the server™s operating system is a member 
+ of the Windows 2000 family of servers. Stopping System Application interrupts 
+ any work that is occurring within other COM+ applications. Stopping OnyxEASApp 
+ stops any work that is occurring in the OEAS components and flushes the 
+ caches. </p>
+        <p class="ProcedureHeading">To install the OEAS Configuration Utility: </p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li>On the OEAS product CD, open the <span class="UIElement" style="font-weight: bold;">Utilities</span> 
+ folder.</li>
+            <li>Copy the <span class="UIElement" style="font-weight: bold;">OEASConfig</span> 
+ folder to a suitable location on the OEAS server.</li>
+        </ol>
+        <p class="Indent1">The OEAS Configuration Utility is ready to use. </p>
+        <h4>Application data</h4>
+        <p class="ProcedureHeading">To reconfigure an OEAS logical application with the OEAS Configuration 
+ Utility: </p>
+        <ol>
+            <li>In Windows Explorer, navigate to the directory 
+ where you copied the OEAS Configuration Utility files and double-click 
+ <span class="UIElement" style="font-weight: bold;">OEASConfigTool.exe</span>. The <span class="UIElement" style="font-weight: bold;">OEAS 
+ Configuration Utility </span>window appears. </li>
+            <li>In the <span class="UIElement" style="font-weight: bold;">Application Name</span> 
+ box, click the down arrow and then the name of the OEAS logical application 
+ for which you want to change configuration data.</li>
+        </ol>
+        <p class="Indent1">The current application configuration information 
+ appears in the rest of the boxes. </p>
+        <ol MadCap:continue="true">
+            <li>Change the application configuration as desired, 
+ and then click <b class="Bold">Save Changes</b>:</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">The <span class="UIElement" style="font-weight: bold;">Database Server 
+ Name</span>, <span class="UIElement" style="font-weight: bold;">Database Name</span>, <span class="UIElement" style="font-weight: bold;">Database 
+ Server User ID</span>, and <span class="UIElement" style="font-weight: bold;">Database Server Password</span> 
+ boxes contain database-connection information that you specified in the 
+ setup in which you created this OEAS logical application. The database 
+ server user ID is the SQL Server SA user; the database server password 
+ is the SQL Server SA user password.</li>
+            <li class="List_Indent">The <span class="UIElement" style="font-weight: bold;">Connection Timeout</span> 
+ value specifies how many seconds can pass without OEDB server access before 
+ the connection is dropped.</li>
+            <li class="List_Indent">The <span class="UIElement" style="font-weight: bold;">Query Timeout</span> 
+ value specifies how many seconds can pass without a query being completed 
+ before the query is dropped.</li>
+            <li class="List_Indent">The <span class="UIElement" style="font-weight: bold;">Max Rows</span> 
+ value specifies the maximum number of rows that can be returned on a query.</li>
+            <li class="List_Indent">The <span class="UIElement" style="font-weight: bold;">OBPM Organization 
+ ID</span> identifes an organization available on an Onyx Process Manager 
+ system.</li>
+        </ul>
+        <ol start="4" style="list-style: decimal;list-style-type: decimal;">
+            <li>To save your changes, click <span class="UIElement" style="font-weight: bold;">Save 
+ Changes</span>.</li>
+            <li>To close the utility, click <span class="UIElement" style="font-weight: bold;">Exit</span>.</li>
+            <li>To make your changes take effect, do one of the 
+ following, depending on whether the OEAS server™s operating system is 
+ Windows 2000 or Windows 2003:</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">If Windows 2000: Shut down and then restart 
+ the COM+ applications OnyxEASApp and System Application.</li>
+            <li class="List_Indent">If Windows 2003: Shut down and then restart 
+ the COM+ applications OnyxEASApp, and then restart the server.</li>
+        </ul>
+        <h4>Event-logging</h4>
+        <p>Using the OEAS Configuration Utility, you can specify event-logging 
+ settings for the logical application. </p>
+        <p>There are four levels of logging detail that you can specify for any 
+ Onyx user that has been created using Security Administration: </p>
+        <ul>
+            <li>1: run-time errors</li>
+            <li>3: run-time errors and warnings</li>
+            <li>5: run-time errors, warnings, and tracing statements</li>
+            <li>7: all logging messages</li>
+        </ul>
+        <p>Click the <span class="UIElement" style="font-weight: bold;">Logging Data </span>tab, the Onyx user 
+ is represented by a <em class="Emphasis">key</em>, which is the ID of an 
+ Onyx user that you have created in Security Administration. The setting 
+ assigned to the GlobalLogSettings key, which appears by default in the 
+ <span class="UIElement" style="font-weight: bold;">KeyList</span> box, applies to all users including 
+ those for whom you create a key a higher logging preference. </p>
+        <p>For additional details regarding the four levels of logging detail, 
+ see <i>What is Onyx logging?</i>. </p>
+        <p class="ProcedureHeading">To add an individual logging preference for a user: </p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li>To open the OEAS Configuration Utility, double-click 
+ <span class="UIElement" style="font-weight: bold;">OEASConfigTool.exe</span>.</li>
+            <li>Click the <span class="UIElement" style="font-weight: bold;">Logging Data </span>tab.</li>
+            <li>In the <span class="UIElement" style="font-weight: bold;">Key</span> box, type 
+ the ID of an Onyx user.</li>
+            <li>In the <span class="UIElement" style="font-weight: bold;">Value</span> box, 
+ type either 1, 3, or 5, or 7 to set the logging preference.</li>
+            <li>Click <span class="UIElement" style="font-weight: bold;">Add Key</span>.</li>
+            <li>To save your changes, click <span class="UIElement" style="font-weight: bold;">Save 
+ Changes</span>.</li>
+            <li>To close the utility, click <span class="UIElement" style="font-weight: bold;">Exit</span>.</li>
+            <li>To make your changes take effect, do one of the 
+ following, depending on whether the OEAS server™s operating system is 
+ Windows 2000 or Windows 2003:</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">If Windows 2000: Shut down and then restart 
+ the COM+ applications OnyxEASApp and System Application.</li>
+            <li class="List_Indent">If Windows 2003: Shut down and then restart 
+ the COM+ applications OnyxEASApp, and then restart the server.</li>
+        </ul>
+        <p class="ProcedureHeading">To change the logging preference for a user: </p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li>To open the OEAS Configuration Utility, double-click 
+ <span class="UIElement" style="font-weight: bold;">OEASConfigTool.exe</span>.</li>
+            <li>Click the <span class="UIElement" style="font-weight: bold;">Logging Data </span>tab.</li>
+            <li>In the <b class="Bold">KeyList </b>box, double-click 
+ the user ID of the user that requires a different event log setting.</li>
+            <li>In the <span class="UIElement" style="font-weight: bold;">Value</span> box, 
+ change the logging preference setting.</li>
+            <li>To save your changes, click <span class="UIElement" style="font-weight: bold;">Save 
+ Changes</span>.</li>
+            <li>To close the utility, click <span class="UIElement" style="font-weight: bold;">Exit</span>.</li>
+            <li>To make your changes take effect, do one of the 
+ following, depending on whether the OEAS server™s operating system is 
+ Windows 2000 or Windows 2003:</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">If Windows 2000: Shut down and then restart 
+ the COM+ applications OnyxEASApp and System Application.</li>
+            <li class="List_Indent">If Windows 2003: Shut down and then restart 
+ the COM+ applications OnyxEASApp, and then restart the server.</li>
+        </ul>
+        <p class="ProcedureHeading">To remove individual logging preferences for a user: </p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li>To open the OEAS Configuration Utility, double-click 
+ <span class="UIElement" style="font-weight: bold;">OEASConfigTool.exe</span>.</li>
+            <li>Click the <span class="UIElement" style="font-weight: bold;">Logging Data </span>tab.</li>
+            <li>In the <b class="Bold">KeyList </b>box, double-click 
+ the user ID of the user that no longer requires an individual logging 
+ preference.</li>
+            <li>Click <span class="UIElement" style="font-weight: bold;">Remove Key</span>.</li>
+            <li>Click <b class="Bold">Save Changes</b> and then 
+ click <b class="Bold">Exit</b>.</li>
+        </ol>
+        <h4>Email send data</h4>
+        <p>Using the OEAS Configuration Utility, you can specify Email Send authentication 
+ settings for the logical application. </p>
+        <p class="ProcedureHeading">To change the Email Send authentication method: </p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li>To open the OEAS Configuration Utility, double-click 
+ <span class="UIElement" style="font-weight: bold;">OEASConfigTool.exe</span>.</li>
+            <li>Click the <span class="UIElement" style="font-weight: bold;">Email Send Data 
+ </span>tab.</li>
+            <li>From the Authentication Protocol drop-down list, 
+ select an authentication method.</li>
+        </ol>
+        <p class="Indent1">The configuration utility supports three 
+ protocols, Anonymous, Basic, and NTLM. As the name suggests, Anonymous 
+ attempts to log into the SMTP service without any credentials, as an anonymous 
+ user. Basic authentication sends a user name and password in clear text 
+ to the SMTP service. NTLM attempts to authenticate the COM+ identity that 
+ is running OnyxEASApp, the OEAS COM+ application.</p>
+        <p class="Indent1">When using Basic authentication, the utility 
+ presents Send User Name and Send User Password text boxes. Enter the authentication 
+ credentials for the user that you configured on the SMTP server for sending 
+ emails from the Email Send step component. Onyx provides <a href="ar_utilities_opsencrypt.htm">OPSEncrypt 
+ utility</a> to encrypt the user's password before entering in the password 
+ box. This ensures that the password is not stored in clear text anywhere.</p>
+        <ol start="4" style="list-style: decimal;list-style-type: decimal;">
+            <li>In the <span class="UIElement" style="font-weight: bold;">SMTP Port </span>box, 
+ type the port number on which the SMTP service listens. Typically this 
+ is port 25.</li>
+            <li>If your business requires it and the SMTP service 
+ supports it, select the Use SSL checkbox to ensure privacy of the authentication 
+ with cryptography.</li>
+        </ol>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Onyx does not support Transport Layer Security 
+ (TLS).</p>
+        <ol start="6" style="list-style: decimal;list-style-type: decimal;">
+            <li>If you do not want to keep changes you have made 
+ in this session, click the Restore Values button to revert to previously 
+ saved settings.</li>
+            <li>If you want to keep the changes you have made 
+ in this session, click the Save Changes button.</li>
+            <li>To close the utility, click <span class="UIElement" style="font-weight: bold;">Exit</span>.</li>
+            <li>To make your changes take effect, do one of the 
+ following, depending on whether the OEAS server™s operating system is 
+ Windows 2000 or Windows 2003:</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">If Windows 2000: Shut down and then restart 
+ the COM+ applications OnyxEASApp and System Application.</li>
+            <li class="List_Indent">If Windows 2003: Shut down and then restart 
+ the COM+ applications OnyxEASApp, and then restart the server.</li>
+        </ul>
+    </body>
+</html>

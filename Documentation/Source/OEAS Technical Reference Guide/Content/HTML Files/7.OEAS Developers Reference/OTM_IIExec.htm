@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="854" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Note_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>execute (IInternalTransactionManager)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>
+            <MadCap:keyword term="execute method" />
+            <MadCap:keyword term="execute" />Execute method</h5>
+        <p>The Execute method of the <a href="OTM_IntTM_Iface.htm"><MadCap:keyword term="IInternalTransactionManager" />IInternalTransactionManager 
+ interface</a> initiates a call to a business object method.</p>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Note_Table_1.css');width: 80%;" class="TableStyle-Aptean_Note_Table_1" cellspacing="2">
+            <col style="width: 0.7cm;" class="TableStyle-Aptean_Note_Table_1-Column-Column1" />
+            <col class="TableStyle-Aptean_Note_Table_1-Column-Column1" style="width: 15.50cm;" />
+            <tbody>
+                <tr class="TableStyle-Aptean_Note_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyB-Column1-Body1" style="text-align: right;">
+                        <p>
+                            <img src="../../Resources/Images/Common/imp_image.png" />
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText"><b>Important</b>: The DOM document that you pass to IInternalTransacationManager.Execute 
+ must be created as a FreeThreadedDOMDocument, and not as a regular (non-FreeThreaded) 
+ DOMDocument. Otherwise, the Execute method may fail unexpectedly.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Syntax</h3>
+        <p><b>IDL</b>
+        </p>
+        <p Class="Code" class="code">HRESULT&#160;Execute(</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;[in]&#160;BSTR&#160;ApplicationName,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;[in]&#160;BSTR&#160;LogicalObjectName,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;[in]&#160;BSTR&#160;LogicalMethodName,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;[in]&#160;IXMLDOMDocument*&#160;XMLDocument);</p>
+        <p>
+            IDL parameter descriptions
+        </p>
+        <p>ApplicationName</p>
+        <p class="BodyTextIndent_1">[in] A string that identifies the application to use.</p>
+        <p>LogicalObjectName</p>
+        <p class="BodyTextIndent_1">[in] A string that identifies the business object that 
+ contains the method to be called.</p>
+        <p>LogicalMethodName</p>
+        <p class="BodyTextIndent_1">[in] A string that identifies the business object method 
+ to be called.</p>
+        <p>XMLDocument</p>
+        <p class="BodyTextIndent_1">[in] An instance of the Microsoft free-threaded IXMLDOMDocument 
+ interface that contains the data for the business object method being 
+ called.</p>
+        <p><b>Visual Basic</b>
+        </p>
+        <p Class="Code" class="code">Sub&#160;Execute(</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;ApplicationName&#160;As&#160;String,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;LogicalObjectName&#160;As&#160;String,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;LogicalMethodName&#160;As&#160;String,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;XMLDocument&#160;As&#160;STEPLib.IXMLDOMDocument)</p>
+        <p>Visual Basic parameter descriptions</p>
+        <p>ApplicationName</p>
+        <p class="BodyTextIndent_1">[in] A string that identifies the application to use.</p>
+        <p>LogicalObjectName</p>
+        <p class="BodyTextIndent_1">[in] A string that identifies the business object that 
+ contains the method to be called.</p>
+        <p>LogicalMethodName</p>
+        <p class="BodyTextIndent_1">[in] A string that identifies the business object method 
+ to be called.</p>
+        <p>XMLDocument</p>
+        <p class="BodyTextIndent_1">[in] An instance of the Microsoft free-threaded IXMLDOMDocument 
+ interface that contains the data for the business object method being 
+ called.</p>
+        <h3>Remarks</h3>
+        <p>The contents of the XMLDocument argument vary from one method to the 
+ next. Refer to the appropriate business object documentation for more 
+ information on building the proper XML parameters.</p>
+        <h3>Example</h3>
+        <p>The following example demonstrates a simple call to the Execute method.</p>
+        <p>Visual Basic example</p>
+        <p Class="Code" class="code">Sub&#160;Call_IOTM(XMLDocument&#160;As&#160;MSXML2.DOMDocument6.0)</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;Dim&#160;sMethodXML&#160;As&#160;String</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;Dim&#160;sContextXML&#160;As&#160;String</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;Dim&#160;oInternalOTM&#160;as&#160;OnyxTransactionManagerLib.IInternalTransactionManager</p>
+        <p Class="Code" class="code"><span style="color: #008000;">' Use the FreeThreaded DOM.</span>
+        </p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;Dim&#160;oMethodXMLDocument&#160;As&#160;STEPLib.IXMLDOMDocument</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;Set&#160;oMethodXMLDocument&#160;=&#160;New&#160;MSXML2.FreeThreadedDOMDocument6.0</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;Dim&#160;oContextXML&#160;As&#160;MSXML2.IXMLDOMNode</p>
+        <p Class="Code" class="code"><span style="color: #008000;">' Use the context XML from the current method.</span>
+        </p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;Set&#160;oContextXML&#160;=&#160;XMLDocument.selectSingleNode("//context")</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;sContextXML&#160;=&#160;oContextXML.xml</p>
+        <p Class="Code" class="code"><span style="color: #008000;">' Build the step package.</span>
+        </p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;sMethodXML&#160;=&#160;"&lt;stepPackage&gt;"</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;sMethodXML&#160;=&#160;sMethodXML&#160;+&#160;sContextXML</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;sMethodXML&#160;=&#160;sMethodXML&#160;+&#160;"&lt;parameters&gt;&lt;primaryId&gt;123&lt;/primaryId&gt;&lt;/parameters&gt;"</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;sMethodXML&#160;=&#160;sMethodXML&#160;+&#160;"&lt;returnXml&gt;"</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;sMethodXML&#160;=&#160;sMethodXML&#160;+&#160;"&lt;methodStatus&gt;&lt;statusType&gt;success&lt;/statusType&gt;&lt;/methodStatus&gt;"</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;sMethodXML&#160;=&#160;sMethodXML&#160;+&#160;"&lt;parametersReturn&gt;&lt;/parametersReturn&gt;"</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;sMethodXML&#160;=&#160;sMethodXML&#160;+&#160;"&lt;customData&gt;&lt;/customData&gt;"</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;sMethodXML&#160;=&#160;sMethodXML&#160;+&#160;"&lt;/returnXml&gt;&lt;/stepPackage&gt;"</p>
+        <p Class="Code" class="code"><span style="color: #008000;">' Put the step package XML into the document object.</span>
+        </p>
+        <p Class="Code" class="code"><span style="color: #008000;">' Configure the DOM to wait until the XML is loaded successfully.</span>
+        </p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;oMethodXMLDocument.async&#160;=&#160;False</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;oMethodXMLDocument.loadXML&#160;(sMethodXML)</p>
+        <p Class="Code" class="code"><span style="color: #008000;">' Call the method of the Internal OTM.</span>
+        </p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;Set&#160;oInternalOTM&#160;=&#160;New&#160;OnyxTransactionManagerLib.TransactionManager</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;oInternalOTM.Execute&#160;"AppName",&#160;"Object",&#160;"Method",&#160;oMethodXMLDocument</p>
+        <p Class="Code" class="code"><span style="color: #008000;">' Do something with the returned XML.</span>
+        </p>
+        <p class="code" style="margin-bottom: 0;">End&#160;Sub</p>
+    </body>
+</html>

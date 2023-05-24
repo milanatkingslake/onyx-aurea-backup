@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:lastBlockDepth="2" MadCap:lastHeight="587" MadCap:lastWidth="686" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:conditions="Default.Obsolete">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Fax engine</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>Fax engine</h4>
+        <p>
+            <MadCap:keyword term="Fax engine" />The fax engine creates SMTP messages based on actionBatch input and 
+ sends them to a Fax server that supports SMTP. The engine depends on the 
+ following functionality to execute properly:</p>
+        <p style="font-weight: bold;">Default SMTP XSL stylesheet</p>
+        <p class="BodyTextIndent_1">This stylesheet contains the SMTP header information necessary 
+ for the Fax server to send a fax. In addition, this stylesheet can output 
+ content for the SMTP message body. Most fax software converts the message 
+ body into a fax cover page. One default stylesheet corresponds to each 
+ fax subsystem configured in OPS Administration. </p>
+        <p style="font-weight: bold;">Literature product file path</p>
+        <p class="BodyTextIndent_1">The fax engine uses the file path of the literature product 
+ to locate the appropriate file (XSL stylesheet, Word document, PDF, JPEG, 
+ and so on). The engine creates an attachment to the SMTP message from 
+ the file or file output, as the case may be.</p>
+        <p style="font-weight: bold;">Fulfillment type</p>
+        <p class="BodyTextIndent_1">The fax engine uses fulfillment type to determine whether 
+ to attempt data merging or just attach the file as-is to the SMTP message. 
+ For data merging, the file path must point to a valid XSL file.</p>
+        <p>The details of the processing are described in the <a href="ops_Using_sample_fax_templates.htm">Fax 
+ templates</a> topic in the Customization section of this document.</p>
+        <h3>Merged Data Messages</h3>
+        <p>The fax engine transforms orderBatch XML with an XSL stylesheet to produce 
+ optional SMTP headers and fax body content as an attachment to an SMTP 
+ message for processing by a Fax server that supports the SMTP protocol.</p>
+        <h3>Error Handling</h3>
+        <p>Status is returned by the fax engine to the 
+ fulfillment subsystem upon completion of the processing. This status indicates 
+ whether the order item processing succeeded or failed along with the ID 
+ for the order item. This information is passed back to the fulfillment 
+ subsystem. The fulfillment subsystem only updates the status of processed 
+ orderDetails in the database. </p>
+    </body>
+</html>

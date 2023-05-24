@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="5" MadCap:lastHeight="854" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2>Implementation Tips</h2>
+        <p>This topic provides several suggestions for implementing customizations on an OEP system. By following a few simple steps to maintain consistency across customizations, you can simplify your development and maintenance efforts to accelerate the pace at which you add new features to OEP.</p>
+        <h4>Don't customize UCW-enabled areas</h4>
+        <p>Use UCW to configure UCW-enabled areas in OEP. Don't write custom code directly to these areas of OEP because the custom code is not automatically applied when you upgrade from this version of OEP to the next. Also, customizing UCW-enabled areas directly likely causes unpredictable results.</p>
+        <h4>Use UCW tools wherever possible</h4>
+        <p>UCW enables you to configure aspects of UI appearance and behavior that previously could be accomplished only by writing custom code. Furthermore, UI configurations that you implement with UCW can be upgraded from one version of OEP to the next without requiring you to re-implement them.</p>
+        <h4>Use custom folders</h4>
+        <p>Create a new folder for custom HTML and ASP pages at the root of the YourOEPwebsite directory. By doing this, customizations are as isolated as possible from the standard Onyx pages. Onyx recommends that if you need to modify standard OEP files, copy them to a separate directory and modify them there, leaving the original files in the YourOEPwebsite directory. If you do this, you must also modify other OEP files to point to the custom version in the separate directory. </p>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; &#160;">Any custom file that is used by both UCW-enabled areas and non-UCW-enabled areas should be placed in a YourOEPwebsite\ucf\data\custom\{your company name} folder.</p>
+        <p>Customizations that exist in their own folder structures will not be affected by setup programs that update the system when OEP is upgraded. By reserving your own space for code files, you can migrate your customizations to the newer version with a minimum of hassle.</p>
+        <h4>Use custom identifiers</h4>
+        <p>Tag your customizations with CS, or any kind of indicator that flags them as a custom addition. For example, if you create a custom function for enforcing mandatory fields, call it vbCSEnforceMandatoryFields rather than vbEnforceMandatoryFields. Use the standard prefix conventions for functions, variables, and files, and add the CS after it.</p>
+        <h4>Comment all customizations</h4>
+        <p>Add a single-line comment to the beginning of each OEP function that you change. Then add a set of comments to the start and end of the changes you make. Use the keywords CSBeginMod and CSEndMod to denote your additional customizations. This way, you can search the entire directory by keyword to find changes. The following example shows this commenting standard. </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>...</code>
+                    </p>
+                    <p><code>&lt;%end if%&gt;</code>
+                    </p>
+                    <p><code>&lt;% ' -- CSBeginMod TF - New Toolbar button -- %&gt;</code>
+                    </p>
+                    <p><code>&lt;% PrintIconEvents "iconCompanyLink" %&gt;</code>
+                    </p>
+                    <p><code>&lt;a href="ASP/WebsiteTB.asp" target="_blank"&gt;</code>
+                    </p>
+                    <p><code>&lt;img alt="&lt;%=Request.QueryString("CustomerType")%&gt; Web Site" border="0" height="20"</code>
+                    </p>
+                    <p><code>src="images/icons/iconCompanyLink0.gif" width="20" id="iconCompanyLink"&gt;</code>
+                    </p>
+                    <p><code>&lt;/a&gt;</code>
+                    </p>
+                    <p><code>&lt;/span&gt;</code>
+                    </p>
+                    <p><code>&lt;% ' -- CSEndMod TF - New Toolbar button -- %&gt;</code>
+                    </p>
+                    <p><code>...</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>Comments in all client-side files are downloaded to the client machine and parsed by Internet Explorer. Therefore, you must balance the need for understanding against the need for client browser efficiency.</p>
+        <h4>Use include files</h4>
+        <p>Divide custom code into task-related include files. You can then include your code anywhere in the application as needed. ASP uses the following syntax for including the contents of one file in another: </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>&lt;!-- #include file="../Custom/surveys-details_ext.asp"--&gt;</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <h4>Use resource files</h4>
+        <p>Use resource files to maintain your string data. If you need additional string data in the course of customizing OEP, add them to the resource file associated with the UCW-enabled area you are customizing.</p>
+        <h4>Use relative paths</h4>
+        <p>Always use relative paths when referring to files in your custom directory. This way you can easily move customizations between development and production Web sites without modifications.</p>
+        <h4>Test small changes</h4>
+        <p>By changing small pieces of code and then testing, you decrease the amount of time and complexity of implementing your customizations.</p>
+        <h4>Use the Data Area frame or a separate window</h4>
+        <p>Completely custom interfaces can appear in the OEP Data Area frame or in a separate browser window. Consideration must be given to whether or not the feature's target link is capable of being hosted in the Data Area frame. In the case where a link URL target is not frame-compatible, set the URL target parameter to "_blank". This can be accomplished in a number of different ways depending on how the link is implemented. Two possible methods appear below.</p>
+        <ul>
+            <li>If the link is implemented in the MetaTreeData table, set the vchTarget value to "_blank".</li>
+            <li>If the link is implemented as a toolbar button, set the anchor target parameter to "_blank" as shown in the following example.</li>
+        </ul>
+        <p>&lt;a href="ASP/YahooTB.asp" target="_blank"&gt;</p>
+        <h4>Be aware of OEP conventions</h4>
+        <p>When customizing OEP, be aware of the following coding conventions.</p>
+        <h4>Naming conventions for shared functions</h4>
+        <p>Because multiple scripting languages are in use throughout OEP, the Onyx naming convention includes a prefix for function names that identifies the source language. For example, tag VBScript subroutine and function names with a vb prefix. JavaScript function names are not prefixed but legacy functions were named with the js prefix.</p>
+        <h4>Files cached in client browsers</h4>
+        <p>To maximize performance over low-bandwidth connections, OEP employs a caching strategy designed to reduce the transfer of static data files as much as possible. All files not generated from ASP scripts (for example, those with the following file extensions: .htm, .js, .vb, .gif, .jpg, and .css) are delivered to the browser with a content-expiration header that instructs the browser to cache the file for two days. The majority of dynamically generated content, however, uses content-expiration headers that instruct the browser to not cache the resulting data at all (there are a few ASP scripts use 12-hour headers for content that changes infrequently).</p>
+        <p>If you make changes to any of the static files on the OEP server (for example, you change button graphics or modify style sheets), these changes may not propagate to all client users for as long as two days. To expedite the distribution of updates, instruct your users to clear their browser caches.</p>
+        <p>You can also expedite the distribution of changes by updating the content expiration settings on each OEP virtual directory through the Internet Services Manager. This may affect performance on systems with large numbers of users; however, as each client systems will download static files with greater frequency than normal.</p>
+    </body>
+</html>

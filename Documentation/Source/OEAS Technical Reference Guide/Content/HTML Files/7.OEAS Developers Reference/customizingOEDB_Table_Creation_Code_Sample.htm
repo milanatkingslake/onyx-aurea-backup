@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="2611" MadCap:lastWidth="983" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+		<title>Table Creation Code Sample</title>
+    </head>
+    <body>
+                <h3>
+            <MadCap:keyword term="table;code;Table Creation Code Sample" />Table creation code sample</h3>
+        <p>The following code sample creates two tables, complete with keys and 
+ constraints. These tables correspond to a transactional object "contract" 
+ and a domain object "contractType" as discussed in the Customization 
+ Scenarios section. The example does not contain multi-language support 
+ for the domain object. The code could be extended to provide multi-language 
+ support by applying the rules describe in Multi-Language Extension Tables.</p>
+        <p>Code sample</p>
+        <p Class="Code" class="code">-- Create table contract</p>
+        <p Class="Code" class="code">CREATE TABLE contract(</p>
+        <p Class="Code" class="code">contract_id UNIQUEIDENTIFIER NOT NULL,</p>
+        <p Class="Code" class="code">site_id INT NOT NULL,</p>
+        <p Class="Code" class="code">contract_type_did INT NOT NULL,</p>
+        <p Class="Code" class="code">contractor_id UNIQUEIDENTIFIER NOT NULL,</p>
+        <p Class="Code" class="code">contractee_id UNIQUEIDENTIFIER NOT NULL,</p>
+        <p Class="Code" class="code">execution_date DATETIME NOT NULL,</p>
+        <p Class="Code" class="code">expiration_date DATETIME NULL,</p>
+        <p Class="Code" class="code">summary NVARCHAR(255) NOT NULL,</p>
+        <p Class="Code" class="code">insert_by NVARCHAR(85) NOT NULL,</p>
+        <p Class="Code" class="code">insert_date DATETIME NOT NULL,</p>
+        <p Class="Code" class="code">update_by NVARCHAR(85) NOT NULL,</p>
+        <p Class="Code" class="code">update_date DATETIME NOT NULL,</p>
+        <p Class="Code" class="code">onyx_timestamp ROWVERSION NOT NULL,</p>
+        <p Class="Code" class="code">delete_status TINYINT NOT NULL)</p>
+        <p Class="Code" class="code">GO</p>
+        <p Class="Code" class="code">CREATE CLUSTERED INDEX contract_insert_date_cidx</p>
+        <p Class="Code" class="code">ON contract(insert_date)</p>
+        <p Class="Code" class="code">GO</p>
+        <p Class="Code" class="code">ALTER TABLE contract</p>
+        <p Class="Code" class="code">ADD CONSTRAINT pk_contract</p>
+        <p Class="Code" class="code">PRIMARY KEY NONCLUSTERED (contract_id) </p>
+        <p Class="Code" class="code">GO</p>
+        <p Class="Code" class="code">ALTER TABLE contract ADD CONSTRAINT fk_contract_insert_by</p>
+        <p Class="Code" class="code">FOREIGN KEY (insert_by, site_id)</p>
+        <p Class="Code" class="code">REFERENCES users (user_id, site_id)</p>
+        <p Class="Code" class="code">GO</p>
+        <p Class="Code" class="code">ALTER TABLE contract ADD CONSTRAINT fk_contract_update_by</p>
+        <p Class="Code" class="code">FOREIGN KEY (update_by, site_id)</p>
+        <p Class="Code" class="code">REFERENCES users (user_id, site_id) </p>
+        <p Class="Code" class="code">GO</p>
+        <p Class="Code" class="code">ALTER TABLE contract ADD CONSTRAINT fk_contract_site 
+ </p>
+        <p Class="Code" class="code">FOREIGN KEY (site_id) </p>
+        <p Class="Code" class="code">REFERENCES site (site_id)</p>
+        <p Class="Code" class="code">GO</p>
+        <p Class="Code" class="code">ALTER TABLE contract ADD CONSTRAINT fk_contract_company 
+ </p>
+        <p Class="Code" class="code">FOREIGN KEY (contractor_id) </p>
+        <p Class="Code" class="code">REFERENCES company (company_id)</p>
+        <p Class="Code" class="code">GO</p>
+        <p Class="Code" class="code">ALTER TABLE contract ADD CONSTRAINT fk_contract_individual 
+ </p>
+        <p Class="Code" class="code">FOREIGN KEY (contractee_id) </p>
+        <p Class="Code" class="code">REFERENCES individual (individual_id)</p>
+        <p Class="Code" class="code">GO</p>
+        <p Class="Code" class="code">-- Create table contract_type</p>
+        <p Class="Code" class="code">CREATE TABLE contract_type(</p>
+        <p Class="Code" class="code">contract_type_did INT IDENTITY(1, 1) NOT 
+ NULL,</p>
+        <p Class="Code" class="code">site_id INT NOT NULL,</p>
+        <p Class="Code" class="code">contract_type_desc NVARCHAR(255) NOT NULL, 
+ </p>
+        <p Class="Code" class="code">insert_by NVARCHAR(85) NOT NULL,</p>
+        <p Class="Code" class="code">insert_date DATETIME NOT NULL,</p>
+        <p Class="Code" class="code">update_by NVARCHAR(85) NOT NULL,</p>
+        <p Class="Code" class="code">update_date DATETIME NOT NULL,</p>
+        <p Class="Code" class="code">onyx_timestamp ROWVERSION NOT NULL,</p>
+        <p Class="Code" class="code">record_status BIT NOT NULL)</p>
+        <p Class="Code" class="code">GO</p>
+        <p Class="Code" class="code">ALTER TABLE contract_type </p>
+        <p Class="Code" class="code">ADD CONSTRAINT pk_contract_type</p>
+        <p Class="Code" class="code">PRIMARY KEY CLUSTERED (contract_type_did, 
+ site_id) </p>
+        <p Class="Code" class="code">GO</p>
+        <p Class="Code" class="code">ALTER TABLE contract_type ADD CONSTRAINT 
+ fk_contract_type_insert_by</p>
+        <p Class="Code" class="code">FOREIGN KEY (insert_by, site_id)</p>
+        <p Class="Code" class="code">REFERENCES users (user_id, site_id) </p>
+        <p Class="Code" class="code">GO</p>
+        <p Class="Code" class="code">ALTER TABLE contract_type ADD CONSTRAINT 
+ fk_contract_type_update_by</p>
+        <p Class="Code" class="code">FOREIGN KEY (update_by, site_id)</p>
+        <p Class="Code" class="code">REFERENCES users (user_id, site_id)</p>
+        <p Class="Code" class="code">GO</p>
+        <p Class="Code" class="code">ALTER TABLE contract_type ADD CONSTRAINT 
+ fk_contract_type_site </p>
+        <p Class="Code" class="code">FOREIGN KEY (site_id) </p>
+        <p Class="Code" class="code">REFERENCES site (site_id)</p>
+        <p Class="Code" class="code">GO</p>
+        <p Class="Code" class="code">-- Relate the two tables</p>
+        <p Class="Code" class="code">ALTER TABLE contract ADD CONSTRAINT fk_contract_contract_type</p>
+        <p Class="Code" class="code">FOREIGN KEY (contract_type_did, site_id)</p>
+        <p Class="Code" class="code">REFERENCES contract_type (contract_type_did, 
+ site_id)</p>
+        <p Class="Code" class="code">GO</p>
+    </body>
+</html>

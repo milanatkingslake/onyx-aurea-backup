@@ -1,0 +1,702 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="845" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h3><a name="top"></a>Creating LBO Adapters Using Step Component</h3>
+        <p>LBO adapter is a .NET 4.5 step component. You can create a new LBO Adapter using the Onyx step component. The LBO Adapter captures events happening on a particular object, collects and publishes eventData to the configured OGS. The LBO Adapter is the Out-of-the-box enabled notification method in the Onyx application.</p>
+        <h4>Default Objects</h4>
+        <p>The following default objects are supported using the LBO Adapter:</p>
+        <ul>
+            <li>incident</li>
+            <li>task</li>
+            <li>workNoteDetail</li>
+            <li>individual</li>
+            <li>company</li>
+            <li>address</li>
+            <li>phone</li>
+            <li>emailAddress</li>
+        </ul>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;"> For all the above objects LBO adapter is supported only on Insert, Update, and Savecollection methods. Certain methods like batch update, merge is not supported. </p>
+        <p>In the following sample of eventData, the LBO Adapter captures the objectName, action (insert/update), oldData (in case of update), newData, and any other context related information.</p>
+        <p><code>&lt;eventData&gt;</code>
+        </p>
+        <p><code>&lt;object&gt;incident&lt;/object&gt;</code>
+        </p>
+        <p><code>&lt;action&gt;update&lt;/action&gt;</code>
+        </p>
+        <p><code>&lt;appData&gt;</code>
+        </p>
+        <p><code>&lt;oldData&gt;</code>
+        </p>
+        <p><code>&lt;incident objectType="incident" content="all"&gt;</code>
+        </p>
+        <p><code>&lt;primaryId&gt;57F19AAB-DCE6-41B1-AC4A-514A66880FEC&lt;/primaryId&gt;</code>
+        </p>
+        <p><code>&lt;secondaryId&gt;163&lt;/secondaryId&gt;</code>
+        </p>
+        <p><code>&lt;ownerId&gt;06B55F12-3705-4308-BA7E-D10570CC82AF&lt;/ownerId&gt;</code>
+        </p>
+        <p><code>&lt;ownerName&gt;Argyle Fox&lt;/ownerName&gt;</code>
+        </p>
+        <p><code>&lt;ownerType&gt;2&lt;/ownerType&gt;</code>
+        </p>
+        <p><code>&lt;contactId null="1"&gt;&lt;/contactId&gt;</code>
+        </p>
+        <p><code>&lt;contactObjectType null="1"&gt;&lt;/contactObjectType&gt;</code>
+        </p>
+        <p><code>&lt;categoryId&gt;1&lt;/categoryId&gt;</code>
+        </p>
+        <p><code>&lt;typeId&gt;100075&lt;/typeId&gt;</code>
+        </p>
+        <p><code>&lt;assignedId null="1"&gt;&lt;/assignedId&gt;</code>
+        </p>
+        <p><code>&lt;trackingId&gt;2395&lt;/trackingId&gt;</code>
+        </p>
+        <p><code>&lt;trackingCode&gt;EUOEP031201Be&lt;/trackingCode&gt;</code>
+        </p>
+        <p><code>&lt;serialNumber null="1"&gt;&lt;/serialNumber&gt;</code>
+        </p>
+        <p><code>&lt;productId&gt;PPWU400&lt;/productId&gt;</code>
+        </p>
+        <p><code>&lt;description1&gt;Customer does not want fix it&lt;/description1&gt;</code>
+        </p>
+        <p><code>&lt;description2 null="1"&gt;&lt;/description2&gt;</code>
+        </p>
+        <p><code>&lt;keyWords&gt;cgbfnfd&lt;/keyWords&gt;</code>
+        </p>
+        <p><code>&lt;sourceId&gt;132&lt;/sourceId&gt;</code>
+        </p>
+        <p><code>&lt;statusId&gt;130&lt;/statusId&gt;</code>
+        </p>
+        <p><code>&lt;priorityId&gt;127&lt;/priorityId&gt;</code>
+        </p>
+        <p><code>&lt;code1&gt;101831&lt;/code1&gt;</code>
+        </p>
+        <p><code>&lt;code2 null="1"&gt;&lt;/code2&gt;</code>
+        </p>
+        <p><code>&lt;code3 null="1"&gt;&lt;/code3&gt;</code>
+        </p>
+        <p><code>&lt;code4 null="1"&gt;&lt;/code4&gt;</code>
+        </p>
+        <p><code>&lt;totalTime&gt;24&lt;/totalTime&gt;</code>
+        </p>
+        <p><code>&lt;totalLabor&gt;12&lt;/totalLabor&gt;</code>
+        </p>
+        <p><code>&lt;image&gt;0&lt;/image&gt;</code>
+        </p>
+        <p><code>&lt;assignedTo&gt;sa&lt;/assignedTo&gt;</code>
+        </p>
+        <p><code>&lt;insertBy&gt;sa&lt;/insertBy&gt;</code>
+        </p>
+        <p><code>&lt;insertDate&gt;2002-01-10 21:38:19&lt;/insertDate&gt;</code>
+        </p>
+        <p><code>&lt;updateBy&gt;sa&lt;/updateBy&gt;</code>
+        </p>
+        <p><code>&lt;updateDate&gt;2013-08-27 11:10:50&lt;/updateDate&gt;</code>
+        </p>
+        <p><code>&lt;onyxTimestamp&gt;0000000000017B23&lt;/onyxTimestamp&gt;</code>
+        </p>
+        <p><code>&lt;privateAccess&gt;0&lt;/privateAccess&gt;</code>
+        </p>
+        <p><code>&lt;readOnlyAccess&gt;0&lt;/readOnlyAccess&gt;</code>
+        </p>
+        <p><code>&lt;user1 null="1"&gt;&lt;/user1&gt;</code>
+        </p>
+        <p><code>&lt;user2 null="1"&gt;&lt;/user2&gt;</code>
+        </p>
+        <p><code>&lt;user3&gt;0&lt;/user3&gt;</code>
+        </p>
+        <p><code>&lt;user4 null="1"&gt;&lt;/user4&gt;</code>
+        </p>
+        <p><code>&lt;user5 null="1"&gt;&lt;/user5&gt;</code>
+        </p>
+        <p><code>&lt;user6 null="1"&gt;&lt;/user6&gt;</code>
+        </p>
+        <p><code>&lt;user7 null="1"&gt;&lt;/user7&gt;</code>
+        </p>
+        <p><code>&lt;user8 null="1"&gt;&lt;/user8&gt;</code>
+        </p>
+        <p><code>&lt;user9 null="1"&gt;&lt;/user9&gt;</code>
+        </p>
+        <p><code>&lt;user10 null="1"&gt;&lt;/user10&gt;</code>
+        </p>
+        <p><code>&lt;locked null="1"&gt;&lt;/locked&gt;</code>
+        </p>
+        <p><code>&lt;lockedBy null="1"&gt;&lt;/lockedBy&gt;</code>
+        </p>
+        <p><code>&lt;alertId null="1"&gt;&lt;/alertId&gt;</code>
+        </p>
+        <p><code>&lt;watch&gt;0&lt;/watch&gt;</code>
+        </p>
+        <p><code>&lt;/incident&gt;</code>
+        </p>
+        <p><code>&lt;/oldData&gt;</code>
+        </p>
+        <p><code>&lt;newData&gt;</code>
+        </p>
+        <p><code>&lt;incident objectType="incident" content="all"&gt;</code>
+        </p>
+        <p><code>&lt;primaryId&gt;57F19AAB-DCE6-41B1-AC4A-514A66880FEC&lt;/primaryId&gt;</code>
+        </p>
+        <p><code>&lt;secondaryId&gt;163&lt;/secondaryId&gt;</code>
+        </p>
+        <p><code>&lt;ownerId&gt;06B55F12-3705-4308-BA7E-D10570CC82AF&lt;/ownerId&gt;</code>
+        </p>
+        <p><code>&lt;ownerName&gt;Argyle Fox&lt;/ownerName&gt;</code>
+        </p>
+        <p><code>&lt;ownerType&gt;2&lt;/ownerType&gt;</code>
+        </p>
+        <p><code>&lt;contactId null="1"&gt;&lt;/contactId&gt;</code>
+        </p>
+        <p><code>&lt;contactObjectType null="1"&gt;&lt;/contactObjectType&gt;</code>
+        </p>
+        <p><code>&lt;categoryId&gt;1&lt;/categoryId&gt;</code>
+        </p>
+        <p><code>&lt;typeId&gt;100075&lt;/typeId&gt;</code>
+        </p>
+        <p><code>&lt;assignedId null="1"&gt;&lt;/assignedId&gt;</code>
+        </p>
+        <p><code>&lt;trackingId&gt;2395&lt;/trackingId&gt;</code>
+        </p>
+        <p><code>&lt;trackingCode&gt;EUOEP031201Be&lt;/trackingCode&gt;</code>
+        </p>
+        <p><code>&lt;serialNumber null="1"&gt;&lt;/serialNumber&gt;</code>
+        </p>
+        <p><code>&lt;productId&gt;PPWU400&lt;/productId&gt;</code>
+        </p>
+        <p><code>&lt;description1&gt;Csutomer does not want fix it&lt;/description1&gt;</code>
+        </p>
+        <p><code>&lt;description2 null="1"&gt;&lt;/description2&gt;</code>
+        </p>
+        <p><code>&lt;keyWords&gt;cccc&lt;/keyWords&gt;</code>
+        </p>
+        <p><code>&lt;sourceId&gt;132&lt;/sourceId&gt;</code>
+        </p>
+        <p><code>&lt;statusId&gt;130&lt;/statusId&gt;</code>
+        </p>
+        <p><code>&lt;priorityId&gt;127&lt;/priorityId&gt;</code>
+        </p>
+        <p><code>&lt;code1&gt;101831&lt;/code1&gt;</code>
+        </p>
+        <p><code>&lt;code2 null="1"&gt;&lt;/code2&gt;</code>
+        </p>
+        <p><code>&lt;code3 null="1"&gt;&lt;/code3&gt;</code>
+        </p>
+        <p><code>&lt;code4 null="1"&gt;&lt;/code4&gt;</code>
+        </p>
+        <p><code>&lt;totalTime&gt;27&lt;/totalTime&gt;</code>
+        </p>
+        <p><code>&lt;totalLabor&gt;15&lt;/totalLabor&gt;</code>
+        </p>
+        <p><code>&lt;image&gt;0&lt;/image&gt;</code>
+        </p>
+        <p><code>&lt;assignedTo&gt;sa&lt;/assignedTo&gt;</code>
+        </p>
+        <p><code>&lt;insertBy&gt;sa&lt;/insertBy&gt;</code>
+        </p>
+        <p><code>&lt;insertDate&gt;2002-01-10 21:38:19&lt;/insertDate&gt;</code>
+        </p>
+        <p><code>&lt;updateBy&gt;sa&lt;/updateBy&gt;</code>
+        </p>
+        <p><code>&lt;updateDate&gt;2013-08-27 11:14:02&lt;/updateDate&gt;</code>
+        </p>
+        <p><code>&lt;onyxTimestamp&gt;0000000000017B2A&lt;/onyxTimestamp&gt;</code>
+        </p>
+        <p><code>&lt;privateAccess&gt;0&lt;/privateAccess&gt;</code>
+        </p>
+        <p><code>&lt;readOnlyAccess&gt;0&lt;/readOnlyAccess&gt;</code>
+        </p>
+        <p><code>&lt;user1 null="1"&gt;&lt;/user1&gt;</code>
+        </p>
+        <p><code>&lt;user2 null="1"&gt;&lt;/user2&gt;</code>
+        </p>
+        <p><code>&lt;user3&gt;0&lt;/user3&gt;</code>
+        </p>
+        <p><code>&lt;user4 null="1"&gt;&lt;/user4&gt;</code>
+        </p>
+        <p><code>&lt;user5 null="1"&gt;&lt;/user5&gt;</code>
+        </p>
+        <p><code>&lt;user6 null="1"&gt;&lt;/user6&gt;</code>
+        </p>
+        <p><code>&lt;user7 null="1"&gt;&lt;/user7&gt;</code>
+        </p>
+        <p><code>&lt;user8 null="1"&gt;&lt;/user8&gt;</code>
+        </p>
+        <p><code>&lt;user9 null="1"&gt;&lt;/user9&gt;</code>
+        </p>
+        <p><code>&lt;user10 null="1"&gt;&lt;/user10&gt;</code>
+        </p>
+        <p><code>&lt;locked null="1"&gt;&lt;/locked&gt;</code>
+        </p>
+        <p><code>&lt;lockedBy null="1"&gt;&lt;/lockedBy&gt;</code>
+        </p>
+        <p><code>&lt;alertId null="1"&gt;&lt;/alertId&gt;</code>
+        </p>
+        <p><code>&lt;watch&gt;0&lt;/watch&gt;</code>
+        </p>
+        <p><code>&lt;/incident&gt;</code>
+        </p>
+        <p><code>&lt;/newData&gt;</code>
+        </p>
+        <p><code>&lt;/appData&gt;</code>
+        </p>
+        <p><code>&lt;context&gt;</code>
+        </p>
+        <p><code>&lt;sessionId&gt;A9B31166-57E8-4C38-9044-AFD56698530D&lt;/sessionId&gt;</code>
+        </p>
+        <p><code>&lt;userId&gt;sa&lt;/userId&gt;</code>
+        </p>
+        <p><code>&lt;partnerUser&gt;0&lt;/partnerUser&gt;</code>
+        </p>
+        <p><code>&lt;siteId&gt;1&lt;/siteId&gt;</code>
+        </p>
+        <p><code>&lt;applicationName&gt;Onyx&lt;/applicationName&gt;</code>
+        </p>
+        <p><code>&lt;source&gt;OEP&lt;/source&gt;</code>
+        </p>
+        <p><code>&lt;preferredLanguage&gt;ENG&lt;/preferredLanguage&gt;</code>
+        </p>
+        <p><code>&lt;originalUser&gt;sa&lt;/originalUser&gt;</code>
+        </p>
+        <p><code>&lt;permissionMask&gt;FFFF&lt;/permissionMask&gt;</code>
+        </p>
+        <p><code>&lt;logName&gt;Onyx&lt;/logName&gt;</code>
+        </p>
+        <p><code>&lt;logSettings&gt;1&lt;/logSettings&gt;</code>
+        </p>
+        <p><code>&lt;impersonatingUser&gt;&lt;/impersonatingUser&gt;</code>
+        </p>
+        <p><code>&lt;sessionSecondsRemaining&gt;600&lt;/sessionSecondsRemaining&gt;</code>
+        </p>
+        <p><code>&lt;otmId&gt;EEA6CF0B-187B-488C-BE22-203354BC6C82&lt;/otmId&gt;</code>
+        </p>
+        <p><code>&lt;eventDate&gt;8/27/2013 11:14:02 AM&lt;/eventDate&gt;</code>
+        </p>
+        <p><code>&lt;eventSource&gt;oeas&lt;/eventSource&gt;</code>
+        </p>
+        <p><code>&lt;/context&gt;</code>
+        </p>
+        <p><code>&lt;/eventData&gt;</code>
+        </p>
+        <h4>Creating a new LBO Adapter</h4>
+        <p>You can create a new LBO Adapter using Onyx Step Component. To do this, perform the following steps:</p>
+        <ol>
+            <li>Determine the object and method on which to execute the Step that triggers the notification.</li>
+            <li>Update Persistence database to create entries for the new notification. For information on doing this, see <a href="Creating Notifications.htm#Updating">Update database for custom notifications</a>.</li>
+            <li>Create a new step component for the event. Use the sample step component included in your installation package as a guideline for doing this. Ensure that you call the Publish API system parameter from the step component in order to send data to OGS.</li>
+        </ol>
+        <p class="Indent1">Use the Sample.xml file included in the customization folder for the format of the data XML of the API call. You cannot change the &lt;EventManifest&gt;, &lt;AppData&gt;, and &lt;EventData&gt; elements in the XML file. Within the &lt;EventData&gt; element, add nodes for each property that you want to include.</p>
+        <ol MadCap:continue="true">
+            <li>Modify the method to execute the step component in the post event, based on when you want to trigger the notification alert. If you have added other customizations to the method, ensure that these are not affected by this addition.</li>
+            <li>Modify the LBOAdapter.config file on your OEAS server. The default file location is C:\Program Files\Onyx\AppServer\Components\LBOAdapter.config.</li>
+        </ol>
+        <p>You can also use one of the existing templates and extend the LBO Adapters to other objects. </p>
+        <p><b>For Normal Objects like incident or task:</b> <![CDATA[ ]]></p>
+        <ol>
+            <li>Copy “firePostInsertEvent” step in “insert” method of “incident” object to “insert” method of other object. </li>
+            <li>Similarly copy “firePreUpdateEvent”, “firePostUpdateEvent” steps in “update” method of “incident” object to update method of other object.</li>
+        </ol>
+        <p><b>For Collection Objects like address, phone, emailAddress:</b> <![CDATA[ ]]></p>
+        <ol>
+            <li>Copy “firePreChildUpdateEvent” and “firePostChildUpdateEvent” steps in saveCollection method of “address” object to other object.</li>
+        </ol>
+        <h4>Modifying the LBO adapter configuration file</h4>
+        <p>After adding a new step component to the method, you must also modify the LBO adapter configuration file to add details for the new notification. Use the following table to understand the values to enter for each attribute.</p>
+        <p><b>To modify the LBO adapter configuration file:</b>
+        </p>
+        <ol>
+            <li>On your OEAS server, open the LBOAdapter.config file. The default file path is C:\Program Files\Onyx\AppServer\Components\LBOAdapter.config.</li>
+            <li>Use the following table to understand the values to enter for each attribute.</li>
+        </ol>
+        <table>
+            <thead>
+                <tr>
+                    <th>Element</th>
+                    <th>Attribute</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Application</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">name</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the name of the logical application that will be used for the notifications.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Application </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">enable</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter "true" to enable LBO adapters for the application. Otherwise, enter "false"</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Site</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">id</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the site ID that you have configured for the logical application.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Site</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">enable</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter "true" to enable LBO adapters for the site. Otherwise, enter "false".</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Site</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">url</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the URL to post the data to OGS using the Publish API.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">child elements of site: incident/task/workNoteDetail/individual /company/address/phone/emailAddress</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specify the settings for an lbo adapter for the specified site for the specified logical application.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">lbo</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">enable</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Set true to use LBO adapters to send notifications for the specified LBO object. Set false to disable LBO adapters for the object.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">lbo</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">retrieveMethod</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the name of the LBO retrieve method to use.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">retrieveTemplate</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">parameters</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specify the parameters for the LBO retrieve XML template.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">params</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specify how to fill the LBO retrieve template.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">param</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">xpath</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the node that will be used in the “retrieveTemplate/parameters”.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">param</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">value</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the path of the steppackage.xml file from where we retrieve the value to fill the retrieveTemplate.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Example LBOAdapter configuration file</h4>
+        <p><code>&lt;?xml version="1.0" encoding="utf-8" ?&gt;</code>
+        </p>
+        <p><code>&lt;lboAdapter&gt;</code>
+        </p>
+        <p><code> &#160;&lt;application name="Onyx" enable="true"&gt;</code>
+        </p>
+        <p>&#160;&#160;&#160;<code>&#160;&lt;site id="1" enable="true"</code></p>
+        <p><code>url="http://localhost:69/ServiceGateway/Notification/GenericPublish/"&gt;</code>
+        </p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;incident enable="true" retrieveMethod="retrieve"&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&#160;&lt;retrieveTemplate&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;parameters&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&#160;&lt;incident&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&#160;&lt;primaryId&gt;&lt;/primaryId&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;/incident&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;/parameters&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&#160;&lt;/retrieveTemplate&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;params&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;param xpath ="incident/primaryId"&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;incident value="incident/primaryId" /&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;/param&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;/params&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;<code>&lt;/incident&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;task enable="true" retrieveMethod="retrieve"&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;retrieveTemplate&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;parameters&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;task&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;primaryId&gt;&lt;/primaryId&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;/task&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;/parameters&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&#160;&lt;/retrieveTemplate&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&#160;&lt;params&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;param xpath ="task/primaryId"&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&#160;&#160;&lt;task value="task/primaryId" /&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;/param&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;/params&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;/task&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;workNoteDetail enable="true" retrieveMethod="retrieve"&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;retrieveTemplate&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;parameters&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;workNoteDetail&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&#160;&lt;primaryId&gt;&lt;/primaryId&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;/workNoteDetail&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&#160;&lt;/parameters&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;/retrieveTemplate&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;params&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;param xpath ="workNoteDetail/primaryId"&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;workNoteDetail value="workNoteDetail/primaryId" /&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;/param&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;/params&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;/workNoteDetail&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;individual enable="true" retrieveMethod="retrieve"&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;retrieveTemplate&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;parameters&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;individual&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;primaryId&gt;&lt;/primaryId&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;/individual&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;/parameters&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;/retrieveTemplate&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;params&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;param xpath ="individual/primaryId"&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;individual value="individual/primaryId" /&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;/param&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;/params&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;/individual&gt;</code></p>
+        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&lt;company enable="true" retrieveMethod="retrieve"&gt;</code></p>
+        <p><code>&lt;retrieveTemplate&gt;</code>
+        </p>
+        <p><code>&lt;parameters&gt;</code>
+        </p>
+        <p><code>&lt;company&gt;</code>
+        </p>
+        <p><code>&lt;primaryId&gt;&lt;/primaryId&gt;</code>
+        </p>
+        <p><code>&lt;/company&gt;</code>
+        </p>
+        <p><code>&lt;/parameters&gt;</code>
+        </p>
+        <p><code>&lt;/retrieveTemplate&gt;</code>
+        </p>
+        <p><code>&lt;params&gt;</code>
+        </p>
+        <p><code>&lt;param xpath ="company/primaryId"&gt;</code>
+        </p>
+        <p><code>&lt;company value="company/primaryId" /&gt;</code>
+        </p>
+        <p><code>&lt;/param&gt;</code>
+        </p>
+        <p><code>&lt;/params&gt;</code>
+        </p>
+        <p><code>&lt;/company&gt;</code>
+        </p>
+        <p><code>&lt;address enable="true" retrieveMethod="retrieveCollection"&gt;</code>
+        </p>
+        <p><code>&lt;retrieveTemplate&gt;</code>
+        </p>
+        <p><code>&lt;parameters&gt;</code>
+        </p>
+        <p><code>&lt;addresses&gt;</code>
+        </p>
+        <p><code>&lt;address&gt;</code>
+        </p>
+        <p><code>&lt;ownerId&gt;&lt;/ownerId&gt;</code>
+        </p>
+        <p><code>&lt;/address&gt;</code>
+        </p>
+        <p><code>&lt;/addresses&gt;</code>
+        </p>
+        <p><code>&lt;/parameters&gt;</code>
+        </p>
+        <p><code>&lt;/retrieveTemplate&gt;</code>
+        </p>
+        <p><code>&lt;params&gt;</code>
+        </p>
+        <p><code>&lt;param xpath ="addresses/address/ownerId"&gt;</code>
+        </p>
+        <p><code>&lt;individual value="individual/primaryId" /&gt;</code>
+        </p>
+        <p><code>&lt;company value="company/primaryId" /&gt;</code>
+        </p>
+        <p><code>&lt;address value="addresses/address/ownerId" /&gt;</code>
+        </p>
+        <p><code>&lt;/param&gt;</code>
+        </p>
+        <p><code>&lt;/params&gt;</code>
+        </p>
+        <p><code>&lt;/address&gt;</code>
+        </p>
+        <p><code>&lt;phone enable="true" retrieveMethod="retrieveCollection"&gt;</code>
+        </p>
+        <p><code>&lt;retrieveTemplate&gt;</code>
+        </p>
+        <p><code>&lt;parameters&gt;</code>
+        </p>
+        <p><code>&lt;phones&gt;</code>
+        </p>
+        <p><code>&lt;phone&gt;</code>
+        </p>
+        <p><code>&lt;ownerId&gt;&lt;/ownerId&gt;</code>
+        </p>
+        <p><code>&lt;/phone&gt;</code>
+        </p>
+        <p><code>&lt;/phones&gt;</code>
+        </p>
+        <p><code>&lt;/parameters&gt;</code>
+        </p>
+        <p><code>&lt;/retrieveTemplate&gt;</code>
+        </p>
+        <p><code>&lt;params&gt;</code>
+        </p>
+        <p><code>&lt;param xpath ="phones/phone/ownerId"&gt;</code>
+        </p>
+        <p><code>&lt;individual value="individual/primaryId" /&gt;</code>
+        </p>
+        <p><code>&lt;company value="company/primaryId" /&gt;</code>
+        </p>
+        <p><code>&lt;phone value="phones/phone/ownerId" /&gt;</code>
+        </p>
+        <p><code>&lt;/param&gt;</code>
+        </p>
+        <p><code>&lt;/params&gt;</code>
+        </p>
+        <p><code>&lt;/phone&gt;</code>
+        </p>
+        <p><code>&lt;emailAddress enable="true" retrieveMethod="retrieveCollection"&gt;</code>
+        </p>
+        <p><code>&lt;retrieveTemplate&gt;</code>
+        </p>
+        <p><code>&lt;parameters&gt;</code>
+        </p>
+        <p><code>&lt;emailAddresses&gt;</code>
+        </p>
+        <p><code>&lt;emailAddress&gt;</code>
+        </p>
+        <p><code>&lt;ownerId&gt;&lt;/ownerId&gt;</code>
+        </p>
+        <p><code>&lt;/emailAddress&gt;</code>
+        </p>
+        <p><code>&lt;/emailAddresses&gt;</code>
+        </p>
+        <p><code>&lt;/parameters&gt;</code>
+        </p>
+        <p><code>&lt;/retrieveTemplate&gt;</code>
+        </p>
+        <p><code>&lt;params&gt;</code>
+        </p>
+        <p><code>&lt;param xpath ="emailAddresses/emailAddress/ownerId"&gt;</code>
+        </p>
+        <p><code>&lt;individual value="individual/primaryId" /&gt;</code>
+        </p>
+        <p><code>&lt;company value="company/primaryId" /&gt;</code>
+        </p>
+        <p><code>&lt;emailAddress</code>
+        </p>
+        <p><code>value="emailAddresses/emailAddress/ownerId" /&gt;</code>
+        </p>
+        <p><code>&lt;/param&gt;</code>
+        </p>
+        <p><code>&lt;/params&gt;</code>
+        </p>
+        <p><code>&lt;/emailAddress&gt;</code>
+        </p>
+        <p><code>&lt;/site&gt;</code>
+        </p>
+        <p><code>&lt;/application&gt;</code>
+        </p>
+        <p><code>&lt;/lboAdapter&gt;</code>
+        </p>
+        <h4>Enabling/Disabling LBO&#160;Adapter</h4>
+        <p>An LBO Adapter supports multiple logical applications and multi-site environments. Out of the box, one logical application and one site is included with the Onyx application. The LBO adapter identifies an application configuration by checking the “name” attribute. Similarly, the LBO Adapter identifies the configuration of a particular site by checking the “id” attribute of the “site” Element inside a particular application.</p>
+        <p>The LBO&#160;Adapter can be enabled or disabled for an application, site or object.</p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">The ideal way to disable the LBO Adapter for a single application or a single object is by disabling “firePostInsertEvent” step in insert method and “firePreUpdateEvent”, “firePostUpdateEvent” steps in update method. However, this approach requires an OED publish. </p>
+        <p>The ideal way to disable the LBO Adapter for a single application or a single object is by disabling “firePostInsertEvent” step in insert method and “firePreUpdateEvent”, “firePostUpdateEvent” steps in update method. However, this approach requires an OED publish.</p>
+        <p><b>To Enable/Disable LBO Adapter for a single logical application: </b>
+        </p>
+        <ol>
+            <li>Open the LBO Adapter configuration file.</li>
+            <li>Use the application name to search for the specific application configuration.</li>
+            <li>Change the enable property to true/false.</li>
+        </ol>
+        <p><b>To Enable/Disable LBO Adapter for a single site: </b>
+        </p>
+        <ol>
+            <li>Open the LBO Adapter configuration file.</li>
+            <li>Search for the specific logical application Element.</li>
+            <li>Use the site id to search for the specific site.</li>
+            <li>Change the enable property to true/false.</li>
+        </ol>
+        <p><b>To Enable/Disable LBO Adapter for a single object: </b>
+        </p>
+        <ol>
+            <li>Open the LBO Adapter configuration file.</li>
+            <li>Search for the specific logical application Element.</li>
+            <li>Use the site id to search for the specific site.</li>
+            <li>Change the enable property to true/false.</li>
+        </ol>
+        <p><b>To configure the OGS URL:&#160;</b>
+        </p>
+        <ol>
+            <li>Open the LBO Adapter configuration file.</li>
+            <li>Search for the specific logical application Element.</li>
+            <li>Use the site id to search for the specific site.</li>
+            <li>Configure the “url” property.</li>
+        </ol>
+    </body>
+</html>

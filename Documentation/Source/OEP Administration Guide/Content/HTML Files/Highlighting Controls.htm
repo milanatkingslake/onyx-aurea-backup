@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="845" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2><a name="top"></a>Highlighting Controls</h2>
+        <p>Using <a href="About Design Mode.htm#top">UCW</a>, you can highlight controls in <a href="Configuring OEP.htm#UCW">UCW-enabled pages</a> without any programming knowledge. </p>
+        <p>This sample UI configuration demonstrates highlighting a control by configuring action statements that depend on the user-selected value for another set of controls. </p>
+        <h4>Scenario used in this sample UI configuration </h4>
+        <p>The manager of the remote sales team asks you to highlight the Subtype control when her staff adds or edits "active lead" records (on the individual edit page). Highlighted controls are outlined in red. This outlining helps the salespeople remember to select a hot, warm, or cold status for active leads. </p>
+        <p>The following graphic illustrates the Subtype control, highlighted. </p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Highlighting Controls.jpg" style="width: 263px;height: 25px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <h4>Procedures in this sample UI configuration </h4>
+        <p>These procedures use Dynamic Forms Designer. For basic instructions on using Dynamic Forms Designer, see Adding and modifying action statements. </p>
+        <p>Follow these procedures to highlight the Subtype control when the displayed record is an active lead. </p>
+        <ul>
+            <li><a href="#Highligh">Highlight the Subtype control for active leads</a>
+            </li>
+            <li><a href="#Removing">Remove the highlighting from the Subtype control for other records</a>
+            </li>
+            <li><a href="#Saving">Save all configurations and exit design mode</a>
+            </li>
+        </ul>
+        <h3><a name="Highligh"></a>Highlighting the Subtype control for display or update of active leads </h3>
+        <p>You can dynamically highlight (outline) the Subtype control when the OEP user displays or updates an active lead on the individual edit page by doing one of the following: </p>
+        <ul>
+            <li>Loading a pre-existing record that predates the Subtype requirement for active leads (Load event for the Page object) </li>
+            <li>Changing the value for Status or Type (Change event for the Page object) </li>
+        </ul>
+        <p>In this procedure, the action statement uses the Boolean AND operator (the AND operator is implicit); all conditions must be satisfied for the action to occur. </p>
+        <p>Each event uses the same action statement. In this procedure, you configure the statement once and then clone (copy) the statement to the other related events. </p>
+        <p>Because this procedure uses the Load event, you must reload the page after completing the procedure to see the changes. </p>
+        <p class="ProcedureHeading">To highlight the Subtype control for display or update of an active lead:</p>
+        <ol>
+            <li>In Dynamic Forms Designer (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/To reset all configurations_8.jpg" style="width: 21px;height: 23px;" />) for the individual edit page, add an action statement to the <b>Load</b> event for the <b>Page</b> object.</li>
+            <li>In the <b>Description</b> text box, type: <i>Highlight Subtype if active lead </i></li>
+            <li>Configure the conditions as follows (checks for active leads):</li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">From the <b>Object</b> drop-down list, expand <b>Control</b>, expand <b>Status</b>, and then select <b>Get Value</b>. </li>
+            <li class="List_Indent">From the <b>Operator</b> drop-down list, select <b>Equal</b>; from the <b>Value</b> drop-down list, select <b>Active</b>. </li>
+            <li class="List_Indent">Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To add a custom drop down.png" style="width: 14px;height: 14px;" /> in the Summary section to add the condition to the action statement. </li>
+            <li class="List_Indent">From the <b>Object</b> drop-down list, expand <b>Control</b>, expand <b>Type</b>, and then select <b>Get Value</b>. </li>
+            <li class="List_Indent">From the <b>Operator</b> drop-down list, select <b>Equal</b>; from the <b>Value</b> drop-down list, select <b>Lead</b>. </li>
+            <li class="List_Indent">Click the top-most <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To add a custom drop down.png" style="width: 14px;height: 14px;" /> in the Summary section (above the "OR" operator) to add the condition to the action statement. </li>
+        </ol>
+        <p class="Indent2">Both conditions must be satisfied for the action to occur; the conditions have an implicit "AND" operator between them. </p>
+        <ol start="4">
+            <li>Configure the action as follows: From the <b>Object (Action)</b> drop-down list, expand <b>Control</b>, expand <b>Subtype</b>, and then select <b>Highlight (On)</b>. </li>
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> to confirm changes. </li>
+            <li><a href="Cloning Statements.htm#top">Clone the statement</a> and then move the cloned statement to the Change event for the Page object. </li>
+        </ol>
+        <h3><a name="Removing"></a>Removing the highlighting from the Subtype control for other records </h3>
+        <p>You can remove the highlighting from the Subtype control when the OEP user causes the record to become a record type other than "active lead" by changing the value in the Status control or the Type control. </p>
+        <p>In this procedure, the action statement uses the Boolean OR operator; only one of the conditions must be satisfied for the action to occur. </p>
+        <p class="ProcedureHeading">To remove the highlighting from the Subtype control when Status or Type is changed, resulting in a record that is not an active lead:</p>
+        <ol>
+            <li>In Dynamic Forms Designer (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/To reset all configurations_8.jpg" style="width: 21px;height: 23px;" />) for the individual edit page, add an action statement to the <b>Change</b> event for the <b>Page</b> object.</li>
+            <li>In the <b>Description</b> text box, type: <i>Remove highlighting from Subtype if not active lead</i> <![CDATA[ ]]></li>
+            <li>Configure the conditions as follows:</li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">From the <b>Object</b> drop-down list, expand <b>Control,</b> expand <b>Status</b>, and then select <b>Get Value</b>. </li>
+            <li class="List_Indent">From the <b>Operator</b> drop-down list, select <b>Not Equal</b>; from the <b>Value</b> drop-down list, select <b>Active</b>. </li>
+            <li class="List_Indent">Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To add a custom drop down.png" style="width: 14px;height: 14px;" /> in the Summary section to add the condition to the action statement. </li>
+            <li class="List_Indent">From the <b>Object</b> drop-down list, expand <b>Control</b>, expand <b>Type</b>, and then select <b>Get Value</b>. </li>
+            <li class="List_Indent">From the <b>Operator</b> drop-down list, select <b>Not Equal</b>; from the <b>Value</b> drop-down list, select <b>Lead</b>. </li>
+            <li class="List_Indent">Click the bottom-most <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To add a custom drop down.png" style="width: 14px;height: 14px;" /> in the Summary section (below the "OR" operator) to add the condition to the action statement. </li>
+        </ol>
+        <p class="Indent2">Only one of the conditions must be satisfied for the action to occur, as indicated by the interceding "OR" operator. </p>
+        <ol start="4">
+            <li>Configure the action as follows: From the <b>Object (Action)</b> drop-down list, expand <b>Control</b>, expand <b>Subtype</b>, and then select <b>Highlight (Off)</b>. </li>
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> to confirm changes. </li>
+        </ol>
+        <h3><a name="Saving"></a>Saving all configurations and exiting design mode </h3>
+        <p>When you complete all procedures in this topic, you must save the configurations. </p>
+        <p style="font-weight: bold;">To save all configurations and exit design mode: </p>
+        <ul>
+            <li>Close Dynamic Forms Designer and then click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Accessing UCW_1.jpg" style="width: 24px;height: 24px;" /> on the UCW toolbar to save all configurations and exit design mode. </li>
+        </ul>
+    </body>
+</html>

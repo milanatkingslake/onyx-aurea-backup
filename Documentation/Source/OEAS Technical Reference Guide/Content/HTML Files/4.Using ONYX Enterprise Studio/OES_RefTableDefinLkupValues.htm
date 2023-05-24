@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="793" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Defining lookup value attributes</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>Defining lookup value attributes </h5>
+        <p>When you select a lookup value in the <b>Lookup Value by Field</b> mode, 
+ the Table Administration edit area displays the attributes for that lookup 
+ value. Use the following descriptions to assist you in defining lookup 
+ value attributes when you are: </p>
+        <ul>
+            <li><a href="OES_RefTableAddLkupValues.htm">Adding 
+ lookup values to a combo box field</a>
+            </li>
+            <li><a href="OES_RefTableModLkupValues.htm">Modifying 
+ a lookup value for a combo box field</a>.</li>
+        </ul>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">When you select a lookup value in the <b>Lookup Value — All</b> mode, 
+ the only attribute you can configure is <b>Lookup Value, and Active</b>. </p>
+        <p><b class="Bold" style="font-weight: bold;">Lookup Value -</b> The <b>Lookup Value</b> attribute is the lookup value 
+ that appears in the user interface. To create or modify this value, you 
+ can type a new value in the <span class="UIElement" style="font-weight: bold;">Lookup Value</span> 
+ box or you can select an existing value from the <span class="UIElement" style="font-weight: bold;">Existing Lookup Value</span> box. </p>
+        <p><b class="Bold" style="font-weight: bold;">Existing Lookup Values -</b> When you 
+ type a character in the <span class="UIElement" style="font-weight: bold;">Lookup Value</span> box, the <span class="UIElement" style="font-weight: bold;">Existing Lookup Values</span> box displays lookup values that have been previously defined in the database, 
+ sorted alphanumerically, that begin with the same character that you entered. 
+ Using the <span class="UIElement" style="font-weight: bold;">Existing Lookup Values</span> box, you can select existing lookup values for the selected field. The 
+ lookup data value list does not allow duplicate values. </p>
+        <p><b class="Bold" style="font-weight: bold;">Extra Data -</b> This box is optional 
+ and enables you to link additional information to a lookup value that 
+ is associated with a combo box field. You can use this to attach contextual 
+ descriptions to short or abbreviated lookup values or to group similar 
+ data values for tracking purposes. For example, a field pertaining to 
+ sales status can capture varying degrees of the values <em class="Emphasis">Open</em> 
+ and <em class="Emphasis">Closed</em> such as <em class="Emphasis">active</em>, 
+ <em class="Emphasis">waiting</em>, <em class="Emphasis">dormant</em>, and 
+ <em class="Emphasis">finished</em>. <em class="Emphasis">Open</em> is specified 
+ as an extra data value to <em class="Emphasis">active</em> and <em class="Emphasis">waiting</em>, 
+ whereas <em class="Emphasis">Closed</em> is associated with <em class="Emphasis">dormant</em> 
+ and <em class="Emphasis">finished</em>. Group association makes it easier 
+ to run concise queries. Querying for all open <span class="UIElement" style="font-weight: bold;">Sales</span> 
+ incidents results in a list of all active or waiting incidents. </p>
+        <p>To ensure application functionality, two extra data values are called 
+ by stored procedures within the application and must be implemented correctly. 
+ <em class="Emphasis">Fax</em> is a standard extra data value associated 
+ with the lookup data value <span class="UIElement" style="font-weight: bold;">Facsimile</span> 
+ or <span class="UIElement" style="font-weight: bold;">Fax</span>. The lookup value describing 
+ the fax number can be whatever you choose. However, since procedural coding 
+ is linked to the extra data value <em class="Emphasis">Fax</em>, it must 
+ not be changed. The extra data value acts as an unchanging value to which 
+ stored procedures can reference. The other standard extra data value is 
+ <em class="Emphasis">Closed</em>, which is associated with all incident 
+ status drop-down values which signify <span class="UIElement" style="font-weight: bold;">Closed</span>. </p>
+        <p class="Warning" MadCap:autonum=" &#160;&#160;&lt;b&gt;Warning:&lt;/b&gt; &#160;">Do not modify the extra data values <span class="UIElement" style="font-weight: bold;">Fax</span> 
+ and <span class="UIElement" style="font-weight: bold;">Closed</span>. Changing one or both 
+ of these values cause certain stored procedures to fail.</p>
+        <p><b class="Bold" style="font-weight: bold;">Char Code -</b> This attribute is similar 
+ to the <span class="UIElement" style="font-weight: bold;">Extra</span><span class="UIElement" style="font-weight: bold;"> <![CDATA[ ]]></span><span class="UIElement" style="font-weight: bold;">Data</span> attribute and is 
+ also optional. It enables you to assign a code or abbreviation to lookup 
+ values, such as “Pres” to President. If you import a file which has the 
+ code value associated with it, the system can read that file and its attributes 
+ correctly. Only one code can be assigned for each lookup value. </p>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; &#160;">The <span class="UIElement" style="font-weight: bold;">Char</span><span class="UIElement" style="font-weight: bold;">Code</span> 
+ for company <span class="UIElement" style="font-weight: bold;">SIC</span><span class="UIElement" style="font-weight: bold;">Code</span> (Standard Industry 
+ Code) is not optional; the character Char Code is used for the lookup 
+ data value. If an SIC Code is created without a Char Code, or with a Char 
+ Code value of anything other than an integer, the SIC Code does not save 
+ with the customer record. </p>
+        <p><b>Active -</b> This 
+ check box enables you to set a lookup value to active or inactive. A checked 
+ box indicates an active lookup value that is visible in the user interface. 
+ An unchecked box indicates an inactive lookup value that is not visible 
+ in the user interface.</p>
+        <p><b class="Bold" style="font-weight: bold;">ID of Lookup Value - </b>Each lookup 
+ value is assigned a unique, system-generated identification number called 
+ the iParameterId. Once you have saved a lookup value, this identification 
+ number appears in the edit area. The <span class="UIElement" style="font-weight: bold;">ID 
+ of Lookup Value</span> attribute is read-only. </p>
+        <p><b class="Bold" style="font-weight: bold;">ID of Combo Box Field -</b> This field 
+ displays the identifier value, called Reference ID, for the selected field 
+ to which the lookup value belongs. The Reference ID is also a system-generated 
+ identifier and is read-only. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">The <span class="UIElement" style="font-weight: bold;">Add Lookup Value</span> 
+ button enables you to quickly save a lookup value and begin defining another 
+ one. When selected, the lookup value you defined is saved and associated 
+ to the field, and the edit area is refreshed, allowing you to define a 
+ new lookup value. </p>
+    </body>
+</html>

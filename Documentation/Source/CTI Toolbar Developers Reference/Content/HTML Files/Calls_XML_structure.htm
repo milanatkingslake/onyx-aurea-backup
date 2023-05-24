@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" class="" MadCap:lastBlockDepth="6" MadCap:lastHeight="863" MadCap:lastWidth="624">
+    <head>
+        <link href="../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" /><title>Calls XML structure</title>
+        <script language="JavaScript">
+        </script>
+        <link href="../Resources/Stylesheets/Aptean_word.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <h4>Calls XML structure</h4>
+        <p class="BodyText">The Calls XML structure contains the list of calls that the agent is 
+ associated with. </p>
+        <p class="BodyText">The connector must return this XML structure in response to the <a href="getCalls_method_ICTIConnector_interface.htm">getCalls</a> 
+ method.</p>
+        <MadCap:dropDown>
+            <MadCap:dropDownHead>
+                <MadCap:dropDownHotspot>Example:</MadCap:dropDownHotspot>
+            </MadCap:dropDownHead>
+            <MadCap:dropDownBody>
+                <p class="C_Code">&lt;calls&gt;</p>
+                <p class="C_Code">&#160;&#160;&#160;&lt;call callId=1234 callState=1 callType=1 source=ACD queue=TechSupport destination=5551234567 filterField= filterValue=&gt;</p>
+                <p class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;actions&gt;</p>
+                <p class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;</p>
+                <p class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/actions&gt;</p>
+                <p class="C_Code">&#160;&#160;&#160;&lt;/call&gt;</p>
+                <p class="C_Code">&#160;&#160;&#160;&lt;call callId=5678 callState=8 CallType=2 source=Internal queue= destination=111 filterField= filterValue= &gt;</p>
+                <p class="C_Code">&#160;&#160;&#160;&lt;/call&gt; </p>
+                <p class="C_Code">&lt;/calls&gt;</p>
+            </MadCap:dropDownBody>
+        </MadCap:dropDown>
+        <p class="BodyText"> The following table describes the elements of the Calls XML:</p>
+        <table>
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Element</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">calls</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Root element. Contains the collection of call elements. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">call</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Contains the identified call's details, using the <a href="CallData_XML_structure.htm">CallData XML structure</a>. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="BodyText">The following table describes the attributes of the Calls XML: </p>
+        <table>
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Attribute</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">callId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies the ID of the call. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">callState </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies the current state of the call. Integer value 
+ corresponding to a call state <a href="Enumeration_file.htm">enumeration 
+ value</a>. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">callType </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies the type of call. </p>
+                        <p class="Table_Text">Valid values: </p>
+                        <p class="Table_Text">1  for internal call </p>
+                        <p class="Table_Text">2  for external call</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">source </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies the source of the call (such as ACD or Internal). 
+ You can enter values that fit your implementation. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">queue </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies the queue ID from which the call originated. 
+ (Incoming calls are assigned to a queue by the CTI system.) </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">destination</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies the destination of the call (such as an agent 
+ ID, phone number, or queue).</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">filterField </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies the name of a field to be used in a search 
+ of OEP records. This attribute is used to <a href="Automated_display_of_OEP_records.htm">automate 
+ display of OEP records</a>. </p>
+                        <p class="Table_Text">Valid values: </p>
+                        <p class="Table_Text">phoneNumber </p>
+                        <p class="Table_Text">emailAddress</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">filterValue </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies the value to match in a search of OEP records 
+ (used in conjunction with the filterField attribute). This attribute is 
+ used to <a href="Automated_display_of_OEP_records.htm">automate display 
+ of OEP records</a>. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

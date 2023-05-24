@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="785" MadCap:lastWidth="624">
+    <head>
+        <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head>
+            <link href="../../../Resources/TableStyles/Aptean_Note_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" /><title>Concurrency Control</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>Concurrency Control</h2>
+        <p>Because many users can access the records stored in the Onyx Enterprise 
+ Database, it is likely that two or more users will, at some time, access 
+ the same record simultaneously. Simultaneous access does not cause a problem 
+ if the users only need to read the record. However, if these users intend 
+ to make modifications to the record that was accessed simultaneously, 
+ a problem can arise—specifically regarding whose changes will be accepted. 
+ </p>
+        <p>To reduce the chances of this problem occurring, OEAS implements a mechanism 
+ called optimistic concurrency control. Optimistic concurrency control 
+ ensures that only one person can modify a record at any one time. OEAS 
+ bases optimistic concurrency control on a timestamp property. In an optimistic 
+ concurrency control environment, a record is not locked when it is retrieved 
+ from the database. When you retrieve a record, OEAS returns the current 
+ onyxTimestamp property. When either the update method or the delete method 
+ is subsequently performed on the object, OEAS compares the onyxTimestamp 
+ property value to the current timestamp value in the database to ensure 
+ that the object has not been updated (such as by another Onyx user) since 
+ the object was retrieved. If the method succeeds, the timestamp is updated 
+ in the database. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Objects that do not have an onyxTimestamp property enable 
+ records to be unintentionally overwritten. Also, method calls that set 
+ the ignore attribute equal to '1', override the concurrency check and 
+ enable records to be unintentionally overwritten.</p>
+        <p>This means that several users can access the same record without knowing 
+ that other users have also accessed the record. Therefore, multiple users 
+ can access the same record and attempt to save their modifications. The 
+ user who first saves the record to the database sets the new timestamp. 
+ None of the other users who had retrieved the record before the record 
+ was saved will be able to save their own modifications to the record without 
+ first retrieving the newly-saved record, with the current timestamp, from 
+ the database. If they attempt to do so, they will receive a message informing 
+ them that a change was made to the record. They must retrieve a new copy 
+ of the record to make any further modifications.</p>
+        <MadCap:snippetBlock src="../../../Resources/Snippets/What would you like to do.flsnp" />
+        <ul>
+            <li><a href="ar_ca_optional_concurrency_control.htm">Learn about optional concurrency control</a>
+            </li>
+            <li><a href="ar_ca_concurrency_control_within_a_transaction.htm">Understand concurrency control within a transaction</a>
+            </li>
+        </ul>
+    </body>
+</html>

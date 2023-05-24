@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="790" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>secondaryId</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="secondaryId" />secondaryId property</h2>
+        <p>The secondaryId property of an object is an alternative identifier assigned 
+ to the object when it is first saved to the database.</p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">
+            <MadCap:keyword term="Properties" />This is a generic topic that applies to all properties with 
+ the same name. The remarks section may contain details specific to a given 
+ object.</p>
+        <h3>Data type</h3>
+        <p>i4</p>
+        <h3>Access</h3>
+        <p>Read-only; for more information, &#160;see <i>Read Only attribute</i>.</p>
+        <h3>Remarks</h3>
+        <p>A secondaryId is an integer that is an alternate ID for a record. Unlike 
+ the GUID used internally by the system and not meant to be displayed, 
+ OEAS creates a secondaryId as a way of assigning a more user-friendly 
+ ID to a record. If the secondaryId is null in the input parameters, the 
+ database assigns a sequential integer value as the secondaryId. Or, you 
+ can provide an integer in the secondaryId element that the database persists, 
+ provided that the specified integer is not already used as a secondaryId 
+ in the table where the record is added. An insert fails when the secondaryId 
+ is not unique.</p>
+        <p>If your implementation requires non-integer IDs, you should add a <a href="AddProp_Overview.htm">custom property</a> to handle that functionality.</p>
+        <p>Onyx recommends that you always let OEAS generate the secondaryId.</p>
+        <p>By default, secondaryId properties help compose a unique 
+ index on the parent object base table in the database. This has the benefits 
+ of preventing records with a duplicate secondaryId and improving search 
+ performance. On the other hand, a unique index prevents reuse of a secondaryID 
+ once a record is logically deleted. If your customization requires reuse 
+ of secondaryId values, you must modify the index on the object's base 
+ table to make it non-unique. Your customization should ensure that no 
+ two active rows have the same secondaryId, as this could cause database 
+ errors or unexpected results in some queries. </p>
+    </body>
+</html>

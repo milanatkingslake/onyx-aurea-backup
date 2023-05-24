@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="1820" MadCap:lastWidth="1020">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Step 1: Create a Stored Procedure</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h6>
+            <MadCap:keyword term="Steps" />
+            <MadCap:keyword term="Creating" />
+            <MadCap:keyword term="Creating:Stored" />
+            <MadCap:keyword term="procedure" />
+            <MadCap:keyword term="Stored" />
+            <MadCap:keyword term="Stored:Create" />Create a stored procedure</h6>
+        <p>This sample uses a stored procedure that retrieves all keyword objects 
+ that were inserted by the current user. OEAS gets the userId from the 
+ user's session context. </p>
+        <p>To use this sample stored procedure, you must first add it to the database. 
+ For more information on customizing stored procedures, see <a href="customizingoedb_customizing_the_oedb.htm">Customizing 
+ the OEDB</a>.</p>
+        <p style="font-weight: bold;">Sample stored procedure</p>
+        <p Class="Code" class="code">IF EXISTS &#160;(SELECT * FROM sysobjects</p>
+        <p class="Code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;WHERE name = N'cpKeyWordRetrieveListByUser')</p>
+        <p class="Code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;DROP PROCEDURE cpKeyWordRetrieveListByUser</p>
+        <p class="Code" style="margin-bottom: 0;">go</p>
+        <p class="Code" style="margin-bottom: 0;">CREATE PROCEDURE cpKeyWordRetrieveListByUser</p>
+        <p class="Code" style="margin-bottom: 0;">(</p>
+        <p class="Code" style="margin-bottom: 0;">&#160;&#160;&#160;@context_site_id &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;INT,</p>
+        <p class="Code" style="margin-bottom: 0;">&#160;&#160;&#160;@context_user_id &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;NVARCHAR(85)</p>
+        <p class="Code" style="margin-bottom: 0;">) </p>
+        <p class="Code" style="margin-bottom: 0;">WITH EXECUTE AS SELF</p>
+        <p class="Code" style="margin-bottom: 0;">AS</p>
+        <p class="Code" style="margin-bottom: 0;">/*</p>
+        <p class="Code" style="margin-bottom: 0;">** &#160;Purpose: Returns a list of all key_words inserted by the identified user </p>
+        <p class="Code" style="margin-bottom: 0;">** &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;on any incident.</p>
+        <p class="Code" style="margin-bottom: 0;">**</p>
+        <p class="Code" style="margin-bottom: 0;">*/</p>
+        <p class="Code" style="margin-bottom: 0;">BEGIN</p>
+        <p class="Code" style="margin-bottom: 0;">&#160;&#160;&#160;DECLARE @return_code &#160;&#160;&#160;&#160;&#160;&#160;&#160;INT,</p>
+        <p class="Code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;@message_code &#160;&#160;&#160;&#160;&#160;&#160;INT,</p>
+        <p class="Code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;@message_parameter &#160;NVARCHAR(255),</p>
+        <p class="Code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;@error &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;INT,</p>
+        <p class="Code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;@key_word_count &#160;&#160;&#160;&#160;INT</p>
+        <p class="Code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;</p>
+        <p class="Code" style="margin-bottom: 0;">&#160;&#160;&#160;SET &#160;&#160;&#160;&#160;@return_code &#160;&#160;&#160;&#160;&#160;&#160;&#160;= 0</p>
+        <p class="Code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;-- Note that the @category_did parameter is not required by this sproc.</p>
+        <p class="Code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;SELECT DISTINCT key_word</p>
+        <p class="Code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;FROM key_word </p>
+        <p class="Code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;WHERE site_id &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;= @context_site_id</p>
+        <p class="Code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;AND insert_by &#160;&#160;&#160;&#160;&#160;&#160;= @context_user_id</p>
+        <p class="Code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;AND delete_status &#160;&#160;= 0</p>
+        <p class="Code" style="margin-bottom: 0;">&#160;&#160;&#160;SET @error = @@error</p>
+        <p class="Code" style="margin-bottom: 0;">&#160;&#160;&#160;IF @error &gt; 0 SET @return_code = 1</p>
+        <p class="Code" style="margin-bottom: 0;">&#160;&#160;&#160;IF @return_code &lt;= 0</p>
+        <p class="Code" style="margin-bottom: 0;">&#160;&#160;&#160;BEGIN</p>
+        <p class="Code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;exec opCommonReportMethodStatus NULL,</p>
+        <p class="Code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;@return_code,</p>
+        <p class="Code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;@message_code,</p>
+        <p class="Code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;@error,</p>
+        <p class="Code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;@message_parameter</p>
+        <p class="Code" style="margin-bottom: 0;">&#160;&#160;&#160;END</p>
+        <p class="Code" style="margin-bottom: 0;">&#160;&#160;&#160;RETURN @return_code</p>
+        <p class="Code" style="margin-bottom: 0;">END</p>
+        <p class="Code" style="margin-bottom: 0;">go</p>
+        <p class="Code" style="margin-bottom: 0;">GRANT execute ON cpKeyWordRetrieveListByUser TO OnyxPublic</p>
+        <p class="Code" style="margin-bottom: 0;">go</p>
+    </body>
+</html>

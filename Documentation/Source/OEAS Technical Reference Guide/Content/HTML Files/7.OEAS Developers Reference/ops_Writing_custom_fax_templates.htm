@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:lastBlockDepth="4" MadCap:lastHeight="1658" MadCap:lastWidth="980" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Writing custom fax templates</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>
+            <MadCap:keyword term="custom fax:Writing;Writing" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />Writing custom fax templates</h4>
+        <p>Onyx provides <a href="ops_Using_sample_fax_templates.htm"><MadCap:keyword term="templates" />sample fax 
+ templates</a><MadCap:keyword term="Writing:custom fax" /><MadCap:keyword term="custom fax" /> that you can use with little or no modification. You can 
+ also write your own custom fax templates. The fax templates you create 
+ must produce content appropriate for the fulfillment engine. The fax fulfillment 
+ engine uses fax XSL templates to support merging of customer specific 
+ data into a fax document sent to the customer.</p>
+        <p>To write custom stylesheets you must understand the 
+ following:</p>
+        <ul>
+            <li>orderBatch XML structure and the logical objects 
+ within it</li>
+            <li>requirements of the email fulfillment engine</li>
+            <li>XSL and XPath</li>
+        </ul>
+        <p>The following code is an example of an XSL stylesheet that merges data 
+ from the <a href="ops_orderBatch_xml_structure.htm">orderBatch</a> with 
+ boilerplate text in the stylesheet. You can use code like this by saving 
+ it as an XSL file in your document template directory on the OPS host. 
+ When a literatureProduct references the file in its filePath property, 
+ the fax subsystem uses it to transform the orderBatch for each literatureOrderLine 
+ containing the productNumber of the literatureProduct. </p>
+        <p Class="Code" class="code">&lt;?xml version="1.0" encoding="utf-8"?&gt;</p>
+        <p Class="Code" class="code">&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;xsl:output method="text" encoding="utf-8" indent="yes"/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;xsl:template match="literatureOrderLine"&gt;</p>
+        <p class="Code" style="color: #008000;">&lt;!-- The fax engine expects a message element in the output XML.</p>
+        <p class="Code" style="color: #008000;">&#160;&#160;&#160;&#160;&#160;The message element contains two child elements, smtpHeaders</p>
+        <p class="Code" style="color: #008000;">&#160;&#160;&#160;&#160;&#160;and content. --&gt;</p>
+        <p Class="Code" class="code">&lt;message&gt;</p>
+        <p class="Code" style="color: #008000;">&lt;!-- SMTP headers are optional in the literature product stylesheet and are</p>
+        <p class="Code" style="color: #008000;">&#160;&#160;&#160;&#160;&#160;merged with the default SMTP headers configured for the subsystem. --&gt;</p>
+        <p Class="Code" class="code">&lt;smtpHeaders&gt;</p>
+        <p Class="Code" class="code">&lt;smtpHeader name="foo"&gt;</p>
+        <p Class="Code" class="code">&lt;xsl:value-of select=""/&gt;</p>
+        <p Class="Code" class="code">&lt;/smtpHeader&gt;</p>
+        <p Class="Code" class="code">&lt;/smtpHeaders&gt;</p>
+        <p class="Code" style="color: #008000;">&lt;!-- The fax engine uses the content element to create an attachment</p>
+        <p class="Code" style="color: #008000;">&#160;&#160;&#160;&#160;&#160;to the SMTP message. Most fax software uses the attachments to</p>
+        <p class="Code" style="color: #008000;"><span style="color: #008000;">&#160;&#160;&#160;&#160;&#160;the message to populate the body of the fax. --&gt;</span>
+        </p>
+        <p Class="Code" class="code">&lt;content type="text"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:apply-templates select="ancestor::literatureOrder"/&gt;</p>
+        <p Class="Code" class="code">&lt;/content&gt;</p>
+        <p Class="Code" class="code">&lt;/message&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/xsl:template&gt;</p>
+        <p Class="Code" class="code">&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;xsl:template match="literatureOrder"&gt;</p>
+        <p class="Code" style="color: #008000;">&lt;!-- Create a message based on contents of the literature</p>
+        <p class="Code" style="color: #008000;">&#160;&#160;&#160;&#160;&#160;order data --&gt;</p>
+        <p Class="Code" class="code">&lt;xsl:value-of select="substring-before(orderDate,' ')"/&gt;</p>
+        <p Class="Code" class="code">&lt;xsl:value-of select="shipToAddress1"/&gt;</p>
+        <p Class="Code" class="code">&lt;xsl:value-of select="shipToAddress2"/&gt;</p>
+        <p Class="Code" class="code">&lt;xsl:value-of select="shipToAddress3"/&gt;</p>
+        <p Class="Code" class="code">&lt;xsl:value-of select="shipToAddress4"/&gt;</p>
+        <p Class="Code" class="code">&lt;xsl:value-of select="shipToAddress5"/&gt;</p>
+        <p Class="Code" class="code">&lt;xsl:value-of select="shipToAddress6"/&gt;</p>
+        <p Class="Code" class="code">&lt;xsl:value-of select="shipToAddress7"/&gt;</p>
+        <p Class="Code" class="code">&lt;xsl:value-of select="shipToAddress8"/&gt;</p>
+        <p Class="Code" class="code">Dear&#160;&lt;xsl:value-of select="firstName"/&gt;,</p>
+        <p Class="Code" class="code">&#160;Thank&#160;you&#160;for&#160;using&#160;Onyx&#160;products.</p>
+        <p Class="Code" class="code">Sincerely,</p>
+        <p Class="Code" class="code">&lt;xsl:value-of select="emailFromDisplayName"/&gt;</p>
+        <p Class="Code" class="code">Onyx&#160;Software,&#160;Inc.</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/xsl:template&gt;</p>
+        <p Class="Code" class="code">&lt;/xsl:stylesheet&gt;</p>
+    </body>
+</html>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="2294" MadCap:lastWidth="704">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+		<title>Stored Procedure Code Sample</title>
+    </head>
+    <body>
+               <h4>
+            <MadCap:keyword term="Code samples" />
+            <MadCap:keyword term="procedure" />
+            <MadCap:keyword term="code" />
+            <MadCap:keyword term="Stored" />Stored procedure code sample</h4>
+        <p>Sample code</p>
+        <p Class="Code" class="code">IF EXISTS (SELECT * FROM sysobjects</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;WHERE 
+ name = N'opContractRetrieveListByExpiration' AND type = N'P')</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;DROP 
+ PROCEDURE opContractRetrieveListByExpiration</p>
+        <p Class="Code" class="code">GO</p>
+        <p Class="Code" class="code">CREATE PROCEDURE opContractRetrieveListByExpiration</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;@context_site_id 
+ &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;INT,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;@context_user_id 
+ &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;NVARCHAR(85),</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;@context_language_code 
+ &#160;&#160;&#160;NVARCHAR(4), 
+ &#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;@expiration_start_date 
+ &#160;&#160;&#160;DATETIME,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;@expiration_stop_date 
+ &#160;&#160;&#160;&#160;DATETIME</p>
+        <p Class="Code" class="code">WITH EXECUTE AS SELF AS</p>
+        <p Class="Code" class="code">BEGIN</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;DECLARE 
+ @return_code &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;INT,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;@message_code 
+ &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;INT,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;@message_parameter 
+ &#160;&#160;&#160;&#160;&#160;NVARCHAR(255),</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;@error 
+ &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;INT</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;SET 
+ &#160;&#160;&#160;&#160;@return_code 
+ &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;= 
+ 0</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;-- 
+ Return a national language error if no date criteria is provided. &#160;&#160;&#160;&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;IF 
+ @return_code &lt;= 0</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;BEGIN</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;IF 
+ @expiration_start_date IS NULL AND</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;@expiration_stop_date 
+ &#160;IS NULL 
+ &#160;&#160;&#160;&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;BEGIN</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;SET 
+ @return_code &#160;= 
+ 2</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;SET 
+ @message_code = 2500</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;END</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;ELSE</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;-- 
+ Dates sent from the middle tier do not contain milliseconds.</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;-- 
+ We will add a second to compensate.</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;BEGIN</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;IF 
+ @expiration_stop_date IS NOT NULL</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;SET 
+ @expiration_stop_date = DATEADD(second, 1, @expiration_stop_date)</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;END</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;END</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;IF 
+ @return_code &lt;= 0</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;BEGIN</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;-- 
+ Retrieve the records if we have valid input criteria.</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;SELECT 
+ c.contract_id,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;c.contractor_id,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;co.secondary_id,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;co.company_name,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;c.execution_date,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;c.expiration_date,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;c.summary</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;FROM 
+ contract c</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;JOIN 
+ company co</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ON 
+ c.contractor_id &#160;&#160;&#160;= 
+ co.company_id</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;WHERE 
+ c.delete_status &#160;&#160;&#160;= 
+ 0</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;AND 
+ c.site_id &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;= 
+ @context_site_id</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;AND 
+ c.expiration_date &gt;= ISNULL(@expiration_start_date, expiration_date 
+ )</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;AND 
+ c.expiration_date &lt;= ISNULL(@expiration_stop_date, expiration_date 
+ )</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;END</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;ELSE</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;BEGIN</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;-- 
+ Return the error information</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;EXEC 
+ opCommonReportMethodStatus NULL,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;@return_code,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;@message_code,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;@error,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;@message_parameter</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;END 
+ </p>
+        <p Class="Code" class="code">&#160;&#160;&#160;RETURN 
+ @return_code</p>
+        <p Class="Code" class="code">END</p>
+        <p Class="Code" class="code">GO</p>
+        <p Class="Code" class="code">GRANT EXECUTE ON opContractRetrieveListByExpiration 
+ TO OnyxPublic</p>
+        <p Class="Code" class="code">GO</p>
+    </body>
+</html>

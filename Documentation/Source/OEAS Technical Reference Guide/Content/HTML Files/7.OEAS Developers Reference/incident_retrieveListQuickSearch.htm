@@ -1,0 +1,981 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="852" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>retrieveListQuickSearch (incident)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="retrieveListQuickSearch" />retrieveListQuickSearch method</h2>
+        <p>The retrieveListQuickSearch method of the <a href="incident_object.htm">incident</a> 
+ object searches the database by the input criteria and returns a list 
+ of incident records.</p>
+        <p><a href="standard_retrieveList.htm">retrieveList standard method information</a>
+        </p>
+        <h3>Parameters</h3>
+        <p>
+            Parameters table
+        </p>
+        <table wrapperparagraphselector="P" style="width: 100%;border-spacing: 0px;border-spacing: 0px;" width="100%">
+            <col />
+            <col />
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Direction</th>
+                    <th>Data type</th>
+                    <th>Content type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">primaryId</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">in</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">string</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">n/a</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">Incident ID from the incident table.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">secondaryId</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">in</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">string</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">n/a</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">Mirrors the primaryId of the incident object.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">incidentCategory (required)</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">in</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">string</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">n/a</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">Comma-delimited string consisting of the 
+ category of the incident you want to return.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">ownerId</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">in</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">string</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">n/a</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">Company or individual who owns the incident.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">companyName</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">in</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">string</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">n/a</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">Name of the company who is the contact of 
+ the incident.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">firstName</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">in</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">string</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">n/a</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">First name of the contact of the incident.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">lastName</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">in</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">string</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">n/a</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">Last name of the contact of the incident.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">description1</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">in</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">string</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">n/a</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">Description of the incident.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">typeId</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">in</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">string</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">n/a</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">Integer reference to the type of the incident. 
+ This parameter can be a semicolon-separated list of typeIds.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">statusId</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">in</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">string</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">n/a</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">Integer reference to the status of the incident. 
+ This parameter can be a semicolon-separated list of statusIds.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">sourceId</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">in</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">string</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">n/a</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">Integer reference to the source of the incident. 
+ This parameter can be a semicolon-separated list of sourceIds.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">priorityId</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">in</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">string</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">n/a</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">Integer reference to the priority of the 
+ incident. This parameter can be a semicolon-separated list of priorityIds.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">assignedTo</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">in</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">string</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">n/a</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">User-defined field which could be used as 
+ a key to an external database. This parameter can be a semicolon-separated 
+ list of assignedTo/userIds.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="1" rowspan="1" style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">incidentProductCode</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">in</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">string</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">n/a</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">A <a href="incident_productId.htm">productId</a> 
+ property value.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">includeMask</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">in</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">string</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">n/a</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">Switch to determine masking behavior of the 
+ incident component for a given retrieveListByFilter call.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">rowSet</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">out</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">object</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">all(out)</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">Returned incident data.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Columns returned in the rowSet object
+        </p>
+        <table wrapperparagraphselector="P" style="width: 100%;border-spacing: 0px;border-spacing: 0px;" width="100%">
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>columnOrdinal</th>
+                    <th>columnName</th>
+                    <th>Physical column</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">primaryId</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">incident.incident_id</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">2</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">secondaryId</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">incident.secondary_id</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">3</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">Category</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">incident.incident_category_did</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">4</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">Assigned</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">incident.assigned_to</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">5</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">Type</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">reference_parameter.parameter_desc</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">6</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">ownerPrimaryId</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">company.company_id or individual.individual_id</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">7</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">ownerSecondaryId</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">company.secondary_id or individual.secondary_id</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">8</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">firstName</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">individual.first_name</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">9</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">lastName</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">individual.last_name</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">10</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">companyName</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">company.company_name</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">11</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">phoneNumber</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">phone.phone_number</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">12</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">Source</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">reference_parameter.parameter_desc</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">13</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">Priority</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">reference_parameter.parameter_desc</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">14</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">Status</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">reference_parameter.parameter_desc</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">15</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">Description</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">incident.desc1</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">16</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">Due Date</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">reminder.due_by_date</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">17</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">Update By</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">incident.update_by</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">18</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">Update Date</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">incident.update_date</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">19</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">Insert By</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">incident.insert_by</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">20</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">Insert Date</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">incident.insert_date</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">21</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">Alarm</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">reminder.alarm</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">22</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">User 1</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">23</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">User 2</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">24</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">onyxTimestamp</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">incident.timestamp</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Steps</h3>
+        <table wrapperparagraphselector="P" style="width: 100%;margin-top: 14pt;border-spacing: 0px;border-spacing: 0px;" width="100%">
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Step data</th>
+                    <th>Step type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">OnyxDataValidationStep.DataValidation</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">com</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">Validates input parameters</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">OnyxDM.DataManager</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">com</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle">
+                        <p class="Table_Text">Retrieves incident information</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Remarks</h3>
+        <p>The retrieveListQuickSearch method is not case sensitive 
+ for the following input parameters:</p>
+        <ul>
+            <li>secondaryId</li>
+            <li>firstName</li>
+            <li>lastName</li>
+            <li>companyName</li>
+            <li>description1</li>
+        </ul>
+        <p>When you use either primaryId or secondaryId as a filter parameter, 
+ the retrieveListQuickSearch method ignores all other parameters that you 
+ pass to it.</p>
+        <p>This method supports wild card substitution in search criteria. 
+ For more information on wild card substitution, see the <a href="standard_retrieveList.htm">retrieveList 
+ method (standard behavior)</a> topic.</p>
+        <p>This method supports paging functionality. For more information, 
+ see the <a href="standard_retrieveList.htm#paging_functionality">Paging 
+ functionality</a>.</p>
+        <h3>Example</h3>
+        <p>Input Parameter:
+        </p>
+        <p>In this example we search for all Sales incidents assigned to aprilc.</p>
+        <p Class="Code" class="C_Code">&lt;parameters&gt;</p>
+        <p Class="Code" class="C_Code">&lt;primaryId&gt;&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;secondaryId&gt;&lt;/secondaryId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;incidentCategory&gt;3&lt;/incidentCategory&gt;</p>
+        <p Class="Code" class="C_Code">&lt;ownerId&gt;&lt;/ownerId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;companyName&gt;&lt;/companyName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;firstName&gt;&lt;/firstName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;lastName&gt;&lt;/lastName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;description1&gt;&lt;/description1&gt;</p>
+        <p Class="Code" class="C_Code">&lt;typeId&gt;&lt;/typeId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;statusId&gt;&lt;/statusId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;sourceId&gt;&lt;/sourceId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;priorityId&gt;&lt;/priorityId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;assignedTo&gt;aprilc&lt;/assignedTo&gt;</p>
+        <p Class="Code" class="C_Code">&lt;incidentProductCode&gt;&lt;/incidentProductCode&gt;</p>
+        <p Class="Code" class="C_Code">&lt;includeMask&gt;&lt;/includeMask&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/parameters&gt;</p>
+        <p>Output Parameter:<![CDATA[
+        ]]></p>
+        <p Class="Code" class="C_Code">&lt;parametersReturn&gt;</p>
+        <p Class="Code" class="C_Code">&lt;rowSet objectType="rowSet" rowCount="2" columnCount="24" pageSize=""&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinitions collection="1" objectType="columnDefinition"&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Primary ID&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;primaryId&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;1&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;24&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;16&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Incident ID&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;secondaryId&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;2&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;24&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Category&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;Category&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;3&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;120&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Assigned&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;Assigned&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;4&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;104&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;85&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Type&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;Type&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;5&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Owner Primary ID&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;ownerPrimaryId&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;6&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;120&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;16&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Owner ID&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;ownerSecondaryId&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;7&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;120&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;First Name&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;firstName&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;8&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;104&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Last Name&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;lastName&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;9&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;104&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Company&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;companyName&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;10&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;104&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Phone&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;phoneNumber&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;11&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;87&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Source&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;Source&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;12&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Priority&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;Priority&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;13&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Status&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;Status&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;14&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Description&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;Description&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;15&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;104&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Due Date&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;Due Date&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;16&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;120&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;16&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;dateTime&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;23&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;3&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Update By&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;Update By&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;17&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;104&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;85&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Updated&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;Update Date&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;18&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;120&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;16&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;dateTime&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;23&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;3&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Insert By&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;Insert By&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;19&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;104&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;85&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Inserted&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;Insert Date&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;20&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;120&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;16&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;dateTime&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;23&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;3&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Alarm&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;Alarm&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;21&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;120&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;2&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;boolean&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;User 1&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;User 1&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;22&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;112&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;User 2&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;User 2&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;23&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;112&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;OnyxTimeStamp&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;onyxTimestamp&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;24&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;120&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;8&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinitions&gt;</p>
+        <p Class="Code" class="C_Code">&lt;rows collection="1" objectType="row"&gt;</p>
+        <p Class="Code" class="C_Code">&lt;row&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c0&gt;F043812E-EAFC-410D-8EE0-0847D91D8F13&lt;/c0&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c1&gt;213&lt;/c1&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c2&gt;3&lt;/c2&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c3&gt;AprilC&lt;/c3&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c4&gt;Product Inquiry&lt;/c4&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c5&gt;8E2035E3-4CB3-4160-886A-675193DD50EB&lt;/c5&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c6&gt;33&lt;/c6&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c7&gt;Paddy&lt;/c7&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c8&gt;Washington&lt;/c8&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c9&gt;Earthscrape Paper Products&lt;/c9&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c10&gt;1219232696**MASK:(999) 999-9999 /x 999999999999&lt;/c10&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c11&gt;Fax&lt;/c11&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c12&gt;High&lt;/c12&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c13&gt;Pending&lt;/c13&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c14&gt;V/10Dollar Rebate Remove-it Registration&lt;/c14&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c15&gt;2002-11-15 01:18:00&lt;/c15&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c16&gt;sa&lt;/c16&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c17&gt;2003-10-14 19:23:03&lt;/c17&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c18&gt;sa&lt;/c18&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c19&gt;2002-01-10 21:38:37&lt;/c19&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c20&gt;0&lt;/c20&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c21 null="1"&gt;&lt;/c21&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c22 null="1"&gt;&lt;/c22&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c23&gt;0000000000006643&lt;/c23&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/row&gt;</p>
+        <p Class="Code" class="C_Code">&lt;row&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c0&gt;FCF7492A-A142-4099-B9F4-7EE67817B380&lt;/c0&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c1&gt;240&lt;/c1&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c2&gt;3&lt;/c2&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c3&gt;AprilC&lt;/c3&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c4&gt;Large Account&lt;/c4&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c5&gt;8E2035E3-4CB3-4160-886A-675193DD50EB&lt;/c5&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c6&gt;33&lt;/c6&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c7&gt;Paddy&lt;/c7&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c8&gt;Washington&lt;/c8&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c9&gt;Earthscrape Paper Products&lt;/c9&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c10&gt;1219232696**MASK:(999) 999-9999 /x 999999999999&lt;/c10&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c11&gt;Fax&lt;/c11&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c12&gt;Immediate&lt;/c12&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c13&gt;Pending&lt;/c13&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c14&gt;not able to use the modem in PW3&lt;/c14&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c15&gt;2002-04-24 02:18:00&lt;/c15&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c16&gt;sa&lt;/c16&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c17&gt;2003-10-21 21:31:45&lt;/c17&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c18&gt;sa&lt;/c18&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c19&gt;2002-01-10 21:38:47&lt;/c19&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c20&gt;0&lt;/c20&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c21 null="1"&gt;&lt;/c21&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c22 null="1"&gt;&lt;/c22&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c23&gt;00000000000065B0&lt;/c23&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/row&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/rows&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/rowSet&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/parametersReturn&gt;</p>
+    </body>
+</html>

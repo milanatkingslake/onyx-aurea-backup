@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" class="" MadCap:lastBlockDepth="4" MadCap:lastHeight="796" MadCap:lastWidth="624">
+    <head><title>Code files</title>
+        <script language="JavaScript">
+        </script>
+        <link href="../Resources/Stylesheets/Aptean_word.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body onload="onyxOnload()">
+        <H4 class="Heading">Code files</H4>
+        <p class="BodyText">Each connector requires its own set of code files to enable you to load 
+ the connector. </p>
+        <p class="BodyText">We recommend that you use copies of the default code files from the 
+ sample connector folder as your starting point when building a new connector. 
+ </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">To confirm that your changes appear as expected, delete the 
+ files in Internet Explorer's Temporary Internet Files folder. </p>
+        <p class="BodyText">Full paths of the default code files, where <span style="font-style: italic;">YourOEPwebsite </span>is your OEP installation 
+ directory: </p>
+        <ul style="list-style: disc;" type="disc">
+            <li class="ListBullet"><code style="font-style: italic;">YourOEPwebsite</code><code>\cti\test\cticonnector.asp</code>
+            </li>
+            <li class="ListBullet"><code style="font-style: italic;">YourOEPwebsite</code><code>\cti\test\cticonnector.js</code>
+            </li>
+        </ul>
+        <p class="ElementHeader_Two"><code>cticonnector.asp file</code>
+        </p>
+        <p class="BodyText">The .asp file is responsible for any server-side processing required 
+ to set up the CTI system components. During initialization of Onyx CTI, 
+ the .asp page is loaded into a hidden frame. The default .asp file contains 
+ a reference to the test applet JavaScript file, as well as some basic 
+ logic for initializing the applet and loading the test driver interface. 
+ </p>
+        <p class="BodyText">When configuring your custom .asp file for your connector, include any 
+ logic required to clean up CTI system resources when Onyx CTI is unloaded, 
+ either due to the user closing the browser or navigating away from OEP. 
+ Typically this logic is encapsulated in the onBeforeUnload event. </p>
+        <p class="ElementHeader_Two"><code>cticonnector.js file</code>
+        </p>
+        <p class="BodyText">The .js file includes a JavaScript class that contains your implementation 
+ of the ICTIConnector interface for your custom connector. During initialization 
+ of Onyx CTI, a reference to this file is dynamically added to the Onyx 
+ CTI frameset page and the class is instantiated using the entry from the 
+ OEDB. </p>
+        <p class="BodyText">When configuring your custom .js file for your connector, replace the 
+ code in each ICTIConnector interface method of your custom .js file with 
+ the logic required by your CTI system. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">For information about the default <code>cticonnector.js file</code>, see 
+ <a href="Sample_connector_and_test_tools.htm">Sample connector and test 
+ tools</a>. </p>
+    </body>
+</html>

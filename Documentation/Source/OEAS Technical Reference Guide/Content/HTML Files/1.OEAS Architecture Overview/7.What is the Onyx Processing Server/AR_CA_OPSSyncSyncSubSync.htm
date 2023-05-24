@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="391" MadCap:lastWidth="678">
+    <head>
+        <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Server Synchronization</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>Server Synchronization</h3>
+        <p>During synchronization, the sync subsystem upsyncs the data of a user 
+ subscription profile from the staging server to the OEDB and then downsyncs 
+ that data from the OEDB to the staging server. To do so, the sync subsystem: 
+ </p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li>Identifies records on the staging server that 
+ are new or have changed since the last upsync and calls OEAS methods on 
+ the appropriate business objects to process save, delete, and unsubscribe 
+ records in the OEDB. </li>
+            <li>Identifies data collisions and calls the Collision 
+ Handler to try to resolve the collisions. </li>
+            <li>Identifies records that have been changed, deleted, 
+ subscribed, and unsubscribed in the OEDB since the last downsync and applies 
+ the OEDB changes to the staging server data store. The sync subsystem 
+ also identifies new records that need to be added to the staging server 
+ data store because of subscription requests and relationships. </li>
+        </ol>
+        <p class="Indent1">The server synchronization formats Onyx data as 
+ Exchange messages. It places the messages in OEP-Offline users’ folders 
+ within a dedicated public folder in the staging server data store. </p>
+        <p class="Indent1">Except for <em class="Emphasis">tightly coupled</em> 
+ records and other closely related records, each folder contains one message 
+ per record. Tightly coupled records are records that have a parent-child 
+ relationship and that are always dealt with as a single unit, therefore, 
+ they are stored in a single message. Forecast/ForecastLine and Quote/QuoteLine 
+ are tightly coupled records. Other closely related records that are contained 
+ within single messages are Phones and Addresses and their owning Individual 
+ and Company record.</p>
+    </body>
+</html>

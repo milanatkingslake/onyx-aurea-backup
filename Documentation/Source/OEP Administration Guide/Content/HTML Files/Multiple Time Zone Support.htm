@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="849" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2>Multiple Time Zone Support</h2>
+        <p>To maintain consistent behavior in an environment that may contain client applications from different time zones, OEAS processes all date and time information using Coordinated Universal Time (UTC) and the universal date format (YYYY-MM-DD HH:MM:SS). It is the responsibility of OEP and other client applications to implement a scheme to convert this data on input and output to suit the needs of end-users. UTC, like Greenwich Mean Time, is set at zero degrees longitude on the prime meridian and does not adjust for daylight savings time. </p>
+        <p>To meet the requirements set by OEAS, OEP contains a set of simple functions that convert the time from the server to be useable in the client, and back again when data is saved. These functions are known as the Multiple Time Zone (MTZ) functions. </p>
+        <p>Use these functions to do the following:</p>
+        <ul>
+            <li>Convert time data between UTC and the client's local time zone </li>
+            <li>Format date and time values in a manner that the end user expects (based on their locale settings)</li>
+            <li>Validate the date and time values typed by users &#160;</li>
+        </ul>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; &#160;"> The OEP server does not implement any functionality to generate date and time information that is compatible with the needs of OEAS or the client browser. You should not generate dates from within ASP scripts running in IIS unless you are intimately familiar with the requirements and consequences. </p>
+        <h4>File setup</h4>
+        <p>The functions are distributed in the following files:</p>
+        <ul>
+            <li>common\include\DateServerFunctions.asp</li>
+            <li>common\javascript\datetime.js </li>
+        </ul>
+        <p>DateClientFunctions.asp includes a reference to DateServerFunctions.asp, so it is not necessary to include both if you need the client side functions. </p>
+        <p>Since many of the functions provided in these files depend on the context cache for the proper display formats for the client browser, the following files must be included in the page beforehand:</p>
+        <ul>
+            <li>common\javascript\cache.js</li>
+            <li>common\javascript\cached_data.js</li>
+            <li>common\javascript\common.js</li>
+            <li>common\javascript\alert.js</li>
+            <li>res\javascript\alertres.js. &#160;</li>
+            <li>res\datetime_res.js</li>
+        </ul>
+        <p>Failing to include these files may cause unexpected results. </p>
+        <h4>Function descriptions</h4>
+        <p>Each of the files, along with some of their important functions appears in the following tables. Review the code in each file to learn more about the functions and their behavior. </p>
+        <h4>DateServerFunctions.asp</h4>
+        <p>common\include\DateServerFunctions.asp contains several functions that convert dates from OEAS business object XML to a client-specific format. These are intended for use on the server side. </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Function</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">vbConvertUniversalToLocal </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Converts a universal date/time string into a date string that matches the client's locale settings</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>DateTime.js</h4>
+        <p>common\javascript\DateTime.js contains several client-side functions that convert date and time values between formats and time zones. Most of these functions also handle formatting and will respect the client browser's locale settings. </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Function</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">jsConvertGMTUniversalToLocal</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Converts a UTC date in universal format to local date format and local time zone</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">jsConvertJavascriptDateToOnyxFormat</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Converts a JavaScript datetime object to local date format</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">jsConvertLocalToGMT</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Converts a date from local to universal format. Has a boolean argument that indicates whether the value should be converted to UTC. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">jsConvertUniversalFormatToLocalFormat</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Converts a date in universal format to local date format but does not convert time zones</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">jsConvertUniversalTimeToLocal</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Converts a time from universal format (HH:MM:SS) to local time format and local time zone</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">jsCurrentClientDate</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Creates a string that contains the current date in the client's locale format and time zone</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">jsCurrentClientDateTimeAdd</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Creates a string that contains the current date plus a supplied offset in the client's locale and time zone</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">jsCurrentClientDateTime</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Creates a string that contains the current date and time in the client's locale format and time zone</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">jsFormatGMTUniversalDate</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Accepts the individual numbers of a local date and creates one in universal format and converted to UTC</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">jsFormatUniversalDate</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Accepts the individual numbers of a local date and creates one in universal format, but does not convert to UTC</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">jsValidateInputDate</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Validates the contents of a text box to see if it matches the locale's formatting requirements for a date</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">jsValidateInputDateTime</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Validates the contents of a text box to see if it matches the locale's formatting requirements for a date and time</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">jsValidateInputTime</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Validates the contents of a text box to see if it matches the locale's formatting requirements for a time</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">jsValidateTime</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Validates the contents of a supplied string to see if it matches the locale's formatting requirements for a time</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">jsXMLDateNodeFormatMTZ</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Given an XML DOMDocument and a node name, converts all universal date strings to local format and local time zone</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">jsXMLDateNodeFormatLocal2MTZ</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Given an XML DOMDocument and a node name, converts all local date strings to universal format and UTC</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">jsXMLUniversalDate2LocalDate</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Given an XML DOMDocument and a node name, converts all universal date strings to local format, but does not convert to local time zone</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">vbLocaleDisplayDateFormat</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Generates a string that shows the expected date format for the language locale (for example, DD-MM-YYYY HH:MM)</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">vbLocaleDisplayTimeFormat</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Generates a string that shows the expected time format language locale (for example, HH:MM)</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

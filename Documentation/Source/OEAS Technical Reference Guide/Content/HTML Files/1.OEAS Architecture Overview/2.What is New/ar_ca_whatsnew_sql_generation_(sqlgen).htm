@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="850" MadCap:lastWidth="624">
+    <head>
+        <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head>
+            <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+            <link href="../../../Resources/TableStyles/Aptean_Note_Table_2.css" rel="stylesheet" MadCap:stylesheetType="table" /><title>SQL Generation (SQLGen)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>SQL Generation (SQLGen)</h2>
+        <p>SQLGen is the heart of the new OEAS architecture. It is an infrastructure 
+ to implement the functionality of create, retrieve, update, and delete 
+ (CRUD) methods for a customer's business logic. This infrastructure provides 
+ the advantages of faster and more consistent implementation of new features 
+ and increased independence from the database layer. </p>
+        <p>SQLGen consists of the following components and processes:</p>
+        <ul style="list-style: disc;" type="disc">
+            <li>A single data access component called Onyx Data 
+ Manager (ODM) that is responsible for generating most database queries.</li>
+            <li>SQL generation components, OnyxSGPrep and OnyxSGEngine, 
+ which are responsible for generating SQL code and XSL templates used by 
+ ODM at run time.</li>
+            <li>A design time process.</li>
+            <li>A run time process. </li>
+        </ul>
+        <p>SQL generation occurs in two stages: during the publish process and 
+ at run time.</p>
+        <p>At design time, a developer creates and/or modifies metadata (XML) using 
+ the Object Designer tool. The metadata contains object model and physical 
+ model information (and the mapping between the two), and it contains calls 
+ to business logic that the developer can inject. The developer implements 
+ business logic using custom step components, stored procedures, database 
+ functions, or a call via a step component to another system such as Onyx 
+ Process Manager. The developer deploys the metadata using the Object Designer's 
+ publish function, which triggers the first stage of SQLGen. </p>
+        <p>During the first stage, SQLGen components transform the metadata (XML) 
+ into SQL stored procedures and generate XSL documents to store object 
+ and method-specific SQL commands in a memory cache (Method cache). The 
+ publish process then compiles the SQL stored procedures into the Onyx 
+ Enterprise Database (OEDB). For more information on the publish process, 
+ see <a href="AR_ca_whatsnew_OED_publish_process.htm">OED publish process</a>.</p>
+        <p>The second stage of SQLGen happens at run time. When a client application 
+ calls the OEAS application, OEAS components use the cached XSL documents 
+ to create T-SQL blocks for calling the generated SQL code stored in the 
+ database. </p>
+        <p>The SQLGen process enables developers to customize the OEAS application 
+ while writing little or no code for CRUD methods. By leveraging ODM for most data access functionality, developers 
+ no longer have to write code for each customization.</p>
+        <h4>Customization options</h4>
+        <p>As with previous versions, the new architecture supports 
+ customization by creating custom step components and changing OED metadata. 
+ In addition, SQLGen provides multiple customization options including:</p>
+        <ul style="list-style: disc;" type="disc">
+            <li>Adding a custom column 
+ to an existing database table and corresponding logical, physical, and 
+ logical-to-physical descriptions in Object Designer. After publishing, 
+ SQLGen automatically implements CRUD behavior for the new column/property.</li>
+            <li>Adding a custom table 
+ to the database and corresponding logical, physical, and logical-to-physical 
+ descriptions in Object Designer. After publishing, SQLGen automatically 
+ implements CRUD behavior for the new table/object.</li>
+            <li>Adding a custom database 
+ SQL stored procedure and specifying it in Object Designer as pre or post 
+ procedure on an existing method. Developers can define and configure their 
+ own custom pre and post procedures to customize a method. Pre and post 
+ procedure customizations apply to insert, update, delete, and saveCollection 
+ methods. The retrieve and retrieveCollection methods do not support pre 
+ and post customization points. &#160;SQLGen 
+ automatically includes the pre or post stored procedure call in the generated 
+ stored procedure for the singular method or in the T-SQL block it passes 
+ to the database when the pre or post procedure is mapped to a collection 
+ method.</li>
+            <li>Adding a custom database 
+ SQL stored procedure and specifying it in Object Designer as replace procedure 
+ on an existing method. Developers can customize retrieve and retrieveCollection 
+ methods using replace procedures. Mapping a logical method to a replace 
+ procedure tells SQLGen not to generate stored procedure code for the method 
+ and to instead call the specified custom procedure already in the database. 
+ All Onyx retrieveList methods use replace procedures which are included 
+ as open source code on the product CD.</li>
+            <li>Adding a custom database 
+ SQL stored procedure and specifying it in Object Designer as replace procedure 
+ for a non-standard (non-CRUD)method. After publishing, SQLGen automatically 
+ calls the specified procedure for the non-standard method.</li>
+        </ul>
+        <p>For more information, see <a href="AR_ca_whatsnew_Customizing_objects_and_tables.htm">Customizing 
+ objects and tables</a>.</p>
+        <h4>SQL Generation Requirements</h4>
+        <p>SQLGen places certain requirements on all objects and tables that use 
+ its functionality, as described in the following lists. While there are 
+ requirements for objects and tables that use SQLGen, there is no requirement 
+ that every object or table uses SQLGen. &#160;OEAS 
+ supports having an object that is implemented with only custom components 
+ and does not use ODM (and therefore SQLGen) at all. &#160;This 
+ kind of an object/table is not subject to any particular requirements, 
+ but if it integrates with core objects some of the requirements might 
+ be applicable such as having a GUID primary key, if it's used as an owner 
+ for a core object. &#160;</p>
+        <p style="font-weight: bold;">Objects (Logical Model)</p>
+        <ul style="list-style: disc;" type="disc">
+            <li>Every Object has a Primary Key</li>
+        </ul>
+        <p style="font-weight: bold;">Base Tables (Physical Model)</p>
+        <p>Every Table has the following Maintenance Columns 
+ including:</p>
+        <ul style="list-style: disc;" type="disc">
+            <li>site_id</li>
+            <li>insert_by</li>
+            <li>insert_date</li>
+            <li>update_by</li>
+            <li>update_date</li>
+            <li>onyx_timestamp</li>
+        </ul>
+        <p>Transactional table columns also include:</p>
+        <ul style="list-style: disc;" type="disc">
+            <li>delete_status</li>
+        </ul>
+        <p>Domain table columns also include:</p>
+        <ul style="list-style: disc;" type="disc">
+            <li>record_status</li>
+        </ul>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Multi-language support tables only have the site_id and onyx_timestamp maintenance columns.</p>
+        <h4>OEAS Run-time Behavior</h4>
+        <p>The SQLGen architecture includes a new run-time behavior. The run-time 
+ behavior occurs in the following sequence:</p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li>Client application calls Onyx Transaction Manager 
+ (OTM)</li>
+            <li>OTM calls the Data Validation step, which checks 
+ and cleans up the client input</li>
+            <li>OTM calls Onyx Data Manager (ODM) step with validated 
+ client input</li>
+            <li>ODM performs Data Manager functions (for example, 
+ GUID generation for inserts)</li>
+            <li>ODM applies method stylesheet XSL transform, creating 
+ SQLGen output XML</li>
+            <li>ODM parses SQLGen output XML and builds T-SQL 
+ statements which are passed to the Onyx Query Engine (QE)</li>
+            <li>QE calls a database procedure (either SQLGen wrapper 
+ or a dedicated method stored procedure) </li>
+            <li>Onyx Enterprise Database (OEDB) executes stored 
+ procedure, sets return value, and executes cursor</li>
+            <li>QE passes result set back to ODM</li>
+            <li>ODM Result Set Processor parses return and composes 
+ XML for OTM</li>
+            <li>ODM passes XML to OTM</li>
+            <li>OTM returns result to client application</li>
+        </ol>
+    </body>
+</html>

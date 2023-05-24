@@ -1,0 +1,947 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="855" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>retrieveSummaryInfo (customer)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="retrieveSummaryInfo" />retrieveSummaryInfo method</h2>
+        <p>The retrieveSummaryInfo method of the <a href="customer_object.htm">customer</a> 
+ object retrieves customer information based on the primaryId. The data 
+ is returned as a rowSet object in the XML.</p>
+        <p><a href="standard_retrieveList.htm">retrieveList standard method information</a>
+        </p>
+        <h3>Parameters</h3>
+        <table>
+            <col style="width: 4cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 4cm;" />
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Direction</th>
+                    <th>Data type</th>
+                    <th>Content type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">primaryId (required)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">in</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">string</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">The primaryId of the customer</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">includeMask</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">in</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">string</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">n/a</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Specifies how the mask data should be applied 
+ to the phone number and fax number (append, apply, none)</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">rowSet</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">out</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">object</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">all(out)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Customer information summary</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Columns returned in the rowSet object when a row 
+ is an individual
+        </p>
+        <table wrapperparagraphselector="P" style="width: 99.615%;border-spacing: 0px;border-spacing: 0px;" width="99.615%">
+            <col />
+            <col />
+            <col style="width: 25.508%;" />
+            <col style="width: 34.722%;" />
+            <thead>
+                <tr>
+                    <th>columnOrdinal</th>
+                    <th>columnName</th>
+                    <th>Physical column</th>
+                    <th>Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">1</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchPhoneNumber</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">phone.primary_phone</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The primary phone number of the individual. 
+ If the primary phone is a Fax, this value is Null. The column is masked 
+ according to the includeMask parameter.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">2</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchContactFirstName</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">individual.first_name</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The first name of the individual.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">3</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchContactLastName</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">individual.last_name</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The last name of the individual.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">4</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchFaxNumber</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">phone.phone_number</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The Fax number of the individual. The column 
+ is masked according to the includeMask parameter.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">5</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchCompanyName</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">individual.company_name</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The name of the company associated with the 
+ individual.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">6</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchCompanyType</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">reference_parameter_ml_view.parameter_desc</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The type of the related company.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">7</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchCompanySubType</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">reference_parameter_ml_view.parameter_desc</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The subType of the related company.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">8</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchStatus</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">reference_parameter_ml_view.parameter_desc</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The status of the related company.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">9</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchTitleDesc</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">individual.title_desc</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The title of the individual.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">10</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchDepartmentDesc</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">individual.department_desc</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The department of the individual.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">11</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchEmailAddress</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">individual.email_address</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The individual's primary email address.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">12</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchAddress1</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">address.address1</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The first address line of the individual's 
+ primary address.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">13</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchAddress2</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">address.address2</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The second address line of the individual's 
+ primary address.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">14</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchAddress3</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">address.address3</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The third address line of the individual's 
+ primary address.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">15</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchCity</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">address.locality1</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The city of the individual's primary address.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">16</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchRegionCode</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">address.region_code</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The state or region data associated with 
+ the primary address.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">17</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchCountryCode</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">address.country_code</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The two letter code identifying the country 
+ associated with the primary address.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">18</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchCountryDesc</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">country_ml_view.country_desc</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The display string associated with the country 
+ code.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">19</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchPostalCode</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">address.country_code</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The postal code for the primary address.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Columns returned in the rowSet object when a row 
+ is a company
+        </p>
+        <table wrapperparagraphselector="P" style="width: 99.615%;border-spacing: 0px;border-spacing: 0px;" width="99.615%">
+            <col />
+            <col />
+            <col style="width: 25.508%;" />
+            <col style="width: 34.722%;" />
+            <thead>
+                <tr>
+                    <th>columnOrdinal</th>
+                    <th>columnName</th>
+                    <th>Physical column</th>
+                    <th>Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">1</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchPhoneNumber</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">phone.primary_phone</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The primary phone number of the individual. 
+ If the primary phone is a Fax, this value is Null. The column is masked 
+ according to the includeMask parameter.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">2</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchContactFirstName</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">individual.first_name</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The first name of the individual.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">3</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchContactLastName</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">individual.last_name</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The last name of the individual.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">4</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchFaxNumber</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">phone.phone_number</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The Fax number of the individual. The column 
+ is masked according to the includeMask parameter.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">5</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchCompanyName</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">individual.company_name</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The name of the company associated with the 
+ individual.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">6</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchCompanyType</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">reference_parameter_ml_view.parameter_desc</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The type of the related company.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">7</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchCompanySubType</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">reference_parameter_ml_view.parameter_desc</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The subType of the related company.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">8</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchStatus</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">reference_parameter_ml_view.parameter_desc</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The status of the related company.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">9</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchTitleDesc</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">individual.title_desc</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The title of the individual.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">10</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchDepartmentDesc</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">individual.department_desc</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The department of the individual.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">11</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchEmailAddress</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">individual.email_address</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The individual's primary email address.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">12</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchAddress1</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">address.address1</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The first address line of the individual's 
+ primary address.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">13</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchAddress2</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">address.address2</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The second address line of the individual's 
+ primary address.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">14</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchAddress3</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">address.address3</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The third address line of the individual's 
+ primary address.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">15</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchCity</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">address.locality1</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The city of the individual's primary address.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">16</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchRegionCode</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">address.region_code</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The state or region data associated with 
+ the primary address.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">17</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchCountryCode</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">address.country_code</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The two letter code identifying the country 
+ associated with the primary address.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">18</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchCountryDesc</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">country_ml_view.country_desc</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The display string associated with the country 
+ code.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 18%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="18%">
+                        <p class="Table_Text" style="margin-bottom: 0;">19</p>
+                    </td>
+                    <td style="width: 19%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="19%">
+                        <p class="Table_Text" style="margin-bottom: 0;">vchPostalCode</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 25.508%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="25.508%">
+                        <p class="Table_Text" style="margin-bottom: 0;">address.country_code</p>
+                    </td>
+                    <td style="width: 34.722%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.722%">
+                        <p class="Table_Text" style="margin-bottom: 0;">The postal code for the primary address.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Steps</h3>
+        <table>
+            <col style="width: 5cm;" />
+            <col style="width: 5cm;" />
+            <col style="width: 7cm;" />
+            <thead>
+                <tr>
+                    <th>Step data</th>
+                    <th>Step type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">OnyxDataValidationStep.DataValidation</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Validates input parameters</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">OnyxDM.DataManager</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Retrieves customer information</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Remarks</h3>
+        <p>Customers that are either marked as private or as deleted are not returned.</p>
+        <p>Customers that are marked as private are not returned, unless the service 
+ request is from the user who marked the customer object instance as private.</p>
+        <h3>Example</h3>
+        <p>Input             Parameter:        </p>
+        <p Class="Code" class="C_Code">&lt;parameters&gt;</p>
+        <p Class="Code" class="C_Code">&lt;primaryId&gt;74CAF57C-238E-42D2-81EF-72392EF3B6A0&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;includeMask&gt;apply&lt;/includeMask&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/parameters&gt;</p>
+        <p>Output Parameter:</p>
+        <p>Note that in this example, the customer is a company.</p>
+        <p class="C_Code">&lt;parametersReturn&gt;</p>
+        <p class="C_Code">&lt;rowSet objectType="rowSet" rowCount="1" columnCount="19" pageSize=""&gt;</p>
+        <p class="C_Code">&lt;columnDefinitions collection="1" objectType="columnDefinition"&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Phone Number&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;vchPhoneNumber&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;1&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;90&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Contact First Name&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;vchContactFirstName&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;2&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Contact Last Name&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;vchContactLastName&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;3&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Fax Number&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;vchFaxNumber&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;4&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;90&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Company&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;vchCompanyName&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;5&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Company Type&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;vchCompanyType&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;6&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Company Subtype&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;vchCompanySubType&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;7&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Status&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;vchStatus&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;8&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Title&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;vchTitleDesc&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;9&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Department&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;vchDepartmentDesc&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;10&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Email&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;vchEmailAddress&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;11&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Address1&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;vchAddress1&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;12&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Address2&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;vchAddress2&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;13&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Address3&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;vchAddress3&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;14&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;City&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;vchCity&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;15&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Region Code&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;vchRegionCode&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;16&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;112&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Country Code&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;vchCountryCode&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;17&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;112&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Country&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;vchCountryDesc&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;18&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Postal Code&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;vchPostalCode&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;19&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;305&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;/columnDefinitions&gt;</p>
+        <p class="C_Code">&lt;rows collection="1" objectType="row"&gt;</p>
+        <p class="C_Code">&lt;row&gt;</p>
+        <p class="C_Code">&lt;c0&gt;&lt;/c0&gt;</p>
+        <p class="C_Code">&lt;c1 null="1"&gt;&lt;/c1&gt;</p>
+        <p class="C_Code">&lt;c2 null="1"&gt;&lt;/c2&gt;</p>
+        <p class="C_Code">&lt;c3&gt;&lt;/c3&gt;</p>
+        <p class="C_Code">&lt;c4&gt;Bahboo&lt;/c4&gt;</p>
+        <p class="C_Code">&lt;c5 null="1"&gt;&lt;/c5&gt;</p>
+        <p class="C_Code">&lt;c6 null="1"&gt;&lt;/c6&gt;</p>
+        <p class="C_Code">&lt;c7 null="1"&gt;&lt;/c7&gt;</p>
+        <p class="C_Code">&lt;c8 null="1"&gt;&lt;/c8&gt;</p>
+        <p class="C_Code">&lt;c9 null="1"&gt;&lt;/c9&gt;</p>
+        <p class="C_Code">&lt;c10 null="1"&gt;&lt;/c10&gt;</p>
+        <p class="C_Code">&lt;c11 null="1"&gt;&lt;/c11&gt;</p>
+        <p class="C_Code">&lt;c12 null="1"&gt;&lt;/c12&gt;</p>
+        <p class="C_Code">&lt;c13 null="1"&gt;&lt;/c13&gt;</p>
+        <p class="C_Code">&lt;c14 null="1"&gt;&lt;/c14&gt;</p>
+        <p class="C_Code">&lt;c15 null="1"&gt;&lt;/c15&gt;</p>
+        <p class="C_Code">&lt;c16 null="1"&gt;&lt;/c16&gt;</p>
+        <p class="C_Code">&lt;c17 null="1"&gt;&lt;/c17&gt;</p>
+        <p class="C_Code">&lt;c18 null="1"&gt;&lt;/c18&gt;</p>
+        <p class="C_Code">&lt;/row&gt;</p>
+        <p class="C_Code">&lt;/rows&gt;</p>
+        <p class="C_Code">&lt;/rowSet&gt;</p>
+        <p class="C_Code">&lt;/parametersReturn&gt;</p>
+    </body>
+</html>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:lastBlockDepth="2" MadCap:lastHeight="2883" MadCap:lastWidth="702" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>RetrieveStringList (NatLangProxy)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>
+            <MadCap:keyword term="RetrieveStringList" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />RetrieveStringList method</h5>
+        <p>The RetrieveStringList method of the <a href="NatLangProxyIntro.htm"><MadCap:keyword term="NatLangProxy" />NatLangProxy 
+ interface</a> obtains a range of National Language strings from the in-memory 
+ cache.</p>
+        <h3>Syntax</h3>
+        <p class="BodyText" style="font-weight: bold;">Visual Basic/VBScript</p>
+        <p Class="Code" class="code">Function RetrieveStringList(</p>
+        <p Class="Code" class="code">AppName As String, </p>
+        <p Class="Code" class="code">SiteID As Long, </p>
+        <p Class="Code" class="code">LanguageCode As String, </p>
+        <p Class="Code" class="code">StartID As Long, </p>
+        <p Class="Code" class="code">EndID As Long) As Variant</p>
+        <p>
+            Visual Basic/VBScript parameter descriptions
+        </p>
+        <p>AppName</p>
+        <p class="BodyTextIndent_1">[in] A string that identifies the OEAS application to query.</p>
+        <p>SiteId</p>
+        <p class="BodyTextIndent_1">[in] A long integer that identifies the specific site to 
+ query within the application.</p>
+        <p>LanguageCode</p>
+        <p class="BodyTextIndent_1">[in] A string that identifies the spoken language of the 
+ string to be accessed.</p>
+        <p>StartID</p>
+        <p class="BodyTextIndent_1">[in] The integer ID of the start of the range to retrieve.</p>
+        <p>EndID</p>
+        <p class="BodyTextIndent_1">[in] The integer ID of the end of the range to retrieve.</p>
+        <p class="BodyText" style="font-weight: bold;">JScript</p>
+        <p Class="Code" class="code">function RetrieveStringList(</p>
+        <p Class="Code" class="code">AppName, </p>
+        <p Class="Code" class="code">SiteID,</p>
+        <p Class="Code" class="code">LanguageCode,</p>
+        <p Class="Code" class="code">StartID,</p>
+        <p Class="Code" class="code">EndID) </p>
+        <p>
+            JScript parameter descriptions
+        </p>
+        <p>AppName</p>
+        <p class="BodyTextIndent_1">[in] A string that identifies the OEAS application to query.</p>
+        <p>SiteId</p>
+        <p class="BodyTextIndent_1">[in] A long integer that identifies the specific site to 
+ query within the application.</p>
+        <p>LanguageCode</p>
+        <p class="BodyTextIndent_1">[in] A string that identifies the spoken language of the 
+ string to be accessed.</p>
+        <p>StartID</p>
+        <p class="BodyTextIndent_1">[in] The integer ID of the start of the range to retrieve.</p>
+        <p>EndID</p>
+        <p class="BodyTextIndent_1">[in] The integer ID of the end of the range to retrieve.</p>
+        <p><b>C#</b>
+        </p>
+        <p>Use with the .NET <a href="Primary_interop_assembly.htm">primary interop 
+ assembly</a> version of this component, OnyxNatLangProxyPIA.</p>
+        <p Class="Code" class="code">public object RetrieveStringList(</p>
+        <p Class="Code" class="code">string AppName, </p>
+        <p Class="Code" class="code">int SiteID,</p>
+        <p Class="Code" class="code">string LanguageCode,</p>
+        <p Class="Code" class="code">int StartID,</p>
+        <p Class="Code" class="code">int EndID) </p>
+        <p>
+            C# parameter descriptions
+        </p>
+        <p>AppName</p>
+        <p class="BodyTextIndent_1">[in] A string that identifies the OEAS application to query.</p>
+        <p>SiteId</p>
+        <p class="BodyTextIndent_1">[in] A long integer that identifies the specific site to 
+ query within the application.</p>
+        <p>LanguageCode</p>
+        <p class="BodyTextIndent_1">[in] A string that identifies the spoken language of the 
+ string to be accessed.</p>
+        <p>StartID</p>
+        <p class="BodyTextIndent_1">[in] The integer ID of the start of the range to retrieve.</p>
+        <p>EndID</p>
+        <p class="BodyTextIndent_1">[in] The integer ID of the end of the range to retrieve.</p>
+        <h3>Return Values</h3>
+        <p>This method returns the list of strings in a two-dimensional array. 
+ The first dimension contains the integer ID of each string, and the second 
+ dimension contains the string itself. Unlike the RetrieveString method 
+ of this interface, RetrieveListString does not provide for automatic substitution 
+ of placeholders.</p>
+        <p>The C# version of this method returns a two-dimensional array as a System.Object 
+ type. To access the individual array elements the Object must be cast 
+ to Object[,] (an object array) and then either assign each element to 
+ a string or copy the value into a new string. For an example of this coding 
+ technique, see the C# code sample in the Example section of DictionaryProxy 
+ <a href="Script_GetPropertyConstraints.htm">GetPropertyConstraints</a> 
+ method.</p>
+        <h3>Remarks</h3>
+        <p>Except in cases of severe COM-related errors, the method does not utilize 
+ the error object. If the method fails to retrieve information from the 
+ cache for any reason (for example, the cache is unavailable, or if the 
+ search contained a non-existent ID range, language code, or application 
+ name), it returns an empty string instead of an array.</p>
+        <h3>Example</h3>
+        <p>The following example demonstrates how to use the RetrieveStringList 
+ method to obtain a consecutive series of strings from the National Language 
+ cache.</p>
+        <p>
+            View the VBScript code sample
+        </p>
+        <p class="Code" style="color: #008000;">' Declare some variables</p>
+        <p Class="Code" class="code">dim str_appname, str_lang, site_id, start_id, end_id, var_ResultArray</p>
+        <p Class="Code" class="code">str_appname = "appname"</p>
+        <p Class="Code" class="code">str_lang = "eng"</p>
+        <p Class="Code" class="code">site_id = 1</p>
+        <p Class="Code" class="code">start_id = 1415</p>
+        <p Class="Code" class="code">end_id = 1419</p>
+        <p Class="Code" class="code">dim oNatLangProxy</p>
+        <p Class="Code" class="code">set oNatLangProxy = CreateObject("OnyxNatLangProxy.NatLangProxy")</p>
+        <p class="Code" style="color: #008000;">' Call the method</p>
+        <p Class="Code" class="code">var_ResultArray = oNatLangProxy.RetrieveStringList(str_appname, site_id, str_lang, start_id, end_id)</p>
+        <p class="Code" style="color: #008000;">' Check to see if the method returned an array</p>
+        <p Class="Code" class="code">if isArray(var_ResultArray) then</p>
+        <p Class="Code" class="code">&#160;&#160;dim size, x</p>
+        <p Class="Code" class="code">&#160;&#160;size = UBound(var_ResultArray, 1)</p>
+        <p Class="Code" class="code">&#160;&#160;for x = 0 to size</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;<span style="color: #008000;">' Do something with the contents of the array</span></p>
+        <p Class="Code" class="code">&#160;&#160;next</p>
+        <p Class="Code" class="code">end if</p>
+        <p Class="Code" class="code">set oNatLangProxy = Nothing</p>
+    </body>
+</html>

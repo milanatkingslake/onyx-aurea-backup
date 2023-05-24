@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="5" MadCap:lastHeight="720" MadCap:lastWidth="624">
+    <head>
+        <link href="Resources/Stylesheets/consonacrm.css" rel="stylesheet" />
+    </head>
+    <body>
+        <H3 class="Heading">Configuring Onyx CTI interface text</H3>
+        <p class="BodyText">You can configure the text that appears in the Onyx CTI interface by editing the Onyx CTI resource string files. Onyx CTI interface text includes window titles, captions, toolbar button labels, image tooltips, and messages (primarily messages that occur outside the database. </p>
+        <p class="BodyText">For example, you could configure the Onyx CTI interface text to use the phrase “Center ID” instead of “Station ID.” To complete this configuration, you would search the files for the phrase “Station ID” and replace each occurrence with the phrase “Center ID.” </p>
+        <p class="BodyText">In this example, the line of code that configures the text for the station ID entry message would look like this: </p>
+        <blockquote>
+            <p class="Code"><code>&lt;string name="msgEnterStationId" text="Enter your Center ID."/&gt;</code> <![CDATA[ ]]></p>
+        </blockquote>
+        <p class="TaskHeading"><b>To configure Onyx CTI interface text </b>
+        </p>
+        <ol>
+            <li class="ListBullet">Edit the text attributes for the desired strings in the following resource string files, where <b class="user-entered_text">YourOEPwebsite</b> is your OEP installation directory and <b class="user-entered_text">language</b> is the language-specific folder (such as "eng"): </li>
+        </ol>
+        <blockquote>
+            <ul>
+                <li class="ListBullet_2"><code>YourOEPwebsite\language\cti\ctitoolbar.xml</code>
+                </li>
+                <li class="ListBullet_2"><span class="user-entered_text"><code>YourOEPwebsite\language\cti\ctidialogs.xml</code></span><code>&#160;</code>
+                </li>
+            </ul>
+        </blockquote>
+        <p class="Indent1">Some attributes are required to correspond to attribute values in other files, such as the enumeration file. Before editing other attributes in this file, review element and attribute descriptions for the file in the <i>Onyx Computer Telephony Integration Developer’s Reference</i>.<br /></p>
+        <ol>
+            <li value="2" class="ListBullet">On the client machine used to access the toolbar, delete the files in Internet Explorer's Temporary Internet Files folder to ensure that the changes take effect the next time you display the Onyx CTI toolbar. </li>
+        </ol>
+    </body>
+</html>

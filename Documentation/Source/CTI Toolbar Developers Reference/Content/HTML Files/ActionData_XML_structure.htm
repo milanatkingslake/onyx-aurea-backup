@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" class="" MadCap:lastBlockDepth="6" MadCap:lastHeight="864" MadCap:lastWidth="624">
+    <head><title>ActionData XML structure</title>
+        <script language="JavaScript">
+        </script>
+        <link href="../Resources/Stylesheets/Aptean_word.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <h4>Action Data XML</h4>
+        <p>The ActionData XML structure contains the instructions for automatic 
+ display of the indicated customer, incident, and/or script records with 
+ the identified call. </p>
+        <p>If there are actions associated with the call, the connector must send 
+ this XML structure, as a child of the call element in the CallData structure, 
+ in response to the <a href="onCallDataOffered_event_ICTIConnector_interface.htm">onCallDataOffered 
+ event</a>. </p>
+        <MadCap:dropDown>
+            <MadCap:dropDownHead>
+                <MadCap:dropDownHotspot>Example: </MadCap:dropDownHotspot>
+            </MadCap:dropDownHead>
+            <MadCap:dropDownBody>
+                <p class="Code" style="font-family: 'Courier New';">&#160;&lt;actions&gt;</p>
+                <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&lt;action action=0 type=1 id= idType= category=3 ownerId=12345 ownerIdType=1 filterField= filterValue= scriptid= scriptmode=ownerType=/&gt;</p>
+                <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;&lt;action action=1 type=6 id= idType= category=3 ownerId=12345 ownerIdType=1 filterField= filterValue= scriptid= scriptmode=ownerType=/&gt;</p>
+                <p class="Code" style="font-family: 'Courier New';">&#160;&#160;&#160;...</p>
+                <p class="Code" style="font-family: 'Courier New';">&lt;/actions&gt;</p>
+            </MadCap:dropDownBody>
+        </MadCap:dropDown>
+        <p>The following table describes the elements of the ActionData XML:</p>
+        <table>
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Element</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">actions</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Root element. Contains the collection of action elements. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">action</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Contains the instruction for automatic display of OEP 
+ records.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The following table describes the attributes of the ActionData XML: </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Attribute</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a name="action_attribute"></a>action </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies what the action should do. <br />Valid values: <br />0  Open a new record form <br />1  Load an existing record<br />2  Execute a search</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a name="type-attribute"></a>type </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies the type of record involved in the action. 
+ <br />Valid values:<br />0  a customer record<br />1  an incident record<br />2  a work ticket record<br />3  a script record <br />4  an e-mail record</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a name="id-attribute"></a>id </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies the unique identifier of the record to retrieve. 
+ Optional if the <a href="#action_attribute">action attribute</a> is 0 
+ or 2. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">idType </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies the type of ID represented by the <a href="#id-attribute">id 
+ attribute</a>. Required if the <a href="#action_attribute">action attribute</a> 
+ is set to 2. <br />Valid values:<br />0  for the primary ID of the record<br />1  for the secondary ID of the record</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">category </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies the category of record for this action. Required 
+ if the <a href="#action_attribute">action attribute</a> is set to 1. This attribute is combined with the <a href="#type-attribute">type 
+ attribute</a> to identify the type of customer or incident record to insert.<br /> 
+ Valid values when the type attribute is 0 (customer 
+ record):<br />0  an individual record<br />1  a company record<br />Valid values when the type attribute is 1 (incident 
+ record):<br />1  a support incident<br />2  a service incident<br />3  a sales incident </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">ownerId </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies the unique identifier of the customer record 
+ that will own the newly created incident. Required if the <a href="#action_attribute">action 
+ attribute</a> is set to 0 and the <a href="#type-attribute">type attribute</a> 
+ is set to 1 (open an incident record).</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">ownerIdType </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies the type of ID represented by the ownerId 
+ attribute. Valid values: <br />0  for the primary ID of the record<br />1  for the secondary id of the record</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a name="filterField-attribute"></a>filterField </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies the name of the property to be used in search 
+ of OEP records. Required if the <a href="#action_attribute">action attribute</a> 
+ is set to 2. <br />Valid values:<br />0  Secondary ID<br />1  First Name<br />2  Last Name<br />3  Company Name<br />4  Post Code<br />5  Phone Number</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">filterValue </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies the value to match in the search of OEP records. 
+ This attribute is used in conjunction with the <a href="#filterField-attribute">filterField 
+ attribute</a>.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">scriptId </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies the ID of the script to execute.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">scriptMode </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies the script mode. <br />Valid values:<br />0  execute the script<br />1  display the script chooser</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="TableStyle_AXIOM_OLH_TABLE1_Body_0_0_RowEnd_ColSep">
+                        <p class="Table_Text">ownerType</p>
+                    </td>
+                    <td class="TableStyle_AXIOM_OLH_TABLE1_Body_0_0_RowEnd_ColEnd">
+                        <p class="Table_Text">Specifies the type of record (customer or incident) 
+ that will own the new script. Valid values:<br />0  Assign the script to a customer<br />1- Assign the script to an incident</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

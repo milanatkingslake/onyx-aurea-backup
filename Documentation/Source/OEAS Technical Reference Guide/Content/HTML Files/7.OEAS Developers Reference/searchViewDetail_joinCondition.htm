@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="580" MadCap:lastWidth="960" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <body>
+        <head><title>joinCondition (searchViewDetail)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="joinCondition" />joinCondition property</h2>
+        <p>The joinCondition property of the <a href="searchViewDetail_object.htm"><MadCap:keyword term="searchViewDetail" />searchViewDetail</a> 
+ object contains a SQL join clause that relates the search table associated 
+ with this searchViewDetail to the base search table of the associated 
+ search view.</p>
+        <h3>Data type</h3>
+        <p>string (maximum length)</p>
+        <h3>Access</h3>
+        <p>Read/write</p>
+        <h3>Remarks</h3>
+        <p>The joinCondition property is used only for items with a <a href="searchViewDetail_nodeType.htm">nodeType</a> 
+ of TABLE. This property is NULL for items with a nodeType of FIELD. However 
+ it is usually needed for items with a nodeType of TABLE.</p>
+        <h3>Base table node example</h3>
+        <p>For base table nodes (i.e. the node referring to the company_lm_view 
+ in the Companies search view), the join condition looks like this:</p>
+        <p>&#160; B.SITE_ID = ~~</p>
+        <p>The ~~ gets replaced by the Site ID in the UI, and the "B" 
+ is the alias assigned to the company_lm_view search table.</p>
+        <h3>Secondary table node example</h3>
+        <p>For secondary table nodes (i.e. the node referring to the incident_lm_view 
+ in the Companies search view), the join condition looks like this:</p>
+        <p>&#160; B.company_id = F.owner_id</p>
+        <p>Where "B" is the alias of the base 
+ search table (in this case company_lm_view), and "F" is the 
+ alias for the secondary table (in this case incident_lm_view). </p>
+    </body>
+</html>

@@ -1,0 +1,258 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" class="" MadCap:lastBlockDepth="6" MadCap:lastHeight="819" MadCap:lastWidth="624">
+    <head>
+        <link href="../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" /><title>Automated display of OEP records</title>
+        <script language="JavaScript">
+        </script>
+        <link href="../Resources/Stylesheets/Aptean_word.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <H1 class="Heading">Automated display of OEP records</H1>
+        <p class="BodyText">You can request OEP actions to automatically display 
+ the following: </p>
+        <ul style="list-style: disc;" type="disc">
+            <li class="ListBullet">Existing OEP records related to caller information, 
+ such as phone numbers, email addresses, customer IDs, incident IDs, and 
+ script IDs. </li>
+            <li class="ListBullet">OEP pages for creating new customer or incident 
+ records.</li>
+            <li class="ListBullet">The script chooser (either for all inbound calls 
+ or based on caller data). </li>
+        </ul>
+        <p class="Strong">How automated display works </p>
+        <p class="BodyText">For each call, the custom connector must: </p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li class="ListBullet">Convert the call data and the related caller-provided 
+ data received from the CTI system into the <a href="CallData_XML_structure.htm">CallData 
+ XML structure</a> (which includes the <a href="ActionData_XML_structure.htm">ActionData 
+ XML structure</a> listing requested OEP actions). </li>
+            <li class="ListBullet">Fire the <a href="onCallDataOffered_event_ICTIConnector_interface.htm">onCallDataOffered 
+ event</a>, passing in the XML as a parameter. </li>
+        </ol>
+        <p class="BodyText">Requested actions are cached (if needed) until the call becomes active. 
+ This caching ensures correct display of records if your CTI system normally 
+ sends caller-provided data separately from the related call. </p>
+        <p class="BodyText">If an existing OEP record was requested and no existing OEP records 
+ were found for the specified filter value (phone number or email address), 
+ Onyx CTI displays the Quick Search page with the data automatically populated. 
+ </p>
+        <p class="Strong">Example scenario </p>
+        <p class="BodyText">The details in this section are limited to the interaction between Onyx 
+ CTI and the custom connector. Other interactions, such as communication 
+ between the connector and the CTI system (or the IVR system), are not 
+ described in this example. </p>
+        <p class="BodyText">A call comes into an agent and the phone rings. The agent answers the 
+ call and an existing customer record appears, based on the caller's originating 
+ phone number 425-555-1212. At the same time an existing sales incident 
+ record appears, based on data entered by the caller. </p>
+        <p class="BodyText">To create this scenario, the connector constructs the CallData XML structure, 
+ setting the attributes to the following values: <br /></p>
+        <table>
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Attribute</th>
+                    <th>Setting</th>
+                    <th>Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">call</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">(not applicable - element)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">-</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">callId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">(from the CTI system)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">-</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">callState</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">(from the CTI system)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">-</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">callType</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">(from the CTI system)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">-</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">source</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">(from the CTI system)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">-</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">queue</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">(from the CTI system)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">-</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">destination</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">(from the CTI system)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">-</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">filterField</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><span class="UIElement">phoneNumber</span>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies a search of OEP records based on phone number. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">filterValue</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><span class="UIElement">4255551212</span>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Lists the originating phone number for the search. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">actions</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">(not applicable - element)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">-</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">action</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">(not applicable - element)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">-</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">action</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><span class="UIElement">1</span>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Requests display of an existing OEP record. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">type</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><span class="UIElement">1</span>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies the incident type of OEP record. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">id</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><span class="UIElement">100</span>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Assumes that the caller specified an incident record 
+ ID of 100. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">idType</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><span class="UIElement">1</span>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Assumes that the caller identified the OEP record using 
+ its secondary ID. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">category</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><span class="UIElement">3</span>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Assumes that the caller specified a sales incident. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="BodyText">Example of the fully constructed CallData XML structure: </p>
+        <p class="C_Code">&lt;call callId=1234 callState=1 callType=1 source=ACD queue=TechSupport destination=5551234567 filterField=phoneNumber filterValue=4255551212&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&lt;actions&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&lt;action action=1 type=1 id=100 idType=1 category=3/&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&lt;/actions&gt;</p>
+        <p class="C_Code">&lt;/call&gt;</p>
+        <p class="BodyText">After constructing the XML, the connector fires the onCallDataOffered 
+ event, passing in the XML as a parameter. </p>
+    </body>
+</html>

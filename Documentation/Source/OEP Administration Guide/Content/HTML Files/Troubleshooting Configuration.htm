@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="115" MadCap:lastWidth="701">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2><a name="top"></a>Troubleshooting Configuration</h2>
+        <p>This topic includes troubleshooting tips for resolving issues with <a href="Configuring OEP.htm#top">UCW</a> configurations. </p>
+        <h4>Modifying the baseline UI generates an internal error (UcfException)</h4>
+        <p><b>Problem:</b> Modifications to the baseline UI (the UI associated with the Global profile) caused problems in one or more profile-specific UIs. Logging on to a profile-specific UI generates an internal "UcfException" error.</p>
+        <p><b>Issue:</b> Profile-specific UIs inherit the appearance, behavior, and other such characteristics from the baseline UI. Because profile-specific UIs rely on certain data in the baseline UI, modifications to the baseline UI can produce unpredictable results in all profile-specific UIs.</p>
+        <p><b>Resolution:</b> Exit OEP and log back on. Select the Global profile, check <b>Disable custom actions</b>, and then click <b>OK</b>. After logging on, navigate to the affected page and click <b>Reset Page Configurations</b>.</p>
+        <h4>Changes to the toolbar are not displaying </h4>
+        <p><b>Problem:</b> Changes made to <a href="Configuring Page Navigation.htm#Configur2">toolbars</a> via Navigation Designer are not immediately visible on the page. </p>
+        <p><b>Issue:</b> The changes were not detected. </p>
+        <p><b>Resolution:</b> To view the changes, either exit and re-enter design mode or edit a toolbar property so changes are detected. To edit a property, right-click the toolbar control's handle (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/The following color coded_3.png" style="width: 10px;height: 10px;" />), select <b>Properties</b>, change any property (for example, add and then remove a space), and then click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Changing toolbar names.png" style="width: 14px;height: 14px;" /> to apply and view the changes. </p>
+        <h4>Duplicate toolbox controls in Dynamic Forms Designer </h4>
+        <p><b>Problem:</b> In Dynamic Forms Designer, duplicate toolbox controls are sometimes listed, making it difficult to ensure selection of the correct control. </p>
+        <p><b>Issue:</b> An Admin ID property is shared by multiple toolbox controls on the page. This situation occurs when you retain the default properties for toolbox controls on multiple tabs of a page. Default Admin ID properties (such as "toolbox_1") are unique for toolbox controls within a single tab. </p>
+        <p><b>Resolution:</b> Change the Admin ID properties to ensure unique Admin IDs for each toolbox control on the page. </p>
+        <h4><a name="Toolbox"></a>Toolbox controls are not saving values (UDFs on task or incident pages) </h4>
+        <p><b>Problem:</b> Toolbox controls that reference UDF fields on the task or incident pages are not saving values. (Reference data is available for Dropdown and Text Reference <a href="Configuring UI Controls.htm#About2">toolbox controls</a> only.)</p>
+        <p><b>Issue:</b> The Parent ID was specified to indicate the category, but the category for UDFs on these pages is indicated by the field name (such as "incident.sales.user8").</p>
+        <p><b>Resolution:</b> Leave the Parent ID property empty. Right-click the toolbar control's handle (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/The following color coded_3.png" style="width: 10px;height: 10px;" />), select Properties, delete the entry in the Parent ID property, and then click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Changing toolbar names.png" style="width: 14px;height: 14px;" /> to apply the changes. </p>
+        <h4>OEP logon fails, generates Internal Error -2147467259 </h4>
+        <p><b>Problem:</b> When attempting to log on to OEP using a certain OEP profile, the logon attempt fails and OEP returns the following Internal Error. "An error occurred when transferring to the target page."</p>
+        <p><b>Issue:</b> This problem occurs if all necessary UCW files that pertain to that OEP profile have not been published to your production OEP Web server.</p>
+        <p><b>Resolution:</b> To resolve this problem, republish all UCW files from your development environment to your production environment. </p>
+        <h3><a name="Debuggin"></a>Debugging Your Changes</h3>
+        <p>UCW provides several ways for you to debug script code and ASP statements used with Dynamic Forms Designer. When working within the Advanced View, you can use shortcut keys to immediately debug the code that you are writing. </p>
+        <h4>Disabling custom actions</h4>
+        <p>When configuring OEP using UCW, you may implement a configuration that generates errors that prohibit the page from loading normally. If this happens, you can check the <b>Disable custom actions</b> option when logging on to OEP. </p>
+        <p>Disabling custom actions temporarily disables all script and ASP statements from executing, thereby enabling you to enter design mode, launch Dynamic Forms, and fix your code as necessary. &#160;</p>
+        <p class="ProcedureHeading">To disable custom actions:</p>
+        <ul>
+            <li>Exit OEP and log back on.</li>
+            <li>If you're using Onyx authentication, provide your user name and password in the first logon window. Click <b>OK</b>.</li>
+            <li>In the next logon window, select the desired profile and check <b>Disable custom actions</b>.</li>
+            <li>Click <b>OK</b>.</li>
+        </ul>
+        <h4>Debugging using shortcut keys</h4>
+        <p>When the cursor is within the Advanced View editor, several keystrokes assist debugging. Ctrl-D followed by Ctrl-I executes the code in the context of the OEP page being configured. This keystroke sequence executes code regardless of whether you selected the Disable custom actions option when you logged on the OEP.</p>
+        <p>If you have Visual Studio installed on your OEP client machine, you can add "debugger;" to the start of your Advanced View code before executing it. The debugger statement starts the Visual Studio script debugger, which lets you single-step through the script code, examine variable values, and so forth.</p>
+        <h3><a name="Compilin"></a>Compiling Your Changes</h3>
+        <p>Compiling UCW configurations generates a set of ASP pages that incorporates all UI modifications that have been made to OEP via UCW. </p>
+        <p>When working in the development environment, UCW automatically compiles pages each time you open them. For instance, let's say that you've configured the incident edit page, saved your changes, and closed that page. The next time you open that page, UCW automatically compiles it before opening it. Once it is open, you can view and test all configurations that you saved to that page.</p>
+        <p>Because pages aren't compiled until you open them, it's good practice to periodically perform a manual compile to ensure that all pages are compiled. For the same reason, it's a good idea to perform a compile before publishing your changes for your test or production environment.</p>
+        <p class="ProcedureHeading">To compile your changes:</p>
+        <ol>
+            <li>Click<img src="../Resources/Images/ONYX 77 OEP Administration Guide/To reset all configurations_9.jpg" style="width: 27px;height: 23px;" />.</li>
+            <li>In the Design Mode window, click <b>Yes</b>. UCW compiles all UCW-enabled pages simultaneously. </li>
+        </ol>
+        <p class="Indent1">When you compile changes in the baseline UI, UCW automatically compiles changes made to all profile-specific UIs, as well as the changes made to the baseline UI.</p>
+        <ol MadCap:continue="true">
+            <li>When the compile process is complete, click <b>OK</b>.</li>
+        </ol>
+        <p class="Indent1">UCW-configured pages, once compiled, can be <a href="#Debuggin">debugged</a> like any ASP page. &#160;&#160;</p>
+        <h3><a name="Publish"></a>Publish Your Changes</h3>
+        <p>After you <a href="#Compilin">compile</a> and test your configurations, you can publish your changes to your test or production environment. When you publish UCW-configured OEP pages, you copy them to the OEP Web server's UCF cache. Pages stored in the UCF cache are retrieved quickly and don't need to be re-compiled each time a user requests them.</p>
+        <p class="ProcedureHeading">To publish UCW-configured pages:</p>
+        <ol>
+            <li>From the UCF cache directory of your development environment's Web server, copy the following folders:</li>
+        </ol>
+        <ul>
+            <li class="List_Indent"><b>ucf/data/layers/active</b> (This folder contains data that is compiled dynamically at run-time, when the page is requested by the client. This includes the navigation and header bars of the main OEP application pages, and the UI text for all pages.)</li>
+            <li class="List_Indent"><b>ucf/data/custom</b> (This folder contains any custom images that you may have created.)</li>
+            <li class="List_Indent">ucf/data/published (This folder contains all compiled UCW-configured pages.)</li>
+        </ul>
+        <ol start="2">
+            <li>Paste the copied folders to their corresponding location (within the UCF cache directory) of your test or &#160;production environment's Web server.</li>
+            <li>Stop and restart your OEP Web server, such as by using the Internet Information Services (IIS) Manager tool or by executing the <a href="http://support.microsoft.com/default.aspx?scid=kb;en-us;202013">IISReset</a> command (via Command Prompt).</li>
+            <li>Using OES Security Administration, ensure that the Primary ID of each OEP profile in your test or production environment is identical to the Primary ID established in the development environment. Otherwise, users may have difficulty logging on to OEP. </li>
+        </ol>
+        <p>If a Primary ID does not match, use OES Security Administration to add (to the test or production database) a new OEP profile with the correct Primary ID.</p>
+        <h3>Starting Over</h3>
+        <p>You can remove all UCW configurations for a given page/profile with a click of a button. The result of resetting your configurations depends on whether you're using the baseline UI or a profile-specific UI. </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>If you're using this UI...</th>
+                    <th>...then this happens</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Baseline UI <br />(the UI associated with the Global profile)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The page is reset to the default OEP page (as it appears when first installed to your system).</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Profile-specific UI</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The page is reset to become identical to its corresponding page in the baseline UI.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p style="font-weight: bold;">To reset your configurations:</p>
+        <ul>
+            <li>Click<img src="../Resources/Images/ONYX 77 OEP Administration Guide/To reset all configurations.jpg" style="width: 22px;height: 21px;" />.</li>
+        </ul>
+    </body>
+</html>

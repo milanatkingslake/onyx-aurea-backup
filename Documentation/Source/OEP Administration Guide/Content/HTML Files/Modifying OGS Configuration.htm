@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="88" MadCap:lastWidth="701">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h3><a name="top"></a>Modifying OGS Configuration File</h3>
+        <p>You can define how information is displayed in Navigator and in Onyx Mobile by changing specific settings in the OGS Configuration file. Use this file to specify:</p>
+        <ul>
+            <li>The system limit for the number of records that are displayed when you run a search in Navigator</li>
+            <li>The time limit in milliseconds, after which any request from Onyx Mobile to OGS will time out.</li>
+        </ul>
+        <p><b>To modify OGS settings:</b>
+        </p>
+        <ol>
+            <li>On the OEAS server, navigate to the OnyxGatewayService install location, and open the <code>OnyxWindowsService.exe.config file</code>. The default location is <code>..\Program Files\Onyx\AppServer\Applications\Onyx\OnyxGatewayService\OnyxWindowsService.exe.config</code></li>
+            <li>To change the limit for number of records to display in Navigator, search for the attribute <code>&lt;add key="MaxRecordsLimit" value="999" /&gt;</code>, and change the value as desired. The maximum system limit corresponds to the maximum possible value for the data type integer, which is 2,147,483,647.</li>
+            <li>To change the time limit for requests from Onyx Mobile, search for the attribute <code>&lt;add key="RequestTimeOut" value="180000" /&gt;</code>, and change the value as desired. This value represents the time limit in milliseconds.</li>
+            <li>Save the <code>OnyxWindowsService.exe.config </code>file.</li>
+        </ol>
+    </body>
+</html>

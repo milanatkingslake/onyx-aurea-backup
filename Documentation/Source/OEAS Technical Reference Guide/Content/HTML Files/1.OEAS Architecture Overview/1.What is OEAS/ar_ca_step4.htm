@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:id="content" MadCap:comment="content" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:fileTags="RoboHelpStatus.In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="618" MadCap:lastWidth="624">
+    <head>
+        <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head>
+            <link href="../../../Resources/TableStyles/Aptean_Note_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+            <link href="../../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" /><title>Step 4</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>Step 4 </h3>
+        <p>After the OTM retrieves the steps for the task.insert method, it begins 
+ to process the transaction based on the steps that are returned from the 
+ OED cache. It executes each step provided, one step at a time, until it 
+ processes the final step. </p>
+        <p>In this example, the OED cache returns the following step definition 
+ for task.insert. </p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Step data</th>
+                    <th>Step type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OnyxDataValidationStep.DataValidation </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">data validation</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Performs data validation. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OnyxGuidGeneratorStep.GuidGenerator</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Creates a GUID for the task object.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OnyxDM.DataManager </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">data manager</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Inserts a task object. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The OTM parses the data and passes that data”along with the data that 
+ the step components add to/remove from it”from one step component to the 
+ next. </p>
+        <p>To customize the task.insert method (or any method), you add a custom 
+ step before or after the OnyxDM.DataManager step. For example you could 
+ write a custom COM step to alter the XML after it has been validated by 
+ OnyxDataValidationStep.OnyxDataValidation step. </p>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; &#160;">Onyx requires that all custom steps come after Data 
+ Validation. Placing your custom step after Data Validation ensures that 
+ the step will receive input XML that is uniform and validated according 
+ to the object definitions in the OED and OEAS standards. For instance, 
+ trailing and leading white space will be removed, empty elements will 
+ be removed, and all properties will be valid according to their data type.</p>
+        <p class="Image">
+            <img src="../../../Resources/Images/AR_oeasdataflow_4.jpg" style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" /> </p>
+    </body>
+</html>

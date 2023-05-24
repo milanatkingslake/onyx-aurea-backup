@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="2" MadCap:lastHeight="839" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2><a name="top"></a>Authentication and Security</h2>
+        <p>OEAS uses the Onyx Security and Licensing Framework (OSLF) for user authentication and permissions. OSLF components support two types of authentication: Windows (NT) authentication and Onyx (database) authentication. OEP users can log in using one or both of the supported authentication types. Permissions to access individual functions within OEP are configured using the <i>role and resource model</i>. For more information about configuring these permissions, refer to both the OEAS Technical Reference and the OES Security Administration online Help.</p>
+        <p>OEP encapsulates this authentication processing in the <i>initializePageSecurity</i> and <i>initializePageSecurityInline</i> functions.</p>
+        <p>The initializePageSecurity function is called at the top of every ASP page that requires access control. If the call fails, the user is automatically redirected to a login page where they must establish an authorized session. If the call succeeds an OEPSession object is established, and the server proceeds with the ASP page processing.</p>
+        <p>The initializePageSecurityInline function operates similarly to the initializePageSecurity function with the exception that it returns a boolean indicator rather than automatically redirecting to the login page. This allows the application to manage authentication failures within the application logic.</p>
+        <p>All features within OEP are secured through user interface resources that are editable using OES Security Administration. By default, the standard OEP roles have access to all available resources.</p>
+        <p>Once the session has been validated, access rights for a given user can be checked by calling the <i>HasPermission</i> method of the user's OEPSession object, passing the name of the desired resource as a parameter. The method determines the access rights by passing the request to the OSLF session manager, which returns a boolean indicator for the requested resource access. By breaking the available actions of a page into separate permissions (for example, insert, update, delete), you can configure a single interface to provide only the links that the user is allowed to access.</p>
+        <p>OEP UI resources are named according to feature and function. All begin with the prefix UI:OEP. For example, the resource to add company records is <b>UI:OEP.company.insert</b>. Information about the default resources in OEP is available in the OEP Technical Guide. </p>
+    </body>
+</html>

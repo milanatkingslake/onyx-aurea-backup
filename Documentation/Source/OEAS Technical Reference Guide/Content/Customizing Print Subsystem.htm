@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="828" MadCap:lastWidth="624">
+    <head><title>Customizing Print Subsystem</title>
+    </head>
+    <body>
+        <h3>Customizing Print Subsystem</h3>
+        <p>OPS Print Subsystem processes printing job requests from OEP (literature Orders). Open XML Mail Merge is the concept used to complete the task. <code>GemBox.Document</code> is the component that performs <a href="HTML Files/7.OEAS Developers Reference/ops_Word_Document_Templates.htm">Mail Merge</a> operation internally.  Logging is performed by <a href="Print Subsystem Logging.htm"><code>Log4Net</code></a>component.</p>
+        <p>To support extensibility of the OPS Print Engine, a light weight dependency container is implemented. This container enables adding and removing of functionality, and also enables capturing of data related node in <code>Orderbatch.xml</code>. </p>
+        <p><code>PrintEngineBase </code>is the base class which implements <code>IPrintEngineBase </code>Execute method (Entry point for DOTNET Print module implementation). This method is called from <code>OSSPrintEngine::ProcessWordDoc</code> (OPS print engine COM Component).</p>
+        <p>The <code>LoadConfiguration </code>method loads the <code>OPSFulfill.exe.config</code> file from the OPS installation folder, which contains configurations for Unity container, Log4Net logging, GemBox, and also for OPS documents.</p>
+        <h4>Adding new document to OPS print subsystem</h4>
+        <p>In <code>OPSFulfill.exe.config</code>, register the document name under the <code>&lt;container&gt;</code> tag.</p>
+        <p>Ensure the following:</p>
+        <ol>
+            <li><code>name</code>: Specify the value only in lower case, as displayed in the following example.</li>
+            <li><code>mapTo</code>: If document requires data from a single table,  use value <code>OnyxPS.Fulfillment.PrintEngine.Report.NormalizedPrintEngine</code>, else use <code>OnyxPS.Fulfillment.PrintEngine.Report.BatchOrderReportPrintEngine</code>.</li>
+        </ol>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Default Configuration - In case  of “default” as name, the type of document depends on what is specified in “mapTo” value.</p>
+        <p><b>Example</b>
+        </p>
+        <p class="C_Code">&lt;container name="OnyxUnityContainer"&gt;<br /><br /> &lt;register name="opsbatchreport.docx" type="OnyxPS.Fulfillment.IActionEngine" mapTo="OnyxPS.Fulfillment.PrintEngine.Report.BatchOrderReportPrintEngine"&gt;<br />&lt;lifetime type="hierarchical"/&gt;<br />&lt;/register&gt;<br /><br />&lt;register name="opsdatainsert.docx" type="OnyxPS.Fulfillment.IActionEngine" mapTo="OnyxPS.Fulfillment.PrintEngine.Report.NormalizedPrintEngine"&gt;<br />&lt;lifetime type="hierarchical"/&gt;<br />&lt;/register&gt;<br /><br />&lt;/container&gt;</p>
+        <h4>Class View of Subsystem Design Document</h4>
+        <p class="Image">
+            <img src="Resources/Images/Print_Architecture.png" style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <h4>Extending functionality</h4>
+        <p>To add another DLL as part of OPS Print subsystem, under &lt;unity&gt; tag, add newly created assembly illustrated as follows:</p>
+        <p><code>&lt;assembly name="OnyxPS.Fulfillment.assemblyname" /&gt;</code> <![CDATA[ ]]></p>
+        <p>The following are the steps to perform a new task:</p>
+        <p><code>IPrintEngineBase </code>interface is implemented by <code>PrintEngineBase </code>class. <code>IActionEngine </code>object resolves the dependency. This object contains following methods:</p>
+        <ol>
+            <li><code>Bootstrap </code>: To perform any pre-processing tasks</li>
+            <li><code>PopulateAttribute </code>: To collect attributes from the dictionary</li>
+            <li><code>BootstrapForAction </code>: To perform any actions before the final processing</li>
+            <li><code>PopulateDataSet </code>: To Populates dataset from <code>OrderBatch </code>XML</li>
+            <li><code>ProcessAction </code>: To perform required action to process</li>
+        </ol>
+        <p><b>Example Code</b>
+        </p>
+        <p class="C_Code">namespace OnyxPS.Fulfillment.PrintEngine.CustomizedReport</p>
+        <p class="C_Code">{</p>
+        <p class="C_Code">#region Namespaces</p>
+        <p class="C_Code">using GemBox.Document;</p>
+        <p class="C_Code">using System;</p>
+        <p class="C_Code">using System.Reflection;</p>
+        <p class="C_Code">using OnyxPS.Fulfillment.PrintEngine.Data;</p>
+        <p class="C_Code">using GemBox.Document.MailMerging;</p>
+        <p class="C_Code">using OnyxPS.Fulfillment.Helper;</p>
+        <p class="C_Code">using OnyxPS.Fulfillment.PrintEngine.Report;</p>
+        <p class="C_Code">using System.Globalization;</p>
+        <p class="C_Code">using System.Data;</p>
+        <p class="C_Code">#endregion</p>
+        <p class="C_Code">/// &lt;summary&gt;</p>
+        <p class="C_Code">/// Constructor</p>
+        <p class="C_Code">/// &lt;/summary&gt;</p>
+        <p class="C_Code">public partial class CustomizedPrintEngine : CreateNormalizedDataTables</p>
+        <p class="C_Code">{</p>
+        <p class="C_Code">public void CustomCreateDocument()</p>
+        <p class="C_Code">{</p>
+        <p class="C_Code">//SET VALID LICENSE KEY HERE</p>
+        <p class="C_Code">#region &lt;&lt; KEY &gt;&gt;</p>
+        <p class="C_Code">ComponentInfo.SetLicense("xxxx-xxxx-xxxx-xxxx");</p>
+        <p class="C_Code">#endregion</p>
+        <p class="C_Code">#region &lt;&lt; Picture and Discription &gt;&gt;</p>
+        <p class="C_Code">DocumentModel document = DocumentModel.Load("OPSCustomMerge.docx");</p>
+        <p class="C_Code">var section = new Section(document);</p>
+        <p class="C_Code">document.Sections.Add(section);</p>
+        <p class="C_Code">Paragraph paragraph = new Paragraph(document);</p>
+        <p class="C_Code">section.Blocks.Add(paragraph);</p>
+        <p class="C_Code">Picture picture1 = new Picture(document, "Aptean.jpg", 161, 53, LengthUnit.Pixel);</p>
+        <p class="C_Code">paragraph.Inlines.Add(picture1);</p>
+        <p class="C_Code">paragraph = new Paragraph(document);</p>
+        <p class="C_Code">section.Blocks.Add(paragraph);</p>
+        <p class="C_Code">paragraph.Inlines.Add(new Run(document, "A test document to demo GemBox ."));</p>
+        <p class="C_Code">#endregion</p>
+        <p class="C_Code">//Do MailMerge</p>
+        <p class="C_Code">DoMailMerge(document);</p>
+        <p class="C_Code">document.Save(DateTime.Now.ToLongDateString() + ".docx");</p>
+        <p class="C_Code">}</p>
+        <p class="C_Code">public void DoMailMerge(DocumentModel document)</p>
+        <p class="C_Code">{</p>
+        <p class="C_Code">try</p>
+        <p class="C_Code">{</p>
+        <p class="C_Code">DataTable mergeTable = new DataTable();</p>
+        <p class="C_Code">mergeTable.TableName = "literatureOrders";</p>
+        <p class="C_Code">mergeTable.Columns.Add("literatureOrder_shipToAddress1");</p>
+        <p class="C_Code">mergeTable.Columns.Add("literatureOrder_shipToAddress2");</p>
+        <p class="C_Code">mergeTable.Columns.Add("literatureOrder_shipToAddress3");</p>
+        <p class="C_Code">mergeTable.Columns.Add("literatureOrder_shipToAddress4");</p>
+        <p class="C_Code">mergeTable.Columns.Add("literatureOrder_shipToAddress5");</p>
+        <p class="C_Code">mergeTable.Columns.Add("literatureOrder_shipToAddress6");</p>
+        <p class="C_Code">mergeTable.Columns.Add("literatureOrder_shipToAddress7");</p>
+        <p class="C_Code">mergeTable.Columns.Add("literatureOrder_shipToAddress8");</p>
+        <p class="C_Code">DataRow mergeRow = mergeTable.NewRow();</p>
+        <p class="C_Code">for (int ii = 0; ii &lt; mergeTable.Columns.Count; ii++)</p>
+        <p class="C_Code">{</p>
+        <p class="C_Code">mergeRow[ii] = "literatureOrder_shipToAddress1 Changed to Aptean Bangalore Address Line number " + ii + 1;</p>
+        <p class="C_Code">}</p>
+        <p class="C_Code">mergeTable.Rows.Add(mergeRow);</p>
+        <p class="C_Code">DataSet mergeDataSet = new DataSet();</p>
+        <p class="C_Code">mergeDataSet.Tables.Add(mergeTable);</p>
+        <p class="C_Code">document.MailMerge.Execute(mergeDataSet, null);</p>
+        <p class="C_Code">}</p>
+        <p class="C_Code">catch (Exception ex)</p>
+        <p class="C_Code">{</p>
+        <p class="C_Code">Console.WriteLine(ex.Message + "\n");</p>
+        <p class="C_Code">Console.WriteLine(ex.StackTrace + "\n");</p>
+        <p class="C_Code">}</p>
+        <p class="C_Code">}</p>
+        <p class="C_Code">}</p>
+        <p class="C_Code">}</p>
+    </body>
+</html>

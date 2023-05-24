@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="854" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2>Customizing List Manager</h2>
+        <p>You can add use OES Table Administration to add database views to List Manager.</p>
+        <p>After you've added the desired views, you can modify their appearance and usability by customizing several different files on the OEP server.</p>
+        <h3>Customizing Result Set Click Actions</h3>
+        <p>The data columns that appear in result sets of List Manager queries can be mapped to specific browser script functions through an XML file located on the OEP server. This mapping then allows a user to click different parts of a result set row to open other OEP records. The configuration file contains information about the actions that occur when a user clicks one of the rows in the result set table. </p>
+        <p>The file is YourOEPwebsite/listmanager/lm_resultType_map.xml. An excerpt from the file appears below. </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>&lt;actionDefinition&gt;</code>
+                    </p>
+                    <p> <code>&lt;platform name="oracle"&gt;</code></p>
+                    <p> &#160;<code>&lt;columns objectType="1" bulkActionColumnType="individualPrimaryId"&gt;</code></p>
+                    <p> <code>&lt;column columnType="individualSecondaryId"&gt;</code></p>
+                    <p><code> &lt;onClick event="vbCustomerClick" type="script"&gt;</code>
+                    </p>
+                    <p><code> &lt;param columnType="individualPrimaryId"/&gt;</code>
+                    </p>
+                    <p><code> &#160;&lt;/onClick&gt;</code>
+                    </p>
+                    <p> <code>&lt;/column&gt;</code></p>
+                    <p><code>...</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">There is one valid &lt;platform&gt; in this release of OEP: oracle. The oracle name attribute indicates that the OEAS platform is using generated SQL, or SQLGen, to access the database. Ignore the &lt;platform name="mssql"&gt; node. </p>
+        <p>The &lt;columns&gt; element contains &lt;column&gt; elements for all clickable items associated with a view (the view is identified by the objectType attribute). In the default configuration, only one column in each view (companies and individuals) is configured with an action: secondaryId. </p>
+        <p>By altering the configuration you can change the resulting action depending on where the user clicks in each row. &#160;The supported elements in the configuration file appear in the following table. </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Element</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">platform</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Identifies the underlying database access platform</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">columns</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Contains the list of columns that can be clicked to execute a script function</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">column</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Identifies a clickable column and contains elements and attributes to describe the click action</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">onClick</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Identifies the function called when the item is clicked and contains the parameters to pass to the function</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">param</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Identifies a parameter to pass to the function</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The settings for each of the above elements exist in the form of XML attributes. The supported attributes (and the elements they can be used with) appear in the following table. </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Attribute</th>
+                    <th>Elements</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">bulkActionColumnType</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">columns</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Identifies the column used as the key for bulk actions for the selected objectType.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">columnType</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">column, param</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">For the column element, this property identifies the column that can be clicked. For the param element, this identifies the column whose data is passed to the action script function. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">event</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">onClick</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Identifies the function called when the column is clicked.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">name</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">platform</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Identifies the platform the configuration is used with.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">objectType</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">columns</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Identifies the list manager view by database object type (companies or individuals).</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">type</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">onClick</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Identifies the source of the action code associated with the onClick event. The only current type is script.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The source values for the columnType and bulkActionColumnType attributes are configurable within the Table Administration tool of the OES. To add a new value, use the tool to edit the result_type column of the search_view_detail table. Review the Onyx Enterprise Studio documentation for information on using the Table Maintenance administration tool. </p>
+        <p>The arguments for the called function are passed in the order the &lt;param&gt; elements appear as children of the &lt;onclick&gt; element. The functions for a custom action should be included in the file YourOEPwebsite/listmanager/lm_results.asp.</p>
+        <h3>Limiting the Size of Result Sets</h3>
+        <p>Since large list manager searches can potentially create performance issues on a production server, there is a system setting to limit the values a user can enter into their list manager preference settings. This limitation is checked each time a user edits their General Preference settings.</p>
+        <p>The value is defined by the constant PREFERENCE_LM_MAXROWS_LIMIT located within the file YourOEPwebsite/defaults/onyxdefaults.inc. This constant is used to validate the only the value entered into the preference form. It does not set the default value for the user preference.</p>
+        <p>Setting the value of the constant to zero (0) disables the checking in the preferences form. </p>
+    </body>
+</html>

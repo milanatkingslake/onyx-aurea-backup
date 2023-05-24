@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="852" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>saveCollection (incident)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="saveCollection" />saveCollection method</h2>
+        <p>The saveCollection method of the <a href="incident_object.htm">incident</a> 
+ object inserts, updates, and/or deletes a collection of specified objects.</p>
+        <h3>Parameters</h3>
+        <table>
+            <col style="width: 4cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 4cm;" />
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Direction</th>
+                    <th>Data Type</th>
+                    <th>Content Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">incidents</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">inOut</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">object</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">any(in) keysOnly(out)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Contains the incident information to be inserted, 
+ updated, or deleted</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Steps</h3>
+        <table>
+            <col style="width: 5cm;" />
+            <col style="width: 5cm;" />
+            <col style="width: 7cm;" />
+            <thead>
+                <tr>
+                    <th>Step Data</th>
+                    <th>Step Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OnyxCollectionManager.CollectionManager</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Forms individual standard method calls for 
+ each object instance in the parameters and executes them through the internal 
+ OTM</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Remarks</h3>
+        <p>Unlike the <a href="standard_saveCollection.htm">saveCollection 
+ standard method</a>, this saveCollection uses the <a href="OnyxCollectionManager.htm">OnyxCollectionManager</a> 
+ component. The main difference is that OnyxCollectionManager wraps each 
+ object action in a separate transaction.</p>
+        <h3>Example</h3>
+        <p>This example shows a saveCollection that inserts incident objects for 
+ two different individuals.</p>
+        <p>Input Parameter:<![CDATA[
+        ]]></p>
+        <p Class="Code" class="C_Code">&lt;parameters&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;incidents objectType="incident" collection="1"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;incident objectType="incident" action="insert"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerId&gt;9DA65A6AF30540BD87C70235D8AB290E&lt;/ownerId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerType&gt;1&lt;/ownerType&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;categoryId&gt;1&lt;/categoryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;typeId&gt;151&lt;/typeId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;assignedTo&gt;sa&lt;/assignedTo&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/incident&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;incident objectType="incident" action="insert"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerId&gt;8C03CBED6A7B4BA98CB24D39505B35FF&lt;/ownerId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerType&gt;1&lt;/ownerType&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;categoryId&gt;1&lt;/categoryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;typeId&gt;151&lt;/typeId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;assignedTo&gt;sa&lt;/assignedTo&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/incident&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;/incidents&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/parameters&gt;</p>
+        <p>Output Parameter:<![CDATA[
+        ]]></p>
+        <p Class="Code" class="C_Code">&lt;parametersReturn&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;incidents objectType="incident" collection="1"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;incident action="insert" objectType="incident" content="keysOnly"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;D1117DE5-88A7-4659-A384-1048DD3621B9&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/incident&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;incident action="insert" objectType="incident" content="keysOnly"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId&gt;B316DB48-45DE-4B5D-B842-CF71F79C99AF&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/incident&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;/incidents&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/parametersReturn&gt;</p>
+    </body>
+</html>

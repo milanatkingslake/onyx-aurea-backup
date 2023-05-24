@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="699" MadCap:lastWidth="934" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <body>
+        <head><title>fieldName (searchViewDetail)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="fieldName" />fieldName property</h2>
+        <p>The fieldName property of the <a href="searchViewDetail_object.htm"><MadCap:keyword term="searchViewDetail" />searchViewDetail</a> 
+ object contains the database column name of the detail item.</p>
+        <h3>Data type</h3>
+        <p>string (maximum length)</p>
+        <h3>Access</h3>
+        <p>Read/write</p>
+        <h3>Remarks</h3>
+        <p>The fieldName property is null when the <a href="searchViewDetail_nodeType.htm">nodeType</a> 
+ is 'TABLE'.</p>
+        <p>This property works together with the <a href="searchViewDetail_searchConditionFunctionCall.htm">searchConditionFunctionCall</a> 
+ and <a href="searchViewDetail_userInputFunctionCall.htm">userInputFunctionCall</a> 
+ properties to drive the construction of the WHERE clause fragment for 
+ this searchViewDetail.</p>
+        <p>The fieldName comprises part of the left-hand-side of the WHERE clause 
+ expression. It can combine with a function call in searchConditionFunctionCall 
+ on the left-hand side of a WHERE clause expression.</p>
+        <p>By convention, the List Manager interface replaces the string "~0" 
+ with the alias of the searchTable associated with the searchViewDetail, 
+ followed by a period ("."). If no "~0" is found in 
+ the fieldName, the interface will add the alias and a period (".") 
+ to the beginning of the fieldName.</p>
+        <p>For example, assume the following scenario:</p>
+        <ul>
+            <li>the searchTableAlias is "A"</li>
+            <li>the fieldName is first_name</li>
+            <li>the searchConditionFunctionCall is UPPER(~0)</li>
+            <li>the userInputFunctionCall is UPPER(~0)</li>
+            <li>the user types in "Bob" for the first 
+ name field</li>
+        </ul>
+        <p>The resulting WHERE clause expression is:</p>
+        <p>&#160; UPPER(A.first_name) = UPPER('Bob')</p>
+        <p>If the fieldName instead is simply "first_name", the searchConditionFunctionCall 
+ is NULL, and the userInputFunctionCall is NULL, the search query execution 
+ generates the following:</p>
+        <p>&#160; A.first_name = 'Bob'<span style="margin-bottom: 0;">  <![CDATA[ ]]></span></p>
+    </body>
+</html>

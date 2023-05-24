@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="845" MadCap:lastWidth="624" MadCap:ignoredWords="OnyxGuidGeneratorStep" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>update (customerProduct)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="update" />update method</h2>
+        <p>The update method of the <a href="customerproduct_object.htm"><MadCap:keyword term="customerProduct" />customerProduct</a> 
+ object saves modifications to an existing customerProduct object and inserts, 
+ updates, or deletes customerProductDetail objects.</p>
+        <p><a href="standard_update.htm">update standard method information</a>
+        </p>
+        <h3>Steps</h3>
+        <table>
+            <col style="width: 5cm;" />
+            <col style="width: 5cm;" />
+            <col style="width: 7cm;" />
+            <thead>
+                <tr>
+                    <th>Step data</th>
+                    <th>Step type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OnyxGuidGeneratorStep.GuidGenerator</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Calls a component that generates GUID primary key values used for inserting the tags identified in the customerProduct’s  Tags property</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OnyxDataValidationStep.DataValidation</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Data validation step</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OnyxDM.DataManager</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Update the customerProduct object and modifies 
+ each associated customerProductDetail object</p>
+                        <p class="Table_Text" style="margin-bottom: 0;">Saves modifications to the specified task 
+ and calls a post-procedure that inserts or updates the tag object 
+ with the terms listed in the task's tags property</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>customerProductDetail.saveCollection</td>
+                    <td>method</td>
+                    <td>Insert/update/delete existing customerProductDetail 
+ collection with the new collection</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Example</h3>
+        <p>The following example shows input parameters and output parametersReturn 
+ for the update method. Because the customerProduct update method calls 
+ customerProductDetail saveCollection, the customerProductDetail parameter 
+ requires an action attribute for the method to succeed.</p>
+        <p>Input Parameter:
+        </p>
+        <p Class="Code" class="C_Code">&lt;parameters&gt;</p>
+        <p Class="Code" class="C_Code">&lt;customerProduct objectType="customerProduct"&gt;</p>
+        <p Class="Code" class="C_Code">&lt;primaryId&gt;&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;secondaryId&gt;&lt;/secondaryId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;ownerId&gt;&lt;/ownerId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;ownerType&gt;&lt;/ownerType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;contactId&gt;&lt;/contactId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;contactObjectType&gt;&lt;/contactObjectType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;productNumber&gt;&lt;/productNumber&gt;</p>
+        <p Class="Code" class="C_Code">&lt;serialNumber&gt;&lt;/serialNumber&gt;</p>
+        <p Class="Code" class="C_Code">&lt;quantity&gt;&lt;/quantity&gt;</p>
+        <p Class="Code" class="C_Code">&lt;purchaseDate&gt;&lt;/purchaseDate&gt;</p>
+        <p Class="Code" class="C_Code">&lt;trackingId&gt;&lt;/trackingId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;sourceId&gt;&lt;/sourceId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;statusId&gt;&lt;/statusId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;privateAccess&gt;&lt;/privateAccess&gt;</p>
+        <p Class="Code" class="C_Code">&lt;readOnlyAccess&gt;&lt;/readOnlyAccess&gt;</p>
+        <p Class="Code" class="C_Code">&lt;user1&gt;&lt;/user1&gt;</p>
+        <p Class="Code" class="C_Code">&lt;user2&gt;&lt;/user2&gt;</p>
+        <p Class="Code" class="C_Code">&lt;user3&gt;&lt;/user3&gt;</p>
+        <p Class="Code" class="C_Code">&lt;user4&gt;&lt;/user4&gt;</p>
+        <p Class="Code" class="C_Code">&lt;user5&gt;&lt;/user5&gt;</p>
+        <p Class="Code" class="C_Code">&lt;user6&gt;&lt;/user6&gt;</p>
+        <p Class="Code" class="C_Code">&lt;user7&gt;&lt;/user7&gt;</p>
+        <p Class="Code" class="C_Code">&lt;user8&gt;&lt;/user8&gt;</p>
+        <p Class="Code" class="C_Code">&lt;user9&gt;&lt;/user9&gt;</p>
+        <p Class="Code" class="C_Code">&lt;user10&gt;&lt;/user10&gt;</p>
+        <p Class="Code" class="C_Code">&lt;productDescription&gt;&lt;/productDescription&gt;</p>
+        <p Class="Code" class="C_Code">&lt;trackingCode&gt;&lt;/trackingCode&gt;</p>
+        <p Class="Code" class="C_Code">&lt;trackingCodeName&gt;&lt;/trackingCodeName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;trackingCodeDescription&gt;&lt;/trackingCodeDescription&gt;</p>
+        <p Class="Code" class="C_Code">&lt;insertBy&gt;&lt;/insertBy&gt;</p>
+        <p Class="Code" class="C_Code">&lt;insertDate&gt;&lt;/insertDate&gt;</p>
+        <p Class="Code" class="C_Code">&lt;updateBy&gt;&lt;/updateBy&gt;</p>
+        <p Class="Code" class="C_Code">&lt;updateDate&gt;&lt;/updateDate&gt;</p>
+        <p Class="Code" class="C_Code">&lt;onyxTimestamp&gt;&lt;/onyxTimestamp&gt;</p>
+        <p Class="Code" class="C_Code">&lt;locked&gt;&lt;/locked&gt;</p>
+        <p Class="Code" class="C_Code">&lt;lockedBy&gt;&lt;/lockedBy&gt;</p>
+        <p Class="Code" class="C_Code">&lt;customerProductDetails objectType="customerProductDetail" collection="1"&gt;</p>
+        <p Class="Code" class="C_Code">&lt;customerProductDetail objectType="customerProductDetail" action="insert"&gt;</p>
+        <p Class="Code" class="C_Code">&lt;primaryId&gt;&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;ownerId&gt;&lt;/ownerId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;lineId&gt;&lt;/lineId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;user1&gt;&lt;/user1&gt;</p>
+        <p Class="Code" class="C_Code">&lt;user2&gt;&lt;/user2&gt;</p>
+        <p Class="Code" class="C_Code">&lt;user3&gt;&lt;/user3&gt;</p>
+        <p Class="Code" class="C_Code">&lt;user4&gt;&lt;/user4&gt;</p>
+        <p Class="Code" class="C_Code">&lt;user5&gt;&lt;/user5&gt;</p>
+        <p Class="Code" class="C_Code">&lt;user6&gt;&lt;/user6&gt;</p>
+        <p Class="Code" class="C_Code">&lt;user7&gt;&lt;/user7&gt;</p>
+        <p Class="Code" class="C_Code">&lt;user8&gt;&lt;/user8&gt;</p>
+        <p Class="Code" class="C_Code">&lt;user9&gt;&lt;/user9&gt;</p>
+        <p Class="Code" class="C_Code">&lt;user10&gt;&lt;/user10&gt;</p>
+        <p Class="Code" class="C_Code">&lt;date1&gt;&lt;/date1&gt;</p>
+        <p Class="Code" class="C_Code">&lt;date2&gt;&lt;/date2&gt;</p>
+        <p Class="Code" class="C_Code">&lt;insertBy&gt;&lt;/insertBy&gt;</p>
+        <p Class="Code" class="C_Code">&lt;insertDate&gt;&lt;/insertDate&gt;</p>
+        <p Class="Code" class="C_Code">&lt;updateBy&gt;&lt;/updateBy&gt;</p>
+        <p Class="Code" class="C_Code">&lt;updateDate&gt;&lt;/updateDate&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/customerProductDetail&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/customerProductDetails&gt;</p>
+        <p Class="Code" class="C_Code">&lt;tags&gt;&lt;/tags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/customerProduct&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/parameters&gt;</p>
+        <p>Output Parameter:<![CDATA[
+        ]]></p>
+        <p Class="Code" class="C_Code">&lt;parametersReturn&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;customerProduct objectType="customerProduct" content="keysOnly"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId undoStringValue="33CF7350-B3B0-43AD-B8D3-582D29ACDF06"&gt;33CF7350-B3B0-43AD-B8D3-582D29ACDF06&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;customerProductDetails collection="1" objectType="customerProductDetail" content="keysOnly"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;customerProductDetail objectType="customerProductDetail" content="keysOnly" action="update"&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId undoStringValue="B18679A3-3D24-46B1-A713-6A2F9F54323C"&gt;B18679A3-3D24-46B1-A713-6A2F9F54323C&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/customerProductDetail&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/customerProductDetails&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;/customerProduct&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/parametersReturn&gt;</p>
+    </body>
+</html>

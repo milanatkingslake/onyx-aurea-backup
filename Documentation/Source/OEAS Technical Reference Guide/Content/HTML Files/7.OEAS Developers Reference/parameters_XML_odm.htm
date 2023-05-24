@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="269" MadCap:lastWidth="694">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>parameters XML (data manager)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>
+            <MadCap:keyword term="parameters" />
+            <MadCap:keyword term="parameters XML" />parameters XML</h4>
+        <p>The ODM performs the following processing steps on 
+ the parameters XML that it receives from the OTM:</p>
+        <ol>
+            <li>Extracts the application name, step object, step 
+ method, and step additional data and verifies that each is correct.</li>
+            <li>Prepares the parameters XML for SQL generation. 
+ For instance, on an insert, ODM identifies the top-level object in each 
+ step call and creates a GUID for that object. It propagates the GUID and 
+ foreign keys to child objects and determines the object type of the parent 
+ object.</li>
+            <li>Retrieves an XSL transformation and applies it 
+ to the parameters XML to create parameters that the ODM uses to call a 
+ generic stored procedure. An XSL transformation is a style sheet that 
+ describes how to change the structure of an XML document into an XML document 
+ with a different structure. </li>
+            <li>ODM validates and parses 
+ the generated SQL before passing it as a stored procedure string, with 
+ parameters, to the Query Engine. </li>
+        </ol>
+    </body>
+</html>

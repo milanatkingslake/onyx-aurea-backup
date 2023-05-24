@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="701" MadCap:lastWidth="968" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" /><title>Creating replace procedures</title>
+    </head>
+    <body>
+               <h4>
+            <MadCap:keyword term="Creating;Creating:replace;procedure;replace;replace:Creating" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />Creating replace procedures</h4>
+        <p>To use a stored procedure for an object method in replace mode (direct 
+ procedure call by the ODM) it must be properly structured and follow certain 
+ rules of behavior. This is how all retrieveList and custom procedures 
+ are implemented. For more information, see <a href="customizingoedb_structural_rules_for_replace_procedures.htm">Structural rules for replace procedures</a> and <a href="customizingoedb_behavioral_rules_for_replace_procedures.htm">Behavioral rules for replace procedures</a>.</p>
+        <p>Status information from procedures called by the ODM should be returned 
+ using the return code value returned by the stored procedure and, when 
+ appropriate, a result set containing additional status information pertaining 
+ to the database call. For more information on result sets, see <a href="customizingOEDB_result_set_interpretation.htm">Result 
+ set interpretation</a>.</p>
+        <p>To keep track of status information, Onyx recommends that the following 
+ variables should be declared to handle errors and informational messages. 
+ </p>
+        <table wrapperparagraphselector="P" style="margin-top: 14pt;width: 82.684%;border-spacing: 0px;border-spacing: 0px;mc-table-style: url('../../Resources/TableStyles/Aptean_Table_1.css');" cellspacing="0" width="82.684%" class="TableStyle-Aptean_Table_1">
+            <col style="width: 15.818%;" class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <col style="width: 14.189%;" class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <col style="width: 11.388%;" class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <col style="width: 52.557%;" class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_1-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Variable Name</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Datatype</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Default Value</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadD-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Usage</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 15.818%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="15.818%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">@return_code</p>
+                    </td>
+                    <td style="width: 14.189%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="14.189%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">INT</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 11.388%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="11.388%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">0</p>
+                    </td>
+                    <td style="width: 52.557%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="52.557%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Used to keep track of the procedure status. 
+ Please refer to the <a href="customizingOEDB_procedure_return_value.htm">Procedure 
+ return value</a> section &#160;for 
+ more information.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 15.818%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="15.818%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">@message_code</p>
+                    </td>
+                    <td style="width: 14.189%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="14.189%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">INT</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 11.388%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="11.388%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">N/A</p>
+                    </td>
+                    <td style="width: 52.557%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="52.557%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">This variable holds any national language 
+ message ids used for returning errors, informational messages, or for 
+ retrieveList grid header pointers when a retrieveList may return &#160;result 
+ sets whose column headers differ depending on the data returned.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 15.818%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="15.818%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">@message_parameter</p>
+                    </td>
+                    <td style="width: 14.189%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="14.189%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">NVARCHAR(255)</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 11.388%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="11.388%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">N/A</p>
+                    </td>
+                    <td style="width: 52.557%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="52.557%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">This variable may be used to return a string 
+ that can be inserted into a national language string identified by the 
+ @message_code variable. The string in @message_parameter will replace 
+ the "~2" placeholder in the national language string.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 15.818%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="15.818%" class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">@error</p>
+                    </td>
+                    <td style="width: 14.189%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="14.189%" class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">INT</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 11.388%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="11.388%" class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">N/A</p>
+                    </td>
+                    <td style="width: 52.557%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="52.557%" class="TableStyle-Aptean_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">This variable is used to return database 
+ errors that may be read from the @@error session variable.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>These variables should also be passed to procedures called from the 
+ replace procedure. Please see the section on <a href="customizingOEDB_Creating_Pre_and_Post_Procedures.htm">Creating 
+ pre, post, or sub procedures</a> for more information on how these variables 
+ are mapped.</p>
+        <p>To review a sample retrieveList procedure, 
+ see <a href="customizingOEDB_Stored_Procedure_Code_Sample.htm">Stored 
+ Procedure Code Sample</a>. </p>
+    </body>
+</html>

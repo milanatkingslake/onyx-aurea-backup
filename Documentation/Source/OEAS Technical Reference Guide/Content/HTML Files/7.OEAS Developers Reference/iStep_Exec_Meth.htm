@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="2115" MadCap:lastWidth="702" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>execute (IStep)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>
+            <MadCap:keyword term="execute method" />
+            <MadCap:keyword term="execute" />Execute method</h5>
+        <p>The Execute method of the <a href="IStep_Iface.htm"><MadCap:keyword term="IStep" />IStep interface</a> 
+ is called by the Onyx Transaction Manager (OTM) to execute a COM step 
+ component.</p>
+        <h3>Syntax</h3>
+        <p><b>IDL</b>
+        </p>
+        <p Class="Code" class="code">HRESULT&#160;Execute(&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;[in]&#160;BSTR&#160;ApplicationName,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;[in]&#160;BSTR&#160;LogicalObjectName,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;[in]&#160;BSTR&#160;LogicalMethodName,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;[in]&#160;BSTR&#160;StepAdditionalData,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;[in]&#160;IXMLDOMDocument*&#160;XMLParser,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;[out,&#160;retval]&#160;BSTR*&#160;StepResult&#160;);</p>
+        <p>
+            IDL parameter descriptions
+        </p>
+        <p>ApplicationName</p>
+        <p class="BodyTextIndent_1">[in] A string that identifies the current application in 
+ use.</p>
+        <p>LogicalObjectName</p>
+        <p class="BodyTextIndent_1">[in] A string that identifies the business object that 
+ contains the called method.</p>
+        <p>LogicalMethodName</p>
+        <p class="BodyTextIndent_1">[in] A string that identifies the business object method 
+ that contains this step.</p>
+        <p>StepAdditionalData</p>
+        <p class="BodyTextIndent_1">[in] A string that contains any special non-XML data intended 
+ for the step component.</p>
+        <p>XMLParser</p>
+        <p class="BodyTextIndent_1">[in] An instance of the Microsoft IXMLDOMDocument interface 
+ that contains the XML sent by the client.</p>
+        <p>StepResult</p>
+        <p class="BodyTextIndent_1">[out, retval] A message to the OTM indicating whether the 
+ remaining steps in the method should be executed.</p>
+        <p><b>Visual Basic</b>
+        </p>
+        <p Class="Code" class="code">Function&#160;Execute(</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;ApplicationName&#160;As&#160;String,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;LogicalObjectName&#160;As&#160;String,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;LogicalMethodName&#160;As&#160;String,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;StepAdditionalData&#160;As&#160;String,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;XMLParser&#160;As&#160;STEPLib.IXMLDOMDocument)</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;As&#160;String</p>
+        <p>
+            Visual Basic parameter descriptions
+        </p>
+        <p>ApplicationName</p>
+        <p class="BodyTextIndent_1">[in] A string that identifies the current application in 
+ use.</p>
+        <p>LogicalObjectName</p>
+        <p class="BodyTextIndent_1">[in] A string that identifies the business object that 
+ contains the called method.</p>
+        <p>LogicalMethodName</p>
+        <p class="BodyTextIndent_1">[in] A string that identifies the business object method 
+ that contains this step.</p>
+        <p>StepAdditionalData</p>
+        <p class="BodyTextIndent_1">[in] A string that contains any special non-XML data intended 
+ for the step component.</p>
+        <p>XMLParser</p>
+        <p class="BodyTextIndent_1">[in] An instance of the Microsoft IXMLDOMDocument interface 
+ that contains the XML sent by the client.</p>
+        <h3>Remarks</h3>
+        <p>The return value for this method is a single string that contains the 
+ text "stop" or "continue." The OTM uses this string 
+ to determine whether to continue processing the remaining steps in the 
+ method.</p>
+        <p>The contents of the <a href="stepAdditionalData.htm">StepAdditionalData 
+ parameter</a> are stored in the Onyx Enterprise Dictionary (OED) and can 
+ be modified using the Object Designer.</p>
+        <p>For additional details what to pass the OTM and what to expect back, 
+ browse to <a href="Calling_the_OTM.htm">Calling the OTM</a>.</p>
+        <h3>Examples</h3>
+        <p>The following samples show the headers for the Execute method of the 
+ IStep interface in Visual Basic and C++. This is how the code should look 
+ after the interface code has been imported/referenced into the step component 
+ project.</p>
+        <p>
+            Visual Basic sample header
+        </p>
+        <p Class="Code" class="code">Private&#160;Function&#160;IStep_Execute(&#160;_</p>
+        <p Class="Code" class="code">&#160;&#160;ByVal&#160;sApplicationName&#160;As&#160;String,&#160;_</p>
+        <p Class="Code" class="code">&#160;&#160;ByVal&#160;sLogicalObjectName&#160;As&#160;String,&#160;_</p>
+        <p Class="Code" class="code">&#160;&#160;ByVal&#160;sLogicalMethodName&#160;As&#160;String,&#160;_</p>
+        <p Class="Code" class="code">&#160;&#160;ByVal&#160;sStepAdditionalData&#160;As&#160;String,&#160;_</p>
+        <p Class="Code" class="code">&#160;&#160;ByVal&#160;oXMLParser&#160;As&#160;STEPLib.IXMLDOMDocument)&#160;_</p>
+        <p Class="Code" class="code">As&#160;String</p>
+        <p>
+            C++ sample header
+        </p>
+        <p Class="Code" class="code">STDMETHODIMP&#160;StepComponent::Execute(</p>
+        <p Class="Code" class="code">&#160;&#160;BSTR&#160;ApplicationName,&#160;&#160;&#160;&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;BSTR&#160;LogicalObjectName,</p>
+        <p Class="Code" class="code">&#160;&#160;BSTR&#160;LogicalMethodName,</p>
+        <p Class="Code" class="code">&#160;&#160;BSTR&#160;StepAdditionalData,</p>
+        <p Class="Code" class="code">&#160;&#160;IXMLDOMDocument*&#160;XMLParser,</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;BSTR*&#160;StepResult&#160;)</p>
+    </body>
+</html>

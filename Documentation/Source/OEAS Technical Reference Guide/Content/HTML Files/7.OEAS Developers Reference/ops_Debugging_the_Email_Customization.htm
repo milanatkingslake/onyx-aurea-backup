@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="5" MadCap:lastHeight="952" MadCap:lastWidth="984" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Testing the email customization (OPS)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h1>
+            <MadCap:keyword term="Testing" />
+            <MadCap:keyword term="Testing:email customization" />
+            <MadCap:keyword term="email customization" />
+            <MadCap:keyword term="email customization:Testing" />Testing the email customization</h1>
+        <p>Debugging the email customization involves installing and running the 
+ step on a development server. Since you cannot pass an instance of the 
+ IXMLDOMDocument between processes, stepping through the code in the Visual 
+ Basic IDE will not work. You can get useful debug information by using 
+ the intrinsic VB "App" object.</p>
+        <p Class="Code" class="Code">Dim&#160;bDebug&#160;As&#160;Boolean</p>
+        <p Class="Code" class="Code">bDebug&#160;=&#160;False</p>
+        <p Class="Code" class="Code">If&#160;bDebug&#160;Then</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;App.StartLogging&#160;"",&#160;vbLogAuto</p>
+        <p Class="Code" class="Code">'&#160;&#160;&#160;&#160;App.StartLogging&#160;"c:\iStepLog.txt",&#160;vbLogToFile</p>
+        <p Class="Code" class="Code">End&#160;If</p>
+        <p Class="Code" class="Code">App.LogEvent&#160;"some&#160;string&#160;output",&#160;vbLogEventTypeError</p>
+        <p Class="Code" class="Code">App.LogEvent&#160;"some&#160;string&#160;output",&#160;vbLogEventTypeWarning</p>
+        <p Class="Code" class="Code">App.LogEvent&#160;"some&#160;string&#160;output",&#160;vbLogEventTypeInformation</p>
+        <p>If you configure logging using the vbLogAuto mode, the VB runtime writes 
+ the log entries to the Application log in Event Viewer. Optionally, you 
+ can use the vbLogToFile mode to write the entries to a file. In either 
+ case, longer entries may be truncated by the limitations of the App object. 
+ If you need to see all of the entry, you can use the FileSystemObject 
+ of the Scripting Runtime as a workaround to this issue.</p>
+        <p Class="Code" class="Code">Dim&#160;fso&#160;As&#160;New&#160;FileSystemObject</p>
+        <p Class="Code" class="Code">Dim&#160;ts&#160;As&#160;TextStream</p>
+        <p Class="Code" class="Code">Set&#160;ts&#160;=&#160;fso.CreateTextFile("c:\stepLog",&#160;True)</p>
+        <p Class="Code" class="Code">Dim&#160;s&#160;As&#160;String</p>
+        <p Class="Code" class="Code">s&#160;=&#160;""</p>
+        <p Class="Code" class="Code">With&#160;ts</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;.WriteLine&#160;s</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;.WriteBlankLines&#160;2</p>
+        <p Class="Code" class="Code">End&#160;With</p>
+        <p Class="Code" class="Code">ts.Close</p>
+        <p Class="Code" class="Code">Set&#160;ts&#160;=&#160;Nothing</p>
+        <p Class="Code" class="Code">Set&#160;fso&#160;=&#160;Nothing</p>
+        <h3>Installing the component</h3>
+        <p>After you make the DLL, perform the following procedure to debug.</p>
+        <ol>
+            <li>Copy the DLL to the "Components" directory 
+ of the OEAS. A default setup uses the following path.</li>
+        </ol>
+        <ul start="2">
+            <li class="Sec_List">c:\Program Files\Onyx\AppServer\Components</li>
+        </ul>
+        <ol start="2">
+            <li>Open the "Component Services" Administrative 
+ Tool and navigate to the OnyxEASLib COM+ package.</li>
+            <li>Open the "Components" directory of the 
+ OnyxEASLib COM+ package and drag and drop the DLL into it.</li>
+            <li>In the Components directory of OnyxEASLib, right-click 
+ the WelcomeEmail.dll and select Properties.</li>
+            <li>On the security tab of the properties page, make 
+ sure the "Enforce component level access checks" checkbox is 
+ cleared.</li>
+            <li>Shutdown OnyxEASApp and System Application in 
+ the COM+ Applications directory. It restarts automatically on the first 
+ OTM call.</li>
+            <li>Right-click "My Computer" and select 
+ "Refresh All Components."</li>
+            <li>Insert a new individual.</li>
+            <li>Check the logging output for errors.</li>
+            <li>Check if the literatureOrder and literatureOrderLine 
+ are inserted in the database.</li>
+            <li>
+                <MadCap:keyword term="OPS" />If yes, start the OPS service to see if the welcome 
+ email is sent successfully.</li>
+        </ol>
+        <p>When you find and fix bugs in the step component, 
+ you have to repeat the steps above. In addition to those listed above, 
+ you may need to shutdown OnyxEASApp and delete the WelcomeEmail.dll from 
+ OnyxEASLib prior to the first step. You may also need to stop and start 
+ the OPS service between runs, or it may prevent you from shutting down 
+ OnyxEASApp and refreshing the components. </p>
+    </body>
+</html>

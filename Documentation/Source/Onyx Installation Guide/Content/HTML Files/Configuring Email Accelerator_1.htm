@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="733" MadCap:lastWidth="624">
+    <head><title>Configuring Email Accelerator Client Settings</title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h3>Configuring Email Accelerator Client Settings</h3>
+        <p class="ProcedureHeading"> To configure Email Accelerator client settings:</p>
+        <ol>
+            <li>On the Email Accelerator client installation server, navigate to the <b>OnyxEmailAccelerator</b> folder. The default location for this folder is <b>..\Inetpub\wwwroot\OnyxEmailAccelerator</b>.</li>
+            <li>In an editor such as Notepad, open the <b>AcceleratorClient.config</b> file, and change the following settings:</li>
+        </ol>
+        <ul>
+            <li class="List_Indent"><b>User ID</b>. DATABASE_USER_NAME (Enter the user ID to log on to the Onyx database. For security reasons, we recommend that you do not use a user with DBO privileges.)</li>
+            <li class="List_Indent"><b>Password</b>. DATABASE_PASSWORD (Enter the password corresponding to the user ID.)</li>
+            <li class="List_Indent"><b>Initial Catalog</b>. ONYX_DATABASE_NAME (Enter the Onyx database name.)</li>
+            <li class="List_Indent"><b>Data Source</b>. DATABASE_SERVER_NAME (Enter the name of your database server.)</li>
+            <li class="List_Indent"><b>OptOutText</b>. We respect your privacy. (Enter the default text that will be inserted under each HTML email. You can edit this text in the Email Accelerator client before sending an email.)</li>
+            <li class="List_Indent"><b>OptOutURL</b>. http://&lt;virtual machine name&gt;/unsubscribe/default.asp (Enter the location of the Unsubscribe functionality on your external Web server. This value is derived from the Unsubscribe virtual directory alias you entered while installing the external Web server. If this value is blank, Email Accelerator assumes that a different Opt-Out functionality is being used.)</li>
+            <li class="List_Indent"><b>TimageURL</b>. http://&lt;virtual machine name&gt;/timage (Enter the location of the Tracking Image HTTP Module installed on your external Web server. This is a required value to track real-time user views of your email. This value is derived from the TImage virtual directory alias you entered while installing the external Web server.</li>
+            <li class="List_Indent"><b>iSiteID</b>. 1 (Enter the site ID of your Onyx installation.)</li>
+        </ul>
+        <p class="Indent1" style="font-weight: normal;">Sample code:</p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/Configuring Email Accelerator_1.png" style="width: 622px;height: 222px;border-left-style: solid;border-left-width: 1pt;border-left-color: #000000;border-right-style: solid;border-right-width: 1pt;border-right-color: #000000;border-top-style: solid;border-top-width: 1pt;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1pt;border-bottom-color: #000000;" />
+        </p>
+        <ol start="3">
+            <li>Add <i>IIS_USERS</i> to the mailroot folder which is located in the location <b>..\inetpub\wwwroot</b> of the client server</li>
+            <li>Save and close the file.</li>
+        </ol>
+    </body>
+</html>

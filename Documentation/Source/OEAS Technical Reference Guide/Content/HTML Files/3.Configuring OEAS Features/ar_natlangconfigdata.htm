@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:id="content" MadCap:comment="content" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:fileTags="RoboHelpStatus.In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="615" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" /><title>Configuring National Language data</title>
+    </head>
+    <body>
+        <h3>Configuring National Language data </h3>
+        <p>The National Language table of the OEDB stores all 
+ of the captions and message strings that are provided at install or through 
+ upgrades for OEAS. This table is administered in Table Administration 
+ and provides a central location for you to perform data string maintenance 
+ and localization for the end-user interface. Following are the types of 
+ modifications you can make in the National Language table. </p>
+        <ul>
+            <li>Create new error messages and column headings</li>
+            <li>Modify existing error messages and column headings</li>
+            <li>Set error messages and column headings to active 
+ or inactive</li>
+            <li>Delete error messages and column headings</li>
+        </ul>
+        <p>Always use Table Administration to modify national language strings 
+ in the database. If you make any direct updates to the National Language 
+ table through a Query Analyzer tool, all modifications will be lost during 
+ an upgrade and the OnyxNatLang cache will not load properly. See <a href="AR_NatLangRefreshCache.htm">Refreshing 
+ the cache</a> for further details. </p>
+        <p class="Warning" MadCap:autonum=" &#160;&#160;&lt;b&gt;Warning:&lt;/b&gt; &#160;">Do not customize ID generation for national language data 
+ strings. IDs created with a value less than 1,000,000 are lost during 
+ system upgrades.</p>
+        <h4>Where are custom National Language strings stored? </h4>
+        <p>When you customize (add, modify, or delete) strings in the National 
+ Language table for your particular installation of OEAS, your customized 
+ strings are stored in the nat_lang_config table. Having two tables eases 
+ software upgrades because the message strings in the National Language 
+ table are updated with the new software and your customized strings remain 
+ untouched in the nat_lang_config table. </p>
+    </body>
+</html>

@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:lastBlockDepth="2" MadCap:lastHeight="652" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head>
+            <link href="../../../Resources/TableStyles/Aptean_Note_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" /><title>OPS Service Overview</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>OPS Service Overview</h2>
+        <p>The OPS service is a Windows service that manages subsystems and lifetimes 
+ of the subsystem's processes. The service provides an interface for the 
+ Windows Service Control Manager and the OPS Administration tool for configuring 
+ and controlling the service and subsystems.</p>
+        <p>The subsystems are COM servers packaged as executable files that run 
+ their own processes. The following types of subsystems are available: 
+ batch, fulfillment, and email monitor. </p>
+        <p>Fulfillment subsystems are configured with a print engine (print subsystem) or
+ an email engine (email subsystem) and 
+ are responsible for processing literature orders. A print subsystem provides 
+ print fulfillment using print templates. The template is a Open XML Word with Mail Merge. Email subsystem 
+ provides literature fulfillment using templates, which are Extensible Stylesheet 
+ Language (XSL) files, for data merging and Collaboration Data Objects 
+ (CDO) for Windows to send literature products through SMTP. </p>
+        <p>Batch subsystems are responsible for processing List Manager actions. 
+ </p>
+        <p>Email monitor subsystems track inbound emails to a given mailbox and 
+ associate them with the appropriate OEDB data.</p>
+        <p>You can only install one instance of the OPS service per OPS server. 
+ However, on that OPS server you can create multiple instances of the subsystems.</p>
+        <h4>Multi-tenancy environment</h4>
+        <p>Subsystems can be used in a multi-tenancy environment. When a new subsystem 
+ is created, an alternate ID is generated. The ID allows for duplicate 
+ subsystem names and subsystem IDs in a duplicated environment where OPS 
+ interacts with multiple OEAS applications. The ID is globally unique and 
+is used for error notifications, event log entries, etc. </p>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; &#160;">Because OPS interacts with OEAS and OEDB, you must stop 
+ the OPS service prior to taking OEAS or OEDB offline.</p>
+    </body>
+</html>

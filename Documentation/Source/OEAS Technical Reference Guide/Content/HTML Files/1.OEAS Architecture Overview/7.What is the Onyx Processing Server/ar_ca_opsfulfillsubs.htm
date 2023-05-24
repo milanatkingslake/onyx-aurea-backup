@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="1910" MadCap:lastWidth="369" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Understanding Fulfillment Subsystems</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>Understanding Fulfillment Subsystems</h4>
+        <p>Fulfillment subsystems process order lines. Each fulfillment subsystem 
+ is configured either to print or to send an email. A fulfillment subsystem 
+ configured to print is a <em class="Emphasis">print subsystem.</em> A fulfillment subsystem configured to 
+ send email is an <em class="Emphasis">email subsystem.</em> You can have 
+ multiple fulfillment subsystems, each with unique settings. </p>
+        <p>Order lines are processed according to the attributes of literature 
+ products, order lines, and subsystem settings. </p>
+        <p>Fulfillment subsystems retrieve order lines for processing 
+ based on the following: </p>
+        <ul>
+            <li>Subsystem operation window</li>
+            <li>Subsystem run interval</li>
+            <li>Subsystem batch size</li>
+            <li>Subsystem active status</li>
+            <li>Order line status</li>
+            <li>Order line priority</li>
+            <li>Order line fulfillment type</li>
+            <li>Order line insert date</li>
+            <li>Order line scheduled process date</li>
+        </ul>
+        <p>The following sections discuss these settings. </p>
+        <p><b class="Bold" style="font-weight: bold;">Subsystem operation window.</b> A subsystem's 
+ operation window is the time frame within which the subsystem processes 
+ literature orders. You can configure a subsystem to process 24 hours a 
+ day or just within a specified time period defined by the <span class="UIElement" style="font-weight: bold;">Start 
+ Time</span> and <span class="UIElement" style="font-weight: bold;">Stop Time</span> settings. To configure 
+ a subsystem to process 24 hours a day, set both the Start Time and Stop 
+ Time to 00:00. </p>
+        <p><b class="Bold" style="font-weight: bold;">Subsystem run interval.</b> The run 
+ interval is the time between subsystem checks of the new order lines queue 
+ for order lines with a status of new. Fulfillment subsystems have two 
+ intervals: standard priority and high priority. During the standard-priority 
+ interval, both high and standard-priority orders are processed. This interval 
+ is defined by the <span class="UIElement" style="font-weight: bold;">Standard Priority Run Interval</span> 
+ setting. During the high-priority interval, only high-priority order lines 
+ are processed. This interval is defined by the <span class="UIElement" style="font-weight: bold;">High 
+ Priority Run Interval</span> setting. </p>
+        <p><b class="Bold" style="font-weight: bold;">Subsystem batch size
+.</b> The batch size is the approximate number of order lines that a subsystem 
+ retrieves for processing at one time. Several rules affect the actual 
+ number of order lines included in a batch: </p>
+        <ul>
+            <li>Orders are never split. If the batch size is reached 
+ in the middle of an order, the remaining order lines are included in the 
+ batch.</li>
+            <li>Order lines for mailing labels are counted as 
+ part of the batch size.</li>
+            <li>Order lines for system documents are not counted 
+ as part of the batch size.</li>
+        </ul>
+        <p>Suppose that you have a batch size set to 1000 and the <span class="UIElement" style="font-weight: bold;">New 
+ Order Lines</span> queue has 2000 orders, each with two order lines. When 
+ the subsystem retrieves the order lines, it picks up only 500 orders for 
+ processing, because batch size is the total number of order lines (500 
+ orders x 2 order lines each = 1000 order lines). </p>
+        <p><b class="Bold" style="font-weight: bold;">Subsystem active status.</b> You can 
+ configure a subsystem as active or inactive using OPS Administration. 
+ When the OPS service is started, active subsystems also start while inactive 
+ subsystems do not. </p>
+        <p>However, you can explicitly start an inactive subsystem. When the OPS 
+ service is stopped or paused, all subsystems with a status of started, 
+ regardless of active status, also stop or pause accordingly. </p>
+        <p><b class="Bold" style="font-weight: bold;">Order line status.</b> The order line 
+ status is for tracking order line processing. A subsystem retrieves only 
+ order lines that have the status of New. When a new order line is retrieved, 
+ its status is updated to In Process. When processing is complete and the 
+ order line has been printed or emailed successfully, the status is updated 
+ to Completed. In the event of a failure, the status is updated to Error. 
+ </p>
+        <p><b class="Bold" style="font-weight: bold;">Order line priority<span style="font-weight: normal;">.</span></b>
+ The order line priority indicates either immediate or standard handling. 
+ A subsystem retrieves immediate priority items within the next high priority 
+ interval, otherwise it retrieves standard priority items during standard 
+ priority intervals according to the other queuing criteria.</p>
+        <p><b class="Bold" style="font-weight: bold;">Order line processing dates.</b> Order 
+ lines are processed first-in-first-out, which means that order lines with 
+ the oldest insert date are processed first. 
+ The exception to this rule are order lines with a scheduled process date 
+ set to a date in the future. These order lines are not processed before 
+ this date. </p>
+        <p><b class="Bold" style="font-weight: bold;">Order Line status update.</b> When 
+ a fulfillment subsystem is processing a batch of order lines, the order 
+ line’s status is updated in the database in groups. The size of the group 
+ is configured in the <span class="UIElement" style="font-weight: bold;">Maximum Order Line Update Count</span> 
+ setting in OPS Configuration. The setting allows for the database to be 
+ updated in bulk for better performance. </p>
+    </body>
+</html>

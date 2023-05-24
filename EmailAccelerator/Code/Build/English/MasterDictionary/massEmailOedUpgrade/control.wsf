@@ -1,0 +1,27 @@
+<job id="control">
+<runtime>
+     <description>The is the OED upgrade script that will add the mass email feature to the OED
+     </description>
+        <named 
+            name = "l"
+            helpstring = "The location of the working copy of the OED that will be upgraded"
+            type = "string"
+            required = "false"
+        />
+</runtime>
+
+<script language="VBScript" src="massEmailOedUpgrade.vbs"/>
+<script language="VBScript">
+      
+	Set colNamedArguments = WScript.Arguments.Named
+
+	strOEDLocation = colNamedArguments.Item("l")
+
+	strReturn = massEmailOedUpgrade(strOEDLocation)
+
+	WScript.echo(strReturn)
+
+</script>
+</job>
+
+

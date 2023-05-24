@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="670" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>OnyxOptionalForeignKey</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>
+            <MadCap:keyword term="OnyxOptionalForeignKey" />OnyxOptionalForeignKey</h3>
+        <p>The OnyxOptionalForeignKey 
+ step component is used in cases where an object supports both a link to 
+ another object via an ID, as well as a “named” reference without an ID. 
+ For instance, an individual can be related to a company in one of two 
+ ways:</p>
+        <ul style="list-style: disc;" type="disc">
+            <li>The primary ID of a company can be assigned to 
+ the individual.companyId property.</li>
+            <li>The name of a company can be assigned to the individual.companyName 
+ property, while the individual.companyId property is NULL.</li>
+        </ul>
+        <p>In the first case, the company’s name is not stored in the individual 
+ table; only the primary ID of the company is stored, and the company name 
+ is retrieved via a join to the company table when the individual is retrieved. 
+ In the second case, the company name is stored in the individual table, 
+ but there is no physical relationship between the individual and any company 
+ in the company table, and no join to the company table is performed when 
+ the individual is retrieved. The first type of relationship is usually 
+ preferred, since it makes the related data usable in queries, reports, 
+ and OEP navigation functionality.</p>
+        <p>The OnyxOptionalForeignKey step component ensures 
+ that when an ID value is passed for the foreign key property, the name 
+ properties are persisted as NULL. This ensures that the name data is stored 
+ in only one place in the database when a link exists. The stepAdditionalData 
+ tells the step which properties are involved in the relationship:</p>
+        <ul style="list-style: disc;" type="disc">
+            <li>The foreignKeyPropertyName value contains the 
+ name of the property holding the ID (foreign key). In the example above, 
+ this would be “companyId”.</li>
+            <li>The denormFields value contains a comma-delimited 
+ list of denormalized name properties. In the example above, this would 
+ be “companyName”. </li>
+        </ul>
+        <p>If the property specified by foreignKeyPropertyName has a value in the 
+ input XML, the OnyxOptionalForeignKey step will set all the properties 
+ specified by denormFields to NULL. Otherwise, the step does nothing.</p>
+    </body>
+</html>

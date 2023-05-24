@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:id="content" MadCap:comment="content" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:fileTags="RoboHelpCheckList.Ran Smart Index,RoboHelpStatus.In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="797" MadCap:lastWidth="624">
+    <head><title>statusType element</title>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body onload="onyxOnload()">
+        <h6>statusType element</h6>
+        <p>The statusType element contains the condition of the method logic. Step 
+ components and the OTM only use the statusType element for logic errors 
+ and warnings, such as failing to find an expected XML node, and not for 
+ hard errors, such as failing to create an XML parser. For hard errors, 
+ the OTM and step components return a bad HR code. When the OTM creates 
+ the step package, it sets the value of statusType to success. If the OTM 
+ or step components encounter a logic error or warning condition during 
+ method execution, they set the statusType element to one of three values.</p>
+        <table>
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>statusType value</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">success</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">The method was successful, and no errors 
+ were reported.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">successWithInfo</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">The method was successful and no errors were 
+ reported, but a message is being sent along with the status of success.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">failure</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">The method failed.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p style="font-weight: bold;">Changing the value of statusType</p>
+        <p>Onyx step components do not change the value of the statusType element 
+ unless the situation merits it. This ensures that invalid data is not 
+ mistakenly processed, and ensures that valid data is not ignored by other 
+ step components or calling applications.</p>
+        <p>Onyx step components change the value of statusType under the following 
+ circumstances:</p>
+        <table>
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Current value of statusType</th>
+                    <th>New value of statusType</th>
+                    <th>Reason</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">success</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">successWithInfo</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">If any information needs to be sent to the 
+ next step or to the calling client.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">success</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">failure</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">If an error has occurred, jeopardizing the 
+ success of the entire method.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">successWithInfo</p>
+                    </td>
+                    <td>
+                        <p>&#160;</p>
+                    </td>
+                    <td>
+                        <p>&#160;</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">failure</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">--</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Under no circumstances does a step component change 
+ the value from failure to a success status.</p>
+                        <p class="Table_Text">In fact, Onyx step components that encounter 
+ a statusType of failure immediately abort, and do not even attempt to 
+ execute their programmed actions.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p style="font-weight: bold;">Example</p>
+        <p class="code">&lt;methodStatus&gt;</p>
+        <p class="code">&#160;&#160;&#160;&#160;<span style="color: #800000;">&lt;statusType&gt;failure&lt;/statusType&gt;</span></p>
+        <p class="code">&#160;&#160;&#160;&#160;&lt;error associationId="65220E99-192E-4906-8179-98CFB3775BD8"&gt;</p>
+        <p class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;severity&gt;failure&lt;/severity&gt; </p>
+        <p class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;errorNumber&gt;9538&lt;/errorNumber&gt; </p>
+        <p class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;errorType&gt;oetBusinessLogic&lt;/errorType&gt; </p>
+        <p class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;errorDescription&gt;Company not found&lt;/errorDescription&gt; </p>
+        <p class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;sourceType&gt;ostMisc&lt;/sourceType&gt; </p>
+        <p class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;sourceName&gt;OnyxCustomerDAC:RetrieveCompany&lt;/sourceName&gt; </p>
+        <p class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;natLangId&gt;709026&lt;/natLangId&gt; </p>
+        <p class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;timestamp&gt;2000-11-15 20:43:51&lt;/timestamp&gt; </p>
+        <p class="code">&#160;&#160;&#160;&#160;&lt;/error&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&lt;/methodStatus&gt;</p>
+    </body>
+</html>

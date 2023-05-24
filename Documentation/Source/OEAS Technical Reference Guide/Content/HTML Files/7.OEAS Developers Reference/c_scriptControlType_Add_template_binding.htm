@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:conditions="Default.Main" MadCap:lastBlockDepth="6" MadCap:lastHeight="950" MadCap:lastWidth="968">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Note_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Add template binding</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h6>
+            <MadCap:keyword term="Add template" />
+            <MadCap:keyword term="templates" />Adding the template binding</h6>
+        <p>Adding the template binding connects the script control template to 
+ the script prompt template. The script prompt template contains instructions 
+ to be performed for all script prompts, so the stylesheet calls it first. 
+ Once the script prompt template has rendered the header and navigation 
+ panes, it calls the correct script control template, in order to include 
+ the control-specific HTML.</p>
+        <p>When inserting the template binding into the template, be careful to 
+ insert it at the correct point in the template. Inserting the template 
+ binding in the wrong location can break the valid structure of the XML. 
+ The template binding is an <span style="font-weight: bold;">xsl:when</span> 
+ element that must be a child of an <span style="font-weight: bold;">xsl:choose</span><span style="font-weight: normal;"> element.</span></p>
+        <p style="font-weight: bold;">To add the template binding:</p>
+        <ol>
+            <li>With the script_delivery_step.xsl file open in 
+ a text editor, find the following <span style="font-weight: bold;">xsl:template</span><span style="font-weight: normal;"> element</span>.</li>
+        </ol>
+        <p Class="Code" class="code">&lt;xsl:template match="scriptPrompt" mode="render"&gt;</p>
+        <ol start="2">
+            <li>Within the <span style="font-weight: bold;">xsl:template</span> 
+ element, find the following comment line.</li>
+        </ol>
+        <p Class="Code" class="code">&lt;!--make the selection of the control type and call the template to output the html element--&gt;</p>
+        <p Class="Code" class="code">&lt;<span style="font-weight: bold;">xsl:choose</span>&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&lt;<span style="font-weight: normal;">xsl:when</span> test="@controlTypeCode = 'dropDownListBox'"&gt;</p>
+        <ol start="3">
+            <li>Immediately following the closing angle bracket 
+ (&gt;) of the <span style="font-weight: bold;">xsl:choose</span> element, 
+ add a new blank line.</li>
+            <li>To add the template binding code to the <span style="font-weight: bold;">xsl:choose</span> element following this comment, 
+ copy and paste the following <span style="font-weight: bold;">xsl:when</span> 
+ clause into the template at the cursor position.</li>
+        </ol>
+        <ol start="5">
+            <li>Save and close the script_delivery_step.xsl file.</li>
+        </ol>
+        <h3>Binding code</h3>
+        <p Class="Code" class="code">&lt;<span style="font-weight: bold;">xsl:when</span> test="@controlTypeCode = 'customerSearch'"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&lt;xsl:call-template name="control_customerSearch"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;xsl:with-param name="safePromptId" select="$safePromptId"/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&lt;/xsl:call-template&gt;</p>
+        <p Class="Code" class="code">&lt;/<span style="font-weight: bold;">xsl:when</span>&gt;</p>
+        <p>The code calls the custom control template by name, passing it the ID 
+ of the prompt that owns it.</p>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Note_Table_1.css');width: 80%;" class="TableStyle-Aptean_Note_Table_1" cellspacing="2">
+            <col style="width: 0.7cm;" class="TableStyle-Aptean_Note_Table_1-Column-Column1" />
+            <col class="TableStyle-Aptean_Note_Table_1-Column-Column1" style="width: 15.50cm;" />
+            <tbody>
+                <tr class="TableStyle-Aptean_Note_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyB-Column1-Body1" style="text-align: right;">
+                        <p>
+                            <img src="../../Resources/Images/Common/note_image.png" />
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText"><b>Note</b>: The name of the template is case sensitive 
+ and must match the name used in the <a href="c_scriptControlType_Add_javascript_class.htm">Javascript 
+ class</a> definition and the database <a href="c_scriptControlType_Add_domain_data.htm">domain 
+ data</a>. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

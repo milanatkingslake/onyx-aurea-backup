@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="3726" MadCap:lastWidth="679" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>execute (Query Engine)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>
+            <MadCap:keyword term="execute method" />
+            <MadCap:keyword term="execute" />Execute method</h5>
+        <p>The Execute method of the <a href="QEInterface.htm">IEBusQE interface</a> 
+ passes an SQL   
+ command string to the application database engine.</p>
+        <h3>Syntax</h3>
+        <p><b>IDL</b>
+        </p>
+        <p Class="Code" class="code">HRESULT&#160;Execute(</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;[in]&#160;VARIANT&#160;vUserInfo,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;[in]&#160;BSTR&#160;bstrSQL,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;[in,&#160;out]&#160;VARIANT*&#160;pvResult,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;[out,&#160;retval]&#160;VARIANT*&#160;pvReturnStatus);</p>
+        <p>IDL parameter descriptions</p>
+        <p>vUserInfo</p>
+        <p class="BodyTextIndent_1">[in] A four-element Variant array that contains the application 
+ name, the user ID, the OTM execution ID number, and the maximum number 
+ of rows to return.</p>
+        <p>bstrSQL</p>
+        <p class="BodyTextIndent_1">[in] A string that contains the SQL   code to be passed 
+ to the Onyx Enterprise Database.</p>
+        <p>pvResult</p>
+        <p class="BodyTextIndent_1">[out] A two-dimensional Variant array that contains the 
+ result set. If the SQL   code does not return 
+ records, this variable is empty.</p>
+        <p>pvReturnStatus</p>
+        <p class="BodyTextIndent_1">[out, retval] A two-dimensional Variant array that contains 
+ status and error information.</p>
+        <p><b>Visual Basic</b>
+        </p>
+        <p Class="Code" class="code">Function&#160;Execute(</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;vUserInfo&#160;As&#160;Variant,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;bstrSQL&#160;As&#160;String,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;pvResult&#160;As&#160;Variant)</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;As&#160;Variant</p>
+        <p>Visual Basic parameter descriptions</p>
+        <p>vUserInfo</p>
+        <p class="BodyTextIndent_1">[in] A four-element Variant array that contains the application 
+ name, the user ID, the OTM execution ID number, and the maximum number 
+ of rows to return.</p>
+        <p>bstrSQL</p>
+        <p class="BodyTextIndent_1">[in] A string that contains the SQL    code to be passed 
+ to the Onyx Enterprise Database.</p>
+        <p>pvResult</p>
+        <p class="BodyTextIndent_1">[out] A two-dimensional Variant array that contains the 
+ result set. If the SQL   code does not return 
+ records, this variable is empty.</p>
+        <p><b>C#</b>
+        </p>
+        <p>Use with the .NET <a href="Primary_interop_assembly.htm">primary interop 
+ assembly</a> version of this component, OnyxEBusQEPIA.</p>
+        <p Class="Code" class="code">public&#160;object&#160;Execute(</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;object&#160;vUserInfo,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;string&#160;bstrSQL,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;ref&#160;object&#160;pvResult)</p>
+        <p>
+            C# parameter descriptions
+        </p>
+        <p>vUserInfo</p>
+        <p class="BodyTextIndent_1">[in] A four-element Variant array that contains the application 
+ name, the user ID, the OTM execution ID number, and the maximum number 
+ of rows to return.</p>
+        <p>bstrSQL</p>
+        <p class="BodyTextIndent_1">[in] A string that contains the SQL    code to be passed 
+ to the Onyx Enterprise Database.</p>
+        <p>pvResult</p>
+        <p class="BodyTextIndent_1">[ref] A two-dimensional Variant array that contains the 
+ result set. If the SQL    code does not return 
+ records, this variable is empty.</p>
+        <h3>Return values</h3>
+        <p>This method returns a two-dimensional Variant array that contains status 
+ and error information. For more information, see <a href="QE_Err_Info.htm">Error 
+ and status information</a><MadCap:keyword term="Query Engine" /> in the Query Engine section of OEAS architecture 
+ details.</p>
+        <p>The C# version of this method returns a two-dimensional array as a System.Object 
+ type. To access the individual array elements the Object must be cast 
+ to Object[,] (an object array) and then either assign each element to 
+ a string or copy the value into a new string. For an example of this coding 
+ technique, see the C# code sample in the Example section of DictionaryProxy 
+ <a href="Script_GetPropertyConstraints.htm">GetPropertyConstraints</a> 
+ method.</p>
+        <h3>Remarks</h3>
+        <p>The Query Engine does not check the syntax of the SQL    code before sending 
+ it to the database for execution. Information about any resulting syntax 
+ errors is contained in the pvReturnStatus array.</p>
+        <p>Because the Query Engine does not check the SQL    passed through this 
+ method, date and time values are not automatically converted to UTC when 
+ written to the database. Date and time values are still converted back 
+ to UTC when returned in a result set, though, so components that insert 
+ records with date and time columns using this method must make a proper 
+ conversion manually.</p>
+        <p>The first element in the vUserInfo array contains the name of the application 
+ database to query. The Query Engine retrieves connection information from 
+ the system registry using this application name. If the name does not 
+ exist in the registry, the method returns a bad HRESULT that indicates 
+ the database server was not found. The second and third elements of the 
+ vUserInfo array can be found in the contextXML element of the step package 
+ provided by the Onyx Transaction Manager (OTM). Only the first element 
+ is required for a successful method call.</p>
+        <p>Decimal values retrieved through this method are limited to 14 digits 
+ of precision. Values that contain more digits will be truncated.</p>
+        <h3>Example</h3>
+        <p>The following example demonstrates a simple call to the Execute method.</p>
+        <p>Visual Basic code sample</p>
+        <p Class="Code" class="code">Sub&#160;ExecuteSQL()</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;<span style="color: #008000;">' Dim Variables</span></p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;Dim&#160;objQE&#160;As&#160;ONYXEBUSINESSQELib.EBusQE</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;Dim&#160;strSQL&#160;As&#160;String</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;Dim&#160;Userinfo(0&#160;To&#160;3)&#160;As&#160;Variant</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;Dim&#160;ResultSet&#160;As&#160;Variant</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;Dim&#160;ReturnStatus&#160;As&#160;Variant</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;Dim&#160;Rows&#160;As&#160;Integer,&#160;Cols&#160;As&#160;Integer</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;Dim&#160;jnx&#160;As&#160;Integer,&#160;inx&#160;As&#160;Integer</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;<span style="color: #008000;">' Fill the UserInfo array.</span></p>
+        <p Class="Code" class="code"><span style="color: #008000;">' Used for logging purposes.</span>
+        </p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;Userinfo(0)&#160;=&#160;"Onyx"&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span style="color: #008000;">' Application Name</span></p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;Userinfo(1)&#160;=&#160;"user1"&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span style="color: #008000;">' User ID</span></p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;Userinfo(2)&#160;=&#160;"85EB7210-0F23-4529-AA63-9F591D4D7C89"&#160;&#160;<span style="color: #008000;">' OTM Execution ID</span></p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;Userinfo(3)&#160;=&#160;"35"&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span style="color: #008000;">' Return the first 35 rows</span></p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;<span style="color: #008000;">' Grab a list of companies from the company table.</span></p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;strSQL&#160;=&#160;"SELECT&#160;*&#160;FROM&#160;company"</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;<span style="color: #008000;">' Error handler for COM-related errors.</span></p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;On&#160;Error&#160;GoTo&#160;LogError</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;<span style="color: #008000;">' Create the Query Engine interface.</span></p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;Set&#160;objQE&#160;=&#160;CreateObject("OnyxEBusQE.EBusQE")</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;<span style="color: #008000;">' Call the method</span></p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;ReturnStatus&#160;=&#160;objQE.Execute(Userinfo,&#160;strSQL,&#160;ResultSet)</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;<span style="color: #008000;">' Check to see if there were any SQL    errors or other status messages.</span></p>
+        <p Class="Code" class="code"><span style="color: #008000;">' Because we set a maxrows limit, there might be a warning</span>
+        </p>
+        <p Class="Code" class="code"><span style="color: #008000;">' indicating that not all rows were returned.</span>
+        </p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;If&#160;Not&#160;IsNull(ReturnStatus(0,&#160;0))&#160;Then</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span style="color: #008000;">' Loop through messages.</span></p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;End&#160;If</p>
+        <p Class="Code" class="code">&#160;<span style="color: #008000;"> ' Check for the existence of the result set.</span></p>
+        <p Class="Code" class="code"><span style="color: #008000;">' If ResultSet is empty, the command returned no records.</span>
+        </p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;If&#160;Not&#160;IsEmpty(ResultSet)&#160;Then</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span style="color: #008000;">' Get a row count and a column count.</span></p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Rows&#160;=&#160;UBound(ResultSet,&#160;1)</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Cols&#160;=&#160;UBound(ResultSet,&#160;2)</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;If&#160;Not&#160;Rows&#160;=&#160;-1&#160;Then&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span style="color: #008000;">' Loop through the data</span></p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;For&#160;inx&#160;=&#160;0&#160;To&#160;Rows</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;For&#160;jnx&#160;=&#160;0&#160;To&#160;Cols</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span style="color: #008000;">' Do something with the data.</span></p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Next&#160;jnx</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Next&#160;inx&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;End&#160;If</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;End&#160;If</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;<span style="color: #008000;">' Free the QE interface.</span></p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;Set&#160;objQE&#160;=&#160;Nothing</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;Exit&#160;Sub</p>
+        <p Class="Code" class="code">LogError:</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;<span style="color: #008000;">' Do something with the error.</span></p>
+        <p class="code" style="margin-bottom: 0;">End&#160;Sub</p>
+    </body>
+</html>

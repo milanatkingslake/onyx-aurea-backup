@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:id="content" MadCap:comment="content" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:fileTags="RoboHelpStatus.In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="643" MadCap:lastWidth="624">
+    <head>
+        <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head>
+            <link href="../../../Resources/TableStyles/Aptean_Note_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" /><title>Step 3</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>Step 3 </h3>
+        <p>The calling client sends the task data, in XML, to the OTM. Since the 
+ OTM does not inherently know how to process the request (the task.insert 
+ method), it queries the Onyx Enterprise Dictionary (OED) in-memory cache 
+ for the steps that define the insert method for the task object. If the 
+ OED cache was not loaded previously, the cache will load itself upon the 
+ OTM request. The OTM sends the application name, the object name (task), 
+ and the method name (insert) to the OED cache to obtain the instructions 
+ for the task.insert method. </p>
+        <p>The OED returns to the OTM the steps that are required to complete the 
+ request. In this example, these steps provide the information that is 
+ required for inserting a task record to the Onyx Enterprise Database. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">A separate OTM is instantiated for each call to the Onyx 
+ Enterprise Application Server, and not necessarily always on login. The 
+ first time that the OTM is instantiated for any reason, the caches are 
+ loaded and retained in memory until the OnyxEASApp COM+ application is 
+ restarted or the server is shut&#160;down.</p>
+        <p>When the National Language cache is needed, such as to report a message 
+ to the calling client, the OTM, the ODM, or other step components can 
+ reference it as well. </p>
+        <p class="Image">
+            <img src="../../../Resources/Images/ar_oeasdataflow3_sql.jpg" style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+    </body>
+</html>

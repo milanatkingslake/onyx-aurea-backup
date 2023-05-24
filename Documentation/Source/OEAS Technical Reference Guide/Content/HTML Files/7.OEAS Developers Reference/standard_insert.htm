@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="1107" MadCap:lastWidth="945">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <h2>
+            <MadCap:keyword term="insert standard method" />
+            <MadCap:keyword term="insert method" />
+            <MadCap:keyword term="Standard business object methods:insert" />
+            <MadCap:keyword term="insert" />insert method</h2>
+        <p>An insert method persists a new object instance to the database.</p>
+        <h5>Parameters</h5>
+        <p>This method accepts an object whose content="all" as the input 
+ parameter, and returns a "keysOnly" object as an output parameter. 
+ You pass the input XML within the root element named &lt;parameters&gt;.</p>
+        <table>
+            <col />
+            <col />
+            <col />
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Direction</th>
+                    <th>Data type</th>
+                    <th>Content in type</th>
+                    <th>Content out type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Object name</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">inOut</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">object</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">all</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">keysOnly</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">An object whose content="all" on 
+ input.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h5>Steps</h5>
+        <p>All standard methods call the Onyx Data Validation Step for input data 
+ validation and either directly or indirectly call Onyx Data Manager to 
+ access the data tier. Many methods perform additional steps. For a table 
+ that lists the default steps of a specific business object method, refer 
+ to its method topic under the business object.</p>
+        <h5>Remarks</h5>
+        <p>For objects with generated object keys, such as GUIDs, the primary object 
+ key property node can be empty or not present in the input parameters 
+ XML for an insert method on a transactional object.</p>
+        <p>Non-transactional objects may have a primaryId property or a primary 
+ key property with a different name. OEAS uses the value of the property's 
+ Generate ID field in the OED to determine how a primary key value is generated. 
+ For a value of "odmGuid" a unique GUID value is generated on 
+ the middle tier. When the value is "db," the middle-tier expects 
+ a unique value to be generated in the data tier. In this latter case, 
+ the property should also have an object-physical map that specifies the 
+ database function to be called for generating the unique value during 
+ the insert operation.</p>
+        <p>Denormalized properties and maintenance properties, such as insertDate, 
+ insertBy, updateDate, updateBy, and onyxTimestamp, are ignored on input, 
+ therefore it is unnecessary to include them in the input parameters XML. 
+ Also, logical properties that are not required or that have a default 
+ value (according to its OED definition) are optional in the input parameters 
+ XML.</p>
+        <h5>Example</h5>
+        <p>The following example shows the content of the input parameters and 
+ output parametersReturn used to insert an reminder object instance.</p>
+        <p>
+            Parameters
+        </p>
+        <p Class="Code" class="code">&lt;parameters&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;reminder objectType="reminder"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;primaryId/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerId&gt;DE1FB914-1B4F-43C5-9E34-7CEBD6DB0E27&lt;/ownerId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;ownerType&gt;6&lt;/ownerType&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;userId&gt;sa&lt;/userId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;message&gt;Make plans for 3/15 site visit.&lt;/message&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;dueBy&gt;2002-2-18 00:00:00&lt;/dueBy&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;recurType/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;recurInterval/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;alarmActive&gt;1&lt;/alarmActive&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertBy/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;insertDate/&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/reminder&gt;</p>
+        <p Class="Code" class="code">&lt;/parameters&gt;</p>
+        <p>
+            parametersReturn
+        </p>
+        <p Class="Code" class="code">&lt;parametersReturn&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&lt;reminder objectType="reminder" content="keysOnly"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&lt;primaryId&gt;F2230EA8-7EB4-405C-8965-3C4A95E9243E&lt;/primaryId&gt; </p>
+        <p Class="Code" class="code">&#160;&#160;&lt;/reminder&gt;</p>
+        <p Class="Code" class="code">&lt;/parametersReturn&gt;</p>
+    </body>
+</html>

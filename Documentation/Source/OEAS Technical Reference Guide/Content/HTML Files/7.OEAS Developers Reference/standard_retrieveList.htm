@@ -1,0 +1,242 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="837" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Note_Table.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>retrieveList method</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="retrieveList method#paging_functionality;retrieveList" />retrieveList method</h2>
+        <p>The retrieveList method returns a list of records that match the search 
+ criteria.</p>
+        <p>The retrieveList method contrasts with the retrieveCollection method 
+ in that it typically returns data only for specified properties (instead 
+ of all properties, as occurs when using the retrieveCollection method). 
+ Because retrieveList methods specify exactly which data they want returned, 
+ they are sometimes more efficient than retrieveCollection methods. In 
+ addition, unlike the retrieveCollection method, the retrieveList method 
+ returns data within a <a href="rowSet_element.htm">rowSet element</a>.</p>
+        <p>Use the retrieveList method when you want to do one 
+ of the following:</p>
+        <ul>
+            <li>Retrieve a subset of properties from a business 
+ object</li>
+            <li>Retrieve data from multiple business object types</li>
+            <li>Include data in the result set that is derived 
+ from stored procedure logic</li>
+            <li>Retrieve data that is not mapped to an OEAS object 
+ model entity</li>
+            <li>Search using inexact matches or "LIKE" 
+ criteria </li>
+            <li>Search for a range of values, such as searching 
+ for all company records inserted between January 1, 2000, and January 
+ 1, 2001 (search by insertDate)</li>
+        </ul>
+        <h5>Parameters</h5>
+        <p>Unlike other methods, retrieveList methods do not accept object parameters. 
+ Instead, retrieveList methods accept simple parameters that are used as 
+ search criteria for the retrieveList operation: the more parameters you 
+ supply, the more specific your search becomes. </p>
+        <p>Most retrieveList methods have a combination of required and optional 
+ input parameters, while others have no input parameters at all. In the 
+ OED, retrieveList parameters that are <span style="font-style: italic;">optional</span> 
+ upon input have a default value of NULL; required, retrieveList parameters 
+ that are <span style="font-style: italic;">required</span> upon input 
+ are not assigned a default value.</p>
+        <p>To retrieve all records of a specified type, you can sometimes do so 
+ by not supplying any input parameters. For some objects, however, you 
+ must supply at least a few parameters, as dictated by the object.method. 
+ For example, the customer.retrieveList method requires you to supply a 
+ valid value for the type parameter, and then allows you to supply any 
+ other parameters to help define the search.</p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Stored procedures that are called by OEAS retrieveList methods 
+ may require parameters that are not identified as "required" 
+ properties in the OED, though it is more common for the reverse to be 
+ true: some retrieveList methods, such as customer.retrieveList, have optional 
+ filter parameters for parameters that are actually required for the stored 
+ procedure to succeed.</p>
+        <p>
+            Example of parameters element with search criteria
+        </p>
+        <p Class="Code" class="code">&lt;parameters&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;ownerId&gt;62E61A11-E0C4-425D-B245-BBE5BC20642C&lt;/ownerId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;ownerType&gt;6&lt;/ownerType&gt;</p>
+        <p Class="Code" class="code">&lt;/parameters&gt;</p>
+        <p>The output parameter of the retrieveList method consists of a <a href="rowSet_element.htm">rowSet 
+ element</a>.</p>
+        <table>
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Direction</th>
+                    <th>Method parameters</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">in</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">None, or a specified set of criteria</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">out</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">rowSet as defined in Object Designer using 
+ the ContentOut Definition (whose content=all)</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h5>Remarks</h5>
+        <p>Certain retrieveList methods support the use of wild card characters 
+ in search criteria. To determine whether a specific method supports wild 
+ card substitutions, consult the specific method topic. The wild card characters 
+ can be combined. All searches performed in OEAS act as if a '%' wild card 
+ has been appended to the search strings.  The following table shows the 
+ currently supported wild card characters and their usage. For the most 
+ up to date list of supported wild card characters, see the SQL 
+ Server documentation. 
+ </p>
+        <table>
+            <col />
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Character</th>
+                    <th>Substitutes for...</th>
+                    <th>Usage</th>
+                    <th>Result</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="width: 17.134%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17.134%">
+                        <p class="Table_Text" style="margin-bottom: 0;">%</p>
+                    </td>
+                    <td style="width: 34.195%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.195%">
+                        <p class="Table_Text" style="margin-bottom: 0;">Any string of zero or more characters</p>
+                    </td>
+                    <td style="width: 13.667%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="13.667%">
+                        <p class="Table_Text" style="margin-bottom: 0;">%smith%</p>
+                    </td>
+                    <td style="width: 36.293%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="36.293%">
+                        <p class="Table_Text" style="margin-bottom: 0;">Returns records that contain 'smith' anywhere 
+ in the searched field</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17.134%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17.134%">
+                        <p class="Table_Text" style="margin-bottom: 0;">_(underscore)</p>
+                    </td>
+                    <td style="width: 34.195%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.195%">
+                        <p class="Table_Text" style="margin-bottom: 0;">Any single character</p>
+                    </td>
+                    <td style="width: 13.667%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="13.667%">
+                        <p class="Table_Text" style="margin-bottom: 0;">_ean</p>
+                    </td>
+                    <td style="width: 36.293%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="36.293%">
+                        <p class="Table_Text" style="margin-bottom: 0;">Returns all values that contain a single 
+ character followed by "ean", followed by anything else</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17.134%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17.134%">
+                        <p class="Table_Text" style="margin-bottom: 0;">[^]</p>
+                    </td>
+                    <td style="width: 34.195%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.195%">
+                        <p class="Table_Text" style="margin-bottom: 0;">Any single character not within the specified 
+ range ([^a-f]) or set ([^abcdef])</p>
+                    </td>
+                    <td style="width: 13.667%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="13.667%">
+                        <p class="Table_Text" style="margin-bottom: 0;">de[^l]</p>
+                    </td>
+                    <td style="width: 36.293%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="36.293%">
+                        <p class="Table_Text" style="margin-bottom: 0;">Returns all values beginning with de and 
+ where the following letter is not l (el)</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 17.134%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17.134%">
+                        <p class="Table_Text" style="margin-bottom: 0;">[]</p>
+                    </td>
+                    <td style="width: 34.195%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="34.195%">
+                        <p class="Table_Text" style="margin-bottom: 0;">Any single character within the specified 
+ range ([a-f]) or set ([abcdef])</p>
+                    </td>
+                    <td style="width: 13.667%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="13.667%">
+                        <p class="Table_Text" style="margin-bottom: 0;">sm[iy]th%</p>
+                    </td>
+                    <td style="width: 36.293%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="36.293%">
+                        <p class="Table_Text" style="margin-bottom: 0;">Returns records that begin with 'smith' or 
+ 'smyth'</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>To maximize the efficiency of this method and minimize coding effort, 
+ nearly all of the logic for this method is contained in the data tier.</p>
+        <p>The number of results returned by the retrieveList method can be modified 
+ using paging functionality. For more information see <a href="#paging_functionality">Paging 
+ functionality</a>.</p>
+        <p>Most OEAS retrieveList methods use the embeddedXml feature to improve 
+ performance. In certain instances, you might want to disable the feature 
+ for a given method. For more information, see <a href="Using_the_embeddedXml_feature.htm">Using 
+ the embeddedXml feature</a>.</p>
+        <h5><a name="paging_functionality"></a>Paging functionality</h5>
+        <p>Paging functionality consists of logic in retrieveList stored procedures 
+ and the Onyx Query Engine. The ODM passes rowSet attributes pageSize and 
+ startRowIndex to the Query Engine and the retrieveList stored procedure, 
+ respectively. This functionality enables UI code to manage the display 
+ of discrete chunks of data.</p>
+        <p>If a retrieveList method includes an explicit procedure mapping for 
+ a startRowIndex parameter, the startRowIndex value is passed as an attribute 
+ of the rowSet element in the input parameters. The stored procedure must 
+ implement the startRowIndex logic. Not all retrieveList methods support 
+ startRowIndex by default. To determine whether a retrieveList method supports 
+ startRowIndex, see the specific topic for that method. </p>
+        <p>The Onyx Query Engine implements pageSize logic (maximum rows).</p>
+        <p>The following XML illustrates parameters including pageSize and startRowIndex 
+ attributes for a user.retrieveListUsersAndGroups.</p>
+        <p Class="Code" class="C_Code">&lt;parameters&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;groupId&gt;ACCOUNTING&lt;/groupId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;active&gt;1&lt;/active&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;rowSet pageSize="10" startRowIndex="11"&gt;&lt;/rowSet&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/parameters&gt;</p>
+        <p>The stored procedure starts at the row specified by startRowIndex and 
+ returns all the remaining rows to the Query Engine. The Query Engine enforces 
+ the maximum rows returned as specified in the pageSize attribute. If the 
+ stored procedure returns more than the number of rows specified in the 
+ pageSize attribute, the Query Engine truncates the result set and includes 
+ a warning in the methodStatus. OEAS returns a successWithInfo and a warning 
+ message if the retrieveList methods returns a subset of the matching data 
+ due to paging. Assuming the database contains more than 20 rows in the 
+ preceding example, the method returns rows 11 through 20 of the result 
+ set.</p>
+        <p>The following XML shows the warning returned by the Query Engine.</p>
+        <p Class="Code" class="C_Code">&lt;methodStatus&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;statusType&gt;successWithInfo&lt;/statusType&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;error&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;severity&gt;warning&lt;/severity&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;errorNumber&gt;100002&lt;/errorNumber&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;errorType&gt;oetReturnValue&lt;/errorType&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;errorDescription&gt;Could not retrieve all rows (maximum rows value reached).&lt;/errorDescription&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;sourceType&gt;ostComponent&lt;/sourceType&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;sourceName&gt;ONYXEBUSINESSQELib.EBusQE&lt;/sourceName&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;natLangId&gt;0&lt;/natLangId&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;timestamp&gt;2005-01-25 14:09:25&lt;/timestamp&gt;</p>
+        <p Class="Code" class="C_Code">&#160;&#160;&#160;&lt;/error&gt;</p>
+        <p class="C_Code">&lt;/methodStatus&gt;</p>
+    </body>
+</html>

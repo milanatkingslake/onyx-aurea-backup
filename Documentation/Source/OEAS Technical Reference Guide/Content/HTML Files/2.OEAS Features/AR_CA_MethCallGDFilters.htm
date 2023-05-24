@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="515" MadCap:lastWidth="624" MadCap:ignoredWords="retrieveCollection">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Filters</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>Filters </h4>
+        <p>There are two ways to apply filters to method calls: 
+ </p>
+        <ul>
+            <li>Supply a default value for an input method call 
+ detail.</li>
+            <li>Include a filter in the element path for an output 
+ method call detail.</li>
+        </ul>
+        <p>Generally, you can expect better performance when the method call filters 
+ on the input detail, because the OEAS server performs the filtering. However, 
+ you must make sure that the underlying OEAS method supports filtering 
+ on the input (for example, the element you want to filter on might not 
+ be a valid input parameter for the method). If the OEAS method does not 
+ support filtering on the input detail, the method call must filter on 
+ the output detail in the element path. Refer to the merge template retrieveCollection 
+ example (see <i>retrieveCollection</i>) 
+ for an example of filtering on the output detail. The contactTypeId is 
+ not a valid input parameter for the method, but you can filter on contactTypeId 
+ in the element path for the contactUserName output method call detail. 
+ </p>
+        <p>The recommended approach is to filter on the input for retrieveList 
+ method calls and on the output for retrieveCollection method calls.</p>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; &#160;">When you design a retrieveCollection method call to 
+ retrieve more than one element from a specific object of the collection, 
+ each element returned must include the filter criteria in its element 
+ path. Refer to the scripting retrieve example (see <i>retrieve</i>) 
+ for an example of filtering on the address element outputs so that only 
+ the address lines for the primary address are returned.</p>
+    </body>
+</html>

@@ -1,0 +1,283 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="2586.457" MadCap:lastWidth="780">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Structural Transformation of Objects</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h6>
+            <MadCap:keyword term="Objects#example;Structural Transformation:Objects#example;Structural Transformation;Objects#example:Structural Transformation" />Structural transformation of objects</h6>
+        <p>The structural transformation of an object definition to an object instance 
+ is described in general terms below. An <a href="#example">example</a> 
+ is also available below this general outline that shows the transformation 
+ of an object definition to an object instance. Each general point below 
+ can be viewed in the example. Each bullet corresponds to a row in the 
+ example and is labeled accordingly.</p>
+        <p>In general terms, the transformation is as follows:</p>
+        <ul>
+            <li>Parameter names and property names become element 
+ tags.</li>
+        </ul>
+        <p>This is shown in all rows of the example 
+ below.</p>
+        <ul>
+            <li>For simple property types:</li>
+        </ul>
+        <ul style="list-style-type: circle;">
+            <li class="Sec_List">The property value is encoded into a string 
+ and contained in the element text.</li>
+        </ul>
+        <p>This is shown in all rows of the example 
+ below.</p>
+        <ul>
+            <li>For collection property types:</li>
+        </ul>
+        <ul style="list-style-type: circle;">
+            <li class="Sec_List">A collection attribute with value of "1" 
+ (true) is added to the element.</li>
+            <li class="Sec_List">Child elements are created for each instance 
+ of the property within the collection. The child elements have a tag name 
+ equal to the dataType value. However, this tag is merely a placeholder 
+ that is used because these nodes are iterated as a collection.</li>
+            <li class="Sec_List">The value for each child element is encoded 
+ as specified for simple property types.</li>
+        </ul>
+        <p>This is shown in row D of the example below.</p>
+        <ul>
+            <li>For properties of type "object", collection="0" 
+ (aggregation relationship 1-1):</li>
+        </ul>
+        <ul style="list-style-type: circle;">
+            <li class="Sec_List">The objectType is encoded as an attribute 
+ of the element.</li>
+            <li class="Sec_List">The element contains the properties of that 
+ object type.</li>
+        </ul>
+        <p>This is shown in row E of the example below.</p>
+        <ul>
+            <li>For properties of type "object", collection="1" 
+ (aggregation relationships 0-*, 1-*):</li>
+        </ul>
+        <ul style="list-style-type: circle;">
+            <li class="Sec_List">The objectType is encoded as an attribute 
+ of the element.</li>
+            <li class="Sec_List">A collection attribute with value of "1" 
+ (true) is added to the element.</li>
+            <li class="Sec_List">Child elements are created for each instance 
+ of the object within the collection. The child elements have a tag equal 
+ to the objectType value.</li>
+        </ul>
+        <p>This is shown in rows F and H of the example 
+ below.</p>
+        <ul>
+            <li>For properties of type "object", collection="0" 
+ (aggregation relationship 0-1):</li>
+        </ul>
+        <ul style="list-style-type: circle;">
+            <li class="Sec_List">The objectType is encoded as an attribute 
+ of the element</li>
+            <li class="Sec_List">If the object exists in this instance, the 
+ element contains child elements for each of the properties of that objectType.</li>
+            <li class="Sec_List">If the object does not exist in this instance, 
+ the attribute null="1" is added to the element, and the child 
+ property elements are omitted.</li>
+        </ul>
+        <p>This is shown in row G of the example below.</p>
+        <h4><a name="example"></a>Transformation example</h4>
+        <p>The structural transformation of an object definition to an object instance 
+ is illustrated below.</p>
+        <table wrapperparagraphselector="P" style="width: 100%;margin-top: 14pt;border-spacing: 0px;border-spacing: 0px;mc-table-style: url('../../Resources/TableStyles/Aptean_Table_1.css');" cellspacing="0" width="100%" class="TableStyle-Aptean_Table_1">
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_1-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p>&#160;</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Object definition</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadD-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Object instance (in parameters XML)</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 7%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="7%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">A</p>
+                    </td>
+                    <td style="width: 46%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="46%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p Class="Code" class="code">&lt;businessObject&gt;</p>
+                        <p Class="Code" class="code">&#160;&#160;&lt;name&gt;car&lt;name&gt;</p>
+                        <p Class="Code" class="code">&#160;&#160;&lt;properties&gt;</p>
+                    </td>
+                    <td style="width: 49%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="49%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p Class="Code" class="code">&lt;parameters&gt;</p>
+                        <p Class="Code" class="code">&#160;&#160;&lt;car objectType="car"&gt;</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 7%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="7%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">B</p>
+                    </td>
+                    <td style="width: 46%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="46%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&lt;property&gt;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;name&gt;carId&lt;/name&gt;</p>
+                        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;dataType&gt;i4&lt;/dataType&gt;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&lt;/property&gt;</p>
+                    </td>
+                    <td style="width: 49%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="49%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p>&#160;&#160;&#160;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&lt;carId&gt;1202&lt;/carId&gt;</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 7%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="7%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">C</p>
+                    </td>
+                    <td style="width: 46%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="46%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&lt;property&gt;</p>
+                        <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;name&gt;model&lt;/name&gt;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;dataType&gt;string&lt;/dataType&gt;</p>
+                        <p Code="" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&lt;/property&gt;</p>
+                    </td>
+                    <td style="width: 49%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="49%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p>&#160;&#160;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&lt;model&gt;Barracuda&lt;/model&gt;</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 7%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="7%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">D</p>
+                    </td>
+                    <td style="width: 46%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="46%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&lt;property&gt;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;name&gt;nicknames&lt;/name&gt; </p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;dataType&gt;string&lt;/dataType&gt; </p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;collection&gt;1&lt;/collection&gt; </p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&lt;/property&gt;</p>
+                    </td>
+                    <td style="width: 49%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="49%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p>
+                            <!--&nbsp;$MVD$:spaceretainer()&nbsp;-->&#160;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&lt;nicknames collection="1"&gt;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;nickname&gt;'Cuda&lt;/nickname&gt;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;nickname&gt;Cuda&lt;/nickname&gt;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&lt;/nicknames&gt;</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 7%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="7%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">E</p>
+                    </td>
+                    <td style="width: 46%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="46%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&lt;property&gt;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;name&gt;engine&lt;/name&gt;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;dataType&gt;object&lt;/dataType&gt;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;objectType&gt;engine&lt;/objectType&gt; </p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&lt;/property&gt;</p>
+                    </td>
+                    <td style="width: 49%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="49%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p>&#160;&#160;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&lt;engine objectType="engine"&gt;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;carId&gt;1202&lt;/carId&gt;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;engineId&gt;132&lt;/engineId&gt;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;cylinders&gt;8&lt;/cylinders&gt; </p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&lt;/engine&gt;</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 7%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="7%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">F</p>
+                    </td>
+                    <td style="width: 46%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="46%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&lt;property&gt; </p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;name&gt;seats&lt;/name&gt; </p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;dataType&gt;object&lt;/dataType&gt; </p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;objectType&gt;seat&lt;/objectType&gt;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;collection&gt;1&lt;/collection&gt; </p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&lt;/property&gt;</p>
+                    </td>
+                    <td style="width: 49%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="49%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p>
+                            <!--&nbsp;$MVD$:spaceretainer()&nbsp;-->&#160;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&lt;seats objectType="seat" collection="1"&gt;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;seat objectType="seat"&gt;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;carId&gt;1202&lt;/carId&gt;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;seatId&gt;1&lt;/seatId&gt;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;style&gt;Bucket&lt;/style&gt;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/seat&gt;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;s<span style="color: #000000;">eat objectType="seat"&gt;</span></p>
+                        <p><span style="color: #000000;">&amp;ldots; etc</span>
+                        </p>
+                        <p><span style="color: #000000;">&lt;/seat&gt;</span>
+                        </p>
+                        <p Code="" style="margin-bottom: 0;"><span style="color: #000000;">&lt;/seats&gt;</span>
+                        </p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 7%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="7%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">G</p>
+                    </td>
+                    <td style="width: 46%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="46%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&lt;property&gt; </p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;name&gt;stereo&lt;/name&gt;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;dataType&gt;object&lt;/dataType&gt;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;objectType&gt;stereo&lt;/objectType&gt; </p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&lt;/property&gt;</p>
+                    </td>
+                    <td style="width: 49%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="49%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p>
+                            <!--&nbsp;$MVD$:spaceretainer()&nbsp;-->&#160;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&lt;stereo objectType="stereo"&gt;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;carId&gt;1202&lt;/carId&gt;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;stereoId&gt;1&lt;/stereoId &gt;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;manufacturer&gt;Pioneer&lt;/manufacturer&gt;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&lt;/stereo&gt; </p>
+                        <p Code="" style="text-align: center;" align="center">--or,&#160;if&#160;no&#160;stereo&#160;is&#160;present&#160;--&#160;&#160;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&lt;stereo objectType="stereo" null="1"&gt;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&lt;/stereo&gt;</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 7%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="7%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">H</p>
+                    </td>
+                    <td style="width: 46%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="46%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&lt;property&gt; </p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;name&gt;speakers&lt;/name&gt;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;dataType&gt;object&lt;/dataType&gt; </p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;objectType&gt;speaker&lt;/objectType&gt;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;collection&gt;1&lt;/collection&gt; </p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&lt;/property&gt;</p>
+                    </td>
+                    <td style="width: 49%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="49%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p>
+                            <!--&nbsp;$MVD$:spaceretainer()&nbsp;-->&#160;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&lt;speakers objectType="speaker" collection="1"&gt;</p>
+                        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&lt;/speakers&gt;</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 7%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="7%" class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">I</p>
+                    </td>
+                    <td style="width: 46%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="46%" class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p Class="Code" class="code">&#160;&#160;&lt;/properties&gt;</p>
+                        <p Class="Code" class="code">&lt;/businessObject&gt;</p>
+                    </td>
+                    <td style="width: 49%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="49%" class="TableStyle-Aptean_Table_1-BodyA-Column1-Body1">
+                        <p Class="Code" class="code">&#160;&#160;&lt;/car&gt;</p>
+                        <p>&lt;/parameters&gt;</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

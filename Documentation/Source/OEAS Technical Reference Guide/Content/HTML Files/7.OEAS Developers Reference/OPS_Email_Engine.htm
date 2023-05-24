@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="623" MadCap:lastWidth="686" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Email engine (OPS)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>
+            <MadCap:keyword term="Email engine" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />Email engine</h4>
+        <p>The email engine creates SMTP messages based on actionBatch input and 
+ sends them to an email server that supports SMTP. The engine depends on 
+ the following functionality to execute properly:</p>
+        <p style="font-weight: bold;">Default SMTP XSL stylesheet</p>
+        <p class="BodyTextIndent_1">This stylesheet contains the SMTP header information necessary 
+ for the email server to send an email. One default stylesheet corresponds 
+ to each email subsystem configured in OPS Administration. </p>
+        <p style="font-weight: bold;">Literature product file path</p>
+        <p class="BodyTextIndent_1">The email engine uses the file path of the literature product 
+ to locate the appropriate file (XSL stylesheet, Word document, PDF, JPEG, 
+ and so on). The engine creates an attachment to or body for the SMTP message 
+ from the file or file output, as the case may be.</p>
+        <p style="font-weight: bold;">Fulfillment type</p>
+        <p class="BodyTextIndent_1">The email engine uses fulfillment type to determine whether 
+ to attempt data merging or just attach the file as-is to the SMTP message. 
+ This type also determines whether to send the literature product as the 
+ message body or an attachment to the message. For data merging, the file 
+ path must point to a valid XSL file.</p>
+        <p>The details of the processing are described in the <a href="ops_XSL_documents.htm">Email 
+ templates</a> topic in the Customization section of this document.</p>
+        <h3>Merged Data Messages</h3>
+        <p>The email engine transforms orderBatch XML with an XSL style sheet to 
+ produce a formatted message that can be sent as an email message or an 
+ email attachment. Because a literature order can contain multiple order 
+ lines, the email resulting from a literature order can contain a message 
+ body only, one or more attachments only (with an empty message body), 
+ or a message body with one or more attachments.</p>
+        <h3>Error Handling</h3>
+        <p>Status is returned by the email engine to 
+ the fulfillment subsystem upon completion of the email processing. This 
+ status indicates whether the order item processing succeeded or failed 
+ along with the ID for the order item. This information is passed back 
+ to the fulfillment subsystem. The fulfillment subsystem only updates the 
+ status of processed orderDetails in the database. </p>
+    </body>
+</html>

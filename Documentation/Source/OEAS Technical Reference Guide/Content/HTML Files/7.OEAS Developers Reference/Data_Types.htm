@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="10" MadCap:lastHeight="1649.74" MadCap:lastWidth="619" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Data Types</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h6>
+            <MadCap:keyword term="Data encoding:data types;type;Data Types" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />XML data types</h6>
+        <p>The encoding of simple data types adheres to the XML Data Types portion 
+ of Microsoft's XML-Schema specifications. The encoding of enumerated types 
+ and tokenized types, collectively also known as primitive XML Data types, 
+ is dictated by the World Wide Web Consortium (W3C) XML 1.0 Recommendation. 
+ The commonly used data types in the OEAS appear in the first table below. 
+ The second table lists other valid types not used (but supported in customizations) 
+ in a standard OEAS installation. For the most recent specifications, consult 
+ Microsoft MSDN and search for: XML Data Types Reference.</p>
+        <p>Commonly used data types in the OEAS include:</p>
+        <table wrapperparagraphselector="P" style="width: 100%;margin-top: 14pt;border-spacing: 0px;border-spacing: 0px;mc-table-style: url('../../Resources/TableStyles/Aptean_Table_1.css');" cellspacing="0" width="100%" class="TableStyle-Aptean_Table_1">
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_1-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">XML Data Type</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadD-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Description</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">boolean</p>
+                    </td>
+                    <td style="width: 80%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="80%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">0 or 1, where 0 == "false" and 
+ 1 =="true".</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">dateTime</p>
+                    </td>
+                    <td style="width: 80%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="80%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText">Date in a subset of ISO 8601 format, with optional time 
+ and no optional zone. Fractional seconds can be as precise as nanoseconds. 
+ For example, "1988-04-07 18:39:09".</p>
+                        <p class="TableText" style="margin-bottom: 0;">See the OEAS-specific information for this 
+ type below this table.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">float</p>
+                    </td>
+                    <td style="width: 80%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="80%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText">Real number, with no limit on digits; can potentially 
+ have a leading sign, fractional digits, and an exponent. Punctuation as 
+ in U.S. English.</p>
+                        <p class="TableText"><b>Note</b>: OEAS returns all data types as strings, regardless 
+ of the actual data type that is stored in the database. Data stored in 
+ the database with a data type of "float," when returned as a 
+ string, sometimes becomes less accurate because of the way in which the 
+ number is rounded during the conversion. For example, if the number 10.1234 
+ is stored in the database as a float data type, a retrieve method may 
+ return the number as a string with the value 10.12399999999. To ensure 
+ that the number is accurately returned to the calling client, you must 
+ first convert the string data type to the appropriate data type that the 
+ calling client expects.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">int</p>
+                    </td>
+                    <td style="width: 80%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="80%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Number with optional sign. No fractions and 
+ no exponent.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">i1</p>
+                    </td>
+                    <td style="width: 80%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="80%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText">Integer represented in one byte. Optional sign.</p>
+                        <p class="TableText" style="margin-bottom: 0;">For example, "1, 127, -128".</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">i2</p>
+                    </td>
+                    <td style="width: 80%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="80%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText">Integer represented in two bytes. Optional sign.</p>
+                        <p class="TableText" style="margin-bottom: 0;">For example, "1, 703, -32768".</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">i4</p>
+                    </td>
+                    <td style="width: 80%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="80%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText">Integer represented in four bytes. Optional sign.</p>
+                        <p class="TableText" style="margin-bottom: 0;">For example, "1, 703, -32768, 148343, 
+ -1000000000".</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">object</p>
+                    </td>
+                    <td style="width: 80%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="80%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Any type of XML object. This type is also 
+ used to represent collections of objects. This type is not part of the 
+ Microsoft schema.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">string</p>
+                    </td>
+                    <td style="width: 80%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="80%" class="TableStyle-Aptean_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">A string of characters.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>When used in the OEAS, the data type dateTime differs 
+ from the standard definition of the dateTime data type in the following 
+ ways:</p>
+        <ul>
+            <li>It does not support fractional seconds.</li>
+            <li>There is a space between the date and the time 
+ (instead of the letter 'T'). For example, a valid value for dateTime in 
+ OEAS is 1988-04-07 18:39:09, not 1988-04-07T18:39:09.</li>
+        </ul>
+        <p>Other datatypes include:</p>
+        <table wrapperparagraphselector="P" style="width: 100%;margin-top: 14pt;border-spacing: 0px;border-spacing: 0px;mc-table-style: url('../../Resources/TableStyles/Aptean_Table_1.css');" cellspacing="0" width="100%" class="TableStyle-Aptean_Table_1">
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_1-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">XML Data Type</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadD-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Description</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">bin.base64</p>
+                    </td>
+                    <td style="width: 80%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="80%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">MIME-style Base64 encoded binary BLOB.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">bin.hex</p>
+                    </td>
+                    <td style="width: 80%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="80%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Hexadecimal digits representing octets.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">char</p>
+                    </td>
+                    <td style="width: 80%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="80%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">String, one character long.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">date (not supported)</p>
+                    </td>
+                    <td style="width: 80%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="80%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Date in a subset ISO 8601 format, without 
+ the time data. For example, "1994-11-05".</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">dateTime.tz (not supported)</p>
+                    </td>
+                    <td style="width: 80%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="80%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Date in a subset ISO 8601 format, with optional 
+ time and optional zone. Fractional seconds can be as precise as nanoseconds. 
+ For example, "1988-04-07T18:39:09-08:00".</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">fixed.14.4</p>
+                    </td>
+                    <td style="width: 80%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="80%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Same as "number" but no more than 
+ 14 digits to the left of the decimal point, and no more than 4 to the 
+ right.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">number</p>
+                    </td>
+                    <td style="width: 80%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="80%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Number, with no limit on digits; can potentially 
+ have a leading sign, fractional digits, and an exponent. Punctuation as 
+ in U.S. English. (Values have same range as most significant number, R8, 
+ 1.7976931348623157E+308 to 2.2250738585072014E-308.)</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">time (not supported)</p>
+                    </td>
+                    <td style="width: 80%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="80%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Time in a subset ISO 8601 format, with no 
+ date, and no time zone. For example, "08:15:27".</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">time.tz (not supported)</p>
+                    </td>
+                    <td style="width: 80%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="80%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Time in a subset ISO 8601 format, with no 
+ date but optional time zone. For example, "08:1527-05:00".</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">r4</p>
+                    </td>
+                    <td style="width: 80%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="80%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Real number, with 7-digit precision; can 
+ potentially have a leading sign, fractional digits, and an exponent. Punctuation 
+ as in U.S. English. Values range from 3.40282347E+38F to 1.17549435E-38F.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">r8</p>
+                    </td>
+                    <td style="width: 80%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="80%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Real number, with 15-digit precision; can 
+ potentially have a leading sign, fractional digits, and an exponent. Punctuation 
+ as in U.S. English. Values range from 1.7976931348623157E+308 to 2.2250738585072014E-308.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">ui1</p>
+                    </td>
+                    <td style="width: 80%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="80%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Unsigned integer. A number, unsigned, no 
+ fractions, and no exponent. For example, "1, 255".</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">ui2</p>
+                    </td>
+                    <td style="width: 80%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="80%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Unsigned integer, two bytes. A number, unsigned, 
+ no fractions, and no exponent. For example, "1, 255, 65535".</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">ui4</p>
+                    </td>
+                    <td style="width: 80%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="80%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Unsigned integer, four bytes. A number, unsigned, 
+ no fractions, and no exponent. For example, "1, 703, 3000000000".</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">uri</p>
+                    </td>
+                    <td style="width: 80%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="80%" class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Universal Resource Identifier (URI). For 
+ example, "urn:schemas-microsoft-com:Office9".</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td style="width: 20%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="20%" class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">uuid</p>
+                    </td>
+                    <td style="width: 80%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="80%" class="TableStyle-Aptean_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Hexadecimal digits representing octets and 
+ optional embedded hyphens that are ignored. For example, "333C7BC4-460F-11D0-BC04-0080C7055A83".</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

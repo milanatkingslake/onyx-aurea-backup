@@ -1,0 +1,657 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="853" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; &#160;">Shortcut actions require that an active OEP session exist. If one does not, the user is required to log in. The user must then re-execute the shortcut action. </p>
+        <p>The indirect method may also inadvertently cause an OEP user to lose an existing session. If the Internet Explorer configuration option <b>Reuse windows for launching shortcuts</b> is set, an indirect link may cause an open OEP browser window to surrender itself to the opening link. </p>
+        <p>The action of the shortcut is determined by the items in the query string portion of the URL. Each method uses a different file to open the shortcut, but both interpret the query string data identically. A shortcut link can do one of three things:</p>
+        <ul>
+            <li>Open a blank customer, incident, work ticket, or script form for the user to input data</li>
+            <li>Open an existing customer, incident, work ticket, script, or email record for the user to review and/or edit</li>
+            <li>Display the results of a customer, incident, or work ticket search (either a list of records or a single record, depending on how many records match the search criteria)</li>
+        </ul>
+        <p>The two shortcut files are <i>YourOEPwebsite</i>\powerpage\oep_launcher.asp (for indirect access) and <i>YourOEPwebsite</i>\powerpage\oep_automate.asp (for direct access). See <a href="#Query-st">Query-string parameters</a> for information on constructing a query string. </p>
+        <h3><a name="Query-st"></a>Query-string Parameters</h3>
+        <p>The query string must identify the action (new, retrieve, or search) and the type of record involved (customer, incident, work ticket, or script). The other necessary items in the query string are dependent on the first two. The following table lists all possible items that can be added to a query string. For example strings, see <a href="#Sample">Sample query strings</a>. </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Action</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Identifies what the shortcut should do (open a blank form, retrieve an existing record, or perform a search)</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Type</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Identifies what type of record is involved (customer, incident, work ticket, or script)</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Id</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Contains the unique identifier of a record to retrieve</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">IdType</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Identifies the type of ID to be used in the search (primary or secondary)</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Category</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Identifies the type of customer or incident to insert (individual, company, sales, service, or support)</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OwnerId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Contains the unique identifier of the customer record that will own the newly created incident</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OwnerIdType</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Identifies the type of ID that the OwnerId parameter represents (primary or secondary)</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">FilterField</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Identifies the data field to be used in a search</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">FilterValue</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Contains the value of the data field to match in the search</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">ScriptId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Identifies a script to execute</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">ScriptMode</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Indicates whether to execute a specific script or to display the script chooser</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OwnerType</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Indicates the type of record (customer or incident) that will own the new script</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Characters in the query string must be part of the standard ASCII character set. Unicode and other multi-byte characters are not supported. </p>
+        <p>To keep the size of the query string to a minimum, the Action, Type, Category, OwnerIdType, IdType, FilterField, and ScriptMode parameters use numeric constants to identify the options they represent. These constants are declared in the file oep_automate.asp and can be copied to other applications that will be creating shortcut URLs. The acceptable values for each parameter appear in the following tables.</p>
+        <p>Valid values for the Action parameter are: </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Parameter constant</th>
+                    <th>Value</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEP_AUTOMATION_ACTION_NEW</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">0</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Opens a new record form</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEP_AUTOMATION_ACTION_LOAD</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Loads an existing record</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEP_AUTOMATION_ACTION_SEARCH</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">2</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Executes a search</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Valid values for the Type parameter are: </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Parameter constant</th>
+                    <th>Value</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEP_AUTOMATION_TYPE_CUSTOMER</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">0</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Customer</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEP_AUTOMATION_TYPE_INCIDENT</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Incident</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEP_AUTOMATION_TYPE_WORKTICKET</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">2</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Work ticket</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEP_AUTOMATION_TYPE_SCRIPT</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">3</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Script</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEP_AUTOMATION_TYPE_EMAIL</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">4</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Email</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Valid values for the Category parameter are: </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Parameter constant</th>
+                    <th>Value</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEP_AUTOMATION_CATEGORY_INDIVIDUAL</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">0</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Individual</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEP_AUTOMATION_CATEGORY_COMPANY</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Company</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEP_AUTOMATION_CATEGORY_SALES</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">3</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Sales incident</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEP_AUTOMATION_CATEGORY_SERVICE</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">2</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Service incident</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEP_AUTOMATION_CATEGORY_SUPPORT</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Support incident</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Valid values for the IdType parameter are: </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Parameter constant</th>
+                    <th>Value</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEP_AUTOMATION_TYPE_PRIMARY_ID</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">0</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Primary ID</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEP_AUTOMATION_TYPE_SECONDARY_ID</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Secondary ID</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Valid values for the OwnerIdType parameter are: </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Parameter constant</th>
+                    <th>Value</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEP_AUTOMATION_OWNERTYPE_PRIMARY_ID</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">0</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Primary ID</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEP_AUTOMATION_OWNERTYPE_SECONDARY_ID</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Secondary ID</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Valid values for the FilterField parameter are: </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Parameter constant</th>
+                    <th>Value</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEP_AUTOMATION_SEARCH_CUSTOMER_SECONDARY_ID</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">0</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Searches on the unique ID for customer records</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEP_AUTOMATION_SEARCH_CUSTOMER_FIRST_NAME</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Searches on the first name for customer records</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEP_AUTOMATION_SEARCH_CUSTOMER_LAST_NAME</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">2</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Searches on the last name for customer records</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEP_AUTOMATION_SEARCH_CUSTOMER_COMPANY_NAME</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">3</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Searches on the company name for customer records</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEP_AUTOMATION_SEARCH_CUSTOMER_POST</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">4</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Searches on the postal code for customer records</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEP_AUTOMATION_SEARCH_CUSTOMER_PHONE</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">5</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Searches on telephone numbers for customer records</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEP_AUTOMATION_SEARCH_INCIDENT_SECONDARY_ID</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">0</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Searches on the unique ID for incident records</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEP_AUTOMATION_SEARCH_INCIDENT_OWNER_ID</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Searches on the owner ID for incident records</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEP_AUTOMATION_SEARCH_INCIDENT_DESCRIPTION</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">2</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Searches on the descriptions for incident records</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEP_AUTOMATION_SEARCH_WORKTICKET_SECONDARY_ID</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">0</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Searches on the unique ID for work ticket records</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEP_AUTOMATION_SEARCH_WORKTICKET_DESCRIPTION</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Searches on the description for work ticket records</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Valid values for the ScriptMode parameter are: </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        <p>ParamUeter constant</p>
+                    </th>
+                    <th>Value</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEP_AUTOMATION_SCRIPT_INSERT_MODE_CHOOSER</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">0</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Opens the script chooser window</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEP_AUTOMATION_SCRIPT_INSERT_MODE_DELIVERY </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Opens a new or existing script by unique ID</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Valid values for the OwnerType parameter are: </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Parameter constant</th>
+                    <th>Value</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEP_AUTOMATION_TYPE_CUSTOMER</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">0</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Assigns the script to a customer</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEP_AUTOMATION_TYPE_INCIDENT </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Assigns the script to an incident</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3><a name="Sample"></a>Sample Query Strings</h3>
+        <p>The following URL samples show how to execute shortcut actions. </p>
+        <h5>Inserting new records</h5>
+        <p>To open a new work ticket edit form using a shortcut, the query string need only include the action and the type: </p>
+        <table>
+            <tr>
+                <td>
+                    <p><a href="http://servername/YourOEPwebsite/powerpage/oep_automate.asp?Action=0&amp;Type=2" class="Hyperlink">http://servername/YourOEPwebsite/powerpage/oep_automate.asp?Action=0&amp;Type=2</a>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>To open a new customer edit form, the query string must also include the customer category (company or individual): </p>
+        <table>
+            <tr>
+                <td>
+                    <p><a href="http://servername/YourOEPwebsite/powerpage/oep_launcher.asp?Action=0&amp;Type=0&amp;Category=0" class="Hyperlink">http://servername/YourOEPwebsite/powerpage/oep_launcher.asp?Action=0&amp;Type=0&amp;Category=0</a>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>To open a new incident edit form, the query string must also include the owner customer ID, the owner ID type, and the incident category: </p>
+        <table>
+            <tr>
+                <td>
+                    <p><a href="http://servername/YourOEPwebsite/powerpage/oep_automate.asp?Action=0&amp;Type=1&amp;OwnerId=38D178C1-9CA9-4E4B-B169-ED022AB2C539&amp;OwnerIdType=0&amp;Category=3" class="Hyperlink">http://servername/YourOEPwebsite/powerpage/oep_automate.asp?Action=0&amp;Type=1&amp;OwnerId=38D178C1-9CA9-4E4B-B169-ED022AB2C539&amp;OwnerIdType=0&amp;Category=3</a>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <h5>Retrieving existing records</h5>
+        <p>To retrieve a work ticket, incident, email, or customer record using a shortcut, the query string must contain the action, the type, the ID of the record, and the type of the ID (primary or secondary): </p>
+        <table>
+            <tr>
+                <td>
+                    <p><a href="http://servername/YourOEPwebsite/powerpage/oep_launcher.asp?Action=1&amp;Type=2&amp;id=45913&amp;IdType=0" class="Hyperlink">http://servername/YourOEPwebsite/powerpage/oep_launcher.asp?Action=1&amp;Type=2&amp;id=45913&amp;IdType=0</a>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <h5>Executing searches</h5>
+        <p>The query strings for searches must contain the type of record to search for, and a single criterion to be used in the search. The available criteria are listed in oep_automate.asp (and are identical to some of those available from the quick search feature). For example, the following URL searches for incidents by description: </p>
+        <table>
+            <tr>
+                <td>
+                    <p><a href="http://servername/YourOEPwebsite/powerpage/oep_automate.asp?Action=2&amp;Type=1&amp;FilterField=2&amp;FilterValue=system%20problem" class="Hyperlink">http://servername/YourOEPwebsite/powerpage/oep_automate.asp?Action=2&amp;Type=1&amp;FilterField=2&amp;FilterValue=system%20problem</a>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Depending on your network configuration, URL escaping rules may apply. Filter criteria with space characters should be properly escaped to prevent errors. </p>
+        <h5>Executing scripts</h5>
+        <p>The query strings for scripts can do one of three things: load an existing script for review, start a new script, or open the script chooser window. &#160;</p>
+        <p>To load an existing script for review, the query string must contain the action, the record type, the script ID, and the type of the script ID (primary or secondary): </p>
+        <table>
+            <tr>
+                <td>
+                    <p><a href="http://servername/YourOEPwebsite/powerpage/oep_automate.asp?Action=1&amp;Type=3&amp;id=2398&amp;IdType=0" class="Hyperlink">http://servername/YourOEPwebsite/powerpage/oep_automate.asp?Action=1&amp;Type=3&amp;id=2398&amp;IdType=0</a>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>To start a new script session with a specific script, the query string must contain the action, the type, the script mode, and the script ID. The owner ID and owner type values are optional. If they are not included, the user must manually assign the script to an owner before it can be saved. </p>
+        <table>
+            <tr>
+                <td>
+                    <p><a href="http://servername/YourOEPwebsite/powerpage/oep_launcher.asp?Action=0&amp;Type=3&amp;OwnerId=EFE60935-5F7C-43B0-A597-8D6933805786&amp;OwnerType=1&amp;ScriptMode=1&amp;ScriptId=763" class="Hyperlink">http://servername/YourOEPwebsite/powerpage/oep_launcher.asp?Action=0&amp;Type=3&amp;OwnerId=EFE60935-5F7C-43B0-A597-8D6933805786&amp;OwnerType=1&amp;ScriptMode=1&amp;ScriptId=763</a>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>To open the script chooser dialog, the query string must contain the action, the type, and the script mode. The owner ID and owner type values are optional. If they are not included, the user must manually assign the script to an owner before it can be saved. </p>
+        <table>
+            <tr>
+                <td>
+                    <p><a href="http://servername/YourOEPwebsite/powerpage/oep_launcher.asp?Action=0&amp;Type=3&amp;OwnerId=DEA1BE39-8E09-4979-8BF4-50CCE7EE3CD5&amp;OwnerType=1&amp;ScriptMode=0" class="Hyperlink">http://servername/YourOEPwebsite/powerpage/oep_launcher.asp?Action=0&amp;Type=3&amp;OwnerId=DEA1BE39-8E09-4979-8BF4-50CCE7EE3CD5&amp;OwnerType=1&amp;ScriptMode=0</a>
+                    </p>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

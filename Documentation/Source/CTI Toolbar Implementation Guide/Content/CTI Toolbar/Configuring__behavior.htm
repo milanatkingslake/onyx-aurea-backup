@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="854" MadCap:lastWidth="624">
+    <head>
+        <link href="Resources/Stylesheets/consonacrm.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h3><a name="Chapter02_1047411245_1060252"></a><a name="Chapter02_1047411245_45736"></a>Configuring Onyx CTI behavior </h3>
+        <p class="Normal">You can configure the behavior of Onyx CTI by editing the configuration file for your connector. (Full path: <code>YourOEPwebsite\cti\YourConnector\cti_config.xml</code>, where <code>YourOEPwebsite</code> is your OEP installation directory and <code>YourConnector</code> is the folder containing the code for your connector). This file enables and disables the following for your connector: </p>
+        <ul>
+            <li class="ListBullet">Display of the button accessing the test driver interface. </li>
+            <li class="ListBullet">Automatic answering of incoming calls. </li>
+            <li class="ListBullet">Display of the Log On window when the Logon toolbar button is clicked. </li>
+            <li class="ListBullet">Automatic population of the Place Call window with the primary phone number from the currently open customer page. </li>
+        </ul>
+        <p class="note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">A separate copy of the configuration file exists in the cti folder. (Full path: <br /><code style="font-style: normal;">YourOEPwebsite</code><code>\cti\cti_config.xml</code>, where <code>YourOEPwebsite</code> is your OEP installation directory). This file is called the <code>main configuration file</code><span class="Emphasis">  <![CDATA[ ]]></span>and exists only to specify the default connector. Other settings are used only when the configuration file for the default connector cannot be found. For a detailed description of the configuration file (including elements and available values), and for information about the test driver and its interface, see the <span class="BookTitle" style="font-style: normal;"><i>Onyx Computer Telephony Integration </i><i>Developer’s Reference</i></span>. For multiple-connector installations, see <a href="Assigning_connectors_to.htm">Assigning connectors to agents</a>. </p>
+        <p class="TaskHeading"><b>To specify the default connector </b>
+        </p>
+        <ol>
+            <li class="ListBullet">In the main configuration file, set the defaultConnector element to the ID of your custom connector. </li>
+        </ol>
+        <p class="Indent1">The following example specifies the default CTI connector as the connector that has the ID “54”.</p>
+        <p class="Indent1"><code>&lt;defaultConnector&gt;54&lt;/defaultConnector&gt;</code> <![CDATA[ ]]></p>
+        <p class="Indent1">Full path of the main configuration file: <code>YourOEPwebsite\cti\cti_config.xml,</code> where <code>YourOEPwebsite</code> is your OEP installation directory.</p>
+        <ol>
+            <li value="2">On the client machine used to access the toolbar, delete the files in Internet Explorer's Temporary Internet Files folder to ensure that the changes take effect the next time you display the Onyx CTI toolbar.<br /></li>
+        </ol>
+        <p class="Strong">T<b>o enable or disable other Onyx CTI behaviors </b></p>
+        <ol>
+            <li class="ListBullet">In the configuration file for your connector, specify a value of “0” to disable the behavior or “1” to enable the behavior. </li>
+        </ol>
+        <p class="Indent1">The following example disables display of the CTI toolbar button that accesses the test driver interface.</p>
+        <p class="Indent1"><code>&lt;debugMode&gt;0&lt;/debugMode&gt;</code> <![CDATA[ ]]></p>
+        <p class="Indent1">Full path of your connector’s configuration file<code>: YourOEPwebsite\cti\YourConnector\cti_config.xml</code>, where <span class="user-entered_text">YourOEPwebsite</span> is your OEP installation directory and <code>YourConnector</code> is the folder containing the code for your connector.</p>
+        <ol>
+            <li value="2">On the client machine used to access the toolbar, delete the files in Internet Explorer's Temporary Internet Files folder to ensure that the changes take effect the next time you display the Onyx CTI toolbar. </li>
+        </ol>
+    </body>
+</html>

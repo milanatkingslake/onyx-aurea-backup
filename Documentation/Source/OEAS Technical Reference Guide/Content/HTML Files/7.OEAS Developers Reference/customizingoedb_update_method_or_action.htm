@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="1408" MadCap:lastWidth="651" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" /><title>update method or action</title>
+    </head>
+    <body>
+                <h6>
+            <MadCap:keyword term="update method;update;Action" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />update method or action</h6>
+        <p>The following table describes the behavior to expect for update methods 
+ or update actions on saveCollection methods. </p>
+        <p>Behavior based on the stored procedure return code value defines the 
+ entire result set. In this case, the return code column will be listed 
+ as not applicable (N/A) because it is not included in the result set. 
+ </p>
+        <p>Behavior only applies to the single row when the return code column 
+ is applicable. This is an important distinction, because multiple rows 
+ with different meanings might be passed back when methods return a status 
+ of success or success with information.</p>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Table_1.css');" class="TableStyle-Aptean_Table_1" cellspacing="0">
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 5cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 5cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 7cm;" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_1-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead">Stored procedure return code value</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableHead">Return code column <span style="margin-bottom: 0;">value</span></p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadD-Column1-Header1">
+                        <p class="TableHead" style="margin-bottom: 0;">Behavior</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">-2 or less</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">N/A</p>
+                        <p class="tabletext">&#160;</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">Return code parameter values of -2 or less 
+ are not supported for update methods. If you return a value of -2 or less 
+ a message is returned stating that an invalid return code was returned 
+ by the OEDB, but your procedure is otherwise successful.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">-1</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">-1</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText"><span style="font-weight: bold;"><span style="font-weight: bold;">T</span>he 
+ result set returns the following columns:</span>
+                        </p>
+                        <p class="TableText"><span style="font-weight: bold;">o#_sequence_number 
+ -</span> This value corresponds to the position of the record in the input 
+ XML.</p>
+                        <p class="TableText"><span style="font-weight: bold;">status_code -</span> 
+ This is a national language message ID, the value of which corresponds 
+ to the message you want to provide the user regarding the successful completion 
+ of the procedure.</p>
+                        <p class="TableText"><span style="font-weight: bold;">database_code -</span> 
+ NULL.</p>
+                        <p class="TableText"><span style="font-weight: bold;">database_message -</span> 
+ NULL or the value to use for the "~2" replacement holder in 
+ the national language message.</p>
+                        <p class="TableText" style="margin-bottom: 0;"><span style="font-weight: bold;">database_id 
+ -</span> NULL.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">-1 or 0</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">0</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText"><span style="font-weight: bold;"><span style="font-weight: bold;">T</span>he 
+ result set returns the following columns:</span>
+                        </p>
+                        <p class="TableText"><span style="font-weight: bold;">o#_sequence_number 
+ -</span> This value corresponds to the position of the record in the input 
+ XML.</p>
+                        <p class="TableText"><span style="font-weight: bold;">status_code -</span> 
+ NULL.</p>
+                        <p class="TableText"><span style="font-weight: bold;">database_code -</span> 
+ NULL.</p>
+                        <p class="TableText"><span style="font-weight: bold;">database_message -</span> 
+ NULL.</p>
+                        <p class="TableText" style="margin-bottom: 0;"><span style="font-weight: bold;">database_id 
+ -</span> NULL.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">1</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">1</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="font-weight: bold;"><span style="font-weight: bold;"><span style="font-weight: bold;">T</span>he 
+ row contains the following information:</span>
+                        </p>
+                        <p class="TableText"><span style="font-weight: bold;">o#_sequence_number 
+ -</span> This value corresponds to the position of the record in the input 
+ XML of the record that caused the failure.</p>
+                        <p class="TableText"><span style="font-weight: bold;">status_code -</span> 
+ This is the national language message ID 738823, which corresponds to 
+ a generic database error message.</p>
+                        <p class="TableText"><span style="font-weight: bold;">database_code -</span> 
+ This is the SQL Server database error code.</p>
+                        <p class="TableText"><span style="font-weight: bold;">database_message -</span> 
+ This is the SQL Server database error message.</p>
+                        <p class="TableText" style="margin-bottom: 0;"><span style="font-weight: bold;">database_id 
+ -</span> NULL.</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">2</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="margin-bottom: 0;">2</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="font-weight: bold;"><span style="font-weight: bold;"><span style="font-weight: bold;">T</span>he 
+ row contains the following information:</span>
+                        </p>
+                        <p class="TableText"><span style="font-weight: bold;">o#_sequence_number 
+ -</span> This value corresponds to the position of the record in the input 
+ XML of the record that caused the failure.</p>
+                        <p class="TableText"><span style="font-weight: bold;">status_code -</span> 
+ This is a national language message ID, the value of which corresponds 
+ to the error message you want to provide the user regarding the failure 
+ of the procedure.</p>
+                        <p class="TableText"><span style="font-weight: bold;">database_code -</span> 
+ NULL.</p>
+                        <p class="TableText"><span style="font-weight: bold;">database_message -</span> 
+ NULL or the value to use for the "~2" replacement holder in 
+ the national language message.</p>
+                        <p class="TableText" style="margin-bottom: 0;"><span style="font-weight: bold;">database_id 
+ -</span> NULL.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

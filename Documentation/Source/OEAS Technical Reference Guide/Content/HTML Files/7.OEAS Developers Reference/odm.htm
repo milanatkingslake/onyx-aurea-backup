@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="468" MadCap:lastWidth="694" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Onyx Data Manager</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>
+            <MadCap:keyword term="Onyx Data Manager" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />Onyx Data Manager</h3>
+        <p>The Onyx Data Manager (ODM) is the Onyx Enterprise Application Server 
+ (OEAS) core component that handles most data access within OEAS. ODM generates 
+ SQL code to implement the standard logical methods: insert, update, delete, 
+ saveCollection, retrieve, and retrieveCollection. The retrieveList methods 
+ are different kinds of methods, using SQL generation and stored procedures 
+ developed specifically for that retrieveList action.</p>
+        <p>By adding a custom step to a logical method, any logical method can 
+ be modified to use custom step components, either before sending the data 
+ to the database or after receiving the data from the database.</p>
+        <p>Like any other step component, ODM implements the 
+ IStep interface. Like any other step component, the Onyx Transaction Manager 
+ (OTM) calls ODM using the Execute method of the IStep interface. OTM is 
+ the only OEAS core component that calls ODM. Using information supplied 
+ by a client application request, OTM accesses the Onyx Enterprise Dictionary 
+ cache for additional information required to fulfill the request. Within 
+ its call to the ODM, the OTM submits an XML document to the ODM, which 
+ performs the following tasks:</p>
+        <ul>
+            <li>Generates GUIDs for primaryId properties and inserts 
+ them in the input XML.</li>
+            <li>Propagates the primaryId to the child objects 
+ using the ownerId property when a top-level object is inserted along with 
+ child objects.</li>
+            <li>Determines and provides the ownerType property 
+ for the child objects.</li>
+            <li>Calls the Query Engine and supplies the SQL.</li>
+            <li>Handles error conditions.</li>
+            <li>Formats the return data 
+ into one of several types of XML documents and returns it to the OTM. 
+ The type of XML document returned depends on the method type. </li>
+        </ul>
+    </body>
+</html>

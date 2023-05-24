@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="5" MadCap:lastHeight="22" MadCap:lastWidth="624">
+    <head>
+    </head>
+    <body>
+        <MadCap:pageBreak />
+        <h1>Server Configuration</h1>
+        <p>Application configuration files contain settings specific to an application. This file contains configuration settings that the common language runtime reads, and settings that the application can read.</p>
+        <p>WebAPI provides the following configuration for the users :</p>
+        <ol>
+            <li><code>Unityui.config</code> – This is configuration for IOC Containers. All the controllers and business layer components dependencies are configured within the config file.<br />This config contains the assembly configuration of Scripting BusinessLayer. The <code style="color: #000000;">OnyxUIContainer</code> container contains the <code style="color: #000000;">Onyx.UI.Scripting.Interface</code><span style="color: #000000;"> and </span><code style="color: #000000;">Onyx.UI.Core.Interface</code> map to its class's. The default mapping of the Scripting libraries are done here.</li>
+        </ol>
+        <ol MadCap:continue="true">
+            <li><code>unitysdk.config</code> – This is a Unity Container. Unity is a lightweight, extensible dependency injection container. Unitysdk contains the assembly configuration of Onyx SDK. The <code style="color: #000000;">OnyxSDKContainer</code> container contains the <code style="color: #000000;">OnyxSDK.Public.Interface.OEASServices</code> to its class’s. The
+OEASService interface is mapped by default to the OnyxOEASServices. You can also map the
+OEASService interface with OnyxOGSServices.<br />In addition, <code style="color: #000000;">OnyxSDK.Public.Interface.EnterpriseService</code> is the EnterpriseService library configuration that the user can use.</li>
+            <li><code>languageculturemapping.config</code> – This configuration helps to map Language Culture. This configuration file is used to map the culture information of the browser to the language of onyx. For example, En-US, En-UK can be mapped to same language in Onyx, English. This is used for the initial loading of the scripts before the log in process.</li>
+            <li><code>ogssdkservice.config</code> – When the mapping of OEASService interface is to the <code style="color: #000000;">OnyxOGSServices</code> in the <code>unitysdk.config</code> then the <code>ogssdkservice.config</code> gives the connection details of the OGS service that user wants to point to.</li>
+            <li><code>log4net.config</code> - log4net is a tool to help the programmer output log statements to a variety of output targets. In case of problems with an application, it is helpful to enable logging so that the problem can be located. With log4net it is possible to enable logging at run-time without modifying the application binary. The log4net package is designed so that log statements can remain in shipped code without incurring a high performance cost. It follows that the speed of logging (or rather not logging) is crucial.</li>
+        </ol>
+        <p>The Scripting server application has dependency on the Onyx SDK, which can interact with OEAS or with OGS, which interacts with OEAS eventually.</p>
+        <MadCap:pageBreak />
+        <p>When OnyxSDK points to OnyxOEASService, the following configuration is used:</p><pre xml:space="preserve"><p class="Indent1"><code>&lt;container name="OnyxSDKContainer"&gt;
+    &lt;register type="OnyxSDK.Public.Interface.OEASService.IBaseOEAS" mapTo="OnyxSDK.Private.OEASService.OnyxOEASService"&gt;
+      &lt;lifetime type="transient" /&gt;
+    &lt;/register&gt;
+    &lt;register type="OnyxSDK.Public.Interface.OEASService.IBaseOEASOnyxAuthenticate" 
+.
+.
+.
+    &lt;register type="OnyxSDK.Public.Interface.EnterpriseService.IBaseES" mapTo="OnyxSDK.Public.EnterpriseService.OnyxEnterpriseService"&gt;
+      &lt;lifetime type="transient" /&gt;
+    &lt;/register&gt;
+    &lt;register type="OnyxSDK.Public.Interface.EnterpriseService.IBaseESOnyxAuthenticate" 
+.
+.
+.
+  &lt;/container&gt;
+</code></p><MadCap:pageBreak /><p>When OnyxSDK points to OnyxOGSService, the following configuration is used:</p><pre xml:space="preserve"><p class="Indent1"><code>&lt;container name="OnyxSDKContainer"&gt;
+
+&lt;register type="OnyxSDK.Public.Interface.OEASService.IBaseOEAS" mapTo="OnyxSDK.Private.OGSService.OnyxOGSService"&gt;
+      &lt;lifetime type="transient" /&gt;
+    &lt;/register&gt;
+.
+.
+.
+
+
+    &lt;register type="OnyxSDK.Public.Interface.EnterpriseService.IBaseES" mapTo="OnyxSDK.Public.EnterpriseService.OnyxEnterpriseService"&gt;
+      &lt;lifetime type="transient" /&gt;
+    &lt;/register&gt;
+.
+.
+.
+  &lt;/container&gt;
+</code></p><p>In Addition, we have to specify the <code>OnyxSDKGatewayServiceConfigurationsSection</code> to point to the OGS service to be used:</p><pre xml:space="preserve"><p><code>&lt;OnyxSDKGatewayServiceConfigurationsSection&gt;
+  &lt;OnyxSDKGatewayServiceConfigurations&gt;
+    &lt;OnyxSDKGatewayServiceConfiguration UniqueId="" BaseAddress="" DomainName="" UserName="" Password="" AuthenticationType="" Application="" Site="" Language=""/&gt;
+  &lt;/OnyxSDKGatewayServiceConfigurations&gt;
+&lt;/OnyxSDKGatewayServiceConfigurationsSection&gt;
+</code></p></pre></pre></pre>
+        <MadCap:pageBreak />
+        <h1><a name="Scriptin"></a>Scripting Server Controller Extensibility</h1>
+        <p>All the scripting related controllers in the scripting server controller is present in the assembly:</p>
+        <ul>
+            <li>Onyx.UI.Scripting.Controller.dll</li>
+            <li>Onyx.UI.Survey.Controller.dll</li>
+        </ul>
+        <p>The business layer interfaces and components are located in assemblies:</p>
+        <ul>
+            <li>Onyx.UI.Scripting.Interface.dll</li>
+            <li>Onyx.UI.Scripting.BusinessLayer.dll</li>
+            <li>Onyx.UI.Survey.Interface.dll</li>
+            <li>Onyx.UI.Survey.BusinessLayer.dll</li>
+        </ul>
+        <p>The business layer components implement most of the interfaces listed in the interface assembly. When the application requests for the instance of any of the interface assembly through Unity, it checks in the <code>unityui.config</code> file to return back the instance. If any change required in the business layer, a new assembly required to implement the interface and new class need to be registered in the <code>unityui.config</code> file. The configuration is loaded into application memory so dynamic changes to the config file are not reflected, so restart of the application is needed.</p>
+    </body>
+</html>

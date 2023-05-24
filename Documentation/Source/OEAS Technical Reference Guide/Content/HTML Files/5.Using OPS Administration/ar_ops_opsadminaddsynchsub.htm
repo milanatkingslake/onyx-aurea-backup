@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="5" MadCap:lastHeight="775" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Adding and configuring a synchronization subsystem</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>Adding and configuring a synchronization subsystem </h3>
+        <p>Add a sync subsystem and configure it using the following procedure. 
+ To configure an existing sync subsystem, use the latter part of the procedure 
+ to edit subsystem attributes, process settings, and notification email 
+ settings. </p>
+        <p class="ProcedureHeading">To add a synchronization subsystem: </p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li>Open the OPS Administration Web site.</li>
+            <li>In the navigation area, expand <span class="UIElement" style="font-weight: bold;">Connections</span> 
+ and then expand the connection for which you want to add the subsystem.</li>
+            <li>To add a synchronization subsystem, highlight 
+ <span class="UIElement" style="font-weight: bold;">Synchronization Subsystems</span>, and then click 
+ <img src="../../Resources/Images/AR_iconAdd0.jpg" /> on the toolbar.</li>
+        </ol>
+        <ol start="4" style="list-style: decimal;list-style-type: decimal;">
+            <li>In the <span class="UIElement" style="font-weight: bold;">Name</span> and <span class="UIElement" style="font-weight: bold;">Description</span> boxes, type a name and description 
+ for the subsystem.</li>
+            <li>Assign values to name-value pairs in the Additional 
+ Data field. This field contains a semi-colon delimited list of name-value 
+ pairs representing data required for sending SMTP messages. These messages 
+ contain error notifications. <i>View valid values.</i></li>
+            <li>Leave the <span class="UIElement" style="font-weight: bold;">Active</span> 
+ attribute selected. If unchecked the subsystem is deactivated.</li>
+            <li>Under <span class="UIElement" style="font-weight: bold;">Process Settings</span>, 
+ specify the following attributes:</li>
+        </ol>
+        <ul>
+            <li class="List_Indent"><span class="UIElement" style="font-weight: bold;">Start Time</span> and 
+ <span class="UIElement" style="font-weight: bold;">Stop Time</span> – These attributes, which are both 
+ required, define the daily window within which the subsystem synchronizes 
+ data between the database and the staging server. </li>
+            <li class="List_Indent">The time must be in 24-hour format in the 
+ range 00:00 to 23:59. The default is 00:00 (midnight). </li>
+            <li class="List_Indent">To configure a subsystem to process 24 hours 
+ a day, set both the start time and Stop Time to 00:00.</li>
+            <li class="List_Indent"><span class="UIElement" style="font-weight: bold;">Run Interval (minutes)</span> 
+ – This attribute specifies the number of minutes between the start of 
+ one synchronization cycle and the start of the next. It is recommended 
+ that you specify the shortest interval that the OPS server hardware is 
+ capable of handling. However, the valid range is 1-10,080 minutes i.e., 
+ 1 week.</li>
+            <li class="List_Indent"><span class="UIElement" style="font-weight: bold;">Governor Interval (milliseconds)</span> 
+ – This attribute specifies the number of milliseconds between each OEAS 
+ call made by the synchronization subsystem. Zero means there is no governor, 
+ and the upper limit of 60000 means there is a one minute pause between 
+ OEAS calls. It is recommended that you specify the smallest value that 
+ the OEDB server hardware is capable of handling.</li>
+            <li class="List_Indent"><b>Maximum Items Downsynced per Cycle</b> 
+ – This attribute specifies how many records are downloaded to the staging 
+ server during each synchronization cycle, <span style="font-style: italic;font-weight: normal;">per 
+ user</span>. The default is 1000 items. 
+ If set to zero, there is no limit to the number of items downsynced per 
+ cycle to a user’s folder.</li>
+        </ul>
+        <ol start="8" style="list-style: decimal;list-style-type: decimal;">
+            <li>Under <span class="UIElement" style="font-weight: bold;">Notification Email 
+ Settings</span>, in order for the administrator to receive event-notification 
+ messages, such as error notifications, specify the following attributes:</li>
+        </ol>
+        <ul>
+            <li class="List_Indent"><span class="UIElement" style="font-weight: bold;">Mail Server</span> – 
+ This attribute identifies the email server used to send event-notification 
+ email messages.</li>
+            <li class="List_Indent"><span class="UIElement" style="font-weight: bold;">Administrator Email 
+ Address</span> – This attribute specifies the email address of the administrator.</li>
+            <li class="List_Indent"><span class="UIElement" style="font-weight: bold;">From Email Address </span>and<span class="UIElement" style="font-weight: bold;"> From Email Display Name </span>– These attributes specify 
+ the address and display names for the messages.</li>
+        </ul>
+        <ol start="9" style="list-style: decimal;list-style-type: decimal;">
+            <li>To save changes, click <img src="../../Resources/Images/AR_iconSave0.jpg" /> on the toolbar.</li>
+        </ol>
+        <p class="Indent1">After you have saved changes, OPS supplies an ID and alternate ID for 
+ the subsystem. </p>
+    </body>
+</html>

@@ -1,0 +1,5203 @@
+//////////////////////////////////////////////////////////////////////////////////////////
+// First thing executed during a setup.
+//////////////////////////////////////////////////////////////////////////////////////////
+function SetupInit()
+STRING szTemp;
+INT nCodePage;
+begin
+	//Get language dependant info from language.ini
+	GetProfString(SRCDIR^"setup.ini","Startup","SetupAppName",gszProductNameEnglish);
+
+	//Determine what type of setup it is to get the right strings for the command line parameter help
+	switch(gszProductNameEnglish)
+		case "AppServer":
+			gszHelpUser=@HELP_DB_LOGIN;
+			gszHelpPassword=@HELP_DB_PASS;
+		case "OWS":
+			gszHelpUser=@HELP_NT_LOGIN;
+			gszHelpPassword=@HELP_NT_PASS;
+		default:
+			gszHelpUser="";
+			gszHelpPassword="";
+	endswitch;
+
+		
+	//Get product info out of language.ini or setup.ini
+	OGetValueFromINI("Startup","SetupAppName",gszProductName);
+	OGetValueFromINI("Startup","Version",gszProductVersion);
+	OGetValueFromINI("Startup","ProductKey",gszProductKey);
+	if(gszProductName = "")then
+		gszProductNameEnglish = @PRODUCT_NAME;
+	endif;
+	if(gszProductVersion = "")then
+		gszProductVersion = @PRODUCT_VERSION;
+	endif;
+	if(gszProductKey = "")then
+		gszProductKey = @PRODUCT_KEY;
+	endif;
+
+	//set StopIfOlder
+	OGetValueFromINI("Setup","StopIfOlder",szTemp);
+	StrToUpper(szTemp,szTemp);
+	if(szTemp = "YES")then
+		g_structSetupMode.bStopIfOlder=TRUE;
+	endif;
+
+	OGetValueFromINI("OBPM","OBPMUser",szTemp);
+	if(StrCompare(szTemp, "") = 0) then
+		szTemp = "OnyxBPUser";
+	endif;
+	gsz_OBPSUser = szTemp;
+	
+	OGetValueFromINI("OBPM","OBPMDescription",szTemp);
+	if(StrCompare(szTemp,"") = 0) then
+		szTemp = "Onyx Business Process User";
+	endif;
+	
+	gsz_OBPSDesc = szTemp;
+	
+	//set title for all dialogs to product name
+	SetDialogTitle(DLG_ASK_YESNO,gszProductName);
+	SetDialogTitle(DLG_ASK_TEXT,gszProductName);
+	SetDialogTitle(DLG_ASK_OPTIONS,gszProductName);
+	
+	OSetDebug();
+	OLogOpen();
+	OParseCommandLine();
+	OCheckRegistry();
+//	ORecoveryMode();
+//	OStoreModes();
+	//set default dialog bitmap if one exists.
+	OChangeBitmap("Default.bmp");
+	
+	//get operating system Codepage and store in g_structSetupMode
+	oGetACP(nCodePage);
+	if(nCodePage != 0)then
+		NumToStr(szTemp,nCodePage);
+		g_structSetupMode.szCodePage = szTemp;
+		g_structSetupMode.nCodePage = nCodePage;
+	else
+		g_structSetupMode.szCodePage = "1252";
+		g_structSetupMode.nCodePage = 1252; //default to Windows 3.1 Latin 1 (US, Western Europe) ie English
+	endif;
+	
+end;
+
+//Looks for a color in the setup.ini for the specified feature
+// If it doesn't find a color (as usual), it defaults to "Onyx Slate Gray"
+function _GetColorFromINI(szKey)
+	STRING szFile,szTemp;
+	INT nReturn,nRed,nGreen,nBlue;
+begin
+	szFile = SRCDIR ^ "setup.ini";
+	GetProfString(szFile,"Setup",szKey,szTemp);
+	if(szTemp != "")then
+		StrToUpper(szTemp,szTemp);
+		if(szTemp = "SOLIDBLACK")then
+			nReturn = BK_SOLIDBLACK;
+		elseif(szTemp = "SOLIDBLUE")then
+			nReturn = BK_SOLIDBLUE;
+		elseif(szTemp = "BLUE")then
+			nReturn = BK_BLUE;
+		elseif(szTemp % "BROWN")then
+			nReturn = RGB(128,128,64);
+		endif;
+	else
+		//Default is "Onyx Slate Gray"
+		nReturn = RGB(46,37,36);
+	endif;
+	return nReturn;
+end;
+
+
+/*
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Uses a lists to display a standard SdAskOptionsList Dialog to the user to select an item.
+// This function creates a temporary MEDIA to fascilitate the selection process.
+//
+//////////////////////////////////////////////////////////////////////////////////////////
+function OSelectOptionFromList(szTitle,szMsg,listOfItems,szItemSelected)
+STRING svResult,svTemp,szTempMedia,szRegMedia,szCount;
+INT bSelected,nLoop,nvTemp,nReturn,nData,nCount;
+BOOL bItemInList;
+begin
+	//Init stuff
+	szTempMedia = TEMP_MEDIA;
+	
+	//do only once.
+	if(!bDoneOnce2)then
+		//for each element in the group list.
+		nLoop = ListGetFirstString(listOfItems,svResult);
+		bSelected = 1; //select first one
+		nCount=1;
+		while(nLoop != END_OF_LIST)
+			NumToStr(szCount,nCount);
+	 		//create a new MEDIA that contains the name of each group, with it's default select state.
+	 		if (ComponentAddItem( szTempMedia,szCount,0,bSelected ) < 0) then
+	 			gszMsg = @ERROR_ADD_COMPONENT + svResult + ".";
+        		MessageBox(gszMsg, SEVERE);
+        		OLog(gszMsg);
+    		else;
+    			ComponentSetData (szTempMedia,szCount,COMPONENT_FIELD_DISPLAYNAME,nData,svResult);
+				bItemInList = TRUE; //have an item to list    			
+    		endif;
+			nLoop = ListGetNextString(listOfItems,svResult);
+			bSelected = 0; //only select first one, so rest are not selected.
+			nCount = nCount + 1;
+		endwhile;
+		bDoneOnce2 = TRUE;
+	else
+		bItemInList = TRUE; //found one before, so go ahead.
+	endif;
+
+	//present the list for selection.  First have to swith MEDIA's, but just for the dialog.
+	if(bItemInList)then
+		szRegMedia = MEDIA;
+    	MEDIA = TEMP_MEDIA;
+		nReturn = SdAskOptionsList (szTitle, szMsg,"",EXCLUSIVE);
+//		nReturn = MyAskOptionsList(szTitle, szMsg,"",EXCLUSIVE,0);  //IS shareware from InstallSite.org
+    	MEDIA = szRegMedia;
+    else
+    	//abort
+		return -1; //no items found.
+    endif;
+
+	//skip if back button pushed
+	if(nReturn != BACK)then
+		//re read the media to determine what was selected
+		nLoop = ListGetFirstString(listOfItems,svResult);
+		nCount = 1;
+		while(nLoop != END_OF_LIST)
+			NumToStr(szCount,nCount);
+	 		//See which components were selected in Temp MEDIA
+			if(ComponentGetData (szTempMedia,szCount,COMPONENT_FIELD_SELECTED,nvTemp,svTemp) <0)then
+				gszMsg = @ERROR_QUERY_COMPONENT + svResult + ".";
+	       		MessageBox(gszMsg, SEVERE);
+	       		OLog(gszMsg);
+    		endif;
+    		if(nvTemp = TRUE)then
+    			//found selected item.
+    			ComponentGetData(szTempMedia,szCount,COMPONENT_FIELD_DISPLAYNAME,nData,szItemSelected);
+    			nLoop = END_OF_LIST; //force exit
+    		else
+    			nLoop = ListGetNextString(listOfItems,svResult);
+    			nCount = nCount + 1;
+    		endif;
+		endwhile;
+	
+	endif;
+
+	return nReturn;
+end;
+*/
+
+/* //OFS
+//////////////////////////////////////////////////////////////////////////////////////////
+//
+// Uses two lists to display a standard AskOptions Dialog to the user to select options.
+// First list is a list of option item names, and the second list is the selection state
+// (1 or 0) of each respective item in the first list.  This function creates a temporary
+// MEDIA to fascilitate the selection process.
+//
+//////////////////////////////////////////////////////////////////////////////////////////
+function OAskOptionsFromLists(szTitle,szMsg,listG,listS,nStyle)
+STRING svResult,svTemp,szTempMedia,szRegMedia;
+INT bSelected,nLoop,nvTemp,nReturn;
+begin
+	//Init stuff
+	szTempMedia = TEMP_MEDIA;
+	
+	//do only once.
+	if(!bDoneOnce2)then
+		//for each element in the group list.
+		nLoop = ListGetFirstString(listG,svResult);
+		nLoop = ListGetFirstItem(listS,bSelected);
+		while(nLoop != END_OF_LIST)
+	 		//create a new MEDIA that contains the name of each group, with it's default select state.
+	 		if (ComponentAddItem( szTempMedia, svResult, 0, bSelected ) < 0) then
+	 			gszMsg = @ERROR_ADD_COMPONENT + svResult + ".";
+        		MessageBox(gszMsg, SEVERE);
+        		OLog(gszMsg);
+    		endif;
+			nLoop = ListGetNextString(listG,svResult);
+			nLoop = ListGetNextItem(listS,bSelected);
+		endwhile;
+		
+		bDoneOnce2 = TRUE;
+	endif;
+
+	//present the list for selection.  First have to swith MEDIA's, but just for the dialog.
+	szRegMedia = MEDIA;
+    MEDIA = TEMP_MEDIA;
+    nReturn = SdAskOptionsList(szTitle,szMsg,"",nStyle);
+    MEDIA = szRegMedia;
+	
+	//skip if back button pushed
+	if(nReturn != BACK)then
+		//re read the media to determine what was selected
+		nLoop = ListGetFirstString(listG,svResult);
+		nLoop = ListGetFirstItem(listS,bSelected);
+		while(nLoop != END_OF_LIST)
+	 		//See which components were selected in Temp MEDIA
+			if(ComponentGetData (szTempMedia, svResult, COMPONENT_FIELD_SELECTED, nvTemp, svTemp) <0)then
+				gszMsg = @ERROR_QUERY_COMPONENT + svResult + ".";
+	       		MessageBox(gszMsg, SEVERE);
+	       		OLog(gszMsg);
+    		endif;
+   			//update selection state of items.
+   			ListSetCurrentItem(listS,nvTemp);
+   	    	
+			nLoop = ListGetNextString(listG,svResult);
+			nLoop = ListGetNextItem(listS,bSelected);
+		endwhile;
+//		nReturn = SdShowInfoList("Additional File Groups","FileGroups",listG);
+//		nReturn = SdShowInfoList("Additional File Groups","Copy state of the groups",listS);
+	
+	endif;
+
+	return nReturn;
+end;
+*/
+
+/* //OFS
+/////////////////////////////////////////////////////////////////////////////////////////////////
+// This function will return a directory name based on the language InstallShield is using.
+// Note: Not all of these codes are supported, but this list is based on the contents of sdlang.h
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function OGetLanguageDir(szDir)
+begin
+	switch(SELECTED_LANGUAGE)
+		case 0x0000: szDir ="ALL";
+        case 0x0001: szDir = "ARABIC";
+        case 0x0401: szDir = "ARABIC_SAUDIARABIA";
+        case 0x0801: szDir = "ARABIC_IRAQ";
+        case 0x0c01: szDir = "ARABIC_EGYPT";
+        case 0x1001: szDir = "ARABIC_LIBYA";
+        case 0x1401: szDir = "ARABIC_ALGERIA";
+        case 0x1801: szDir = "ARABIC_MOROCCO";
+        case 0x1c01: szDir = "ARABIC_TUNISIA";
+        case 0x2001: szDir = "ARABIC_OMAN";
+        case 0x2401: szDir = "ARABIC_YEMEN";
+        case 0x2801: szDir = "ARABIC_SYRIA";
+        case 0x2c01: szDir = "ARABIC_JORDAN";
+        case 0x3001: szDir = "ARABIC_LEBANON";
+        case 0x3401: szDir = "ARABIC_KUWAIT";
+        case 0x3801: szDir = "ARABIC_UAE";
+        case 0x3c01: szDir = "ARABIC_BAHRAIN";
+        case 0x4001: szDir = "ARABIC_QATAR";
+        case 0x0036: szDir = "AFRIKAANS";
+        case 0x0436: szDir = "AFRIKAANS_STANDARD";
+        case 0x001c: szDir = "ALBANIAN";
+        case 0x041c: szDir = "ALBANIAN_STANDARD";
+        case 0x002d: szDir = "BASQUE";
+        case 0x042d: szDir = "BASQUE_STANDARD";
+        case 0x0002: szDir = "BULGARIAN";
+        case 0x0402: szDir = "BULGARIAN_STANDARD";
+        case 0x0023: szDir = "BELARUSIAN";
+        case 0x0423: szDir = "BELARUSIAN_STANDARD";
+        case 0x0003: szDir = "CATALAN";
+        case 0x0403: szDir = "CATALAN_STANDARD";
+        case 0x0004: szDir = "CHINESE";
+        case 0x0404: szDir = "CHINESE_TAIWAN";
+        case 0x0804: szDir = "CHINESE_PRC";
+        case 0x0c04: szDir = "CHINESE_HONGKONG";
+        case 0x1004: szDir = "CHINESE_SINGAPORE";
+        case 0x001a: szDir = "CROATIAN";
+        case 0x041a: szDir = "CROATIAN_STANDARD";
+        case 0x0005: szDir = "CZECH";
+        case 0x0405: szDir = "CZECH_STANDARD";
+        case 0x0006: szDir = "DANISH";
+        case 0x0406: szDir = "DANISH_STANDARD";
+        case 0x0013: szDir = "DUTCH";
+        case 0x0413: szDir = "DUTCH_STANDARD";
+        case 0x0813: szDir = "DUTCH_BELGIAN";
+        case 0x0009: szDir = "ENGLISH";
+        case 0x0409: szDir = "ENGLISH_UNITEDSTATES";
+        case 0x0809: szDir = "ENGLISH_UNITEDKINGDOM";
+        case 0x0c09: szDir = "ENGLISH_AUSTRALIAN";
+        case 0x1009: szDir = "ENGLISH_CANADIAN";
+        case 0x1409: szDir = "ENGLISH_NEWZEALAND";
+        case 0x1809: szDir = "ENGLISH_IRELAND";
+        case 0x1c09: szDir = "ENGLISH_SOUTHAFRICA";
+        case 0x2009: szDir = "ENGLISH_JAMAICA";
+        case 0x2409: szDir = "ENGLISH_CARIBBEAN";
+        case 0x2809: szDir = "ENGLISH_BELIZE";
+        case 0x2c09: szDir = "ENGLISH_TRINIDAD";
+        case 0x0025: szDir = "ESTONIAN";
+        case 0x0425: szDir = "ESTONIAN_STANDARD";
+        case 0x0038: szDir = "FAEROESE";
+        case 0x0438: szDir = "FAEROESE_STANDARD";
+        case 0x0029: szDir = "FARSI";
+        case 0x0429: szDir = "FARSI_STANDARD";
+        case 0x000b: szDir = "FINNISH";
+        case 0x040b: szDir = "FINNISH_STANDARD";
+        case 0x000c: szDir = "FRENCH";
+        case 0x040c: szDir = "FRENCH_STANDARD";
+        case 0x080c: szDir = "FRENCH_BELGIAN";
+        case 0x0c0c: szDir = "FRENCH_CANADIAN";
+        case 0x100c: szDir = "FRENCH_SWISS";
+        case 0x140c: szDir = "FRENCH_LUXEMBOURG";
+        case 0x0007: szDir = "GERMAN";
+        case 0x0407: szDir = "GERMAN_STANDARD";
+        case 0x0807: szDir = "GERMAN_SWISS";
+        case 0x0c07: szDir = "GERMAN_AUSTRIAN";
+        case 0x1007: szDir = "GERMAN_LUXEMBOURG";
+        case 0x1407: szDir = "GERMAN_LIECHTENSTEIN";
+        case 0x0008: szDir = "GREEK";
+        case 0x0408: szDir = "GREEK_STANDARD";
+        case 0x000d: szDir = "HEBREW";
+        case 0x040d: szDir = "HEBREW_STANDARD";
+        case 0x000e: szDir = "HUNGARIAN";
+        case 0x040e: szDir = "HUNGARIAN_STANDARD";
+        case 0x000f: szDir = "ICELANDIC";
+        case 0x040f: szDir = "ICELANDIC_STANDARD";
+        case 0x0021: szDir = "INDONESIAN";
+        case 0x0421: szDir = "INDONESIAN_STANDARD";
+        case 0x0010: szDir = "ITALIAN";
+        case 0x0410: szDir = "ITALIAN_STANDARD";
+        case 0x0810: szDir = "ITALIAN_SWISS";
+        case 0x0011: szDir = "JAPANESE";
+        case 0x0411: szDir = "JAPANESE_STANDARD";
+        case 0x0012: szDir = "KOREAN";
+        case 0x0412: szDir = "KOREAN_STANDARD";
+        case 0x0812: szDir = "KOREAN_JOHAB";
+        case 0x0026: szDir = "LATVIAN";
+        case 0x0426: szDir = "LATVIAN_STANDARD";
+        case 0x0027: szDir = "LITHUANIAN";
+        case 0x0427: szDir = "LITHUANIAN_STANDARD";
+        case 0x0014: szDir = "NORWEGIAN";
+        case 0x0414: szDir = "NORWEGIAN_BOKMAL";
+        case 0x0814: szDir = "NORWEGIAN_NYNORSK";
+        case 0x0015: szDir = "POLISH";
+        case 0x0415: szDir = "POLISH_STANDARD";
+        case 0x0016: szDir = "PORTUGUESE";
+        case 0x0416: szDir = "PORTUGUESE_BRAZILIAN";
+        case 0x0816: szDir = "PORTUGUESE_STANDARD";
+        case 0x0018: szDir = "ROMANIAN";
+        case 0x0418: szDir = "ROMANIAN_STANDARD";
+        case 0x0019: szDir = "RUSSIAN";
+        case 0x0419: szDir = "RUSSIAN_STANDARD";
+        case 0x001b: szDir = "SLOVAK";
+        case 0x041b: szDir = "SLOVAK_STANDARD";
+        case 0x0024: szDir = "SLOVENIAN";
+        case 0x0424: szDir = "SLOVENIAN_STANDARD";
+        case 0x001a: szDir = "SERBIAN";
+        case 0x081a: szDir = "SERBIAN_LATIN";
+        case 0x0c1a: szDir = "SERBIAN_CYRILLIC";
+        case 0x000a: szDir = "SPANISH";
+        case 0x040a: szDir = "SPANISH_TRADITIONALSORT";
+        case 0x080a: szDir = "SPANISH_MEXICAN";
+        case 0x0c0a: szDir = "SPANISH_MODERNSORT";
+        case 0x100a: szDir = "SPANISH_GUATEMALA";
+        case 0x140a: szDir = "SPANISH_COSTARICA";
+        case 0x180a: szDir = "SPANISH_PANAMA";
+        case 0x1c0a: szDir = "SPANISH_DOMINICANREPUBLIC";
+        case 0x200a: szDir = "SPANISH_VENEZUELA";
+        case 0x240a: szDir = "SPANISH_COLOMBIA";
+        case 0x280a: szDir = "SPANISH_PERU";
+        case 0x2c0a: szDir = "SPANISH_ARGENTINA";
+        case 0x300a: szDir = "SPANISH_ECUADOR";
+        case 0x340a: szDir = "SPANISH_CHILE";
+        case 0x380a: szDir = "SPANISH_URUGUAY";
+        case 0x3c0a: szDir = "SPANISH_PARAGUAY";
+        case 0x400a: szDir = "SPANISH_BOLIVIA";
+        case 0x440a: szDir = "SPANISH_ELSALVADOR";
+        case 0x480a: szDir = "SPANISH_HONDURAS";
+        case 0x4c0a: szDir = "SPANISH_NICARAGUA";
+        case 0x500a: szDir = "SPANISH_PUERTORICO";
+        case 0x001d: szDir = "SWEDISH";
+        case 0x041d: szDir = "SWEDISH_STANDARD";
+        case 0x081d: szDir = "SWEDISH_FINLAND";
+        case 0x001e: szDir = "THAI";
+        case 0x041e: szDir = "THAI_STANDARD";
+        case 0x001f: szDir = "TURKISH";
+        case 0x041f: szDir = "TURKISH_STANDARD";
+        case 0x0022: szDir = "UKRAINIAN";
+        case 0x0422: szDir = "UKRAINIAN_STANDARD";
+        case 0x002a: szDir = "VIETNAMESE";
+        case 0x042a: szDir = "VIETNAMESE_STANDARD";
+
+	endswitch;
+end;
+*/
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+//
+// This function will take the passed in string and parse any macro defined variables
+// and replace them with the actual values.  A macro is an entry enclosed in $() format.
+// The available system vars available as macros are:
+// $(PRODUCTDIR) $(SOURCEDIR) $(TEMPDIR) $(WINDIR) $(WINSYSDIR) $(WINDISK) $(PRODUCTDISK)
+// returns TRUE if a macro was found and a value is substituted.
+// FALSE if a bad macro is given, or no substitution was made.
+//
+// v1.4  Added carrot <macro> identifiers.
+/////////////////////////////////////////////////////////////////////////////////////////////////
+function OParseMacros( szString )
+STRING szTemp1,szTemp2,szMacroString;
+STRING szPart1, szPart2;
+NUMBER nResult;
+NUMBER nTemp1, nTemp2, nCount;
+BOOL bUseCarrot,bUsePercent;
+begin
+	// first look for a UNC path
+	StrSub( szPart1, szString, 0, 2 );
+	if(szPart1 = "\\\\")then
+		nResult = TRUE; //set return to TRUE, so full path will be used.
+	endif;
+	
+	while ( TRUE )
+		nTemp1 = StrFind( szString, "$(" );
+		if ( nTemp1 < 0 ) then
+			nTemp1 = StrFind( szString, "<" );
+			if(nTemp1 < 0 )then
+				nTemp1 = StrFind( szString, "%" );
+				if(nTemp1 < 0 )then
+					//no macro identifier
+					return nResult;
+				else
+					bUsePercent = TRUE;
+				endif;
+			else
+				bUseCarrot = TRUE;
+			endif;
+		endif;
+		
+		StrSub( szPart1, szString, 0, nTemp1 );
+				
+		if(bUseCarrot)then
+			StrSub( szTemp1, szString, nTemp1, StrLength( szString ) - nTemp1);
+			nTemp1 = StrFind( szTemp1, "<" );
+			nTemp2 = StrFind( szTemp1, ">" );
+		elseif(bUsePercent)then
+			StrSub( szTemp1, szString, nTemp1, StrLength( szString ) - nTemp1);
+			nTemp1 = StrFind( szTemp1, "%" );
+  			//since same char, need to look past first instance
+			StrSub( szTemp2, szString, nTemp1 + 1,StrLength( szString ) - nTemp1 - 1);
+			nTemp2 = StrFind( szTemp2, "%" ) + nTemp1 + 1;
+		else
+			StrSub( szTemp1, szString, nTemp1 + 1, StrLength( szString ) - nTemp1 - 1 );
+			nTemp1 = StrFind( szTemp1, "(" );
+			nTemp2 = StrFind( szTemp1, ")" );
+		endif;
+		if ( nTemp1 != 0 || nTemp2 < 0 ) then
+			//bad macro
+			return nResult;
+		endif;
+		StrSub( szMacroString, szTemp1, 1, nTemp2 - 1 );
+		StrToUpper( szMacroString, szMacroString );
+		if ( nTemp2 >= StrLength( szTemp1 ) - 1 ) then
+			szPart2 = "";
+		else
+			StrSub( szPart2, szTemp1, nTemp2 + 1, StrLength( szTemp1 ) - nTemp2 - 1 );
+		endif;
+
+		nResult = _GetMacroVar(szMacroString); //returns TRUE if a substitution was made.
+		if(nResult)then //only update string if successful substitution was made.
+			szString = szPart1 + szMacroString + szPart2;
+		else;
+			return nResult;
+		endif;
+		
+	endwhile;
+	return nResult;
+end;
+
+////////////////////////////////////////////////////////////////////
+//
+// replaces the marco placeholder with the actual system var string.
+//
+////////////////////////////////////////////////////////////////////
+function _GetMacroVar(szVar)
+NUMBER	nResult;
+STRING 	svTemp;
+begin
+	StrToUpper(szVar,szVar);
+	if(szVar = "SOURCEDIR" || szVar = "SRCDIR")then
+		szVar = SRCDIR;
+	elseif(szVar = "PRODUCTDIR" || szVar = "TARGETDIR")then
+		szVar = TARGETDIR;
+	elseif(szVar = "TEMPDIR" || szVar = "SUPPORTDIR")then
+		szVar = SUPPORTDIR;
+	elseif(szVar = "WINDIR")then
+		szVar = WINDIR;
+	elseif(szVar = "WINSYSDIR")then
+		szVar = WINSYSDIR;
+	elseif(szVar = "WINDISK")then
+		szVar = WINDISK;
+	elseif(szVar = "PRODUCTDISK")then
+		szVar = TARGETDISK;
+	elseif(szVar = "COMMONFILES")then
+		szVar = COMMONFILES;
+	elseif(szVar = "ONYX_SHARED")then
+		szVar = COMMONFILES ^ "Onyx Shared";
+	elseif(szVar = "PROGRAMFILES")then
+		szVar = PROGRAMFILES;		
+	elseif(szVar = "SYSTEMROOT")then
+		if(GetEnvVar(szVar, szVar) <0 )then
+			szVar = WINDIR;  //same as
+		endif;
+	elseif(szVar = "IISROOT")then
+		szVar = g_structSystemData.szIIS_Path;
+		if(szVar = "")then
+			szVar = "C:\\InetPub\\wwwroot";
+		endif;
+	elseif(szVar = "INETPUB")then
+		szVar = g_structSystemData.szIIS_Path;
+		ORemoveLastDir(szVar);
+		if(szVar = "")then
+			szVar = "C:\\InetPub";
+		endif;
+	elseif(szVar = "GSZOCC")then
+		szVar = g_structSystemData.szOCC_Path;
+		if(szVar = "")then
+			//use default subdir
+			szVar = OCC_DEFAULT_DIR;
+		endif;
+	elseif(szVar = "SQL1_SERVER")then
+		szVar = g_structDatabase.szServer;
+	elseif(szVar = "SQL2_SERVER")then
+		szVar = g_structDatabase2.szServer;		
+	elseif(szVar = "SQL1_DATABASE")then
+		szVar = "\""+g_structDatabase.szDatabase+"\"";
+	elseif(szVar = "SQL1_DATABASE_NOQUOTE")then
+		szVar = g_structDatabase.szDatabase;
+	elseif(szVar = "SQL2_DATABASE")then
+		szVar = g_structDatabase2.szDatabase;
+	elseif(szVar = "SQL1_LOGIN")then
+		szVar = g_structDatabase.szLogin;
+	elseif(szVar = "SQL2_LOGIN")then
+		szVar = g_structDatabase2.szLogin;		
+	elseif(szVar = "SQL1_PASSWORD")then
+		szVar = g_structDatabase.szPassword;
+	elseif(szVar = "SQL2_PASSWORD")then
+		szVar = g_structDatabase2.szPassword;
+	elseif(szVar = "MTS_LOGIN")then
+		szVar = g_structSQLAccount.szLogin;
+		if(szVar="")then
+			szVar="SetupDidNotPromptForSQLAccount";
+		endif;
+	elseif(szVar = "MTS_PASSWORD")then
+		szVar = g_structSQLAccount.szPassword;
+	elseif(szVar = "MTS_ECRYPTED_PASSWORD")then
+		szVar = g_structSQLAccount.szEncryptedPassword;
+	elseif(szVar = "ONYXSA_LOGIN")then
+		szVar = "\""+g_structOnyxSA.szLogin+"\"";
+	elseif(szVar = "ONYXSA_PASSWORD")then
+		szVar = g_structOnyxSA.szPassword;
+	elseif(szVar = "ONYXSA_ECRYPTED_PASSWORD")then
+		szVar = "\""+g_structOnyxSA.szEncryptedPassword+"\"";
+	elseif(szVar = "ONYXLM_LOGIN")then
+		szVar = g_structLMAccount.szLogin;
+	elseif(szVar = "EU_LOGIN")then
+		szVar = g_structSQLEUAccount.szLogin;
+		if(szVar="")then
+			szVar="SetupDidNotPromptForSQLExtendedUserAccount";
+		endif;
+	elseif(szVar = "EU_OEP_ENC_LOGIN")then
+		if(g_structSQLEUAccount.szLogin="")then
+			szVar="SetupDidNotPromptForSQLExtendedUserAccount";
+		else
+			szVar = g_structSQLEUAccount.szOEPEncryptedLogin;
+		endif;
+	elseif(szVar = "EU_PASSWORD")then
+//		szVar = "\""+g_structSQLEUAccount.szPassword+"\"";
+		szVar = g_structSQLEUAccount.szPassword;
+	elseif(szVar = "EU_ECRYPTED_PASSWORD")then
+		szVar = g_structSQLEUAccount.szEncryptedPassword;
+	elseif(szVar = "EU_OEP_ENC_PASSWORD")then
+		szVar = g_structSQLEUAccount.szOEPEncryptedPassword;
+	elseif(szVar = "DSN_NAME")then
+		szVar = g_structDSN.szName;
+	elseif(szVar = "PRODUCT_NAME")then
+		szVar = gszProductName;
+	elseif(szVar = "PRODUCT_VERSION")then
+		szVar = gszProductVersion;		
+	elseif(szVar = "PREVIOUS_PATH")then
+		szVar = g_structSystemData.szPrevious_Path;
+	elseif(szVar = "BISOBJ_VERSION")then
+		szVar = g_structSystemData.szBisObj_Ver;
+	elseif(szVar = "APP_URL")then
+		szVar = g_structVWS1.szName;
+	elseif(szVar = "AUTH_URL")then
+		szVar = g_structVWS2.szName;
+	elseif(szVar = "APP_USERID")then
+		szVar = g_structNTAccount.szLogin;
+	elseif(szVar = "APP_PASSWORD")then
+		szVar = g_structNTAccount.szPassword;
+	elseif(szVar = "VWS_NAME1")then
+		szVar = g_structVWS1.szName;
+	elseif(szVar = "LOCAL_NTACCOUNT_LOGIN")then
+		szVar = g_structNTAccount.szLogin;
+	elseif(szVar = "LOCAL_NTACCOUNT_PASSWORD")then
+		szVar = g_structNTAccount.szPassword;
+	elseif(szVar = "LOCAL_NTGROUP")then
+		szVar = g_structNTGroup.szLogin;
+	elseif(szVar = "ACCOUNT_LOGIN")then
+		szVar = g_structDomainAccount.szLogin;
+	elseif(szVar = "ACCOUNT_PASSWORD")then
+		szVar = g_structDomainAccount.szPassword;
+	elseif(szVar = "DOMAIN_ACCOUNT_LOGIN")then
+		if(g_structDomainAccount.szDomain != "")then
+			szVar = g_structDomainAccount.szDomain + "\\"+ g_structDomainAccount.szLogin;
+		else
+			szVar = g_structDomainAccount.szLogin;
+		endif;
+	elseif(szVar = "DOMAIN_ACCOUNT_PASSWORD")then
+		szVar = g_structDomainAccount.szPassword;
+	elseif(szVar = "APPNAME")then
+		szVar = g_structAppName.szLogin;
+	elseif(szVar = "SITEID1")then
+		szVar = g_structVWS1.szSiteId;
+	elseif(szVar = "SITEID2")then
+		szVar = g_structVWS2.szSiteId;
+	elseif(szVar = "SITEID3")then
+		szVar = g_structVWS3.szSiteId;
+	elseif(szVar = "ROLE1")then
+		szVar = g_structCOM.szRole1;
+	elseif(szVar = "ROLE2")then
+		szVar = g_structCOM.szRole2;
+	elseif(szVar = "ROLE3")then
+		szVar = g_structCOM.szRole3;
+	elseif(szVar = "ROLE4")then
+		szVar = g_structCOM.szRole4;
+	elseif(szVar = "BLANK")then
+		szVar = "";
+	elseif(szVar = "COMMA")then
+		szVar = ",";
+	elseif(szVar = "CODEPAGE")then
+		szVar = g_structSetupMode.szCodePage;
+	elseif(szVar = "GSAPPTARGET") then
+		szVar = gsApptarget;
+	elseif(szVar = "OBPMUSER") then
+		szVar = "\"" + gsz_OBPSUser + "\"";
+	elseif(szVar = "OBPMDESCRIPTION") then
+		szVar = "\"" + gsz_OBPSDesc + "\"";
+	elseif(szVar = "LOCALMACHINE") then
+		nResult = _GetComputerName(svTemp);
+		szVar = svTemp;
+	elseif (szVar = "SPACE" ) then
+		szVar = " ";
+	elseif(szVar = "DBLANG" ) then
+		svTemp = g_structDatabase.szLanguageCode;
+		szVar = svTemp;
+	elseif(szVar = "OEPSA" ) then
+		OGetValueFromINI("Setup","SQLAccountDesc",svTemp);
+		//double any single quotes
+		_StrReplace (svTemp, "'", "''", nResult, MAX_STRING);
+		szVar = svTemp;
+	else	
+		gszMsg = @ERROR_MACRO +szVar;
+//		MessageBox(gszMsg,SEVERE);
+		OLog(gszMsg);
+		return FALSE;
+	endif;
+	return TRUE;
+end;
+
+////////////////////////////////////////////////////////////////////////
+//
+//adds a start menu icon from comma seperated data in passed in string.
+//
+////////////////////////////////////////////////////////////////////////
+/*
+function OAddIcon(szEntry)
+STRING szTemp,szTemp2,szProgramFolder, szItemName, szCommandLine, szWorkingDir, szIconPath, szShortCutKey;
+LIST listIcon;
+INT nLoop, nIcon, nFlag, nCount;
+begin
+	listIcon = ListCreate( STRINGLIST );
+	StrGetTokens( listIcon, szEntry, "," );
+	nLoop = ListGetFirstString(listIcon,szTemp);
+	for nCount = 1 to 8
+		switch (nCount)
+			case 1: //folder name (optional)
+				_CheckForDefaultString(szProgramFolder,szTemp,SHELL_OBJECT_FOLDER); //use default if nothing supplied.
+			case 2: //icon name
+				szItemName=szTemp;
+			case 3: //exe or path and exe
+				OParseMacros(szTemp);
+				ParsePath(szTemp2, szTemp, PATH);
+				if(szTemp2="")then //if no path specified.
+					szCommandLine = TARGETDIR ^ szTemp;
+				else
+					szCommandLine = szTemp;
+				endif;
+			case 4: //working dir (optional)
+				_CheckForDefaultString(szWorkingDir,szTemp,szTemp2); //use path from case 3 if nothing supplied.		
+			case 5: //path for icon (optional)
+				_CheckForDefaultString(szIconPath,szTemp,szCommandLine);
+			case 6: //which icon
+				_CheckForDefaultNumber(nIcon,szTemp,0);
+			case 7: //short cut key (optional)
+				szShortCutKey = szTemp;
+			case 8: //null
+				nFlag = 0;
+			
+		endswitch;
+		nLoop = ListGetNextString(listIcon,szTemp);
+	endfor;
+	
+	AddFolderIcon (szProgramFolder, szItemName, szCommandLine, szWorkingDir, szIconPath, nIcon, szShortCutKey, nFlag);
+end;
+
+///////////////////////////////////////////////////////////////////////////////////
+//Insert the specified default string into the item var,
+//if nothing in the data var.
+///////////////////////////////////////////////////////////////////////////////////
+function _CheckForDefaultString(szItem,szData,szDefault)
+begin
+	if(szData = "")then
+		szItem = szDefault;
+	else
+		szItem = szData;
+	endif;
+end;
+
+///////////////////////////////////////////////////////////////////////////////////
+//Insert the specified number into the item var,
+//if nothing in the data var.
+///////////////////////////////////////////////////////////////////////////////////
+function _CheckForDefaultNumber(nItem,szData,nDefault)
+begin
+	if(szData = "")then
+		nItem = nDefault;
+	else
+		if(StrToNum(nItem,szData)<0)then
+			gszMsg = @ERROR_CONVERT_NUM + szData;
+			MessageBox(gszMsg,WARNING);
+			OLog(gszMsg);
+		else
+			nItem = nDefault;
+		endif;
+	endif;
+end;
+*/
+
+////////////////////////////////////////////////////////////////////////
+//
+//Changes the bitmap image in the standard InstallShield Dialogs.
+//
+////////////////////////////////////////////////////////////////////////
+function OChangeBitmap(szFilename)
+STRING szDir;
+BOOL bFound;
+begin
+	if(szFilename!="")then
+		//determine dir for bitmaps.
+		if(Is(PATH_EXISTS,SRCDIR ^ BITMAPS))then
+			szDir = SRCDIR ^ BITMAPS;
+		else
+//			szDir = SUPPORTDIR;
+			szDir = SRCDIR;
+		endif;
+	
+		//replace dialog bitmap if new one provided.
+		if(Is(FILE_EXISTS,szDir ^ szFilename))then
+			//use secified bitmap.
+			DialogSetInfo (DLG_INFO_ALTIMAGE,szDir ^ szFilename,TRUE);
+		elseif(Is(FILE_EXISTS,szDir ^ "default.bmp"))then
+			//use default bitmap.
+			DialogSetInfo (DLG_INFO_ALTIMAGE,szDir ^ "default.bmp",TRUE);
+		endif;
+	else
+		//if no bitmap specified, reset to InstallShield default bitmap.
+		DialogSetInfo (DLG_INFO_ALTIMAGE,"",-1);
+	endif;
+end;
+
+/////////////////////////////////////////////////////////////////////////////
+// Setup _Debug global var based on value in win.ini
+/////////////////////////////////////////////////////////////////////////////
+function OSetDebug()
+STRING szResult;
+INT nNum;
+begin
+	//default to defined value
+	g_structSetupMode.nDebug = _DEBUG;
+	if(GetProfString(WINDIR ^ "win.ini","Setup","debug",szResult) =0 )then
+		StrToNum(nNum,szResult);
+		g_structSetupMode.nDebug = nNum;
+	endif;
+end;
+
+////////////////////////////////////////////////////////////////////////
+//
+//Logs info to the log.txt file in the supportdir.
+//
+////////////////////////////////////////////////////////////////////////
+function OLogOpen()
+STRING svResult,szLogFile,szTimeStamp;
+INT nvResult;
+begin
+	//szLogFile = SUPPORTDIR ^ SETUPLOG;
+	szLogFile = WINDIR ^ SETUPLOG;
+	
+	//create file
+	//CreateFile(hLogFile,SUPPORTDIR,SETUPLOG);
+	CreateFile(hLogFile,WINDIR,SETUPLOG);
+	
+	//get time date
+	GetSystemInfo (DATE,nvResult,svResult);
+	szTimeStamp = "["+ svResult;
+	GetSystemInfo (TIME,nvResult,svResult);
+	szTimeStamp = szTimeStamp+":"+svResult+"]";
+		
+	//make the time/date entry at the start of the log file.
+	WriteLine (hLogFile,szTimeStamp);
+end;
+
+////////////////////////////////////////////////////////////////////////
+//
+//Logs info to the log.txt file in the supportdir.
+//
+////////////////////////////////////////////////////////////////////////
+function OLog(szData)
+STRING szLogFile,szMsg;
+begin
+	if(hLogFile = 0)then
+		return; //file already closed.
+	endif;
+
+	szLogFile = SUPPORTDIR ^ SETUPLOG;
+	
+	//make regular entry into the file.
+	if(WriteLine (hLogFile,szData)<0)then
+		Sprintf(szMsg,@ERROR_LOGFILE,SUPPORTDIR ^ SETUPLOG);
+		MessageBox(szMsg+"\n\n"+szData,SEVERE);
+	endif;		
+		
+end;
+
+////////////////////////////////////////////////////////////////////////
+//
+//Closes log file and copies it to targetdir or windows temp.
+//
+////////////////////////////////////////////////////////////////////////
+function OLogStore()
+STRING svResult,szTimeStamp;
+INT nvResult;
+begin
+	if(hLogFile = 0)then
+		return; //file already closed.
+	endif;
+
+	CloseFile(hLogFile);
+	VarSave(SRCTARGETDIR);
+	SRCDIR = SUPPORTDIR;
+
+	if(Is(PATH_EXISTS,TARGETDIR))then
+		nvResult = CopyFile(SETUPLOG,SETUPLOG);
+	else
+		GetEnvVar("TEMP",TARGETDIR);
+		nvResult = CopyFile(SETUPLOG,SETUPLOG);
+	endif;
+	
+/*	if(nvResult=0)then
+		while(Is(FILE_EXISTS,TARGETDIR^SETUPLOG)=0)
+			Delay(1);
+		endwhile;
+		DeleteFile(TARGETDIR^SETUPLOG);
+	endif;
+*/	
+	VarRestore(SRCTARGETDIR);
+	
+end;
+
+/*
+////////////////////////////////////////////////////////////////////////
+//
+// Saves the intial state of all system level operational modes to
+// registry for use by plugin's.  Also sets data in global data structure.
+//
+////////////////////////////////////////////////////////////////////////
+function OStoreModes()
+begin
+	//silent mode
+	if (MODE = SILENTMODE) then
+//		OSaveOperationMode("Silent","YES");
+		g_structSetupMode.bSilent = TRUE;
+	else
+//		OSaveOperationMode("Silent","NO");
+		g_structSetupMode.bSilent = FALSE;
+	endif; 	
+
+	//Simulation or test mode.
+	if (g_structCmdLine.szSimulation = TRUE) then
+//		OSaveOperationMode("Simulation","YES");
+		g_structSetupMode.bSimulation = TRUE;
+	else
+//		OSaveOperationMode("Simulation","NO");
+		g_structSetupMode.bSimulation = FALSE;
+	endif; 			
+	
+	//record responce file mode.
+	if(MODE = 1)then //a little undocumented value for MODE that indicates record mode.
+//		OSaveOperationMode("ResponseRecord","YES");
+		g_structSetupMode.bRecord = TRUE;		
+	else
+//		OSaveOperationMode("ResponseRecord","NO");
+		g_structSetupMode.bRecord = FALSE;				
+	endif; 			
+	
+	//recovery mode.
+	if(gbRecovery)then
+//		OSaveOperationMode("Recovery","YES");
+		g_structSetupMode.bRecovery = TRUE;				
+	else
+//		OSaveOperationMode("Recovery","NO");			
+		g_structSetupMode.bRecovery = FALSE;						
+	endif;
+end;
+*/
+
+/* no longer used.
+////////////////////////////////////////////////////////////////////////
+//
+// Saves a specific system operational mode to registry for use by plugin's.
+//
+////////////////////////////////////////////////////////////////////////
+function OSaveOperationMode(szMode,szValue)
+STRING szKey;
+INT nvSize;
+begin
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);	
+	
+//	szKey = SETUP_KEY + "\\ExecuteMode";
+	szKey = "Software\\ONYX\\"+gszProductName+"\\"+gszProductVersion+"\\Setup\\ExecuteMode";
+	RegDBSetKeyValueEx(szKey, szMode, REGDB_STRING, szValue, nvSize);
+
+	OLog("Setup Operation Mode: "+szMode+"="+szValue);
+end;
+*/
+
+/* //OFS
+////////////////////////////////////////////////////////////////////////
+//
+// Gets a specific system operational mode to registry for use by plugin's.
+//
+////////////////////////////////////////////////////////////////////////
+function OGetOperationMode(szMode,szValue)
+STRING szKey;
+INT nvType,nvSize;
+begin
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);	
+	
+//	szKey = SETUP_KEY + "\\ExecuteMode";
+	szKey = "Software\\ONYX\\"+gszProductName+"\\"+gszProductVersion+"\\Setup\\ExecuteMode";
+
+	RegDBGetKeyValueEx(szKey, szMode, nvType, szValue, nvSize);
+
+	OLog("Retrieved Setup Operation Mode: "+szMode+"="+szValue);
+end;
+*/
+
+/////////////////////////////////////////////////////////////////////////
+// tests values to see if szTest is greater than szRef
+// converts both strings to numbers via each period seperator.
+// same as OIsValueGreater function.
+/////////////////////////////////////////////////////////////////////////
+function OIsValueEqualOrGreater(szRef,szTest)
+LIST listRef,listTest;
+NUMBER nLoop1,nLoop2,nRef,nTest;
+STRING szRefNum,szTestNum,szSep;
+BOOL bReturn;
+begin
+	//return false if no data.
+	if(szRef = "" || szTest = "")then
+		return bReturn;
+	endif;
+	
+	listRef = ListCreate(STRINGLIST);
+	listTest = ListCreate(STRINGLIST);
+	
+	//first compare length of data
+	nRef = StrLength(szRef);
+	nTest = StrLength(szTest);
+	if(nRef > nTest)then
+		return FALSE; //if test is shorter in chars than the reference, no go.
+	endif;
+
+	//only look as deep as the ref is.
+	StrSub(szTest, szTest,0,nRef);
+
+	//determine seperator
+	if(szRef % ".")then
+		szSep = ".";  //parse on periods.  Normal for numbers.
+	elseif(szRef % "-")then
+		szSep = "-";
+	endif;
+	if(szSep = "")then
+		//no seperator, so just test num.
+		StrToNum(nRef, szRef);
+		StrToNum(nTest, szTest);
+		if(nTest >= nRef)then
+			return TRUE;
+		endif;
+		return FALSE;
+	endif;
+	
+	//parse string on using seperator.
+	StrGetTokens(listRef,szRef,szSep);
+	StrGetTokens(listTest,szTest,szSep);
+	nLoop1 = ListGetFirstString(listRef,szRefNum);
+	nLoop2 = ListGetFirstString(listTest,szTestNum);
+	while ((nLoop1 != END_OF_LIST) || (nLoop2 != END_OF_LIST))
+		StrToNum(nRef, szRefNum);
+		StrToNum(nTest, szTestNum);
+		if(nTest > nRef)then
+			bReturn = TRUE;
+			nLoop1 = END_OF_LIST;
+			nLoop2 = END_OF_LIST;
+		elseif(nTest < nRef)then
+			bReturn = FALSE;
+			nLoop1 = END_OF_LIST;
+			nLoop2 = END_OF_LIST;
+		elseif(nTest = nRef)then
+			bReturn = TRUE;
+			nLoop1 = ListGetNextString(listRef,szRefNum);
+			nLoop2 = ListGetNextString(listTest,szTestNum);
+		endif;
+	endwhile;
+	
+	ListDestroy(listRef);
+	ListDestroy(listTest);
+	return bReturn;
+end;
+
+/////////////////////////////////////////////////////////////////////////
+// tests values to see if szTest is less than szRef or equal
+// converts both strings to numbers via each period seperator.
+// same as OIsValueEqualOrGreater function.
+/////////////////////////////////////////////////////////////////////////
+function OIsValueEqualOrLess(szRef,szTest)
+LIST listRef,listTest;
+NUMBER nLoop1,nLoop2,nRef,nTest;
+STRING szRefNum,szTestNum,szSep;
+BOOL bReturn;
+begin
+	//return false if no data.
+	if(szRef = "" || szTest = "")then
+		return bReturn;
+	endif;
+	
+	listRef = ListCreate(STRINGLIST);
+	listTest = ListCreate(STRINGLIST);
+	
+	//first compare length of data
+	nRef = StrLength(szRef);
+	nTest = StrLength(szTest);
+	if(nRef > nTest)then
+		return FALSE; //if test is shorter in chars than the reference, no go.
+	endif;
+	
+	//only look as deep as the ref is.
+	StrSub(szTest, szTest,0,nRef);
+
+	//determine seperator
+	if(szRef % ".")then
+		szSep = ".";  //parse on periods.  Normal for numbers.
+	elseif(szRef % "-")then
+		szSep = "-";
+	endif;
+	if(szSep = "")then
+		//no seperator, so just test num.
+		StrToNum(nRef, szRef);
+		StrToNum(nTest, szTest);
+		if(nTest <= nRef)then
+			return TRUE;
+		endif;
+		return FALSE;
+	endif;
+	
+	//parse string on using seperator.
+	StrGetTokens(listRef,szRef,szSep);
+	StrGetTokens(listTest,szTest,szSep);
+	nLoop1 = ListGetFirstString(listRef,szRefNum);
+	nLoop2 = ListGetFirstString(listTest,szTestNum);
+	while ((nLoop1 != END_OF_LIST) || (nLoop2 != END_OF_LIST))
+		StrToNum(nRef, szRefNum);
+		StrToNum(nTest, szTestNum);
+		if(nTest < nRef)then
+			bReturn = TRUE;
+			nLoop1 = END_OF_LIST;
+			nLoop2 = END_OF_LIST;
+		elseif(nTest > nRef)then
+			bReturn = FALSE;
+			nLoop1 = END_OF_LIST;
+			nLoop2 = END_OF_LIST;
+		elseif(nTest = nRef)then
+			bReturn = TRUE;
+			nLoop1 = ListGetNextString(listRef,szRefNum);
+			nLoop2 = ListGetNextString(listTest,szTestNum);
+		endif;
+	endwhile;
+	
+	ListDestroy(listRef);
+	ListDestroy(listTest);
+	return bReturn;
+end;
+
+/////////////////////////////////////////////////////////////////////////
+// tests values to see if szTest is greater than szRef
+// converts both strings to numbers via each period seperator.
+/////////////////////////////////////////////////////////////////////////
+function OIsValueGreater(szRef,szTest)
+LIST listRef,listTest;
+NUMBER nLoop1,nLoop2,nRef,nTest;
+STRING szRefNum,szTestNum,szSep;
+BOOL bReturn;
+begin
+	//return false if no data.
+	if(szRef = "" || szTest = "")then
+		return bReturn;
+	endif;
+	
+	listRef = ListCreate(STRINGLIST);
+	listTest = ListCreate(STRINGLIST);
+	
+	//determine seperator
+	if(szRef % ".")then
+		szSep = ".";  //parse on periods.  Normal for numbers.
+	elseif(szRef % "-")then
+		szSep = "-";
+	endif;
+	if(szSep = "")then
+		return bReturn;  //not a valid seperator.
+	endif;
+	
+	//parse string on using seperator.
+	StrGetTokens(listRef,szRef,szSep);
+	StrGetTokens(listTest,szTest,szSep);
+	nLoop1 = ListGetFirstString(listRef,szRefNum);
+	nLoop2 = ListGetFirstString(listTest,szTestNum);
+	while ((nLoop1 != END_OF_LIST) || (nLoop2 != END_OF_LIST))
+		StrToNum(nRef, szRefNum);
+		StrToNum(nTest, szTestNum);
+		if(nTest > nRef)then
+			bReturn = TRUE;
+			nLoop1 = END_OF_LIST;
+			nLoop2 = END_OF_LIST;
+		elseif(nTest < nRef)then
+			bReturn = FALSE;
+			nLoop1 = END_OF_LIST;
+			nLoop2 = END_OF_LIST;
+		else; //equal, go on.
+			nLoop1 = ListGetNextString(listRef,szRefNum);
+			nLoop2 = ListGetNextString(listTest,szTestNum);
+		endif;
+	endwhile;
+	
+	ListDestroy(listRef);
+	ListDestroy(listTest);
+	return bReturn;
+end;
+
+/////////////////////////////////////////////////////////////////////////
+// tests values to see if szTest is equal to szRef
+// truncates szTest to the lenth of szRef.
+/////////////////////////////////////////////////////////////////////////
+function OIsValueEqual(szRef,szTest)
+INT nLen;
+LIST listRef,listTest;
+NUMBER nLoop1,nLoop2,nRef,nTest;
+STRING szRefNum,szTestNum,szSep,szTemp;
+BOOL bReturn;
+begin
+	bReturn = FALSE;
+	//return false if no data.
+	if(szRef = "" || szTest = "")then
+		return bReturn;
+	endif;
+
+	//first do easy check
+	nLen = StrLength(szRef);
+	StrSub(szTemp, szTest,0,nLen);
+	if(szRef = szTemp)then
+		return TRUE;
+	endif;
+
+	//next do full check parsing on seperator and doing integer test.
+	listRef = ListCreate(STRINGLIST);
+	listTest = ListCreate(STRINGLIST);
+	
+	//determine seperator
+	if(szRef % ".")then
+		szSep = ".";  //parse on periods.  Normal for numbers.
+	elseif(szRef % "-")then
+		szSep = "-";
+	endif;
+	if(szSep = "")then
+		return bReturn;  //not a valid seperator.
+	endif;
+	
+	//parse string on using seperator.
+	StrGetTokens(listRef,szRef,szSep);
+	StrGetTokens(listTest,szTest,szSep);
+	nLoop1 = ListGetFirstString(listRef,szRefNum);
+	nLoop2 = ListGetFirstString(listTest,szTestNum);
+	while ((nLoop1 != END_OF_LIST) || (nLoop2 != END_OF_LIST))
+		StrToNum(nRef, szRefNum);
+		StrToNum(nTest, szTestNum);
+		if(nTest = nRef)then
+			bReturn = TRUE;
+			nLoop1 = ListGetNextString(listRef,szRefNum);
+			nLoop2 = ListGetNextString(listTest,szTestNum);
+		elseif(nTest < nRef)then
+			bReturn = FALSE;
+			nLoop1 = END_OF_LIST;
+			nLoop2 = END_OF_LIST;
+		elseif(nTest > nRef)then
+			bReturn = FALSE;
+			nLoop1 = END_OF_LIST;
+			nLoop2 = END_OF_LIST;
+		endif;
+	endwhile;
+	
+	ListDestroy(listRef);
+	ListDestroy(listTest);
+	return bReturn;
+
+end;
+
+///////////////////////////////////////////////////////////////////////////////////
+//catcatinates two strings together unless first one is empty, then just copies
+///////////////////////////////////////////////////////////////////////////////////
+function OCatStrings(szMsg,szSeperator,szString)
+begin
+ 	if(szMsg = szString)then
+ 		return; //no cancatinating to be done if the two strings are identical.
+ 	endif;
+ 	
+	if(szMsg = "")then
+		szMsg = szString;
+	else
+		szMsg = szMsg + szSeperator + szString;
+	endif;
+end;
+
+/*
+///////////////////////////////////////////////////////////////////////////////////
+// ask to exit setup.
+///////////////////////////////////////////////////////////////////////////////////
+function OAskExit()
+begin
+	if(AskYesNo(@MSG_EXIT_SETUP,YES)=YES)then
+		abort;
+	endif;
+end;
+*/
+
+//////////////////////////////////////////////////////////////////////////////////
+// Checks data structure for previous and current version of product
+// returns the default operation mode media item in szOperation.
+//////////////////////////////////////////////////////////////////////////////////
+function OLookForProduct(szOperation,nReturn)
+INT nResult;
+STRING szVerInstalling,szVerExisting,szResult,szTemp,szMsg;
+begin
+
+	if(nReturn = BACK)then
+		return BACK;
+	endif;
+
+	//check parent for operation prompt or not info.
+	ComponentGetData(BASE_MEDIA,COMP_LOOK_FOR_PRODUCT,COMPONENT_FIELD_MISC,nResult,szResult);
+	StrToUpper(szResult,szResult);
+	if(szResult = "NO PROMPT")then
+		//deselect the dialog to prompt for path.
+		g_structSetupMode.bNoOperation = TRUE;  //used in ODialogShowOperations
+	endif;
+
+	//upgrade
+	if (OIsComponentSelected(COMP_LF_OLD_VERSION) = TRUE) then
+		szVerExisting = g_structSystemData.szPrevious_Version;
+		if(szVerExisting !="")then
+			szVerInstalling = gszProductVersion;
+			if(OIsValueGreater(szVerExisting,szVerInstalling))then
+				g_structSetupMode.szType = "OPERATION2";
+				szOperation = COMP_OPERATION_OPERATION2;
+				
+				//check to see if upgrade mode is allowable
+				OGetValueFromINI("Setup","Upgrade",szTemp);
+				StrToUpper(szTemp,szTemp);
+				if(szTemp = "NO")then
+					//get name of previous product needed on machine
+					szTemp = g_structSystemData.szPrevious_Name;
+					if(szTemp = "")then
+						OGetValueFromINI("Setup","PreviousProductName",szTemp);
+					endif;
+					if(szTemp = "")then
+						szTemp = gszProductName;  //default to name of this product.
+					endif;
+					Sprintf(gszMsg,@ERROR_OLDER_VER_FOUND1,szTemp,szTemp);	
+					gszMsg = gszMsg+"\n"+@VERSION_FOUND+"\n"+@VERSION_INSTALLING+"\n"+@ERROR_CANNOT_CONTINUE;
+					Sprintf(gszMsg,gszMsg,szVerExisting,szVerInstalling);
+					OLog(gszMsg);
+					MessageBox(gszMsg,SEVERE);
+				
+					bInstallAborted = TRUE;
+					CleanUpInstall();
+					abort;
+				endif;
+
+			endif;
+		endif;
+	endif;
+	//reinstall
+	if (OIsComponentSelected(COMP_LF_CURRENT_VERSION) = TRUE) then
+		szVerExisting = g_structSystemData.szPrevious_Version;
+		if(szVerExisting !="")then
+			szVerInstalling = gszProductVersion;
+			if(OIsValueEqual(szVerInstalling,szVerExisting))then
+				g_structSetupMode.szType = "REINSTALL";
+				szOperation = COMP_OPERATION_OPERATION3;
+
+				//version installing is same as version on machine.  Ask to continue
+				OGetValueFromINI("Setup","PreviousInstallWarning",szTemp);
+				StrToUpper(szTemp,szTemp);
+				if(szTemp != "NO")then
+					gszMsg = @PREVIOUS_VERSION;
+					Sprintf(gszMsg,gszMsg,gszProductName,gszProductVersion);
+					if(AskYesNo(gszMsg,NO)=NO)then
+						abort;
+					endif;
+					OLog(gszMsg + " Answer: YES");
+				else
+					OLog("Surpressing reinstall warning");
+				endif;
+			endif;
+		endif;
+	endif;
+
+	//found an newer ver, cannot install older version over a newer one.
+	if (OIsComponentSelected(COMP_LF_NEWER_VERSION) = TRUE) then
+		szVerExisting = g_structSystemData.szPrevious_Version;
+		if(szVerExisting !="")then
+			szVerInstalling = gszProductVersion;
+			if(OIsValueGreater(szVerInstalling,szVerExisting))then
+				//same message as in _DetermineSetupType, but this one exits.
+				Sprintf(gszMsg,@ERROR_NEWER_VER_FOUND1,gszProductName);	
+				gszMsg = gszMsg+"\n"+@VERSION_FOUND+"\n"+@VERSION_INSTALLING+"\n"+@ERROR_CANNOT_CONTINUE;
+				Sprintf(gszMsg,gszMsg,szVerExisting,szVerInstalling);
+				OLog(gszMsg);
+				MessageBox(gszMsg,SEVERE);
+				
+				bInstallAborted = TRUE;
+				CleanUpInstall();
+				abort;
+			endif;
+		endif;
+	endif;
+
+	if (OIsComponentSelected(COMP_LF_OLD_DATA) = TRUE) then
+		//if a previous version found, ask if user wants new one.
+		//if so, prompt for a dest dir, and copy file.
+		//if not, no prompt use old file.
+//		_LookForOldData(nReturn);
+		
+	endif;
+	
+	return nReturn;
+end;
+
+/* //OFS
+///////////////////////////////////////////////////////////////////////////////////
+//register files with regit.exe listed in the regit.ini file.
+///////////////////////////////////////////////////////////////////////////////////
+function ORegisterFilesWithREGIT()
+LIST listOfFiles;
+INT nLoop;
+STRING szFile;
+begin
+	//read in list of files to register from regit.ini
+	listOfFiles = ListCreate(STRINGLIST);
+	if(ListReadFromFile(listOfFiles,SRCDIR ^ "Regit.ini") =0 )then
+		//ChangeDirectory(SRCDIR);
+		//loop through list and run REGIT on them
+		nLoop = ListGetFirstString(listOfFiles,szFile);
+		while(nLoop != END_OF_LIST)
+			OParseMacros(szFile);  //resolve paths.
+			LaunchAppAndWait(SUPPORTDIR ^ "regit.exe",szFile,WAIT);
+			nLoop = ListGetNextString(listOfFiles,szFile);
+		endwhile;
+	endif;
+	
+end;
+*/
+
+///////////////////////////////////////////////////////////////////////////////////
+//look for signs of reboot needed.  Sets global reboot flag.
+///////////////////////////////////////////////////////////////////////////////////
+function OIsRebootNeeded()
+begin
+	if(BATCH_INSTALL = FALSE)then
+		RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+		//if nt, look for runonce in reg
+		if(bWinNT)then
+			if(RegDBKeyExist("Software\\Microsoft\\Windows\\CurrentVersion\\Runonce\\Setup") =1 )then
+				BATCH_INSTALL = TRUE;
+			endif;
+		else;
+			if(Is(FILE_EXISTS,WINDIR ^ "wininit.ini") =1 )then
+				BATCH_INSTALL = TRUE;
+			endif;
+		endif;
+	endif;
+end;
+
+/*
+////////////////////////////////////////////////////////////////////////////
+// Look in setup.ini for info to look for old data files to save or replace.
+// Can specify a reg location for file path.
+//
+// if file found, ask user if old dat to be used.
+// if NO, ask for path for new data.
+// if same path specified by user, rename old file.
+// if new path, save new path in reg if path specified from reg.
+// copy new file if new one to be used.
+////////////////////////////////////////////////////////////////////////////
+function _LookForOldData(nResult)
+STRING szName,szFile,szRegBase,szKeyData,szRegData;
+STRING szTemp,szPath,szSRC,szFileName;
+INT nvType,nvSize;
+BOOL bRegPath,bCopyNewFile,bTemp;
+begin
+
+	//don't do if going backwards.
+	if(nResult = BACK)then
+		return;
+	endif;
+	
+	//get info from setup.ini
+	GetProfString(SRCDIR ^ "setup.ini","Old Data","Name",szName);
+	GetProfString(SRCDIR ^ "setup.ini","Old Data","File",szFile);
+	GetProfString(SRCDIR ^ "setup.ini","Old Data","NewFileDir",szTemp);
+	g_structOldData.szSubDir = szTemp;
+	StrToUpper(szFile,szFile);
+
+	/////////////////////////////////////////////////////////////////
+	// if data item is a registry entry, then read in reg path data
+	// and then look for old data first.  Store reg path and data in
+	// data structure for use later.
+	/////////////////////////////////////////////////////////////////
+	GetProfString(SRCDIR ^ "setup.ini","Old Data","RegEntry",szTemp);
+	StrToUpper(szTemp,szTemp);
+	if(szTemp = "YES")then
+		szTemp = ""; //clear
+		bRegPath = TRUE;  //used to update path in reg later.
+		//look for file info in specified reg key.
+		GetProfString(SRCDIR ^ "setup.ini","Old Data","RegBase",szRegBase);
+		GetProfString(SRCDIR ^ "setup.ini","Old Data","RegPath",szTemp);
+		g_structOldData.szRegPath = szTemp;
+		GetProfString(SRCDIR ^ "setup.ini","Old Data","RegKey",szTemp);
+		StrToUpper(szTemp,szTemp);
+		if(szTemp = "DEFAULT")then
+			szTemp = "";
+		endif;
+		g_structOldData.szRegKey = szTemp;
+		
+		//get the old value out of the registry.
+		_SetRegBase(szRegBase);
+		RegDBGetKeyValueEx(g_structOldData.szRegPath,g_structOldData.szRegKey,nvType,szRegData,nvSize);
+
+		//compare data type found with the one specified in setup.ini
+		szTemp = "";
+		GetProfString(SRCDIR ^ "setup.ini","Old Data","RegType",szTemp);
+		if(szTemp = "")then
+			szTemp = "STRING";  //default to a string reg data type.
+		else
+			StrToUpper(szTemp,szTemp);
+		endif;
+
+		//was old data entry found in reg.
+		if(szRegData = "")then
+			//no old entry.  Use data type specified in setup.ini
+			g_structOldData.szRegType = szTemp;
+		else
+			//store old data in reg.
+			g_structOldData.szRegData = szRegData;  //used for multi type data.
+			
+			//does data type specified matches actual type in reg.
+			if(nvType = REGDB_STRING_MULTI)then
+				if(szTemp != "MULTI")then
+					//not a match, setup error message.
+					gszMsg = "MULTI";
+					g_structOldData.szRegType = gszMsg;  //use data type found in reg.
+					bTemp = TRUE;
+				endif;
+			elseif(nvType = REGDB_STRING)then
+				if(szTemp != "STRING")then
+					//not a match, setup error message.
+					gszMsg = "STRING";
+					g_structOldData.szRegType = gszMsg;  //use data type found in reg.
+					bTemp = TRUE;
+				endif;
+			else
+				gszMsg = "UNSUPPORTED TYPE";
+				bTemp = TRUE;
+			endif;
+			if(bTemp)then
+				//no match, log error.
+				Sprintf(gszMsg,@ERROR_OLDDATA_INI,szTemp,gszMsg,szRegBase + " : " + g_structOldData.szRegPath + " : " + g_structOldData.szRegKey);
+				ODebugDsp(gszMsg,2);
+			else
+				//all ok, store data type
+				g_structOldData.szRegType = szTemp;
+			endif;
+		endif;
+		
+	endif;
+
+	//does this file actually exist?
+	OParseMacros(szRegData);  //resolve any path macros.
+	if(szRegData != "" && Is(FILE_EXISTS,szRegData) = TRUE )then
+		Disable(DIALOGCACHE);
+		ParsePath(szPath,szRegData,PATH);
+		ParsePath(szRegData,szRegData,FILENAME);  //used later for copy
+		g_structOldData.szFile = szRegData;
+		g_structSystemData.szPrevious_Path = szPath;  //need to use friendlynames.txt as product path.
+		
+		//prompt user to use old file or not.
+		Sprintf(gszMsg,@PROMPT_OLD_DATA,szName);
+		if(AskYesNo(gszMsg,YES)=NO)then
+			//copy a new file.
+			g_structOldData.bCopyNewFile = TRUE;
+		endif;
+		OLog(gszMsg + " Answer: YES");
+	else
+		//no previous file.  copy a new file.
+		g_structOldData.szFile = szName;
+		g_structOldData.bCopyNewFile = TRUE;
+	endif;
+	
+	//if copy new file, or no current file, prompt user for path of new file.
+	if(g_structOldData.bCopyNewFile = FALSE)then
+		g_structSetupMode.bNoPrompt = TRUE;
+	endif;
+
+end;
+*/
+
+/*
+///////////////////////////////////////////////////////
+function _CopyDataFiles()	
+STRING szFileName,szSRC,szFile;
+INT nvType,nvSize;
+begin
+	if(g_structOldData.bCopyNewFile = TRUE)then
+	
+		VarSave(SRCTARGETDIR);
+		szSRC = SRCDIR;
+		
+		//if same path,
+		if((g_structSystemData.szPrevious_Path^g_structOldData.szFile) = (gszDir ^g_structOldData.szFile))then
+			//rename old one
+			ParsePath(szFileName,g_structOldData.szFile,FILENAME_ONLY);
+			SRCDIR = gszDir;
+			TARGETDIR = gszDir;
+			if(RenameFile(g_structOldData.szFile,szFileName+".bak") <0 )then
+				gszMsg = @ERROR_BACKUP+TARGETDIR^g_structOldData.szFile;
+				MessageBox(gszMsg,WARNING);
+				OLog(gszMsg);
+			endif;
+		else
+			//if new path update reg entry.
+			nvType = REGDB_STRING;
+			nvSize = -1;
+			szFile = gszDir^g_structOldData.szFile;
+			if(g_structOldData.szRegPath = "MULTI")then
+				nvType = REGDB_STRING_MULTI;
+				szFile = g_structOldData.szRegData +"\n"+ szFile;  //Add new file data to existing reg entry string.
+				nvSize = StrLength(szFile);
+			endif;
+										
+			RegDBSetKeyValueEx(g_structOldData.szRegPath,g_structOldData.szRegKey,nvType,szFile,nvSize);
+		
+		endif;
+	
+		//copy file.
+		SRCDIR = szSRC ^ g_structOldData.szSubDir;
+		CopyFile(g_structOldData.szFile,g_structOldData.szFile);
+	  		
+		//set for next stuff.
+		Enable(DIALOGCACHE);
+		VarRestore(SRCTARGETDIR);
+	
+	endif;
+end;
+*/
+
+////////////////////////////////////////////////////////////////////////////
+//sets registry root to specified short acronim.
+////////////////////////////////////////////////////////////////////////////
+function _SetRegBase(szBase)
+begin
+	StrToUpper(szBase,szBase);
+	if(szBase = "" || szBase = "HKLM" || szBase = "HKEY_LOCAL_MACHINE")then
+		RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	elseif(szBase = "HKCR" || szBase = "HKEY_CLASSES_ROOT")then
+			RegDBSetDefaultRoot(HKEY_CLASSES_ROOT);
+	elseif(szBase = "HKCU" || szBase = "HKEY_CURRENT_USER")then
+			RegDBSetDefaultRoot(HKEY_CURRENT_USER);
+	elseif(szBase = "HKU" || szBase = "HKEY_USERS")then
+			RegDBSetDefaultRoot(HKEY_USERS);
+	elseif(szBase = "HKCC" || szBase = "HKEY_CURRENT_CONFIG")then
+			RegDBSetDefaultRoot(HKEY_CURRENT_CONFIG);
+	elseif(szBase = "HKDD" || szBase = "HKEY_DYN_DATA")then
+			RegDBSetDefaultRoot(HKEY_DYN_DATA);
+	endif;
+end;
+
+///////////////////////////////////////////////////////////////////////
+// debug display messagebox.  Based on number passed in.
+// 1 = Display during all debug messages.
+// 2 = Requirement checking
+// 3 = Default install dir
+// 4 = Operation Selection
+// 5 = Setup Type Selection
+// 6 = Component Selection
+// 7 = Dialogs Selected
+// 8 = Uninstall Info
+// 9 = Copy Filess
+// 10 = Extra Files data
+// 11 = Data files data
+// 12 = Registry Data (including DCOM and help files)
+// 13 = SQL functions
+// 14 = SQL test mode.  Do not modify SQL database
+// 15 = Plugins
+// 16 = NT Services data
+// 17 = NT account
+// 18 = DSN creation
+// 19 = MTS actions
+// 20 = IIS actions
+// 21 = Skip service shutdowns and MTS and ISS external executions.
+// 22 = Force Reboot after installbefore items.
+// 23 = SQL files will not be save as encrypted on database.
+///////////////////////////////////////////////////////////////////////
+function ODebugDsp(szMsg,nLevel)
+begin
+	if(g_structSetupMode.nDebug = nLevel || g_structSetupMode.nDebug = 1)then
+		MessageBox(szMsg,WARNING);
+	endif;
+	OLog(szMsg);
+end;
+
+/*
+///////////////////////////////////////////////////////////////////////////////////
+//converts the inputed hex string to a dec string.
+///////////////////////////////////////////////////////////////////////////////////
+function OHextoDecimal(svHex)
+    STRING      svTemp;
+    NUMBER      nStrLen, nCount, nMult, nDecValue;
+begin
+
+    nStrLen = StrLength (svHex);
+    nCount = nStrLen;
+    nDecValue = 0;
+    while (nCount > 0)
+        StrSub (svTemp, svHex, (nStrLen - nCount), 1);
+        switch (svTemp)
+                case "f"            : nMult= 15;
+                case "e"            : nMult= 14;
+                case "d"            : nMult= 13;
+                case "c"            : nMult= 12;
+                case "b"            : nMult= 11;
+                case "a"            : nMult= 10;
+                case "9"            : nMult= 9;
+                case "8"            : nMult= 8;
+                case "7"            : nMult= 7;
+                case "6"            : nMult= 6;
+                case "5"            : nMult= 5;
+                case "4"            : nMult= 4;
+                case "3"            : nMult= 3;
+                case "2"            : nMult= 2;
+                case "1"            : nMult= 1;
+                case "0"            : nMult= 0;
+        endswitch;
+
+    nDecValue = nDecValue + (nMult * _XToThePowerofY (16, (nCount -1)));
+    nCount = nCount - 1;
+    endwhile;
+
+    return nDecValue;
+
+end;
+
+function _XToThePowerofY(nX, nY)
+    NUMBER      nTempX, nTick;
+begin
+    nTick = 1;
+    nTempX = 1;
+    while (nTick <= nY)
+        nTempX = nTempX * nX;
+        nTick = nTick +1;
+    endwhile;
+
+    return nTempX;
+
+end;
+*/
+
+/* //OFS
+//////////////////////////////////////////////////////////////////////////////
+// gets and test the specified file version verses the provided version number
+// If file ver is equal or greater, returns TRUE;
+//////////////////////////////////////////////////////////////////////////////
+function OTestFileVer(szFile,szTestVer)
+STRING szVer;
+BOOL bReturn;
+begin
+	if(VerGetFileVersion(szFile,szVer) =0 )then
+		if(OIsValueEqual(szTestVer,szVer))then
+			bReturn = TRUE;
+		elseif(OIsValueGreater(szTestVer,szVer))then
+			bReturn = TRUE;
+		endif;
+	endif;
+	return bReturn;
+end;
+*/
+
+/* OFS
+////////////////////////////////////////////////////////////////////////////////////////
+// Adds an entry to a NT multi line reg entry.  If previous data exists, this function
+// will append it to the existing data.  Can insert data into the exists data also.
+// If no existing data, just writes data to reg in correct format.
+// Main function by Elihu_Rozen@psdi.com
+//
+// examples:
+// RegAddMulti("SOFTWARE\\Microsoft\\Windows", "Test", "FindMe", "NewValue", AFTER);
+// RegAddMulti("SOFTWARE\\Microsoft\\Windows", "Test", "", "FirstValueInList", BEFORE);
+// RegAddMulti("SOFTWARE\\Microsoft\\Windows", "Test", "", "LastValueInList", AFTER);
+//
+//  szKey - the key in the registry (Don't forget to set default)
+//  szValue - the value in the key
+//  szReference - reference string to find
+//  szNewData - string to add
+//  nPlace - where to add new string compared to reference string
+////////////////////////////////////////////////////////////////////////////////////////
+function ORegAddMulti(szKey, szValue, szReference, szNewData, nPlace)
+LIST listValues, listDelimiter;
+NUMBER nvType, nvSize, nvReturn, nPosition;
+STRING svData, szNewString, szDelimiter, szNewSubstring;
+begin
+	if (!bWinNT) then
+		return (1);  //only NT registry.
+	endif;
+	if ((nPlace != AFTER) && (nPlace != BEFORE)) then
+		return (-1);
+	endif;
+	listValues = ListCreate(STRINGLIST);
+	listDelimiter = ListCreate(NUMBERLIST);
+	szNewString = "";
+	szDelimiter = ""; // reset after adding first string
+	nPosition = 0;
+//	RegDBSetDefaultRoot ( HKEY_LOCAL_MACHINE ); // change this as appropriate
+	RegDBGetKeyValueEx ( szKey , szValue , nvType , svData , nvSize );
+	StrGetTokens(listValues, svData, OLD_DELIMITER);
+	nvReturn = ListGetFirstString(listValues, svData);
+	if ((szReference = "") && (nPlace = BEFORE)) then
+		szReference = svData;
+	endif;
+	while (nvReturn = 0)
+		//exit if data entry is already in reg
+		if(svData = szNewData)then
+			ListDestroy(listValues);
+			ListDestroy(listDelimiter);
+			return;
+		endif;
+		if (svData = szReference) then
+			if (nPlace = BEFORE) then
+				szNewSubstring = szNewData + NEW_DELIMITER + svData;
+				nPosition = nPosition + StrLength(szNewData);
+				ListAddItem(listDelimiter, nPosition, AFTER);
+				nPosition = nPosition + 1 + StrLength(svData);
+				ListAddItem(listDelimiter, nPosition, AFTER);
+			else
+				szNewSubstring = svData + NEW_DELIMITER + szNewData;
+				nPosition = nPosition + StrLength(svData);
+				ListAddItem(listDelimiter, nPosition, AFTER);
+				nPosition = nPosition + 1 + StrLength(szNewData);
+				ListAddItem(listDelimiter, nPosition, AFTER);
+			endif;
+		else
+			szNewSubstring = svData;
+			nPosition = nPosition + StrLength(svData);
+			ListAddItem(listDelimiter, nPosition, AFTER);
+		endif;
+		szNewString = szNewString + szDelimiter + szNewSubstring;
+		szDelimiter = NEW_DELIMITER;
+		nPosition = nPosition + 1;
+		nvReturn = ListGetNextString(listValues, svData);
+	endwhile;
+	if (szReference = "") then // handle nPlace = AFTER
+		szNewString = szNewString + szDelimiter + szNewData;
+		nPosition = nPosition + StrLength(szNewData);
+		ListAddItem(listDelimiter, nPosition, AFTER);
+	endif;
+	szNewString = szNewString + szDelimiter + szDelimiter; //---JCG added two on the end
+	nvSize = StrLength(szNewString);  //--JCG new string size
+	nvReturn = ListGetFirstItem(listDelimiter, nPosition);
+	while (nvReturn = 0)
+		szNewString[nPosition] = OLD_DELIMITER_NUMBER;
+		nvReturn = ListGetNextItem(listDelimiter, nPosition);
+	endwhile;
+
+	//put two null chars at end of string
+	szNewString[nPosition + 1] = OLD_DELIMITER_NUMBER;
+//	nvSize = StrLength(szNewString);
+
+//	Disable(LOGGING); // have to manually handle uninstall
+	RegDBSetKeyValueEx ( szKey , szValue , REGDB_STRING_MULTI , szNewString , nvSize );
+//	Enable(LOGGING);
+	
+	ListDestroy(listValues);
+	ListDestroy(listDelimiter);
+end;
+*/
+
+
+
+/////////////////////////////////////////////////////////////////////////////////
+// checks for specified space available on path sepecified.
+// Informs user if not enough space, and allows for them to retry.
+// returns TRUE if enough, FALSE if not.
+/////////////////////////////////////////////////////////////////////////////////
+function OCheckDiskSpace(szName,szPath,szSizeNeeded)
+STRING szTemp;
+INT nTemp,nLoop,nSize;
+begin
+	if(szSizeNeeded != "")then
+		StrToNum(nSize,szSizeNeeded);
+		if(szPath = "")then
+			szPath = WINSYSDIR;
+		endif;
+		ParsePath(szTemp,szPath,DISK);
+		if(szTemp = "")then
+			gszMsg = @ERROR_DISKSPACE + TARGETDIR + "\n\n";
+			Sprintf(gszMsg,@ERROR_DISKSPACE_NEEDED,szName,szSizeNeeded);
+//			gszMsg = gszMsg +"\n\nThe execution of "+szName+" may fail if "+szSizeNeeded+" bytes of storage is not available on this drive.";
+			MessageBox(gszMsg,WARNING);
+			OLog(gszMsg);
+		else
+			while(nLoop = 0)
+				nTemp = GetDiskSpace(szTemp);
+				if(nTemp < nSize)then
+					Sprintf(gszMsg,@ERROR_DISKSPACE_NEEDED2,szName,nSize,nTemp,szTemp,nSize-nTemp);
+					OLog(gszMsg);
+					if(AskYesNo(gszMsg,YES) = NO)then
+						return FALSE;
+					endif;
+				else
+					nLoop = TRUE; //all done
+				endif;
+			endwhile;
+		endif;
+	endif;
+	return TRUE;
+end;
+
+/////////////////////////////////////////////////////////////////////////////////////
+//performs the standard CopyFile function, but ask the user if they want to try again
+//if the copy fails.  Use just like CopyFile.
+/////////////////////////////////////////////////////////////////////////////////////
+function OCopyFileTryAgain(szSrc,szTarget,bBackup)
+INT nReturn;
+begin
+	nReturn = -1;
+	if(Is(FILE_EXISTS,SRCDIR^szSrc) = TRUE )then
+		//backup file if needed
+		if(bBackup = TRUE)then
+			OBackupFile(szTarget); //uses filename.xxx starting with .1
+		endif;
+	
+		while(nReturn <0)
+			nReturn = CopyFile(szSrc,szTarget);
+			if(nReturn <0 )then
+				//displays error and asks user to retry or not.
+				nReturn = _HandleCopyFileError(szTarget,nReturn);
+			endif;
+		endwhile;
+	else
+		Sprintf(gszMsg,@ERROR_COULD_NOT_FIND,SRCDIR^szSrc);
+		OLog(gszMsg);
+		MessageBox(gszMsg,WARNING);
+	endif;
+	return nReturn;
+end;
+
+///////////////////////////////////////////////////////////////////////
+//makes a copy of the file passed in.
+//copy is filename with a number extention, starting with 1.
+//will look for the next available number to use.
+///////////////////////////////////////////////////////////////////////
+function OBackupFile(szFile)
+STRING szNameOnly,szCount;
+INT nCount;
+begin
+	//look for file
+	if(Is(FILE_EXISTS,TARGETDIR ^ szFile) = TRUE)then
+		//get just name	
+		ParsePath(szNameOnly,szFile,FILENAME_ONLY);
+
+		//loop till unused file not found
+		nCount = 1;
+		NumToStr(szCount,nCount);
+		while(Is(FILE_EXISTS,TARGETDIR ^ szNameOnly+"."+szCount) = TRUE)
+			//file found, increment and try again
+			nCount++;
+			NumToStr(szCount,nCount);
+		endwhile;		
+
+		//copy backup file.
+		VarSave(SRCTARGETDIR);
+		SRCDIR=TARGETDIR;
+		OCopyFileTryAgain(szFile,szNameOnly+"."+szCount,FALSE);  //recusive call, be sure to NEVER have last var set to TRUE
+		VarRestore(SRCTARGETDIR);
+	endif;
+end;
+
+////////////////////////////////////////////////////////////////////////
+//makes a backup of any files if found that are listed in setup.ini.
+//uses oBackupFile above.
+////////////////////////////////////////////////////////////////////////
+function OBackupFilesListedInINI()
+STRING szFile,szDir,szCount;
+INT nLoop,nCount;
+begin
+	//get dir info
+	OGetValueFromINI("Backup","Directory",szDir);
+	if(szDir != "")then
+		OParseMacros(szDir);
+	else
+		szDir = TARGETDIR;
+	endif;
+	
+	//get file info
+	nCount = 1;
+	while(nLoop = 0)
+		szFile = "";
+		NumToStr(szCount,nCount);
+		OGetValueFromINI("Backup","File"+szCount,szFile);
+		if(szFile != "")then
+			VarSave(SRCTARGETDIR);
+			TARGETDIR = szDir;
+			OBackupFile(szFile);
+			VarRestore(SRCTARGETDIR);
+			
+			nCount = nCount + 1;
+		else
+			nLoop = 1; //exit
+		endif;
+	endwhile;
+end;
+
+/////////////////////////////////////////////////////////////////////////////////////
+// copies a file and uses the status bar to indicate progress.
+// calles OCopyFileTryAgain();
+// mainly for large files.
+/////////////////////////////////////////////////////////////////////////////////////
+function OCopyFileWithStatus(szSrc,szTarget)
+INT nReturn;
+begin
+	Disable(FEEDBACK_FULL);
+	Enable(STATUSDLG);
+	Sprintf(gszMsg,@COMPONENT_MOVEFILE1,szSrc);
+	SetStatusWindow(0,gszMsg);  //start at zero.
+	StatusUpdate(ON,100);
+	nReturn = OCopyFileTryAgain(szSrc,szTarget,FALSE);
+	Disable(STATUSDLG);
+	return nReturn;
+end;
+
+/////////////////////////////////////////////////////////////////////////////////////
+//performs the standard CopyFile function, but ask the user if they want to try again
+//if the copy fails.  Use just like CopyFile.
+/////////////////////////////////////////////////////////////////////////////////////
+function OXCopyFileTryAgain(szSrc,szTarget,nMode)
+INT nReturn;
+begin
+	nReturn = -1;
+	if(Is(FILE_EXISTS,SRCDIR^szSrc) = TRUE )then
+		while(nReturn <0)
+	 		nReturn = XCopyFile(szSrc,szTarget,nMode);
+			if(nReturn <0 )then
+				//displays error and asks user to retry or not.
+				nReturn = _HandleCopyFileError(szTarget,nReturn);
+			endif;
+		endwhile;
+	else
+		Sprintf(gszMsg,@ERROR_COULD_NOT_FIND,SRCDIR^szSrc);
+		OLog(gszMsg);
+		MessageBox(gszMsg,WARNING);
+	endif;
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function: _HandleCopyFileError
+//
+//  Purpose: This function handles the error (if any) during a copy file
+//           operation.
+//
+///////////////////////////////////////////////////////////////////////////////
+function _HandleCopyFileError(szFile,nResult)
+    STRING szErrMsg;
+
+begin
+    switch (nResult)
+        case 0:
+            return 0; //no error
+        case COPY_ERR_CREATEDIR:
+			szErrMsg = @ERROR_COPYFILE_HANDLER1;
+		case COPY_ERR_MEMORY:
+			szErrMsg = @ERROR_COPYFILE_HANDLER2;
+		case COPY_ERR_NODISKSPACE:
+			szErrMsg = @ERROR_COPYFILE_HANDLER3;
+		case COPY_ERR_OPENINPUT:
+			szErrMsg = @ERROR_COPYFILE_HANDLER4;
+		case COPY_ERR_OPENOUTPUT:
+			szErrMsg = @ERROR_COPYFILE_HANDLER5;
+		case COPY_ERR_TARGETREADONLY:
+			szErrMsg = @ERROR_COPYFILE_HANDLER6;
+		case -51:
+			szErrMsg = @ERROR_COPYFILE_HANDLER7;
+		default:
+			szErrMsg = @ERROR_COPYFILE_HANDLER8;
+	endswitch;
+	Sprintf(gszMsg,@ERROR_COPYFILE2,TARGETDIR,szFile,nResult);
+	OCatStrings(gszMsg,"\n\n",szErrMsg);
+	OCatStrings(gszMsg,"\n\n",@ERROR_COPYFILE3);
+	if(AskYesNo(gszMsg,YES) = YES)then
+		return nResult;
+	else
+		OLog(gszMsg);
+		return 0;  //not negative.  Don't try again.
+	endif;
+end;
+
+/*
+/////////////////////////////////////////////////////////////////////////////////////
+//Deletes the specified file.  Uses DeleteFile function
+//Displays a message if the delete fails.
+/////////////////////////////////////////////////////////////////////////////////////
+function ODeleteFile(szFile)
+INT nReturn;
+begin
+	if(Is(FILE_EXISTS,TARGETDIR^szFile) = TRUE )then
+		nReturn = DeleteFile(szFile);
+		if(nReturn <0 )then
+			//displays error and asks user to retry or not.
+			Sprintf(gszMsg,@ERROR_REMOVE_FILE,TARGETDIR^szFile);
+		endif;
+	else
+		nReturn = -1;
+		Sprintf(gszMsg,@ERROR_COULD_NOT_FIND,TARGETDIR^szFile);
+	endif;
+	
+	if(nReturn <0)then
+		OLog(gszMsg);
+		MessageBox(gszMsg,WARNING);
+	endif;
+	
+	return nReturn;
+end;
+*/
+
+/****************************************************************************************
+Author:		Alan Cronin	Date 22-3-98, JCG 12/10/98
+E-mail: 	alan@iwsd.com
+Comments:	Code will return the full UNC path of a drive and directory passed
+		into it. MPR.DLL can be found on 32bit Windows95 and NT4.0
+		(Not Sure about NT3.51). Saves having to ship another custom DLL.
+****************************************************************************************/
+function OGetUNCPath(szPath,nReturn)
+STRING szDrive,szParsedPath,szRetUNC,szTemp;
+NUMBER nSize,nStatus;
+begin
+	if(StrFind(szPath,":") >0 )then
+		
+		// Loads the DLL
+		if(UseDLL(WINSYSDIR  ^ "Mpr.dll") <0)then
+			gszMsg = @ERROR_LOADDLL + WINSYSDIR^"mpr.dll";
+			MessageBox(gszMsg,WARNING);
+			OLog(gszMsg);
+		else
+	
+			StrSub(szDrive,szPath,0,2);	 // Gets the Drive Letter to convert to UNC
+			nSize = 200;					// Only checks a drive with 200k of disk space of more free.
+
+			nReturn = mpr.WNetGetConnectionA(szDrive, szRetUNC, nSize);    // If you call the first time sName is empty
+			nReturn = mpr.WNetGetConnectionA(szDrive, szRetUNC, nSize);    // If you call the first time sName is empty
+			Sprintf(szTemp,@ERROR_UNC2,nReturn);
+			ODebugDsp(szTemp,1);
+			
+			//test results.  0 is successful.  2250 is a local drive.
+			if(nReturn = 0 || nReturn = 2250)then
+				nStatus = TRUE;			
+			else
+				gszMsg = @ERROR_UNC+" "+szPath;
+				MessageBox(gszMsg,WARNING);
+				OLog(gszMsg);
+			endif;
+			
+			UnUseDLL(WINSYSDIR  ^ "Mpr.dll");		// Unload the DLL
+
+			StrSub (szParsedPath, szPath , 2 , (StrLength ( szPath ))-2);
+			if (szRetUNC != "") then
+    	    	szPath = szRetUNC ^ szParsedPath;
+			endif;
+			
+		endif;
+	else
+		nStatus = TRUE;
+	endif;
+	return nStatus;
+end;
+
+/////////////////////////////////////////////////////////////////////////
+//looks to see if file exists and for contents. Return TRUE if not empty.
+/////////////////////////////////////////////////////////////////////////
+function OIsFileEmpty(szFile)
+INT nvResult;
+STRING svResult;
+begin
+	//does file exist
+	if(Is(FILE_EXISTS,szFile) = FALSE )then
+		return TRUE;
+	endif;
+	//get file size
+	if(GetFileInfo (szFile, FILE_SIZE, nvResult, svResult) =0)then
+		if(nvResult > 0)then
+			return FALSE;
+		endif;
+	endif;
+	return TRUE;
+end;
+
+////////////////////////////////////////////////////////////////////////
+// If file exists, retrieves file ver and compares to value sent
+// only looks for as many significate digits as provided in reference ver.
+// returns value based on EQUAL, GREATER, or LESS THAN.
+// returns -1 if no file or ver found
+////////////////////////////////////////////////////////////////////////
+function OCheckFileVer(szFile,szRefVer,szActualVer)
+INT nReturn;
+begin
+	nReturn = -1;
+	if(Is(FILE_EXISTS,szFile) = 1)then
+		if(szRefVer = "")then
+			nReturn = EQUALS;
+		else
+			if(VerGetFileVersion(szFile,szActualVer) =0 )then
+					if(szActualVer != "")then
+					if(OIsValueEqual(szRefVer,szActualVer))then
+						nReturn = EQUALS;
+					elseif(OIsValueGreater(szRefVer,szActualVer))then
+						nReturn = GREATER_THAN;
+					else
+						nReturn = LESS_THAN;
+					endif;
+				endif;
+			endif;
+		endif;
+	endif;
+	return nReturn;
+end;
+
+///////////////////////////////////////////////////////////////////////
+//this function looks in the registry to see if it has been run from
+//within another setup.  If so, things like reboots are muted and left
+//to the master or parrent setup to handle.
+///////////////////////////////////////////////////////////////////////
+function DetectLauncher()
+STRING szKey,szTemp;
+INT nvType,nvSize;
+begin
+	//Look in reg for launcher key
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	szKey = "Software\\ONYX\\SetupLauncher";
+	
+	//this indicates setup was launched from another setup.
+	if(RegDBKeyExist(szKey) = TRUE)then
+		g_structLauncher.bIsChild = TRUE;
+	endif;
+	
+	//look to see if we need to share data with other child setups in setup.ini
+	OGetValueFromINI("Setup","ShareData",szTemp);
+	StrToUpper(szTemp,szTemp);
+	if(szTemp = "YES")then
+		g_structLauncher.bShareData = TRUE;
+	endif;
+		
+	//look for parent source dir value.
+	szTemp = "";
+	RegDBGetKeyValueEx(szKey,"SrcDir",nvType,szTemp,nvSize);
+	if(szTemp != "")then
+		g_structLauncher.szParentDir = szTemp;
+	endif;
+	
+	//look to surpress the reboot.
+	szTemp = "";
+	RegDBGetKeyValueEx(szKey,"SurpressReboot",nvType,szTemp,nvSize);
+	if(szTemp = "YES")then
+		g_structSetupMode.bNoReboot = TRUE;
+	endif;
+
+	//look to surpress redundant dialogs when running typical (complete) from launcher.
+	szTemp = "";
+	RegDBGetKeyValueEx(szKey,"Typical",nvType,szTemp,nvSize);
+	if(szTemp = "YES")then
+		g_structSetupMode.bParentTypical = TRUE;
+	endif;
+	
+end;
+
+///////////////////////////////////////////////////////////////////////////////////
+//returns false if value found in reg to mute dialogs.
+///////////////////////////////////////////////////////////////////////////////////
+function OMuteDialog(szDialog)
+STRING szKey,szValue;
+INT nvSize,nvType,nReturn;
+begin
+	//first check if dialog is to be muted cause Launcher will handle it.
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	szKey = "Software\\ONYX\\SetupLauncher";
+	RegDBGetKeyValueEx(szKey,"SurpressDialogs",nvType,szValue,nvSize);
+	if(szValue = "YES")then
+		nReturn = TRUE;
+	endif;
+	
+	//if a dialog type was specified, clear return val and then look for previous execution in reg.
+	if(szDialog != "")then
+		nReturn = FALSE;
+		//next check to see if this dialog has already been displayed to the user.
+		OMuteDialogGetStatus(szDialog,szValue);
+		if(szValue = "COMPLETE")then
+			nReturn = TRUE;
+		endif;
+	endif;
+
+
+	return nReturn;
+end;
+
+////////////////////////////////////////////////
+// puts the state or status of a dialog in reg
+////////////////////////////////////////////////
+function OMuteDialogSetStatus(szDialog,szValue)
+STRING szKey;
+begin
+	if(g_structSetupMode.bParentTypical)then
+		szKey = "Software\\ONYX\\SetupPass\\"+szDialog;
+		RegDBSetKeyValueEx(szKey,"Executed", REGDB_STRING,szValue,-1);
+	endif;
+end;
+
+////////////////////////////////////////////////
+// gets the state or status of a dialog in reg
+////////////////////////////////////////////////
+function OMuteDialogGetStatus(szDialog,szValue)
+STRING szKey;
+INT nvType,nvSize;
+begin
+	szValue = "";
+	if(g_structSetupMode.bParentTypical)then
+		szKey = "Software\\ONYX\\SetupPass\\"+szDialog;
+		RegDBGetKeyValueEx(szKey,"Executed",nvType,szValue,nvSize);
+	endif;
+end;
+
+///////////////////////////////////////////////////////////////////////////////////
+//if first dialog run, disable backbutton if one exists, else enable it.
+//toggle pass var.
+///////////////////////////////////////////////////////////////////////////////////
+function OIsFirstDialog(szDialog)
+begin
+	if(gszFirstDialog = "" || szDialog = gszFirstDialog)then
+		Disable(BACKBUTTON);
+		gszFirstDialog = szDialog;
+	else
+		Enable(BACKBUTTON);
+	endif;
+end;
+
+////////////////////////////////////////////////////////////////////////
+//
+// Looks in the setup.ini from section and key specified.
+// updated to look in language.ini first, then setup.ini to handle language specific values.
+// only updates return value if something is found.
+////////////////////////////////////////////////////////////////////////
+function OGetValueFromINI(szSection,szKey,szValue)
+STRING szTemp;
+INT nvSize,nvType,nReturn;
+begin
+	//clear szValue
+	szValue = "";
+	
+	//Read in data
+	nReturn = GetProfString (SRCDIR ^ "language.ini",szSection,szKey,szTemp);
+	if(szTemp = "")then
+		nReturn = GetProfString (SRCDIR ^ "setup.ini",szSection,szKey,szTemp);
+	endif;
+	
+	if(szTemp != "")then
+		szValue = szTemp;
+	endif;
+	return nReturn;
+end;
+////////////////////////////////////////////////////////////////////////
+//
+// Looks in the logicalapps.ini from section and key specified.
+// only updates return value if something is found.
+////////////////////////////////////////////////////////////////////////
+function OGetValueFromLAINI(szSection,szKey,szValue)
+STRING szTemp;
+INT nvSize,nvType,nReturn;
+begin
+	//clear szValue
+	szValue = "";
+	
+	//Read in data
+	
+		nReturn = GetProfString (SUPPORTDIR ^ "logicalApps.ini",szSection,szKey,szTemp);
+	
+	if(szTemp != "")then
+		szValue = szTemp;
+	endif;
+	return nReturn;
+end;
+
+
+function OGetSectionFromINI(szSection, listSectionValues)
+//Gets an entire section of the ini file as a list
+	STRING szTemp, szValue, szIniFile;
+	NUMBER nReturn, nOtherReturn;
+	LIST listKeyNames;
+begin
+	
+	listKeyNames = ListCreate(STRINGLIST);
+	
+	//Read in data
+	szIniFile = "language.ini";
+	nReturn = GetProfString (SRCDIR ^ szIniFile, szSection,"",szTemp);
+	if(szTemp = "")then
+		szIniFile = "setup.ini";
+		nReturn = GetProfString (SRCDIR ^ szIniFile, szSection,"",szTemp);
+	endif;
+	
+	//Parse key names based on the null delimiter
+	StrGetTokens (listKeyNames, szTemp, "");
+	
+	//Loop through the key names and get the values
+	nReturn = ListGetFirstString(listKeyNames, szTemp);
+	while (nReturn != END_OF_LIST)
+		nOtherReturn = GetProfString (SRCDIR ^ szIniFile, szSection, szTemp, szValue);
+		ListAddString(listSectionValues, szValue, AFTER);
+		nReturn = ListGetNextString(listKeyNames, szTemp);	
+	endwhile;
+	
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////////
+// Function Name:  OLaunchAppAndWait
+//    Parameters:  szApp   (STRING) - Name of app to launch.
+//                 szParms (STRING) - Parameter string
+//   Description:  This function acts as a wrapper for the LaunchAppAndWait() InstallShield
+//                 command.  Tests for file existance and traps on errors.
+///////////////////////////////////////////////////////////////////////////////////
+function OLaunchAppAndWait(szApp, szParms)
+NUMBER nResult;
+STRING szRunBatParms,szMsg;
+NUMBER nFileHandle;  // File handle for errorlevel.txt
+STRING svLine;       // Errorlevel value retrieved from errorlevel.txt
+BOOL bFoundFile;
+begin
+	//create status key in reg for exe's to report to.
+//	RegDBCreateKeyEx("Software\\Onyx\\Setup\\Plugin","");
+
+    ChangeDirectory(SUPPORTDIR);
+    bFoundFile = FALSE;
+    if szApp = "wscript" then
+    	bFoundFile = Is(FILE_EXISTS,szParms);
+    else
+    	bFoundFile = Is(FILE_EXISTS,szApp);
+    endif;
+
+    if(bFoundFile)then
+    	if (LaunchAppAndWait(szApp, szParms, WAIT) < 0) then
+    		Sprintf(szMsg,@ERROR_FILE_RUN,szApp+" "+szParms);
+    		//szMsg = @ERROR_FILE_RUN+"\n"+szApp+" "+szParms;
+    	else
+    		//now check registry for plugin success status.
+			nResult = OGetPluginStatus(szMsg);    	
+    	endif;
+    else
+    	Sprintf(szMsg,@ERROR_COULD_NOT_FIND,szApp);
+	   	nResult = CANCEL;
+		//nResult = NEXT; //for moving on
+    endif;
+
+   	//display any errors.
+   	if(nResult = CANCEL || nResult = 21)then
+		MessageBox(szMsg,SEVERE);
+   		OLog(szMsg);
+   		nResult = CANCEL;
+   	endif;
+
+	if(nResult = 22)then
+		MessageBox(szMsg, INFORMATION);
+	endif;
+
+    ChangeDirectory(SRCDIR);
+    return nResult;
+end;
+
+////////////////////////////////////////////////////////////////////
+// looks in registry for status left by a plugin
+// values are:  NEXT, BACK, and CANCEL.
+////////////////////////////////////////////////////////////////////
+function OGetPluginStatus(szErr)
+STRING szValue;
+INT nvType,nvSize,nReturn;
+begin
+	nReturn = NEXT;
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	RegDBGetKeyValueEx("Software\\Onyx\\Setup\\Plugin","LastReturn",nvType,szValue,nvSize);
+	if(szValue != "")then
+		StrToUpper(szValue,szValue);
+		if(szValue = "NEXT")then
+			nReturn = NEXT;
+		elseif(szValue = "BACK")then
+			nReturn = BACK;
+		elseif(szValue = "CANCEL")then
+			nReturn = CANCEL;
+
+		// The following values were added 5/16/01 by RMM while integrating the
+		// OnyxDictionaryInstall component into the Config. Middle Tier Setup.
+		// As NEXT, BACK, and CANCEL simply correspond to ints, I chose two that
+		// are not being used by the above 3 values to make the below unique.
+		elseif(szValue = "NEXT_CONFLICT")then
+			nReturn = 20;
+		elseif(szValue = "CANCEL_PROBLEM")then
+			nReturn = 21;
+		elseif(szValue = "CANCEL_NOUPGRADE")then
+			nReturn = 22;
+		endif;
+		
+		if((nReturn = CANCEL) || (nReturn = 21) || (nReturn = 22))then
+			//look for error message to return.
+			RegDBGetKeyValueEx("Software\\Onyx\\Setup\\Plugin","ErrorMsg",nvType,szErr,nvSize);
+		endif;
+				
+		//clear entry for next lauchappandwait.
+		OPutStringInReg("HKLM","Software\\Onyx\\Setup\\Plugin","LastReturn","",REGDB_STRING);
+		OPutStringInReg("HKLM","Software\\Onyx\\Setup\\Plugin","ErrorMsg","",REGDB_STRING);
+	endif;
+	return nReturn;
+end;
+
+///////////////////////////////////////////////////////////////////
+//checks string passed in to see if blank or other illegal characters.
+//could be expanded to look for character range.
+// nAllowPathChars = 0 		allow no path character
+// nAllowPathChars = 1 		allow path character
+// nAllowPathChars = 2 		require a path character
+// nANSIonly = 1	 		allow only ANSI characters only a-z,A-Z, and 0-9
+// title is used to distinquish dialog.
+///////////////////////////////////////////////////////////////////
+function OCheckForIllegalChars(szString,szTitle,nAllowPathChars,nBlankOK,nANSIonly)
+INT bFail,nPath;
+STRING szTemp,szChars;
+begin
+	//if blank, and allowed, just return
+	if(nBlankOK = TRUE && szString = "")then
+		return TRUE;
+	endif;
+
+	gszMsg = "";
+	if(szString = "" && !nBlankOK )then
+		Sprintf(gszMsg,@ERROR_BLANK_ENTRY,szTitle);
+	else
+		//get list of chars from setup.ini based on title of dialog
+		OGetValueFromINI(szTitle,"IllegalChars",szChars);
+		if(szChars != "")then
+			bFail = _CheckCharsInString(szString,szChars);
+			if(bFail)then
+				OParseMacros(szChars);
+				Sprintf(gszMsg,@ERROR_BAD_CHAR,szTitle,szChars);
+			endif;
+		else
+			//default tests
+			if(szString % "/")then bFail = TRUE;
+			elseif((szString % "\\")&&(nAllowPathChars = 0))then bFail = TRUE;
+			elseif ((szString % ":" ) && (nAllowPathChars = 0)) then bFail = TRUE;
+			elseif(szString % "<")then bFail = TRUE;
+			elseif(szString % ">")then bFail = TRUE;
+			elseif(szString % "-")then bFail = TRUE;
+			elseif(szString % "?")then bFail = TRUE;
+			elseif ((szString % ".") && (nAllowPathChars = 0)) then bFail = TRUE;
+			elseif(szString % ",")then bFail = TRUE;
+			elseif(szString % "*")then bFail = TRUE;
+			elseif (szString % "\"") then bFail = TRUE;
+			elseif (szString % ";") then bFail = TRUE;
+			elseif (szString % "|") then bFail = TRUE;
+			elseif (szString % "[") then bFail = TRUE;
+			elseif (szString % "]") then bFail = TRUE;
+			elseif (szString % "=") then bFail = TRUE;
+			elseif (szString % " ") then bFail = TRUE;
+			elseif ((szString % "+") && (nAllowPathChars = 0)) then bFail = TRUE;
+			
+			endif;
+			
+			//setup error message if failed.
+			if(bFail)then
+				if(nAllowPathChars > 1)then
+					szTemp = "/ < > - ? . * ; | [ ] =";
+				else
+					szTemp = "/ \\ < > - ? . * : ; | [ ] = +";
+				endif;
+				Sprintf(gszMsg,@ERROR_BAD_CHAR,szTitle,szTemp);
+			endif;
+		endif;
+
+		//must have a path char
+		if((bFail = FALSE) && (nAllowPathChars = 2))then
+			nPath = StrFind(szString,"\\");
+			if((nPath <= 0) || (StrLength(szString) = nPath + 1))then
+				Sprintf(gszMsg,@ERROR_NEED_PATHCHAR,szTitle);  //need a path char
+				MessageBox(gszMsg,WARNING);
+				return FALSE;
+			endif;
+		endif;
+		
+		//override all error with ANSI char check.
+		if(nANSIonly = 1)then
+			if(_CheckForANSIchars(szString,nAllowPathChars,FALSE) = FALSE)then
+				Sprintf(gszMsg,@ERROR_NEED_ANSI,szTitle);  //need a path char
+			endif;
+		endif;
+		
+	endif;
+
+	//display error message
+	if(gszMsg != "")then
+		MessageBox(gszMsg,WARNING);
+		return FALSE;
+	endif;
+	return TRUE;
+end;
+
+//-------------------------------------------------------------------------
+//if the string passed in contains any of the characters listed in the chars entry, return FAIL.
+//-------------------------------------------------------------------------
+function _CheckCharsInString(szString,szChars)
+LIST listOfChars;
+STRING szChar;
+INT nReturn,nLoop;
+begin
+	listOfChars = ListCreate(STRINGLIST);
+	StrGetTokens (listOfChars,szChars,",");
+	nLoop = ListGetFirstString(listOfChars,szChar);
+	while(nLoop != END_OF_LIST)
+		//look for char
+		OParseMacros(szChar);
+		if(szString % szChar)then
+			nReturn = TRUE; //TRUE means it failed.
+		endif;
+		
+		//if ok, get next one, else exit
+		if(nReturn = FALSE)then
+			nLoop = ListGetNextString(listOfChars,szChar);
+		else
+			nLoop = END_OF_LIST;
+		endif;
+	endwhile;
+	ListDestroy(listOfChars);
+	return nReturn;
+end;
+
+//------------------------------------------------------------------------
+//checks string passed in to see if it is in the range of a-z, A-Z, or 0-9
+//set last parameter to true, if only numbers are allowed.
+//------------------------------------------------------------------------
+function _CheckForANSIchars(szString,nAllowPathChars,nNumbersOnly)
+INT nLen,nLoop,nChar;
+STRING szChar;
+CHAR cChar;
+BOOL bSkip;
+begin
+	//put letters all into uppercase
+	StrToUpper(szString,szString);
+	//get length of string
+	nLen = StrLength(szString);
+	//loop through all chars in string and check value
+	for nLoop = 1 to nLen
+		bSkip = FALSE; //reset
+		//get char and convert to ANSI value.
+		StrSub(szChar,szString,nLoop-1,1);
+		if(nAllowPathChars > 0)then
+			if(szChar = "\\")then  //space ok at this level.  Seperate check for space.
+				bSkip = TRUE;
+			endif;
+		endif;
+		//space ok at this level.  Seperate check for space.
+		if(szChar = " ")then
+			bSkip = TRUE;
+		endif;
+		if !bSkip then
+			nChar = szChar[0];
+			//0-9
+			if(nChar < 0x30 || nChar > 0x39 )then
+				if(nNumbersOnly = FALSE)then
+					//now A-Z
+					if(nChar < 0x41 || nChar > 0x5A )then
+						return FALSE;
+					endif;
+				else
+					return FALSE; //not a number and needs to be
+				endif;
+			endif;
+		endif;
+	endfor;
+	//all chars check out.
+	return TRUE;
+end;
+
+//------------------------------------------------------------------------
+//checks string passed based on there ASCII char value.
+//used to compare strings based on case.
+//------------------------------------------------------------------------
+function _CompareStringsByASCII(szString1,szString2)
+INT nLen1,nLen2,nLoop,nChar1,nChar2;
+STRING szChar1,szChar2;
+CHAR cChar;
+begin
+	//get length of string
+	nLen1= StrLength(szString1);
+	nLen2= StrLength(szString2);
+	
+	//make this easy
+	if(nLen1 != nLen2)then
+		return FALSE;
+	endif;
+
+	//loop through all chars in string and check value
+	for nLoop = 1 to nLen1
+		//get char and convert to ANSI value.
+		StrSub(szChar1,szString1,nLoop-1,1);
+		StrSub(szChar2,szString2,nLoop-1,1);
+		nChar1 = szChar1[0];
+		nChar2 = szChar2[0];
+		if(nChar1 != nChar2)then
+			return FALSE;
+		endif;
+	endfor;
+	//all chars check out.
+	return TRUE;
+end;
+
+//////////////////////////////////////////////////////////////////////////
+// takes passed in value string and encrypts it using Onyx technology.
+// must include OnyxEncrypt.dll with setup build.
+// returns a string that is represented as a number in text.
+//////////////////////////////////////////////////////////////////////////
+function OEncryptString(szEncryptKey,szValue,szEncryptReturn)
+INT nReturn,nSize;
+STRING szDLL,szEncryptedVal[1024];
+begin
+	szDLL = SUPPORTDIR ^ "OnyxEncrypt.dll";
+	if(UseDLL(szDLL) <0)then
+		gszMsg = @ERROR_LOADDLL + szDLL;
+		MessageBox(gszMsg,WARNING);
+		OLog(gszMsg);
+	else
+		szValue = szValue +'\0';
+		nReturn = EncryptString(szEncryptKey,szValue,szEncryptedVal,1024);
+				
+		//test results.
+		if(nReturn = TRUE)then
+			szEncryptReturn = szEncryptedVal;
+			//MessageBox(szEncryptReturn,WARNING);
+		else
+			Sprintf(gszMsg,@ERROR_ENCRYPT,szValue);
+			MessageBox(gszMsg,WARNING);
+			OLog(gszMsg);
+		endif;
+
+		UnUseDLL(szDLL);		// Unload the DLL
+	endif;
+	return nReturn;
+end;
+
+//////////////////////////////////////////////////////////////////////////
+// takes passed in value string which is a number in text,
+// and decrypts it using Onyx technology.
+// must include OnyxEncrypt.dll with setup build.
+// returns a string that the original string before encryption.
+//////////////////////////////////////////////////////////////////////////
+function ODecryptString(szEncryptKey,szValue,szEncryptedVal)
+INT nReturn,nSize;
+STRING szDLL,szValueReturned[1024];
+begin
+	szDLL = SUPPORTDIR ^ "OnyxEncrypt.dll";
+	if(UseDLL(szDLL) <0)then
+		gszMsg = @ERROR_LOADDLL + szDLL;
+		MessageBox(gszMsg,WARNING);
+		OLog(gszMsg);
+	else
+
+		nSize = StrLength(szValue)+1;
+		nReturn = DecryptString(szEncryptKey,szEncryptedVal,szValueReturned,1024);
+		
+		//test results.
+		if(nReturn = TRUE)then
+			szValue = szValueReturned;
+			//MessageBox(szEncryptReturn,WARNING);
+		else
+			Sprintf(gszMsg,@ERROR_DECRYPT,szValue);
+			MessageBox(gszMsg,WARNING);
+			OLog(gszMsg);
+		endif;
+
+		UnUseDLL(szDLL);		// Unload the DLL
+	endif;
+	return nReturn;
+end;
+
+//////////////////////////////////////////////////////////////////////////
+// Places the account login and password into the database reg location.
+// encrypts just the password.
+// default reg structure is: "HKLM\Software\Onyx\Business Objects\1.0\Database Servers"
+// override from setup.ini
+// default keyname is:
+//////////////////////////////////////////////////////////////////////////
+function OEncryptDBAccountIntoReg(g_structAccount, g_structDatabase)
+STRING szKey,szTemp,szKeyPrefix,szKeyBase,szEncryptKey,szVer;
+INT nResult;
+begin
+	//determine reg key path
+	OGetValueFromINI("EncryptAccount","RegKey",szTemp);
+	OParseMacros(szTemp);	
+	if(szTemp != "")then
+		szKeyBase = szTemp;
+	else
+		szKeyBase = "Software\\Onyx\\Business Objects\\1.0\\Database Servers";
+	endif;	
+	
+	//look to add database name to reg path.
+	szTemp = "";
+	OGetValueFromINI("EncryptAccount","UseDatabaseInPath",szTemp);
+	StrToUpper(szTemp,szTemp);
+	//build reg key location.
+	if(szTemp = "YES")then
+		Sprintf(szKey, szKeyBase+"\\%s\\%s",g_structDatabase->szServer,g_structDatabase->szDatabase);
+	else;
+		szKey = szKeyBase;
+	endif;
+	
+	//look for account prefix data.
+	szTemp = "";
+	OGetValueFromINI("EncryptAccount","UseDSNNamePrefix",szTemp);
+	if(szTemp != "")then
+		StrToUpper(szTemp,szTemp);
+		OParseMacros(szTemp);
+		szKeyPrefix = szTemp+"_";
+	endif;
+	
+	//look in IDE for override encryption key
+	szTemp = "";
+	ComponentGetData(BASE_MEDIA,COMP_ENCRYPT_ACCOUNT,COMPONENT_FIELD_MISC,nResult,szTemp);	
+	if(szTemp != "")then
+		szEncryptKey = szTemp;
+	else
+		szEncryptKey = ENCRYPT_KEY;
+	endif;
+
+	OEncryptAccountIntoReg(g_structAccount,szKey,szEncryptKey,szKeyPrefix);
+
+end;
+
+////////////////////////////////////////////////////////////////////////////
+//
+//	function : OReplaceInFile
+//
+//	Replace occurances of szFind with szReplace in filepath szFilePath
+//
+//	Returns the number of replacements made.
+////////////////////////////////////////////////////////////////////////////
+
+function OReplaceInFile(szFind, szReplace, szFilePath)
+NUMBER	nReturn,nOccurrences;
+STRING	svLine, szNewLine, szFileName, szPathOnly;
+NUMBER	nResult, nvLineNumber, nInstr, nReplLen, nFoundPos;
+
+begin
+
+	VarSave(SRCTARGETDIR);
+	ParsePath( szFileName, szFilePath, FILENAME);
+	ParsePath( szPathOnly, szFilePath, PATH);
+	
+	if ( Is (FILE_EXISTS, szFilePath) ) then
+
+	
+		SRCDIR = szPathOnly;	
+		// Find the first occurence
+		nResult = FileGrep( szFileName, szFind, svLine, nvLineNumber, RESTART );
+		
+		// do search loop
+		glOccurrences = 0;
+		nOccurrences = 0;
+		while ( nResult = 0 || nResult = FILE_LINE_LENGTH )  	
+			if (nResult = 0 ) then
+				//Replace the strings in this line
+				szNewLine = svLine;			
+				_StrReplace(szNewLine, szFind, szReplace, glOccurrences, MAX_STRING);				
+				//Replace the line in the file
+				nResult = FileInsertLine( szFileName, szNewLine, nvLineNumber, REPLACE);
+				//Add up the occurrences
+				nOccurrences = glOccurrences + nOccurrences;
+			endif;
+			
+			// find the next occurrence and loop
+			nResult = FileGrep( szFileName, szFind, svLine, nvLineNumber, CONTINUE );
+			
+		endwhile; 	// loop search
+		
+		//Return the number of occurrences
+		nReturn = nOccurrences;
+	else
+		nReturn = 0;
+	endif;
+
+
+	VarRestore(SRCTARGETDIR);
+	return nReturn;
+end;
+
+
+
+
+/* - Moved to oProductFunctions.rul
+//////////////////////////////////////////////////////////////////////////
+// Places the account login and password into the specified reg location.
+// encrypts just the password.
+//////////////////////////////////////////////////////////////////////////
+function OEncryptAccountIntoReg(g_struct,szKey,szEncryptKey,szKeyPrefix)
+begin
+	//Encrypt password in reg.
+	OLog("encrypting account into reg with key "+szEncryptKey);
+	OEncryptEntryToReg("HKLM",szKey,szKeyPrefix+"Password",g_struct->szPassword,szEncryptKey);
+	//add username as regular string.
+	OPutStringInReg("HKLM",szKey,szKeyPrefix+"UserId",g_struct->szLogin,REGDB_STRING);
+end;
+*/
+
+//////////////////////////////////////////////////////////////////////////
+// Encrypts the string entry, and then places it in the specified reg location.
+//////////////////////////////////////////////////////////////////////////
+function OEncryptEntryToReg(szRoot,szKey,szEntry,szValue,szEncryptKey)
+STRING szEncyptedVal;
+INT nReturn;
+begin
+	//encrypt password
+	OEncryptString(szEncryptKey,szValue,szEncyptedVal);
+	
+	//write encrypted entry to reg
+	OPutStringInReg(szRoot,szKey,szEntry,szEncyptedVal,REGDB_STRING);
+end;
+
+//////////////////////////////////////////////////////////////////////////
+// Decrypts the string entry, and then places it in the specified reg location.
+//////////////////////////////////////////////////////////////////////////
+function ODecryptEntryFromReg(szRoot,szKey,szEntry,szValue,szEncryptKey)
+STRING szEncyptedVal;
+INT nReturn;
+begin
+	//read encrypted entry from reg
+	OGetStringFromReg(szRoot,szKey,szEntry,szEncyptedVal);
+		
+	//encrypt password
+	if(szEncyptedVal != "")then
+		ODecryptString(szEncryptKey,szValue,szEncyptedVal);
+	endif;
+
+//	MessageBox("Password is: "+szValue,INFORMATION);
+	
+end;
+
+//////////////////////////////////////////////////////////////////////////
+// Places the string entry into the specified reg location.
+// Has error trapping, logging, and message if fail.
+//////////////////////////////////////////////////////////////////////////
+function OPutStringInReg(szRoot,szKey,szEntry,szValue,nType)
+	INT nReturn;
+	STRING szNewValue, szClass;
+	LIST lstMultiLine;
+begin
+	
+	szNewValue = szValue;
+	
+	_SetRegBase(szRoot);
+    szClass = "";
+
+	if (nType = REGDB_STRING_MULTI) then
+		//Get the multiline list from szRegEntry
+		lstMultiLine = ListCreate(STRINGLIST);
+		nReturn = StrGetTokens (lstMultiLine, szNewValue, "|");
+		
+		nReturn = RegDBSetMultiSZ(HKEY_LOCAL_MACHINE,szKey,szEntry,lstMultiLine);
+		ListDestroy(lstMultiLine);
+	else
+		nReturn = RegDBSetKeyValueEx(szKey,szEntry,nType,szNewValue,-1);	
+	endif;
+	
+	if(nReturn <0 )then
+		if(szEntry = "")then
+			szEntry  = "default";
+		endif;
+		Sprintf(gszMsg,@ERROR_REG_ENTRY,szRoot+": "+szKey+": "+szEntry+" = "+szValue);
+		MessageBox(gszMsg,WARNING);
+		OLog(gszMsg);
+		return FALSE;
+	endif;
+	return TRUE;
+end;
+
+//////////////////////////////////////////////////////////////////////////
+// Places a number entry into the specified reg location.
+// number is passed as a string.
+// Has error trapping, logging, and message if fail.
+//////////////////////////////////////////////////////////////////////////
+function OPutNumInReg(szRoot,szKey,szEntry,szValue)
+begin
+	_SetRegBase(szRoot);
+	if(RegDBSetKeyValueEx(szKey,szEntry,REGDB_NUMBER,szValue,-1) <0 )then
+		if(szEntry = "")then
+			szEntry  = "default";
+		endif;
+		Sprintf(gszMsg,@ERROR_REG_ENTRY,szRoot+": "+szKey+": "+szEntry+" = "+szValue);
+		MessageBox(gszMsg,WARNING);
+		OLog(gszMsg);
+		return FALSE;
+	endif;
+	return TRUE;
+end;
+
+//////////////////////////////////////////////////////////////////////////
+// Gets string entry from the specified reg location.
+// Has error trapping, logging, and message if fail.
+//////////////////////////////////////////////////////////////////////////
+function OGetStringFromReg(szRoot,szKey,szEntry,szValue)
+INT nvType,nvSize;
+begin
+	_SetRegBase(szRoot);
+	if(RegDBGetKeyValueEx(szKey,szEntry,nvType,szValue,nvSize) <0 )then
+		if(szEntry = "")then
+			szEntry  = "default";
+		endif;
+		Sprintf(gszMsg,@ERROR_REG_READ,szRoot+": "+szKey+": "+szEntry+" = "+szValue);
+//		MessageBox(gszMsg,WARNING);
+		OLog(gszMsg);
+		return FALSE;
+	endif;
+	return TRUE;
+end;
+
+/* replace with ORegTypeLibraries
+///////////////////////////////////////////////////////////////////////////////////
+// registers TLB files using Reg _regtlb.dll
+///////////////////////////////////////////////////////////////////////////////////
+function ORegTypeLibraryFile(szFile)
+STRING szMsg,szFileAndPath;
+begin
+	//tlb file get locked when registered with _regtlb.dll, so file needs to go to the windows system dir.
+	VarSave(SRCTARGETDIR);
+	TARGETDIR = WINSYSDIR;
+	SRCDIR=SUPPORTDIR;
+	OCopyFileTryAgain(szFile,szFile);
+	szFileAndPath = TARGETDIR^szFile;
+	VarRestore(SRCTARGETDIR);
+	
+	
+	if(Is(FILE_EXISTS,szFileAndPath)=TRUE)then
+		if ( UseDLL( SUPPORTDIR ^ "_regtlb.dll") < 0 ) then
+			szMsg = @ERROR_LOADDLL + "_regtlb.dll";
+  		else
+			if(RegTlbFile32(szFileAndPath) != 0 )then
+				szMsg = @ERROR_TLBREGISTER +" "+ szFile;
+			endif;
+			if ( UnUseDLL("_regtlb.dll") < 0 ) then
+				OCatStrings(szMsg,"  ",@ERROR_UNLOAD_DLL + "_regtlb.dll");
+			endif;
+		endif;
+	else
+		Sprintf(szMsg,@ERROR_COULD_NOT_FIND,szFileAndPath);
+	endif;
+	
+	//display and log any errors.
+	if(szMsg != "")then
+		MessageBox(szMsg, SEVERE );
+   		OLog(szMsg);
+   		return FALSE;
+	endif;
+	return TRUE;
+end;
+*/
+
+/////////////////////////////////////////////////////////////////////////////////
+//looks for the existence of a file, and reports and logs an error if not found.
+/////////////////////////////////////////////////////////////////////////////////
+function OFileExist(szFile)
+STRING szMsg;
+begin
+    if(Is(FILE_EXISTS,szFile)=FALSE)then
+	   	Sprintf(szMsg,@ERROR_COULD_NOT_FIND,szFile);
+	   	OLog(szMsg);
+	   	MessageBox(szMsg,WARNING);
+	   	return FALSE;
+	endif;
+	return TRUE;
+end;
+
+/*
+///////////////////////////////////////////////////////////////////////////////////
+//will manually register a DLL using a VB exe called regit.exe
+///////////////////////////////////////////////////////////////////////////////////
+function ORegIt(szFile)
+STRING szMsg;
+INT bBad;
+begin
+	if(OFileExist(szFile)=FALSE)then
+		bBad = TRUE;
+	endif;
+	//regit.exe requires Vb5stkit.dll to run.
+	if(OFileExist(SUPPORTDIR ^ "regit.exe")=FALSE)then
+		bBad = TRUE;
+	endif;
+	if(OFileExist(SUPPORTDIR ^ "Vb5stkit.dll")=FALSE)then
+		bBad = TRUE;
+	endif;
+
+	OLaunchAppAndWait(SUPPORTDIR ^ "regit.exe",szFile);
+	if(bBad)then
+		szMsg = @ERROR_SELF_REG + " " + szFile;
+		OLog(szMsg);
+	   	MessageBox(szMsg,WARNING);
+	   	return FALSE;
+	endif;
+	return TRUE;
+end;
+*/
+
+
+///////////////////////////////////////////////////////////////////////////////////
+//imports all .reg files listed in the "Software - Registry Files" file group.
+//must be linked to "Registry Files" component also.
+//gets target dir and "REGFILES" from misc of component.
+///////////////////////////////////////////////////////////////////////////////////
+function OProcessRegFiles(bREGEDIT)
+INT nResult,nLoop;
+STRING szFile,szReg,szFileDir,szFilename,szTemp;
+LIST listOfFiles;
+begin
+	//if Reg File group exists and has files to reg, then reg them.
+	nResult = ComponentGetData(MEDIA,SCOMP_O1_REG_FILES,COMPONENT_FIELD_MISC,nResult,szReg);
+	if(nResult =0 )then
+
+		//continue only if Type Library file comp is selected.
+    	if(ComponentIsItemSelected(MEDIA,SCOMP_O1_REG_FILES) = FALSE) then
+    		return FALSE;
+    	endif;
+    	
+		//szReg from first line above.
+		StrToUpper(szReg,szReg);
+		if(szReg = "REGFILES")then
+			//get the target dir for the files.
+			ComponentGetData(MEDIA,SCOMP_O1_REG_FILES,COMPONENT_FIELD_DESTINATION,nResult,szFileDir);
+			OParseMacros(szFileDir);
+			//get a list of all the files in this group
+			listOfFiles = ListCreate(STRINGLIST);
+			if(ComponentFileEnum(MEDIA,SCOMP_O1_REG_FILES,FILE_GROUP_REG_FILES+"\\*.*",listOfFiles,INCLUDE_SUBDIR) =0 )then
+				//loop throught the list of files.
+				nLoop = ListGetFirstString(listOfFiles,szFile);
+				while(nLoop != END_OF_LIST)
+					//get just the file
+					ParsePath(szFile,szFile,FILENAME);
+					szFilename =  szFileDir ^ szFile;
+					if(bREGEDIT)then
+						//process by using RegEdit.exe (will not unistall however)
+						LaunchAppAndWait ( WINDIR ^ "Regedit.exe", "/s \"" + szFilename + "\"", WAIT);
+					else
+			 			//import each reg file.
+						if(ProcessREGFile(szFilename) <0 )then
+							gszMsg = @ERROR_REGFILE+" "+szFilename;
+		 					MessageBox(gszMsg,WARNING);
+		 					OLog(gszMsg);
+		 				endif;
+		 			endif;
+		 			
+	   				nLoop = ListGetNextString(listOfFiles,szFile);
+		   		endwhile;
+		   		nResult = TRUE;
+			endif;
+			ListDestroy(listOfFiles);
+		endif;
+	endif;
+	return nResult;
+end;
+
+
+/*
+///////////////////////////////////////////////////////////////////////////////////
+//will read in a regular .reg formatted file and create in the registry
+//only the keys listed in the file.
+///////////////////////////////////////////////////////////////////////////////////
+function ORegFileKeysToRegistry(szFile)
+INT nLoop,nFirstChar,nLastChar,nRoot;
+LIST listRegEntries;
+STRING szEntry,szRoot,szKey,szDataKey,szValue;
+begin
+	//does file exist
+	if(OFileExist(szFile)=TRUE)then
+		//read file into list
+		listRegEntries = ListCreate(STRINGLIST);
+		ListReadFromFile(listRegEntries,szFile);
+		//loop through list
+		nLoop = ListGetFirstString(listRegEntries,szEntry);
+		while(nLoop != END_OF_LIST)
+			//parse line and reformat
+			//get data markers
+			nFirstChar = StrFind(szEntry,"[") + 1;
+			nLastChar = StrFind(szEntry,"]") + 1;
+			nRoot = StrFind(szEntry,"\\") + 1;
+			//get root value
+			StrSub(szRoot,szEntry,nFirstChar,nRoot-nFirstChar-1);
+			//get key
+			StrSub(szKey,szEntry,nRoot,nLastChar-nRoot-1);
+			
+			//create the reg key
+			if(szKey != "" && szRoot != "" && (nFirstChar > 0 || nLastChar >0) )then
+				_SetRegBase(szRoot);
+				if(RegDBCreateKeyEx(szKey,"") <0 )then
+					Sprintf(gszMsg,@ERROR_REG_ENTRY,"\n"+szRoot+"\n"+szKey);
+					OLog(gszMsg);
+					MessageBox(gszMsg,WARNING);
+				endif;
+			endif;
+			
+			//get next string.
+			nLoop = ListGetNextString(listRegEntries,szEntry);
+		endwhile;
+	endif;
+end;
+*/
+
+//retrieves and display error in setting a media variable.
+function OComponentError(szVar)
+STRING svComponentSource,svComponent,svFile,svFileGroup;
+INT nvError;
+begin
+	ComponentError(svComponentSource, svComponent, svFileGroup, svFile, nvError);
+	Sprintf(gszMsg,@ERROR_COMPONENT_SET+"\n\n" +
+		"Media Var: %s\n"+
+		"Media Name: %s\nComponent: %s\nFile Group: %s\n" +
+		"File: %s\nError Number: %ld",
+		szVar,svComponentSource, svComponent, svFileGroup, svFile, nvError);
+	ODebugDsp(gszMsg,20);
+	OLog(gszMsg);
+//			MessageBox("Could not set MEDIA path variable <gszOCC>.  These components will not be installed.",WARNING);
+end;
+
+///////////////////////////////////////////////////////////////////////
+//puts the DSN name into the ASA file.
+///////////////////////////////////////////////////////////////////////
+function OPutDSNintoASAFile(szFile)
+LIST listOfLines;
+STRING szLine,szTemp;
+INT nEqual,nLen,nLoop;
+begin
+	OFileExist(szFile);
+	listOfLines = ListCreate(STRINGLIST);
+	//read in file to list
+	if(ListReadFromFile (listOfLines, szFile) < 0 )then
+		//could not read file.
+	endif;
+	
+	nLoop = ListGetFirstString (listOfLines,szLine);
+	while(nLoop != END_OF_LIST)
+		//find entry
+		if(szLine % "Application(\"DSN\")")then
+			//find equal
+			nLen = StrLength(szLine);
+			nEqual = StrFind(szLine,"=");
+			//grab everything before the equal
+			StrSub(szTemp,szLine,0,nEqual+1);
+			//append the name in quotes.
+			szTemp = szTemp+" \""+g_structDSN.szName+"\"";
+			
+			//update string
+			ListSetCurrentString (listOfLines,szTemp);
+			
+			//done, force exit
+			nLoop = END_OF_LIST;
+		else
+			nLoop = ListGetNextString (listOfLines,szLine);
+		endif;
+	endwhile;
+
+	//write list to file.
+	if(ListWriteToFile (listOfLines,szFile) <0 )then
+		//could not write file.
+	endif;
+end;
+
+///////////////////////////////////////////////////////////////////////
+//puts the SQL database info into the ASA file.
+///////////////////////////////////////////////////////////////////////
+function OPutSQLintoASAFile(szFile)
+LIST listOfLines;
+STRING szLine,szTemp,szSubDir;
+INT nEqual,nLen,nLoop,nCount,nTotal;
+begin
+
+	//set nTotal for the number of items to update in the ASA file.
+	//nCount starts at 1;
+	nTotal = 5;
+	nCount = 0;
+	
+	//get name of last sub dir.
+//	szSubDir = TARGETDIR;
+//	OGetLastDir(szSubDir);
+		
+	OFileExist(szFile);
+	listOfLines = ListCreate(STRINGLIST);
+	//read in file to list
+	if(ListReadFromFile (listOfLines, szFile) < 0 )then
+		//could not read file.
+	endif;
+	
+	nLoop = ListGetFirstString (listOfLines,szLine);
+	while(nLoop != END_OF_LIST)
+		//find entry
+		if(OUpdateLineAfterEqual("ASA",szLine,"strDatabaseServerName",g_structDatabase.szServer,TRUE))then
+
+				//update string
+			ListSetCurrentString (listOfLines,szLine);
+		
+			//check if done, force exit
+			nCount = nCount + 1;
+			if nCount = nTotal then nLoop = END_OF_LIST;endif;
+			
+		elseif(OUpdateLineAfterEqual("ASA",szLine,"strDatabaseName",g_structDatabase.szDatabase,TRUE))then
+		
+			//update string
+			ListSetCurrentString (listOfLines,szLine);
+			
+			//done, force exit
+			nCount = nCount + 1;
+			if nCount = nTotal then nLoop = END_OF_LIST;endif;
+			
+		elseif(OUpdateLineAfterEqual("ASA",szLine,"strUserName",g_structSQLAccount.szLogin,TRUE))then
+		
+			//update string
+			ListSetCurrentString (listOfLines,szLine);
+			
+			//done, force exit
+			nCount = nCount + 1;
+			if nCount = nTotal then nLoop = END_OF_LIST;endif;
+
+		elseif(OUpdateLineAfterEqual("ASA",szLine,"strPassword",g_structSQLAccount.szPassword,TRUE))then
+		
+			//update string
+			ListSetCurrentString (listOfLines,szLine);
+			
+			//done, force exit
+			nCount = nCount + 1;
+			if nCount = nTotal then nLoop = END_OF_LIST;endif;
+
+//		elseif(OUpdateLineAfterEqual(szLine,"Application(\"strAppRoot\")","\\"+g_structVWS.szLogin,TRUE))then
+		elseif(OUpdateLineAfterEqual("ASA",szLine,"Application(\"URL\")","\\"+g_structVWS1.szName,TRUE))then	
+			//update string
+			ListSetCurrentString (listOfLines,szLine);
+			
+			//done, force exit
+			nCount = nCount + 1;
+			if nCount = nTotal then nLoop = END_OF_LIST;endif;
+
+		endif;
+
+		//get next line if not done.
+		if nCount != nTotal then
+			nLoop = ListGetNextString (listOfLines,szLine);
+		endif;
+		
+	endwhile;
+
+	//write list to file.
+	if(ListWriteToFile (listOfLines,szFile) <0 )then
+		//could not write file.
+	endif;
+end;
+
+//--------------------------------------------------------------------------------------
+//reads the setup.ini for files to update, then reads section for each file and updates
+//the files with data provided.
+//--------------------------------------------------------------------------------------
+function OPutINIDataIntoFiles()
+INT nLoop,nCount;
+STRING szCount,szFile,szSection;
+begin
+	//loop through all file entires in setup.ini
+	nCount = 1;
+	while (nLoop = 0)
+		szSection="";
+		NumToStr(szCount,nCount);
+
+		//get file name from INI file.
+		OGetValueFromINI("UpdateFiles","Section"+szCount,szSection);
+
+		//process data in file section.
+		if(szSection !="")then
+			//get file name
+			OGetValueFromINI(szSection,"File",szFile);
+			OParseMacros(szFile);	
+			//update file
+			OPutINIintoFile(szFile,szSection);
+			//next file
+			nCount = nCount + 1;
+		else
+			nLoop = 1; //exit
+		endif;
+	endwhile;
+end;
+
+///////////////////////////////////////////////////////////////////////
+//reads all items in setup.ini to be put into the into the ASA file.
+//calls OPutItemIntoASAFile to insert each item into the ASA file.
+///////////////////////////////////////////////////////////////////////
+function OPutINIintoFile(szFile,szSection)
+LIST listOfLines;
+STRING szLine,szItem,szData,szTest;
+INT nEqual,nLen,nLoop;
+BOOL bFoundStart;
+begin
+	listOfLines = ListCreate(STRINGLIST);
+	//read in file to list
+	if(ListReadFromFile (listOfLines, SRCDIR ^ "setup.ini") < 0 )then
+		//could not read file.
+	endif;
+	
+	nLoop = ListGetFirstString (listOfLines,szLine);
+	while(nLoop != END_OF_LIST)
+		//find entry
+		szTest = "["+szSection+"]";
+		if(szLine % szTest)then //if current line contains item section.
+			bFoundStart = TRUE;
+		else
+			if(bFoundStart)then
+				if(szLine % "[")then //found next section, time to exit.
+					nLoop = END_OF_LIST;
+				else
+					//first look for comments, ie ";" as the first char
+					if(StrFind(szLine,";") != 0 && szLine != "" )then //returns position of char.  <0 if not found.
+						//parse line on equals.  first part is Item, second part is Data.
+						//find equal
+						nLen = StrLength(szLine);
+						nEqual = StrFind(szLine,"=");
+
+						//grab everything before the equal
+						StrSub(szItem,szLine,0,nEqual);
+						//grab everything after the equal
+						StrSub(szData,szLine,nEqual+1,nLen-nEqual+1);
+			
+						//ignore File= entires.
+						StrToUpper(szTest,szItem);
+						if(szTest != "FILE")then
+							//update the asa file with item's data.
+							OParseMacros(szData);
+							OPutItemIntoFile(szFile,szItem,szData);
+						endif;
+					endif;
+				endif;
+			endif;
+		endif;
+		if (nLoop != END_OF_LIST) then
+			nLoop = ListGetNextString (listOfLines,szLine);
+		endif;
+	endwhile;
+
+end;
+
+///////////////////////////////////////////////////////////////////////
+//puts specified item into a file (like the global.asa file).
+///////////////////////////////////////////////////////////////////////
+function OPutItemIntoFile(szFile,szItem,szData)
+LIST listOfLines;
+STRING szLine,szTemp;
+INT nEqual,nLen,nLoop;
+begin
+	OFileExist(szFile);
+	listOfLines = ListCreate(STRINGLIST);
+	//read in file to list
+	if(ListReadFromFile (listOfLines, szFile) < 0 )then
+		//could not read file.
+	endif;
+	
+	nLoop = ListGetFirstString (listOfLines,szLine);
+	while(nLoop != END_OF_LIST)
+		//find entry
+		if(szLine % szItem && szLine % "=")then //if current line contains item and an =.
+			//find equal
+			nLen = StrLength(szLine);
+			nEqual = StrFind(szLine,"=");
+			//grab everything before the equal
+			StrSub(szTemp,szLine,0,nEqual+1);
+			//append the name in quotes.
+			szTemp = szTemp + szData;
+			
+			//update string
+			ListSetCurrentString (listOfLines,szTemp);
+			
+			//done, force exit
+			nLoop = END_OF_LIST;
+		else
+			nLoop = ListGetNextString (listOfLines,szLine);
+		endif;
+	endwhile;
+
+	//write list to file.
+	if(ListWriteToFile (listOfLines,szFile) <0 )then
+		//could not write file.
+	endif;
+end;
+
+
+//////////////////////////////////////////////////////////////////
+//update line with new data after equal
+//////////////////////////////////////////////////////////////////
+function OUpdateLineAfterEqual(szSection,szLine,szLookFor,szData,bWithQuotes)
+INT nEqual,nLen,nKey;
+STRING szTemp;
+begin
+	if((szLine % szLookFor) && (szLine % "="))then
+		//find equal
+		nLen = StrLength(szLine);
+		nEqual = StrFind(szLine,"=");
+		nKey = StrFind(szLine,szLookFor);
+		//make sure = is after keyname
+		if (nEqual > nKey)then
+			//look in setup.ini to see if data is to be update
+			szTemp = "";
+			OGetValueFromINI(szSection,szLookFor,szTemp);
+			if(szTemp !="")then
+				OParseMacros(szTemp);
+				szData = szTemp;
+			endif;
+			
+			//grab everything before the equal
+			StrSub(szTemp,szLine,0,nEqual+1);
+			//append the name in quotes.
+		   if(bWithQuotes)then
+		     szLine = szTemp+" \""+szData+"\"";
+		   else
+		     szLine = szTemp+" "+szData;
+		   endif;
+		   return TRUE;
+		endif;
+	endif;
+	return FALSE;
+end;
+
+/*
+///////////////////////////////////////////////////////////////////
+//Extracts the last dir name on the path passed in.
+///////////////////////////////////////////////////////////////////
+function OGetLastDir(szPath)
+STRING szTemp;
+INT nLen,nNewLen;
+begin
+	if(Is(VALID_PATH,szPath))then
+		nLen = StrLength(szPath);
+		szTemp = szPath;
+		StrRemoveLastSlash(szTemp);
+		ParsePath(szTemp,szTemp,PATH);
+		nNewLen = StrLength(szTemp);
+		StrSub(szTemp,szPath,nNewLen,nLen - nNewLen);
+		szPath = szTemp;
+	endif;
+end;
+*/
+
+///////////////////////////////////////////////////////////////////
+//Removes the last dir name on the path passed in.
+///////////////////////////////////////////////////////////////////
+function ORemoveLastDir(szPath)
+STRING szTemp;
+INT nLen,nNewLen;
+begin
+	if(Is(VALID_PATH,szPath))then
+		nLen = StrLength(szPath);
+		szTemp = szPath;
+		StrRemoveLastSlash(szTemp);
+		ParsePath(szTemp,szTemp,PATH);
+		nNewLen = StrLength(szTemp);
+		StrSub(szTemp,szPath,0,nNewLen - 1);
+		szPath = szTemp;
+	endif;
+end;
+
+//////////////////////////////////////////////////////////////////
+//creates a vitrual web site if it doesn't already exist.
+//uses a vb exe to check and create.  Puts results in registry
+//////////////////////////////////////////////////////////////////
+function OCreateVWS(szName,szPath)
+begin
+	SdShowMsg("", FALSE);
+	SdShowMsg(@STATUS_CREATE_VWS+" "+szName, TRUE);
+//	if(OCheckForVWS(szName) = FALSE)then
+		//create vitrual web site if it did not already exist.
+		OPutStringInReg("HKLM","Software\\Onyx\\Setup\\IIS","VirtualDir",szName,REGDB_STRING);
+		OPutStringInReg("HKLM","Software\\Onyx\\Setup\\IIS","VirtualDirPath",szPath,REGDB_STRING);
+		OPutNumInReg("HKLM","Software\\Onyx\\Setup\\IIS","CreateVDirFlag","1");
+		OPutStringInReg("HKLM","Software\\Onyx\\Setup\\IIS","DefaultDoc","Default.asp",REGDB_STRING);
+		OPutNumInReg("HKLM","Software\\Onyx\\Setup\\IIS","EnableBufferingFlag","0");
+		OPutNumInReg("HKLM","Software\\Onyx\\Setup\\IIS","EnableParentPathsFlag","0");
+		if(g_structSetupMode.nDebug != 21)then
+			if(OLaunchAppAndWait(SUPPORTDIR^"IISSetup.exe","CreateVDir") = NEXT)then	
+			endif;
+		else
+			MessageBox("Skipping the creation of VWS "+szName,INFORMATION);
+		endif;
+		
+		//If the .NET framework version is not blank, set the ASP.NET version on the website to it
+		if (gszMajorVersion != "") then
+			OPutStringInReg("HKLM","Software\\Onyx\\Setup\\IIS","AspFrameworkVersion",gszMajorVersion,REGDB_STRING);
+			if(g_structSetupMode.nDebug != 21)then
+				if(OLaunchAppAndWait(SUPPORTDIR^"IISSetup.exe","SetAspFrameworkVersion") = NEXT)then	
+				endif;
+			else
+				MessageBox("Skipping setting the .NET framework version "+gszMajorVersion,INFORMATION);
+			endif;
+		endif;
+		OMuteDialogSetStatus(@LABLE_VWS,"COMPLETE");
+//	endif;
+end;
+
+///////////////////////////////////////////////////////////////////
+//checks for existance of virtual web site.
+//uses vb exe to check.  Puts results in registry
+///////////////////////////////////////////////////////////////////
+function OCheckForVWS(szName)
+STRING szValue,szExe;
+INT nReturn;
+begin
+	//find default website first if not already found.
+	szExe = SUPPORTDIR^"IISSetup.exe";
+	nReturn = OLaunchAppAndWait(szExe,"");
+	if(nReturn = CANCEL)then
+		gszMsg = @IIS_DEFAULT;
+		OLog(gszMsg);
+		MessageBox(gszMsg,SEVERE);
+		abort;
+	endif;
+
+	OPutStringInReg("HKLM","Software\\Onyx\\Setup\\IIS","VirtualDir",szName,REGDB_STRING);
+	if(g_structSetupMode.nDebug != 21)then
+		OLaunchAppAndWait(szExe,"CheckVDir");
+	else
+		return TRUE;
+	endif;
+	
+	OGetStringFromReg("HKLM","Software\\Onyx\\Setup\\IIS","VdirExist",szValue);
+	if(szValue = "1")then
+		return TRUE;
+		ODebugDsp("Virtual Dir already exists.",20);
+	else
+		return FALSE;
+	endif;
+end;
+
+
+///////////////////////////////////////////////////////////////////
+//sets security of virtual website to allow access via anonymous user.
+//user account name is same as the NT account that was created.
+//uses vb exe to check.  Puts results in registry
+///////////////////////////////////////////////////////////////////
+function OSetVWSAnonymousUser(szUserName)
+begin
+	OPutStringInReg("HKLM","Software\\Onyx\\Setup\\IIS","UserName",szUserName,REGDB_STRING);
+	if(g_structSetupMode.nDebug != 21)then
+		return OLaunchAppAndWait(SUPPORTDIR^"IISSetup.exe","AnonymousUser");
+	else
+		return TRUE;
+	endif;
+end;
+
+///////////////////////////////////////////////////////////////////
+//Gets the name of a VWS anonymous user.
+//uses vb exe to check.  Puts results in registry
+///////////////////////////////////////////////////////////////////
+function OGetVWSAnonymousUser(szVWSName, szUserName)
+	STRING szCommandString;
+begin
+	OPutStringInReg("HKLM","Software\\Onyx\\Setup\\IIS","VirtualDir",szVWSName,REGDB_STRING);
+	if(g_structSetupMode.nDebug != 21)then
+		szCommandString = SUPPORTDIR^"IISSetup.exe";
+		OLaunchAppAndWait(szCommandString,"getanonymoususer");
+	else
+		return TRUE;
+	endif;
+	
+	OGetStringFromReg("HKLM","Software\\Onyx\\Setup\\IIS","UserName",szUserName);
+	if(szUserName = "")then
+		ODebugDsp("Unable to get VWS Anonymous User",20);
+		return FALSE;
+	else
+		return TRUE;
+	endif;
+end;
+
+
+///////////////////////////////////////////////////////////////////
+//sets security of virtual website to allow access via anonymous user.
+//user account name is same as the NT account that was created.
+//uses vb exe to check.  Puts results in registry
+///////////////////////////////////////////////////////////////////
+function OSetVWSAnonymousUserOFF(szSubDir)
+begin
+	OPutStringInReg("HKLM","Software\\Onyx\\Setup\\IIS","SubDir",szSubDir,REGDB_STRING);
+	if(g_structSetupMode.nDebug != 21)then
+		//added call to iissetup.exe to set the proper "active" website before disabling
+		//the anonymous user setting.  Per QA #56313
+		OLaunchAppAndWait(SUPPORTDIR^"IISSetup.exe", "");
+		return OLaunchAppAndWait(SUPPORTDIR^"IISSetup.exe","DisableAnonymousUser");
+	else
+		return TRUE;
+	endif;
+end;
+
+//////////////////////////////////////////////////////////////////
+//ensures the 'Enable Parent Paths' option is selected, which is
+//selected by default in Win2K but not .NET
+//////////////////////////////////////////////////////////////////
+function OEnableVWSParentPaths()
+begin
+	if(g_structSetupMode.nDebug !=21) then
+		return OLaunchAppAndWait(SUPPORTDIR^"IISSetup.exe", "EnableParentPaths");
+	else
+		return TRUE;
+	endif;
+end;
+
+//////////////////////////////////////////////////////////////////
+//adds the .svg MIME type to IIS for use with the scripted
+//workflow designer
+//////////////////////////////////////////////////////////////////
+function OAddSVGMimeType(szName,szPath)
+//creates the vb mime type for OES
+begin
+
+		OPutStringInReg("HKLM","Software\\Onyx\\Setup\\IIS","VirtualDir",szName,REGDB_STRING);
+		OPutStringInReg("HKLM","Software\\Onyx\\Setup\\IIS","VirtualDirPath",szPath,REGDB_STRING);
+		if(g_structSetupMode.nDebug != 21)then
+			if( OLaunchAppAndWait(SUPPORTDIR^"IISSetup.exe","ADDSVGMIMETYPE") = NEXT)then	
+				OMuteDialogSetStatus(@LABLE_VWS,"COMPLETE");
+			endif;
+		else
+			MessageBox("Skipping the creation of the mime type "+szName,INFORMATION);
+			
+		endif;
+end;
+//////////////////////////////////////////////////////////////////
+//adds the .svg MIME type to IIS for use with the scripted
+//workflow designer
+//////////////////////////////////////////////////////////////////
+function OAddVBIMimeType(szName,szPath)
+//creates the vb mime type for OES
+begin
+
+		OPutStringInReg("HKLM","Software\\Onyx\\Setup\\IIS","VirtualDir",szName,REGDB_STRING);
+		OPutStringInReg("HKLM","Software\\Onyx\\Setup\\IIS","VirtualDirPath",szPath,REGDB_STRING);
+		if(g_structSetupMode.nDebug != 21)then
+			if( OLaunchAppAndWait(SUPPORTDIR^"IISSetup.exe","ADDVBMIMETYPE") = NEXT)then	
+				OMuteDialogSetStatus(@LABLE_VWS,"COMPLETE");
+			endif;
+		else
+			MessageBox("Skipping the creation of the mime type "+szName,INFORMATION);
+			
+		endif;
+end;
+
+
+//////////////////////////////////////////////////////////////////
+//Sets a bool in IIS for a vitrual web site so it can run out of process (in seperate memory space)
+//uses a vb exe to check and create.  Puts results in registry
+//////////////////////////////////////////////////////////////////
+function OSetOutOfProcessVWS(szWeb,szState,szUser,szPassword)
+begin
+	OPutStringInReg("HKLM","Software\\Onyx\\Setup\\IIS","VirtualDir",szWeb,REGDB_STRING);
+	OPutNumInReg("HKLM","Software\\Onyx\\Setup\\IIS","AllowOutOfProcComponent",szState);
+	OPutStringInReg("HKLM","Software\\Onyx\\Setup\\IIS","UserName",szUser,REGDB_STRING);
+	OPutStringInReg("HKLM","Software\\Onyx\\Setup\\IIS","Password",szPassword,REGDB_STRING);
+	if(g_structSetupMode.nDebug != 21)then
+		return OLaunchAppAndWait(SUPPORTDIR^"IISSetup.exe","SETALLOWOUTOFPROCCOMPONENT");
+	else
+		return TRUE;
+	endif;
+end;
+
+///////////////////////////////////////////////////////////////////////////////////
+//checks to see if the destination dir has enough space for the selected operation.
+///////////////////////////////////////////////////////////////////////////////////
+function OCheckDiskSpaceForComp(szSoftwareComp,szDir)
+INT nProductSize,nSpace;
+STRING szDrive,szTemp;
+begin
+	//get the size of the software components to be installed.
+	OGetValueFromINI("Startup","Size",szTemp);
+	StrToNum(nProductSize,szTemp);
+	if(nProductSize = 0)then
+		nProductSize = ComponentTotalSize(MEDIA,szSoftwareComp,TRUE,TRUE);
+	endif;
+
+	GetDisk (szDir,szDrive);
+	nSpace = GetDiskSpace(szDrive);
+
+	if(nSpace < nProductSize + 1000000)then
+		NumToStr(szTemp,nProductSize + 1000000 - nSpace);
+		Sprintf(gszMsg,@ERROR_DISKSPACE_NEEDED,gszProductName,szTemp);
+		gszMsg = @ERROR_COPYFILE_HANDLER3+"\n\n"+gszMsg;
+		MessageBox(gszMsg,SEVERE);
+		OLog(gszMsg);
+		return FALSE;
+	endif;
+	return TRUE;
+end;
+
+//returns the software component associated with the operation.
+function ODetermineSoftwareComp(szParentComponent)
+begin
+    if (OIsComponentSelected(COMP_OPERATION_OPERATION1) = TRUE) then
+        szParentComponent = SCOMP_OPERATION1_ROOT;
+    elseif (OIsComponentSelected(COMP_OPERATION_OPERATION2) = TRUE) then
+        szParentComponent = SCOMP_OPERATION2_ROOT;
+    elseif (OIsComponentSelected(COMP_OPERATION_OPERATION3) = TRUE) then
+        szParentComponent = SCOMP_OPERATION3_ROOT;
+    elseif (OIsComponentSelected(COMP_OPERATION_OPERATION4) = TRUE) then
+        szParentComponent = SCOMP_OPERATION4_ROOT;
+    endif;
+end;
+
+////////////////////////////////////////////////////////////////////////////
+//Checks the specified software component to see if it's dest dir already has
+//the keyfile(s).  If so ask user if they want to overwrite the older files.
+//If not, component is not installed.
+////////////////////////////////////////////////////////////////////////////
+function OCheckForExistingComponents(szComp,szKeyFile)
+STRING szTemp,szName;
+INT nResult;
+begin
+	//first is component selected for installation
+	nResult = ComponentIsItemSelected(MEDIA, szComp);
+	if(nResult = TRUE)then
+		//next, look for ask to overwrite info in media of component
+   		if(ComponentGetData (MEDIA,szComp,COMPONENT_FIELD_MISC,nResult,szTemp) = 0)then
+			StrToUpper(szTemp,szTemp);
+			if(szTemp % "ASK TO OVERWRITE")then
+				//get the target dir
+				ComponentGetData (MEDIA,szComp,COMPONENT_FIELD_DESTINATION,nResult,szTemp);
+				OParseMacros(szTemp);
+				
+				//get description of component.
+				ComponentGetData (MEDIA,szComp,COMPONENT_FIELD_DESCRIPTION,nResult,szName);
+				if(szName = "")then
+					szName = szComp;
+				endif;
+				
+				Sprintf(gszMsg,@WARNING_OVERWRITE2,szName);
+				if(ODialogShowAskToOverwrite(szTemp,szKeyFile,gszMsg+"\n"+szTemp) = BACK)then
+					//if no, unselect component to not be installed.
+					ComponentSelectItem(MEDIA,szComp,FALSE);
+//				else
+//					ComponentSelectItem(MEDIA,szComp,TRUE);
+				endif;
+				nResult = ComponentIsItemSelected(MEDIA, szComp);  //only for debugging.
+			endif;
+		endif;
+	endif;
+end;
+
+/////////////////////////////////////////////////////////////
+// OAbort
+// displays a setup failure dialog and then executes an abort
+/////////////////////////////////////////////////////////////
+function OAbort()
+begin
+	Sprintf(gszMsg,@ERROR_SETUP_ABORT,gszProductName);
+	MessageBox(gszMsg,SEVERE);
+	abort;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+//checks the specified sting to see if it's to long.  If so display a message.
+////////////////////////////////////////////////////////////////////////////////
+function OCheckStringLength(szString,nMaxLength,szMsg)
+INT nLen;
+STRING szErrMsg;
+begin
+	nLen = StrLength(szString);
+	if(nLen > nMaxLength)then
+		Sprintf(szErrMsg,@ERROR_STRING_TO_LONG,nLen,nMaxLength);
+		szErrMsg = szMsg+"\n"+szErrMsg;
+		OLog(szErrMsg);
+		MessageBox(szErrMsg,WARNING);
+		return FALSE;
+	endif;
+	return TRUE;
+end;
+
+///////////////////////////////////////////////////
+//checks for a blank character in the szString
+///////////////////////////////////////////////////
+function OCheckForSpaceChar(szString,szMsg)
+INT nLen,i;
+begin
+    nLen = StrLength(szString);
+   	i=0;
+   	while (i < nLen)
+       	if (szString[i] == ' ') then
+       		Sprintf(szMsg,@ERROR_STRING_SPACE,szMsg);
+			MessageBox(szMsg,WARNING);
+			return FALSE;
+        endif;
+		i = i + 1;
+   	endwhile;
+   	return TRUE;
+end;
+
+///////////////////////////////////////////////////////////////////////////
+//replaces any known password in the passed in string with a star character
+///////////////////////////////////////////////////////////////////////////
+function OReplacePasswordWithStar(szString)
+begin
+	//Database password
+	if(g_structDatabase.szPassword != "")then
+		OSearchAndReplace(szString,g_structDatabase.szPassword,"*");
+	endif;
+	//MTS account password
+	if(g_structSQLAccount.szPassword != "")then
+		OSearchAndReplace(szString,g_structSQLAccount.szPassword,"*");
+	endif;
+	//NT account password
+	if(g_structNTAccount.szPassword != "")then
+		OSearchAndReplace(szString,g_structNTAccount.szPassword,"*");
+	endif;
+	//Virtual Web Site account password
+	if(g_structVWS1.szHelpName != "")then
+		OSearchAndReplace(szString,g_structVWS1.szHelpName,"*");
+	endif;
+end;
+
+////////////////////////////////////////////////////////////////////////////
+//Reads a entry from setup.ini, resolve any macros, and write to specified reg location.
+//returns FALSE if nothing found.
+////////////////////////////////////////////////////////////////////////////
+function _ReadIniWriteReg(szSection,szIniEntry,szKey,szRegEntry,nType,bDoNotOverWrite)
+STRING szTemp, szTemp2, szNull[1];
+LIST lstMultiLine;
+begin
+	OGetValueFromINI(szSection,szIniEntry,szTemp);
+
+
+
+	if(szTemp != "")then
+		OParseMacros(szTemp);
+		if(bDoNotOverWrite = TRUE)then
+			OPutValueInRegIfNew(szKey,szRegEntry,szTemp,nType);
+		else
+			OPutStringInReg("HKLM",szKey,szRegEntry,szTemp,nType);
+		endif;
+		return TRUE;
+	else
+		return FALSE;
+	endif;
+end;
+
+//------------------------------------------------------------
+//set value in reg unless on already exists
+//------------------------------------------------------------
+function OPutValueInRegIfNew(szKey,szDataKey,szValue,nvType)
+STRING szTemp;
+INT nvSize,nvTempType;
+begin
+	if(szValue = "")then
+		return FALSE;
+	endif;
+	RegDBGetKeyValueEx(szKey,szDataKey,nvTempType,szTemp,nvSize);
+	if(szTemp = "")then
+		RegDBSetKeyValueEx(szKey,szDataKey,nvType,szValue,-1);
+		return TRUE;
+	endif;
+end;
+
+///////////////////////////////////////////////////////////////////////////
+//sets path enviroment var
+///////////////////////////////////////////////////////////////////////////
+function SetEnvPath(szWorkPath, bAddMe)
+	NUMBER nResult,nResult2,nLen;
+	STRING szKey, szEnv;
+	POINTER pEnv;
+	STRING szOldPath;
+	STRING szNewPath;
+	STRING szPartialPath;
+	NUMBER nSize, nType;
+    STRING szTemp,szTempPath;
+    LIST listPathTokens,listExistingPathTokens;
+
+begin
+	#define WM_SETTINGCHANGE 0x001A
+	#define HWND_BROADCAST 0xffff
+	szKey = "SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment";
+	Disable(LOGGING) ;  //this is critical!  The path var will be logged for uninstall if this is not executed.
+
+
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	RegDBGetKeyValueEx(szKey,"Path",nType,szOldPath, nSize);	
+		
+	if (bAddMe = TRUE) then
+		//Make sure everything is in lower case to facilitate comparision
+		StrToLower(szWorkPath, szWorkPath);
+		StrToLower(szOldPath, szOldPath);
+
+		// Get the individual path elements in the input string
+		listPathTokens = ListCreate(STRINGLIST);
+		nResult = StrGetTokens (listPathTokens, szWorkPath, ";");
+		listExistingPathTokens = ListCreate(STRINGLIST);
+		nResult = StrGetTokens (listExistingPathTokens, szOldPath, ";");
+
+   		// Loop while not at end of list, to add the existing path strings.
+		nResult = ListGetFirstString(listExistingPathTokens, szTempPath);
+   		while (nResult != END_OF_LIST)
+			//Append the szTempPath
+			LongPathFromShortPath(szTempPath);
+			if (szTempPath != "") then
+				szPartialPath = szPartialPath + szTempPath + ";";
+   			endif;
+			nResult = ListGetNextString (listExistingPathTokens, szTempPath);
+  		endwhile;
+
+   		// Loop while not at end of list, to add new path strings if they don't already exist.
+		nResult = ListGetFirstString(listPathTokens, szTempPath);
+   		while (nResult != END_OF_LIST)
+
+			// Does the path we want to add already exist in the path?
+			nResult2 = ListGetFirstString(listExistingPathTokens, szTemp);
+			LongPathFromShortPath(szTempPath);
+			StrToLower(szTempPath, szTempPath);
+			nResult2 = ListFindString (listExistingPathTokens, szTempPath);
+			if (nResult2 != 0) then
+				//Append the szTempPath if it is not found in the list
+				LongPathFromShortPath(szTempPath);
+				if (szTempPath != "") then
+					szPartialPath = szPartialPath + szTempPath + ";";
+   				endif;
+			endif;
+
+      		// Get the next path from the list.
+      		nResult = ListGetNextString (listPathTokens, szTempPath);
+   		endwhile;
+   		
+		szNewPath = szPartialPath;
+   		// Remove the list from memory.
+   		ListDestroy (listPathTokens);
+		ListDestroy (listExistingPathTokens);
+	else
+		szNewPath = szWorkPath;
+	endif;
+
+	if szNewPath = "" then
+		//If there's nothing to update, just exit
+		return 0;
+	endif;
+	
+	nLen = StrLength(szNewPath);
+	nResult = RegDBSetKeyValueEx(szKey,"Path",REGDB_STRING_EXPAND,szNewPath,nLen);	 	
+	nLen = StrLength(szNewPath);	
+	OLog("Updated path with: ");
+	OLog(szNewPath); //Had to split this out in case the path is at the string limit
+	if (nResult < 0) then
+		MessageBox("Unable to set Path environment variable.", WARNING);		
+	else
+		// Flush the NT registry to all applications.
+		szEnv = "Environment";
+		pEnv = &szEnv ;
+		
+		SendMessage (HWND_BROADCAST, WM_SETTINGCHANGE, 0, pEnv );	
+	endif;
+
+	Enable(LOGGING ) ;
+end;	
+
+
+/*
+function RemoveFromPath(szRemoveMe)
+	STRING szKey;
+	NUMBER nvType;
+	STRING svValue;
+	NUMBER nvSize;
+	STRING szNewPath, szPath;
+	STRING szBeginPath, szEndPath;
+	NUMBER nLength, nPos;
+begin
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	
+	// Get the current Path
+	GetRegValue("SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment","Path","",szPath);
+
+	// Look for the path we want to remove in the current path
+	nPos = StrFind(szPath,szRemoveMe);
+	
+	// If we found it
+	if nPos >= 0 then
+		nLength = StrLength(szRemoveMe);
+
+		// Is the location of the path we want to remove at the beginning of the
+		// system path?  If not, get everything up to that position.
+		if nPos > 0 then
+			StrSub(szBeginPath,szPath,0,nPos);
+		endif;
+		
+		// Make sure there is something to copy after the path we want to remove.
+		// If there is, get everything after the path we want to remove.
+		if nPos + nLength < StrLength(szPath) then
+			StrSub(szEndPath,szPath,nPos + nLength + 1, StrLength(szPath) - nPos - nLength);
+		endif;
+		
+		// If EndPath is blank then there is a trailing semicolon in BeginPath
+		// that needs to be removed.
+		if szEndPath = "" then
+			StrSub(szBeginPath,szBeginPath,0,StrLength(szBeginPath) -1);
+		endif;
+		
+		// Add the beginpath and endpath together and we have the new path.
+		szNewPath = szBeginPath + szEndPath;
+
+		// Set the new path.
+		SetEnvPath(szNewPath,FALSE);
+	endif;	
+end;
+*/
+
+//-------------------------------------------------------------
+//checks the specified path to see if it is a root dir path.
+//returns TRUE if it is.
+//-------------------------------------------------------------
+function OIsPathRoot(szDir)
+STRING szDirTest;
+begin
+	//get root of path passed in
+	ParsePath(szDirTest,szDir,DISK);
+	if(szDirTest+"\\" = szDir)then
+		return TRUE;
+	endif;
+	return FALSE;
+end;
+
+//---------------------------------------------------------------
+//parses a string based on the seperator item, and returns data after the seperator
+//---------------------------------------------------------------
+function _ParseAfterItem(szString,szSeperator,szReturn)
+INT nLen,nEqual;
+STRING szTemp;
+begin
+	//find equal
+	nLen = StrLength(szString);
+	nEqual = StrFind(szString,"=");
+	//grab everything after the equal
+	nEqual = nEqual + 1;
+	StrSub(szReturn,szString,nEqual,nLen-nEqual);
+	//append the name in quotes.
+end;
+
+//---------------------------------------------------------------
+//puts data in a reg location for uninstall dll or exe to remove
+//the items indicated by this data.
+//---------------------------------------------------------------
+/*
+function OPutDataInRegForUninst(szSection,szDataKey,szData)
+STRING szKey;
+begin
+	szKey = "";
+end;
+*/
+
+//---------------------------------------------
+//deletes a registry key if it is empty
+//---------------------------------------------
+function ORegDBDeleteKeyIfEmpty(szKey)
+LIST listTemp;
+INT nReturn;
+begin
+	listTemp = ListCreate(STRINGLIST);
+	RegDBQueryKey(szKey,REGDB_KEYS,listTemp);
+	nReturn = ListCount(listTemp);
+	if(nReturn = 0)then
+		//no keys, now check entries
+		RegDBQueryKey(szKey,REGDB_NAMES,listTemp);
+		nReturn = ListCount(listTemp);
+		if(nReturn = 0)then
+			//ok all clear, delete key
+			RegDBDeleteKey(szKey);
+		endif;
+	endif;
+end;
+
+//gets the operating system code page number.
+//API call from kernal32
+function oGetACP(nCodePage)
+begin
+	nCodePage = GetACP();
+end;
+
+
+/////////////////////////////////////////////////
+//
+//	Return the computer name via api call
+//
+//////////////////////////////////////////////////
+
+function  _GetComputerName( svName)
+STRING szCompName[MAX_COMPUTERNAME_LENGTH+1];
+LONG lvBuffer, nResult;
+begin
+
+  lvBuffer = MAX_COMPUTERNAME_LENGTH+1;
+  nResult = GetComputerName(szCompName, lvBuffer);
+  svName = szCompName;
+
+  return nResult;
+
+
+end;
+
+
+
+///////////////////////////////////////////////////////
+// check for any useful registry keys set by launcher
+///////////////////////////////////////////////////////
+function OCheckRegistry()
+STRING svValue;
+NUMBER nvType, nvSize;
+begin
+
+	//if the OR commandline was used in the setup launcher
+	//set the disableReqCheck varible accordingly
+
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+
+	if(RegDBGetKeyValueEx ("Software\\Onyx\\SetupLauncher", "DisableRequirements", nvType, svValue, nvSize) = 0) then
+		g_structCmdLine.bDisableReqCheck = TRUE;
+	endif;
+
+end;
+
+///////////////////////////////////////////////////////////////////
+//
+//	OSpawnBCP:  Processes a data file through the bcp.exe utility
+//
+//	Inputs:     psDatabase contains the database information
+//				svFilePath is the full path of the file to process
+//				lstParams is the parameter array to send to bcp
+//				nvExitCode returns the result code
+//				nShow controls whether the command prompt is shown
+//
+//	Returns:	TRUE on success and FALSE on failure.
+//
+///////////////////////////////////////////////////////////////////
+
+function OSpawnBCP(psDatabase, svFilePath, lstParams, nvExitCode, nShow)
+STRING		szCommandLine, szAppName, szTable;
+BOOL		bFailed, bParam;
+NUMBER		nResult, iWait, nTimeOut;
+STRING		szParam, szNLSMap, szCmd, szRegion;
+LIST		lstCommands;
+
+begin
+
+	// Get the table name from the data file before converting
+	// the file path
+	ParsePath (szTable,svFilePath,FILENAME_ONLY);
+	LongPathToShortPath(svFilePath);
+
+	// Add the code page setting to the list
+    lstCommands = ListCreate ( STRINGLIST ) ;
+    szCmd = "chcp " + g_structSetupMode.szCodePage;
+    ListAddString ( lstCommands, szCmd, AFTER);
+
+	// Set up the bcp command line
+	szAppName = "bcp";
+	// Table for the import
+	szCommandLine = "[" + psDatabase->szDatabase + "]" + ".." + szTable;
+	// Input file containing the data
+	szCommandLine = szCommandLine + " in " + svFilePath;
+	// Server
+	szCommandLine = szCommandLine + " -S" + "\"" + psDatabase->szServer + "\"";
+	// User
+	szCommandLine = szCommandLine + " -U" + psDatabase->szLogin;
+	// Password	
+	szCommandLine = szCommandLine + " -P" + psDatabase->szPassword;	
+	// Other BCP commandline options
+	//	-t\\t	file is tab delimited
+	//	-r\\n	rows are separated with a new line
+	//	-c 		data format is character
+	//	-E		keep identity values supplied in the file
+	szCommandLine = szCommandLine + " -t\\t -r\\n -c -E -w";
+	   				
+	// Add all the passed parameters to the command line
+	nResult= ListGetFirstString(lstParams, szParam);
+	if (nResult = 0) then
+		szCommandLine = szCommandLine + " " + szParam;
+		nResult = ListGetNextString(lstParams, szParam);
+		while (nResult = 0)
+					szCommandLine = szCommandLine + " " + szParam;
+					nResult = ListGetNextString( lstParams, szParam);
+		endwhile;
+	endif;
+	
+	// Add the commands to the onyxbcp.bat file
+	szCmd = szAppName + " " + szCommandLine;
+	ListAddString ( lstCommands, szCmd, AFTER);
+	ListWriteToFile ( lstCommands, SUPPORTDIR ^ "onyxbcp.bat");
+	
+	//Execute the onyxbcp.bat file
+	iWait = WAIT;
+	nTimeOut = -1;
+	nResult = _LaunchAppEx(SUPPORTDIR ^ "onyxbcp.bat", "", iWait, nShow, nTimeOut, nvExitCode);
+	
+	//Nuke the password then delete the batch file
+	szCommandLine = "";
+	_StrReplace (szCmd, " -P" + psDatabase->szPassword, " -P****", nResult, MAX_STRING);
+	ListDeleteString(lstCommands);
+	ListAddString ( lstCommands, szCmd, AFTER);
+	ListWriteToFile ( lstCommands, SUPPORTDIR ^ "onyxbcp.bat");
+	
+	if (nResult <0) then
+		bFailed=TRUE;
+	else
+		bFailed=FALSE;
+	endif;
+	
+end;
+
+
+function OReplace(szExpression, szFind, szReplace, szReturn)
+// ---------------------------------------------------------------
+// Author : ThomasT
+// Purpose: Replaces every occurence of szFind with szReplace
+//		    in szExpression
+// Return : The new string is returned in szReturn
+// Date	  : February 10th 2004
+// Notes  : the was originally written to overcome the limitation
+//			of comparing version numbers
+// ---------------------------------------------------------------
+NUMBER nLength, nCount;
+STRING szChar;
+NUMBER nPos;
+begin
+	szReturn = "";
+	nLength = StrLength(szExpression);		
+	for nCount = 0 to nLength - 1
+		CopyBytes(szChar, 0, szExpression, nCount, 1);
+		if (!StrCompare(szChar,szFind)=0) then
+			szReturn = szReturn + szChar;
+		else
+			szReturn = szReturn + szReplace;
+		endif;
+	endfor;
+	
+	return;
+	
+end;
+
+
+function OPadd(szExpression, szPadd, nCount, szReturn)
+// ---------------------------------------------------------------
+// Author : ThomasT
+// Purpose: Padds szExpression with szPass for every nCount
+// Return : The new string is returned in szReturn
+// Date	  : February 10th 2004
+// Notes  : this function was written to create an 6 character
+//			version number (500 to 500000). The passed in string
+//			should be 500 (pass it through the replace function
+//			first
+// ---------------------------------------------------------------
+NUMBER nLength;
+
+begin
+
+	for nLength = 1 to nCount
+	
+		szExpression = szExpression + szPadd;
+	
+	endfor;
+	szReturn = szExpression;
+
+end;
+
+
+function OIsValueEqualOrGreaterVer(szRef,szTest)
+LIST listRef,listTest;
+NUMBER nLoop1,nLoop2,nRef,nTest;
+STRING szRefNum,szTestNum,szSep, szNew;
+BOOL bReturn;
+begin
+	//return false if no data.
+	if(szRef = "" || szTest = "")then
+		return bReturn;
+	endif;
+	
+	listRef = ListCreate(STRINGLIST);
+	listTest = ListCreate(STRINGLIST);
+	
+	//first compare length of data
+	nRef = StrLength(szRef);
+	nTest = StrLength(szTest);
+	if(nRef > nTest)then
+		OPadd(szTest, "0", nRef - nTest, szNew);
+		szTest = szNew;
+		//return FALSE; //if test is shorter in chars than the reference, no go.
+	endif;
+
+	//only look as deep as the ref is.
+	StrSub(szTest, szTest,0,nRef);
+
+	//determine seperator
+	if(szRef % ".")then
+		szSep = ".";  //parse on periods.  Normal for numbers.
+	elseif(szRef % "-")then
+		szSep = "-";
+	endif;
+	if(szSep = "")then
+		//no seperator, so just test num.
+		StrToNum(nRef, szRef);
+		StrToNum(nTest, szTest);
+		if(nTest >= nRef)then
+			return TRUE;
+		endif;
+		return FALSE;
+	endif;
+	
+	//parse string on using seperator.
+	StrGetTokens(listRef,szRef,szSep);
+	StrGetTokens(listTest,szTest,szSep);
+	nLoop1 = ListGetFirstString(listRef,szRefNum);
+	nLoop2 = ListGetFirstString(listTest,szTestNum);
+	while ((nLoop1 != END_OF_LIST) || (nLoop2 != END_OF_LIST))
+		StrToNum(nRef, szRefNum);
+		StrToNum(nTest, szTestNum);
+		if(nTest > nRef)then
+			bReturn = TRUE;
+			nLoop1 = END_OF_LIST;
+			nLoop2 = END_OF_LIST;
+		elseif(nTest < nRef)then
+			bReturn = FALSE;
+			nLoop1 = END_OF_LIST;
+			nLoop2 = END_OF_LIST;
+		elseif(nTest = nRef)then
+			bReturn = TRUE;
+			nLoop1 = ListGetNextString(listRef,szRefNum);
+			nLoop2 = ListGetNextString(listTest,szTestNum);
+		endif;
+	endwhile;
+	
+	ListDestroy(listRef);
+	ListDestroy(listTest);
+	return bReturn;
+end;
+
+function OComponentListAllItems(svMedia, svParent, listComponents)
+//Recursively calls itself to build a complete list of components	
+	NUMBER nResult;
+	STRING svString;
+	LIST listTemp;
+begin
+	listTemp = ListCreate(STRINGLIST);
+	
+	ComponentListItems (svMedia, svParent, listTemp);
+    nResult = ListGetFirstString ( listTemp, svString );
+    while ( nResult != END_OF_LIST )
+    	ListAddString (listComponents, svString, AFTER);
+    	OComponentListAllItems(svMedia, svString, listComponents);		
+        nResult = ListGetNextString (listTemp, svString);
+   	endwhile;
+end;
+
+
+function GetDotNetFilesToRegister(listFiles, svRegType)
+//This function returns a list of files that have the specified svRegType
+// in the "Miscellaneous" field of their filegroup.	
+	LIST listComponents, listAllFiles;	
+	STRING svString, svMiscField, svTargetPath, svFile;
+	NUMBER nResult, nInnerResult, nComponentResult;
+
+begin
+	
+
+	//Create the lists
+	listAllFiles = ListCreate(STRINGLIST);
+
+
+/* //I'd like to do it this way, but apparently you are forced to know the filegroup name
+   // for the ComponentFileEnum function, which prevents it from being generic.
+
+   	listComponents = ListCreate(STRINGLIST);
+	listAllFiles = ListCreate(STRINGLIST);
+
+	
+	//List all the components that have filegroups
+	OComponentListAllItems (MEDIA, COMP_SOFTWARE, listComponents);
+
+    //Loop through all the components
+    nResult = ListGetFirstString ( listComponents, svString );
+    while ( nResult != END_OF_LIST )
+		//Check each component to see if it is selected
+   		if(ComponentIsItemSelected(MEDIA,svString) = TRUE)then
+			//Check component to see if it has the passed RegType
+        	ComponentGetData (MEDIA, svString, COMPONENT_FIELD_MISC, nComponentResult, svMiscField);
+        	if (StrFind (svMiscField, svRegType) > -1) then;
+				//Enumerate through all the .DLL files and add them to the lstFiles        		
+				nComponentResult = ComponentFileEnum (MEDIA, svString, "Software - UcfDeltaMergeAsp\\*.*", listAllFiles, NO_SUBDIR);
+           		nInnerResult = ListGetFirstString( listAllFiles, svFile );
+           		while (nInnerResult != END_OF_LIST)
+           			ListAddString (listFiles, svString, AFTER);
+           			nInnerResult = ListGetNextString (listAllFiles, svFile);
+           		endwhile;
+           	endif;
+        endif;
+        nResult = ListGetNextString (listComponents, svString);
+    endwhile;
+*/
+
+   	//Read the list of files for the RegType from the setup.ini
+	OGetSectionFromINI(svRegType, listAllFiles);
+	
+	//Loop through and replace the macros
+	nResult = ListGetFirstString(listAllFiles, svString);
+	while (nResult != END_OF_LIST)
+		OParseMacros(svString);
+		ListAddString(listFiles, svString, AFTER);
+		nResult = ListGetNextString(listAllFiles, svString);
+	endwhile;
+	
+	ListDestroy(listAllFiles);
+	
+end;
+
+
+function RegisterDotNetComponents()
+   STRING szMsg, svDir, svFileSpec, svMatchingFileName, svNumFiles, svTemp, svSrcDir;
+   STRING svUtilLoc, svTargetFile, svLogFile;
+   NUMBER nResult, nNumFiles, nCopyResult, nPos;
+   LIST   listFiles;
+
+begin
+	
+	svLogFile = SUPPORTDIR^"RegisterDotNet.log";
+	//Comment by ashish GACUtil have not used
+    //ComponentSetupTypeSet( MEDIA, OEP_SETUP_TYPE_DEV );
+	
+	//Register files in the GAC
+	//Make sure the GacUtil is there
+	/*if (FindFile (SUPPORTDIR, 'GacUtil.exe', svMatchingFileName) < 0) then
+		szMsg = @ERROR_COMPONENT_REG_GAC;
+		MessageBox(szMsg, SEVERE);
+		return -1;
+	endif;
+	//
+	svUtilLoc = SUPPORTDIR^'GacUtil.Exe';
+	listFiles = ListCreate(STRINGLIST);
+	GetDotNetFilesToRegister(listFiles, REG_GAC);
+	nResult = ListGetFirstString(listFiles, svTemp);
+	while (nResult != END_OF_LIST)
+		ParsePath (svDir, svTemp, PATH);
+		ParsePath (svFileSpec, svTemp, FILENAME);
+		if (FindFile (svDir, svFileSpec, svMatchingFileName) = 0) then
+   			//Register the file by building the call to GacUtil.exe
+      		svTargetFile = '/i "' + svTemp + '"';
+      		HideAppAndWait(svUtilLoc, svTargetFile, WAIT);
+		endif;
+		nResult = ListGetNextString(listFiles, svTemp);		
+	endwhile;
+	ListDestroy(listFiles);*/
+	
+	//Register files using RegASM
+	//Make sure the RegASM is there
+   	svUtilLoc = WINDIR^'Microsoft.Net\\Framework\\v'+gszMajorVersion+'.'+gszMinorVersion+'\\RegSvcs.exe';
+	ParsePath(svDir, svUtilLoc, PATH);
+	ParsePath(svFileSpec, svUtilLoc, FILENAME);
+	if (FindFile (svDir, svFileSpec, svMatchingFileName) < 0) then
+		szMsg = @ERROR_COMPONENT_REG_ASM;
+		MessageBox(szMsg, SEVERE);
+		return -1;
+	endif;
+	//
+	listFiles = ListCreate(STRINGLIST);
+	GetDotNetFilesToRegister(listFiles, REGASM);
+	nResult = ListGetFirstString(listFiles, svTemp);
+	while (nResult != END_OF_LIST)
+		ParsePath (svDir, svTemp, PATH);
+		ParsePath (svFileSpec, svTemp, FILENAME);
+		if (FindFile (svDir, svFileSpec, svMatchingFileName) = 0) then
+   			//Register the file by building the call to RegASM.exe
+      		svTargetFile = '"' + svTemp + '"';
+      		HideAppAndWait(svUtilLoc, svTargetFile, WAIT);
+		endif;
+		nResult = ListGetNextString(listFiles, svTemp);		
+	endwhile;
+	ListDestroy(listFiles);	
+
+/*
+//This part was written specifically for Web Services setup
+// ...it needs to be more generic.
+	// Manually install the PIA's.  We do not want to uninstall them.
+	svDir= PROGRAMFILES+"Onyx\\Primary Interop Assemblies";
+	svFileSpec = "*.dll";
+
+	// Find the path to the PIA folder.
+	svSrcDir = SRCDIR;
+	nPos = StrFind (svSrcDir, SETUP_STRING);
+	if (nPos >= 0) then
+		StrSub (svTemp, svSrcDir, 0, nPos);
+		if (svTemp != "") then
+			// Save the global variables.			
+			VarSave(SRCTARGETDIR);
+			
+			// Turn off uninstall logging.
+			Disable(LOGGING);
+
+			// Copy the PIAs.
+			SRCDIR = svTemp ^ PIA_SRC_DIR;
+			TARGETDIR = svDir;
+	
+			CreateDir(TARGETDIR);
+	
+			nCopyResult = XCopyFile(svFileSpec, "", COMP_NORMAL);
+		else
+			MessageBox(@ERROR_INSTALLING_DOTNET, WARNING);
+			return -1;
+		endif;
+	else
+		MessageBox(@ERROR_INSTALLING_DOTNET, WARNING);
+		return -1;
+	endif;
+	
+	Enable(LOGGING);
+	VarRestore(SRCTARGETDIR);
+
+	if (nCopyResult < 0) then
+		MessageBox(@ERROR_INSTALLING_DOTNET, WARNING);
+		return -1;
+	endif;
+
+   svUtilLoc = WINDIR^'Microsoft.Net\\Framework\\v'+gszMajorVersion+'.'+gszMinorVersion+'\\GacUtil.Exe';
+
+   nResult = FindAllFiles (svDir, svFileSpec, svMatchingFileName, RESET);
+   while(nResult = 0)
+	  // Add the file to the list.
+      svTargetFile = ' /i "'+svMatchingFileName+'" /silent';
+      HideAppAndWait(svUtilLoc,svTargetFile, WAIT);
+	  // Find the next matching file name.
+     nResult = FindAllFiles(svDir, svFileSpec, svMatchingFileName, CONTINUE);
+   endwhile;
+*/	
+end;
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////
+//
+// Count the number of configured applications
+//
+///////////////////////////////////////////////////////
+
+function _CountConfiguredApps(szKey)
+LIST listOfApps;
+INT	 nCount;
+
+begin
+		
+	listOfApps = ListCreate(STRINGLIST);
+	//enermerate reg entries in specified key
+	RegDBQueryKey(szKey, REGDB_KEYS, listOfApps);
+
+	nCount = ListCount(listOfApps);
+	return nCount;
+	
+end;
+
+//Creates a new event log with the passed szLogName
+function OCreateEventLog(szLogName)
+	STRING szKey, szKey2, szTemp, szLogSection;
+begin
+	
+	//Figure out the event log config section in the setup.ini
+	szLogSection = "EventLog_" + szLogName;
+	
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+
+	szKey = "SYSTEM\\CurrentControlSet\\Services\\EventLog\\"+szLogName;
+	szKey2 = "SYSTEM\\CurrentControlSet\\Services\\EventLog\\"+szLogName+"\\"+szLogName;
+	
+	RegDBCreateKeyEx (szKey, "");
+ 	RegDBCreateKeyEx (szKey2, "");
+ 	
+ 	_ReadIniWriteReg(szLogSection,"Sources",szKey,"Sources",REGDB_STRING_MULTI,0);
+	_ReadIniWriteReg(szLogSection,"MaxSize",szKey,"MaxSize",REGDB_NUMBER,0);
+	_ReadIniWriteReg(szLogSection,"Retention",szKey,"Retention",REGDB_NUMBER,0);
+	_ReadIniWriteReg(szLogSection,"File",szKey,"File",REGDB_STRING,0);
+	_ReadIniWriteReg(szLogSection,"CustomSD",szKey,"CustomSD",REGDB_STRING,0);
+	_ReadIniWriteReg(szLogSection,"AutoBackupLogFiles",szKey,"AutoBackupLogFiles",REGDB_NUMBER,0);
+		
+	_ReadIniWriteReg(szLogSection,"EventMessageFile",szKey2,"EventMessageFile",REGDB_STRING,0);
+	OGetValueFromINI(szLogSection,"TypesSupported",szTemp);
+	RegDBSetKeyValueEx(szKey2,"TypesSupported",REGDB_NUMBER,szTemp,-1);
+	
+	//Have to wait 5 seconds, then write the "Sources" again, because otherwise
+	// services.exe comes along and tromps on the value. If the machine had been recently rebooted
+	// or it's an original install. Bastard. Nope, one second is not a long enough wait. Gotta be 5!
+	Delay(5);
+	_ReadIniWriteReg(szLogSection,"Sources",szKey,"Sources",REGDB_STRING_MULTI,0);
+
+end;
+
+function ProcessMacrosInFile(svSource, svSourceFile, svDestination, svDestinationFile)
+
+
+STRING  svLine;
+NUMBER  nvFileHandle,nResult;
+LIST    listID;
+
+begin
+
+   if (FindFile (svDestination, svDestinationFile, svLine) = 0) then
+   	
+   		VarSave(SRCTARGETDIR);
+		TARGETDIR = svDestination;
+	 	DeleteFile(svDestinationFile);
+	 	VarRestore(SRCTARGETDIR);
+
+   endif;
+  // Set the file mode to normal.
+   OpenFileMode (FILE_MODE_NORMAL);
+
+   // Open the text file.
+
+   if (OpenFile (nvFileHandle, svSource, svSourceFile) < 0) then
+   		MessageBox("Unable to open file",SEVERE);
+	  	abort;
+   endif;
+
+   // Create an empty string list.
+   listID = ListCreate (STRINGLIST);
+
+   // Read lines from the text file into the string list.
+   while GetLine (nvFileHandle, svLine) = 0
+		OParseMacros(svLine);
+	    ListAddString (listID, svLine, AFTER);
+   endwhile;
+
+   // Close the file.
+
+   if (CloseFile (nvFileHandle) < 0) then
+      MessageBox ("CloseFile failed.", SEVERE);
+   endif;
+
+
+  // Set the file mode to normal.
+   OpenFileMode (FILE_MODE_APPEND);
+
+   // Open the text file.
+   nvFileHandle = 0;
+
+   if (CreateFile (nvFileHandle, svDestination, svDestinationFile) < 0) then
+	  	MessageBox("Open File Failed",SEVERE);
+  		abort;
+   endif;
+
+   // Create an empty string list.
+   nResult = ListGetFirstString(listID, svLine);
+   while (nResult != END_OF_LIST)
+   	 	 WriteLine (nvFileHandle, svLine);
+         nResult = ListGetNextString (listID, svLine);
+		endwhile;
+ // Close the file.
+
+   if (CloseFile (nvFileHandle) < 0) then
+      MessageBox ("CloseFile failed.", SEVERE);
+   endif;
+
+	ListDestroy(listID);
+	
+end;
+
+
+
+/*
+  STRING REPLACEMENT MODULE
+  Rev:  2-26-1999   Submitted to InstallSite
+        3-12-1999   Correct defect: infinite loop when subject string contains
+                        2 or more contiguous occurrences of search string.
+
+  by James Frater
+
+_StrReplace(...) :
+
+  String replacement fully supports the replacement including the value
+  you are replacing without resulting in an infinite loop.
+
+  Several supporting routines are provided so that _StrReplace will
+  compile and be usable in its submitted form.  So that some of these
+  ancillary routines would not be "lonely," some of their siblings even
+  though they are not all necessary for _StrReplace.
+
+  This source is provided as-is, with no support or warantee whatsoever.
+
+  That said, it has been unit tested and functions correctly in
+    a production product release, where it really counts.
+*/
+
+
+
+/*
+    Substring the right-most nLength characters of szString & load into svSubStr.
+    Just like BASIC RIGHT$ function
+*/
+function _Right ( svSubStr, szString, nLength )
+LONG  nStart;
+begin
+  nStart = StrLength (szString) - nLength;
+  //SprintfBox (SEVERE, "",
+  //             "StrLength (svSubStr)=%ld\n\nStrLength (szString)=%ld\n\nnStart=%ld",
+  //              StrLength (svSubStr), StrLength (szString), nStart );
+  StrSub (svSubStr, szString, nStart, nLength);
+end;  // function _Right
+
+
+
+/*
+    Substring the left-most nLength characters of szString & load into svSubStr.
+    Just like BASIC LEFT$ function
+*/
+function _Left ( svSubStr, szString, nLength )
+begin
+  StrSub (svSubStr, szString, 0, nLength);
+end;  // function _Left
+
+
+
+/*
+    Remove leading spaces from svString.
+    Just like BASIC LTRIM$ function
+*/
+function _LTrim ( svString )
+begin
+  _StrStripLeading ( svString, " " );
+end;
+
+
+
+/*
+    Remove trailing spaces from svString.
+    Just like BASIC RTRIM$ function
+*/
+function _RTrim ( svString )
+begin
+  _StrStripTrailing ( svString, " " );
+end;
+
+
+
+/*
+    Remove leading and trailing spaces from svString.
+    Just like BASIC TRIM$ function
+*/
+function _Trim ( svString )
+begin
+  _StrStripLeading ( svString, " " );
+  _StrStripTrailing ( svString, " " );
+end;
+
+
+
+// String all svChar from left side of svRes.
+// If svChar = "" just strip 1st char.
+// If len svChar > 1, 1st char used
+function _StrStripLeading ( svRes, svChar )
+
+STRING  svTemp;
+LONG    lRemSize, lLeftOver;
+
+begin
+    if StrLength ( svRes ) <= 0 then
+        return -1;
+    endif;
+
+    if svChar = "" then
+        lRemSize = 1;
+    else
+        lRemSize = 0;
+        while (    ( svRes [lRemSize] = svChar [0]  )
+                && ( lRemSize < StrLength ( svRes ) )
+              )
+            lRemSize++;
+        endwhile;
+    endif;
+
+    lLeftOver = StrLength ( svRes ) - lRemSize;
+    StrSub ( svTemp, svRes, lRemSize, lLeftOver );
+    svRes = svTemp;
+end;    // function _StrStripLeading
+
+
+
+// Just like _StrStripLeading, but remove from the right
+//  side of string instead
+function _StrStripTrailing ( svRes, svChar )
+
+STRING  svTemp;
+LONG    lPos, lNewSiz, lsvResLen;
+
+begin
+    lsvResLen = StrLength ( svRes );
+
+    if lsvResLen <= 0 then
+        return -1;
+    endif;
+
+    if svChar = "" then
+        lNewSiz = lsvResLen - 1;
+    else
+        lNewSiz = lsvResLen;
+        lPos = lsvResLen - 1;
+        while (    ( svRes [lPos] = svChar [0]  )
+                && ( lPos > 0 )
+              )
+            lPos--;
+            lNewSiz--;
+        endwhile;
+    endif;
+
+    StrSub ( svTemp, svRes, 0, lNewSiz );
+    svRes = svTemp;
+end;    // function _StrStripTrailing
+
+
+
+/*
+  Just like IS API StrFind func, except search starts in position lStart.
+  Specifying lStart = 0 gives identical behavior to StrFind
+*/
+
+function _StrFind ( svBase, svFind, lStart )
+
+LONG    lTempResult;
+STRING  svSub[1024];
+
+begin
+  //SprintfBox ( SEVERE, "", "StrLength (svBase) = %ld\nsvFind = '%s'\nlStart = %ld",
+  //                StrLength (svBase),svFind,lStart);
+  _Right ( svSub, svBase, StrLength (svBase) - lStart );
+  lTempResult = StrFind ( svSub, svFind );
+  if lTempResult >= 0 then
+    lTempResult = lTempResult + lStart;
+  endif;
+  return lTempResult;
+end;    // function _StrFind
+
+
+
+/*
+In svResult, replace all occurrences of svFind with svRepl.
+Function return is always 0.
+
+Example replacing all occurrences:
+    _StrReplace ( svResult, "%DSN%", svDSN, glOccurrences, MAX_STRING );
+    SprintfBox ( INFORMATION, "_StrReplace",
+                  "%ld occurrences were replaced.", glOccurrences );
+
+Example replacing at most the first two occurrences:
+    lNumRepls = 2;
+    _StrReplace ( svResult, "professional wrestler",
+                  "The Honerable Jesse Ventura, Governor of Minnesota",
+                  glOccurrences, lNumRepls );
+
+*/
+function _StrReplace ( svRes, svFind, svRepl, lOccurrences, lMaxOcc )
+
+LONG    lFindPos, lRightBegPos, lRightSiz;
+//LONG    lStrLenBefore, lStrLenAfter;
+STRING  svTempLeft, svTempRight, svTmpRes;
+begin
+    lOccurrences = 0;
+    //lStrLenBefore = StrLength (svRes);
+    svTmpRes = svRes;
+    // while svFind occurs in svTmpRes, replace it with svRepl
+    lFindPos = StrFind (svTmpRes, svFind );
+    while ( lFindPos >= 0 ) && ( lOccurrences < lMaxOcc )
+        lOccurrences++;
+        StrSub ( svTempLeft, svTmpRes, 0, lFindPos );
+
+        lRightBegPos = lFindPos + StrLength ( svFind );
+
+        // Using this diagram, length of svTempRight must be total length of
+        //  string minus length of svTempLeft minus length of svFind:
+        //  <--svTempLeft--><--svFind--><--svTempRight-->
+        lRightSiz    = StrLength ( svTmpRes )
+                        - StrLength ( svTempLeft )
+                        - StrLength ( svFind );
+        StrSub ( svTempRight, svTmpRes, lRightBegPos, lRightSiz );
+
+        svTmpRes = svTempLeft + svRepl + svTempRight;
+
+        // Any more occurrences?
+        lFindPos = _StrFind ( svTmpRes, svFind, lFindPos + StrLength ( svRepl ) );
+    endwhile;
+
+    // $ errror 401 this line, string not lg enough ?!
+    //lStrLenAfter = StrLength ( svTmpRes );
+    //SprintfBox ( INFORMATION, "StrLength before and after", "%d\n%d",
+    //                lStrLenBefore, lStrLenAfter);
+    svRes = svTmpRes;
+    return 0;
+end;  // function _StrReplace
+
+
+function ClearFileAttributes (szPath, szFileName)
+	//Clears the attributes on all the files in the specified path & mask
+	STRING svResult;
+	NUMBER nResult;
+begin
+	nResult = FindAllFiles (szPath, szFileName, svResult, RESET);
+	while (nResult = 0)
+		//Set the file attributes on the file to NORMAL
+		SetFileInfo (svResult, FILE_ATTRIBUTE, FILE_ATTR_NORMAL, "");
+		
+		nResult = FindAllFiles (szPath, szFileName, svResult, CONTINUE);
+	endwhile;
+	return 0;
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+// IS6 does not accept c-style stringarrays in RegDBSetKeyValueEx
+// Use this function instead.
+//
+//	Example:
+//
+//	  myList = ListCreate(STRINGLIST);
+//	  ListAddString(myList,"Hello");
+//	  ListAddString(myList,"World");
+//	  ListAddString(myList,"!");
+// -> RegDBSetMultiSZ(HKEY_LOCAL_MACHINE,"SOFTWARE\\Microsoft\\","Test",myList);
+//  	ListDestroy(myList);
+//
+///////////////////////////////////////////////////////////////////////////////
+function RegDBSetMultiSZ(nRootKey,szKeyName,szName,listValues)
+  NUMBER KeyVal;
+  NUMBER nResult;
+  STRING svTempString,svMultiString;
+  NUMBER lenMultiString;
+  NUMBER c;
+begin
+ 	if listValues = NULL then
+  		return -1;
+  	endif;
+  	
+  	//Prepare string-array
+   	svMultiString = "";
+    nResult = ListGetFirstString(listValues, svTempString);
+
+    while (nResult != END_OF_LIST);
+    		svMultiString = svMultiString + svTempString + DELIMITER ;
+    		nResult = ListGetNextString(listValues, svTempString);
+    endwhile;
+    svMultiString = svMultiString + DELIMITER;
+
+ 	lenMultiString = StrLength(svMultiString);
+ 	if (lenMultiString = 1) then
+ 		//if there are no values, delete the value
+ 		RegDBSetDefaultRoot(nRootKey);
+ 		RegDBDeleteValue(szKeyName,szName);
+ 		return 0;
+	else
+		//make a c-style string array
+	   	for c = 0 to lenMultiString-1
+  			if svMultiString[c] = DELIMITER then
+  				SetByte(svMultiString,c,0);
+  			endif;
+	  	endfor;
+    endif;
+
+  	UseDLL("advapi32.dll");
+
+	//Open Key
+    nResult = RegOpenKeyA(nRootKey,&szKeyName,&KeyVal);
+    if (nResult != 0) then
+    	return -1;
+    endif;
+
+	//Write Key (7 = REG_MULTI_SZ)
+	if szName = "" then
+		nResult = RegSetValueExA(KeyVal,NULL,0,7,&svMultiString,lenMultiString);
+	else
+		nResult = RegSetValueExA(KeyVal,&szName,0,7,&svMultiString,lenMultiString);
+	endif;
+    if (nResult != 0) then
+    	return -1;
+    endif;
+
+    //Close Key
+    nResult = RegCloseKey(KeyVal);
+    if (nResult != 0) then
+    	return -1;
+    endif;
+
+    UnUseDLL("advapi32.dll");
+    return 0;
+end;
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+//  This function is just to provide a full list-style access to multilined
+//  registry strings.
+//
+//  Example:
+//
+//	  myList = ListCreate(STRINGLIST);
+// -> RegDBGetMultiSZ(HKEY_LOCAL_MACHINE,"SOFTWARE\\Microsoft\\","Test",myList);
+//	  ListAddString(myList,"Blah");
+//	  RegDBSetMultiSZ(HKEY_LOCAL_MACHINE,"SOFTWARE\\Microsoft\\","Test",myList);
+//	  ListDestroy(myList);
+//
+///////////////////////////////////////////////////////////////////////////////
+function RegDBGetMultiSZ(nRootKey,szKeyName,szName,listValues)
+	STRING svTempString;
+	NUMBER nvType,nvSize,nResult;
+begin
+	if listValues = NULL then
+		return -1;
+	endif;
+
+	RegDBSetDefaultRoot(nRootKey);
+	nResult = RegDBGetKeyValueEx(szKeyName,szName,nvType,svTempString,nvSize);
+	if (nResult != 0) then
+		return -1;
+	endif;
+	StrGetTokens(listValues,svTempString,"");
+	return 0;
+end;
+
+//This function returns the login name of the current user.
+function OGetCurrentUser(szUser)
+	STRING szRegKey;
+	NUMBER nReturn, nvType, nvSize;
+begin
+	
+	RegDBSetDefaultRoot(HKEY_CURRENT_USER);
+	
+	//Get the Logon User Name
+	szRegKey = "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer";
+	nReturn = RegDBGetKeyValueEx(szRegKey,"Logon User Name",nvType,szUser,nvSize);
+
+	return nReturn;
+
+end;
+//ashish 7.6
+function OSet64BitRegistry(szParameter)
+begin
+
+	if(g_structSetupMode.nDebug != 21)then
+		return OLaunchAppAndWait(SUPPORTDIR^"Read64bitRegFrom32bitApp.exe",szParameter);
+		//return OHideAppAndWait(SUPPORTDIR^"Read64bitRegFrom32bitApp.exe",szParameter,WAIT);
+	else
+		return TRUE;
+	endif;
+end;
+
+
+
+// --- include script file section ---
+
+#include "LaunchAppEx.rul"
+
+
+function GiveUserReadPermission()
+	STRING szFname, szCmdLine;
+begin
+		szFname=WINDIR^"System32"^"Cacls.exe";
+		szCmdLine=TARGETDIR+" /E /G IUSR:F";
+		HideAppAndWait(szFname,szCmdLine, WAIT);
+	//	szCmdLine=TARGETDIR+" /E /G IUSR:W";
+		//HideAppAndWait(szFname,szCmdLine, WAIT);
+end;	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

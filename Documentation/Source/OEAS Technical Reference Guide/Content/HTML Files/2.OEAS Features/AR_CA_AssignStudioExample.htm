@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:lastBlockDepth="4" MadCap:lastHeight="769" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Example: Geographic territory assignment</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>Example: Geographic territory assignment</h4>
+        <p>The following diagram demonstrates the relationships and types of conditions, 
+ expressions, and assignments for a geographic territory.</p>
+        <p class="Image">
+            <img src="../../Resources/Images/AR_assignstudioclassdiagram.jpg" style="border: none;width: 345px;height: 576px;float: none;border-style: none;border-style: none;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" width="345" height="576" border="0" />
+        </p>
+        <p>In this example, the United States is the parent 
+ territory of the Pacific Northwest and Southwest (these are child territories). 
+ Washington, Oregon, and Idaho are conditions for the Pacific Northwest, 
+ and California is a condition for the Southwest. Assignment sets are associated 
+ with these conditions (Sales = Bob, Service = Sue is the first assignment 
+ set).</p>
+        <p><span>Let's assume a company called MBI is created 
+ with a primary address that contains a country code of US and a region 
+ code of WA. When MBI is created, Bob is made an internal contact for the 
+ Sales team, and Sue is made the internal contact for the Service team. 
+ Both teams are associated with MBI by using the ownerName, ownerId, and 
+ ownerType properties on the incident. </span>
+        </p>
+        <ul style="list-style: disc;" type="disc">
+            <li>If MBI’s primary address 
+ contained "OR" (Oregon) in its regionCode, then its sales incidents 
+ would include Bob as the contact and the incident would be assigned to 
+ Mac.</li>
+            <li>If MBI’s primary address 
+ contained "ID" (Idaho) in its regionCode, the rules would cause 
+ an internal contact to be created using George. The internal contact would 
+ be associated to MBI by the ownerId and ownerType properties. </li>
+        </ul>
+        <p>The final assignment set &#160;(Sales 
+ = Bob or Mac or George) illustrates the Round Robin assignment type, which 
+ assigns incidents to the next user in a pool of users (in turn). The system 
+ keeps track of who was assigned last and determines who should be assigned 
+ next. You can also assign incidents to the user with the lightest workload 
+ through the Least Busy assignment type.</p>
+        <p>For more information, see the <span style="font-style: italic;">Assignment 
+ Administration Help</span>.</p>
+    </body>
+</html>

@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="5" MadCap:lastHeight="108" MadCap:lastWidth="701">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2><a name="top"></a>invokeAction function</h2>
+        <p>The invokeAction function is a broker that executes all Dynamic Forms actions on the specified object instance. This is a global function available to all UCW-enabled areas. </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>invokeAction (objectMode, objectId, actionId, [[arguments],])</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p><i>objectMode</i>
+        </p>
+        <p>[in] A string that specifies the mode in which the object is addressed:</p>
+        <ul>
+            <li>indirect – Specify the object ID as the UI container ID. To view the ID, enter design mode for the desired UCW-enabled area, right-click the UI control, and then select <b>Properties</b>.</li>
+            <li>direct – Specify the object type as the UCF type. To view the UCF type, enter design mode for the desired UCW-enabled area, right-click the UI control, and then select <b>Advanced Properties</b>. Append the ID to the UCF type to address an existing container.</li>
+        </ul>
+        <p><i>objectId</i>
+        </p>
+        <p>[in] A string that identifies the container.</p>
+        <p><i>actionId</i>
+        </p>
+        <p>[in] A string that identifies the action to perform.</p>
+        <p><i>arguments</i>
+        </p>
+        <p>[in] An array of arrays ("ID", "Text" pairs) that contains all optional arguments.</p>
+        <h4>Return values</h4>
+        <p>The return value of invokeAction should always be the object type UcfActionReturn. The object standardizes action execution, return data, and error reporting for Dynamic Forms Designer. </p>
+        <p>The following snippet shows the code that Dynamic Forms Designer generates for a Get Event Argument action that saves the result to a page variable. Note that the value property of the UcfActionReturn object stores the result of the action, which is the event argument. Also, Stop on Execute is specified for the action (using the standard view of Dynamic Forms Designer), so the stop property is set to true.</p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>// ACTION: &#160;ActionID=getArgument1, &#160;ObjectID="ucf.eventArgument"</code>
+                    </p>
+                    <p><code>// Summary: Get Event Argument</code>
+                    </p>
+                    <p><code>oUcfActionReturn = invokeAction("direct", "ucf.eventArgument", "getArgument1",</code>
+                    </p>
+                    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>new Array("eventArgument1", psEventArgument1), </code></p>
+                    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&#160;new Array("eventArgument2", psEventArgument2));</code></p>
+                    <p><code>oUcfActionReturn.stop = true;</code>
+                    </p>
+                    <p><code>// save result in page variable: myVariable</code>
+                    </p>
+                    <p><code>invokeAction("direct", "ucf.variable:MyVariable", "setValue",</code>
+                    </p>
+                    <p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<code>&#160;new Array("value", oUcfActionReturn.value));</code></p>
+                    <p>&#160;</p>
+                    <p><code>// terminate event if stop set, and return action object</code>
+                    </p>
+                    <p><code>if (oUcfActionReturn.stop) {</code>
+                    </p>
+                    <p><code>return oUcfActionReturn;</code>
+                    </p>
+                    <p><code>}</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <h4>Remarks</h4>
+        <p>Action statements generated using the standard view of Dynamic Forms Designer alter and create OEP page behavior wholly through the invokeAction broker. &#160;When using Advanced View, use invokeAction calls wherever possible and avoid direct calls to the underlying page. Script not passing through the broker may require manual steps to re-implement the configuration when upgrading to new releases of OEP.</p>
+        <p class="Indent1">If an instance of the specified object type is not found, one is created and the specified action executed. In the preceding code snippet that demonstrates return values, a variable object type instance is created for MyVariable and the contents of oUcfActionReturn are stored in it.</p>
+    </body>
+</html>

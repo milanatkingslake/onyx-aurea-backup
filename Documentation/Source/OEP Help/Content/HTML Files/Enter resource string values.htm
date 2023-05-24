@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:lastBlockDepth="4" MadCap:lastHeight="769" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="../SkinSupport/MadCap.css" rel="stylesheet" type="text/css" /><title>Enter Resource String Values</title>
+        <link href="../Resources/TableStyles/Aptean_Note_Table_1.css" rel="stylesheet" />
+        <link href="../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" />
+    </head>
+    <body>
+        <H4 class="Heading">Entering Resource String Values</H4>
+        <p class="BodyText">Create one entry for each custom search type in the Navigator.Resources project to specify the label to identify the custom entity in tool tips and messages.</p>
+        <p class="TaskHeading">To enter resource string values:</p>
+        <ol>
+            <li class="ListBullet_1" value="1">In your development environment, ensure that you have installed the following programs on your computer:</li>
+        </ol>
+        <ul>
+            <li class="ListBullet_2" value="1">The latest version of Microsoft Visual Studio 2012 with the latest updates available from Microsoft</li>
+            <li class="ListBullet_2" value="2">Microsoft Silverlight 5.0</li>
+            <li class="ListBullet_2" value="3">RadControls for Silverlight Q3 2013</li>
+        </ul>
+        <ol start="2">
+            <li class="ListBullet_1" value="2">In your Onyx installation package, go to Customization Support\Web Server\.</li>
+        </ol>
+        <p class="BodyTextIndent_2">To modify resource strings for a specific language, use the installation package for the corresponding language.</p>
+        <ol MadCap:continue="true">
+            <li class="ListBullet_1" value="3">From the <b>Web Server</b> folder, copy the <b>Navigator.Resources</b> project to the desired folder on your development computer.</li>
+            <li class="ListBullet_1" value="4">From the <b>Navigator.Resources</b> project, open the solution file <b>Navigator.Resources.sln</b> in Visual Studio 2012.</li>
+            <li class="ListBullet_1" value="5">In Solution Explorer, open the <b>LocalResource.resx</b> file.</li>
+            <li class="ListBullet_1" value="6">Create one entry for each custom search type and enter values in the following format:</li>
+        </ol>
+        <ul>
+            <li class="ListBullet_2" value="1">Resource String Name = &lt;label_customentityname&gt;, where the entity name is the value that you entered in the entity_name field of the Navigator_entity_master table.</li>
+            <li class="ListBullet_2" value="2">Value = &lt;desired display value in the installation language&gt;</li>
+        </ul>
+        <p class="BodyTextIndent_2">For example, for the custom search type ‘Customers’, you can enter the following: Resource String Name = Label_Customer, and Value = Customers.</p>
+        <ol start="7">
+            <li class="ListBullet_1" value="7">Set the configuration mode to Release. To do this, select  <b>Build&gt;ConfigurationManager option&gt;Active Solution Configuration</b></li>
+            <li class="ListBullet_1" value="8">Build the solution.</li>
+            <li class="ListBullet_1" value="9">In the <b>Navigator.Resources</b> project folder, navigate to <b>\Navigator.Resources\Bin\Release</b>, and copy the updated <b>Navigator.Resources.dll</b>.</li>
+            <li class="ListBullet_1" value="10">Paste the Navigator.Resources.dll  into the <b>ClientBin</b> folder within the OEP installation folder. The default location for the folder is C:\Program Files (x86)\onyx\EmployeePortal\QuickSearch\ClientBin.</li>
+            <li class="ListBullet_1" value="11">Clear all cache and temporary Internet files on each client computer.</li>
+        </ol>
+        <p class="Important" MadCap:autonum=" &lt;b&gt;Important:&lt;/b&gt; ">Be sure to back up the modified project. You will need it when you want to make further modifications and when you want to upgrade to a newer version of Onyx.</p>
+    </body>
+</html>

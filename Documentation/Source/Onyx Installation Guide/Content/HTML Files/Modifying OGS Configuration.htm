@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="583" MadCap:lastWidth="624">
+    <head><title>Modifying OGS Configuration File</title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2>Modifying OGS Configuration File</h2>
+        <ol>
+            <li>On your OEAS server, navigate to your Onyx installation folder and take a backup of the OnyxWindowsService.exe.config file. The default location of this file is <b>..\Program Files (x86)\Onyx\AppServer\Applications\Onyx\OnyxGatewayService</b>. </li>
+            <li>In an XML editor, open the <b>OnyxWindowsService.exe.config</b> file.</li>
+            <li>Navigate to the <b>&lt;baseAddresses&gt;</b> node and change the baseAddress from http to https. Change the port number to the one you configured for your SSL certificate.</li>
+            <li>Navigate to the <b>&lt;system.serviceModel&gt;&lt;bindings&gt;&lt;webHttpBinding&gt;</b> node.</li>
+            <li>For each existing binding element within &lt;webHttpbinding&gt;, add the element <b>&lt;securitymode="Transport" /&gt;</b>.</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">If no binding element is defined under &lt;webHttpbinding&gt;, add a new secure binding element and set the security mode to <b>Transport</b>.</li>
+        </ul>
+        <p class="Indent2"><code>&lt;binding name="WebHttpSecure"&gt;</code>
+        </p>
+        <p class="Indent2"><code>&lt;security mode="Transport" /&gt;</code>
+        </p>
+        <p class="Indent2"><code>&lt;/binding&gt;</code>
+        </p>
+        <ol start="6">
+            <li>Under the <b>&lt;Services&gt;</b> element, ensure that each endpoint with webHttpbinding has a value for the bindingConfiguration attribute.</li>
+            <li>If an endpoint does not have this attribute, then configure it by adding the binding name you created in the previous step.</li>
+            <li>Save and close the OnyxWindowsService.exe.config file.</li>
+            <li>Start the OGS service</li>
+        </ol>
+    </body>
+</html>

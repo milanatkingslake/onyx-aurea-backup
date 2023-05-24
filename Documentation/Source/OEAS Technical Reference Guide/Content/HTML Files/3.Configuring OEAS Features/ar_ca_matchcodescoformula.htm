@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="8" MadCap:lastHeight="806" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <h4>Company match code formula</h4>
+        <p>The company match code formula is made up of the three sections defined 
+ in the following table. The company match code is always 25 characters 
+ long. If the company record contains no data corresponding to a particular 
+ character position in the code, the stored procedure substitutes an asterisk 
+ (*).</p>
+        <table style="width: 100%;">
+            <col />
+            <col style="width: 124px;" />
+            <col />
+            <thead>
+                <tr>
+                    <th>Section</th>
+                    <th>Length (characters)</th>
+                    <th>Component</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Postal code</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">5</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The first five characters of a company's postal code</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Company name</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">8</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">This section is composed of up to three parts of the 
+ company™s name, using the following sequence:</p>
+                        <ul>
+                            <li class="TableList">The first six characters 
+ of the entire company name</li>
+                            <li class="TableList">The first character 
+ of the second string in a company name</li>
+                            <li class="TableList">The first character 
+ of the third string in a company name</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Address</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">12</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The first 12 characters of the address1 property for 
+ the company</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The following table lists the functions and procedures that implement 
+ the individual sections of the default match code formula. If you want 
+ to modify the match code formula you must replace these functions or procedures 
+ with modified versions and specify them in OED for the appropriate methods. 
+ For information on how logical methods map to procedures, see <i>Enabling 
+ match code functionality</i>.</p>
+        <table style="width: 100%;">
+            <col style="width: 130px;" />
+            <col style="width: 57px;" />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Section</th>
+                    <th>Length</th>
+                    <th>Created by function...</th>
+                    <th>Used or created by procedure...</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Postal Code</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">5</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">n/a</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">opMatchCodeCompanyInsertPost</p>
+                        <p class="Table_Text">opMatchCodeCompanyUpdatePost</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Company name</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">8</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">ofMatchCodeCompanyNameParse </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">opMatchCodeCompanyInsertPost</p>
+                        <p class="Table_Text">opMatchCodeCompanyUpdatePost</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Address</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">12</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">n/a</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">opMatchCodeAddressDeletePost</p>
+                        <p class="Table_Text">opMatchCodeAddressUpdatePost</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

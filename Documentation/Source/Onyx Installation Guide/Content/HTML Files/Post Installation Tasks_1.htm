@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="807" MadCap:lastWidth="624">
+    <head><title>Post Installation Tasks</title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h3>Post Installation Tasks</h3>
+        <p>After completing the CTI installation, perform the following:</p>
+        <ul>
+            <li><a href="#OEAS">OEAS tasks</a>
+            </li>
+            <li style="list-style-type: disc;"><a href="#OEP">OEP tasks</a>
+            </li>
+            <li style="list-style-type: disc;"><a href="#Providing">Providing access to CTI</a>
+            </li>
+        </ul>
+        <h4><a name="OEAS"></a>OEAS tasks:</h4>
+        <ol>
+            <li>Press <b>Start </b>&gt;<b> All programs </b>&gt;<b> Administrative tools </b>&gt;<b> Component Services</b>.</li>
+            <li>Expand <b>Component services </b>&gt;<b> Computers </b>&gt;<b> My computer</b>, and then click <b>COM+ applications</b>.</li>
+            <li>Right-click <b>OnyxEASApp</b>.</li>
+            <li>Click <b>Shutdown</b>.</li>
+            <li>Right-click <b>BusinessRuleManager</b>.</li>
+            <li>Click <b>Shutdown</b>.</li>
+            <li>Perform <b>IISReset</b>.</li>
+            <li>Log on to <b>OES</b>.</li>
+            <li>Log on to <b>OES Object Designer</b>.</li>
+            <li>Expand <b>Logical Business Objects</b>.</li>
+            <li>Make sure that <b>ctiAgentAssociation</b>, <b>ctiConnector</b>, and <b>ctiFrequentPhones</b> are listed.</li>
+            <li>Click the <b>Validate</b> icon.</li>
+        </ol>
+        <p class="Indent1">A confirmation dialog appears after validation is completed.</p>
+        <ol MadCap:continue="true">
+            <li>Click <b>Close</b>.</li>
+            <li>Click the <b>Publish</b> icon.</li>
+        </ol>
+        <p class="Indent1">A confirmation dialog appears.</p>
+        <ol MadCap:continue="true">
+            <li>Click <b>OK</b>.</li>
+        </ol>
+        <p class="Indent1">You are prompted to enter the log on credentials.</p>
+        <ol MadCap:continue="true">
+            <li>Type the SQL user id and password</li>
+        </ol>
+        <ul style="list-style-type: disc;margin-left: 64pt;">
+            <li style="list-style-type: disc;"><b>User ID:</b> This is the user who has access to SQL server.</li>
+            <li style="list-style-type: disc;"><b>Password:</b> The password of the user.</li>
+        </ul>
+        <ol start="15">
+            <li>Click <b>OK</b>.</li>
+        </ol>
+        <p class="Indent1">A confirmation dialog appears after publishing is completed.</p>
+        <ol MadCap:continue="true">
+            <li>Click <b>Close</b>.</li>
+            <li>Shutdown and restart the <b>OnyxEASApp</b> service.</li>
+        </ol>
+        <h4><a name="OEP"></a>OEP Tasks</h4>
+        <ol>
+            <li>Update the <code>mbEnableCTIToolbar</code> attribute value to <b>true</b> in the <code>application_main.js</code> file from the <code>\Program Files\Onyx\EmployeePortal\powerpage</code> folder.</li>
+        </ol>
+        <ol MadCap:continue="true">
+            <li>Log on to <b>OES</b>.</li>
+            <li>Log on to <b>OES Object Designer</b>.</li>
+            <li>Expand <b>Logical Business Objects</b>.</li>
+            <li>Click the <b>Validate</b> icon.</li>
+        </ol>
+        <p class="Indent1">A confirmation dialog appears after validation is completed.</p>
+        <ol MadCap:continue="true">
+            <li>Click <b>Close</b>.</li>
+            <li>Click the <b>Publish</b> icon.</li>
+        </ol>
+        <p class="Indent1">A confirmation dialog appears.</p>
+        <ol MadCap:continue="true">
+            <li>Click <b>OK</b>.</li>
+        </ol>
+        <p class="Indent1">You are prompted to enter the log on credentials.</p>
+        <ol MadCap:continue="true">
+            <li>Type the SQL user id and password</li>
+        </ol>
+        <ul style="list-style-type: disc;margin-left: 64pt;">
+            <li style="list-style-type: disc;"><b>User ID:</b> This is the user who has access to SQL server.</li>
+            <li style="list-style-type: disc;"><b>Password:</b> The password of the user.</li>
+        </ul>
+        <ol start="10">
+            <li>Click <b>OK</b>.</li>
+        </ol>
+        <p class="Indent1">A confirmation dialog appears after publishing is completed.</p>
+        <ol MadCap:continue="true">
+            <li>Click <b>Close</b>.</li>
+            <li>Shutdown and restart the <b>OnyxEASApp</b> service.</li>
+            <li>Perform <b>IISReset</b>.</li>
+        </ol>
+        <h4><a name="Providing"></a>Providing access to CTI</h4>
+        <ol>
+            <li>Start OES.</li>
+            <li>Go to the <b>Security Administration</b> tool.</li>
+            <li>Expand UI resources, and then select the <b>UI:OEP.CTI.Toolbar</b></li>
+            <li>Click <b>Manage Permissions</b>.</li>
+            <li>Add appropriate roles or users.</li>
+            <li>Click <b>Done</b>.</li>
+            <li>Click <b>Save</b> and close OES.</li>
+        </ol>
+    </body>
+</html>

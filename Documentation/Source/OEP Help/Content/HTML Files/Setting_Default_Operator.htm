@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:lastBlockDepth="4" MadCap:lastHeight="481" MadCap:lastWidth="661" MadCap:conditions="Primary.Obsolete" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="../SkinSupport/MadCap.css" rel="stylesheet" type="text/css" /><title>Setting Default Operator in Navigator</title>
+        <link href="../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" />
+    </head>
+    <body>
+        <H4 class="Heading">Setting Default Operator in Navigator</H4>
+        <p class="BodyText">To set the default operator in Navigator, you must modify the value in the default_selected column of the navigator_operator table in Persistence database.</p>
+        <p class="TaskHeading">To set the default operator in Navigator:</p>
+        <ol>
+            <li class="ListBullet_1" value="1">In Persistence database, run the following SQL query:</li>
+        </ol>
+        <p class="BodyTextIndent_2">select * from navigator_operator</p>
+        <p class="BodyTextIndent_2">This will display the list of operator codes along with their description. The current default operator has the value ‘1’ in the default_selected column. Note the operator codes for the current default operator as well as the new operator that you want to set as default.</p>
+        <ol MadCap:continue="true">
+            <li class="ListBullet_1" value="2">Run the following query to change the default operator as desired.</li>
+        </ol>
+        <ul>
+            <li class="ListBullet_2" value="1">Replace [new_operator_code] with the code corresponding to the desired default operator</li>
+        </ul>
+        <p class="BodyTextIndent_3">update navigator_operator set default_selected=1 where operator_code='[new_operator_code]'</p>
+        <ul>
+            <li class="ListBullet_2" value="1">Replace [old_operator_code]with the code corresponding to the current default operator in order to remove it as the default</li>
+        </ul>
+        <p class="BodyTextIndent_3">update navigator_operator set default_selected=0 where operator_code='[old_operator_code]'</p>
+        <ol start="3">
+            <li class="ListBullet_1" value="3">Log on to OEP and verify that the newly set operator is displayed as the default operator in Navigator Search Criteria.</li>
+        </ol>
+    </body>
+</html>

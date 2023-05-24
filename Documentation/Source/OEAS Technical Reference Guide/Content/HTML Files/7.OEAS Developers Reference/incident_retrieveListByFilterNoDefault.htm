@@ -1,0 +1,329 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="791" MadCap:lastWidth="624">
+    <head>
+    </head>
+    <body>
+        <h2><a name="top"></a>retrieveListByFilterNoDefault method</h2>
+        <p>The retrieveListByFilterNoDefault method of the <a href="incident_object.htm">incident</a> 
+ object searches the database by the filter criteria you pass in and returns a rowSet of incident data. This method does not use defaults for parameter values that are not provided.</p>
+        <h3>Parameters</h3>
+        <table>
+            <col style="width: 4cm;">
+            </col>
+            <col style="width: 74px;">
+            </col>
+            <col style="width: 3cm;">
+            </col>
+            <col style="width: 3cm;">
+            </col>
+            <col style="width: 4cm;">
+            </col>
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Direction</th>
+                    <th>Data type</th>
+                    <th>Content type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">groupIdList</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">in</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">string</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">n/a</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">A semicolon-delimited list of
+ groups whose users are added to the assignedToList values</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">assignedToList</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">in</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">string</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">n/a</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">A semicolon-delimited list of
+ assignedTo values used for filtering</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">statusIdList</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">in</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">string</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">n/a</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">A semicolon-delimited list of
+ statusId values used for filtering</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>priorityIdList</td>
+                    <td>in</td>
+                    <td>string</td>
+                    <td>n/a</td>
+                    <td>A semicolon-delimited list of
+ priorityId values used for filtering</td>
+                </tr>
+                <tr>
+                    <td>sourceIdList</td>
+                    <td>in</td>
+                    <td>string</td>
+                    <td>n/a</td>
+                    <td>A semicolon-delimited list of
+ sourceId values used for filtering</td>
+                </tr>
+                <tr>
+                    <td>typeIdList</td>
+                    <td>in</td>
+                    <td>string</td>
+                    <td>n/a</td>
+                    <td>A semicolon-delimited list of
+ typeId values used for filtering</td>
+                </tr>
+                <tr>
+                    <td>categoryIdList</td>
+                    <td>in</td>
+                    <td>string</td>
+                    <td>n/a</td>
+                    <td>A semicolon-delimited list of
+ categoryId values used for filtering</td>
+                </tr>
+                <tr>
+                    <td>keyWordList</td>
+                    <td>in</td>
+                    <td>string</td>
+                    <td>n/a</td>
+                    <td>A semicolon-delimited list of
+ keyword values used for filtering</td>
+                </tr>
+                <tr>
+                    <td>dueByStart</td>
+                    <td>in</td>
+                    <td>dateTime</td>
+                    <td>n/a</td>
+                    <td>The starting due-by date for
+ incident reminders</td>
+                </tr>
+                <tr>
+                    <td>dueByEnd</td>
+                    <td>in</td>
+                    <td>dateTime</td>
+                    <td>n/a</td>
+                    <td>The ending due-by date for incident
+ reminders</td>
+                </tr>
+                <tr>
+                    <td>insertStart</td>
+                    <td>in</td>
+                    <td>dateTime</td>
+                    <td>n/a</td>
+                    <td>The start date for incident
+ insertions</td>
+                </tr>
+                <tr>
+                    <td>insertEnd</td>
+                    <td>in</td>
+                    <td>dateTime</td>
+                    <td>n/a</td>
+                    <td>The end date for incident
+ insertions</td>
+                </tr>
+                <tr>
+                    <td>updateEnd</td>
+                    <td>in</td>
+                    <td>dateTime</td>
+                    <td>n/a</td>
+                    <td>The end date for incident
+ updates</td>
+                </tr>
+                <tr>
+                    <td>updateStart</td>
+                    <td>in</td>
+                    <td>dateTime</td>
+                    <td>n/a</td>
+                    <td>The start date for incident
+ updates</td>
+                </tr>
+                <tr>
+                    <td>includeContact</td>
+                    <td>in</td>
+                    <td>boolean</td>
+                    <td>n/a</td>
+                    <td>Switches to include the individual ID
+ for the person listed as contact for the incident if the person is someone
+ other than the owner</td>
+                </tr>
+                <tr>
+                    <td>rowSet</td>
+                    <td>out</td>
+                    <td>object</td>
+                    <td>all</td>
+                    <td>Contains the rowSet column definitions and the incident table rows matching with the owner and category criteria</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Steps</h3>
+        <table>
+            <col style="width: 5cm;">
+            </col>
+            <col style="width: 5cm;">
+            </col>
+            <col style="width: 7cm;">
+            </col>
+            <thead>
+                <tr>
+                    <th>Step data</th>
+                    <th>Step type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OnyxDataValidationStep.DataValidation</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Validates the input parameters</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OnyxDM.DataManager</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">com</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Retrieves the filtered list of incident objects</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Example</h3>
+        <p style="font-weight: bold;">Input Parameter:</p>
+        <p class="C_Code">&lt;parameters&gt;</p>
+        <p class="C_Code">&lt;groupIdList&gt;6DFE216B-258F-440B-AE2B-FB816DBEB3DC&lt;/groupIdList&gt;</p>
+        <p class="C_Code">&lt;assignedToList&gt;&lt;/assignedToList&gt;</p>
+        <p class="C_Code">&lt;statusIdList&gt;&lt;/statusIdList&gt;</p>
+        <p class="C_Code">&lt;priorityIdList&gt;&lt;/priorityIdList&gt;</p>
+        <p class="C_Code">&lt;sourceIdList&gt;&lt;/sourceIdList&gt;</p>
+        <p class="C_Code">&lt;typeIdList&gt;&lt;/typeIdList&gt;</p>
+        <p class="C_Code">&lt;categoryIdList&gt;&lt;/categoryIdList&gt;</p>
+        <p class="C_Code">&lt;keyWordList&gt;&lt;/keyWordList&gt;</p>
+        <p class="C_Code">&lt;dueByStart&gt;&lt;/dueByStart&gt;</p>
+        <p class="C_Code">&lt;dueByEnd&gt;&lt;/dueByEnd&gt;</p>
+        <p class="C_Code">&lt;insertStart&gt;&lt;/insertStart&gt;</p>
+        <p class="C_Code">&lt;insertEnd&gt;&lt;/insertEnd&gt;</p>
+        <p class="C_Code">&lt;updateStart&gt;&lt;/updateStart&gt;</p>
+        <p class="C_Code">&lt;updateEnd&gt;&lt;/updateEnd&gt;</p>
+        <p class="C_Code">&lt;includeContact&gt;&lt;/includeContact&gt;</p>
+        <p class="C_Code">&lt;/parameters&gt;</p>
+        <p style="font-weight: bold;">Output Parameter:</p>
+        <p class="C_Code">&lt;parametersReturn&gt;</p>
+        <p class="C_Code">- &lt;rowSet objectType="rowSet" rowCount="0" columnCount="43" pageSize=""&gt;</p>
+        <p class="C_Code">- &lt;columnDefinitions collection="1" objectType="columnDefinition"&gt;</p>
+        <p class="C_Code">- &lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Primary ID&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;primaryId&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;1&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;24&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;16&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">- &lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;ID&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;secondaryId&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;2&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;24&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">- &lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Owner Primary ID&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;ownerId&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;3&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;120&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;16&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">- &lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Contact Primary ID&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;contactId&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;4&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;120&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;16&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">- &lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Category&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;categoryId&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;5&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;120&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">- &lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Type&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;typeId&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;6&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;120&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">- &lt;columnDefinition&gt;</p>
+        <p class="C_Code">&lt;columnHeading&gt;Assigned ID&lt;/columnHeading&gt;</p>
+        <p class="C_Code">&lt;columnName&gt;assignedId&lt;/columnName&gt;</p>
+        <p class="C_Code">&lt;columnOrdinal&gt;7&lt;/columnOrdinal&gt;</p>
+        <p class="C_Code">&lt;columnFlags&gt;104&lt;/columnFlags&gt;</p>
+        <p class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p class="C_Code">&lt;/columnDefinitions&gt;</p>
+        <p class="C_Code">&lt;rows collection="1" objectType="row" /&gt;</p>
+        <p class="C_Code">&lt;/rowSet&gt;</p>
+        <p class="C_Code">&lt;/parametersReturn&gt;</p>
+    </body>
+</html>

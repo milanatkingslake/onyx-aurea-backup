@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="1479" MadCap:lastWidth="1146" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Note_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+		<title>Multiple Language View</title>
+    </head>
+    <body>
+               <h4>
+            <MadCap:keyword term="Multiple Language View" />Multiple language view</h4>
+        <p>The multiple language view combines data from the <a href="customizingOEDB_Base_Table.htm">base 
+ table</a> and the <a href="customizingOEDB_Extension_Table.htm">multi-language 
+ extension table</a>, as well as the language table. The language table 
+ is included in case a row matching the base table primary key is not created 
+ for each language_code value in the language table, at which time an <a href="customizingOEDB_Undefined_Translation_Message.htm">undefined translation 
+ message</a> is returned from the language table.</p>
+        <p>Any columns that exist in the base table and the multi-language extension 
+ table are populated from the base table. Examples include the primary 
+ key and onyx_timestamp columns. The materialized view is named using the 
+ convention of &lt;<span style="font-style: italic;">base_table</span>&gt;_ml_view.</p>
+        <p>Using multiple language views provides the following 
+ benefits:</p>
+        <ul>
+            <li>SELECT statements can be written against a single 
+ view instead of having to join between the two tables.</li>
+            <li>The logical object can be mapped to a single view 
+ and filtered on the user's preferred language, which allows the current 
+ user interface and OED to work against databases that have implemented 
+ multiple language domain data.</li>
+        </ul>
+        <p style="font-weight: bold;">Example: country_ml_view</p>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Note_Table_1.css');width: 80%;" class="TableStyle-Aptean_Note_Table_1" cellspacing="2">
+            <col style="width: 0.7cm;" class="TableStyle-Aptean_Note_Table_1-Column-Column1" />
+            <col class="TableStyle-Aptean_Note_Table_1-Column-Column1" style="width: 15.50cm;" />
+            <tbody>
+                <tr class="TableStyle-Aptean_Note_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyB-Column1-Body1" style="text-align: right;">
+                        <p>
+                            <img src="../../Resources/Images/Common/note_image.png" />
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText"><b>Note</b>: This view includes the options for returning the <a href="customizingOEDB_Undefined_Translation_Message.htm">undefined 
+ translation message</a>.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p Class="Code" class="code">CREATE VIEW country_ml_view AS</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;SELECT c.country_code,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;c.site_id,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;c.language_code, </p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;c.phone_mask,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;c.post_code_mask,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;c.address_format,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;(CASE WHEN ml.country_code IS NULL </p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;THEN c.undefined_translation_message </p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ELSE ml.country_desc END) country_desc,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;c.insert_by,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;c.insert_date,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;c.update_by,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;c.update_date,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;c.onyx_timestamp,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;c.record_status</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;FROM (SELECT cn.country_code, &#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;l.site_id,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;l.language_code,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;l.undefined_translation_message,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;cn.phone_mask, &#160;&#160;&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;cn.post_code_mask,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;cn.address_format,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;cn.insert_by, &#160;&#160;&#160;&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;cn.insert_date, &#160;&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;cn.update_by, &#160;&#160;&#160;&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;cn.update_date, &#160;&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;cn.onyx_timestamp,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;cn.record_status &#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;FROM country cn</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;INNER JOIN language l</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ON cn.site_id = l.site_id) c</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;LEFT OUTER JOIN country_ml ml</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;ON c.country_code &#160;= ml.country_code</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;AND c.site_id &#160;&#160;&#160;&#160;&#160;&#160;= ml.site_id</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;AND c.language_code = ml.language_code</p>
+    </body>
+</html>

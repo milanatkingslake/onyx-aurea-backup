@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="753" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Publishing domain data</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>Publishing domain data </h3>
+        <p>To publish an initial set of domain data after running the OEP-Offline 
+ client Deployment Server Setup program, see the <em class="Emphasis">OEP-Offline 
+ Implementation Guide</em>. Once you have published that initial set of 
+ domain data, you can subsequently publish domain data on an as-needed 
+ basis, publishing only that domain data which has been updated. You can 
+ select which objects you want to publish using Subscription Designer, 
+ as described in "Publishing domain data."</p>
+        <h4>Publishing details </h4>
+        <p>When you modify domain data, you must re-publish it in order for OEP-Offline 
+ users to get the updated data. OEP-Offline users receive published domain 
+ data updates when they start OEP-Offline while connected to the network. 
+ </p>
+        <p>The process for publishing domain data includes running the CreateFileList.exe 
+ file which updates the OEPOfflineFileList.xml file. </p>
+        <p>Best practices for updating domain data include: </p>
+        <ul>
+            <li>Making all necessary changes and then running 
+ CreateFileList.exe once to gather the changes into a single update, rather 
+ than running it for each change.</li>
+            <li>Not publishing domain data directly to the client 
+ files share. Instead, publishing the files to a temporary or staging directory, 
+ examining or testing the data, and then copying the files to the client 
+ files share.</li>
+            <li>Publishing domain data on a scheduled basis. </li>
+        </ul>
+        <p style="font-weight: bold;">To publish domain data: </p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li>Log on to the client deployment server with an 
+ account that has local administrative rights.</li>
+            <li>In OES, open Subscription Designer. </li>
+            <li>In the navigation area, click <span class="UIElement" style="font-weight: bold;">Publishable 
+ Objects</span>.</li>
+            <li>In the edit area, in the <span class="UIElement" style="font-weight: bold;">Publication 
+ Directory</span> box, type the UNC or path of the directory in which to 
+ write the domain data files. The account that you specified in the OEAS 
+ Setup program’s <span class="UIElement" style="font-weight: bold;">Local Account</span> dialog box 
+ must have read/write permissions for this directory. </li>
+            <li>Click <span class="UIElement" style="font-weight: bold;">Publish Selected Data 
+ Now</span>.</li>
+        </ol>
+        <p class="Indent1">This process can take a little while. </p>
+        <ol style="list-style: decimal;list-style-type: decimal;" MadCap:continue="true">
+            <li>If the domain data files that you created are 
+ satisfactory, copy them to the client files share. The following path 
+ is the default location of the share:</li>
+        </ol>
+        <p class="Indent1"><code>C:\Program Files\Onyx\server_share_name\ClientFiles\Website\Application\domaindata</code><![CDATA[ 
+ ]]></p>
+        <p class="Indent1">where <i>server_share_name</i> 
+ is the name of the share that you created in the procedure, <i>“To 
+ install OEP-Offline client installation files on the client deployment 
+ server:”</i> in the <i>OEP-Offline Implementation Guide</i>. </p>
+        <ol style="list-style: decimal;list-style-type: decimal;" MadCap:continue="true">
+            <li>Double-click the CreateFileList.exe shortcut to 
+ run the executable file.</li>
+        </ol>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">If you have not previously created the CreateFileList.exe 
+ shortcut, see “Publishing domain data” in the <span style="font-style: italic;">OEP-Offline 
+ Implementation Guide</span>. </p>
+        <p class="Indent1">The domain data is now published and ready for updating 
+ to OEP-Offline clients. When the client files directory is shared, users 
+ receive the new domain data the next time they start OEP-Offline while 
+ connected to the network. </p>
+    </body>
+</html>

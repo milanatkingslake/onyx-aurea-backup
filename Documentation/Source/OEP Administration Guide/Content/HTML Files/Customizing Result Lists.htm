@@ -1,0 +1,577 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="799" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2>Customizing Result Lists</h2>
+        <p>OEP uses a result list control to display lists of data retrieved from OEAS. The classes that comprise the control accept XML output directly from OEAS, and then process the XML to display it in user-friendly lists. </p>
+        <p>By writing a few configuration files and providing a few data formatting functions, you can add the result list control to custom features as needed. The result list control automatically handles almost all user interactions, but it also raises events that you can capture for additional functionality. </p>
+        <p>The result list control also has features that enable users to configure the lists to meet their needs, such as configuring the order of the list's columns. These changes can be saved to the database and persisted for the user's next session. </p>
+        <h4>Features that use the result list control</h4>
+        <p>The following OEP features use the <a href="#Sample">result list control</a>, which enhances user experience and eases the processing of XML output by OEAS: </p>
+        <ul>
+            <li>Alternate address list</li>
+            <li>Audit log</li>
+            <li>Comments</li>
+            <li>Email history</li>
+            <li>Email thread</li>
+            <li>Email links</li>
+            <li>History</li>
+            <li>Incident lists on the PowerPage</li>
+            <li>Scripts list</li>
+            <li>Search results</li>
+            <li>Subscription review list</li>
+            <li>Task lists on the PowerPage and on the incident information window</li>
+            <li>Task Manager results</li>
+        </ul>
+        <h3><a name="Sample"></a>Sample Result List</h3>
+        <p>This example list was created using data taken from a call to the customer.retrieveList business object method. </p>
+        <p>Some of the items in the data set have been hidden and some appear in the detail area. Click the icon in the second column to reveal the detail area. </p>
+        <p>You can drag and drop column headings to change their order. You can even move columns between the header row and detail areas. </p>
+        <p>Click a column heading to sort the list. &#160;</p>
+        <h4>List event:&#160; </h4>
+        <table>
+            <tr>
+                <td>
+                    <p><code>Event XML</code>
+                    </p>
+                    <p><code>&lt;eventXML&gt;</code>
+                    </p>
+                    <p><code> &lt;stuffXML&gt;lalala&lt;/stuffXML&gt;</code>
+                    </p>
+                    <p><code>&lt;/eventXML&gt;</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>If there is a column where the data is truncated, place the mouse pointer over the data cell and the entire string appears in a tooltip. </p>
+        <p>Select some of the check boxes to see the selected rows counter (in the bottom center of the list) update accordingly. </p>
+        <p>Click the page icon in the lower left corner of the list to change the paging mode to single and back again. </p>
+        <p>On many lists there is a grid icon in the lower right corner that opens the List Configuration Dialog. A screen shot of this dialog appears below. Users can change the placement and visibility of columns, the sorting order, and the maximum row counts. These changes are saved to the database by list name and user name. The changes are automatically reinstated when the user opens the list again in subsequent OEP sessions. </p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Customizing Result Lists.jpg" style="width: 551px;height: 329px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <h3>Workflow Overview</h3>
+        <p>Before data from OEAS can be displayed in an OEP list, configuration data and script code must be prepared for use with the classes that process the data and render the lists. The topics in this section provide an introduction to the overall process and identify the locations on the OEP server where the list class files are stored. Click a link in the following table to learn more about the process for preparing a list in OEP. </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Topic</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#Implemen">Implementation diagram</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Identifies the pieces that must be assembled before a list can be rendered within the user interface</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#File">File set</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Identifies the locations on the OEP server where the common list files are stored</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4 style="page-break-before: always;"><a name="Implemen"></a>Implementation Diagram</h4>
+        <p>OEP renders lists using a combination of JScript classes, XML data files, and JScript functions. The following diagram shows the relationships between these items. The process for rendering a list moves from left to right. Black lines represent required relationships and blue lines represent optional relationships. Click an item in the diagram to learn more about its role in rendering lists in OEP. </p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Customizing Result Lists_1.jpg" style="width: 575px;height: 252px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <h4>Source XML data</h4>
+        <p>This is XML data created from an OEAS retrieveList or retrieveCollection method call. The XListData object can process the data directly from the Onyx Transaction Manager. </p>
+        <h4>Transformation configuration</h4>
+        <p>The configuration XML for the transformation can be stored on the server or generated dynamically at the client at run time. Each configuration has a unique identifier. This allows for storing multiple configurations in a single XML document. See <a href="Writing the formatting functions.htm#XListDat">XListData transformation configuration</a> for more information about the contents of the transformation XML.</p>
+        <h4>JScript formatting functions</h4>
+        <p>As all XML data is normally treated as text, these functions exist to enforce formatting rules for data that must be displayed to the user as numbers or dates. The functions must be provided before the transformation can take place. See <a href="Domain Data Lookups.htm#Data">Data formatting functions</a> for more information about writing these functions.</p>
+        <h4>Domain data lookup lists</h4>
+        <p>As part of the data transformation process, the XListData class can replace domain data identifiers with their human-readable counterparts. The replacement values must be loaded into the XListData class before the data is transformed. See <a href="Domain Data Lookups.htm#top">Domain data lookups</a> for more information about creating lookup lists. </p>
+        <h4><a name="XListDat"></a>XListData object</h4>
+        <p>The XListData object converts data returned from retrieveList and retrieveCollection business object method calls into the format acceptable to the XListControl class. The object requires a valid transformation configuration, and it must have access to the JScript formatting functions that process the numeric and date-time data in the source XML. See <a href="Configuring a result list.htm#XListDat">XListData class</a> for more information about using XListData in script code. </p>
+        <h4><a name="XResourc"></a>XResourceManager object</h4>
+        <p>The XResourceManager object stores the column heading strings for OEP lists. Resource strings can be loaded from files on the server or added to the class dynamically at run time. The XListData object can be configured to automatically create resource strings from a retrieveList data set. See <a href="Customizing Resource Files.htm#XResourc">XResourceManager class</a> for more information on using XResourceManager in script code.</p>
+        <h4>List XML data</h4>
+        <p>The data that is used to render the list follows a published format. This data is normally created by the XListData object, but it can be created using any process that formats the data <a href="#Input">as shown here</a>.</p>
+        <h4><a name="XListCon2"></a>XListControl object</h4>
+        <p>The XListControl object renders a list in the user interface. Before the object is ready it must have a valid rendering configuration, a resource manager object with column heading strings, and event handling functions. See <a href="#XListCon">XListControl class</a> for more information on using XListControl in script code. </p>
+        <h4>Rendering configuration</h4>
+        <p>The configuration XML for the rendered list can be stored on the server or generated dynamically at the client at run time. Each configuration has a unique identifier. This allows for storing multiple configurations in a single XML document. See the topic <a href="To prevent the XSL from being.htm#XListCon">XListControl render configuration</a> for more information about the contents of the rendering XML.</p>
+        <h4>JScript event functions</h4>
+        <p>Each time a user interacts with a list, event data is passed to a handler function for processing. There is no default function for this process. Information about working with events is available in <a href="#Event">Event handling</a>. </p>
+        <h4>Rendered list</h4>
+        <p>Once all the pieces are in place, the <i>renderList method</i> of the XListControl object generates the list HTML and the list appears in the user interface. The JScript event functions alert OEP to events occurring within the list. </p>
+        <h4><a name="File"></a>File Set</h4>
+        <p>The files OEP uses to render lists in the user interface are stored in the directory <i>YourOEPwebsite</i>/onyxcommon/. The following files must be added to a Web page before a list can be rendered successfully:</p>
+        <ul>
+            <li>xListControl/xListControl.js - Contains the implementation code for the following classes: XListData, XListControl, and XListEvent.</li>
+            <li>xListControl/xListControl.css - Contains the style information for the rendered lists. </li>
+            <li>xListControl/lcd/lcd.js - Contains the implementation code for the List Configuration Dialog (this file is not necessary if you disable the LCD in the list's render configuration through the <a href="To prevent the XSL from being.htm#allowLay">allowLayoutPersistence</a> element). </li>
+            <li>xListControl/lcd/shared.js - Contains code that is used by both the List Configuration Dialog and XListControl.</li>
+            <li>xResourceManager/xResourceManager.js - Contains the implementation code for the XResourceManager class.</li>
+            <li><i>YourOEPwebsite</i>/common/javascript/common.js - Contains functions that are used by a list after it has been rendered.</li>
+        </ul>
+        <p>In addition to the required files listed above, the file <i>YourOEPwebsite</i>/onyxcommon/common/javascript/xmlCommon.js includes a number of functions that simplify the loading of unparsed XML strings and files into DOMDocument objects. </p>
+        <p>The client-side scripts that create the list classes must also contain functions for event handling, data retrieval, and XListData transformation data formatting. </p>
+        <h3><a name="Event"></a>Event Handling</h3>
+        <p>A list in a Web browser fires a number of events that can be handled by client-side code. This section explains when list events are generated and the data they carry. Click a link in the following table to learn more about working with list events. </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Topic</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#List">List events</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Identifies and describes each of the events a list may fire</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#Event2">Event XML</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Describes the XML data that is passed from the list to the event handling function</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#Row">Row event data</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Describes the XML data that describes the state of certain rows in the list when an event fires</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4><a name="List"></a>List Events</h4>
+        <p>The following table contains a complete list of the events that may be generated by the XListControl during its lifespan. All events are handled by a single function that is stored in the EventHandler property of the XListControl object. </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Event</th>
+                    <th>Fires when</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">cellLink</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The user clicks a hyperlink in a list cell</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">checkboxSelect</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The user checks or unchecks a checkbox for a row</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">checkboxSelectAll</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The user clicks the checkbox in the list header that selects or deselects the checkbox of every list row</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">dragFieldOver</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The user drags a column heading over another column heading</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">listChanged</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The user has made changes to the list. If the changes are made through the List Configuration Dialog, the event does not fire until the user closes the dialog. &#160;</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">onKeyUp</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The user has pressed a key while the list has focus</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">renderComplete</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The XListControl has finished rendering the table for the user</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">resetLayout</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The user clicks the icon to reset the list settings to the default</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">resize</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The parent HTML element of the list changes in size</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">rowCollapse</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The user collapses the detail area of a row</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">rowExpand</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The user expands the detail area of a row</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">rowSelect</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The user selects a row in the list</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">rowUnSelect</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The user deselects a row in the list</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">saveLayout</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The user clicks the icon to save the current list settings</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">scroll</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The user has adjusted their view of the list by moving one of its scroll bars</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">sortColumn</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The user sorts the list by one of its columns </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">subFieldSort</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The user sorts the list by a column located in the detail area</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Each time a list generates one of these events, the XListControl object calls a single function that is assigned to it through the <a href="#Event">EventHandler</a> property. This function takes two string arguments. The first argument contains the <a href="#Event2">event XML data</a>, and the second contains the name of the event (which is also available in the event XML). The XListControl object does not check the return value of the event handling function.</p>
+        <p>Although the events represent most of the common actions of the XListControl, these events are raised primarily to allow for other components on the page to react if necessary. The event handler function does not have to help the list perform its basic actions. In many cases the function need not do anything. The event handler function is called after the XListControl completes its own processing of the list event. The function cannot prevent the XListControl from processing an event. </p>
+        <p>The cellLink event fires when a user clicks a hyperlink in a cell in the list. The event handler function must determine what action results from the link. The "link" is created using a style applied to the text. The browser will not interpret the user's click as a click on a hyperlink. </p>
+        <h4><a name="Event2"></a>Event XML</h4>
+        <p>When the XListControl object calls the event handler function, one of the arguments it passes contains an XML data string. The XML identifies the event that was fired and contains information about the current state of the list.</p>
+        <p>The following fragment shows a sample XML data set for an event. This sample shows all possible elements, although there are few events and list configurations that will result in all elements appearing in the XML with values. </p>
+        <p>Sample event XML </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>&lt;eventData&gt;</code>
+                    </p>
+                    <p><code>&#160;&lt;checkedRows&gt;3,5,7&lt;/checkedRows&gt;</code>
+                    </p>
+                    <p>&#160;<code>&lt;eventCode&gt;resize&lt;/eventCode&gt;</code></p>
+                    <p>&#160;<code>&lt;eventListId&gt;idActiveList&lt;/eventListId&gt;</code></p>
+                    <p>&#160;<code>&lt;eventOtherData&gt;&lt;/eventOtherData&gt;</code></p>
+                    <p>&#160;<code>&lt;eventRowIndex&gt;-1&lt;/eventRowIndex&gt;</code></p>
+                    <p>&#160;<code>&lt;eventType&gt;resize&lt;/eventType&gt;</code></p>
+                    <p>&#160;<code>&lt;eventRow&gt;</code></p>
+                    <p> <code>&lt;row&gt;</code></p>
+                    <p><code> &lt;fieldId&gt;dataValue&lt;/fieldId&gt;</code>
+                    </p>
+                    <p>&#160;<code>&#160;&#160;...</code></p>
+                    <p>&#160;&#160;<code>&lt;/row&gt;</code></p>
+                    <p>&#160;<code>&lt;/eventRow&gt;</code></p>
+                    <p>&#160;<code>&lt;selectedRow&gt;</code></p>
+                    <p><code> &lt;row&gt;</code>
+                    </p>
+                    <p> <code>&lt;fieldId&gt;dataValue&lt;/fieldId&gt;</code></p>
+                    <p>&#160;&#160;<code>&#160;...</code></p>
+                    <p>&#160;&#160;<code>&lt;/row&gt;</code></p>
+                    <p>&#160;<code>&lt;/selectedRow&gt;</code></p>
+                    <p><code>&#160;&lt;parentRow&gt;</code>
+                    </p>
+                    <p>&#160;<code>&#160;&lt;row&gt;</code></p>
+                    <p>&#160;&#160;&#160;<code>&lt;fieldId&gt;dataValue&lt;/fieldId&gt;</code></p>
+                    <p><code>&#160;&#160;&#160;...</code>
+                    </p>
+                    <p>&#160;&#160;<code>&lt;/row&gt;</code></p>
+                    <p>&#160;<code>&lt;/parentRow&gt;</code></p>
+                    <p><code>&lt;/eventData&gt;</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>Descriptions for each element in the event XML appear in the following table. </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Element</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">checkedRows</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">A comma-delimited list of numbers for the rows that have their checkboxes selected.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">eventCode</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The name of the list event that has fired. <a href="#List">Click here</a> to see the complete list of events. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">eventListId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The identifier of the list that fired the event. This is taken from the <a href="To prevent the XSL from being.htm#listId">listId</a> element in the XML display configuration.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">eventOtherData</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Additional event-specific information. See below. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">eventRow</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">A collection of event data fields for the row that fired the event. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">eventRowIndex</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The data index of the row that caused the event to fire. This element contains -1 if a row did not fire the event.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">eventType</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The DHTML event that caused the list event to fire.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">selectedRow</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">A collection of event data items for the row in the list that is currently selected</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The eventRow and selectedRow elements contain the data fields that have been named event parameters in the display configuration. See <a href="#Row">Row event data</a> for more information about how the data in these elements is organized. </p>
+        <p>The eventOtherData element contains extra information for the cellLink and listChanged events. For a cellLink event, the eventOtherData element identifies the column (by dataFieldId name) where the user clicked the link. For a listChanged event, the eventOtherData element contains an XML structure that describes the new sorting order for the list. </p>
+        <p>The XListEvent class provides an interface to parse and extract the event XML data quickly and easily. See the topic <a href="Writing the formatting functions.htm#XListEve">XListEvent class</a> for more information on using XListEvent to process event data. </p>
+        <p>The XListEvent class does not have a mechanism for retrieving the contents of the eventOtherData element. You must use the source event XML to obtain this information.</p>
+        <h4><a name="Row"></a>Row Event Data</h4>
+        <p>Within the event XML for the event handler function, the eventRow and selectedRow elements contain the data fields that have been named event parameters in the display configuration. </p>
+        <h5>eventRow element</h5>
+        <p>This element contains information about the row that fired the event. This element only contains child elements if a row is the source of the event. </p>
+        <h5>selectedRow element</h5>
+        <p>This element only appears in the event XML when a row in the list has been selected by a user. When a user clicks a row to select it, the contents of this element are identical to those in the eventRow element. </p>
+        <h4>Data organization</h4>
+        <p>Each item in the display configuration XML that has its <a href="To prevent the XSL from being.htm#eventPar">eventParameter element</a> set to true is included as a child of the row elements. Data in each of these elements takes the format shown in the XML fragment shown below. </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>&lt;eventRow&gt;</code>
+                    </p>
+                    <p>&#160;<code>&lt;row&gt;</code></p>
+                    <p> <code>&lt;dataFieldId&gt;dataValue&lt;/dataFieldId&gt;</code></p>
+                    <p>&#160;<code>&lt;/row&gt;</code></p>
+                    <p><code>&lt;/eventRow&gt;</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>For example, a configuration that had the fields primaryId and secondaryId identified as event parameters would generate the following event XML for the event row. </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>&lt;eventRow&gt;</code>
+                    </p>
+                    <p>&#160;<code>&lt;row&gt;</code></p>
+                    <p> <code>&lt;primaryId&gt;88d969c5-f192-11d4-a65f-0040963251e5&lt;/primaryId&gt;</code></p>
+                    <p> <code>&lt;secondaryId&gt;456773&lt;/secondaryId&gt;</code></p>
+                    <p>&#160;<code>&lt;/row&gt;</code></p>
+                    <p><code>&lt;/eventRow&gt;</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>Use the <i>getField method</i> of the XListEvent object to obtain these data items from the event XML. Fields are labeled with the value of their <a href="To prevent the XSL from being.htm#dataFiel">dataFieldId</a> elements from the display configuration. </p>
+        <h3>Class Overview</h3>
+        <p>There are five classes that are used to render lists in OEP. Each object and its description appears in the following table. Click a link to learn more about the object's role within OEP lists. </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Class</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#XListCon">XListControl</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Renders lists within the browser</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="Configuring a result list.htm#XListDat">XListData</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Converts data from retrieveList and retrieveCollection data sets into a format usable by XListControl </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="Writing the formatting functions.htm#XListEve">XListEvent</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Parses event XML data generated by XListControl</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4><a name="XListCon"></a>XListControl Class</h4>
+        <p>An instance of the XListControl class renders a list in the user interface. The format and properties of the list are determined by a combination of class settings and XML configuration data. The XML data is usually loaded from the Web server but can be supplied dynamically at run time. </p>
+        <p>The XML configuration settings contain information about the general format and actions of the list and about the display settings for the individual data columns. Some of the settings that the configuration determines include:</p>
+        <ul>
+            <li>Whether users can select and deselect individual rows in the list</li>
+            <li>Which data columns appear in the main list, are available in detail areas, or are hidden completely from view</li>
+            <li>Which data columns to include as function parameters for event handlers</li>
+            <li>Which data columns can be used to sort the list (and how their data is interpreted as criteria for the sort)</li>
+            <li>How data is formatted within columns (justification, text wrapping, column widths, etc)</li>
+        </ul>
+        <p>After the configuration is loaded, the <i>renderList method</i> generates the list HTML and places it within a DIV element on the user interface. Users can then interact with the list as needed. After the list is rendered, it fires events as the user clicks elements within the list. To learn more about writing code to handle XListControl events, see the topic <a href="#Event">Event handling</a>. </p>
+        <p>Information about the configuration implementation for the XListControl display XML is available in the topic <a href="To prevent the XSL from being.htm#XListCon">XListControl render configuration</a>.</p>
+        <p>The constructor for this class has four arguments, only the first of which is required. The first argument is the JavaScript object variable name (passed as a string). This string is then used within the HTML that is created when the list is rendered. Failure to initialize the object properly causes an error message to appear. </p>
+        <p>The second argument is reserved for future use and should always be passed as false.</p>
+        <p>The third argument identifies the language in use for the strings that appear in the list. The default value for this is "eng" for English. </p>
+        <p>The final argument identifies the path to the internal resource files for the list control. The default value for this is one level below the relative path of the feature using the control. </p>
+        <p>A sample use of the constructor appears in the following code fragment. The last three arguments are optional. This sample shows their default values. </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>var oListControl = new XListControl("oListControl", false, "eng", "../");</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>To learn more about the properties and methods of the XListControl class, see <a href="#XListCon2">XListControl object</a>.</p>
+        <h5><a name="Input"></a>Input Data Specification</h5>
+        <p>While the XListData class can be used to automatically convert a retrieveList or retrieveCollection data set into format for the XListControl class, it is possible to move custom data directly into an XListControl object. To do so, the data need only follow the format shown below: </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>&lt;listData&gt;</code>
+                    </p>
+                    <p>&#160;<code>&lt;rows&gt;</code></p>
+                    <p> <code>&lt;row&gt;</code></p>
+                    <p><code> &lt;rowIndex&gt;1&lt;/rowIndex&gt; </code>
+                    </p>
+                    <p><code> &#160;&lt;c0&gt;Column data&lt;/c0&gt; </code>
+                    </p>
+                    <p><code> &#160;&lt;c1&gt;Column data&lt;/c1&gt; </code>
+                    </p>
+                    <p>&#160;&#160;<code>&#160;...</code></p>
+                    <p><code> &lt;cN&gt;Column data&lt;/cN&gt;</code> <![CDATA[ ]]></p>
+                    <p> <code>&lt;/row&gt;</code></p>
+                    <p>&#160;<code>&lt;/rows&gt;</code></p>
+                    <p><code>&lt;/listData&gt;</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>Because the order of the items in the list may change after initial rendering, some operations require the use of the &lt;rowIndex&gt; element to identify rows from the table. The <i>getRowData</i> and <i href="file:///C:/Users/rmuladharmaveer/Documents/MyJabberFiles/arunkumar.vasam@aptean.com/ONYX 77 OEP Administration Guide.doc#_Ref-1388562025">selectRow</i> methods accept parameters that select rows based on the value of their rowIndex elements. </p>
+        <p>The first row element has a rowIndex value of one. The column elements begin at zero. </p>
+        <h5><a name="Using"></a>Using Icons in List Columns</h5>
+        <p>You can use icons in list columns to represent data to users graphically. Result lists support two types of icon columns, one for two possible states (Boolean values) and the other for an unlimited number of states. </p>
+        <p>Boolean values are represented by a check icon. A true value is represented by <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Customizing Result Lists.png" style="width: 10px;height: 10px;" />. A false value is represented by an empty column cell. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">For a Boolean column in the XListControl, a value of 1 is true and any other value is considered false. &#160;</p>
+        <p>You can also create your own icons to work with domain data values. The XListControl class uses a convention where the icon file name is a concatenation of a relevant prefix (stored in the configuration file) and the domain data value. When the table is rendered, the filenames are generated by combining the prefix with the data value. </p>
+        <p>For example, the priority icons used in the email history lists are named priority_0.gif, priority_1.gif, and so on. The prefix stored in the configuration file is priority_. The possible domain values are 0, 1, and 2. </p>
+        <h5>Headings for icon columns</h5>
+        <p>Icon and boolean columns are restricted to a narrow width and cannot be resized by the user. Because of their size limitations, these columns cannot have standard text headings. They can, however, have icon headings with tooltips. The <a href="To prevent the XSL from being.htm#headerIm">headerImageSource</a> element of the XListControl render configuration contains the info for the graphic that appears in an icon column heading. The tooltip text (and the text that appears in the List Configuration Dialog) is obtained from either the <a href="To prevent the XSL from being.htm#captionA">captionAuto</a> or <a href="To prevent the XSL from being.htm#captionR">captionResId</a> elements. </p>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; &#160;">If no icon information is set for a column header, the user will not be able to see the tooltip or sort the list by the column's contents. You must at least use a transparent graphic to provide the user with this functionality. </p>
+        <h5>Icon requirements</h5>
+        <p>The XListControl sizes icon columns based on a graphic size of 17 pixels square. The files must be in GIF format.</p>
+        <p>There must be a file on the server for each and every domain value. There is no option to not display an icon for certain values or to display one icon for a specific range of values. If you want the cell in a column to appear empty for a domain data value, create a blank icon with a transparent background.</p>
+    </body>
+</html>

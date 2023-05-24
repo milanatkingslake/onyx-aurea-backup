@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="506" MadCap:lastWidth="934" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <body>
+        <head><title>resultFunctionCall (searchViewDetail)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="resultFunctionCall" />resultFunctionCall property</h2>
+        <p>The resultFunctionCall property of the <a href="searchViewDetail_object.htm"><MadCap:keyword term="searchViewDetail" />searchViewDetail</a> 
+ object contains the function call included in the select clause.</p>
+        <h3>Data type</h3>
+        <p>string</p>
+        <h3>Access</h3>
+        <p>Read/write</p>
+        <h3>Remarks</h3>
+        <p>The format of the resultFunctionCall is f(~0), where "f" is 
+ a database function. When constructing the SQL query, the calling client 
+ replaces the ~0 with the searchTable alias and fieldName values separated 
+ by a period.</p>
+        <p>For instance, suppose you want to return secondary_id instead of a uniquidentifier 
+ for a customer record. To do this, you can specify a function to format 
+ the GUID before returning it in the result.</p>
+        <p>If, for example:</p>
+        <ul>
+            <li>fieldName is owner_id</li>
+            <li>searchTableAlias is B</li>
+            <li>resultFunctionCall is ofCustomerGetSecondaryFromPrimary(~0)</li>
+        </ul>
+        <p>Then the resulting select clause would be:</p>
+        <p>SELECT ofCustomerGetSecondaryFromPrimary(B.owner_id)</p>
+    </body>
+</html>

@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="1704.165" MadCap:lastWidth="708">
+    <head>
+        <link href="../Resources/TableStyles/Aptean_Table_3.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Configuring OPS event logging</title>
+            <link href="../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <H4 class="Heading">Configuring OPS event logging </H4>
+        <p class="BodyText">To enable, disable, or configure event logging for 
+ OPS and the sync subsystem, you specify values for the following registry 
+ settings (their location is provided in the procedure that follows these 
+ descriptions). </p>
+        <ul>
+            <li class="ListBullet_1">GlobalLogSettings </li>
+            <p class="BodyText">This value specifies what kind of information is logged to the OPS 
+ event log. The possible values are 1 (errors only), 2 (warnings only) 
+ or 3 (both errors and warnings). </p>
+            <li class="ListBullet_1">FileOutput </li>
+            <p class="BodyText">This entry specifies the directory (such as C:\OPSLogs) to which 
+ the log files are to be written. </p>
+            <li class="ListBullet_1">MessageEventLogLevel </li>
+            <p class="BodyText">This entry specifies the logging level for messages logged to the 
+ event log. </p>
+            <p class="BodyText">The following table gives the possible decimal values and the kind 
+ of information that they generate. You can specify different combinations 
+ of types of entries by entering the added value of the types of data that 
+ you want to log. For example, one of the most commonly desired combinations 
+ is errors, warnings, and debug data. To specify this combination of logging, 
+ you would enter 7, the sum of 1, 2, and 4. Another commonly used combination, 
+ errors and the timer, is specified by entering 33. </p>
+        </ul>
+        <table style="width: 100%;mc-table-style: url('../Resources/TableStyles/Aptean_Table_3.css');" class="TableStyle-Aptean_Table_3" cellspacing="0">
+            <col class="TableStyle-Aptean_Table_3-Column-Column1" style="width: 5cm;" />
+            <col class="TableStyle-Aptean_Table_3-Column-Column1" style="width: 11cm;" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_3-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_3-HeadE-Column1-Header1">
+                        <p class="TableHead">Decimal value </p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_3-HeadD-Column1-Header1">
+                        <p class="TableHead">Meaning </p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_3-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                        <p class="TableText" style="color: #000000;">1 </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_3-BodyD-Column1-Body1">
+                        <p class="TableText" style="color: #000000;">Error—generates an entry for each error 
+ </p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_3-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                        <p class="TableText" style="color: #000000;">2 </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_3-BodyD-Column1-Body1">
+                        <p class="TableText" style="color: #000000;">Warning—generates an entry for each warning 
+ </p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_3-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                        <p class="TableText" style="color: #000000;">4 </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_3-BodyD-Column1-Body1">
+                        <p class="TableText" style="color: #000000;">Debug—generates more information about 
+ the errors and warnings that have been logged </p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_3-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                        <p class="TableText" style="color: #000000;">8 </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_3-BodyD-Column1-Body1">
+                        <p class="TableText" style="color: #000000;">Info—generates an entry for events such 
+ as the starting and stopping of the subsystem </p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_3-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                        <p class="TableText" style="color: #000000;">16 </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_3-BodyD-Column1-Body1">
+                        <p class="TableText" style="color: #000000;">Trace—generates an entry that reports that 
+ a process is starting or stopping and describes the process </p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_3-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_3-BodyE-Column1-Body1">
+                        <p class="TableText" style="color: #000000;">32 </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_3-BodyD-Column1-Body1">
+                        <p class="TableText" style="color: #000000;">Timer—includes the time of each event that 
+ generates an entry </p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_3-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_3-BodyB-Column1-Body1">
+                        <p class="TableText" style="color: #000000;">63 </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_3-BodyA-Column1-Body1">
+                        <p class="TableText" style="color: #000000;">Everything—generates entries that include 
+ all the above data </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ul>
+            <li class="ListBullet_1">MessageXmlLogLevel</li>
+            <p class="BodyText">If you choose to log events to an XML log file, this entry specifies 
+ the desired level of logging. It has the same possible values and meanings 
+ as MessageEventLogLevel. Setting a value other than 0 for this entry enables 
+ OPS logging to XML-formatted files. Note, however, that logging to an 
+ XML file can slow performance. </p>
+            <li class="ListBullet_1">MessageFileLogLevel </li>
+            <p class="BodyText">This entry specifies the desired level of logging for a text log 
+ file for the sync subsystem. It has the same possible values and meanings 
+ as MessageEventLogLevel. </p>
+            <li class="ListBullet_1">MessageXmlFileName </li>
+            <p class="BodyText">If you choose to log events to an XML file, this entry specifies 
+ the name of the file. </p>
+            <li class="ListBullet_1">MessageFileLogName </li>
+            <p class="BodyText">This entry specifies the root and extension of the file name for 
+ the sync subsystem text log file. </p>
+            <p class="BodyText">OPS builds the file name with the syntax “applicationName-siteid-subsystemPrimaryId_ 
+ MessageFileLogNameRoot[_suffix].MessageFileLogNameExtension”. </p>
+            <p class="BodyText">In this syntax, “suffix” is an incrementing integer that OPS generates 
+ to distinguish between multiple log files. </p>
+            <p class="BodyText">Suppose the following: </p>
+            <li class="ListBullet_2">You specify “opssync.log” for MessageFileLogName.</li>
+            <li class="ListBullet_2">The name of the OEAS logical application is 
+ “Onyx”. </li>
+            <li class="ListBullet_2">The site ID is 1.</li>
+            <li class="ListBullet_2">The subsystem primary ID is 100001. </li>
+            <p class="BodyText">OPS would name the first two log files as follows: </p>
+            <li class="ListBullet_2">“Onyx-1-100001_opssync.log” </li>
+            <li class="ListBullet_2">“Onyx-1-100001_opssync_0001.log.</li>
+            <li class="ListBullet_1">MessageFileLogMaxCount </li>
+            <p class="BodyText">This entry specifies the number of files saved in addition to the 
+ original OPS log file before re-using the oldest file. The default value 
+ is 10, meaning that 10 files in addition to the original log file are 
+ saved before the oldest file is overwritten with new entries. A value 
+ of 0 means that the number of new files is unlimited. Allowing an unlimited 
+ number of new files can fill up available space rapidly, depending on 
+ how much data is logged. </p>
+            <li class="ListBullet_1">MessageFileLogMaxSize </li>
+            <p class="BodyText">The file size in bytes at which OPS starts a new log file. By default, 
+ the value is 5242800 bytes. The possible range of values is unlimited. 
+ If you enter 0, the file size is unlimited. </p>
+        </ul>
+        <p class="TaskHeading">To set up and configure the log file: </p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li class="ListBullet_1">Log on to the OPS server using an account with 
+ local administrative privileges.</li>
+            <li class="ListBullet_1">Open the registry editor Regedit.exe.</li>
+            <li class="ListBullet_1">In the left pane of the Registry Editor, navigate 
+ to and select the following key:</li>
+            <p class="BodyText"><span class="UIElement" style="font-weight: bold;">HKEY_LOCAL_MACHINE\SOFTWARE\ONYX\ProcessingServer\Service\Applications\application_name\OnyxLog</span>
+            </p>
+            <p class="BodyText">where <span class="UIElement" style="font-weight: bold;">application_name</span> 
+ is the name of the OEAS logical application that the OPS server access. 
+ </p>
+            <li class="ListBullet_1">According to your business needs, change the values 
+ for the entries described in the preceding list and table.</li>
+            <li class="ListBullet_1">Close the Registry Editor.</li>
+        </ol>
+    </body>
+</html>

@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="783" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Error handling</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>
+            <MadCap:keyword term="Error" />Error handling</h4>
+        <p>The script engine raises a COM error back to the OTM under the following 
+ conditions:</p>
+        <ul>
+            <li>An invalid stepPackage DOM is passed in the IStep 
+ Execute method.</li>
+            <li>The engine is unable to report an error in the 
+ stepPackage XML because it cannot create the methodStatus/statusType node.</li>
+        </ul>
+        <p>The engine traps and then reports all other errors under the methodStatus 
+ node of the return XML. It also reports them in the Windows event log. 
+ The following table shows how the engine behaves for each of the three 
+ method statuses that can be returned by the script engine or by any internal 
+ OTM call the engine makes.</p>
+        <table>
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Status type</th>
+                    <th>Engine behavior</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">failure</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">The engine transfers all message and error 
+ nodes from any internal OTM call to the returnXml section of the external 
+ step package, logs an error to the error log, appends its own error node 
+ at the end of the returnXml error nodes, and stops processing. The engine 
+ votes to setAbort on the COM+ transaction.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">successWithInfo</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">The engine appends the message nodes from 
+ any internal OTM call to the returnXml section and continues processing.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">success</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">The engine reports success.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The engine does not impose any transactional control.</p>
+        <p>The script engine maintains a log of each internal procedure that it 
+ executes. It adds each procedure to the procedure log before executing 
+ it so that if an error occurs the last entry will be the procedure that 
+ failed. When an error occurs, the procedure log is included in the event 
+ log. If no error occurs, it discards the procedure log. It does not include 
+ the procedure log in the returnXml.</p>
+        <p>The engine logs a warning to the event log when it fails to find a National 
+ Language or RC string. It replaces the missing description with a "not 
+ found" description. It does not abort processing</p>
+        <h5>XML documents</h5>
+        <p>The script engine deals with many XML documents for which there can 
+ be associated errors. They include:</p>
+        <ul>
+            <li>External stepPackage (received from the client 
+ application)</li>
+            <li>Run-time XML</li>
+            <li>Step cache (current step, next step, current XSL 
+ stylesheet, next XSL stylesheet)</li>
+            <li>Internal stepPackages (created to call the internal 
+ OTM)</li>
+            <li>Internal xsl transforms (for transforming the 
+ run-time XML)</li>
+        </ul>
+        <p>When the script engine logs an error or warning to the event log, it 
+ includes the appropriate XML documents associated with the error.</p>
+        <p>Errors included in the returnXml contain a short description of the 
+ error along with the script name, step name, prompt Id or method call 
+ Id as appropriate. The XML documents posted to the event log are not included 
+ in the returnXml.</p>
+        <h5>Cache calls</h5>
+        <p>When an error occurs accessing the cache, the cache returns an error 
+ number. The engine will in turn log an error which includes the calling 
+ parameters and the return error number. It will also report an error in 
+ the returnXml showing the cache error number and a corresponding description.</p>
+        <h5>Persisting scripting transactional objects</h5>
+        <p>If an error occurs persisting the scriptSession, scriptSessionStep, 
+ or scriptSessionPromptResponse objects, the engine transfers the collection 
+ node under parametersReturn in the internal step package to the run-time 
+ XML. Then the engine transfers the error and message nodes from the internal 
+ step package to the returnXml of the external step package.</p>
+        <p>The engine makes no attempt to identify which records of a saveCollection 
+ succeeded or which ones failed. It simply transfers the entire collection 
+ node from parametersReturn to the run-time XML.</p>
+        <h5>Pre and post internal OTM method calls</h5>
+        <p>If an error occurs for a pre or post internal OTM call, the engine writes 
+ the stepPackage to the event log. Then the engine transfers the error 
+ and message nodes from the internal step package to the returnXml of the 
+ external step package. The engine does not modify the run-time XML. The 
+ engine does not transfer parametersReturn XML from the pre and post calls 
+ to the returnXml of the external step package.</p>
+    </body>
+</html>

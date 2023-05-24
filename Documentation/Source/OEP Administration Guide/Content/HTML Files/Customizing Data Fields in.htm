@@ -1,0 +1,290 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="847" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h3>Customizing Data Fields in Quote Documents</h3>
+        <p>Quote templates have two types of fields available for configuration, <a href="#Customer">customer fields</a> and <a href="#Quote">quote fields</a>. When a quote document is generated, these fields are populated from the customer and quote business objects. If no value exists, the field contains an empty string.</p>
+        <p>To reference a field in the template, use the format: </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>&lt;%=[field name]%&gt;</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>For example, if the field you want to reference is fldLastName, type the following: </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>&lt;%=fldLastName%&gt;</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>Alternatively, you can use the following format to reference a field: </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>&lt;%=WriteFieldandBreak([field name])%&gt;</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>For example: </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>&lt;%=WriteFieldandBreak(fldFullName)%&gt;</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>If the field contains a value, the value is populated, and a &lt;BR&gt; tag is added. If the field does not contain a value, it remains blank and prints nothing. This is useful for object properties that may or may not contain values, as it prevents empty lines from being added to the document. </p>
+        <h4><a name="Customer"></a>Customer Reference Fields</h4>
+        <p>Customer and address fields are mapped within the script file YourOEPwebsite\CustomLetter\Templates\otm_GetCustomerDetails.asp. Edit this file to change the mapping between those OEAS business objects and the quote document data. Not all of the business object properties are mapped by default. Those that are appear in the following table. </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Field Name</th>
+                    <th>Field Name</th>
+                    <th>Field Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">fldPrefix</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">fldDepartmentDesc</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">fldFormalName</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">fldFirstName</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">fldeMailAddress</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">fldCityStateZip</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">fldMiddleName</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">fldTitleCode</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">fldFullName</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">fldLastName</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">fldDepartmentCode</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">fldPhoneNumber</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">fldSuffix</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">fldAddress</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">fldFaxNumber</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">fldCompanyName</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">fldTitleDesc</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">fldPostCode</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">fldData1 ... fldData10</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">fldUser1 ... fldUser10</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3><a name="Quote"></a>Quote Reference Fields</h3>
+        <p>Quote fields are mapped within the script file YourOEPwebsite\CustomLetter\Templates\otm_GetQuoteDetails.asp. Edit this file to change the mapping between the OEAS business object and the quote document. </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Field Name</th>
+                    <th>Field Name</th>
+                    <th>Field Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">fldQuoteId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">fldQuoteUser1... fldQuoteUser10</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">fldQuoteConversionFactor</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">fldQuoteTitle</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">fldQuoteCurrencyLocale1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">fldQuoteTotal1</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">fldQuoteStatus</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">fldQuoteCurrencyLocale2</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">fldQuoteTotal2</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">fldQuoteExpiryDate</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">fldQuoteCurrencyCode1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">fldQuoteDiscount1</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">fldQuoteComments</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">fldQuoteCurrencyCode2</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">fldQuoteDiscount2</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">fldQuoteCloseProbability</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">fldQuoteCurrencyDesc1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">fldConfidenceTotal1</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">fldQuoteCreateDate</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">fldQuoteCurrencyDesc2</p>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">fldConfidenceTotal2</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">fldQuoteCloseDate</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Configuring Quote Details</h3>
+        <p>The arrQuoteDetailColumns array in the quote template ASP files contains the data fields that appear in the quote lines table of the quote document. You can configure the columns that appear, as well as their width, alignment, and heading text by modifying the contents of the array. The code in the ASP file then automatically generates and formats the document according to the provided settings. The array has two dimensions. The first dimension contains the column number, and the second dimension contains the data and formatting settings for the column. The size of the first dimension is equal to the number of columns in the quote template. The second dimension always has a size of four. </p>
+        <p>The line of code that immediately precedes the array settings sets the number of columns that appear in the document. Edit the value of the first dimension to change the number of fields in the array. Failing to set this correctly will cause errors when the document is created. The following line sets the array for 8 columns of data. </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>ReDim arrQuoteDetailColumns(8,4)</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <h5>Configuring each column</h5>
+        <p>Each of the four elements of the second dimension of the array has a specific purpose. There are constants for each column that can be used to correctly prepare the data within the array. Each element is described below.</p>
+        <h5>QUOTEDETAIL_FIELD</h5>
+        <p>Use QUOTEDETAIL_FIELD to identify the data field that appears in the column. The fields are mapped from the quote object XML data in the file OnyxWebSite/forecastquote/otm_quote_DAC_inc.asp. See the function vbGetQuoteLinesXML in this file to review and/or update the data field mappings. </p>
+        <h5>QUOTEDETAIL_LABEL</h5>
+        <p>Use QUOTEDETAIL_LABEL to specify the label that appears in the column header. This item can contain any valid HTML string. </p>
+        <h5>QUOTEDETAIL_WIDTH</h5>
+        <p>Use QUOTEDETAIL_WIDTH to specify the width of the column in the table. This item must contain a valid setting for the WIDTH attribute of a table cell (&lt;TD&gt;) element. </p>
+        <h5>QUOTEDETAIL_ALIGN</h5>
+        <p>Use QUOTEDETAIL_ALIGN to specify the alignment of the cell contents for the data in the column. This item must contain a valid setting for the ALIGN attribute of a table cell (&lt;TD&gt;) element.</p>
+        <p><b>Examples</b>
+        </p>
+        <p>The following code fragments show sample settings for values within the arrQuoteDetailColumns array. </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>arrQuoteDetailColumns(5,QUOTEDETAIL_FIELD) = "unitdiscount"</code>
+                    </p>
+                    <p><code>arrQuoteDetailColumns(5,QUOTEDETAIL_LABEL) = "Unit Discount"</code>
+                    </p>
+                    <p><code>arrQuoteDetailColumns(5,QUOTEDETAIL_WIDTH) = "20%"</code>
+                    </p>
+                    <p><code>arrQuoteDetailColumns(5,QUOTEDETAIL_ALIGN) = "Right"</code>
+                    </p>
+                    <p>&#160;</p>
+                    <p><code>arrQuoteDetailColumns(6,QUOTEDETAIL_FIELD) = "discountedprice"</code>
+                    </p>
+                    <p><code>arrQuoteDetailColumns(6,QUOTEDETAIL_LABEL) = "Discounted&lt;BR&gt;Price"</code>
+                    </p>
+                    <p><code>arrQuoteDetailColumns(6,QUOTEDETAIL_WIDTH) = "Auto"</code>
+                    </p>
+                    <p><code>arrQuoteDetailColumns(6,QUOTEDETAIL_ALIGN) = "Center"</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <h3>Creating and Activating Quote Templates</h3>
+        <p>If you want to create a new quote template, start with an existing template and modify it to suit your needs. Save the templates to the YourOEPwebsite\CustomLetter\Templates directory with a file extension of .asp. Remember to use the suffix _htm.asp to instruct OEP to output the quote in a new browser window. </p>
+        <p>Templates originally used within OEP - Windows Client cannot be used by the Web client. These templates must be converted to ASP files. Currently, there are no tools to automate this process.</p>
+        <p>To add or remove quote templates from use within the OEP user interface, use the OES Table Maintenance Administration Tool to edit the details of each template within the Template table. Review the Onyx Enterprise Studio documentation for information on using Table Maintenance. </p>
+    </body>
+</html>

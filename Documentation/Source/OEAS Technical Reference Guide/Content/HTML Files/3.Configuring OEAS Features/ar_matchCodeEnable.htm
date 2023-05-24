@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="727" MadCap:lastWidth="624" MadCap:ignoredWords="MatchCodeCreation">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" /><title>Enabling match code functionality</title>
+    </head>
+    <body>
+        <h3>Enabling match code functionality</h3>
+        <p>Enabling match code functionality involves changing the Disabled status 
+ of post procedures for relevant logical methods in OED. The match code 
+ functionality includes a set of database stored procedures and functions 
+ that produce match code values for companies and individuals. These database 
+ procedures are included as disabled post procedures on the core step of 
+ relevant logical methods in OED. To enable the match code feature, clear 
+ the disabled checkbox for each of these post procedures and publish the 
+ OED through Object Designer. For more information on using Object Designer 
+ and publishing OED, see <i>Using the Object Designer</i>. Note that enabling match code functionality 
+ only creates the match codes for customer records. To programmatically 
+ prevent insertion of duplicate records or programmatically merge duplicate 
+ records requires further customization of the database layer. For information 
+ on creating custom database procedures, see <i>Creating and customizing procedures</i>.</p>
+        <p>The post procedures that make up the bulk of the match code feature 
+ are located in the relevant method™s core step. The following table lists 
+ the methods that include match code post procedures.</p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Object</th>
+                    <th>Method</th>
+                    <th>Procedure</th>
+                    <th>Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Individual</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">insert</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">opMatchCodeIndividualInsertPost</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Individual</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">update</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">opMatchCodeIndividualUpdatePost</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Company</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">insert</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">opMatchCodeCompanyInsertPost</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Company</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">update</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">opMatchCodeCompanyUpdatePost</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Address</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">saveCollection</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">opMatchCodeAddressUpdatePost</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Applies to the insert and update action</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Address</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">saveCollection</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">opMatchCodeAddressDeletePost</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Applies to the delete action</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>When the match code functionality is enabled, a row is added to the 
+ match_code_value table for every call to the methods listed in the previous 
+ table. If you want to create match code values for all customers, where 
+ none existed before, or if you want to re-create match codes based on 
+ a new match code formula, you can run the <b>MatchCodeCreation 
+ utility</b> script provided by Onyx.</p>
+    </body>
+</html>

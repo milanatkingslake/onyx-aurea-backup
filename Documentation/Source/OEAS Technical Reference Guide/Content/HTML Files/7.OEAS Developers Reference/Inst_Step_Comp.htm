@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:conditions="Default.Main" MadCap:lastBlockDepth="4" MadCap:lastHeight="645" MadCap:lastWidth="994">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Integrating a Custom Step Component</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>
+            <MadCap:keyword term="Adding a step component to a COM+ application" />
+            <MadCap:keyword term="Custom step component" />
+            <MadCap:keyword term="Custom step component:Integrating" />
+            <MadCap:keyword term="Integrating a custom step component" />
+            <MadCap:keyword term="Integrating" />
+            <MadCap:keyword term="Integrating:Custom Step Component" />Integrating a custom step component</h3>
+        <p>To add a custom step component to the OEAS, you must modify the system 
+ in a few places before your integration is complete. The DLL that hosts 
+ the step component must be added to the COM+ application on the server, 
+ and the business object methods that use the step must be updated using 
+ the Onyx Object Designer. If the change affects the way client applications 
+ collect or display data, then they must also be updated.</p>
+        <h4>Add the component to a COM+ application</h4>
+        <p>Add the new step component to the OnyxEASLib COM+ library application 
+ using the Windows 2000 Component Services manager.</p>
+        <p style="font-weight: bold;">To add a new component to a COM+ application:</p>
+        <ol>
+            <li>Open the Component Services application and locate 
+ the OnyxEASLib library application that will house the new component.</li>
+            <li>Expand the application to reveal the Components 
+ folder.</li>
+            <li>Right-click the Components folder and select <span style="font-style: normal;font-weight: bold;">New</span>,<span style="font-style: normal;font-weight: bold;"> 
+ Component </span>from the pop-up menu.</li>
+            <li>Click <span style="font-style: normal;font-weight: bold;">Install 
+ New Components</span>.</li>
+            <li>Navigate to the location of the component and 
+ click <span style="font-style: normal;font-weight: bold;">Open</span>.</li>
+            <li><span style="font-style: normal;">Click </span><span style="font-style: normal;font-weight: bold;">Next</span> and then <span style="font-style: normal;font-weight: bold;">Finish</span> to exit the 
+ wizard.</li>
+        </ol>
+        <p>Apply the necessary Roles to the component to enforce COM+ security. 
+ Verify that the component has the proper settings for transaction support.</p>
+        <h4>Add the component to a business object method</h4>
+        <p>Using the Object Designer, edit the Onyx Enterprise Dictionary (OED) 
+ to add the new component to the business object methods that will use 
+ it. See 
+<a href="Object_Designer_Help.htm">Object Designer Help</a> for more information about adding 
+ a step to a method.</p>
+        <p>After the changes have been made to the OED, 
+ restart the OnyxEASApp COM+ application for the changes to take effect. 
+ </p>
+    </body>
+</html>

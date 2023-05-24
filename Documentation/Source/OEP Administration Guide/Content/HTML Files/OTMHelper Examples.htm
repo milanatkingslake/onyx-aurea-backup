@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="828" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2><a name="top"></a>OTMHelper Examples</h2>
+        <p>These examples demonstrate the OTMHelper class usage and are derived from the OEP ASP scripts. The code in the examples has been edited to illustrate the essentials of OTMHelper operation. In practice, you would most likely take advantage of existing functions and subroutines for performing the activities that these examples demonstrate. However, the examples provide you with simple demonstrations without the complexity required of a full application. The files for the OTMHelper demonstrations are located in Examples\OTMHelper\ and Examples\Include.</p>
+        <p>The OTMHelper examples demonstrate the following features: </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Example</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#Business" class="Hyperlink">Business object methods</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Incidents are used to demonstrate the basics for retrieval, creation, updating, and deleting of simple objects.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#Accessin" class="Hyperlink">Multiple business objects</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">A customer object that has phone and address lists associated with it.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#Client-s" class="Hyperlink">Client-side OTMHelper</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The OTMHelper classes can be used in client-side DHTML programming as demonstrated in this example.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3><a name="Business"></a>Business Object Methods</h3>
+        <p>The business object methods examples demonstrate operations on OEAS business objects using the incidents business object. Incident business objects are simple objects and, as such, are easy to manipulate.</p>
+        <p>The examples in this section demonstrate the following logical operations. </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Method</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#Incident">Insert</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Demonstrates how to create and insert a new business object in the OEDB.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#Incident2">Retrieve</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Demonstrates how to retrieve and view an existing business object from the OEDB.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#Incident3">Update</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Demonstrates how to perform a partial update to an existing business object.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#Incident4">Delete</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Demonstrates how to delete an existing business object from the OEDB.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3><a name="Incident"></a>Incident Insert Example</h3>
+        <p>This example demonstrates how to create a new business object and insert it into the OEDB.</p>
+        <p>The essential elements of an incident insertion are:</p>
+        <ul>
+            <li>Collect the required input information for the new incident.</li>
+            <li>Create an OTMLBOCall object for inserting the new incident object.</li>
+            <li>Create an OTMObject parameter and populate it with the information for the new incident object.</li>
+            <li>Call the OTM to insert the new incident object.</li>
+            <li>Retrieve and display the ID number for the newly created incident object. </li>
+        </ul>
+        <h3><a name="Incident2"></a>Incident Retrieve Examples</h3>
+        <p>The incident retrieve examples demonstrate retrieving a specific incident object, or a set of incident objects owned by a customer.</p>
+        <p>Single incident retrieve</p>
+        <p>The essential elements of a single incident retrieval are:</p>
+        <ol>
+            <li>The user types an ID and selects Incident as the ID type to retrieve.</li>
+            <li>The user clicks the Submit button sending the form data to the server.</li>
+            <li>The CG_OTMGetIncident function retrieves the information for the specified incident object.</li>
+            <li>The incident object details are formatted in ASP script and sent to the client browser.</li>
+            <li>There are Update and Delete buttons for the user to test these actions.</li>
+        </ol>
+        <h3 style="page-break-before: always;">Customer incidents retrieve</h3>
+        <p>The essential elements of an incident set retrieval are:</p>
+        <ol>
+            <li>The user types an ID and selects Customer as the ID type to retrieve.</li>
+            <li>The user clicks the Submit button sending the form data to the server.</li>
+            <li>The CG_OTMGetIncidentByCustomer function retrieves Sales, Service, and Support incidents. Each group of incidents is contained in a rowset.</li>
+            <li>The incident object IDs are formatted in ASP script and displayed in an HTML table. These IDs are linked back to the incident retrieve ASP page so that the user can click any ID to view its details. </li>
+        </ol>
+        <h3><a name="Incident3"></a>Incident Update Example</h3>
+        <p>The incident update example demonstrates how to modify an incident object, and how to partially update to a business object.</p>
+        <p>The key programming features that this example demonstrates are:</p>
+        <ul>
+            <li>How to modify properties of a business object.</li>
+            <li>How concurrency control is used within OEP and OEAS.</li>
+        </ul>
+        <p>The essential elements of a incident update are:</p>
+        <ol>
+            <li>For a given incident object, the description1 and description2 data is presented in two edit windows on a form.</li>
+            <li>The data can be modified and then the Update button clicked to submit the form.</li>
+            <li>The ASP script calls the function CG_OTMUpdateIncident that:</li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">Retrieves the original incident object.</li>
+            <li class="List_Indent">Creates a new OTMLBOCall object for updates.</li>
+            <li class="List_Indent">Calls the bInitializeMerge method to merge the existing incident object into the update OTMLBOCall object.</li>
+            <li class="List_Indent">Applies the modified description1 and description2 data to the update OTMLBOCall object data.</li>
+            <li class="List_Indent">Calls the bExecuteLocal method to send the updated incident object to the OTM.</li>
+        </ol>
+        <ol start="4">
+            <li>The browser is redirected back to the retrieve incident page, where the modified incident object is displayed with the modifications that were applied. </li>
+        </ol>
+        <h3 style="page-break-before: always;"><a name="Incident4"></a>Incident Delete Example</h3>
+        <p>The incident delete example demonstrates how to delete an incident object.</p>
+        <ol>
+            <li>The action ASP scripting calls the function CG_OTMDeleteIncident, passing as parameters the incident object ID, the category ID for this incident, and the timestamp when the incident object was last retrieved. The CG_OTMDeleteIncident function: </li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">Creates an OTMLBOCall object with the method specified as "delete".</li>
+            <li class="List_Indent">Creates an OTMObject for specifying the required fields for the deletion.</li>
+            <li class="List_Indent">Adds the parameters pass in to the OTMObject.</li>
+            <li class="List_Indent">Calls the bExecuteLocal method to request OTM to delete the specified incident object.</li>
+        </ol>
+        <ol start="2">
+            <li>The browser is redirected back to the retrieve incidents page where the updated list of incidents is displayed. </li>
+        </ol>
+        <h3><a name="Accessin"></a>Accessing Related Business Objects with OTMHelper</h3>
+        <p>The retrieve customer example demonstrates the retrieval of a multiple-business object hierarchy using the OTMHelper classes. Unlike the incident business object used in business object methods examples, the customer business object has associated address and phone list objects. The retrieve customer example shows how to retrieve the customer, primary address, and primary phone information.</p>
+        <p>The essential elements of this retrieval are:</p>
+        <ol>
+            <li>Create an OTMLBOCall object for retrieving the customer information.</li>
+            <li>Add OTMObject parameters for retrieving the customer's phone and address lists.</li>
+            <li>After the OTM call, take the phone and address lists contained in the returned customer OTMRowset object and create individual phone and address OTMRowset objects.</li>
+        </ol>
+        <h3><a name="Client-s"></a>Client-side OTMHelper</h3>
+        <p>The client-side OTMHelper example demonstrates how to retrieve incident information using the cOTMLBOCall ExecuteRemote method.</p>
+        <p>This example works in a manner similar to the server-side incident retrieve example. However, rather than creating the OTMHelper class objects on the server, the operations are performed by the client browser and the results displayed using DHTML.</p>
+    </body>
+</html>

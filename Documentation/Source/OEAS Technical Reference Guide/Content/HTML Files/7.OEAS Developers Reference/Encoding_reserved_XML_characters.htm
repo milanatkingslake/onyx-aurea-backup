@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="796" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Encoding reserved XML characters</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>
+            <MadCap:keyword term="reserved XML characters;reserved XML characters:Encoding;Encoding;Encoding:reserved XML characters" />Encoding reserved XML characters</h4>
+        <p>For OTM calls to succeed, you must encode reserved XML characters when 
+ they occur in the text of a method parameter or object property. Several 
+ features employ XML content in method parameters and object properties. 
+ For example, the scriptSessionXml parameter of the script engine methods, 
+ the actionBatchXml parameter of the actionBatch execute method, and the 
+ stateXml property of the scriptSession object include XML content. When 
+ the OTM sends a step package containing one of these to a step component, 
+ the property or parameter must not alter the structure of the step package. 
+ To prevent this, the caller must encode the reserved XML characters contained 
+ in the text of the property or parameter. The following table illustrates 
+ the recommended encoding scheme using the script engine run-time XML.</p>
+        <table width="100%">
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Instead of structural markup...</th>
+                    <th>...use entity encoding</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="width: 50%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="50%">
+                        <p class="Table_Text">&lt;stepPackage&gt;</p>
+                        <p class="Table_Text">&#160; &lt;context/&gt;</p>
+                        <p class="Table_Text">&#160; &lt;parameters&gt;</p>
+                        <p class="Table_Text">&#160; &lt;scriptSessionXml&gt;</p>
+                        <p class="Table_Text">&#160; <span style="color: #FF0000;">&lt;root&gt;&lt;/root&gt;</span></p>
+                        <p class="Table_Text">&#160; &lt;/scriptSessionXml&gt;</p>
+                        <p class="Table_Text">&#160; &lt;/parameters&gt;</p>
+                        <p class="Table_Text">&#160; &lt;returnXml/&gt;</p>
+                        <p class="Table_Text" style="margin-bottom: 0;">&lt;/stepPackage&gt;</p>
+                    </td>
+                    <td style="width: 50%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="50%">
+                        <p class="Table_Text">&lt;stepPackage&gt;</p>
+                        <p class="Table_Text">&#160; &lt;context/&gt;</p>
+                        <p class="Table_Text">&#160; &lt;parameters&gt;</p>
+                        <p class="Table_Text">&#160; &lt;scriptSessionXml&gt;</p>
+                        <p class="Table_Text">&#160; <span style="color: #FF0000;">&lt;root&gt;&lt;/root&gt;</span></p>
+                        <p class="Table_Text">&#160; &lt;/scriptSessionXml&gt;</p>
+                        <p class="Table_Text">&#160; &lt;/parameters&gt;</p>
+                        <p class="Table_Text">&#160; &lt;returnXml/&gt;</p>
+                        <p class="Table_Text" style="margin-bottom: 0;">&lt;/stepPackage&gt;</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">For markup, such as HTML strings, embedded within parameter 
+ or property XML, the ampersand character must be encoded as well (e.g. 
+ &amp; = &amp;amp;). Thus "&lt;h1&gt;Hello&lt;/h1&gt;" becomes 
+ "&amp;amp;lt;h1&amp;amp;gt;Hello&amp;amp;lt;/h1&amp;amp;gt;".</p>
+        <p>In order to work with the parameter XML using an MSXML DOM, the value 
+ of the parameter should be loaded into a new DOM as a string. When you 
+ set the text property of a DOM document element or node, the DOM does 
+ all the escaping for you. Onyx does not recommend using the same DOM to 
+ parse the parameter XML as is used to construct the call to the Transaction 
+ Manager or to process the return from the Transaction Manager.</p>
+        <p>The following code illustrates the escaping performed by the MSXML DOM.</p>
+        <p Class="Code" class="code">Dim&#160;oParametersDOM&#160;As&#160;MSXML2.DOMDocument</p>
+        <p Class="Code" class="code">Set&#160;oParametersDOM&#160;=&#160;New&#160;MSXML2.DOMDocument</p>
+        <p Class="Code" class="code">
+            <!--&nbsp;$MVD$:spaceretainer()&nbsp;-->&#160;With&#160;oParametersDOM</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;.loadXML&#160;"&lt;parameters&gt;&lt;scriptSessionXml&gt;&lt;/scriptSessionXml&gt;&lt;/parameters&gt;"</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;.selectSingleNode("/parameters/scriptSessionXml").Text&#160;=&#160;"&lt;root&gt;&lt;/root&gt;"</p>
+        <p Class="Code" class="code">End&#160;With</p>
+        <p>The xml property of the oParametersDOM document contains the following. 
+ Notice that the DOM automatically escaped the reserved XML characters 
+ in the text property of the document.</p>
+        <p class="code" style="margin-bottom: 0;">&lt;parameters&gt;&lt;scriptSessionXml&gt;&lt;root&gt;&lt;/root&gt;&lt;/scriptSessionXml&gt;&lt;/parameters&gt;</p>
+    </body>
+</html>

@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:ignoredWords="JDOE" MadCap:lastBlockDepth="6" MadCap:lastHeight="685" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head>
+            <link href="../../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" /><title>Using UserID Preferences with the GlobalLogSettings Preference</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>Using UserID Preferences with GlobalLogSettings Preference </h3>
+        <p>The GlobalLogSettings data value and the UserID data value settings 
+ are complementary. This means that the individuals to whom you assign 
+ UserID log preferences can receive more log messages than those whose 
+ log settings are derived only from the GlobalLogSettings value, but they 
+ can never receive fewer log messages. </p>
+        <p>As the following table demonstrates, if you set the value of GlobalLogSettings 
+ to 3, error messages and warning messages are logged for all users, even 
+ for those whose UserID (JDOE) is set to 1 (error messages only). </p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <col />
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Registry Name Values for Logging Preferences </th>
+                    <th>Logging Preference Data Value </th>
+                    <th>Error </th>
+                    <th>Warning </th>
+                    <th>Debug </th>
+                    <th>Messages Logged </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">GlobalLogSetting </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">3</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">X</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">X</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Error and warning messages</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">JDOE </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">X</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Error messages</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Combined settings for JDOE </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">X</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">X</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">X</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Logs error and warning messages, as warning 
+ messages are inherited from the GlobalLogSettings value.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>As demonstrated in the following table, if the value of someone’s UserID 
+ (BROSS in this case) is set to 5 (error and debug), that person receives 
+ messages for error and debug message types as well as warning message 
+ types. This is because the value of the UserID setting (5) indicates that 
+ this person receives error and debug messages, and the GlobalLogSettings 
+ value (3) indicates that all users receive error and warning messages. 
+ Since the results of the data value settings are complementary, this person 
+ receives both what is logged globally (error and warning) and their customized 
+ settings (error and debug), resulting in logging messages of all types. </p>
+        <p>&#160;</p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <col />
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Registry Name Values for Logging Preferences </th>
+                    <th>Logging Preference Data Value </th>
+                    <th>Error </th>
+                    <th>Warning </th>
+                    <th>Debug </th>
+                    <th>Messages Logged </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">GlobalLogSetting </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">3</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">X</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">X</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Error and warning messages</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">BROSS </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">5</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">X</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">X</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Error and debug messages</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Combined settings for BROSS </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">X</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">X</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">X</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Logs all messages, error, warning, and debug 
+ messages, as warning messages are inherited from the GlobalLogSettings 
+ value.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

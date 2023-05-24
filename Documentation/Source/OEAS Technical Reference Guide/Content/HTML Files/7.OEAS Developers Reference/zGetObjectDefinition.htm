@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="1757" MadCap:lastWidth="660" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>GetObjectDefinition (ICache)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>
+            <MadCap:keyword term="GetObjectDefinition method" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />
+            <MadCap:keyword term="GetObjectDefinition" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />GetObjectDefinition method</h5>
+        <p>The GetObjectDefinition method of the <a href="ICache_Interface.htm"><MadCap:keyword term="ICache" />ICache 
+ interface</a> retrieves an <a href="Object_Defintions.htm">object definition</a> 
+ for a business object.</p>
+        <h3>Syntax</h3>
+        <p><b>IDL</b>
+        </p>
+        <p Class="Code" class="code">HRESULT&#160;GetObjectDefinition(</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;[in]&#160;BSTR&#160;ApplicationName,&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;[in]&#160;BSTR&#160;ObjectName,&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;[out]&#160;BSTR*&#160;ObjectDefinition,&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;[out,&#160;retval]&#160;OEDCacheStatusEnum*&#160;Status);</p>
+        <p>
+            IDL parameter descriptions
+        </p>
+        <p><span style="font-style: italic;">ApplicationName</span>
+        </p>
+        <p class="BodyTextIndent_1">[in] A string containing the logical application name that 
+ determines which subset of the cache to use for a query.</p>
+        <p><span style="font-style: italic;">ObjectName</span>
+        </p>
+        <p class="BodyTextIndent_1">[in] A string that contains the name of the specified object.</p>
+        <p><span style="font-style: italic;">ObjectDefinition</span>
+        </p>
+        <p class="BodyTextIndent_1">[out] A string that contains an XML stream containing the 
+ definition of the object.</p>
+        <p><span style="font-style: italic;">Status</span>
+        </p>
+        <p class="BodyTextIndent_1">[out, retval] An enumeration of type <a href="Error_Returns.htm">OEDCacheStatusEnum</a> 
+ that contains the status of the method call.</p>
+        <p class="BodyText" style="font-weight: bold;">Visual Basic</p>
+        <p Class="Code" class="code">Function&#160;GetObjectDefinition(</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;ApplicationName&#160;As&#160;String,&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;ObjectName&#160;As&#160;String,&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;ObjectDefinition&#160;As&#160;String)&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;As&#160;OEDCacheStatusEnum</p>
+        <p>Visual Basic parameter descriptions</p>
+        <p><span style="font-style: italic;">ApplicationName</span>
+        </p>
+        <p class="BodyTextIndent_1">[in] A string containing the logical application name that 
+ determines which subset of the cache to use for a query.</p>
+        <p><span style="font-style: italic;">ObjectName</span>
+        </p>
+        <p class="BodyTextIndent_1">[in] A string that contains the name of the specified object.</p>
+        <p><span style="font-style: italic;">ObjectDefinition</span>
+        </p>
+        <p class="BodyTextIndent_1">[out] A string that contains an XML stream containing the 
+ definition of the object.</p>
+        <p class="BodyText" style="font-weight: bold;">C#</p>
+        <p>Use with the .NET <a href="Primary_interop_assembly.htm">primary interop 
+ assembly</a> version of this component, OnyxEDCachePIA.</p>
+        <p Class="Code" class="code">public&#160;OEDCacheStatusEnum&#160;GetObjectDefinition(</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;string&#160;ApplicationName,&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;string&#160;ObjectName,&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;out&#160;string&#160;ObjectDefinition)&#160;</p>
+        <p>C# parameter descriptions</p>
+        <p><span style="font-style: italic;">ApplicationName</span>
+        </p>
+        <p class="BodyTextIndent_1">[in] A string containing the logical application name that 
+ determines which subset of the cache to use for a query.</p>
+        <p><span style="font-style: italic;">ObjectName</span>
+        </p>
+        <p class="BodyTextIndent_1">[in] A string that contains the name of the specified object.</p>
+        <p><span style="font-style: italic;">ObjectDefinition</span>
+        </p>
+        <p class="BodyTextIndent_1">[out] A string that contains an XML stream containing the 
+ definition of the object.</p>
+        <h3>Return values</h3>
+        <p>This method returns an enumeration of type OEDCacheStatusEnum that contains 
+ the status of the method call. See the <a href="Error_Returns.htm">OEDCacheStatusEnum</a> 
+ topic for a description of individual enumeration values.</p>
+        <h3>Example</h3>
+        <p>The following Visual Basic code demonstrates how to use the GetObjectDefinition 
+ method to return an incident object definition:</p>
+        <p Class="Code" class="code">Dim&#160;oCache&#160;As&#160;New&#160;OnyxDictionaryCacheLib.DictionaryCache</p>
+        <p Class="Code" class="code">Dim&#160;status&#160;As&#160;OnyxDictionaryCacheLib.OEDCacheStatusEnum</p>
+        <p Class="Code" class="code">Set&#160;oCache&#160;=&#160;New&#160;OnyxDictionaryCacheLib.DictionaryCache&#160;</p>
+        <p Class="Code" class="code">status&#160;=&#160;oCache.GetObjectDefinition("Onyx",&#160;"incident",&#160;strXML)</p>
+        <h3>Related topic</h3>
+        <ul>
+            <li><a href="Object_Defintions.htm">Object definitions</a>
+            </li>
+            <li><a href="GetObjectDefinitionAsDOM.htm">GetObjectDefinitionAsDOM</a>
+            </li>
+        </ul>
+    </body>
+</html>

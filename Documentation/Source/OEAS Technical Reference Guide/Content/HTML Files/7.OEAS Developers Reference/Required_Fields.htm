@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="631" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Required properties</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>
+            <MadCap:keyword term="Properties" />
+            <MadCap:keyword term="required" />Required properties</h5>
+        <p>Each logical property defined in the OED, includes 
+ a propertyConstraints collection, that can contain a propertyConstraint 
+ of type required. If the property includes this type of constraint, the 
+ property is a required property. When a client calls an insert or update 
+ method for an object that contains one or more required properties, the 
+ method must pass a value for each required property. You can never pass 
+ a required property with the <a href="null_Attribute.htm">null attribute</a> 
+ set to 1. You cannot pass a required property as empty except in the following 
+ instances.</p>
+        <ul style="list-style: disc;" type="disc">
+            <li>If there is a default value for the property, 
+ you can pass required properties as empty (or missing) on insert.</li>
+            <li>You can pass required properties as empty (or 
+ missing) on update, which would constitute a partial update.</li>
+            <li>For an insert method that passes database-generated 
+ keys, such as primaryId. In that case, the required field can be passed 
+ without a value (such as &lt;primaryId /&gt;), since the database generates 
+ the value upon the record insertion.</li>
+        </ul>
+        <p>You can use the Object Designer to identify properties as required or 
+ not required.</p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">In the Object Designer, do not change a propertyConstraint 
+ of type 'required' for any OEAS property shipped by Onyx. If you do, you 
+ can break compatibility with applications like Onyx Enterprise Studio 
+ and Onyx Employee Portal.</p>
+        <p>The required constraint instructs OnyxDataValidationStep component to 
+ verify that clients pass values for these properties. If you use the Object 
+ Designer to designate other Onyx properties as required, the data validation 
+ step also verifies that these properties contain values when the property 
+ is passed by a client.</p>
+        <p>OnyxDataValidationStep component checks the 
+ required constraint only for insert and update methods. It ignores the 
+ constraint for all other methods.</p>
+    </body>
+</html>

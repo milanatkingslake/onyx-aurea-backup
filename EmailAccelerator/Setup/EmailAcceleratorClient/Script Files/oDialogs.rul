@@ -1,0 +1,2444 @@
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function: DialogShowSdWelcome
+//
+//  Purpose: This function handles the standard welcome dialog.
+//
+//
+///////////////////////////////////////////////////////////////////////////////
+function DialogShowSdWelcome()
+NUMBER nResult;
+STRING szTitle, szMsg, szTemp;
+begin
+//r	   if(ORecoveryEvaluation("DialogShowSdWelcome"))then
+//r    	return NEXT;
+//r    endif;
+	
+    szTitle = "";
+  	szMsg   = "";
+	
+  	//Check for override message
+	if(OGetValueFromINI("Setup","DataBaseInstall",szTemp) =0 )then
+		StrToUpper(szTemp,szTemp);
+		if(szTemp = "YES")then
+			//setup new message
+			Sprintf(szMsg,@PROMPT_DB_WELCOME,gszProductName,gszProductName);
+			g_structSetupMode.bNoSetupReg = TRUE;  //no stuff to be left in reg
+			
+			//check disk space for db setup files
+			szTemp = "";
+			OGetValueFromINI("Options","SizeNeeded",szTemp);
+			if(szTemp != "")then
+				if(OCheckDiskSpace(gszProductName,SUPPORTDIR,szTemp) = FALSE)then
+					OAbort();
+				endif;
+			endif;
+		endif;
+	endif;
+
+	if(OMuteDialog(""))then
+		return NEXT;
+	endif;
+
+	OIsFirstDialog("DialogShowSdWelcome");  //disable back button if first dialog.		
+
+	//change bitmap if one exists.
+	OChangeBitmap("Welcome.bmp");
+	
+  	nResult = SdWelcome( szTitle, szMsg );  //copy of IS SdWelcome
+    	
+   	OChangeBitmap("");
+
+    return nResult;
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function: DialogShowSdLicense
+//
+//  Purpose: This function displays the license agreement dialog.
+//
+//
+///////////////////////////////////////////////////////////////////////////////
+function DialogShowSdLicense()
+NUMBER nResult;
+STRING szTitle, szMsg, szQuestion, szLicenseFile;
+begin
+//r    if(ORecoveryEvaluation("DialogShowSdLicense"))then
+//r  		return NEXT;
+//r    endif;
+    if(OMuteDialog(""))then
+		return NEXT;
+	endif;
+	
+	OIsFirstDialog("DialogShowSdLicense");
+   	
+   	szLicenseFile = SUPPORTDIR ^ "license.txt";
+   	szTitle    = "";
+   	szMsg      = "";
+   	szQuestion = "";
+   	nResult    = SdLicense( szTitle, szMsg, szQuestion, szLicenseFile );
+
+    return nResult;
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function: DialogShowSdShowInfoList
+//
+//  Purpose: This function displays the general information list dialog.
+//
+//
+///////////////////////////////////////////////////////////////////////////////
+function DialogShowSdShowInfoList(szFname, szTitle, szMsg)
+    NUMBER nResult;
+    LIST   list;
+
+begin
+//    if(OMuteDialog())then
+//		return NEXT;
+//	endif;
+
+	OIsFirstDialog("DialogShowSdShowInfoList");
+
+    list = ListCreate( STRINGLIST );
+    nResult = ListReadFromFile( list, szFname );
+    if(nResult = 0 )then
+    	nResult  = SdShowInfoList( szTitle, szMsg, list );
+	endif;
+    ListDestroy( list );
+    return nResult;
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function: DialogShowSdRegisterUserEx
+//
+//  Purpose: This function displays the user registration dialog.
+//
+//
+///////////////////////////////////////////////////////////////////////////////
+function DialogShowSdRegisterUserEx()
+NUMBER nResult;
+STRING szTitle, szMsg;
+begin
+//r    if(ORecoveryEvaluation("DialogShowSdRegisterUserEx"))then
+//r       	ORecoveryGetString("UserInfo","UserName",gszName);
+//r   		ORecoveryGetString("UserInfo","Company",gszCompany);
+//r   		ORecoveryGetString("UserInfo","SerialNo",gszSerial);
+//r   		return NEXT;
+//r   	endif;
+	if(OMuteDialog(""))then
+		return NEXT;
+	endif;
+
+	OIsFirstDialog("DialogShowSdRegisterUserEx");
+	
+	//change bitmap if one exists.
+	OChangeBitmap("RegisterUser.bmp");
+
+  	//nResult = SdRegisterUserEx( szTitle, szMsg, gszName, gszCompany, gszSerial );
+   	nResult = SdRegisterUser( szTitle, szMsg, gszName, gszCompany );
+   	   	
+   	OChangeBitmap("");
+       	
+//r    	ORecoveryStoreString("UserInfo","UserName",gszName,nResult);
+//r   	ORecoveryStoreString("UserInfo","Company",gszCompany,nResult);
+//r   	ORecoveryStoreString("UserInfo","SerialNo",gszSerial,nResult);
+   	
+    return nResult;
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function: DialogShowSdAskDestPath
+//
+//  Purpose: This function asks the user for the destination folder.
+//				gszDir is a global var.
+///////////////////////////////////////////////////////////////////////////////
+function DialogShowSdAskDestPath(nResult)
+STRING szTitle,szMsg,szResult,szTemp,szKeyFile;
+INT nLoop,nReturn;
+BOOL bFail;
+begin
+//r    if(ORecoveryEvaluation("DialogShowSdAskDestPath"))then
+//r       ORecoveryGetString("","DestinationPath",TARGETDIR);
+//r      	return NEXT;
+//r    endif;
+
+	
+	//establish target dir.  Default established in SetupInstall()
+	if(g_structSystemData.szPrevious_Path != "" && nResult != BACK)then
+		//use previous path
+//		ParsePath (gszDir,g_structSystemData.szPrevious_Path,PATH);
+		gszDir = g_structSystemData.szPrevious_Path;
+	endif;
+
+   	if(g_structSetupMode.bNoPrompt = TRUE)then
+   		return nResult;
+   	endif;
+
+	OIsFirstDialog("DialogShowSdAskDestPath");
+
+   	szTitle = "";
+   	szMsg   = "";
+   	nLoop = BACK;
+	while(nLoop = BACK)
+		StrRemoveLastSlash(gszDir); //no slashes on end of paths.
+		nResult = SdAskDestPath( szTitle, szMsg, gszDir, 0 );
+		StrRemoveLastSlash(gszDir); //no slashes on end of paths.
+
+		if(nResult = NEXT)then
+			bFail = FALSE; //clear
+			
+			//check to see if path is a local path.
+			if(Is(VALID_PATH,gszDir) = 1)then
+				//check UNC
+				OGetUNCPath(gszDir,nReturn);
+				if(nReturn != 2250) then
+					//error message for path needs to be local
+					MessageBox(@ERROR_LOCAL_DRIVE,WARNING);
+					bFail = TRUE;
+				else
+					//check for root path dirs
+					if(OIsPathRoot(gszDir))then
+						MessageBox(@ERROR_ROOT_DRIVE,WARNING);
+						bFail = TRUE;
+					endif;
+				endif;
+			else
+				//need error message for unvalid path
+				MessageBox(@ERROR_PATH_NOTVALID,WARNING);
+				bFail = TRUE;
+			endif;
+
+	    	//check for existing files in the specified dir.
+	    	if(OIsComponentSelected(COMP_O1_CHECK_FILES) = TRUE) then
+	    		if(gszProductKey = "")then
+	    			szKeyFile = "*.*";
+	    		else
+	    			szKeyFile = gszProductKey;
+	    		endif;
+				nLoop = ODialogShowAskToOverwrite(gszDir,szKeyFile,@WARNING_OVERWRITE+"\n"+gszDir);
+				
+				//if back, set bFail to have dialog to stay
+				if (nLoop = BACK)then
+					bFail = TRUE;
+				endif;
+			endif;
+			
+			//check for neccesary disk space.
+			ODetermineSoftwareComp(szTemp);  //gets the software component to be installed.
+			if(OCheckDiskSpaceForComp(szTemp,gszDir) = FALSE)then
+				bFail = TRUE;
+			endif;
+
+			if bFail then
+				nLoop = BACK;
+			else
+				nLoop = NEXT;
+			endif;
+			
+		elseif(nResult = BACK)then
+			nLoop = NEXT;  //force loop exit so dialog can go back.
+		endif;
+	endwhile;
+
+   	TARGETDIR = gszDir;
+
+   	//save value for other setups.
+	szTemp = "Software\\ONYX\\SetupPass\\";
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	RegDBSetKeyValueEx(szTemp,"InstallDir",REGDB_STRING,TARGETDIR,-1);	
+	
+//r	ORecoveryStoreString("","DestinationPath",TARGETDIR,nResult);
+
+    return nResult;
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function: DialogShowSdSetupType
+//
+//  Purpose: This function displays the standard setup type dialog.
+//
+///////////////////////////////////////////////////////////////////////////////
+function DialogShowSdSetupType(szParentComponent)
+    NUMBER nResult;
+    STRING szTitle, szMsg;
+    STRING szType;
+    LIST   listCompSetupTypes, listSetupTypes;
+    STRING szTemp;
+    STRING szComponent;
+    NUMBER nUnused;
+    STRING szUnuzed;
+
+begin
+
+	//OIsFirstDialog("DialogShowSdSetupType");
+
+    szTitle = @INFO_SETUP_TYPE;
+    szMsg   = @LABEL_SETUP_TYPE_DESC;
+    //nResult = SetupType( szTitle, szMsg, "", TYPICAL, 0 );
+
+    listCompSetupTypes = ListCreate( STRINGLIST );
+    listSetupTypes = ListCreate( STRINGLIST );
+
+    ComponentListItems( BASE_MEDIA, szParentComponent, listCompSetupTypes );
+
+    nResult = ListGetFirstString(listCompSetupTypes, szComponent);
+    while (nResult = 0)
+        ParsePath(szType, szComponent, FILENAME_ONLY);
+        StrSub(szTemp, szType, 0, StrLength(CHOICE_MARKER));
+        if (szTemp = CHOICE_MARKER) then
+            StrSub(szTemp, szType, StrLength(CHOICE_MARKER), 99);
+            szType = szTemp;
+        endif;
+
+ if (g_structSetupMode.nDebug > 0)then
+        if (ComponentSetupTypeGetData( MEDIA, szType, SETUPTYPE_INFO_DESCRIPTION, nUnused, szUnuzed  ) < 0) then
+        	gszMsg = "The Processing Unit named '" + szType + "' under '" + szParentComponent + "' does not correspond to a valid Setup Type.";
+            MessageBox(gszMsg, WARNING);
+            OLog(gszMsg);
+        endif;
+ endif;
+
+        ListAddString(listSetupTypes, szType, AFTER);
+        nResult = ListGetNextString(listCompSetupTypes, szComponent);
+    endwhile;
+
+
+    nResult = ODlgSetupType( szTitle, szMsg, listSetupTypes, gszSetupType, 0);
+
+    ListDestroy(listCompSetupTypes);
+    ListDestroy(listSetupTypes);
+
+	return nResult;
+	
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function: DialogShowSdComponentDialog2
+//
+//  Purpose: This function displays the custom component dialog.
+//
+//
+///////////////////////////////////////////////////////////////////////////////
+function DialogShowSdComponentDialog2()
+NUMBER nResult;
+STRING szTitle, szMsg;
+STRING szOldMedia;
+STRING szParentComponent;
+begin
+
+	ODetermineSoftwareComp(szParentComponent);
+/*  belew replaced by above.
+	
+    if (OIsComponentSelected(COMP_OPERATION_OPERATION1) = TRUE) then
+        szParentComponent = SCOMP_OPERATION1_ROOT;
+    elseif (OIsComponentSelected(COMP_OPERATION_OPERATION2) = TRUE) then
+        szParentComponent = SCOMP_OPERATION2_ROOT;
+    elseif (OIsComponentSelected(COMP_OPERATION_SERVICE_PACK) = TRUE) then
+        szParentComponent = SCOMP_SERVICE_PACK_ROOT;
+    elseif (OIsComponentSelected(COMP_OPERATION_LICENSING) = TRUE) then
+        szParentComponent = SCOMP_LICENSING_ROOT;
+    endif;
+*/
+	
+//r	if(ORecoveryEvaluation("DialogShowSdComponentDialog2"))then
+//r    	ORecoveryGetComponents(MEDIA,szParentComponent);
+//r    	return NEXT;
+//r endif;
+
+    //szOldMedia = MEDIA;
+    //OCreateNewMedia( MEDIA, COMP_SOFTWARE, SOFTWARE_MEDIA, TRUE );
+    //MEDIA = SOFTWARE_MEDIA;
+    szTitle  = "";
+    szMsg    = "";
+    nResult  = SdComponentDialog2( szTitle, szMsg, gszDir, szParentComponent );
+    //MEDIA = szOldMedia;
+
+//r	ORecoverySaveComponents(MEDIA,szParentComponent,nResult);
+
+    return nResult;
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Function: DialogShowSdSelectFolder
+//
+//  Purpose: This function displays the standard folder selection dialog.
+//
+//
+///////////////////////////////////////////////////////////////////////////////
+function DialogShowSdSelectFolder()
+NUMBER nResult,nLoop;
+STRING szTitle, szMsg, szTemp;
+begin
+//r    if(ORecoveryEvaluation("DialogShowSdSelectFolder"))then
+//r    	ORecoveryGetString("","ProgramFolder",SHELL_OBJECT_FOLDER);
+//r 		return NEXT;
+//r    endif;
+
+	OGetValueFromINI("Startup","FolderName",szTemp);
+    if (szTemp != "") then
+    	SHELL_OBJECT_FOLDER = szTemp;
+    else
+        SHELL_OBJECT_FOLDER = @FOLDER_NAME;
+    endif;
+
+	//loop till a value is entered.
+	while(nLoop = 0)
+    	nResult = SdSelectFolder( szTitle, szMsg, SHELL_OBJECT_FOLDER );
+		if(nResult = BACK)then
+			nLoop = 1 ;//force and exit from loop.
+		else
+			if(SHELL_OBJECT_FOLDER = "")then
+				Sprintf(gszMsg,@ERROR_BLANK_ENTRY,@LABEL_FOLDER);
+				MessageBox(gszMsg,WARNING);
+			else
+				nLoop = 1; //all is cool, move on.
+			endif;
+		endif;
+	endwhile;
+	
+//r	ORecoveryStoreString("","ProgramFolder",SHELL_OBJECT_FOLDER,nResult);
+
+    return nResult;
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Function: DialogShowSdStartCopy
+//
+//  Purpose: This function displays the dialog preceding the start of the
+//           file transfer process.
+//
+///////////////////////////////////////////////////////////////////////////////
+function DialogShowSdStartCopy()
+STRING szTitle;
+STRING szMsg,szTemp;
+LIST   listInfo;
+STRING szTab;
+NUMBER nUnused;
+STRING szSetupTypeName;
+STRING szSetupTypeDescription;
+NUMBER nResult;
+BOOL bTemp;
+begin
+//r    if(ORecoveryEvaluation("DialogShowSdStartCopy"))then
+//r  		return NEXT;
+//r    endif;
+
+    szTab = "      ";
+    listInfo = ListCreate( STRINGLIST );
+    if(gszName != "")then
+    	ListAddString( listInfo, @INFO_USER+@ITEM_SEPARATOR, AFTER );
+    	ListAddString( listInfo, szTab + @LABEL_USER_NAME + "  " + gszName, AFTER );
+    	ListAddString( listInfo, szTab + @LABEL_COMPANY_NAME + "  " +gszCompany, AFTER );
+    	ListAddString( listInfo, "", AFTER );
+    endif;
+    if(gszSerial != "")then
+    	ListAddString( listInfo, @INFO_SERIAL+@ITEM_SEPARATOR, AFTER );
+    	ListAddString( listInfo, szTab + gszSerial, AFTER );
+    	ListAddString( listInfo, "", AFTER );
+    endif;
+    if(g_structAppData.szAppServer != "")then
+    	ListAddString( listInfo, @LABLE_REMOTE_SERVER + @ITEM_SEPARATOR+" " + g_structAppData.szAppServer, AFTER );
+    	ListAddString( listInfo, "", AFTER );
+    endif;
+    if(g_structAppName.szLogin != "")then
+    	ListAddString( listInfo, @LABLE_APPNAME + @ITEM_SEPARATOR+" " + g_structAppName.szLogin, AFTER );
+    	ListAddString( listInfo, "", AFTER );
+    endif;
+    if(g_structDatabase.szServer != "")then
+    	ListAddString( listInfo, @INFO_DATABASE+@ITEM_SEPARATOR, AFTER );
+    	ListAddString( listInfo, szTab + @LABEL_SERVER + "  " + g_structDatabase.szServer, AFTER );
+    	ListAddString( listInfo, szTab + @LABEL_DATABASE + "  " + g_structDatabase.szDatabase, AFTER );
+    	ListAddString( listInfo, szTab + @LABEL_LOGIN + "  " + g_structDatabase.szLogin, AFTER );
+    	ListAddString( listInfo, "", AFTER );
+    endif;
+    if(g_structDatabase2.szServer != "")then
+    	ListAddString( listInfo, @INFO_DATABASE+@ITEM_SEPARATOR, AFTER );
+    	ListAddString( listInfo, szTab + @LABEL_SERVER + "  " + g_structDatabase2.szServer, AFTER );
+    	ListAddString( listInfo, szTab + @LABEL_DATABASE + "  " + g_structDatabase2.szDatabase, AFTER );
+    	ListAddString( listInfo, szTab + @LABEL_LOGIN + "  " + g_structDatabase2.szLogin, AFTER );
+    	ListAddString( listInfo, "", AFTER );
+    endif;
+    if(g_structOnyxSA.szLogin != "")then
+    	ListAddString( listInfo, @INFO_DATABASE_ONYXSA+@ITEM_SEPARATOR, AFTER );
+    	ListAddString( listInfo, szTab + @LABEL_DOMAIN + "  " + g_structOnyxSA.szLogin, AFTER );
+    	ListAddString( listInfo, "", AFTER );
+    endif;
+    if(g_structSQLAccount.szLogin != "")then
+    	ListAddString( listInfo, @INFO_SQL_ACCOUNT+@ITEM_SEPARATOR, AFTER );
+    	ListAddString( listInfo, szTab + @LABEL_LOGIN + "  " + g_structSQLEUAccount.szLogin, AFTER );
+    	ListAddString( listInfo, "", AFTER );
+    endif;
+    if(g_structVWS1.szName != "")then
+    	ListAddString( listInfo, g_structVWS1.szTitle + @ITEM_SEPARATOR, AFTER );
+		ListAddString( listInfo, "    " + g_structVWS1.szName, AFTER );
+    	ListAddString( listInfo, "", AFTER );
+    endif;
+    if(g_structVWS2.szName != "")then
+     	ListAddString( listInfo, g_structVWS2.szTitle + @ITEM_SEPARATOR, AFTER );
+		ListAddString( listInfo, "    " + g_structVWS2.szName, AFTER );
+    	ListAddString( listInfo, "", AFTER );
+    endif;
+    if(g_structVWS3.szSiteId != "")then
+    	if(g_structVWS3.szTitle % @ITEM_SEPARATOR)then
+    		szTemp = " ";
+    	else
+    		szTemp = @ITEM_SEPARATOR+" ";
+    	endif;
+     	ListAddString( listInfo, g_structVWS3.szTitle + szTemp + g_structVWS3.szSiteId, AFTER );
+		ListAddString( listInfo, "", AFTER );
+    endif;
+    if(g_structDSN.szName != "")then
+    	ListAddString( listInfo, @DSN_NAME+@ITEM_SEPARATOR, AFTER );
+		ListAddString( listInfo, szTab + @LABEL_NAME + "  " + g_structDSN.szName, AFTER );
+		ListAddString( listInfo, szTab + @LABEL_SERVER + "  " + g_structDSN.szServer, AFTER );
+		ListAddString( listInfo, szTab + @LABEL_DATABASE + "  " + g_structDSN.szDatabase, AFTER );
+		ListAddString( listInfo, "", AFTER );
+	endif;
+    if(g_structDomainAccount.szLogin != "")then
+    	//if domain entry is empty, it's a local account.
+    	if(g_structDomainAccount.szDomain = "")then
+    		ListAddString( listInfo, @INFO_NT_ACCOUNT+@ITEM_SEPARATOR, AFTER );
+    	else
+    		ListAddString( listInfo, @INFO_DOMAIN_ACCOUNT+@ITEM_SEPARATOR, AFTER );
+    		ListAddString( listInfo, szTab + @LABEL_DOMAIN_ONLY + "  " + g_structDomainAccount.szDomain, AFTER );
+    	endif;
+    	ListAddString( listInfo, szTab + @LABEL_LOGIN + "  " + g_structDomainAccount.szLogin, AFTER );
+    	ListAddString( listInfo, "", AFTER );
+    endif;
+    if(g_structNTAccount.szLogin != "")then
+    	ListAddString( listInfo, @INFO_NT_ACCOUNT+@ITEM_SEPARATOR, AFTER );
+    	ListAddString( listInfo, szTab + @LABEL_LOGIN + "  " + g_structNTAccount.szLogin, AFTER );
+    	ListAddString( listInfo, "", AFTER );
+    endif;
+    if(g_structNTGroup.szLogin != "")then
+    	ListAddString( listInfo, @INFO_NT_GROUP+@ITEM_SEPARATOR, AFTER );
+    	ListAddString( listInfo, szTab + @LABEL_LOGIN + "  " + g_structNTGroup.szLogin, AFTER );
+    	ListAddString( listInfo, "", AFTER );
+    endif;
+    /* //No more need for LM user/account as of Rivendell
+    if (g_structLMAccount.szLogin != "" ) then
+    	ListAddString ( listInfo, @INFO_LM_ACCOUNT + @ITEM_SEPARATOR, AFTER);
+    	ListAddString ( listInfo, szTab + @LABEL_LOGIN + "  " + g_structLMAccount.szLogin, AFTER);
+    	ListAddString ( listInfo, "", AFTER);
+    endif;
+	*/
+	
+    // Setup Type
+    if(g_structSetupMode.bNoOperation != TRUE)then
+    	ComponentSetupTypeGetData( MEDIA, gszSetupType, SETUPTYPE_INFO_DISPLAYNAME, nUnused, szSetupTypeName );
+    	ComponentSetupTypeGetData( MEDIA, gszSetupType, SETUPTYPE_INFO_DESCRIPTION, nUnused, szSetupTypeDescription );
+	    if(szSetupTypeName = "")then
+    		szSetupTypeName = gszSetupType;
+    	endif;
+    	if(szSetupTypeDescription != "")then
+    		szSetupTypeName = szSetupTypeName + @ITEM_SEPARATOR+"  " + szSetupTypeDescription;
+    	endif;
+    	ListAddString( listInfo, @INFO_SETUP_TYPE+@ITEM_SEPARATOR, AFTER );
+    	ListAddString( listInfo, szTab + szSetupTypeName, AFTER );
+   		ListAddString( listInfo, "", AFTER );
+	endif;
+	
+	//dest dir
+    if(g_structSetupMode.bNoPrompt = TRUE)then
+		OGetValueFromINI("Setup","DisplayDir",szTemp);
+   		StrToUpper(szTemp,szTemp);
+  		if(szTemp = "YES")then
+   			bTemp = TRUE;
+   		endif;
+	else
+		bTemp = TRUE;
+	endif;
+	if(bTemp)then
+		ListAddString( listInfo, @LABEL_DIRECTORY+" "+TARGETDIR, AFTER );
+   		ListAddString( listInfo, "", AFTER );
+   	endif;
+   	
+	//program group
+    if (SHELL_OBJECT_FOLDER != "") then
+    	ListAddString( listInfo, @ERROR_FILEGROUP +" "+SHELL_OBJECT_FOLDER, AFTER );
+    	ListAddString( listInfo, "", AFTER );
+ 	endif;
+
+    nResult = SdStartCopy( szTitle, szMsg, listInfo );
+
+    ListDestroy( listInfo );
+
+    return nResult;
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+//  Function: DialogShowSdFinishReboot
+//
+//  Purpose: This function will show the last dialog of the product.
+//           It will allow the user to reboot and/or show some readme text.
+//
+///////////////////////////////////////////////////////////////////////////////
+function DialogShowSdFinishReboot()
+NUMBER nResult, nDefOptions;
+STRING szTitle, szMsg1, szMsg2, szOption1, szOption2,szKey,szTemp;
+NUMBER bOpt1, bOpt2;
+begin
+	//look for setup.ini setting to force a reboot.
+	OGetValueFromINI("Setup","ForceReboot",szTemp);
+	StrToUpper(szTemp,szTemp);
+	if(szTemp = "YES")then
+		BATCH_INSTALL = TRUE;
+	endif;
+
+	//if run from a parent or master install, surpress reboot if parent requested.
+	if(g_structSetupMode.bNoReboot = TRUE)then
+		if(BATCH_INSTALL)then
+			RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+			szKey = "Software\\ONYX\\SetupLauncher";
+			RegDBSetKeyValueEx(szKey,"RebootNeeded",REGDB_STRING,"YES",-1);
+		endif;
+	endif;
+
+	//mute dialog if run from launcher.
+	if(OMuteDialog(""))then
+		return NEXT;
+	endif;
+
+    if (!BATCH_INSTALL) then
+        //bOpt1 = TRUE;
+        bOpt2 = FALSE;
+        //szMsg1 = "";
+        szMsg1 = @SETUP_FINISH;
+        Sprintf(szMsg1,szMsg1,gszProductName);
+        szMsg2 = "";
+        //szOption1 = "Show Read-Me File";
+        szOption2 = "";
+        nResult = SdFinish( szTitle, szMsg1, szMsg2, szOption1, szOption2, bOpt1, bOpt2 );
+        return 0;
+    endif;
+
+    nDefOptions = SYS_BOOTMACHINE;
+    szTitle     = "";
+    szMsg1      = "";
+    szMsg2      = "";
+    nResult     = SdFinishReboot( szTitle, szMsg1, nDefOptions, szMsg2, 0 );
+
+	//will never get here if reboot is selected.
+    return nResult;
+end;
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function: ODialogShowOperations
+//
+// Purpose: This function displays the general information list dialog.
+//
+//
+///////////////////////////////////////////////////////////////////////////////
+function ODialogShowOperations(szComponentResult,nResult)
+NUMBER nExclusive,nTemp;
+STRING szTitle, szMsg1, szMsg2,szTemp;
+STRING szDisplayName;
+STRING szOldMedia;
+begin
+	//look for BACK button
+	if(nResult = BACK)then
+		g_structSetupMode.bNoOperation = FALSE;
+	endif;
+
+	//check to see if we bypass the operation choice dialog.
+	if(g_structSetupMode.bNoOperation = TRUE)then
+		return nResult;
+	endif;
+
+	OIsFirstDialog("ODialogShowOperations");
+
+   	szTitle = @TITLE_SELECT_OPERATION;
+   	szMsg1  = @PROMPT_SELECT_OPERATION;
+
+	//if exclusive list of options, don't use list of options.
+	nTemp = _DetermineOperation(BASE_MEDIA,COMP_OPERATIONS_BRANCH,szComponentResult,szDisplayName,nExclusive);
+	
+	//hide auto selection of operation type from user if set in setup.ini
+	OGetValueFromINI("Setup","HideOperationDialog",szTemp);
+	StrToUpper(szTemp,szTemp);
+	if (szTemp != "YES")then
+	
+    	if(nTemp >1)then
+			nResult = ODlgOperation(BASE_MEDIA, szTitle, szMsg1, szMsg2, "", COMP_OPERATIONS_BRANCH, szComponentResult);
+    	
+/*    	//more than one, so determine what kind of list to show.
+        if(nExclusive = FALSE)then
+		   	nResult = ODlgOperation(BASE_MEDIA, szTitle, szMsg1, szMsg2, "", COMP_OPERATIONS_BRANCH, szComponentResult);
+    	else
+		
+			//if service pack, display choice of OPERATION2 and SERVICE PACK
+			if(szComponentResult = COMP_OPERATION_OPERATION3)then
+				nResult = OListTwoOperations(COMP_OPERATION_OPERATION2,COMP_OPERATION_OPERATION3,2,szComponentResult);
+    		else
+	    		g_structSetupMode.bNoOperation = TRUE; //for not showing type in startcopy dialog.
+	    		szMsg1 = @PROMPT_LIST1_OPERATION;
+    			nResult = OListSingleOperation(szTitle,szMsg1,szDisplayName);
+			endif;
+    	endif;
+*/
+	    else
+    		//only one, no selection and NEXT
+			g_structSetupMode.bNoOperation = TRUE; //for not showing type in startcopy dialog.
+	    endif;
+
+	else
+		//just select the setup type
+	endif;
+    	
+    return nResult;
+end;
+
+
+
+
+// ---------------------------- Onyx - specific utility functions ------------------------------
+
+/*
+// ------------------------------------------------------------------------------------------
+// Function Name:  OActionValidate
+//    Parameters:
+//       Returns:
+//   Description:  This function validates the user's selections and confirms
+//                 that we have enough resources (e.g., disk space) to continue.
+// ------------------------------------------------------------------------------------------
+function OActionValidate(  )
+begin
+    OPlugin( COMP_O1_BEGIN_PLUGIN );
+end;
+*/
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//   Function Name: ODialogShowDatabaseInfo
+//
+//     Description: This function displays a custom dialog that retrieves
+//                  SQL Server login information (Server, Database, Login and
+//                  password).
+//
+////////////////////////////////////////////////////////////////////////////////
+
+function ODialogShowDatabaseInfo( pstructDatabase,nResult )
+
+STRING  szDlg, szTemp, szMessage;
+NUMBER  bDone, nId, nMessage, nTemp,nSize;
+NUMBER  nvDatabaseInfo;
+INT     hwndDlg;
+STRING  szTitle;
+STRING  szServer, szDatabase, szLogin, szPassword;
+STRING  szErr;
+HWND    hwndControl;  // Window handle of dialog control
+
+
+begin
+		szDlg = "dlgDbase";
+        szTitle = @INFO_DATABASE;
+		
+        // record data produced by this dialog
+        if (MODE=SILENTMODE) then
+           SdMakeName( szAppKey, szDlg, szTitle, nvDatabaseInfo );
+           SilentReadData( szAppKey, "Result", DATA_NUMBER, szTemp, nId );
+           return nId;
+        endif;
+
+		//only prompt if not a rundundant dialog
+		if (OMuteDialog(szTitle) = TRUE && nResult != BACK) then
+			return NEXT;
+		endif;
+
+		//do we disable back button?
+		OIsFirstDialog(szTitle);
+
+        // ensure general initialization is complete
+        if (!bSdInit) then
+           SdInit();
+        endif;
+
+        if (EzDefineDialog( szDlg, ISUSER, "", IDD_DATABASE ) = DLG_ERR) then
+           return -1;
+        endif;
+
+        // Loop in dialog until the user selects a standard button
+        bDone = FALSE;
+        while (!bDone)
+
+  			nId = WaitOnDialog( szDlg );
+
+       		switch(nId)
+       		case DLG_INIT:
+				hwndDlg = CmdGetHwndDlg( szDlg );
+				SdGeneralInit( szDlg, hwndDlg, STYLE_NORMAL, szSdProduct );
+
+				//star out password edit control
+				SendMessage(_WinSubGetChildWindow(hwndDlg,IDFLD_PASSWORD),EM_SETPASSWORDCHAR, ASTERISK , 0);
+
+				if (szTitle != "") then
+            		SetWindowText(hwndDlg, szTitle);
+					
+					//setup instruction string
+					Sprintf(szMessage,@PROMPT_DATABASE_INSTRUCTIONS,pstructDatabase->szDescription);
+					//override from ini
+					szTemp = "";
+					OGetValueFromINI("SQL1","Message",szTemp);
+					if(szTemp != "")then
+						szMessage = szTemp;
+					endif;
+					CtrlSetText(szDlg, IDLBL_DATABASE_INSTRUCTIONS, szMessage);
+
+					CtrlSetText(szDlg, IDLBL_SERVER, @LABEL_SERVER);
+    				CtrlSetText(szDlg, IDLBL_DATABASE, @LABEL_DATABASE);
+        			CtrlSetText(szDlg, IDLBL_LOGIN, @LABEL_LOGIN);
+            		CtrlSetText(szDlg, IDLBL_PASSWORD, @LABEL_PASSWORD);
+
+					CtrlSetText(szDlg, IDFLD_SERVER, pstructDatabase->szServer);
+					CtrlSetText(szDlg, IDFLD_DATABASE, pstructDatabase->szDatabase);
+    				CtrlSetText(szDlg, IDFLD_LOGIN, pstructDatabase->szLogin);
+        			CtrlSetText(szDlg, IDFLD_PASSWORD, pstructDatabase->szPassword);
+//            	    CtrlSetText(szDlg, IDFLD_PASSWORD,"");
+
+        			CtrlSetText(szDlg, 1, @BUTTON_NEXT);
+        			CtrlSetText(szDlg, 9, @BUTTON_CANCEL);
+        			CtrlSetText(szDlg, 12, @BUTTON_BACK);
+				endif;
+
+//				//disable the login entry field if value is sa
+//				StrToUpper(szTemp,pstructDatabase->szLogin);
+//				if(szTemp = "SA")then
+//					hwndControl = GetDlgItem(hwndDlg, IDFLD_LOGIN);
+//					_WinSubEnableWindow ( hwndControl, 0 );
+//				endif;
+
+				//look to also lock the server and db
+				szTemp = "";
+				OGetValueFromINI("SQL1","LockDBLogin",szTemp);
+				if(szTemp = "YES")then
+					hwndControl = GetDlgItem(hwndDlg, IDFLD_SERVER);
+					_WinSubEnableWindow ( hwndControl, 0 );				
+					hwndControl = GetDlgItem(hwndDlg, IDFLD_DATABASE);
+					_WinSubEnableWindow ( hwndControl, 0 );					
+				endif;
+
+				// Set focus to first empty field in dialog
+				if(pstructDatabase->szServer = "")then
+   	        		hwndControl = GetDlgItem(hwndDlg, IDFLD_SERVER);
+   				elseif(pstructDatabase->szDatabase = "")then
+   	        		hwndControl = GetDlgItem(hwndDlg, IDFLD_DATABASE);
+   				elseif(pstructDatabase->szLogin = "")then
+   	        		hwndControl = GetDlgItem(hwndDlg, IDFLD_LOGIN);
+   				elseif(pstructDatabase->szPassword = "")then
+   	        		hwndControl = GetDlgItem(hwndDlg, IDFLD_PASSWORD);
+   				endif;
+       	        	
+       			SetFocus(hwndControl);
+
+			case OK:
+				nId    = NEXT;
+				CtrlGetText (szDlg, IDFLD_SERVER, szServer);
+				CtrlGetText (szDlg, IDFLD_DATABASE, szDatabase);
+				CtrlGetText (szDlg, IDFLD_LOGIN, szLogin);
+				CtrlGetText (szDlg, IDFLD_PASSWORD, szPassword);
+				pstructDatabase->szServer = szServer;
+				pstructDatabase->szDatabase = szDatabase;
+				pstructDatabase->szLogin = szLogin;
+				pstructDatabase->szPassword = szPassword;
+				bDone = TRUE;
+
+			case BACK:
+				nId    = BACK;
+				bDone  = TRUE;
+
+			case DLG_ERR:
+				SdError( -1, "ODialogShowDatabaseInfo" );
+				nId    = -1;
+				bDone  = TRUE;
+
+			case DLG_CLOSE:
+				SdCloseDlg( hwndDlg, nId, bDone );
+
+			case IDFLD_PASSWORD:
+//		   		MessageBox("Replace with a star",WARNING);
+
+			default:
+				// check standard handling
+				 if (SdIsStdButton( nId ) && SdDoStdButton( nId )) then
+					bDone = TRUE;
+				endif;
+			endswitch;
+
+        endwhile;
+
+        EndDialog( szDlg );
+        ReleaseDialog( szDlg );
+
+        SdUnInit( );
+
+        if (nId = OK) then
+
+        endif;
+
+        // record data produced by this dialog
+        SdMakeName( szAppKey, szDlg, szTitle, nvDatabaseInfo );
+        SilentWriteData( szAppKey, "Result", DATA_NUMBER, "", nId );
+
+	 	if(g_structLauncher.bIsChild || g_structLauncher.bShareData)then
+			//save data to reg for use in another setup latter.
+			szTemp = "Software\\ONYX\\SetupPass\\"+szTitle;
+			RegDBSetKeyValueEx(szTemp,"Server", REGDB_STRING, szServer,-1);
+			RegDBSetKeyValueEx(szTemp,"DataBase", REGDB_STRING, szDatabase,-1);
+			//password is encrypted
+			RegDBSetKeyValueEx(szTemp,"Login", REGDB_STRING, szLogin,-1);
+			OEncryptEntryToReg("HKLM",szTemp,"Password",szPassword,ENCRYPT_KEY); //uses OnyxEncrypt.dll
+			
+			//data for redundant mute
+			if(nResult = NEXT)then
+				OMuteDialogSetStatus(szTitle,"COMPLETE");
+			else
+				OMuteDialogSetStatus(szTitle,"");
+			endif;
+		endif;
+
+        return nId;
+
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Function Name: ODialogShowAccountInfo
+// Prompts for username and password for MTS to use.
+// Stores results in passed in struct and in reg for other setups to use.
+//
+// This info to be used later in setup.
+//
+////////////////////////////////////////////////////////////////////////////////
+function ODialogShowAccountInfo(szTitle,szMsg,gstruct,nSpaceOkInPW,nAllowPath,nANSIonly,bConfirmPassword)
+STRING szKey,szPassword,szLogin,szTemp;
+INT bReturn,nvSize,nvType,nLoop;
+begin
+	szKey = "Software\\ONYX\\SetupPass\\"+szTitle;
+
+//	OIsFirstDialog("ODialogShowAccountInfo");	
+	
+	//look for info in reg from a pervious setup.
+	RegDBGetKeyValueEx(szKey,"Username",nvType,szLogin,nvSize);
+//	RegDBGetKeyValueEx(szKey,"Password",nvType,szPassword,nvSize);
+	ODecryptEntryFromReg("HKLM",szKey,"Password",szPassword,ENCRYPT_KEY);
+	
+	if(szLogin != "" && szPassword != "")then
+		gstruct->szLogin = szLogin;
+		gstruct->szPassword = szPassword;
+//		return NEXT;
+	else
+		szLogin = gstruct->szLogin;
+		szPassword = gstruct->szPassword;
+	endif;
+
+	//only prompt if not a rundundant dialog
+	if (OMuteDialog(szTitle) = TRUE) then
+		return NEXT;
+	endif;
+
+	//do we disable back button?
+	OIsFirstDialog(szTitle);
+	
+	//append warning message to szMsg
+	OGetValueFromINI("Setup","AccountWarning",szTemp);
+	StrToUpper(szTemp,szTemp);
+	if(szTemp = "YES")then
+		if(gstruct->bLockName)then
+			szMsg = szMsg+"  "+@PROMPT_ACCOUNT_WARNING_LOCKED;
+		else
+			szMsg = szMsg+"  "+@PROMPT_ACCOUNT_WARNING;
+		endif;
+	endif;
+
+	//prompt for account info
+	if(bConfirmPassword = TRUE)then
+		bReturn = ODlgUserPassword(szTitle,szMsg,szLogin,szPassword,nSpaceOkInPW,gstruct->bLockName,nAllowPath,nANSIonly);
+	else
+		bReturn = ODlgUserPasswordNoConfirm(szTitle,szMsg,szLogin,szPassword,nSpaceOkInPW,gstruct->bLockName,nAllowPath,nANSIonly);	
+	endif;
+
+
+	if(bReturn = NEXT)then
+		gstruct->szLogin = szLogin;
+		gstruct->szPassword = szPassword;
+	 	if(g_structLauncher.bIsChild || g_structLauncher.bShareData)then
+			//save data to reg for use in another setup latter.
+			RegDBSetKeyValueEx(szKey,"Username", REGDB_STRING, gstruct->szLogin,-1);
+			OEncryptEntryToReg("HKLM",szKey,"Password",gstruct->szPassword,ENCRYPT_KEY);
+
+			//for redundant dialog muting
+			OMuteDialogSetStatus(szTitle,"PROMPTED");
+		endif;
+	endif;
+	return bReturn;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Function Name: ODialogShowAccountInfo
+// Prompts for username and password for MTS to use.
+// Stores results in passed in struct and in reg for other setups to use.
+//
+// This info to be used later in setup.
+//
+////////////////////////////////////////////////////////////////////////////////
+function ODlgShowDomainAccountInfo(szTitle,szMsg,gstruct)
+STRING szKey,szPassword,szLogin,szDomain,szTemp;
+INT bReturn,nvSize,nvType,nLoop;
+begin
+	szKey = "Software\\ONYX\\SetupPass\\"+szTitle;
+
+//	OIsFirstDialog("ODialogShowAccountInfo");	
+	
+	//look for info in reg from a pervious setup.
+	RegDBGetKeyValueEx(szKey,"DomainName",nvType,szLogin,nvSize);
+	RegDBGetKeyValueEx(szKey,"LoginName",nvType,szLogin,nvSize);
+	ODecryptEntryFromReg("HKLM",szKey,"Password",szPassword,ENCRYPT_KEY);
+	
+	if(szDomain != "" && szLogin != "" && szPassword != "")then
+		gstruct->szDomain = szDomain;
+		gstruct->szLogin = szLogin;
+		gstruct->szPassword = szPassword;
+	else
+		szDomain = gstruct->szDomain;
+		szLogin = gstruct->szLogin;
+		szPassword = gstruct->szPassword;
+	endif;
+
+	//only prompt if not a rundundant dialog
+	if (OMuteDialog(szTitle) = TRUE) then
+		return NEXT;
+	endif;
+
+	//do we disable back button?
+	OIsFirstDialog(szTitle);
+	
+	//prompt for account info
+//	bReturn = ODlgUserPassword(szTitle,szMsg,szLogin,szPassword,nSpaceOkInPW,gstruct->bLockName,nAllowPath);
+	bReturn = ODlgDomainAccount(szTitle,szMsg,szDomain,szLogin,szPassword,gstruct->nSpaceOkInPW,gstruct->bLockName);
+
+	if(bReturn = NEXT)then
+		gstruct->szDomain = szDomain;
+		gstruct->szLogin = szLogin;
+		gstruct->szPassword = szPassword;
+	 	if(g_structLauncher.bIsChild || g_structLauncher.bShareData)then
+			//save data to reg for use in another setup latter.
+			RegDBSetKeyValueEx(szKey,"DomainName", REGDB_STRING, gstruct->szLogin,-1);
+			RegDBSetKeyValueEx(szKey,"LoginName", REGDB_STRING, gstruct->szLogin,-1);
+			OEncryptEntryToReg("HKLM",szKey,"Password",gstruct->szPassword,ENCRYPT_KEY);
+
+			//for redundant dialog muting
+			OMuteDialogSetStatus(szTitle,"COMPLETE");
+		endif;
+	endif;
+	return bReturn;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Function Name: ODialogShowGetEntry1
+// Prompts for a two entries.
+// Stores results in passed in struct and in reg for other setups to use.
+// very simular to ODialogShowAccountInfo above.
+// Uses a login/password struct, but just uses the login value.
+// This info to be used later in setup.
+//
+////////////////////////////////////////////////////////////////////////////////
+function ODialogShowGetEntry(szTitle,szMsg,szEntry,szLable,nAllowPath,nANSIonly,nBlankOk)
+STRING szKey,szEdit1;
+INT bReturn,nvSize,nvType,nLoop;
+begin
+	szKey = "Software\\ONYX\\SetupPass\\"+szTitle;
+
+//	OIsFirstDialog("ODialogShowGetEntry");	
+	
+	//look for info in reg from a pervious setup.
+	RegDBGetKeyValueEx(szKey,"Entry",nvType,szEdit1,nvSize);
+	if(szEdit1 != "")then
+		szEntry = szEdit1;
+	else
+		szEdit1 = szEntry;
+	endif;
+
+	//only prompt if not a rundundant dialog
+	if (OMuteDialog(szTitle) = TRUE) then
+		return NEXT;
+	endif;
+
+	//do we disable back button?
+	OIsFirstDialog(szTitle);
+	
+	//prompt for account info
+	while(nLoop = 0)
+		bReturn = SdShowDlgEdit1(szTitle,szMsg,szLable,szEdit1);
+		if (bReturn = NEXT) then
+			nLoop = OCheckForIllegalChars(szEdit1,szTitle,nAllowPath,nBlankOk,nANSIonly);
+		else
+			nLoop = 1;//back or cancel, exit loop
+		endif;
+	endwhile;
+	
+	if(bReturn = NEXT)then
+		szEntry = szEdit1;
+	 	if(g_structLauncher.bIsChild || g_structLauncher.bShareData)then
+			//save data to reg for use in another setup latter.
+			RegDBSetKeyValueEx(szKey,"Entry", REGDB_STRING, szEntry,-1);
+		endif;
+		OMuteDialogSetStatus(szTitle,"PROMPTED");
+	endif;
+	return bReturn;
+end;
+
+//retrieves stored data in reg for sharing
+function OGetSharedValueInReg(szTitle,szEntry,szValue)
+STRING szKey,szData;
+INT nvType,nvSize;
+begin
+	szKey = "Software\\ONYX\\SetupPass\\"+szTitle;
+	RegDBGetKeyValueEx(szKey,szEntry,nvType,szData,nvSize);
+	if(szData != "")then
+		szValue = szData;
+	endif;
+end;
+
+//stores data in reg for shareing
+function OStoreSharedValueInReg(szTitle,szEntry,szValue)
+STRING szKey;
+begin
+ 	if(g_structLauncher.bIsChild || g_structLauncher.bShareData)then
+		//save data to reg for use in another setup latter.
+		szKey = "Software\\ONYX\\SetupPass\\"+szTitle;
+		RegDBSetKeyValueEx(szKey,szEntry, REGDB_STRING, szValue,-1);
+	endif;
+	OMuteDialogSetStatus(szTitle,"PROMPTED");
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Function Name: ODialogShowGetEntry2
+// Prompts for a single entry.
+// Stores results in passed in struct and in reg for other setups to use.
+// very simular to ODialogShowAccountInfo above.
+// Uses a login/password struct, but just uses the login value.
+// This info to be used later in setup.
+//
+////////////////////////////////////////////////////////////////////////////////
+function ODialogShowGetEntry2(szTitle,szMsg,szEntry1,szEntry2,szLable1,szLable2,nAllowPath,nANSIonly)
+STRING szKey,szEdit1,szEdit2;
+INT bReturn,nvSize,nvType,nLoop;
+begin
+	szKey = "Software\\ONYX\\SetupPass\\"+szTitle;
+
+//	OIsFirstDialog("ODialogShowGetEntry");	
+	
+	//look for info in reg for pervious setup data.
+	RegDBGetKeyValueEx(szKey,"Entry1",nvType,szEdit1,nvSize);
+	if(szEdit1 != "")then
+		szEntry1 = szEdit1;
+	else
+		szEdit1 = szEntry1;
+	endif;
+
+	RegDBGetKeyValueEx(szKey,"Entry2",nvType,szEdit2,nvSize);
+	if(szEdit2 != "")then
+		szEntry2 = szEdit2;
+	else
+		szEdit2 = szEntry2;
+	endif;
+
+	//only prompt if not a rundundant dialog
+	if (OMuteDialog(szTitle) = TRUE) then
+		return NEXT;
+	endif;
+
+	//do we disable back button?
+	OIsFirstDialog(szTitle);
+	
+	//prompt for account info
+	while(nLoop = 0)
+		bReturn = SdShowDlgEdit2(szTitle,szMsg,szLable1,szLable2,szEdit1,szEdit2);
+		nLoop = OCheckForIllegalChars(szEdit1,szLable1,nAllowPath,FALSE,nANSIonly);
+		if(nLoop = 0)then
+			nLoop = OCheckForIllegalChars(szEdit2,szLable2,nAllowPath,FALSE,nANSIonly);
+		endif;
+	endwhile;
+	
+	if(bReturn = NEXT)then
+		szEntry1 = szEdit1;
+		szEntry2 = szEdit2;
+	 	if(g_structLauncher.bIsChild || g_structLauncher.bShareData)then
+			//save data to reg for use in another setup latter.
+			RegDBSetKeyValueEx(szKey,"Entry1", REGDB_STRING, szEntry1,-1);
+			RegDBSetKeyValueEx(szKey,"Entry2", REGDB_STRING, szEntry2,-1);
+		endif;
+		OMuteDialogSetStatus(szTitle,"PROMPTED");
+	endif;
+	return bReturn;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Function Name: ODialogShowGetDSNEntry
+// Prompts for a three entries.
+// Stores results in passed in struct and in reg for other setups to use.
+// very simular to ODialogShowAccountInfo above.
+// Uses all three fields of the login/password struct
+// This info to be used later in setup.
+//
+////////////////////////////////////////////////////////////////////////////////
+function ODialogShowGetDSNEntry(szTitle,szMsg,gstruct,szSingle)
+STRING szKey,szEdit1,szEdit2,szEdit3,szLable1,szLable2,szLable3,szTemp2,szTemp3;
+INT bReturn,nvSize,nvType,nLoop,nBad;
+begin
+	szKey = "Software\\ONYX\\SetupPass\\";
+
+	StrToUpper(szSingle,szSingle);
+
+	OIsFirstDialog("ODialogShowGetDSNEntry");	
+
+	szLable1= @LABEL_NAME;
+	szLable2= @LABEL_SERVER;
+	szLable3= @LABEL_DATABASE;
+
+	//look for info in reg from a pervious setup.
+	RegDBGetKeyValueEx(szKey,"DSN Name",nvType,szEdit1,nvSize);
+	if(szEdit1 != "")then
+		gstruct->szName = szEdit1;
+	else
+		szEdit1 = gstruct->szName;
+	endif;
+
+	RegDBGetKeyValueEx(szKey,"Server",nvType,szEdit2,nvSize);
+	if(szEdit2 != "")then
+		gstruct->szServer = szEdit2;
+	else
+		szEdit2 = gstruct->szServer;
+		if(szEdit2 = "")then
+			szEdit2 = g_structDatabase.szServer;
+		endif;		
+	endif;
+
+	RegDBGetKeyValueEx(szKey,"Database",nvType,szEdit3,nvSize);
+	if(szEdit3 != "")then
+		gstruct->szDatabase = szEdit3;
+	else
+		szEdit3 = gstruct->szDatabase;
+		if(szEdit3 = "")then
+			szEdit3 = g_structDatabase.szDatabase;
+		endif;		
+	endif;
+	
+	//prompt for account info
+//	bReturn = ODlgUserPassword(szTitle, szMsg, @LABEL_USER_NAME, @LABEL_PASSWORD,szEdit2,szEdit3);
+	while(nLoop = 0)
+		nBad = 0;
+		if(szSingle = "YES")then
+//			bReturn = AskText(szMsg,szEdit1,szEdit1);
+			bReturn = SdShowDlgEdit1(szTitle,szMsg,@LABEL_NAME,szEdit1);
+		else
+			bReturn = SdShowDlgEdit3(szTitle,szMsg,szLable1,szLable2,szLable3,szEdit1,szEdit2,szEdit3);
+		endif;
+		
+		if(bReturn = NEXT)then
+			if(OCheckForIllegalChars(szEdit1,szLable1,FALSE,FALSE,FALSE)=FALSE)then
+				nBad = TRUE;
+			endif;
+			if(szSingle = "")then
+				if(OCheckForIllegalChars(szEdit2,szLable2,FALSE,FALSE,FALSE)=FALSE)then
+					nBad = TRUE;
+				endif;		
+				if(OCheckForIllegalChars(szEdit3,szLable3,FALSE,FALSE,FALSE)=FALSE)then
+					nBad = TRUE;
+				endif;
+			endif;
+		
+			if(nBad = 0)then
+				//check for an existing DSN with this name.
+				if(OCheckForPreviousDSN("SYSTEM",szEdit1,szTemp2,szTemp3)=TRUE)then
+					gszMsg = @DSN_NAME_EXISTS1+"\n\n"+@LABEL_NAME+" "+szEdit1+"\n"+@LABEL_SERVER+" "+szTemp2+"\n"+@LABEL_DATABASE+" "+szTemp3+"\n\n"+@DSN_NAME_EXISTS2;
+					if(AskYesNo(gszMsg,YES) = YES)then
+						nLoop = 1;
+					endif;
+				else
+					nLoop = 1;
+				endif;				
+			endif;
+
+		elseif(bReturn = BACK)then
+			nLoop = 1; //exit loop
+		endif;
+	endwhile;
+		
+	//save values in struct
+	gstruct->szName = szEdit1;
+	gstruct->szServer = szEdit2;
+	gstruct->szDatabase = szEdit3;
+	
+	if(bReturn = NEXT)then
+//	 	if(g_structLauncher.bIsChild)then
+			//save data to reg for use in another setup latter.
+			RegDBSetKeyValueEx(szKey,"DSN Name", REGDB_STRING, gstruct->szName,-1);
+			RegDBSetKeyValueEx(szKey,"Server", REGDB_STRING, gstruct->szServer,-1);
+			RegDBSetKeyValueEx(szKey,"Database", REGDB_STRING, gstruct->szDatabase,-1);
+//		endif;
+	endif;
+
+	return bReturn;
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// warns user that items on db about to be overwriten
+//
+///////////////////////////////////////////////////////////////////////////////
+function DialogShowRebuildCodeWarning()
+begin
+//	Sprintf(gszMsg,@REBUILD_WARNING,g_structDatabase.szDatabase);
+	gszMsg = @REBUILD_WARNING;
+	Sprintf(gszMsg,gszMsg,gszProductName);
+	if(AskYesNo (gszMsg,YES) = YES)then
+		return NEXT;
+	else
+		return BACK;
+	endif;
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// warns user that upgrade items on db about to be reset
+//
+///////////////////////////////////////////////////////////////////////////////
+function DialogShowOperation2CodeWarning()
+STRING szTemp;
+begin
+	if(_CheckReqVersion(gszProductName,gszProductVersion,szTemp) >0)then
+	
+		gszMsg = @OPERATION_DB_WARNING1;
+		Sprintf(szTemp,@OPERATION_DB_WARNING2,@OPERATION_2);
+		OCatStrings(gszMsg,"\n\n",szTemp);
+		Sprintf(szTemp,@OPERATION_DB_WARNING3,gszProductName);
+		OCatStrings(gszMsg,"  ",szTemp);
+		OCatStrings(gszMsg,"\n\n",@OPERATION_DB_WARNING4);
+  		OCatStrings(gszMsg,"  ",@OPERATION_DB_WARNING5);
+		StrToUpper(szTemp,g_structDatabase.szDatabase);
+		Sprintf(gszMsg,gszMsg,gszProductName,gszProductVersion,szTemp);
+		if(AskYesNo (gszMsg,NO) = YES)then
+			return NEXT;
+		else
+			return BACK;
+		endif;
+	endif;
+	return NEXT;
+end;
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function:  DialogShowSetSystemParameters
+//
+//		Commits various data items entered by user to the system.
+//
+///////////////////////////////////////////////////////////////////////////////
+function DialogShowSetSystemParameters()
+INT nResult;
+STRING szKey,szTemp,szPakDir,szGroup,szComment,szSection,szFile;
+ACCOUNT_INFO g_structAccount;
+begin
+/*    if(ORecoveryEvaluation("DialogShowSetSystemParameters")=0)then
+    	OPlugin(COMP_O1_SYSTEM_PARMS);
+    	return NEXT;
+    else //in recovery mode
+    	return NEXT;
+    endif;
+*/
+	if (OIsComponentSelected( COMP_CREATE_DSN )) then
+		//Create ODBC DSN name stuff.
+		OCreateDSNEntry(g_structDSN.szName,g_structDSN.szDesc,g_structDSN.szServer,g_structDSN.szDatabase,g_structSQLAccount.szLogin,g_structSQLAccount.szPassword);  //actual data is: Name,Server,Database
+ 	endif;
+
+	if (OIsComponentSelected( COMP_DSN_TO_ASA )) then
+	 	OPutDSNintoASAFile(TARGETDIR^"global.asa");
+	endif;
+
+	if (OIsComponentSelected( COMP_SQL_TO_ASA )) then
+	 	OPutSQLintoASAFile(TARGETDIR^"global.asa");
+	endif;
+
+	if (OIsComponentSelected(COMP_INI_TO_ASA)) then
+		OPutINIintoFile(TARGETDIR^"global.asa","ASA");
+	endif;
+	
+	if (OIsComponentSelected(COMP_INI_TO_FILE)) then
+		OPutINIDataIntoFiles();
+	endif;
+
+	if (OIsComponentSelected( COMP_ENCRYPT_ACCOUNT )) then
+//		OEncryptAccountIntoReg(&g_structSQLAccount,"Software\\Onyx\\Business Objects\\1.0\\Database",ENCRYPT_KEY,g_structDSN.szName+"_");
+		OEncryptDBAccountIntoReg(&g_structSQLAccount,&g_structDatabase);
+  	endif;
+
+	if (OIsComponentSelected( COMP_CREATE_NT_GROUP )) then
+   		//default is handled during prompt for new group.
+   		// login = name, password = description
+		OCreateNTGroup(g_structNTGroup.szLogin,g_structNTGroup.szPassword);
+ 	endif;
+
+	if (OIsComponentSelected( COMP_CREATE_NT_ACCOUNT )) then
+
+    	//check for group to assign this nt account to.  May not be the same as the NTGroupCreate one created
+    	//above and used for COM+ Apps.
+		OGetValueFromINI("Setup","NTGroup",szGroup);
+		OParseMacros(szGroup);
+		if(szGroup = "")then
+			szGroup = "MTS Impersonators";
+		endif;
+		
+		OGetValueFromINI("Setup","NTAccountComment",szComment);
+		OParseMacros(szComment);
+		if(szComment = "")then
+			szComment = gszProductName;
+		endif;
+		
+		OCreateNTAccount(g_structNTAccount.szLogin,g_structNTAccount.szPassword,szGroup,szComment);
+ 	endif;
+
+ 	if (OIsComponentSelected(COMP_CREATE_MTS_COMP)) then
+		OInstallMTSPackages(szPakDir); //returns path packages are in.
+	endif; 	
+
+ 	if (OIsComponentSelected(COMP_EXPORT_MTS_PAK)) then
+		//prompt for a dir
+		oMTSPromptForExportPath(szTemp);
+		//export the package
+		oMTSExportPackages(szPakDir,szTemp);
+	endif;
+
+ 	if (OIsComponentSelected(COMP_CREATE_COM_APP)) then
+		oCOMAddApp();  //creates a COM+ applications (package) and adds components via data in setup.ini
+	endif; 	
+
+	//all VWS stuff under COMP_CREATE_VWS1 component
+ 	szTemp = COMP_VWS_PRODUCT1;
+ 	if (OIsComponentSelected(COMP_VWS_PRODUCT1)) then
+ 		
+ 		//Set the ASP script timeout
+		OPutNumInReg("HKLM","Software\\Onyx\\Setup\\IIS","AspScriptTimeout",g_structVWS1.szAspScriptTimeout);
+ 		
+ 		//Set the default document
+		OPutStringInReg("HKLM","Software\\Onyx\\Setup\\IIS","DefaultDoc",g_structVWS1.szDefaultDoc,REGDB_STRING);
+		
+		//Set the content expiration
+		OPutStringInReg("HKLM","Software\\Onyx\\Setup\\IIS","HttpExpires",g_structVWS1.szHttpExpires,REGDB_STRING);
+ 		//appcmd add vdir /app.name: string / /path: string /physicalPath: string
+		//appcmd add vdir /app.name: contoso / /path:/ photos /physicalPath:c:\ images
+
+
+		//if(OLaunchAppAndWait("c:"^"windows"^"System32"^"inetsrv"^"appcmd.exe","add vdir /app.name:Default web site/ /path:/Timage /physicalPath:C:"^"inetpub"^"wwwroot"^"Timage") = NEXT)then	
+		//		endif;		
+		
+ 		OCreateVWS(g_structVWS1.szName,"C:"^"inetpub"^"wwwroot"^"OnyxEmailAccelerator");
+ 		
+ 		if(g_structVWS1.bDisableAnonymous = TRUE)then
+ 			OSetVWSAnonymousUserOFF(""); //turn off anonymous access and turn on Integrated security
+ 		endif;
+			//Commented by ashish
+		//OEnableVWSParentPaths(); //ensure that parent paths are enabled for .NET
+
+	endif;
+	
+	if (OIsComponentSelected(COMP_ADD_MIME)) then
+
+		OAddVBIMimeType(g_structVWS1.szName,TARGETDIR);  //add .svg MIME type for scripted workflow designer
+	 		
+	endif;	
+
+ 	if (OIsComponentSelected(COMP_VWS_HELP)) then
+		if(ComponentIsItemSelected(MEDIA,SCOMP_O1_HELP) = TRUE)then
+			szTemp = g_structSystemData.szIIS_Path;
+			ORemoveLastDir(szTemp);
+			OCreateVWS(g_structVWS1.szHelpName,szTemp^g_structVWS1.szHelpName);
+		endif;
+	endif;
+
+ 	if (OIsComponentSelected(COMP_VWS_ANONYMOUS)) then
+ 		//OSetVWSAnonymousUser(g_structNTAccount.szLogin);
+ 		//OSetOutOfProcessVWS(g_structVWS1.szName,"1",g_structNTAccount.szLogin,g_structNTAccount.szPassword); //1 means ON or TRUE.
+ 		//Added by ashish
+		OSetVWSAnonymousUser("IUSR");
+ 		OSetOutOfProcessVWS(g_structVWS1.szName,"1","IUSR",g_structNTAccount.szPassword); //1 means ON or TRUE.
+	endif;
+
+ 	if (OIsComponentSelected(COMP_VWS_ANONYMOUS_OFF)) then
+ 		//set dir reg for vb.exe plugin
+ 		szTemp = "";
+ 		//for a subdir of the virtual web site, specify "subdir name" in setup.ini
+		OGetValueFromINI("IIS","DisableAnonymousAccess",szTemp);
+		if(szTemp != "")then
+			OParseMacros(szTemp);
+	 		//disable Anonymous user for the above dir.
+			OSetVWSAnonymousUserOFF(szTemp);
+		endif; 		
+ 	endif;
+ 	//added by ashish
+//	if (gbIIS7= TRUE) then
+		//if(OLaunchAppAndWait("c:"^"windows"^"System32"^"inetsrv"^"appcmd.exe","add vdir /app.name:\"Default web site/\" /path:/Timage /physicalPath:C:"^"inetpub"^"wwwroot"^"Timage") = NEXT)then	
+		//		endif;	
+		//set config /section:handlers /+[name=' ImageCopyrightHandler-ClassicMode-2.0 ',path='*.jpg',verb='GET,HEAD',scriptProcessor='%windir%\Microsoft.NET\Framework\v2.0.50727\aspnet_isapi.dll',preCondition='classicMode,runtimeVersionv2.0']
+///	if(OLaunchAppAndWait(WINSYSDIR^"netsrv"^"appcmd.exe","set config /section:handlers /+[name=' ImageCopyrightHandler-ClassicMode-2.0 ',path='*.gif',verb='GET,HEAD,POST,DEBUG',scriptProcessor='%windir%\Microsoft.NET\Framework\v2.0.50727\aspnet_isapi.dll',preCondition='classicMode,runtimeVersionv2.0']") = NEXT)then	
+//	endif;
+//	endif;
+	//VWS #2
+ /*	if (OIsComponentSelected(COMP_VWS_PRODUCT2)) then
+ 		//Set the ASP script timeout
+		OPutNumInReg("HKLM","Software\\Onyx\\Setup\\IIS","AspScriptTimeout",g_structVWS2.szAspScriptTimeout);
+
+ 		OCreateVWS(g_structVWS2.szName,"C:"^"inetpub"^"wwwroot"^"Unsubscribe");
+ 		if(g_structVWS2.bDisableAnonymous = TRUE)then
+ 			OSetVWSAnonymousUserOFF(""); //turn off anonymous access and turn on Integrated security
+ 		endif; 		
+		//commented by ashish	
+		//OEnableVWSParentPaths(); //ensure that parent paths are enabled for .NET
+
+	endif;
+	
+	if (OIsComponentSelected(COMP_ADD_MIME)) then
+
+		OAddVBIMimeType(g_structVWS2.szName,TARGETDIR);  //add .svg MIME type for scripted workflow designer
+	 		
+	endif;	
+	
+	
+	if (OIsComponentSelected(COMP_VWS_HELP)) then
+		if(ComponentIsItemSelected(MEDIA,SCOMP_O1_HELP) = TRUE)then
+			szTemp = g_structSystemData.szIIS_Path;
+			ORemoveLastDir(szTemp);
+			OCreateVWS(g_structVWS2.szHelpName,szTemp^g_structVWS2.szHelpName);
+		endif;
+	endif;
+
+ 	if (OIsComponentSelected(COMP_VWS_ANONYMOUS)) then
+ 		//Changed by ashish we need Iuser here
+ 		OSetVWSAnonymousUser("IUSR");
+ 		OSetOutOfProcessVWS(g_structVWS2.szName,"1","IUSR",g_structNTAccount.szPassword); //1 means ON or TRUE.
+	endif;
+
+ 	if (OIsComponentSelected(COMP_VWS_ANONYMOUS_OFF)) then
+ 		//set dir reg for vb.exe plugin
+ 		szTemp = "";
+ 		//for a subdir of the virtual web site, specify "subdir name" in setup.ini
+		OGetValueFromINI("IIS","DisableAnonymousAccess",szTemp);
+		if(szTemp != "")then
+			OParseMacros(szTemp);
+	 		//disable Anonymous user for the above dir.
+			OSetVWSAnonymousUserOFF(szTemp);
+		endif; 		
+ 	endif;
+*/
+	if(OIsComponentSelected(COMP_OFS_ADMIN_CONF)) then
+//5.0		_RunOFSAdminConfig();
+	endif;
+
+	if(OIsComponentSelected(COMP_OFS_ISSERV_CONF)) then
+//5.0		_RunOFSISServConfig();
+	endif;
+
+	//switch protocol
+	if(OIsComponentSelected(COMP_SET_DB_TCPIP)) then
+		OSwitchDSQuery("DBMSSOCN");
+		
+		//this is set, so reg entry will not get reset during CleanUpInstall
+		g_structSetupMode.szSQLProtocol = "DBMSSOCN";
+	endif;
+
+	//set protocol.
+	if(OIsComponentSelected(COMP_SET_DB_TCPIP)) then
+		OSetDSQuery("DBMSSOCN");
+	endif;
+	
+	if(OIsComponentSelected(COMP_UPGRADE_DICTIONARY)) then
+		oRunDictionaryInstall();  //installs or upgrades the dictionary xml files.
+	endif;
+
+	if(OIsComponentSelected(COMP_CONFIG_MIDDLETIER)) then
+		OConfigMiddleTier();
+	endif;
+
+	if(OIsComponentSelected(COMP_SET_PATH)) then
+		//set environment path var:  only sets it if it hasn't been set yet.
+		OGetValueFromINI("Setup","PATH",szTemp);
+		if(szTemp = "")then
+			SetEnvPath(TARGETDIR,TRUE);
+		else
+			OParseMacros(szTemp);
+			SetEnvPath(szTemp,TRUE);
+		endif;
+	endif;
+	if(OIsComponentSelected(COMP_EXECUTE_PROXY)) then
+		if(g_structAppData.szProxyFile !="")then
+			SdShowMsg("", FALSE);
+			SdShowMsg(@STATUS_EXECUTE+" "+g_structAppData.szProxyFile, TRUE);
+			szTemp = "/i \""+g_structAppData.szProxyFile + "\"";
+			OLaunchAppAndWait(WINSYSDIR^"msiexec.exe",szTemp);
+		endif;
+	endif;
+
+	return nResult;
+end;
+
+/* //OFS
+// displays a single item to install.
+function OListSingleOperation(szTitle,szMsg,szDisplayName)
+INT nSelect;
+begin
+	//change message to indicate only a sub list of items are available.
+ 	AskOptions (EXCLUSIVE, szMsg, szDisplayName,nSelect);
+end;
+*/
+
+/* //OFS
+// displays two items to install.  last parameter indicates which one is the default select.
+function OListTwoOperations(szOp1,szOp2,nSelect,szOp)
+INT nSelect1,nSelect2,nResult;
+STRING szTitle,szMsg,szDisplayName1,szDisplayName2;
+begin
+	//change message to indicate only a sub list of items are available.
+	if(nSelect = 1)then
+		nSelect1 = TRUE;
+	elseif(nSelect = 2)then
+		nSelect2 = TRUE;
+	endif;
+	szTitle = @TITLE_SELECT_OPERATION;
+	szMsg = @OPERATION_OPTIONS_2+"  "+@PROMPT_SELECT_OPERATION;
+	ComponentGetData (BASE_MEDIA,szOp1,COMPONENT_FIELD_DISPLAYNAME,nResult,szDisplayName1);
+	ComponentGetData (BASE_MEDIA,szOp2,COMPONENT_FIELD_DISPLAYNAME,nResult,szDisplayName2);
+	SetDialogTitle(DLG_ASK_OPTIONS,szTitle);
+ 	nResult = AskOptions(EXCLUSIVE, szMsg, szDisplayName1,nSelect1,szDisplayName2,nSelect2);
+ 	if(nSelect1)then
+		szOp = szOp1; 		
+ 	elseif(nSelect2)then
+ 		szOp = szOp2;
+ 	endif;
+ 	return nResult;
+end;
+*/
+
+///////////////////////////////////////////////////////////////////////////////
+//display to the user, the location of the log file created by ONYXINS.DLL
+//when running SQL files and strings against a SQL database.
+//only displays the dialog if log file exists.
+///////////////////////////////////////////////////////////////////////////////
+function DialogLogFiles()
+INT nResult;
+STRING szTemp;
+begin
+	nResult = FindAllFiles(SUPPORTDIR,"*.log",szTemp,RESET );
+	if(nResult = 0)then  //found a file.
+		VarSave(SRCTARGETDIR);
+		SRCDIR = SUPPORTDIR;
+
+		GetEnvVar("TEMP",TARGETDIR);
+		TARGETDIR = TARGETDIR ^ "SETUP_LOGS_FILES";
+		nResult = CopyFile("*.log","*.log");
+		
+		gszMsg = @LOGFILE_LOCATION +"\n"+ TARGETDIR;
+		MessageBox(gszMsg,INFORMATION);
+		
+		VarRestore(SRCTARGETDIR);
+	endif;
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function:  DialogShowShutdownServices
+//
+//  Purpose:  This dialog display a list of services that will be shut down
+//			  The list is determined by sub items listed in the IDE.
+//			  A generic list of NT services to shutdown can be listed in setup.ini
+//
+///////////////////////////////////////////////////////////////////////////////
+function DialogShowShutdownServices(nReturn)
+STRING szItems,szExe,szTemp;
+INT nLoop,nResult,bBad,bMTSSkip;
+LIST listOfNTServices;
+begin
+	if(nReturn = BACK)then
+		return BACK;
+	endif;
+	nReturn = NEXT;
+	
+	//Build list
+
+	//MTS components
+	if (OIsComponentSelected(COMP_SHUTDOWN_MTS) = TRUE) then
+		//check to see if we need to shutdown any MTS objects.
+		if(OGetValueFromINI("MTS","ShutdownAlways",szTemp) =0 )then
+			StrToUpper(szTemp,szTemp);
+			if(szTemp = "NO")then
+				if(g_structSystemData.szPrevious_Path = "")then
+					bMTSSkip = TRUE;
+				endif;
+			endif;
+		endif;
+		
+		//set item to be shutdown.
+		if(!bMTSSkip)then
+			if(OGetValueFromINI("MTS","Name",szTemp) =0 )then
+				szItems = szTemp;
+			else
+				szItems = gszProductName;
+			endif;
+		
+			//only prompt if not a rundundant dialog
+			if (OMuteDialog(szItems) = TRUE) then
+				szItems = ""; //already did this, so clear entry so dialog will not prompt for this.
+			else
+				OMuteDialogSetStatus(szItems,"COMPLETE");
+			endif;	
+		endif;
+    endif;
+
+    //IIS service
+   	if (OIsComponentSelected(COMP_SHUTDOWN_IIS) = TRUE) then
+		//only prompt if not a rundundant dialog
+		if (OMuteDialog(@IIS_DEFAULT) = FALSE) then
+			OCatStrings(szItems,"\n",@IIS_DEFAULT);
+			OMuteDialogSetStatus(@IIS_DEFAULT,"COMPLETE");
+		endif;	
+    endif;
+
+    //Other NT services in setup.ini
+    if (OIsComponentSelected(COMP_SHUTDOWN_NT_SERVICES) = TRUE) then
+	    listOfNTServices = ListCreate(STRINGLIST);
+	    if(OLookForNTServices(listOfNTServices) = TRUE)then;
+    		//setup ask permision display string.
+    		szTemp = "";
+	    	nLoop = ListGetFirstString(listOfNTServices,szTemp);
+    		while(nLoop != END_OF_LIST)
+    			OCatStrings(szItems,"\n",szTemp);	
+    			nLoop = ListGetNextString(listOfNTServices,szTemp);
+	    	endwhile;
+    	endif;
+    endif;
+
+	//////////////////////////////////////////////////////////////////
+	//display list of services to shutdown and ask permision message.
+	//////////////////////////////////////////////////////////////////
+	Disable(DIALOGCACHE);
+	if(szItems != "")then
+		gszMsg = @SHUTDOWN_SERVICES+"\n\n"+szItems+"\n\n"+@CONTINUE_QUESTION;
+		nLoop = 0;
+		while(nLoop = 0)
+			nResult = AskYesNo(gszMsg,YES);
+			if(nResult = NO)then
+				//exit setup.
+				Do(EXIT);
+			else
+				//if YES, continue with install.  Will default to new install
+				nLoop = 1;
+			endif;
+		endwhile;
+	endif;
+
+	//shutdown items.
+	SdShowMsg("", FALSE);
+	SdShowMsg(@MSG_SHUTDOWN_SERVICE, TRUE);
+
+	gszMsg = "";
+	if (OIsComponentSelected(COMP_SHUTDOWN_MTS) = TRUE && !bMTSSkip) then
+		
+		//shutsdown existing MTS packages that are listed in setup.ini and found in previous install dir.
+		nReturn = OMTSShutdownPackages(glistOfOldPackages);
+		Sprintf(gszMsg,"OMTSShutdownPackages returned %d",nReturn);
+		OLog(gszMsg);
+		if(nReturn = 0)then
+			// return of 0 - means no errors
+			// Set the return value to NEXT to proceed
+			nReturn = NEXT;
+			gszMsg = "";
+		else
+			bBad = TRUE;
+			gszMsg = @MTS_COMPONENTS;
+		endif;
+	
+		//shutsdown any existing COM+ apps that are of the same name as the ones being installed.
+		//based on the create new app data in setup.ini
+		nReturn = OComShutdownApps();
+		Sprintf(gszMsg,"OComShutdownApps returned %d",nReturn);
+		OLog(gszMsg);
+		if(nReturn = 0)then
+			// return of 0 - means no errors
+			// Set the return value to NEXT to proceed
+			nReturn = NEXT;
+			gszMsg = "";
+		else
+			bBad = TRUE;
+			gszMsg = @MTS_COMPONENTS;
+		endif;
+
+	endif;
+	if (OIsComponentSelected(COMP_SHUTDOWN_IIS) = TRUE) then
+		//first find default web site.
+		if(g_structSetupMode.nDebug != 21)then
+			szExe = SUPPORTDIR^"IISSetup.exe";
+			nReturn = OLaunchAppAndWait(szExe,"");
+			if(nReturn = NEXT)then
+
+				//update display
+				Sprintf(gszMsg,@STATUS_SHUTDOWN,@IIS_DEFAULT);
+				SdShowMsg("", FALSE);
+				SdShowMsg(gszMsg, TRUE);
+
+				//next, shut it down.
+				nReturn = OLaunchAppAndWait(szExe,"STOP");
+    			ListAddString(glistServicesToStart,"EXE,"+szExe+",START",AFTER);
+			endif;
+			
+			if(nReturn = CANCEL)then
+				bBad = TRUE;
+				OCatStrings(gszMsg,"\n",@IIS_DEFAULT);
+				OLog(gszMsg);	
+			endif;
+		endif;
+	endif;
+
+	//look for NT services listed in setup.ini to shutdown
+    if (OIsComponentSelected(COMP_SHUTDOWN_NT_SERVICES) = TRUE) then
+		szTemp = gszMsg;
+		gszMsg = "";
+		OShutDownNTServices(listOfNTServices);	//uses gszMsg for errors.
+		gszMsg = szTemp;		//restore other error messages.
+		ListDestroy(listOfNTServices);
+	endif;
+			
+	if(bBad)then
+		gszMsg = @ERROR_SERVICES_SHUTDOWN+"\n\n"+gszMsg+"\n\n"+@ERROR_CANNOT_CONTINUE;
+		MessageBox(gszMsg,SEVERE);
+		OLog(gszMsg);
+
+		if(g_structSetupMode.nDebug = 20 || g_structSetupMode.nDebug = 19)then
+			nReturn = NEXT;  //for testing
+		else
+			abort;
+		endif;
+	endif;
+	
+	SdShowMsg("", FALSE);
+	Enable(DIALOGCACHE);
+	return nReturn;
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// warns user that the following dir has files and will be overwriten
+// returns NEXT or BACK
+///////////////////////////////////////////////////////////////////////////////
+function ODialogShowAskToOverwrite(szDir,szKeyFile,szMsg)
+STRING szResult;
+begin
+	if(FindFile(szDir,szKeyFile,szResult) = 0)then
+		if(AskYesNo (szMsg,NO) = NO)then
+			return BACK;
+		else;
+			//delete the previous files first.
+//			if(szDir != "")then
+//				DeleteDir(szDir,ALLCONTENTS);
+//			endif;
+			//now deleting files right before files are installed.
+			g_structSetupMode.sDeleteFiles = szDir;
+		endif;
+	endif;
+	return NEXT;
+end;
+
+////////////////////////////////////////////////////////////////////////////
+//An VWS structure is used to store the directory names for the virtual web sites.
+//The stucture is passed in along with the setup.ini section to get all the default data from.
+////////////////////////////////////////////////////////////////////////////	
+function ODialogShowGetVirtualDir(structVWS,szINISection,nResult)
+STRING szTemp[512],szDialogTitle,szMessage,szPromptLabel,szWebSite,szSiteId,szPromptSiteId;
+INT nLoop;
+BOOL bPromptForSiteId;
+begin
+	//set defaults
+	szDialogTitle = @LABLE_VWS;
+	szMessage = @VWS_NAME;
+	szPromptLabel = @LABEL_NAME;
+	szPromptSiteId = @LABLE_SITEID;
+	
+	//get default product virtual dir out of setup.ini if struct is empty.
+	if(structVWS->szName = "" || nResult = NEXT)then
+		OGetValueFromINI(szINISection,"Virtual",szTemp);
+		structVWS->szName = szTemp;
+	endif;
+	
+	OGetValueFromINI(szINISection,"Message",szTemp);
+	if(szTemp != "")then
+		szMessage = szTemp;
+	endif;
+	
+	OGetValueFromINI(szINISection,"Title",szTemp);
+	if(szTemp != "")then
+		szDialogTitle = szTemp;
+	endif;	
+
+	//toggle security base on ini entry.
+	OGetValueFromINI(szINISection,"Security",szTemp);
+	if(szTemp = "Integrated")then
+		structVWS->bDisableAnonymous = TRUE;
+	elseif(szTemp = "Anonymous")then
+		structVWS->bDisableAnonymous = FALSE;
+	endif;
+	
+	//Get the ASP Script Timout value from the ini file
+	OGetValueFromINI(szINISection,"ASPScriptTimout",szTemp);
+	if(szTemp = "")then
+		structVWS->szAspScriptTimeout = "300";
+	else
+		structVWS->szAspScriptTimeout = szTemp;
+	endif;
+
+	//Get the content expiration value from the ini file
+	OGetValueFromINI(szINISection,"HttpExpires",szTemp);
+	if(szTemp = "")then
+		structVWS->szHttpExpires = "0";
+	else
+		structVWS->szHttpExpires = szTemp;
+	endif;
+
+	//Get the default doc value from the ini file
+	OGetValueFromINI(szINISection,"DefaultDoc",szTemp);
+	if(szTemp = "")then
+		structVWS->szDefaultDoc = "";
+	else
+		structVWS->szDefaultDoc = szTemp;
+	endif;
+
+	OGetValueFromINI(szINISection,"SiteId",szTemp);
+	if(szTemp != "")then
+		szSiteId = szTemp;
+	endif;	
+	
+	structVWS->szTitle = szDialogTitle;
+	
+	//get web site name.  Check for existence.  Loop if found until user wants to replace or gives a new name.
+	szWebSite = structVWS->szName;
+	while(nLoop = 0)
+		if(szSiteId = "")then
+			nResult = ODialogShowGetEntry(szDialogTitle,szMessage,szWebSite,szPromptLabel,FALSE,FALSE,FALSE);
+		else
+			nResult = ODialogShowGetEntry2(szDialogTitle,szMessage,szWebSite,szSiteId,szPromptLabel,szPromptSiteId,FALSE,FALSE);
+		endif;
+		if(nResult = NEXT)then
+			//check for entry character length
+			if(OCheckStringLength(szWebSite,199,@HELP_W) =FALSE )then
+				nLoop = 0;
+			elseif (OCheckForIllegalChars( szWebSite, szDialogTitle, 0,0,0) = FALSE ) then
+				nLoop =0;
+			else
+				//check for existing website
+				if(OCheckForVWS(szWebSite) = TRUE)then
+					Sprintf(gszMsg,@VWS_EXISTS,szWebSite);
+					if(AskYesNo(gszMsg,YES)=YES)then
+						nLoop = 1; //exit
+					endif;
+				else
+					nLoop = 1;
+				endif;
+				structVWS->szName = szWebSite;
+				structVWS->szSiteId = szSiteId;
+			endif;
+		else
+			nLoop = 1;
+		endif;
+	endwhile;	
+
+	//get default Help virtual dir out of setup.ini
+	OGetValueFromINI(szINISection,"Help",szTemp);
+	if(szTemp = "")then
+		szTemp = "OnyxHelp";
+	endif;
+	structVWS->szHelpName = szTemp;
+	
+	return nResult;
+end;
+
+////////////////////////////////////////////////////////////////////////////
+//An VWS structure is used to store the directory names for the virtual web sites.
+//The stucture is passed in along with the setup.ini section to get all the default data from.
+////////////////////////////////////////////////////////////////////////////	
+function ODialogShowGetSiteID(structVWS,szINISection)
+STRING szTemp[1024],szDialogTitle[1024],szMessage,szPromptLabel,szWebSite,szSiteId,szPromptSiteId;
+INT nResult,nLoop;
+BOOL bPromptForSiteId;
+NUMBER	nRet, nSiteID;
+begin
+	//set defaults
+	szDialogTitle = @LABLE_VWS;
+	szMessage = @VWS_SITEID;
+	szPromptSiteId = @LABLE_SITEID;
+
+	//look for a site id in reg from shared data.
+	OGetSharedValueInReg("","SiteID",szTemp);
+	if(szTemp != "")then
+		structVWS->szSiteId = szTemp;
+		szTemp = "";
+	endif;
+	
+	//get default product virtual dir out of setup.ini if struct is empty.
+	if(structVWS->szSiteId = "")then
+		OGetValueFromINI(szINISection,"Value",szTemp);
+		structVWS->szSiteId = szTemp;
+	endif;
+	
+	OGetValueFromINI(szINISection,"Message",szTemp);
+	if(szTemp != "")then
+		szMessage = szTemp;
+	endif;
+	
+	OGetValueFromINI(szINISection,"Title",szTemp);
+	if(szTemp != "")then
+		szDialogTitle = szTemp;
+	endif;	
+
+	structVWS->szTitle = szDialogTitle;
+	
+	//get siteId.
+	szSiteId = structVWS->szSiteId;
+	while (nLoop = 0)
+	
+		nResult = ODialogShowGetEntry(szDialogTitle,szMessage,szSiteId,szPromptSiteId,FALSE,FALSE,FALSE);
+		if(nResult = NEXT)then
+		//numbers only
+			_Trim(szSiteId);
+			if ( OCheckForIllegalChars(szSiteId,szDialogTitle, 0, 0, 0) = FALSE ) then
+				nLoop =0;
+			elseif(_CheckForANSIchars(szSiteId,FALSE,TRUE) = FALSE)then
+				Sprintf(gszMsg,@ERROR_NEED_ANSI_NUM);
+				MessageBox(gszMsg,WARNING);
+			else
+				nRet = StrToNum(nSiteID, szSiteId);
+				if (nRet = 0) then
+					if (nSiteID < 1) || (nSiteID > 99) then
+						Sprintf(szTemp, @ERROR_SITEID_RANGE);
+						MessageBox ( szTemp, INFORMATION);
+					else
+						//ok
+						structVWS->szSiteId = szSiteId;
+						nLoop = TRUE;
+					endif;
+				endif;	
+			endif;
+		else
+			nLoop = TRUE;
+		endif;
+	endwhile;
+
+	return nResult;
+end;
+
+////////////////////////////////////////////////////////////////////////////
+//For convienence, an Account structure is used to store data
+//.szLogin = name of logical application
+//.szPassword = not used
+////////////////////////////////////////////////////////////////////////////	
+function ODialogShowGetAppName()
+STRING szTemp,szEntry;
+INT nResult,nLoop;
+BOOL bCheckForName;
+begin
+
+	//get default product app name out of setup.ini if struct is empty.
+	if(g_structAppName.szLogin = "")then
+		OGetValueFromINI("Application Configuration","Name",szTemp);
+		g_structAppName.szLogin = szTemp;
+	endif;
+	
+	//also set if we need to check for the app on the server
+	szTemp = "";
+	OGetValueFromINI("Application Configuration","CheckForName",szTemp);
+	StrToUpper(szTemp,szTemp);
+	if (szTemp = "YES") then
+		bCheckForName = TRUE;
+	endif;
+	
+	//get web site name.  Check for existance.  Loop if found until user wants to replace or gives a new name.
+	szEntry = g_structAppName.szLogin;
+	while(nLoop = 0)
+		nResult = ODialogShowGetEntry(@LABLE_APPNAME,@PROMPT_APPNAME,szEntry,@LABEL_NAME,FALSE,FALSE,FALSE);
+		
+		//check to see if already done appname already, if so no checking for existing
+		OMuteDialogGetStatus(@LABLE_APPNAME,szTemp);
+		if(szTemp = "COMPLETE")then
+			bCheckForName = FALSE;
+		endif;
+		
+		if(nResult = NEXT && bCheckForName=TRUE)then
+			if(OCheckForLogicalApp(szEntry) = TRUE)then
+				Sprintf(gszMsg,@PROMPT_APPNAME_EXISTS,szEntry);
+				if(AskYesNo(gszMsg,YES)=YES)then
+					nLoop = 1; //exit
+				endif;
+			else
+				nLoop = 1;
+			endif;
+		else
+			nLoop = 1;
+		endif;
+	endwhile;	
+
+	if(nResult != BACK)then
+		g_structAppName.szLogin = szEntry;
+	else
+		g_structAppName.szLogin = "";
+	endif;
+
+	return nResult;
+end;
+
+////////////////////////////////////////////////////////////////////////////
+//For convienence, an Account structure is used to store data
+//.szLogin = name of remote server
+//.szPassword = not used
+//RegDBDisConnectRegistry should be called after all remote reg connection work is done.
+////////////////////////////////////////////////////////////////////////////	
+function ODialogShowRemoteServerReg(szEntry)
+STRING szTemp,szErrMsg;
+INT nResult,nLoop,nReturn;
+BOOL bCheckForName;
+begin
+	szEntry = g_structAppData.szAppServer;
+
+	//ask for server name.  Check for existance of remote machine registry.  Loop if not found.
+	while(nLoop = 0)
+		
+		nResult = ODialogShowGetEntry(@LABLE_REMOTE_SERVER,@PROMPT_REMOTE_SERVER,szEntry,@LABEL_NAME,FALSE,FALSE,TRUE);
+		
+		if(nResult = NEXT && szEntry != "")then
+			//connect to remote reg.  Just like using RegDBSetDefaultRoot but to a remote machine.
+			RegDBDisConnectRegistry(0); //disconnect any old connection
+			nReturn = RegDBConnectRegistry(szEntry,HKEY_LOCAL_MACHINE,0);
+
+			//old connection.  Close and try again.
+			if (nReturn = REGDB_ERR_CONNECTIONEXISTS) then
+				if(RegDBDisConnectRegistry(0) <0 )then
+					szErrMsg = @ERROR_REMOTE_SERVER1;
+				else;
+					nReturn = RegDBConnectRegistry(szEntry,HKEY_LOCAL_MACHINE,0);
+				endif;			
+			endif;
+			
+			switch (nReturn)
+				case 0:
+					//all ok, continue
+					szErrMsg = "";
+				case REGDB_ERR_CORRUPTEDREGISTRY:
+					szErrMsg = @ERROR_REMOTE_SERVER2;
+				case REGDB_ERR_INITIALIZATION:
+					szErrMsg = @ERROR_REMOTE_SERVER3;
+				case REGDB_ERR_INVALIDHANDLE:
+					szErrMsg = @ERROR_REMOTE_SERVER4;
+				case REGDB_ERR_INVALIDNAME:
+					szErrMsg = @ERROR_REMOTE_SERVER5;				
+				case -1:
+					szErrMsg = @ERROR_REMOTE_SERVER5;
+				default:
+           			szErrMsg = @ERROR_COPYFILE_HANDLER8; //unknown
+        	endswitch;
+		
+			if(szErrMsg != "")then
+			//	Sprintf(gszMsg,@ERROR_RETURNED,szErrMsg);
+				gszMsg = szErrMsg;
+				MessageBox(gszMsg,WARNING);
+			else
+				nLoop = 1; //exit loop
+			endif;
+		else
+			nLoop = 1; //exit loop
+		endif;
+	endwhile;	
+
+	if(nResult = BACK)then
+		szEntry = "";
+	endif;
+	g_structAppData.szAppServer = szEntry;
+	return nResult;
+end;
+
+//-----------------------------------------------------------------------------------
+//reads reg for a list of app servers and displays a list for the user to select one.
+//-----------------------------------------------------------------------------------
+function ODialogShowSelectApp(szKey,nReturn)
+LIST listOfApps,listOfConnection;
+STRING szItemSelected,szSubKey,szTemp,szServer,szSQLAccount,szDB,szErrMsg,szEncryptedPassword;
+INT nType,nSize,nStat,nLoop, nDBType;
+begin
+	listOfApps = ListCreate(STRINGLIST);
+	//enermerate reg entries in specified key
+	RegDBQueryKey(szKey, REGDB_KEYS, listOfApps);
+
+	if(ListCount(listOfApps) = 0)then
+		//no apps on this machine.  Display error and go back.
+		MessageBox(@ERROR_REMOTE_SERVER_APP,WARNING);
+		return BACK;
+	endif;
+
+	//show list to user to select one.
+	while (nLoop = 0)
+		szErrMsg="";
+		Sprintf(szTemp,@PROMPT_LOGICAL_APP,gszProductName);
+		nReturn = OAskOptionsList(@LABEL_LOGICAL_APP,szTemp,listOfApps,szItemSelected);
+		if(nReturn = -1)then
+		    MessageBox(@ERROR_REMOTE_SERVER_APP,WARNING);
+    		OLog(@ERROR_REMOTE_SERVER_APP);
+	    	nReturn = BACK;
+	    	nLoop = 1; //exit and go back for a new server
+    	elseif(nReturn = NEXT)then
+		    //get selected app info from reg and store in data struct.
+    		szSubKey = szKey ^ szItemSelected ^ "QE";
+
+	    	//first get password
+    		nStat = RegDBGetKeyValueEx( szSubKey, "DatabaseType", nDBType, szTemp, nSize);
+	    	StrToNum( nDBType, szTemp);
+	    	if ( nStat < 0  || nDBType != SQL_DB_TYPE) then
+	    		Sprintf ( szErrMsg, @ERROR_REMOTE_SERVER_APP_TYPE, gszProductName );
+	    	else
+	    		nStat = RegDBGetKeyValueEx(szSubKey,"Extra1",nType,szTemp,nSize);
+    			if(nStat < 0)then
+    				szErrMsg = @ERROR_REMOTE_SERVER_APP_BAD;
+	    		else
+	    			//save encrypted value
+    			    szEncryptedPassword = szTemp;
+    			
+    			    //now get unecrypted value
+	    		    szTemp = "";
+    		    	OSLFDecryptString("25FC5090A19949129EA2C0B19418A95D",szEncryptedPassword,szTemp);
+					g_structDatabase.szPassword = szTemp;
+   				endif;
+   			endif;
+   			
+   			// get the OEAS platform
+   			nStat = RegDBGetKeyValueEx (szSubKey, "DatabaseType", nType, szTemp, nSize);
+    		if (nStat < 0) then
+    			Sprintf (szErrMsg, @ERROR_REMOTE_SERVER_APP_TYPE, gszProductName);
+    		else
+    			gszDatabaseType = szTemp;
+    		endif;
+    	
+	    	//connection string
+    		nStat = RegDBGetKeyValueEx(szSubKey,szItemSelected,nType,szTemp,nSize);
+    		if(nStat < 0)then
+    			szErrMsg = @ERROR_REMOTE_SERVER_APP_BAD;
+	    	endif;    	
+	
+			if(szErrMsg != "")then
+				MessageBox(szErrMsg,WARNING);
+			else
+		    	//parse for exact data
+    			listOfConnection=ListCreate(STRINGLIST);
+    			StrGetTokens(listOfConnection,szTemp,";");
+	    		ListGetFirstString(listOfConnection,szTemp); //not used
+	    		ListGetNextString(listOfConnection,szServer);
+    			ListGetNextString(listOfConnection,szSQLAccount);
+	    		ListGetNextString(listOfConnection,szDB);
+
+	    		//save info into correct data structures
+		    	g_structAppName.szLogin = szItemSelected;
+			   	_ParseAfterItem(szServer,"=",szTemp);
+	   			g_structDatabase.szServer = szTemp;
+			   	_ParseAfterItem(szSQLAccount,"=",szTemp);
+			   	g_structDatabase.szLogin = szTemp;
+	   			_ParseAfterItem(szDB,"=",szTemp);
+		   		g_structDatabase.szDatabase = szTemp;
+		   		
+		   		nLoop = 1; //time to exit
+	   		endif;
+		else
+   			//back or cancel
+   			nLoop = 1; //time to exit
+    	endif;
+	endwhile;
+	
+	ListDestroy(listOfConnection);
+	return nReturn;
+end;
+
+//------------------------------------------------------------------------------
+//prompts the user for a dir that contains the COM+ proxy MSI installation file.
+//------------------------------------------------------------------------------
+function ODialogShowGetProxy(nResult)
+STRING szDir,svResult,szMsg;
+INT nLoop,nLoop2,nFound;
+begin
+	//start with server machine name as root UNC path
+	if (g_structAppData.szAppServer != "")then
+		szDir = "\\\\"+g_structAppData.szAppServer+"\\ProxyShare";
+		//prompt for a dir
+		while (nLoop = 0)
+			nResult = ODialogShowGetEntry(@LABEL_PROXY,@PROMPT_PROXY1,szDir,@LABEL_DIRECTORY,TRUE,FALSE,TRUE);
+			if(nResult = NEXT)then
+				if(szDir != "")then
+					//look for a MSI file
+					nFound = FindAllFiles (szDir,"*.MSI",svResult,RESET);
+					nLoop2 = 0;
+					while (nLoop2 = 0)
+						if(nFound = 0)then
+							//Setup found an MSI, is this the one?
+							Sprintf(szMsg,@PROMPT_PROXY2,svResult);
+							if(AskYesNo(szMsg,YES) = YES)then
+								//save path for later
+								g_structAppData.szProxyFile = svResult;
+								nLoop = 1; //exit
+								nLoop2 = 1; //exit
+							else
+								nFound = FindAllFiles (szDir,"*.MSI",svResult,CONTINUE);
+							endif;
+						else;
+							//display error, cound not find a msi, try again.
+							MessageBox(@ERROR_PROXY1,WARNING);
+							nLoop2 = 1; //exit
+						endif;
+					endwhile;
+				else
+					nLoop = 1; //no proxy being used, exit and go on.
+				endif;
+			else
+				nLoop = 1; //exit
+			endif;
+		endwhile;
+	endif;
+	return nResult;
+end;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

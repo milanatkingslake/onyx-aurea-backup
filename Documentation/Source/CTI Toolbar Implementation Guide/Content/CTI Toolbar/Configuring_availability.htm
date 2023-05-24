@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="845" MadCap:lastWidth="624">
+    <head>
+        <link href="Resources/Stylesheets/consonacrm.css" rel="stylesheet" />
+    </head>
+    <body>
+        <H3 class="Heading"><a name="Chapter02_1047411245_1060285"></a><a name="Chapter02_1047411245_71564"></a>Configuring availability and visibility of Onyx CTI toolbar buttons </H3>
+        <p class="BodyText">You can correlate the availability and visibility of Onyx CTI toolbar buttons to the desired agent states and call states by editing the configuration file for your connector. This configuration can reduce agent errors during phone calls. </p>
+        <p class="BodyText">For example, you may want to prevent agents from changing their states to “Wrap Up” when the agent’s current call is on hold. Agents change their states to “Wrap Up” by clicking the Wrap Up button. For purposes of this example, let’s assume that you want the button to remain visible for the “on hold” call state (even though it’s disabled) and that for all other call states, you want the button both enabled and visible. To complete this configuration, you would edit the Wrap Up button code line for each agent state and call state. You would find the Wrap Up button code line under the “on hold” call state and specify a “0” value for its enabled attribute and a “1” value for its visible attribute. For the Wrap Up button code lines referring to other states, you would specify a “1” value for both attributes. </p>
+        <p class="BodyText">In this example, the Wrap Up button code line for the “on hold” call state would look like this: </p>
+        <p class="Code"><code>&lt;control controlId="agentWrapUp" enabled="0" visible="1"/&gt;</code> <![CDATA[ ]]></p>
+        <p class="BodyText">The Wrap Up button code line for other states would look like this: </p>
+        <p class="Code"><code>&lt;control controlId="agentWrapUp" enabled="1" visible="1"/&gt;</code> <![CDATA[ ]]></p>
+        <p class="TaskHeading"><b>To configure the availability and visibility of an Onyx CTI toolbar button for a particular state </b>
+        </p>
+        <ol>
+            <li>Edit the enabled and visible attributes for the toolbar button and the state (agent state or call state) in the configuration file for your connector. <br /><br />The full path of this file is <code>YourOEPwebsite\cti\YourConnector\cti_config.xml</code>, where <code>YourOEPwebsite</code> is your OEP installation directory and <code>YourConnector</code> is the folder containing the code for your custom connector.</li>
+        </ol>
+        <p class="Indent1">Some attributes must correspond to attribute values in other files, such as the <b style="font-weight: normal;">enumeration </b>file. Before editing other attributes in this file, review element and attribute descriptions for the file in the <i>Onyx Computer Telephony Integration Developer’s Reference</i>.</p>
+        <ol>
+            <li value="2">On the client machine used to access the toolbar, delete the files in Internet Explorer's Temporary Internet Files folder to ensure that the changes take effect the next time you display the Onyx CTI toolbar. </li>
+        </ol>
+    </body>
+</html>

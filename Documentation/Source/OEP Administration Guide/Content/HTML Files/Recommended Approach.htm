@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="5" MadCap:lastHeight="844" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2>Recommended Approach</h2>
+        <p>As suggested in the OEP Installation Guide, we recommend that use three separate environments for configuring, testing, and using OEP. By keeping the environments separate, you can manage your configurations more easily and better ensure the integrity of each distinct environment.</p>
+        <table>
+            <tr>
+                <td>
+                    <p class="Table_Text">Development environment</p>
+                </td>
+                <td>
+                    <p class="Table_Text">Installing to your development environment gives you access to UCW, which includes the tools you need to modify many aspects of the OEP UI. The development environment requires OEP, OES, OEAS, OEDB and optionally, OPS. Development must be isolated from the test and production environments. As you plan your server configuration, keep in mind that the configurations made in the development environment must be replicated to the test and production environments.</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="Table_Text">Test environment</p>
+                </td>
+                <td>
+                    <p class="Table_Text">The test environment also requires OEP, OES, OEAS, OEDB and optionally, OPS. Your test environment is installed as a Production-type installation, and its server must be configured to match that of your production environment. Migrate all OEP configurations from your development environment to this environment, and test them here.</p>
+                    <p class="Table_Text">If you need to modify your configurations, implement the changes in your development environment, migrate those changes to your test environment, and test the changes as appropriate. Repeat this process for each series of changes that you make.</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="Table_Text">Production environment</p>
+                </td>
+                <td>
+                    <p class="Table_Text">The production environment requires OEP, OES, OEAS and OEDB on at least one server and, optionally, OPS on its own separate server. After you're done configuring and testing each custom OEP UI that you create, migrate all OEP configurations from your development environment to this environment.</p>
+                </td>
+            </tr>
+        </table>
+        <p>Onyx recommends the following approach to configuring OEP:</p>
+        <ol>
+            <li>In your development environment, implement common (shared) modifications: Log on to OEP using the <a href="Global Profile.htm#top">Global</a> profile, and then use UCW to implement modifications that you want to apply to all of your profile-specific UIs.</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">Configure page layout, navigation, and UI text. Test your changes.</li>
+            <li class="List_Indent">Configure page behavior and UI messages. Test your changes.</li>
+            <li class="List_Indent">Configure page appearance. Test your changes.</li>
+        </ul>
+        <ol start="2">
+            <li>In your development environment, implement profile-specific modifications: For each custom UI, log on to OEP using the desired OEP profile, and then use UCW to modify that UI. </li>
+        </ol>
+        <ul>
+            <li class="List_Indent">Configure page layout, navigation, and UI text. Test your changes.</li>
+            <li class="List_Indent">Configure page behavior and UI messages. Test your changes.</li>
+            <li class="List_Indent">Configure page appearance. Test your changes.</li>
+        </ul>
+        <ol start="3">
+            <li><a href="Troubleshooting Configuration.htm#Compilin">Compile</a> your changes.</li>
+            <li><a href="Migrate Your Modifications.htm#top">Migrate</a> your changes from your development environment to your test environment.</li>
+            <li>In your test environment, test the changes you made to each custom UI. <br /></li>
+            <li>From your development environment, <a href="Migrate Your Modifications.htm#top">migrate</a> your changes to your production environment.</li>
+            <li>Perform some high-level testing in your OEP production environment before deploying OEP to your users. </li>
+        </ol>
+    </body>
+</html>

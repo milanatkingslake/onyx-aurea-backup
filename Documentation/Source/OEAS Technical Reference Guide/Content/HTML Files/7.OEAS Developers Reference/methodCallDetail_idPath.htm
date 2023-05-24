@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="468" MadCap:lastWidth="960" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <body>
+        <head><title>idPath (methodCallDetail)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="idPath" />idPath property</h2>
+        <p>The idPath property of the <a href="methodCallDetail_object.htm"><MadCap:keyword term="methodCallDetail" />methodCallDetail</a> 
+ object contains an XPath expression, relative to the <a href="methodCallDetail_elementPath.htm">elementPath</a>, 
+ that locates an unique identifier for an output element.</p>
+        <h3>Data type</h3>
+        <p>string</p>
+        <h3>Access</h3>
+        <p>Read/write</p>
+        <h3>Remarks</h3>
+        <p>The methodCallDetail object supports an output having both an ID component 
+ and a description component. The returned item can have an identifier 
+ (the ID component--such as country.countryCode or company.primaryId) and 
+ a user friendly display string (the description component--such as country.description 
+ or company.secondaryId). The idPath property is an XPath that locates 
+ the output's ID component relative to the elementPath. For example, if 
+ elementPath specifies rowSet/rows, then the idPath would specify row/c0, 
+ where the c0 element contains the ID component of the output.</p>
+        <p>The idPath leads to a single element that is a descendant of an output 
+ element. Onyx recommends that the idPath not include traversal operations 
+ that try to access elements not descendant of the output element. If the 
+ idPath does not result in a selected node when the method call is executed, 
+ the returned output will have an empty ID component. If it is NULL, the 
+ returned output will not contain an ID component. The output node can 
+ still contain a text component and/or a description component.</p>
+        <p>This property is ignored on input method call 
+ details. </p>
+    </body>
+</html>

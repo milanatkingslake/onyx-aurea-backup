@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="727" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Deactivating versus deleting items</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>Deactivating versus deleting items</h3>
+        <p>ONYX recommends that you deactivate items rather than delete them. When 
+ you deactivate an item, it no longer appears to end-users for active use, 
+ but the item remains in the application for records that reference that 
+ item.</p>
+        <p>Following are the issues you might encounter when 
+ deleting versus deactivating items: </p>
+        <ul>
+            <li>Deleting domain 
+ items that are referenced by transactional records</li>
+        </ul>
+        <p class="Indent1">If you try to delete a domain item (a product 
+ for example) that is referenced by a transactional record (customer product) 
+ the delete process will fail. A warning message appears indicating that 
+ the item cannot be deleted. The delete process failed because the item 
+ is being referenced in the application by one or more transactional records. 
+ </p>
+        <ul>
+            <li>Deleting domain 
+ items that include subordinate items</li>
+        </ul>
+        <p class="Indent1">In certain administration tools, if you try 
+ to delete a domain item (a survey for example) that includes subordinate 
+ items (survey questions) the delete process will fail. A warning message 
+ appears indicating that the item cannot be deleted. To delete the survey, 
+ you must first delete all of the survey questions for that survey. </p>
+        <ul>
+            <li>Deleting domain 
+ items with sub-data that are also referenced by transactional records</li>
+        </ul>
+        <p class="Indent1">If you try to delete an item such as a product 
+ with sub-data (a literature product) that is referenced by one or more 
+ transactional records (a customer product record), it is possible that 
+ only the sub-data (the literature product) will be deleted from the database—not 
+ the product itself. During the delete process, the sub-data is deleted 
+ first, then the process attempts to delete the main domain item. At which 
+ point, the process determines that the main domain item is referenced 
+ by other domain items in the application and the delete process fails. </p>
+        <MadCap:snippetBlock src="../../Resources/Snippets/What would you like to do.flsnp" />
+        <ul>
+            <li><a href="oes_activatedeactivateitems.htm">Activate or deactivate an item</a>
+            </li>
+            <li><a href="oes_deletingundeletingitems.htm">Delete an item</a>
+            </li>
+        </ul>
+    </body>
+</html>

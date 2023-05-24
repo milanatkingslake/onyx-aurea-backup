@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:lastBlockDepth="2" MadCap:lastHeight="570" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>MatchCodeCreation utility</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h1>MatchCodeCreation utility</h1>
+        <p>The Match Code Creation utility enables you to create match code values where none existed before, or to recreate match code values based on a new match code formula.</p>
+        <p>When the match code functionality is enabled, a row is added to the 
+ match_code_value table for every call to the methods listed in Enabling 
+ match code functionality. If you want to create match code values, 
+ where none existed before, for all customers and addresses, or if you 
+ want to re-create match codes based on a new match code formula, you can 
+ run the MatchCodeCreation utility script - create_match_codes.sql. Because 
+ the script deletes all current match codes, run the script only when all 
+ match codes need to be regenerated. For example, run the script when changing 
+ the algorithm that produces the match codes. For more information, see 
+ Modifying match code functionality. 
+ </p>
+        <p>The MatchCodeCreation script calls the stored procedures listed in Enabling match code functionality to 
+ create match codes for all existing customers and addresses in OEDB. Running 
+ this script results in a match_code_value row for each company, individual, 
+ and address in the database.</p>
+        <p>The script uses the following parameters.</p>
+        <p><code>userId</code>
+        </p>
+        <p class="BodyTextIndent_1">The insert_by user for all of the match_code_value rows</p>
+        <p><code>siteId</code>
+        </p>
+        <p class="BodyTextIndent_1">The site_id containing the customer and address records</p>
+        <p>Example, as run from a SQL Server command prompt:</p>
+        <p><code>create_match_codes 'sa', 1</code>
+        </p>
+    </body>
+</html>

@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="910" MadCap:lastWidth="1020">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Overview (Add Property)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>
+            <MadCap:keyword term="Overview" />Adding a property</h5>
+        <p>
+            <MadCap:keyword term="Properties" />You can add custom properties to the OED that are not currently defined. 
+ By adding properties to a business object you can make the OED logical 
+ model more accurately reflect your business model.</p>
+        <h3>Scenario</h3>
+        <p>This sample adds a stock ticker symbol to the company object. When users 
+ are creating a new customer record, they can insert the company's stock 
+ symbol. You can use this symbol to look up the company stock value through 
+ a method customization.</p>
+        <h3>Guidelines</h3>
+        <p>When you add a new logical property, you can map it to a new database 
+ column that you created for it or to an existing database column. Onyx 
+ does not recommend that you create a new column in the database that holds 
+ the same logical information contained in an existing column of another 
+ table. Make sure the new column represents logically unique information 
+ to reduce the likelihood of having inconsistent data in the database.</p>
+        <h3>Naming database columns</h3>
+        <p>To add a property to an existing logical business object, you add a 
+ column to the database table that represents that object. To guarantee 
+ that Onyx does not overwrite your customization during a schema upgrade, 
+ use the following naming convention.</p>
+        <p Class="Code" class="code">c?_name</p>
+        <p>where:</p>
+        <p>c </p>
+        <p class="BodyTextIndent_1">Identifies the column as a customization</p>
+        <p>?</p>
+        <p class="BodyTextIndent_1">Represents a one character abbreviation for a database 
+ object</p>
+        <p class="BodyTextIndent_1">For columns, use 'c'</p>
+        <p>name</p>
+        <p class="BodyTextIndent_1">Describes the column</p>
+        <p>For example, you might name a custom column for a stock ticker symbol 
+ cc_stock_ticker_symbol.</p>
+        <h4>Using column data types</h4>
+        <p MadCap:excludeAction="unbind" class="BodyText">If you rename an Onyx defined table, 
+ the Onyx schema upgrade process migrates the custom columns for you with 
+ the exception of columns using the LONG data type. Onyx recommends that 
+ customers use the CLOB data type instead of the LONG data type. If you 
+ use a LONG data type for a custom column, you will be responsible for 
+ migrating data in that column to new tables during a schema upgrade. The 
+ upgrade process migrates custom columns for all other data types.</p>
+    </body>
+</html>

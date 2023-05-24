@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="832" MadCap:lastWidth="624">
+    <head><title>Creating the Databases</title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2>Creating the Databases</h2>
+        <p>You can use the <code>\Utilities\Database Setup Script\DbaSetupScriptFreshDB.sql </code>script to create fresh Onyx transaction and Persistence databases, and related database user accounts with required permissions. </p>
+        <p class="ProcedureHeading">To edit the installation script for fresh databases</p>
+        <ol>
+            <li>Browse to <code>\Utilities\Database Setup Script\</code> and open the <code>DbaSetupScriptFreshDB.sql </code>file in any text editor.</li>
+        </ol>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 Installation Guide/Creating the Databases.png" style="width: 445px;height: 291px;border-left-style: solid;border-left-width: 1pt;border-left-color: #000000;border-right-style: solid;border-right-width: 1pt;border-right-color: #000000;border-top-style: solid;border-top-width: 1pt;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1pt;border-bottom-color: #000000;" />
+        </p>
+        <ol start="2">
+            <li>Specify the variable values as following:</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">@database :&#160; Name of the Onyx Transaction database</li>
+            <li class="List_Indent">@onyxDBO: Onyx Database owner user name</li>
+            <li class="List_Indent">@passwordDBO: Password for the onyx DBO user</li>
+            <li class="List_Indent">@onyxEASSql: OEAS user who has privileges to perform data transactions</li>
+            <li class="List_Indent">@passwordEAS: Password for OEAS username</li>
+            <li class="List_Indent">@onyxLMSql: User who has permissions use the List Manager in OEP</li>
+            <li class="List_Indent">@passwordLM: Password for the LM user</li>
+            <li class="List_Indent">@persistenceDB: Name of the Onyx Persistence Database</li>
+            <li class="List_Indent">@passwordEMFDBO: Password for the Event Management Framework database owner</li>
+        </ul>
+        <ol start="3">
+            <li>Save the script.</li>
+        </ol>
+        <p class="ProcedureHeading">To run the edited script </p>
+        <ol>
+            <li>Open SQL Server Management Studio and select the master database.</li>
+            <li>Click <b>File</b> &gt; <b>Open</b> &gt; <b>File</b>.</li>
+            <li>Browse to <code>\Utilities\Database Setup Script</code>, select <code> <![CDATA[ ]]></code><b>DbaSetupScriptFreshDB.sql</b>.</li>
+            <li>Click <b>Open</b>.</li>
+            <li>Click <b>Execute</b> to run the script.</li>
+        </ol>
+    </body>
+</html>

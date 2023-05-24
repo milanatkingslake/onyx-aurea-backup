@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="788" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>parameters XML (data validation)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>
+            <MadCap:keyword term="parameters" />
+            <MadCap:keyword term="parameters XML" />parameters XML</h4>
+        <p><a href="OnyxDataValidationStep.htm">OnyxDataValidationStep</a> component 
+ checks the incoming XML from the OTM and determines if the XML is valid 
+ and conforms to OEAS standards. This component performs five validation 
+ tests in order depending on the logical object method being called.</p>
+        <ol>
+            <li>cleanup: trims leading and trailing whitespace 
+ from elements, removes any elements that are empty and do not have a null="1" 
+ attribute or an ignore="1" attribute (ignore attribute has no 
+ effect on data validation for properties other than <a href="standard_onyxtimestamp.htm">onyxTimestamp</a>)</li>
+            <li>default: on insert, supplies value specified in 
+ OED only if the property or parameter node is missing from the input XML</li>
+        </ol>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">If the property or parameter node was present in the 
+ input XML but removed in the "cleanup" step, then the default 
+ will be applied in the "default" step.</p>
+        <ol MadCap:continue="true">
+            <li>primary key: verifies that properties that are 
+ part of the object's primary key are supplied for methods that require 
+ a primary key</li>
+            <li>required: for object parameters, verifies that 
+ required properties have a value on insert (a default value set previously 
+ can satisfy this test), and are not set to NULL on update; for simple 
+ parameters, verifies that parameter contains a value or the null="1" 
+ attribute</li>
+        </ol>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Any property not provided in an update is not changed 
+ as part of the update. This constitutes a partial update.</p>
+        <ol MadCap:continue="true">
+            <li>minimum/maximum: Verifies that the property value 
+ falls within any declared minimum or maximum constraints in the OED (minimum 
+ and maximum constraints represent length for properties with a data type 
+ of "string", and represent the value itself for all other data 
+ types)</li>
+        </ol>
+        <h5>Validations by method or action</h5>
+        <p>The following table shows which parts of data validation are performed 
+ for each logical method type.</p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <col />
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Method/action</th>
+                    <th>Cleanup</th>
+                    <th>Default</th>
+                    <th>Primary key</th>
+                    <th>Required</th>
+                    <th>Minimum/maximum</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">insert</p>
+                    </td>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">yes</p>
+                    </td>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">yes</p>
+                    </td>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">no</p>
+                    </td>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">yes</p>
+                    </td>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">yes</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">update</p>
+                    </td>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">yes</p>
+                    </td>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">no</p>
+                    </td>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">yes</p>
+                    </td>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">yes</p>
+                    </td>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">yes</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">delete</p>
+                    </td>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">yes</p>
+                    </td>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">no</p>
+                    </td>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">yes</p>
+                    </td>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">no</p>
+                    </td>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">no</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">retrieve</p>
+                    </td>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">yes</p>
+                    </td>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">no</p>
+                    </td>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">yes</p>
+                    </td>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">no</p>
+                    </td>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">no</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">retrieveCollection</p>
+                    </td>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">yes</p>
+                    </td>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">no</p>
+                    </td>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">no</p>
+                    </td>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">no</p>
+                    </td>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">no</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">custom</p>
+                    </td>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">yes</p>
+                    </td>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">yes</p>
+                    </td>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">no</p>
+                    </td>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">yes</p>
+                    </td>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">no</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">retrieveList</p>
+                    </td>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">yes</p>
+                    </td>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">yes</p>
+                    </td>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">no</p>
+                    </td>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">yes</p>
+                    </td>
+                    <td style="width: 16%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="16%">
+                        <p class="Table_Text" style="margin-bottom: 0;">no</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

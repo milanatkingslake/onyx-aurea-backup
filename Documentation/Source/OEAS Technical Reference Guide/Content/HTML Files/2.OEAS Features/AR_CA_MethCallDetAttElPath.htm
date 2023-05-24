@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:conditions="Default.Main"><body><head><title>Element Path</title>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+
+         </head>
+        <h1>Element Path </h1>
+        <p>The method call detail <span class="UIElement" style="font-weight: bold;">Element Path</span> attribute 
+ specifies the XML node that the method call detail references. If used 
+ for a collection, it specifies a collection of nodes. The element path 
+ can be a relative path or an absolute path. Absolute paths begin with 
+ a slash (/) character. </p>
+        <p>The behaviors and requirements of the element path depend on whether 
+ you are creating an input or output method call detail. </p>
+        <h3>Input method call details </h3>
+        <p>For input method call details, the path specifies an element that can 
+ be created in the XML that is sent to the underlying OEAS method (paramXml 
+ or customDataXml). The element so specified is called the input element. 
+ An input element path cannot refer to an attribute or any other type of 
+ node other than an element. </p>
+        <p>The path can use only a simple location path (containing element names 
+ and slashes). It cannot contain filters, an axis specifier, node tests, 
+ or any XPath syntax other than element names and slashes. </p>
+        <p>If the path is relative, no leading slash (/) is required since it is 
+ relative to the parameters node in paramXml. </p>
+        <p>If the path is absolute, it must start with one of 
+ the following strings: </p>
+        <ul>
+            <li>/customData - The input element is created in 
+ the customDataXml that is sent to the Transaction Manager. The text after 
+ /customData is treated as a relative path specifying an element under 
+ the customData node in customDataXml.</li>
+            <li>/parameters - The input element is created in 
+ the paramXml that is sent to the Transaction Manager. The text after /parameters 
+ is treated as a relative path specifying an element under the parameters 
+ node in paramXml.</li>
+        </ul>
+        <p>After the initial string, there must be a valid relative XPath (i.e., 
+ it is not valid to use /parameters by itself). </p>
+        <p>It is necessary to create a method call detail for each element in the 
+ element path. For instance, if the elementPath is <b class="Bold">company/phones/phone/primary</b>, 
+ you must create a method call detail for the <b class="Bold">company</b> 
+ element, the <b class="Bold">phones</b> child element, the <b class="Bold">phone</b> 
+ child element, and the final child <b class="Bold">primary </b>element. 
+ You must also include any attributes or text when they are needed on an 
+ intermediate (parent) node. </p>
+        <p>Examples of valid input <span class="UIElement" style="font-weight: bold;">Element 
+ Path</span> values: </p>
+        <ul>
+            <li>company/secondaryId</li>
+            <li>/parameters/primaryId</li>
+            <li>literatureOrder/literatureOrderLines/literatureOrderLine/productNumber</li>
+            <li>/customData/myCustomParameter</li>
+        </ul>
+        <h3>Output method call details </h3>
+        <p>The path locates a node or set of nodes within the XML returned by the 
+ OEAS method (returnXml). Each node so located is called an output node. 
+ </p>
+        <p>The path can fully utilize any XPath syntax supported by the underlying 
+ implementation (often MSXML), including filtering, functions, expressions, 
+ etc. In addition, the path can refer to attribute nodes or any other type 
+ of node accessible via XPath syntax. </p>
+        <p>If the path is relative, it is relative to the parametersReturn node 
+ in the return XML and no leading slash (/) is required. </p>
+        <p>If the path is absolute, it must start with one of 
+ the following strings: </p>
+        <ul>
+            <li>/returnXml - The output nodes are located in the 
+ return XML created by the Transaction Manager. The text after /returnXml 
+ is treated as a relative path specifying a node or set of nodes under 
+ the returnXml node.</li>
+            <li>/returnXml/customData - The customData node is 
+ already a part of the return XML, so the valid path starts with /returnXml/customData.</li>
+        </ul>
+        <p>After the initial string, there must be a valid relative Xpath. It is 
+ not valid to use /returnXml by itself. </p>
+        <p>In the case of a scalar type method call detail, the <span class="UIElement" style="font-weight: bold;">Element 
+ Path</span> attribute is expected to identify a single node within the 
+ return XML. If the XPath identifies multiple nodes, only the first is 
+ considered the output node. </p>
+        <p>In the case of a list type method call detail, the <span class="UIElement" style="font-weight: bold;">Element 
+ Path</span> attribute is expected to identify a set of nodes within the 
+ return XML. Each node within the set is an output node. </p>
+    </body>
+</html>

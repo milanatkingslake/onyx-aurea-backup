@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="552" MadCap:lastWidth="655" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>File share permissions</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>File share permissions </h4>
+        <p>The following functionality needs read and write file 
+ share permissions:</p>
+        <ul style="list-style: disc;" type="disc">
+            <li>Onyx File Agent</li>
+            <li>OnyxEmailSendStep component</li>
+            <li>Email Monitor Subsystem</li>
+        </ul>
+        <p>Depending on which of these functions are required, the file share server 
+ exposes a share that is secured with sufficient permissions to allow their 
+ identities access to the files stored within. </p>
+        <p>For attachments to work properly, the OnyxFileAgent COM+ identity user 
+ must be a domain user and have read/write access to the share. </p>
+        <p>OnyxEmailSendStep component stores email attachments on the file share 
+ server. They are uploaded and stored using the <a href="Attachments_storage.htm">standard attachment process</a>, but 
+ there is a difference when attachments are sent with emails. When a user 
+ sends an email with one or more attachments, OEAS copies the attachment 
+ file(s) from the share before sending all items to the outgoing mail server. 
+ OEAS uses its local account (named OnyxEASUser by default) to access the 
+ file share. If this account does not have permissions on the file share, 
+ the send action fails. </p>
+        <p>Email processed by the Email Monitoring Subsystem of OPS might also 
+ have file attachments. When EMS creates Onyx Email Message records it 
+ also imports the email attachments into the system, creating email attachment 
+ and file link records for them and storing the file the same way that 
+ OnyxFileAgent and the Email Send Step do. For this activity the OPS Service 
+ User must also have access to the file share. If this account does not 
+ have permissions on the file share, the EMS action will fail.</p>
+        <p>If the file share is not on the same computer as the OEAS server, the 
+ OEAS local account must have permission to read from the share. One way 
+ to automatically give this required read permission is to replicate the 
+ OEAS local account on the file share computer. Create an account on the 
+ file share computer with an identical user name and password. Alternatively, 
+ you can configure the OnyxEASUser as a domain account with appropriate 
+ privileges on both servers.</p>
+    </body>
+</html>

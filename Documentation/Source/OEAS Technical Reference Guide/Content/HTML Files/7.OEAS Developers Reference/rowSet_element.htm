@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="800" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>rowSet element</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h6>
+            <MadCap:keyword term="rowSet element" />rowSet element</h6>
+        <p>The rowSet element is returned within the parametersReturn XML when 
+ OEAS conducts complex search-type operations such as retrieveList methods. 
+ The rowSet element is constructed from the rowSet object, which provides 
+ a compressed way to send lists of data back to client applications. The 
+ rowSet object allows OEAS to dynamically define the list of data that 
+ is being returned.</p>
+        <p>The rowSet object is an object defined in OED (Onyx Enterprise Dictionary). 
+ You can view its definition using Object Designer. Its properties include 
+ a columnDefinition collection and a rows collection, but it has no methods. 
+ The rowSet object has no predefined collection of columnDefinition or 
+ row objects. With SQL generation, the columns returned for a particular 
+ retrieveList method are defined in OED. The only exception is when you 
+ mark the rowSet parameter as having a "dynamic" contentOut in 
+ the method definition. In this case, the rowset is determined by the stored 
+ procedure at runtime. The retrieveList methods must have the correct rowSet 
+ contentOut definition in the OED. &#160;That 
+ is, the definition must be in agreement with what the stored procedure 
+ returns.</p>
+        <p>OEAS uses rowSet objects exclusively as output parameters in retrieveList 
+ methods.</p>
+        <p style="font-weight: bold;">Example</p>
+        <p class="code" style="margin-bottom: 0;">&lt;parametersReturn&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&lt;rowSet objectType="rowSet" rowCount="3" columnCount="2"&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnDefinitions collection="1" objectType="columnDefinition"&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnHeading&gt;Product Number&lt;/columnHeading&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnName&gt;chProductnumber&lt;/columnName&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;1&lt;/columnOrdinal&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnFlags&gt;24&lt;/columnFlags&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnSize&gt;20&lt;/columnSize&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnDefinition&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnHeading&gt;Description&lt;/columnHeading&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnName&gt;vchDescription&lt;/columnName&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnOrdinal&gt;2&lt;/columnOrdinal&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnFlags&gt;8&lt;/columnFlags&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnSize&gt;50&lt;/columnSize&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/columnDefinition&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/columnDefinitions&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&lt;rows collection="1" objectType="row"&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;row&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c0&gt;USER-GD&lt;/c0&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c1&gt;User Guide&lt;/c1&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/row&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;row&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c0&gt;UPGRADE-PAK&lt;/c0&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c1&gt;Upgrade Package&lt;/c1&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/row&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;row&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c0&gt;ONLINE-REF&lt;/c0&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;c1&gt;Online Reference Guide&lt;/c1&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;/row&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/rows&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&#160;&#160;&#160;&lt;/rowSet&gt;</p>
+        <p class="code" style="margin-bottom: 0;">&lt;/parametersReturn&gt;</p>
+    </body>
+</html>

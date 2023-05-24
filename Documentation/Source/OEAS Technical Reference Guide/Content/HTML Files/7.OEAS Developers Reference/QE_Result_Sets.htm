@@ -1,0 +1,461 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="793" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Result Sets</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>
+            <MadCap:keyword term="Result sets" />Result sets</h4>
+        <p>The Query Engine returns a result set in a two-dimensional SafeArray 
+ (equivalent to a standard Variant array in Visual Basic). Each row in 
+ the result set is duplicated in a separate row in the returned array.</p>
+        <p>The first dimension in the array represents the rows in the result set. 
+ The second dimension represents the columns. To get the record count of 
+ a result set, check the upper bound of the first dimension in the array. 
+ To get a column count, check the upper bound of the second dimension in 
+ the array. The lower bound of both dimensions is always zero, so the count 
+ is the upper bound + 1. If the command returns no records, the Variant 
+ is empty. </p>
+        <h5>
+            <MadCap:keyword term="Data types" />Data types</h5>
+        <p>Each element in the array is of type Variant. Custom step components 
+ must have some familiarity with the data they retrieve from the application 
+ database to make the proper data conversions and validations. Not all 
+ data types behave as you might expect. The following sections provide 
+ important information about some limitations and caveats regarding result 
+ set data manipulation.</p>
+        <h5>Supported data types</h5>
+        <p>All result set elements are 
+ Variants, and the subtype of most elements closely matches the SQL Server 
+ type. The following table shows the SQL Server type, the Variant subtype 
+ (as identified by the VARENUM enumeration), and the corresponding Visual 
+ Basic type.
+        </p>
+        <table style="width: 100%;">
+            <col />
+            <col style="width: 112px;" />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>SQL Server type</th>
+                    <th>Variant subtype</th>
+                    <th>Visual Basic type</th>
+                    <th>Supported data range</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="1" rowspan="1" style="width: 14%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="14%">
+                        <p class="Table_Text" style="margin-bottom: 0;">uniqueidentifier</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top">
+                        <p class="Table_Text" style="margin-bottom: 0;">VT_BSTR</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">String</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 56%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="56%">
+                        <p class="Table_Text" style="margin-bottom: 0;">A globally unique identifier (GUID) value 
+ such as 63933F37-20CE-4B24-A310-521CA3A8E87E </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="1" rowspan="1" style="width: 14%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="14%">
+                        <p class="Table_Text" style="margin-bottom: 0;">timestamp</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top">
+                        <p class="Table_Text" style="margin-bottom: 0;">VT_BSTR</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">String</p>
+                    </td>
+                    <td colspan="1" rowspan="1" style="width: 56%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="56%">
+                        <p class="Table_Text" style="margin-bottom: 0;">A SQL Server rowversion binary value represented 
+ as a 16-digit hexadecimal number such as 000000000001677D</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 14%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="14%">
+                        <p class="Table_Text" style="margin-bottom: 0;">bit</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top">
+                        <p class="Table_Text" style="margin-bottom: 0;">VT_BOOL</p>
+                    </td>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">Boolean</p>
+                    </td>
+                    <td style="width: 56%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="56%">
+                        <p class="Table_Text" style="margin-bottom: 0;">0 and 1</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 14%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="14%">
+                        <p class="Table_Text" style="margin-bottom: 0;">int</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top">
+                        <p class="Table_Text" style="margin-bottom: 0;">VT_I4</p>
+                    </td>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">Long</p>
+                    </td>
+                    <td style="width: 56%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="56%">
+                        <p class="Table_Text" style="margin-bottom: 0;">Integers from 2^31 (-2,147,483,648) through 
+ 2^31 (2,147,483,647)</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 14%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="14%">
+                        <p class="Table_Text" style="margin-bottom: 0;">smallint</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top">
+                        <p class="Table_Text" style="margin-bottom: 0;">VT_I2</p>
+                    </td>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">Integer</p>
+                    </td>
+                    <td style="width: 56%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="56%">
+                        <p class="Table_Text" style="margin-bottom: 0;">Integers from 2^15 (-32,768) through 2^15 
+ (32,767)</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 14%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="14%">
+                        <p class="Table_Text" style="margin-bottom: 0;">tinyint</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top">
+                        <p class="Table_Text" style="margin-bottom: 0;">VT_I2</p>
+                    </td>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">Integer</p>
+                    </td>
+                    <td style="width: 56%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="56%">
+                        <p class="Table_Text" style="margin-bottom: 0;">Integers 0 through 255</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 14%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="14%">
+                        <p class="Table_Text" style="margin-bottom: 0;">float</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top">
+                        <p class="Table_Text" style="margin-bottom: 0;">See "Variable Subtypes," below</p>
+                    </td>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">See "Variable Subtypes," below</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top">
+                        <p class="Table_Text" style="margin-bottom: 0;">Floating precision numbers from -1.79E+38 
+ through 1.79E+38</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 14%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="14%">
+                        <p class="Table_Text" style="margin-bottom: 0;">real</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top">
+                        <p class="Table_Text" style="margin-bottom: 0;">See "Variable Subtypes," below</p>
+                    </td>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">See "Variable Subtypes," below</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top">
+                        <p class="Table_Text" style="margin-bottom: 0;">Floating precision numbers from -3.40E+38 
+ through 3.40E+38</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 14%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="14%">
+                        <p class="Table_Text" style="margin-bottom: 0;">decimal</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top">
+                        <p class="Table_Text" style="margin-bottom: 0;">See "Variable Subtypes," below</p>
+                    </td>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">See "Variable Subtypes," below</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top">
+                        <p class="Table_Text" style="margin-bottom: 0;">Fixed precision numbers from -10^38+1 through 
+ 10^38-1</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 14%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="14%">
+                        <p class="Table_Text" style="margin-bottom: 0;">numeric</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top">
+                        <p class="Table_Text" style="margin-bottom: 0;">See "Variable Subtypes," below</p>
+                    </td>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">See "Variable Subtypes," below</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top">
+                        <p class="Table_Text" style="margin-bottom: 0;">Fixed precision numbers from -10^38+1 through 
+ 10^38-1</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 14%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="14%">
+                        <p class="Table_Text" style="margin-bottom: 0;">money</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top">
+                        <p class="Table_Text" style="margin-bottom: 0;">VT_CY</p>
+                    </td>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">Currency</p>
+                    </td>
+                    <td style="width: 56%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="56%">
+                        <p class="Table_Text" style="margin-bottom: 0;">-2^63 (-922,337,203,685,477.5808) to 2^63 
+ (-922,337,203,685,477.5807), with accuracy to a ten-thousandth</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 14%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="14%">
+                        <p class="Table_Text" style="margin-bottom: 0;">datetime</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top">
+                        <p class="Table_Text" style="margin-bottom: 0;">VT_DATE</p>
+                    </td>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">Date</p>
+                    </td>
+                    <td style="width: 56%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="56%">
+                        <p class="Table_Text">January 1, 1753, through December 31, 9999, with accuracy 
+ to milliseconds</p>
+                        <p class="Table_Text" style="margin-bottom: 0;">(The Query Engine supports a more restrictive 
+ <a href="QE_SupportedDateTimeRange.htm">date range</a>, however, and supports 
+ accuracy of date times only to seconds)</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 14%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="14%">
+                        <p class="Table_Text" style="margin-bottom: 0;">smalldatetime</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top">
+                        <p class="Table_Text" style="margin-bottom: 0;">VT_DATE</p>
+                    </td>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">Date</p>
+                    </td>
+                    <td style="width: 56%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="56%">
+                        <p class="Table_Text" style="margin-bottom: 0;">January 1, 1900, through June 6, 2079, with 
+ accuracy to seconds</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 14%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="14%">
+                        <p class="Table_Text" style="margin-bottom: 0;">char</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top">
+                        <p class="Table_Text" style="margin-bottom: 0;">VT_BSTR</p>
+                    </td>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">String</p>
+                    </td>
+                    <td style="width: 56%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="56%">
+                        <p class="Table_Text" style="margin-bottom: 0;">Up to 8,000 characters of non-Unicode data</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 14%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="14%">
+                        <p class="Table_Text" style="margin-bottom: 0;">varchar</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top">
+                        <p class="Table_Text" style="margin-bottom: 0;">VT_BSTR</p>
+                    </td>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">String</p>
+                    </td>
+                    <td style="width: 56%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="56%">
+                        <p class="Table_Text" style="margin-bottom: 0;">Up to 8,000 characters of non-Unicode data</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 14%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="14%">
+                        <p class="Table_Text" style="margin-bottom: 0;">text</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top">
+                        <p class="Table_Text" style="margin-bottom: 0;">VT_BSTR</p>
+                    </td>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">String</p>
+                    </td>
+                    <td style="width: 56%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="56%">
+                        <p class="Table_Text" style="margin-bottom: 0;">2^31-1 (2,147,483,647) characters of non-Unicode 
+ data</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 14%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="14%">
+                        <p class="Table_Text" style="margin-bottom: 0;">nchar</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top">
+                        <p class="Table_Text" style="margin-bottom: 0;">VT_BSTR</p>
+                    </td>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">String</p>
+                    </td>
+                    <td style="width: 56%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="56%">
+                        <p class="Table_Text" style="margin-bottom: 0;">Up to 4,000 characters of Unicode data</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 14%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="14%">
+                        <p class="Table_Text" style="margin-bottom: 0;">nvarchar</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top">
+                        <p class="Table_Text" style="margin-bottom: 0;">VT_BSTR</p>
+                    </td>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">String</p>
+                    </td>
+                    <td style="width: 56%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="56%">
+                        <p class="Table_Text" style="margin-bottom: 0;">Up to 4,000 characters of Unicode data </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 14%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="14%">
+                        <p class="Table_Text" style="margin-bottom: 0;">ntext</p>
+                    </td>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top">
+                        <p class="Table_Text" style="margin-bottom: 0;">VT_BSTR</p>
+                    </td>
+                    <td style="width: 17%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="17%">
+                        <p class="Table_Text" style="margin-bottom: 0;">String</p>
+                    </td>
+                    <td style="width: 56%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="56%">
+                        <p class="Table_Text" style="margin-bottom: 0;">2^30-1 (1,073,741,823) characters of Unicode 
+ data</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h5>Variable Subtypes
+        </h5>
+        <p>The subtype of four SQL data 
+ types, float, real, decimal, and numeric, varies depending on the retrieval 
+ method (ad hoc SQL vs. stored procedures). When retrieved through a stored 
+ procedure, the subtype for an element of these types is VT_BSTR (Visual 
+ Basic String), but when retrieved using ad hoc SQL, the subtype is VT_R8 
+ (Visual Basic Double). Step components can check the subtype to make a 
+ legal conversion.
+        </p>
+        <p><span style="font-weight: bold;">For 
+ float and onyxfloat data types:</span> OEAS returns many data types as 
+ strings, regardless of the actual data type that is stored in the database. 
+ Data stored in the database with a data type of "float" or "onyxfloat," 
+ when returned as a string, sometimes becomes less accurate because of 
+ the way in which the number is rounded during the conversion. For example, 
+ if the number 10.1234 is stored in the database as a float or onyxfloat 
+ data type, a retrieve method may return the number as a string with the 
+ value 10.12399999999. To ensure that the number is accurately returned 
+ to the calling client, you must first convert the string data type to 
+ the appropriate data type that the calling client expects.
+        </p>
+        <h5>Unsupported data types</h5>
+        <p>To maximize OEAS performance, the Query Engine was designed to support 
+ the transfer of most, but not all, of the data types provided by a relational 
+ database. The unsupported data types are not required for use with a standard 
+ installation of the OEAS. A column that contains an unsupported data type 
+ cannot be accessed successfully using the Query Engine. If you have a 
+ custom table with a column like this, build a step component that can 
+ communicate with the database using a different data-access technology 
+ (for example, ActiveX Data Objects (ADO) or OLE DB). Alternatively, you 
+ can write a stored procedure or database function that returns a supported 
+ data type for a column with an unsupported data type. Depending on logical 
+ method type, a procedure or function can be referenced as a replace procedure 
+ or a pre- or post- procedure on the method call without having to write 
+ a step component.</p>
+        <p>The following table lists 
+ the unsupported data types. If a Query Engine command retrieves a data 
+ column that contains any of these types, the entire retrieve operation 
+ will fail, but the Query Engine will not generate an error message.
+</p>
+        <table>
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>SQL data type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">binary</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Fixed-length binary data with a maximum size 
+ of 8k</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">bigint</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Exact numerica values with precision of 19 
+ (signed) or 20 (not signed)</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">image</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Variable-length binary data with a maximum 
+ size of 2gb</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">smallmoney</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">A 4-byte value with accuracy to a ten-thousandth 
+ of a monetary unit</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">uid</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">A unique identifier</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">varbinary</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Variable-length binary data with a maximum 
+ size of 8k</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">sql_variant</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Numeric, string, or date data (as well as 
+ user-defined types) with a size of 16 bytes, or a character size of 22 
+ bytes plus string length</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Any user-defined type</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">User-defined types are not supported</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

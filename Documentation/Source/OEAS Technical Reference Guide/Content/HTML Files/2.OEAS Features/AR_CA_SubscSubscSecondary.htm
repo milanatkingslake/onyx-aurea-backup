@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="771" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Subscribe secondary object and cascade its subscription relationships</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h1>Subscribe secondary object and cascade its subscription relationships 
+ </h1>
+        <p>The <span class="UIElement" style="font-weight: bold;">Subscribe secondary object and cascade its 
+ subscription relationships</span> rule can be set at the relationship 
+ level and/or the role level. </p>
+        <p>Setting this rule to true for a subscription relationship ensures that 
+ when an end-user subscribes to the primary object in the relationship, 
+ an automatic (cascaded) subscription to the relationship’s secondary objects 
+ is created for that subscriber. </p>
+        <p>In addition, the cascade process also checks for rules on any relationships 
+ of the secondary objects and, if found, will subscribe those object’s 
+ related objects to the subscriber as well, both primary and secondary, 
+ where directed by those rules. The cascade process continues to auto-subscribe 
+ records to the subscriber in this manner until there is no further relationship 
+ to process. For example, when the top-level object is reached, when a 
+ duplicate (already subscribed) object is reached, or when an object is 
+ reached that does not have a subscription relationship with cascade rules. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">The original subscription to the primary object can be a 
+ result of the end- user explicitly subscribing to the object herself, 
+ an advanced subscriber subscribing the object to the user, or another 
+ cascade process. In any case, once the subscription is created, the cascade 
+ process will proceed as described when this rule is set to true.</p>
+        <p style="font-weight: bold;">Example: </p>
+        <p>Suppose you have the following: </p>
+        <ul>
+            <li>A subscribable company object.</li>
+            <li>A subscribable incident object with a subscription 
+ relationship between the company and incident objects based on the OEDB 
+ <em class="Emphasis">company owner of an incident</em> relationship, for 
+ which the <span class="UIElement" style="font-weight: bold;">Subscribe secondary object and cascade 
+ its subscription relationships </span>rule is set to true.</li>
+            <li>A subscribable task object with a subscription 
+ relationship between the incident and task objects based on the OEDB <em class="Emphasis">incident owner of a task</em> relationship, for which the 
+ <span class="UIElement" style="font-weight: bold;">Subscribe secondary object and cascade its subscription 
+ relationships </span>rule is set to true.</li>
+        </ul>
+        <p>In this case, when an end-user subscribes to a company, automatic (cascaded) 
+ subscriptions are created for the end-user to all of the incidents owned 
+ by that company, as well as to all of the tasks owned by those incidents. 
+ </p>
+    </body>
+</html>

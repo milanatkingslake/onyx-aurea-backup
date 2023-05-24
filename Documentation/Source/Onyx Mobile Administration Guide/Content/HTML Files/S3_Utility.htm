@@ -1,0 +1,246 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="779" MadCap:lastWidth="624">
+    <head>
+    </head>
+    <body>
+        <h1>S3 Utility</h1>
+        <p>The <b>S3 Utility</b> feature allows you to perform the following three actions on Sales / Service / Support incidents.</p>
+        <ul>
+            <li><strong>Send Email</strong>
+            </li>
+        </ul>
+        <p class="Indent2">The <strong>Send Email</strong> option allows you to send the configured email to the primary contact of an incident. This email is available also under Email tab of the record in OEP.</p>
+        <ul>
+            <li><strong>Send Sign Email</strong>
+            </li>
+        </ul>
+        <p class="Indent2">The <strong>Send Sign Email</strong> option allows you to send the configured email with signature to the primary contact of an incident. When you click this option, the signature box appears. You can sign in that signature box. This email is available also under Email tab of the record in OEP.</p>
+        <ul>
+            <li><strong>Send Attachment</strong>
+            </li>
+        </ul>
+        <p class="Indent2">The <strong>Send Attachment</strong> option allows you to store an attachment for an incident. This attachment is available also under Attachment tab of the record in OEP.</p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">The <b>S3 Utility</b> is supported only on the <b>Onyx Mobile App</b>.</p>
+        <h2>Configuring S3 Utility</h2>
+        <p class="ProcedureHeading">To configure the S3 Utility, perform the following steps:</p>
+        <ol>
+            <li>Open the required XML(s) file in edit mode from the <code>\Onyx\AppServer\Applications\Onyx\OnyxGatewayService\App_Data\Profiles</code> folder. For the list of screens and their XML file names, see <a href="About_metadata_XML_files.htm">Understanding XML files</a>.</li>
+            <li>Add the following element node in the required XML file(s):</li>
+        </ol>
+        <ul>
+            <li class="List_Indent"><strong>Send Email</strong>
+            </li>
+        </ul>
+        <p class="Indent3"><code>&lt;MenuItem  MenuItemId="15" DisplayName="Send Email"  Icon="SendEmailSignatureDoMore.png" ResourceId=""  Web ="False" Action="SendEmail" TemplateId="1"  isSign="false" PageTitle="Sign &amp; Send Email" &gt;</code>
+            <br /><code>&lt;/MenuItem&gt;</code>
+        </p>
+        <p class="Indent3">Where,</p>
+        <ul style="list-style-type: circle;">
+            <li class="BulletList2"><code>Action="SendEmail"</code> is not customizable.</li>
+            <li class="BulletList2"><code>TemplateId</code> is the emailTemplate Id from the <code>OnyxDocumentMergeTemplate.config.xml</code> file. To understand more about the <code>OnyxDocumentMergeTemplate.config.xml</code> file, see <a href="#Details">Details of OnyxDocumentMergeTemplate.config.xml file</a>.</li>
+            <li class="BulletList2"><code>isSign="false"</code> is not customizable.</li>
+        </ul>
+        <ul>
+            <li class="List_Indent"><strong>Send Sign Email</strong>
+            </li>
+        </ul>
+        <p class="Indent3"><code>&lt;MenuItem  MenuItemId="15" DisplayName="Sign  Send Email"  Icon="SendEmailSignatureDoMore.png" ResourceId=""  Web ="False" Action="SendSignEmail" TemplateId="1"  isSign="true" PageTitle="Sign &amp; Send Email" TextVariables="ownerName;description1;statusId;productId;priorityId" Text="#ownerName, Please acknowledge the product: #productId and  #description1 for its Status : #statusId and Priority: #priorityId"&gt;<br />&lt;/MenuItem&gt;</code>
+        </p>
+        <p class="Indent3">Where,</p>
+        <ul style="list-style-type: circle;">
+            <li class="BulletList2"><code>Action="SendSignEmail"</code> is not customizable.</li>
+            <li class="BulletList2"><code>TemplateId</code> is the emailTemplate Id from the <code>OnyxDocumentMergeTemplate.config.xml</code> file. To understand more about the <code>OnyxDocumentMergeTemplate.config.xml</code> file, see <a href="#Details">Details of OnyxDocumentMergeTemplate.config.xml file</a>.</li>
+        </ul>
+        <ul style="list-style-type: circle;">
+            <li class="BulletList2"><code>TextVariables</code> are the object properties to retrieve the corresponding information on the <b>Signature</b> screen.</li>
+            <li class="BulletList2"><code>Text</code> is the textual detail of the entity on the <b>Signature</b> screen.</li>
+            <li class="BulletList2"><code>isSign="true"</code> is not customizable.</li>
+        </ul>
+        <ul>
+            <li class="List_Indent"><strong>Send Attachment</strong>
+            </li>
+        </ul>
+        <p class="Indent3"><code>&lt;MenuItem  MenuItemId="16" DisplayName="Attach &amp; Send" Icon="SendEmailSignatureDoMore.png" ResourceId="" fileName="OnyxAttachment.pdf" outputFormat="pdf" Web ="False" Action="SendAttach" TemplateId="1"  isSign="false" PageTitle="Sign &amp; Send Email"&gt;<br></br>&lt;/MenuItem&gt;</code>
+        </p>
+        <p class="Indent3">Where,</p>
+        <ul style="list-style-type: circle;">
+            <li class="BulletList2"><code>fileName</code> is the name of the  file which goes as attachment the email.</li>
+            <li class="BulletList2"><code>outputFormat</code> is the format of the attachment in email. Supported formats: pdf, docx, html, jpeg, rtf, txt, and xps.</li>
+            <li class="BulletList2"><code>Action="SendAttach"</code> is not customizable.</li>
+            <li class="BulletList2"><code>TemplateId</code> is the emailTemplate Id from the <code>OnyxDocumentMergeTemplate.config.xml</code> file. To understand more about the <code>OnyxDocumentMergeTemplate.config.xml</code> file, see <a href="#Details">Details of OnyxDocumentMergeTemplate.config.xml file</a>.</li>
+            <li class="BulletList2"><code>isSign="false"</code> is not customizable.</li>
+        </ul>
+        <ol start="3">
+            <li>Save and close the XML file.</li>
+            <li>Log on to <b>Onyx Mobile App</b> and verify the changes.</li>
+        </ol>
+        <h3><a name="Details"></a>Details of OnyxDocumentMergeTemplate.config.xml file</h3>
+        <p>Following table shows the nodes and values of the</p>
+        <p> <code>OnyxDocumentMergeTemplate.config.xml</code> file.</p>
+        <table>
+            <col style="width: 320px;" />
+            <col />
+            <thead>
+                <tr>
+                    <th>Node</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><code>smtpMode</code>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">server</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><code>smtpServer</code>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">DNS name of the server.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th colspan="2">mergeTemplate</th>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><code>id</code>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The id number you want to assign. You must enter the same id number in the <code>configuration</code> node of the Signature Utility.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><code>primaryId</code>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Primary id of the merge template.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><code>object</code>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Object name of the LBO.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><code>method</code>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Method name of the LBO.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th colspan="2">wordTemplate</th>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><code>template</code>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Location of the word template document.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><code>id</code>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The id number you want to assign. You must enter the same id number in the <code>configuration</code> node of the Signature Utility.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><code>outPutFormat</code>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Format of the attachment in the email. Supported formats: pdf, docx, html, jpeg, rtf, txt, and xps.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><code>object</code>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Object name of the LBO.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><code>method</code>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Method name of the LBO.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th colspan="2">emailTemplate</th>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><code>mergeTemplate</code>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Id of the mergeTemplate.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><code>wordTemplate</code>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Id of the wordTemplate.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><code>filename</code>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Name of the  file which goes as attachment in email.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><code>object</code>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Object name of the LBO.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><code>method</code>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Method name of the LBO.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

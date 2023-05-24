@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:conditions="Primary.PrintOnly" MadCap:lastBlockDepth="2" MadCap:lastHeight="37" MadCap:lastWidth="976" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="../SkinSupport/MadCap.css" rel="stylesheet" type="text/css" /><title>Performing Custom Operations Based on Navigator Queries</title>
+        <link href="../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" />        
+    </head>
+    <body>
+        <H2 class="Heading">Performing Custom Operations Based on Navigator Queries</H2>
+        <p class="BodyText">When users run queries on Navigator, the following metadata is sent to the OTDB: </p>
+        <ul>
+            <li class="ListBullet_1" value="1">User Id</li>
+            <li class="ListBullet_1" value="2">Site Id</li>
+            <li class="ListBullet_1" value="3">Language</li>
+            <li class="ListBullet_1" value="4">Application Name</li>
+            <li class="ListBullet_1" value="5">Entity Id</li>
+            <li class="ListBullet_1" value="6">Session Id</li>
+        </ul>
+        <p class="BodyText">You can use this information to perform further custom operations, based on your business needs. Some examples of custom operations are:</p>
+        <ul>
+            <li class="ListBullet_1" value="1">Maintaining an audit log for all queries run</li>
+            <li class="ListBullet_1" value="2">Performing actions on linked database servers before executing a query</li>
+            <li class="ListBullet_1" value="3">Restricting certain types of data from being displayed, depending on the user profile</li>
+            <li class="ListBullet_1" value="4">Modifying 'where' conditions based on user role</li>
+        </ul>
+        <p class="BodyText">To define the custom operations that you want to run, modify the opSearchQueryExecute stored procedure on the OTDB. Each time a user runs a Navigator query, the custom operations that you defined in the stored procedure are performed.</p>
+        <p class="TaskHeading">To define custom operations:</p>
+        <ol>
+            <li class="ListBullet_1" value="1">In SQL Server Management Studio, navigate to the OTDB, and go to Programmability&gt;Stored Procedures.</li>
+            <li class="ListBullet_1" value="2">Select dbo.opSearchQueryExecute, right-click, and select Script Stored Procedure as&gt;ALTER To, and click New Query Editor Window.</li>
+            <li class="ListBullet_1" value="3">Add the script that will perform your custom operation.</li>
+            <li class="ListBullet_1" value="4">Execute the query.</li>
+        </ol>
+    </body>
+</html>

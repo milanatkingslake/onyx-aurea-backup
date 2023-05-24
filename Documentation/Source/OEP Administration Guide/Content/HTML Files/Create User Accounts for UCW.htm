@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="858" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h3><a name="top"></a>Create User Accounts for UCW Designers</h3>
+        <p>To use UCW, UCW designers must have an Onyx user account with permissions to the UI.OEP.UCW.Configure resource. </p>
+        <p>A single UCW designer can log on to OEP using the standard Onyx system administrator account [SA/onyx] to use UCW. If several UCW designers plan to work at the same time, however, they must have separate Onyx user accounts, each with permissions to the UI.OEP.UCW.Configure resource.</p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">For detailed instructions on completing the procedure below, see the online Help for OES Security Administration.</p>
+        <p>To create user accounts for UCW designers:</p>
+        <ol>
+            <li>Launch OES Security Administration.</li>
+            <li>If necessary, create an Onyx user account for each UCW designer.</li>
+            <li>Give the UCW designer access to the required profile(s). </li>
+        </ol>
+        <table>
+            <thead>
+                <tr>
+                    <th>To give the UCW designer access to: </th>
+                    <th>Assign the UCW designer's user account to: </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">The Global profile (but not the OEP User profile)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The UI:OEP.ucw.configure resource</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Both the Global profile and the OEP User profile</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The OEP.administrator role</p>
+                        <p class="tableNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">This role also grants access to several other OEP resources</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ol MadCap:continue="true">
+            <li>Give the UCW designer access to the required OES tool(s).</li>
+        </ol>
+        <table>
+            <thead>
+                <tr>
+                    <th>To give the UCW designer access to: </th>
+                    <th>Assign the UCW designer's user account to: </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Specific OES tools (for example, the Security Administration tool for creating OEP profiles, or the Reference Table Administration tool for configuring UDFs) </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The UI resources that provide access to the required tools</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">All OES tools </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The Administrator role</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ol MadCap:continue="true">
+            <li>Associate each UCW designer's user account to custom OEP profiles, if desired. Doing this allows UCW designers to log on to OEP using that OEP profile, enabling them to configure the UI associated with that OEP profile.</li>
+            <li>If you're using integrated Windows authentication within your development environment:</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">On your OEP Web server, use Computer Management (a Windows administration tool) to add the Windows account of each UCW designer to the OnyxUCWUsers group.</li>
+        </ul>
+    </body>
+</html>

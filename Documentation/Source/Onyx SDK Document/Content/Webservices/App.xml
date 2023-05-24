@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <configSections>
+    <section name="unitysdk" type="Microsoft.Practices.Unity.Configuration.UnityConfigurationSection, Microsoft.Practices.Unity.Configuration"/>
+    <section name="log4net" type="log4net.Config.Log4NetConfigurationSectionHandler, log4net"/>
+    <section name="OnyxSDKGatewayServiceConfigurationsSection" 
+             type="OnyxSDK.Public.Configuration.OnyxSDKGatewayServiceConfigurationsSection, OnyxSDK.Public.Configuration, Version='7.8.0.0', Culture='neutral', PublicKeyToken='206c397fab0ffa11'" />
+    <section name="OnyxLanguageCultureMappingsSection"
+             type="OnyxSDK.Public.Configuration.OnyxLanguageCultureMappingsSection, OnyxSDK.Public.Configuration, Version='7.8.0.0', Culture='neutral', PublicKeyToken='206c397fab0ffa11'"/>
+
+  </configSections>
+
+  <log4net configSource="log4net.config" />
+  <unitysdk configSource="unitysdk.config" />
+  <OnyxSDKGatewayServiceConfigurationsSection configSource="ogssdkservice.config" />
+  <OnyxLanguageCultureMappingsSection configSource="languageculturemapping.config" />
+  
+  <system.net>
+    <connectionManagement>
+      <add address="*" maxconnection="1000"/>
+    </connectionManagement>
+  </system.net>
+
+  <startup>
+    <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.6.1"/>
+  </startup>
+
+
+</configuration>

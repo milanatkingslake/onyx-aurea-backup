@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="796" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Combining role-specific rules during cascade</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h1>Combining role-specific rules during cascade </h1>
+        <p>There are several scenarios to consider when you have 
+ created role-based rules for subscription relationships: </p>
+        <ul>
+            <li>An OEP end-user can be a member of an organizational 
+ role that is associated with more than one subscription relationship.</li>
+            <li>An OEP end-user can be a member of more than one 
+ organizational role and, as such, can be included in more than one subscription 
+ role.</li>
+            <li>The rule set for a subscription role overrides 
+ the same rule set for the subscription relationship for members of that 
+ role.</li>
+            <li>An OEP end-user who is associated with multiple 
+ subscription roles for the same subscription relationship is subscribed 
+ to a union of all of the subscribable records based on those roles.</li>
+        </ul>
+        <p>The following example demonstrates how these scenarios are combined 
+ for cascaded subscriptions. </p>
+        <p style="font-weight: bold;">Example </p>
+        <p>Suppose you have four OEP end-users who belong to the following organizational 
+ roles, and for whom you have created subscription profiles for OEP-Offline. 
+ </p>
+        <p class="Image">
+            <img src="../../Resources/Images/AR_SubscRoleScenario.jpg" style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <p>Suppose that you also have the following subscribable 
+ objects and the following subscription rules set for those subscribable 
+ objects: </p>
+        <ul>
+            <li>individual</li>
+            <li>incident</li>
+            <li>task</li>
+            <li>forecast</li>
+        </ul>
+        <h3>incident </h3>
+        <p class="Image">
+            <img src="../../Resources/Images/AR_SubscRoleScenario_1.jpg" style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <p style="font-weight: bold;">task </p>
+        <p class="Image">
+            <img src="../../Resources/Images/AR_SubscRoleScenario_2.jpg" style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <p style="font-weight: bold;">forecast </p>
+        <p class="Image">
+            <img src="../../Resources/Images/AR_SubscRoleScenario_3.jpg" style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <p>Note that for this example: </p>
+        <ul>
+            <li>There is only a requirement that there be an individual 
+ subscribable object. There are no subscription relationships defined for 
+ individual, as the only relationships required for this example exist 
+ on the secondary object (incident).</li>
+            <li>Subscription roles exist only for the incident 
+ object’s <em class="Emphasis">individual owner of an incident</em> relationship 
+ and the task object’s <em class="Emphasis">incident owner of a task</em> 
+ relationship. </li>
+        </ul>
+        <p>Based on the subscribable objects, relationships, rules, and roles described 
+ above, the following end-user interactions result in the cascaded subscriptions 
+ described: </p>
+        <p style="font-weight: bold;">User 1 subscribes to an individual </p>
+        <ul>
+            <li>User 1 belongs to the A organizational role, which 
+ is not associated with a subscription role. </li>
+            <li>Relationship rules are used to determine cascaded 
+ subscriptions. No role-based rules are used. </li>
+            <li>The Cascade secondary object and cascade its subscription 
+ relationships is set to true for all subscription relationships, so subscriptions 
+ are cascaded recursively for the incidents owned by the subscribed individual, 
+ and the tasks and forecasts owned by those subscribed incidents.</li>
+        </ul>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">This scenario would be the same for any subscriber who was 
+ not a member of an organizational role.</p>
+        <p style="font-weight: bold;">User 2 subscribes to an individual </p>
+        <ul>
+            <li>User 2 belongs to the B organizational role, which 
+ is associated with a subscription role on the incident <em class="Emphasis">individual 
+ owner of an incident</em> relationship.</li>
+            <li>The rules on this subscription role are set to 
+ false. </li>
+            <li>The false setting for <span class="UIElement" style="font-weight: bold;">Subscribe 
+ to secondary object and cascade its subscription relationships</span> 
+ overrides the true setting for this rule that is set at the relationship 
+ level. Because of this, no secondary incidents are subscribed to User 
+ 2 during the cascade. </li>
+        </ul>
+        <p style="font-weight: bold;">User 3 subscribes to an individual </p>
+        <ul>
+            <li>User 3 belongs to the B and C organizational roles, 
+ which are each associated with a subscription role on the incident <em class="Emphasis">individual owner of an incident</em> relationship.</li>
+            <li>The rules on the subscription role associated 
+ with role B are set to false, and the false setting for <span class="UIElement" style="font-weight: bold;">Subscribe 
+ to secondary object and cascade its subscription relationships</span> 
+ overrides the true setting for this rule that is set at the relationship 
+ level. </li>
+            <li>On the subscription role associated with role 
+ C, <span class="UIElement" style="font-weight: bold;">Subscribe to secondary object and cascade its 
+ subscription relationships</span> is set to true, with an additional filter 
+ criteria set to iIncidentCategory=1. </li>
+            <li>Based on a union of these rules, subscriptions 
+ for User 3 are cascaded recursively to the “support” type incidents owned 
+ by the subscribed individual, and the tasks and forecasts related to those 
+ incidents.</li>
+        </ul>
+        <p style="font-weight: bold;">User 4 subscribes to an individual </p>
+        <ul>
+            <li>User 4 belongs to the B, C, and D organizational 
+ roles, which are each associated with a subscription role on the incident 
+ <em class="Emphasis">individual owner of an incident</em> relationship.</li>
+        </ul>
+        <ul style="list-style-type: circle;">
+            <li class="Sec_List">The rules on the subscription role associated 
+ with role B are set to false, and the false setting for <span class="UIElement" style="font-weight: bold;">Subscribe 
+ to secondary object and cascade its subscription relationships</span> 
+ overrides the true setting for this rule that is set at the relationship 
+ level. </li>
+            <li class="Sec_List">On the subscription role associated with role 
+ C, <span class="UIElement" style="font-weight: bold;">Subscribe to secondary object and cascade its 
+ subscription relationships</span> is set to true, with an additional filter 
+ criteria set to iIncidentCategory=1.</li>
+            <li class="Sec_List">On the subscription role associated with role 
+ D, <span class="UIElement" style="font-weight: bold;">Subscribe to secondary object and cascade its 
+ subscription relationships</span> is set to true, with an additional filter 
+ criteria set to iIncidentCategory=3.</li>
+        </ul>
+        <ul>
+            <li>Based on a union of these rules, subscriptions 
+ for User 4 are cascaded recursively to the “support” and “sales” type 
+ incidents owned by the subscribed individual, and the tasks and forecasts 
+ owned by the subscribed sales and support incidents.</li>
+        </ul>
+    </body>
+</html>

@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="824" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h4>Data Formats</h4>
+        <p>Data cached on the server is stored either as a string or as an array. Code that retrieves data from the cache should use the VBScript IsArray function before attempting to read the data. Many of the arrays are two-dimensional, but all can be checked for size using the UBound and LBound functions. The following code sample can be used to determine the number of dimensions within an array object. </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>lCols = empty</code>
+                    </p>
+                    <p><code>lRows = ubound(vValue,1)</code>
+                    </p>
+                    <p><code>on error resume next</code>
+                    </p>
+                    <p><code>lCols = ubound(vValue,2)</code>
+                    </p>
+                    <p><code>err.clear</code>
+                    </p>
+                    <p><code>on error goto 0</code>
+                    </p>
+                    <p>&#160;</p>
+                    <p><code>if IsEmpty(lCols) then</code>
+                    </p>
+                    <p><code>' vValue is a 1 dimensional array</code>
+                    </p>
+                    <p><code>else</code>
+                    </p>
+                    <p><code>' vValue is a 2 dimensional array</code>
+                    </p>
+                    <p><code>end if</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>Although the default configuration of OEP does not do so, the Application cache can also store objects created in ASP scripts. </p>
+        <p>Data in string formats may contain well-formed XML documents or document fragments. </p>
+        <h4>UDF pairs</h4>
+        <p>Each user-defined field is represented by two separate arrays in the application cache. &#160;</p>
+        <ul>
+            <li>The first entry ends with the string .DETAILS, and identifies the type of user interface object the field should use (combo box, text box, free text etc.), and configuration data specific to that type. </li>
+            <li>The second entry ends with the string .DATA and contains a list of domain values to use for the field. If the field's type does not support domain data, the array is empty. </li>
+        </ul>
+        <p>Use the function vbPrintUDF in the file YourOEPwebsite/common/include/RenderUDF.asp to automatically add UDF fields to user interface elements. </p>
+        <h4>Reviewing the cache contents</h4>
+        <p>Use the <a href="Using Diagnostics.htm#top">OEP diagnostics tools</a> to view the contents of the application cache. From there you can review and refresh the data cached on the OEP server. </p>
+        <h3><a name="Context"></a>Context Cache</h3>
+        <p>The context cache provides a storage location for information that is passed back and forth between the client browser and the OEP server. Typical uses for this cache include session information, locale identifiers, and the unique ID of the active customer record. Data within this cache is readable from both the client and server and can be updated at any time during the lifespan of the OEAS session. </p>
+        <p>OEP stores the context cache data within browser cookies. Because of this, the total amount of data that can be stored in the cache is limited to four kilobytes per client. OEP stores a little less than one kilobyte in this cache in its default configuration. </p>
+        <p>To save space, much of the data within the context cache is identified using abbreviated keys. Items in the cache can be a single data item paired with a key, or a group of associated items assembled under a parent key. There are functions for saving and retrieving the data in either format. Information about the functions and the keys is available in the <a href="AppCacheRead Function.htm#Context">context cache section</a> of the Programmer's Reference.</p>
+        <h3><a name="User"></a>User Preference Cache</h3>
+        <p>The user preference cache has only one function, <i href="file:///C:/Users/rmuladharmaveer/Documents/MyJabberFiles/arunkumar.vasam@aptean.com/ONYX 77 OEP Administration Guide.doc#_Ref-808397277">UserPrefCacheRead</i>, that retrieves information about the user's preferences. There is no function to store user preference information. This data is set by the OEP application. </p>
+        <p>Data for user preferences can be retrieved using keys that identify the preference. A complete list of keys is available within the file YourOEPwebsite/common/include/otm_cache.asp. Some sample keys appear in the table below.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Key</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">CONFIRMCMPSAVE</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Determines whether or not to display a confirmation message after a successful save to a company record</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">EXPGRPSWITHSELUSERS</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Determines whether or not to expand the groups with selected users within the user control</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">SUPPORTINCASSIGNEDTO</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Contains the default value for the Assigned To field of a support incident</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The case of key names is not important and is ignored by the <i>UserPrefCacheRead</i> function. </p>
+    </body>
+</html>

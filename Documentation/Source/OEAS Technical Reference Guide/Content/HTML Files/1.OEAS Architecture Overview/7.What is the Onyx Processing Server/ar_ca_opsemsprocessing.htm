@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="508" MadCap:lastWidth="678" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>EMS Processing</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>EMS Processing</h3>
+        <p>When processing an inbound email, EMS: </p>
+        <ul>
+            <li>Recognizes a reply to an email that originated 
+ from OEAS and associates the reply to the original email.</li>
+            <li>Associates the email to customers and Onyx users 
+ based on the sender and recipient list. When the email is a reply, EMS 
+ adds the associations created from the sender and recipients to the thread 
+ associations. EMS calls certain OEAS methods to resolve the recipient 
+ and the sender email addresses of inbound email. When processing an inbound 
+ email that is part of a thread, the subsystem retrieves the associations 
+ of the original email.</li>
+            <li>Saves the email message to the OEDB. </li>
+            <li>Uploads email attachment files to the upload/download 
+ file server.</li>
+            <li>Depending on the configuration of the mailbox, 
+ either physically deletes the inbound email from the monitored mailbox 
+ or moves it to an archive folder on the mail server.</li>
+        </ul>
+        <p>To insert an inbound email into the OEDB, EMS groups 
+ multiple OEAS method calls into an actionBatchXml string. EMS then makes 
+ a single call to the execute method of the actionBatch object to insert 
+ the following objects: </p>
+        <ul>
+            <li>Resolved recipients and sender as emailContact 
+ objects</li>
+            <li>The inbound email as an emailMessage object </li>
+            <li>Associations of the thread's original email as 
+ association objects for the new inbound email (if the new email is part 
+ of a thread)</li>
+            <li>Attachments as fileLink objects (if any exist)</li>
+        </ul>
+        <p>For more information about the actionBatch object, see topics on the 
+ actionBatch business object in the <span style="font-style: italic;">OEAS 
+ Developer’s Reference</span>. </p>
+    </body>
+</html>

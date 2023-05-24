@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="4764" MadCap:lastWidth="1100">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Note_Table_3.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/TableStyles/Aptean_Note_Table_2.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Add javascript class</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h6>
+            <MadCap:keyword term="Add javascript class" />Adding Javascript class definition to script_controls.js</h6>
+        <p>Having located and backed up <a href="c_scriptControlType_Get_copy_of_script_controls_file.htm">script_controls.js 
+ file</a>, you are ready to add a JavaScript class definition to the file.</p>
+        <p style="font-weight: bold;">To add a JavaScript class definition to script_controls.js:</p>
+        <ol>
+            <li>Open the file in a text editor.</li>
+            <li>Copy the following JavaScript class definition 
+ to Clipboard or another means of storage.</li>
+            <li>At the start of the first blank line after the 
+ variables declarations, paste the following JavaScript class definition 
+ into the file.</li>
+        </ol>
+        <h3>customerSearch class</h3>
+        <p>Code</p>
+        <p Class="Code" class="code">&#160;//-----------------------------------------------------------------------------</p>
+        <p Class="Code" class="code">&#160;//Name:&#160;customerSearch&#160;Control&#160;object</p>
+        <p Class="Code" class="code">&#160;//-----------------------------------------------------------------------------</p>
+        <p Class="Code" class="code">&#160;function&#160;ScriptControl_customerSearch(psId,&#160;poControlElement,&#160;poScriptPrompt,&#160;poEventCallBack)&#160;{&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;var&#160;_oControlElement&#160;=&#160;poControlElement;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;var&#160;_oScriptPrompt&#160;=&#160;poScriptPrompt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;var&#160;_bDirty&#160;=&#160;false;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;var&#160;_sOriginalResponse&#160;=&#160;"";</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;var&#160;_sDefaultValue&#160;=&#160;_oControlElement.getAttribute("default");</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;this.validate&#160;=&#160;_validate;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;this.getResponses&#160;=&#160;_getResponses;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;this.setFocus&#160;=&#160;_setFocus;</p>
+        <p Class="Code" class="code">...this.destroy = _destroy;</p>
+        <p Class="Code" class="code">&#160;&#160;//&#160;wire&#160;up&#160;events</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;//add&#160;the&#160;following&#160;line&#160;to&#160;bind&#160;search&#160;function&#160;to&#160;the&#160;control&#160;button&#160;click</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;_oControlElement.childNodes.item(1).onclick&#160;=&#160;_popSearch;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;//setup&#160;the&#160;control&#160;to&#160;display&#160;persisted&#160;data&#160;or&#160;default&#160;data</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;_setCustomer();</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;function&#160;_setFocus(){</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;_oControlElement.focus();</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;return&#160;true;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;}</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;function&#160;_validate(poValidationFailures)&#160;{</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;//check&#160;to&#160;see&#160;if&#160;this&#160;is&#160;required</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;if(_oScriptPrompt.isRequired()&#160;&amp;&amp;&#160;_oControlElement.childNodes.item(0).value&#160;==&#160;""){</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;//this&#160;control&#160;requires&#160;a&#160;responses&#160;to&#160;be&#160;made&#160;and&#160;none&#160;have.&#160;add&#160;a&#160;validation&#160;failure&#160;object</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;poValidationFailures.addFailure(_oScriptPrompt.primaryId(),&#160;"required",&#160;moResourceManager.getString("requiredResponse"));</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;return&#160;false;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;}</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;return&#160;true;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;}</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;function&#160;_getResponses()&#160;{</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;return&#160;new&#160;Array(new&#160;ScriptPromptResponse(</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;_oControlElement.value,&#160;//&#160;value</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;_oControlElement.responseCode,&#160;//&#160;responseCode</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;null,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;_oControlElement.childNodes.item(0).responsePrimaryId)</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;);</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;}</p>
+        <p Class="Code" class="code">...function _destroy(){</p>
+        <p Class="Code" class="code">...}</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;function&#160;_dirty()&#160;{</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;if&#160;(!_bDirty)&#160;{</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;_bDirty&#160;=&#160;true;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;poEventCallBack("dirty");</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;}</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;}</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;//add&#160;the&#160;following&#160;function&#160;to&#160;handle&#160;the&#160;search&#160;button&#160;click&#160;on&#160;the&#160;control</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;function&#160;_popSearch()&#160;{</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;var&#160;sSearchResults&#160;=&#160;new&#160;String("");</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;var&#160;aSearchResults&#160;=&#160;new&#160;Array();</p>
+        <p Class="Code" class="code">&#160;&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;//get&#160;the&#160;seperator&#160;and&#160;then&#160;call&#160;off&#160;to&#160;the&#160;search&#160;function</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;var&#160;sSearchReturnSeperator&#160;=&#160;String.fromCharCode(8);</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;var&#160;sSearchResults&#160;=&#160;jsDoQuickSearch("Regular",&#160;"");</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;//get&#160;out&#160;the&#160;selected&#160;search&#160;result&#160;record</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;if&#160;(sSearchResults&#160;!=&#160;0)&#160;{</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;//&#160;Quick&#160;Search&#160;'Regular'&#160;Search&#160;return&#160;values&#160;explained</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;//&#160;0&#160;-&#160;CustomerPrimaryId</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;//&#160;1&#160;-&#160;CustomerName</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;//&#160;2&#160;-&#160;Customer&#160;Type&#160;e.g.&#160;Individual/Company</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;//&#160;3&#160;-&#160;Customer&#160;Secondary&#160;Id</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;//&#160;4&#160;-&#160;Customer&#160;Type&#160;e.g.&#160;1,2</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;var&#160;aSearchResults&#160;=&#160;sSearchResults.split(sSearchReturnSeperator);</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;//now&#160;set&#160;the&#160;page&#160;display&#160;for&#160;this&#160;contact</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;_oControlElement.responseCode&#160;=&#160;aSearchResults[0];</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;_oControlElement.value&#160;=&#160;aSearchResults[1];</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;_oControlElement.childNodes.item(0).value&#160;=&#160;aSearchResults[1];</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;_dirty();</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;}</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;}</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;function&#160;_setCustomer(){</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;if(_sDefaultValue&#160;!=&#160;""&#160;&amp;&amp;&#160;_oControlElement.responseCode&#160;==&#160;""){</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;//make&#160;otm&#160;call&#160;to&#160;get&#160;the&#160;customer&#160;name&#160;info&#160;for&#160;the&#160;default&#160;customerId</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span style="color: #008000;">//not implemented</span></p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;}</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;else{</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;if(_oControlElement.responseCode&#160;!=&#160;""&#160;&amp;&amp;&#160;_oControlElement.value&#160;!=&#160;""){</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;//set&#160;the&#160;textbox&#160;field&#160;of&#160;the&#160;control&#160;to&#160;the&#160;customer&#160;name</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;_oControlElement.childNodes.item(0).value&#160;=&#160;_oControlElement.value;</p>
+        <p Class="Code" class="code">..._dirty();</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;}</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;}</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;}</p>
+        <p Class="Code" class="code">&#160;}</p>
+        <p>The Javascript class definition must include several key elements.</p>
+        <p style="font-weight: bold;">Prescribed naming convention</p>
+        <p class="BodyTextIndent_1">OEP uses a naming convention for the control classes. All 
+ control class definitions are functions named ScriptControl_X, where X 
+ is a string representing the name of your control. You must use this control 
+ name consistently throughout the system, including in the control_type_code 
+ in the <a href="c_scriptControlType_Add_domain_data.htm">database</a> 
+ and the template names in the <a href="c_scriptcontroltype_Add_the_stylesheet_template.htm">XSL 
+ stylesheet</a>. OEP only knows the name of the control at run time. In 
+ order to call the correct Javascript and stylesheet code the names must 
+ all match. The name is case sensitive.</p>
+        <p style="font-weight: bold;">Standard function signature</p>
+        <p class="BodyTextIndent_1">OEP assumes a specific function signature for all control 
+ classes. The following list gives the parameters names and their definitions.</p>
+        <p class="BodyTextIndent_1">psId</p>
+        <p class="BodyTextIndent_1">The primaryId of the prompt that owns the 
+ control</p>
+        <p class="BodyTextIndent_1">poControlElement</p>
+        <p class="BodyTextIndent_1">DHTML element that is bound to the control</p>
+        <p class="BodyTextIndent_1">poScriptPrompt</p>
+        <p class="BodyTextIndent_1">The prompt object itself</p>
+        <p class="BodyTextIndent_1">poEventCallBack</p>
+        <p class="BodyTextIndent_1">The event bubble handler</p>
+        <p style="font-weight: bold;">Special behavior defined</p>
+        <p class="BodyTextIndent_1">In this case, when the user clicks the button next to the 
+ input box, the control should pop the standard customer <span style="font-weight: bold;">Search</span> 
+ dialog box.</p>
+        <ol>
+            <p>The <span style="font-weight: bold;">Search</span> dialog box returns 
+ a zero-based array of customer data beginning with customer ID and customer 
+ name. Upon completion of the search, the control should put the customer 
+ ID in the responseCode of the prompt</p>
+            <p Class="Code" class="code">_oControlElement.responseCode&#160;=&#160;aSearchResults[0];&#160;//customer&#160;ID</p>
+            <p>and the customer name in the value of the prompt and the value of 
+ the input box.</p>
+            <p Class="Code" class="code">_oControlElement.value&#160;=&#160;aSearchResults[1];&#160;//customer&#160;name</p>
+            <p Class="Code" class="code">_oControlElement.childNodes.item(0).value&#160;=&#160;aSearchResults[1];</p>
+            <p>Because the control includes input and img tags, the input box has 
+ an index of zero (0) and the image has an index of one (1). The input 
+ box displays the value of the scriptSessionPromptResponse (name) in the 
+ user interface. The prompt holds the responseCode of the scriptSessionPromptResponse 
+ in the background. If you assign an output variable to the prompt, the 
+ script engine stores the responseCode in the output variable. The custom 
+ Javascript class for the control defines this behavior in the function 
+ _popSearch().</p>
+            <p>The _setCustomer function includes a conditional statement for supplying 
+ a default customer name in the control. To implement this, you must supply 
+ the code for an OTM call based on a default customer ID. This also requires 
+ that the domain data be set to allow a default value, and that the script 
+ designer supplies a default ID at design time. In this customization example, 
+ default data is not enabled for the control, therefore this branch of 
+ code is never executed.</p>
+        </ol>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Note_Table_2.css');" class="TableStyle-Aptean_Note_Table_2" cellspacing="2">
+            <col style="width: 0.7cm;" class="TableStyle-Aptean_Note_Table_2-Column-Column1" />
+            <col class="TableStyle-Aptean_Note_Table_2-Column-Column1" style="width: 14cm;" />
+            <tbody>
+                <tr class="TableStyle-Aptean_Note_Table_2-Body-Body1">
+                    <td class="TableStyle-Aptean_Note_Table_2-BodyB-Column1-Body1" style="text-align: right;">
+                        <p class="TableText">
+                            <img src="../../Resources/Images/Common/note_image.png" />
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Note_Table_2-BodyA-Column1-Body1">
+                        <p class="TableText"><b>Note</b>: The <a href="c_scriptcontroltype_Add_the_stylesheet_template.htm">XSL 
+ stylesheet</a> defines the HTML rendering of the input box and button.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p style="font-weight: bold;">Special behavior binding to an event</p>
+        <p class="BodyTextIndent_1">In order to pop the <span style="font-weight: bold;">Search</span><span style="font-weight: normal;"> dialog box when the user clicks the button</span>, 
+ bind the function _popSearch() to the onclick event of the img tag in 
+ the control.</p>
+        <ol>
+            <p Class="Code" class="code">_oControlElement.childNodes.item(1).onclick&#160;=&#160;_popSearch;</p>
+        </ol>
+        <table style="width: 100%;mc-table-style: url('../../Resources/TableStyles/Aptean_Note_Table_3.css');" class="TableStyle-Aptean_Note_Table_3" cellspacing="2">
+            <col style="width: 0.7cm;" class="TableStyle-Aptean_Note_Table_3-Column-Column1" />
+            <col class="TableStyle-Aptean_Note_Table_3-Column-Column1" style="width: 15.50cm;" />
+            <tbody>
+                <tr class="TableStyle-Aptean_Note_Table_3-Body-Body1">
+                    <td class="TableStyle-Aptean_Note_Table_3-BodyB-Column1-Body1" style="text-align: right;">
+                        <p>
+                            <img src="../../Resources/Images/Common/imp_image.png" />
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Note_Table_3-BodyA-Column1-Body1">
+                        <p class="TableText"><b>Important</b>: The _popSearch function calls jsDoQuickSearch which 
+ is defined in \Program Files\Onyx\EmployeePortal\common\javascript\search.js. 
+ To include functions from external Javascript and ASP pages, you must 
+ put an include comment or script tag in the \Program Files\Onyx\EmployeePortal\scripting\script_delivery.asp 
+ file. For jsDoQuickSearch script_delivery.asp uses the following script 
+ tag.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ol>
+            <p class="code" style="margin-bottom: 0;">&lt;script language-"javascript" src="../common/javascript/search.js"&gt;&lt;/script&gt;</p>
+        </ol>
+    </body>
+</html>

@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:conditions="Default.Main" MadCap:lastBlockDepth="4" MadCap:lastHeight="776" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Update</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>Update </h5>
+        <p>The update change-capture trigger ensures that when an object, such 
+ as an incident, is updated or logically deleted, the appropriate sync_action 
+ field values are updated in subscription_item to ensure appropriate cascading 
+ actions to the related objects. </p>
+        <p><b class="Bold" style="font-weight: bold;">Updates -</b> When an object is updated 
+ (not logically deleted), the update change-capture logic sets the subscription_item 
+ sync_action field to 1 for that object, so that it is retrieved and refreshed 
+ to the staging server during synchronization. There might also be logic 
+ to handle updates to any column participating in a “direct” or “variable 
+ direct” relationship. Updates to these columns cause the record to be 
+ “moved” to a new primary object, and this additional logic sets the record 
+ to re-cascade (sync_action=5). </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">The updated record can be updated online or offline. When 
+ it is updated offline, the update is applied to the database during synchronization 
+ causing the change-capture trigger to update the owner’s sync_action value 
+ in subscription_item.</p>
+        <p>You should note the following: </p>
+        <ul>
+            <li>When a customer address or phone is updated, the 
+ update change-capture logic sets the owner’s (individual or company) sync_action 
+ value to 1. This is because addresses and phones are automatically subscribed 
+ with customers and do not require a separate subscription. Therefore, 
+ it is the owner customer that needs to be re-synchronized.</li>
+            <li>When a reminder is updated, the update change-capture 
+ logic sets the owner’s (incident or task) sync_action value to 1. This 
+ is because reminders are automatically subscribed with incidents and tasks 
+ and do not require a separate subscription. Therefore, it is the owner 
+ that needs to be re-synchronized.</li>
+            <li>Incidents and tasks are both stored in the incident 
+ table in the OEDB. For this reason, there is no separate update task trigger, 
+ but there is logic in the update incident trigger to evaluate the category 
+ of the item being updated to determine if it is an incident or a task. 
+ This is necessary to ensure the appropriate owners (individuals or companies 
+ for incidents, or incidents for tasks) are updated in subscription_item.</li>
+            <li>Forecasts and quotes are both stored in the QuoteHeader 
+ table in the OEDB. However, because both are owned by incidents there 
+ is no need for special logic to evaluate the category of the item being 
+ updated to determine if it is a quote or a forecast. </li>
+        </ul>
+        <p><b class="Bold" style="font-weight: bold;">Logical deletions -</b> Because most 
+ transactional objects are logically deleted in the database, meaning that 
+ the object is actually updated (setting tiRecordStatus=0 or delete_status=1) 
+ rather than physically deleted, for many transactional tables the change-capture 
+ trigger of an update trigger also ensures that logical deletions are cascaded 
+ appropriately. When a transactional object is logically deleted, the update 
+ change-capture logic sets the subscription_item sync_action field to 7 
+ (deletion cascade) for that object, so that it's secondary objects are 
+ also subsequently marked as deleted in subscription_item. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">The logical delete can occur online or offline. When the 
+ object is deleted offline, the deletion is applied to the database during 
+ synchronization causing the change-capture trigger to update the object’s 
+ sync_action value in subscription_item.</p>
+        <p>You should note the following: </p>
+        <ul>
+            <li>When a quote or forecast is deleted, the update 
+ change-capture logic marks that quote or forecast as deleted (sync_action=6). 
+ It is not marked for deletion cascade because quotes and forecasts do 
+ not have any subscribable secondary objects.</li>
+            <li>When a reminder is logically deleted, the update 
+ change-capture logic sets the owner’s (incident or task) sync_action value 
+ to 1. This is because reminders are automatically subscribed with incidents 
+ and tasks and do not require a separate subscription. Therefore, it is 
+ the owner that needs to be re-synchronized so that it can be subsequently 
+ synchronized without the deleted reminder.</li>
+        </ul>
+    </body>
+</html>

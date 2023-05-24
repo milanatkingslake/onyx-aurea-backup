@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" class="" MadCap:lastBlockDepth="7" MadCap:lastHeight="770" MadCap:lastWidth="624">
+    <head><title>Building custom CTI connectors</title>
+        <script language="JavaScript">
+        </script>
+        <link href="../Resources/Stylesheets/Aptean_word.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <H1 class="Heading">Building custom CTI connectors</H1>
+        <p class="BodyText">This topic explains how to build a custom CTI connector, and describes 
+ the logic required for <a href="#Logic-synchr-asynchr">synchronous and 
+ asynchronous CTI systems</a>. </p>
+        <p class="ElementHeader_Two"><b>High-level overview</b>
+        </p>
+        <p class="BodyText">Custom CTI connectors enable your CTI system to communicate with Onyx 
+ CTI by implementing the <a href="ICTIConnector_interface.htm">ICTIConnector 
+ interface</a>. </p>
+        <p class="BodyText">Before you begin building your custom CTI connector, consider using 
+ the <a href="Sample_connector_and_test_tools.htm">sample connector and 
+ test tools</a> to simulate a fully functioning connector, and review the 
+ following steps to ensure that you have all the required resources, including 
+ your CTI system vendor's instructions and specifications. </p>
+        <p class="To"><b>To build a custom CTI connector: </b>
+        </p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li class="ListBullet">Install Onyx CTI. </li>
+            <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">For instructions on installing Onyx CTI, see the Onyx Computer Telephony Integration Implementation 
+ Guide. </p>
+            <li class="ListBullet">Create a custom connector folder in the folder 
+ YourOEPwebsite\cti\, where YourOEPwebsite is your OEP installation 
+ directory. </li>
+            <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">We recommend using the name of your connector as the 
+ name of the custom connector folder. </p>
+            <li class="ListBullet">Using your CTI system vendor's instructions and 
+ specifications and Onyx CTI's <a href="ICTIConnector_interface.htm">ICTIConnector 
+ interface</a>, develop custom connector code to enable the connector to 
+ communicate with the CTI system. </li>
+            <li class="ListBullet">In the custom connector folder, create the following 
+ files: </li>
+            <ul style="list-style: disc;" type="disc">
+                <li class="ListBullet"><a href="Code_files.htm">Code files (cticonnector.asp 
+ and cticonnector.js)</a>
+                </li>
+                <li class="ListBullet"><a href="Configuration_file.htm">Configuration 
+ file (cti_config.xml)</a>
+                </li>
+                <li class="ListBullet"><a href="Enumeration_file.htm">Enumeration 
+ file (cti_enummessages.xml)</a>
+                </li>
+            </ul>
+            <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">As required, modify the code for your CTI system's <a href="#Logic-synchr-asynchr">synchronous or asynchronous communication</a>. 
+ </p>
+            <li class="ListBullet">To revise the default Onyx CTI interface strings 
+ (for example, to add strings unique to your connector), edit the <a href="Resource_string_files.htm">resource 
+ string files (ctitoolbar.xml and ctidialogs.xml)</a>. </li>
+            <li class="ListBullet">Add your custom connector to the database. </li>
+            <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">For instructions on adding connectors to the database, 
+ see the Onyx Computer Telephony Integration 
+ Implementation Guide. </p>
+            <li class="ListBullet">Configure the main <a href="Configuration_file.htm">configuration 
+ file</a> to point to the custom connector by setting the defaultConnector 
+ element to the primaryId of your custom connector. </li>
+        </ol>
+        <p class="ElementHeader_Two"><a name="Logic-synchr-asynchr"></a>Logic required for synchronous and 
+ asynchronous CTI systems </p>
+        <p class="BodyText">Onyx CTI supports both synchronous and asynchronous communication with 
+ CTI systems. </p>
+        <p class="BodyText">Each communication mode returns different types of results in response 
+ to commands from Onyx CTI. Results from synchronous 
+ CTI systems indicate success or failure of commands; results from asynchronous CTI systems indicate success 
+ or failure of transmission only (receipt of the command). This fundamental 
+ difference demands unique logic in the connector built for each type of 
+ CTI system. </p>
+        <p class="ElementHeader_Two"><b>Synchronous CTI systems</b>
+        </p>
+        <p class="BodyText">Connectors built for synchronous 
+ CTI systems must respond to CTI systems' success and failure results by 
+ converting them into the appropriate events to inform Onyx CTI of the 
+ outcome. </p>
+        <p class="BodyText">For an example of a synchronous CTI system, see the <a href="Sample_connector_and_test_tools.htm">sample 
+ connector and test applet</a>. The sample connector communicates with 
+ the test applet, which is acting as the synchronous CTI system. The applet 
+ responds to a command by processing it and then returning either a success 
+ or failure result to the connector. The connector then fires the appropriate 
+ event to inform Onyx CTI of the outcome. </p>
+        <p class="BodyText">The holdCall method in the sample connector code illustrates the logic 
+ required: </p>
+        <p class="C_Code">function _holdCall(psCallId){</p>
+        <p class="C_Code">&#160;&#160;&#160;var sReturnValue = _oApplet.holdCall(psCallId);</p>
+        <p class="C_Code">&#160;&#160;&#160;var oCallDataDom = goOnyxXmlDom.createFromXml(sReturnValue, false);</p>
+        <p class="C_Code">&#160;&#160;&#160;if (oCallDataDom.parseError.errorCode == 0) {</p>
+        <p class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;_onCallStatusChange(CTI_RETURN_SUCCESS, oCallDataDom.xml);</p>
+        <p class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;return CTI_RETURN_SUCCESS;</p>
+        <p class="C_Code">&#160;&#160;&#160;} else {</p>
+        <p class="C_Code">&#160;&#160;&#160;return sReturnValue;</p>
+        <p class="C_Code">&#160;&#160;&#160;} </p>
+        <p class="C_Code">}</p>
+        <p class="BodyText">As this example method shows, the sample connector 
+ performs the following actions:</p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li class="ListBullet">Calls the corresponding <a href="holdCall_method_ICTIConnector_interface.htm">holdCall 
+ method</a> on the test applet. </li>
+            <p class="BodyText">The applet returns a result indicating whether or not the request 
+ was successfully processed. </p>
+            <li class="ListBullet">Notifies Onyx CTI of request processing status 
+ by firing the appropriate event: <br /></li>
+            <table style="margin-left: 0;margin-right: auto;">
+                <col />
+                <col />
+                <thead>
+                    <tr>
+                        <th>If the applet returns this result to the sample 
+ connector</th>
+                        <th>The sample connector performs this action to notify 
+ Onyx CTI</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <p class="Table_Text"><a href="CallData_XML_structure.htm">CallData XML 
+ structure</a>
+                                <br>
+                                </br>	(indicating successful processing of the request)</p>
+                        </td>
+                        <td>
+                            <p class="Table_Text">Fires the <a href="onCallStatusChange_event_ICTIConnector_interface.htm">onCallStatusChange 
+ event</a> and passes in the CallData XML as a parameter.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p class="Table_Text">failure return code <br></br>	(indicating unsuccessful processing of the request) </p>
+                        </td>
+                        <td>
+                            <p class="Table_Text">Fires the <a href="onRaiseError_event_ICTIConnector_interface.htm">onRaiseError 
+ event</a> and passes in the failure return code as a parameter. </p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </ol>
+        <p class="ElementHeader_Two"><b>Asynchronous CTI systems</b>
+        </p>
+        <p class="BodyText">Connectors built for asynchronous 
+ CTI systems must respond to CTI systems' success and failure results by 
+ returning a value to Onyx CTI indicating receipt status and then, after 
+ the CTI system completes the command, by firing the appropriate event 
+ to inform Onyx CTI of the outcome. This flow must be implemented for each 
+ command on the <a href="ICTIConnector_interface.htm">ICTIConnector interface</a>. 
+ </p>
+        <p class="BodyText">The connector performs the following actions when 
+ the CTI system returns a result indicating receipt status of a command:</p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li class="ListBullet">Returns a value to Onyx CTI indicating whether 
+ or not the command was successfully received by the CTI system. <br />The CTI system executes the necessary functions for completing the 
+ command issued by Onyx CTI and later fires an event indicating whether 
+ or not the request was successfully processed. </li>
+            <li class="ListBullet">Notifies Onyx CTI of request processing status 
+ by firing the appropriate event. </li>
+        </ol>
+    </body>
+</html>

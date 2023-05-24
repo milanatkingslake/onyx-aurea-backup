@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="777" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head>
+            <link href="../../../Resources/TableStyles/Aptean_Note_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" /><title>OEAS Data Flow</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>OEAS Data Flow </h2>
+        <p>To understand how data flows through the Onyx Enterprise Application 
+ Server (OEAS) at run-time, consider the following example of a typical 
+ transaction request: adding a new task record to the Onyx Enterprise Database.</p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">This explanation of data flow focuses on the business services 
+ tier, and therefore intentionally describes little about the Web server 
+ and the presentation tier.</p>
+        <p class="Image">
+            <img src="../../../Resources/Images/AR_OEASDataflow_full.png" style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <ul>
+            <li>Step 1: OEAS authenticates the calling client. (see <a href="ar_ca_step1.htm">Step 
+ 1</a>) </li>
+            <li>Step 2: The calling client instantiates the OTM and calls the Execute 
+ method. (see <a href="ar_ca_step2.htm">Step 2</a>) </li>
+            <li>Step 3: The OTM requests steps from the OED cache and, if not previously 
+ loaded, the cache loads upon request. (see <a href="ar_ca_step3.htm">Step 
+ 3</a>) </li>
+            <li>Step 4: The OTM processes each step obtained from the OED cache. (see 
+ <a href="ar_ca_step4.htm">Step 4</a>) </li>
+            <li>Step 5: The OTM instantiates and executes the OnyxDataValidationStep.DataValidation 
+ step component. (see <a href="ar_ca_step5.htm">Step 5</a>) </li>
+            <li>Step 6: The OTM instantiates and executes the OnyxDM.DataManager step 
+ component. (see <a href="ar_ca_step6.htm">Step 6</a>) </li>
+            <li>Step 7: The ODM requests SQL generation information from the method 
+ cache and, if not previously loaded, the cache loads upon request. (see 
+ <a href="ar_ca_step7.htm">Step 7</a>) </li>
+            <li>Step 8: The ODM translates input XML to T-SQL statements or a stored 
+ procedure call. (see <a href="ar_ca_step8.htm">Step 8</a>) </li>
+            <li>Step 9: The ODM calls the Query Engine to execute the generated T-SQL 
+ statements or the stored procedure. (see <a href="ar_ca_step9.htm">Step 
+ 9</a>) </li>
+            <li>Step 10: The Query Engine informs the ODM whether the database transaction 
+ succeeded. (see <a href="ar_ca_step10.htm">Step 10</a>) </li>
+            <li>Step 11: The ODM then translates the returned data into XML, and adds 
+ appropriate items to the step package. (see <a href="ar_ca_step11.htm">Step 
+ 11</a>) </li>
+            <li>Step 12: After all steps are processed, the OTM sends the results of 
+ the request to the calling client. (see <a href="ar_ca_step12.htm">Step 
+ 12</a>) </li>
+        </ul>
+    </body>
+</html>

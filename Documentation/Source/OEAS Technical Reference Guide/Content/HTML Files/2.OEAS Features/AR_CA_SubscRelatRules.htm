@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="785" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Subscription relationships, rules, and roles</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>Subscription relationships, rules, and roles </h3>
+        <p>Subscription relationships are relationships between subscribable objects 
+ that are based on existing OEDB relationships for the objects. They enable 
+ you to create rules that define automatic (cascading) subscription behaviors 
+ between the primary and secondary objects in a relationship. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;"> In an object relationship, the primary object is the object 
+ that owns the secondary object.</p>
+        <p>When you enable subscription rules for subscription relationships, you 
+ enable the following cascading subscription behaviors. </p>
+        <p><b class="Bold" style="font-weight: bold;">Cascaded subscriptions -</b> A cascaded 
+ subscription is the automatic subscription created for an object related 
+ to the object to which an OEP end-user has subscribed. For instance, suppose 
+ your business rules require that your OEP-Offline end-users have access 
+ to an incident’s primary contact. Rather than having an end-user manually 
+ subscribe to both the incident and the primary contact, you can create 
+ a subscription rule that automatically creates the primary contact subscription 
+ for the user when that user subscribes to the incident. </p>
+        <p>In addition to the cascaded subscriptions created 
+ for the user at the time that he subscribes to an object, automatic subscriptions 
+ are subsequently also created to any new or updated objects that are related 
+ to the object to which he had previously subscribed. For instance, suppose: 
+ </p>
+        <ul>
+            <li>You have a subscription rule that ensures that 
+ when an end-user subscribes to an incident, he is automatically subscribed 
+ to all the tasks of that incident. Subsequently, when a new task is created 
+ for that incident, a subscription to that new task is automatically created 
+ for the user. </li>
+            <li>You have a subscription rule that ensures that 
+ when an end-user subscribes to a company, he is automatically subscribed 
+ to that company’s primary contact (individual). Subsequently, when the 
+ primary contact for that company is changed to another individual, a subscription 
+ to the company’s new primary contact is automatically created for the 
+ user. The user would, however, need to unsubscribe from the previously 
+ subscribed primary contact (individual).</li>
+        </ul>
+        <p>These subscriptions occur automatically because when the object is created 
+ or updated, it causes a re-cascade to be run on the primary object in 
+ the relationship, which causes the new or updated secondary object to 
+ be subscribed. For additional information, see <a href="ar_ca_subscchangecapt.htm">Change-capture 
+ triggers</a>. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Unsubscribing can affect subsequent cascaded subscriptions. 
+ When an end-user explicitly unsubscribes from an item, they are only re-subscribed 
+ to that item if they explicitly re-subscribe to that item or to another 
+ item that would cause a cascaded subscription to it. The cascaded re-subscription 
+ to the item is prevented in the case where a related item is updated or 
+ created new, causing a re-cascade of all related items. Re-subscription 
+ to an explicitly unsubscribed item does not occur when the cascaded subscription 
+ is the result of a re-cascade process.</p>
+        <p><b class="Bold" style="font-weight: bold;">Cascaded unsubscriptions -</b> Cascaded 
+ unsubscriptions are the automatic unsubscriptions that occur for objects 
+ related to the one that an end-user has explicitly unsubscribed from. 
+ Cascaded unsubscriptions occur only for secondary objects in a relationship, 
+ and they occur only when a required relationship exists between the unsubscribed 
+ primary object and the secondary object. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Cascaded unsubscriptions are limited in their scope to only 
+ the secondary objects of a required relationship. For more information, 
+ see <a href="AR_CA_SubscSyncActionInCasc.htm">The role of the sync_action 
+ value in the cascade process</a>.</p>
+        <p><b class="Bold" style="font-weight: bold;">Cascaded deletions -</b> Cascaded deletions 
+ occur when an object that an end-user is subscribed to is deleted. A cascaded 
+ deletion is not an actual deletion of the related object. Instead a flag 
+ is set that unsubscribes and removes the object from OEP-Offline and prevents 
+ the object from being re-subscribed. Cascaded deletions occur only for 
+ secondary objects in a relationship, and they occur only when a required 
+ relationship exists between the deleted primary object and the secondary 
+ object. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Cascaded deletions are limited in their scope to only the 
+ secondary objects of a required relationship. For more information, see 
+ <a href="AR_CA_SubscSyncActionInCasc.htm">The role of the sync_action 
+ value in the cascade process</a>.</p>
+    </body>
+</html>

@@ -1,0 +1,1032 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="8" MadCap:lastHeight="626" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2><a name="top"></a>Configuring UI Controls</h2>
+        <p>Using UCW, you can configure custom (toolbox) and default (intrinsic) UI controls on <a href="Configuring OEP.htm#UCW">UCW-enabled pages</a>. For example, you can change the text displayed for a caption, move an intrinsic text box control to another location, or add a custom drop-down list that is bound to an LBO property. </p>
+        <p><a href="#About2">Toolbox controls</a> include both user-interactive controls, such as drop-down lists and text- and date-formatted text boxes, and display-only controls, including captions and controls that list the selected lookup value or the current data. Toolbox controls do not exist until you add them to the page. <a href="#About">Intrinsic controls</a> include the controls, captions, and UDFs that appear on the page by default when you first install OEP. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;"> The company PowerPage and the individual PowerPage include some toolbox controls by default. </p>
+        <p>Whether toolbox or intrinsic, captions are UI text items that typically function as headings or names for panels, sections, groups of controls, toolbars, and records. </p>
+        <p>The following graphic illustrates intrinsic controls, default captions, and toolbox controls (including captions) in a custom layout on the company edit page during design mode. Intrinsic controls are identified by blue handles (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/The following color coded_4.png" style="width: 10px;height: 10px;" />). Toolbox controls, including captions, are identified by red handles (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/The following color coded_3.png" style="width: 10px;height: 10px;" />). (<a href="Showing the Controls Panes.htm#Modifyin">Default captions</a>, such as the "Details" caption in this graphic, are not identified by handles.) To learn about a specific item in this example graphic, point to the item; click to see related configuration information. </p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Configuring UI Controls.jpg" style="width: 426px;height: 390px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <p>You can also add functionality to controls by configuring action statements using <a href="Configuring Page Behavior.htm#top">Dynamic Forms Designer</a>. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Toolbars and HTML containers are not discussed in this book (other than their <a href="Showing the Controls Panes.htm#Control">property descriptions</a>). For information on the Toolbar toolbox control, see <a href="Configuring Page Navigation.htm#Configur2">Configuring toolbars</a>. For information on the HTML Container toolbox control, see <a href="Advanced Configuration Examples.htm#Adding">Adding an HTML container control</a>. . </p>
+        <h4 style="page-break-before: always;">What would you like to do?</h4>
+        <ul>
+            <li>Learn about <a href="#About">Intrinsic Controls</a> (default controls) </li>
+            <li>Learn about <a href="#About2">Toolbox Controls</a></li>
+            <li><a href="#Adding">Add a control</a>
+            </li>
+            <li><a href="Showing the Controls Panes.htm#top">Show the controls panes</a>
+            </li>
+            <li><a href="Showing the Controls Panes.htm#Moving">Move a control to another location on the page</a>
+            </li>
+            <li><a href="Showing the Controls Panes.htm#Modifyin2">Modify a control's properties</a>
+            </li>
+            <li><a href="Showing the Controls Panes.htm#Hiding">Hide a section or control</a>
+            </li>
+            <li><a href="Showing the Controls Panes.htm#Modifyin">Modify a default caption</a>
+            </li>
+            <li><a href="Showing the Controls Panes.htm#Removing">Remove a control from the page</a>
+            </li>
+            <li>Learn about <a href="Showing the Controls Panes.htm#Control">control types and properties</a></li>
+            <li>View a <a href="Creating a Tab.htm#Adding">sample UI configuration procedure for UI controls</a></li>
+            <li>View a <a href="Creating a Tab.htm#Setting">sample UI configuration procedure for setting up UDFs</a></li>
+        </ul>
+        <h3><a name="About"></a>About Intrinsic Controls</h3>
+        <p>The Intrinsic Controls pane appears when you <a href="Accessing UCW.htm#top">access UCW</a> for a selected page. When you first install OEP, the Intrinsic Controls pane is empty. Intrinsic Controls is populated with intrinsic (default) controls that you remove from the page, including UDFs that you activate (using OES) and captions. </p>
+        <p>During design mode, intrinsic controls are identified by blue control handles (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/The following color coded_4.png" style="width: 10px;height: 10px;" />). </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">The company PowerPage and the individual PowerPage include some toolbox controls by default.</p>
+        <p>The following graphic illustrates the Intrinsic Controls pane. In this example, the intrinsic controls "Company Email" and several UDFs have been removed from the page. </p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Configuring UI Controls_1.jpg" style="width: 254px;height: 264px;" />
+        </p>
+        <p>Modification of intrinsic controls' properties is limited to changing the related UI text, tooltip (text briefly displayed when users point to the control), and Admin ID (user-friendly identifier used in Dynamic Forms Designer). All data-binding information and referenced fields for intrinsic controls, including UDFs, are configured in OES. For basic information on UDFs, data-binding, and reference fields, see the OEAS Technical Reference.</p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">UDFs (User Defined Fields) appear in the Intrinsic Controls pane when they have been activated using OES Reference Table Administration. For information on creating and configuring UDFs, see <a href="Creating a Tab.htm#Setting">Setting up UDFs</a>. </p>
+        <h3><a name="About2"></a>About Toolbox Controls</h3>
+        <p>The Toolbox Controls pane appears when you <a href="Accessing UCW.htm#top">access UCW</a> for a selected page. This pane lists toolbox control types available for adding custom controls to the page. </p>
+        <p>The following graphic illustrates the Toolbox Controls pane. </p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Configuring UI Controls_2.jpg" style="width: 245px;height: 255px;" />
+        </p>
+        <p>The following table describes each available toolbox control type. </p>
+        <table>
+            <col />
+            <col style="width: 247px;" />
+            <col style="width: 92px;" />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Type <br />(toolbox control)</th>
+                    <th>Description</th>
+                    <th><a href="#About3">Data-bound</a>?</th>
+                    <th>User-editable? </th>
+                    <th>Typical setting for <a href="Showing the Controls Panes.htm#Properti">the Mode property</a></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#Adding2" title="Click to view the procedure for adding custom captions." style="font-weight: bold;" alt="Click to view the procedure for adding custom captions.">Caption</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">UI text.</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">No</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">(N/A)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">(N/A)</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#Adding3" title="Click to view the procedure for adding custom date-formatted controls." style="font-weight: bold;" alt="Click to view the procedure for adding custom date-formatted controls.">Date</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Date-formatted text box for a user-entered date; contains a button that opens an interactive calendar as an alternative method for selecting a date. This control does not perform time zone conversions on dates.</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Yes</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Yes</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Read/Write</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#Adding4" title="Click to view the procedure for adding custom drop-down controls." style="font-weight: bold;" alt="Click to view the procedure for adding custom drop-down controls.">Dropdown</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Drop-down list of domain data values for user selection. </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Yes</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Yes</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Read/Write</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="Advanced Configuration Examples.htm#Adding" title="Click to view a UI configuration example." style="font-weight: bold;" alt="Click to view a UI configuration example.">HTML container</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Placeholder UI container; functionality is configured with code written using <a href="About Advanced View.htm#top">Advanced View</a> in Dynamic Forms Designer. To view a UI configuration example, see <a href="Advanced Configuration Examples.htm#Adding">Adding an HTML container control</a>. </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Yes</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Varies</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Read/Write</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#Text" title="Click to view the procedure for adding custom display-only controls (Text)." style="font-weight: bold;" alt="Click to view the procedure for adding custom display-only controls (Text).">Text</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Value currently saved to the database for the data-bound property. </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Yes</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">No; display-only control</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Read Only</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#TextRef" title="Click to view the procedure for adding custom display-only controls (Text Reference)." style="font-weight: bold;" alt="Click to view the procedure for adding custom display-only controls (Text Reference).">Text Reference</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Value currently saved to the database for the data-bound property (currently saved domain data value from a drop-down list). </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Yes</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">No; display-only control</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Read Only</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#Adding5" title="Click to view the procedure for adding custom text boxes." style="font-weight: bold;" alt="Click to view the procedure for adding custom text boxes.">Textbox</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Text box for user-entered data. </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Yes</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Yes</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Read/Write</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="Configuring Page Navigation.htm#Configur2" title="Click for information on configuring toolbars." style="font-weight: bold;" alt="Click for information on configuring toolbars.">Toolbar</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Toolbar. For information on adding toolbars, see <a href="Configuring Page Navigation.htm#Configur2">Configuring toolbars</a>. </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">No</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">(N/A)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">(N/A)</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>During design mode, toolbox controls are identified by red control handles (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/The following color coded_3.png" style="width: 10px;height: 10px;" />). </p>
+        <p>There are no toolbox controls on the page when you first install OEP. Toolbox controls are created by dragging the desired toolbox control type from the Toolbox Controls pane to the page. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;"> The company PowerPage and the individual PowerPage include some toolbox controls by default. </p>
+        <p>Modification of toolbox controls (other than captions) includes data-binding information. Modification of the Dropdown and Text Reference toolbox controls also includes referenced fields (for lookup values). </p>
+        <h3 style="page-break-before: always;"><a name="Adding"></a>Adding Controls</h3>
+        <p>You can add <a href="#About2">toolbox controls</a> and <a href="#About">intrinsic controls</a> to <a href="Configuring OEP.htm#UCW">UCW-enabled pages</a>. </p>
+        <p>Toolbox controls enable you to add custom captions, drop-down lists, and text boxes (text- or date-formatted). You can also add display-only controls that list the current value (the selected lookup value or the user-typed entry). Outside design mode, there is no way to distinguish toolbox controls from intrinsic controls. </p>
+        <p>The following graphic illustrates toolbox controls and intrinsic controls during design mode. As shown in the graphic, toolbox controls are identified by red control handles (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/The following color coded_3.png" style="width: 10px;height: 10px;" />) and intrinsic controls are identified by blue control handles (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/The following color coded_4.png" style="width: 10px;height: 10px;" />). Each toolbox control (in the left-most panel) is labeled with its type; for example, the "Date" label indicates a Date toolbox control. To view a procedure for adding a particular type of toolbox control (such as the Dropdown toolbox control), click the toolbox control in the graphic. </p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Configuring UI Controls_3.jpg" style="width: 576px;height: 168px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Toolbars and HTML containers are not discussed in this topic. For information on the Toolbar toolbox control, see <a href="Configuring Page Navigation.htm#Configur2">Configuring toolbars</a>. For information on the HTML Container toolbox control, see <a href="Advanced Configuration Examples.htm#Adding">Adding an HTML container control</a>. </p>
+        <p>Before you add UI controls, you might want to <a href="Showing Hidden UI Elements.htm#top">show dynamically hidden UI elements</a> to ensure that the controls weren't already created. </p>
+        <h4>What would you like to do?</h4>
+        <ul>
+            <li>Learn about <a href="#About3">data-binding</a></li>
+            <li><a href="#Adding2">Add a custom caption</a>
+            </li>
+            <li><a href="#Adding4">Add a custom drop-down list</a>
+            </li>
+            <li><a href="#Adding5">Add a custom text box</a>
+            </li>
+            <li><a href="#Adding3">Add a custom date-formatted text box</a>
+            </li>
+            <li><a href="#Adding6">Add a custom display-only control</a>
+            </li>
+            <li><a href="#Adding7">Add an intrinsic control to the page</a>
+            </li>
+        </ul>
+        <h4><a name="About3"></a>About data-binding </h4>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Data-binding is not available for toolbox controls added to custom tabs on the Products page (product summary page) because this page is based on the retrieveList method. The methods retrieveList and retrieveCollection are not supported for data-binding in UCW. </p>
+        <p>When you add toolbox controls that have data-binding information, all page-related LBO properties (and fields, when applicable) are listed for your selection. To ensure that you have the correct property and field in mind, you may want to view their configuration in the Onyx Enterprise Dictionary (OED). For basic information on properties and fields, see OEAS Technical Reference and OEAS Technical Reference.</p>
+        <p>When you persist multiple controls that are bound to a single property, only the value entered for the most recent toolbox control is written to the record. Toolbox controls override any intrinsic controls, and more recently added toolbox controls override earlier toolbox controls. For example, if you persist two toolbox controls to the companyName property and retain the existing intrinsic control (persisted by default), only the value for the most recently added toolbox control is persisted to the database. </p>
+        <p>For an example of custom properties and fields for data-bound toolbox controls, see <a href="Creating a Tab.htm#Adding">Adding UI controls</a>. </p>
+        <h4><a name="Adding2"></a>Adding custom captions </h4>
+        <p>You can add custom captions to the page. Captions are useful as titles for sections, panels, and groups of controls. Outside design mode, custom captions have the same appearance as <a href="Showing the Controls Panes.htm#Modifyin">default captions</a>. </p>
+        <p class="ProcedureHeading">To add a custom caption to the page:</p>
+        <ol>
+            <li>Drag <b>Caption</b> from the <a href="#About2">Toolbox Controls pane</a> to the desired panel corner (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/Configuring Layout_1.png" style="width: 10px;height: 10px;" /> ), section corner (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/Configuring Layout_2.png" style="width: 10px;height: 10px;" /> ), or location near the handle of an existing control.</li>
+        </ol>
+        <p class="Indent1">The properties of the new control are automatically displayed in the Properties pane.</p>
+        <ol MadCap:continue="true">
+            <li>Configure the custom caption's properties.</li>
+        </ol>
+        <p class="Indent1">Properties for toolbox captions</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>ID</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Identifier used for configuration in <a href="About Advanced View.htm#top">Advanced View for Dynamic
+ Forms Designer</a>. Not editable. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Admin ID</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">User-friendly identifier used for configuration of page
+ behavior (<a href="Configuring Page Behavior.htm#top">Dynamic Forms
+ Designer</a>). </p>
+                        <p class="Table_Text">Use alphanumeric and underscore characters only. </p>
+                        <p class="Table_Text">The default Admin ID for a toolbox control begins with
+ "toolbox_" and ends with a digit indicating order of toolbox
+ control creation on the current tab. </p>
+                        <p class="tableNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Onyx recommends that you
+ define unique Admin IDs to facilitate configuration. You can change the Admin
+ ID property at any time. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Tooltip Text</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Text briefly displayed when the user points to the
+ selected control. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Label</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">UI text that is displayed on the page. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ol MadCap:continue="true">
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" />  in the Properties pane to apply changes.</li>
+            <li>Click    <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Accessing UCW_1.jpg" />on the UCW toolbar to save all configurations and exit design mode.</li>
+        </ol>
+        <h4><a name="Adding4"></a>Adding custom drop-down lists</h4>
+        <p>You can add custom drop-down lists that are data-bound to LBO properties and that display lookup values for a selected field. Drop-down lists are useful when you want to limit user input to pre-configured options.</p>
+        <p class="ProcedureHeading">To add a custom drop-down list to the page:</p>
+        <ol>
+            <li>Drag <b>Dropdown</b> from the <a href="#About2">Toolbox Controls pane</a> to the desired panel corner (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/Configuring Layout_1.png" style="width: 10px;height: 10px;" />), section corner (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/Configuring Layout_2.png" style="width: 10px;height: 10px;" />), or location near the handle of an existing control. </li>
+        </ol>
+        <p class="Indent1">The properties of the new control are automatically displayed in the Properties pane. </p>
+        <ol MadCap:continue="true">
+            <li>Configure the custom control's properties.</li>
+        </ol>
+        <p class="Indent1">Properties for Dropdown toolbox controls </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>ID</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Identifier used for configuration in <a href="About Advanced View.htm#top">Advanced View for Dynamic Forms Designer</a>. Not editable. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Value</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The current data value of the selected control. For example, if you select the "First Name" control for an individual record of John Smith, "John" is the entry. Not editable. Not available for captions. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Admin ID</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">User-friendly identifier used for configuration of page behavior (<a href="Configuring Page Behavior.htm#top">Dynamic Forms Designer</a>). </p>
+                        <p class="Table_Text">Use alphanumeric and underscore characters only. </p>
+                        <p class="Table_Text">The default Admin ID for a toolbox control begins with "toolbox_" and ends with a digit indicating order of toolbox control creation on the current tab. </p>
+                        <p class="tableNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Onyx recommends that you define unique Admin IDs to facilitate configuration. You can change the Admin ID property at any time. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Tooltip Text</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Text briefly displayed when the user points to the selected control. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Label</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">UI text that is displayed on the page. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Reference Data</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">(Heading only) - this group of properties applies to the Dropdown and Text Reference toolbox controls only. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>-- Field Name</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Field for which to display the value. For example, "incident.priority" indicates the "Priority" field for the incident object. Field names are defined in OES Reference Table Administration. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>-- Parent ID</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Parent field of the selected field name. For example, "3" indicates the sales category for the selected field (related to an incident object). </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Data Binding</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">(Heading only) - this group of properties applies to data-bound toolbox controls only (Date, Dropdown, Text, Textbox, and Text Reference). </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>-- Object</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Logical business object (LBO); page-specific OEAS data binding object. Not editable. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>-- Property</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">LBO property (OEAS property) to which the selected control is bound. Properties are defined in OES Object Designer. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>-- Mode</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Sets the persistence mode for changed values. The selected option for this property determines whether data is persisted to the database when the selected control's value is changed—either by user input or by a "setValue" action configured in Dynamic Forms Designer. </p>
+                        <ul>
+                            <li class="TableList"><b>Read/Write</b> persists the changed value when the page is saved. (This option is selected by default for all data-bound controls.) </li>
+                            <li class="TableList"><b>Read Only</b> does not persist the changed value. The original value is retained. The Read Only setting is typical for the display-only controls Text and Text Reference. </li>
+                        </ul>
+                        <p class="Table_Text">When you persist multiple controls that are bound to a single property, only the value entered for the most recent toolbox control is written to the record. Toolbox controls override any intrinsic controls, and more recently added toolbox controls override earlier toolbox controls. For example, if you persist two toolbox controls to the companyName property and retain the existing intrinsic control (persisted by default), only the value for the most recently added toolbox control is persisted to the database. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ol MadCap:continue="true">
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> in the Properties pane to apply changes. </li>
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Accessing UCW_1.jpg" style="width: 24px;height: 24px;" /> on the UCW toolbar to save all configurations and exit design mode. </li>
+        </ol>
+        <h4 style="page-break-before: always;"><a name="Adding5"></a>Adding custom text boxes </h4>
+        <p>You can add custom text boxes that are data-bound to LBO properties. Text boxes allow users to save free-text entries to the database. </p>
+        <p>For information about date-formatted text boxes, see <a href="#Adding3">Adding date-formatted text boxes</a>. </p>
+        <p class="ProcedureHeading">To add a custom text box to the page:</p>
+        <ol>
+            <li>Drag <b>Textbox</b> from the <a href="#About2">Toolbox Controls pane</a> to the desired panel corner (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/Configuring Layout_1.png" style="width: 10px;height: 10px;" />), section corner (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/Configuring Layout_2.png" style="width: 10px;height: 10px;" />), or location near the handle of an existing control. </li>
+        </ol>
+        <p class="Indent1">The properties of the new control are automatically displayed in the Properties pane. </p>
+        <ol MadCap:continue="true">
+            <li>Configure the custom control's properties. </li>
+        </ol>
+        <p class="Indent1">Properties for Textbox toolbox controls</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>ID</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Identifier used for configuration in <a href="About Advanced View.htm#top">Advanced View for Dynamic Forms Designer</a>. Not editable. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Value</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The current data value of the selected control. For example, if you select the "First Name" control for an individual record of John Smith, "John" is the entry. Not editable. Not available for captions. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Admin ID</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">User-friendly identifier used for configuration of page behavior (<a href="Configuring Page Behavior.htm#top">Dynamic Forms Designer</a>). </p>
+                        <p class="Table_Text">Use alphanumeric and underscore characters only. </p>
+                        <p class="Table_Text">The default Admin ID for a toolbox control begins with "toolbox_" and ends with a digit indicating order of toolbox control creation on the current tab. </p>
+                        <p class="tableNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Onyx recommends that you define unique Admin IDs to facilitate configuration. You can change the Admin ID property at any time. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Tooltip Text</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Text briefly displayed when the user points to the selected control. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Label</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">UI text that is displayed on the page. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Data Binding</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">(Heading only) - this group of properties applies to data-bound toolbox controls only (Date, Dropdown, Text, Textbox, and Text Reference). </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>-- Object</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Logical business object (LBO); page-specific OEAS data binding object. Not editable. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>-- Property</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">LBO property (OEAS property) to which the selected control is bound. Properties are defined in OES Object Designer. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>-- Mode</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Sets the persistence mode for changed values. The selected option for this property determines whether data is persisted to the database when the selected control's value is changed—either by user input or by a "setValue" action configured in Dynamic Forms Designer. </p>
+                        <ul>
+                            <li class="TableList"><b>Read/Write</b> persists the changed value when the page is saved. (This option is selected by default for all data-bound controls.) </li>
+                            <li class="TableList"><b>Read Only</b> does not persist the changed value. The original value is retained. The Read Only setting is typical for the display-only controls Text and Text Reference. </li>
+                        </ul>
+                        <p class="Table_Text">When you persist multiple controls that are bound to a single property, only the value entered for the most recent toolbox control is written to the record. Toolbox controls override any intrinsic controls, and more recently added toolbox controls override earlier toolbox controls. For example, if you persist two toolbox controls to the companyName property and retain the existing intrinsic control (persisted by default), only the value for the most recently added toolbox control is persisted to the database. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ol MadCap:continue="true">
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> in the Properties pane to apply changes. </li>
+            <li><a href="Showing the Controls Panes.htm#Validati">Configure validation of the text box's maximum length</a>. </li>
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Accessing UCW_1.jpg" style="width: 24px;height: 24px;" /> on the UCW toolbar to save all configurations and exit design mode. </li>
+        </ol>
+        <h4><a name="Adding3"></a>Adding custom date-formatted text boxes </h4>
+        <p>You can add custom date-formatted text boxes that are data-bound to LBO properties. Date-formatted text boxes ensure that dates are correctly entered. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">See also <a href="Advanced Configuration Examples.htm#Adding2">Adding a date/time control</a> (requires additional configuration).</p>
+        <p class="ProcedureHeading">To add a custom date-formatted text box to the page:</p>
+        <ol>
+            <li>Drag <b>Date</b> from the <a href="#About2">Toolbox Controls pane</a> to the desired panel corner (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/Configuring Layout_1.png" style="width: 10px;height: 10px;" />), section corner (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/Configuring Layout_2.png" style="width: 10px;height: 10px;" />), or location near the handle of an existing control. </li>
+        </ol>
+        <p class="Indent1">The properties of the new control are automatically displayed in the Properties pane. </p>
+        <ol MadCap:continue="true">
+            <li>Configure the custom control's properties. </li>
+        </ol>
+        <p class="Indent1">Properties for Date toolbox controls </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>ID</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Identifier used for configuration in <a href="About Advanced View.htm#top">Advanced View for Dynamic Forms Designer</a>. Not editable. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Value</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The current data value of the selected control. For example, if you select the "First Name" control for an individual record of John Smith, "John" is the entry. Not editable. Not available for captions. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Admin ID</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">User-friendly identifier used for configuration of page behavior (<a href="Configuring Page Behavior.htm#top">Dynamic Forms Designer</a>). </p>
+                        <p class="Table_Text">Use alphanumeric and underscore characters only. </p>
+                        <p class="Table_Text">The default Admin ID for a toolbox control begins with "toolbox_" and ends with a digit indicating order of toolbox control creation on the current tab. </p>
+                        <p class="tableNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Onyx recommends that you define unique Admin IDs to facilitate configuration. You can change the Admin ID property at any time. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Tooltip Text</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Text briefly displayed when the user points to the selected control. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Label</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">UI text that is displayed on the page. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Data Binding</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">(Heading only) - this group of properties applies to data-bound toolbox controls only (Date, Dropdown, Text, Textbox, and Text Reference). </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>-- Object</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Logical business object (LBO); page-specific OEAS data binding object. Not editable. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>-- Property</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">LBO property (OEAS property) to which the selected control is bound. Properties are defined in OES Object Designer. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>-- Mode</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Sets the persistence mode for changed values. The selected option for this property determines whether data is persisted to the database when the selected control's value is changed—either by user input or by a "setValue" action configured in Dynamic Forms Designer. </p>
+                        <ul>
+                            <li class="TableList"><b>Read/Write</b> persists the changed value when the page is saved. (This option is selected by default for all data-bound controls.) </li>
+                            <li class="TableList"><b>Read Only</b> does not persist the changed value. The original value is retained. The Read Only setting is typical for the display-only controls Text and Text Reference. </li>
+                        </ul>
+                        <p class="Table_Text">When you persist multiple controls that are bound to a single property, only the value entered for the most recent toolbox control is written to the record. Toolbox controls override any intrinsic controls, and more recently added toolbox controls override earlier toolbox controls. For example, if you persist two toolbox controls to the companyName property and retain the existing intrinsic control (persisted by default), only the value for the most recently added toolbox control is persisted to the database. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ol MadCap:continue="true">
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> in the Properties pane to apply changes. </li>
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Accessing UCW_1.jpg" style="width: 24px;height: 24px;" /> on the UCW toolbar to save all configurations and exit design mode. </li>
+        </ol>
+        <h4><a name="Adding6"></a>Adding custom display-only controls </h4>
+        <p>You can add custom display-only controls to list the selected lookup value for a drop-down list or to list entered data for other types of controls. </p>
+        <p class="ProcedureHeading"><a name="TextRef"></a>To add a custom display-only control that lists the selected lookup value:</p>
+        <ol>
+            <li>Drag <b>Text</b> <b>Reference</b> from the <a href="#About2">Toolbox Controls pane</a> to the desired panel corner (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/Configuring Layout_1.png" style="width: 10px;height: 10px;" />), section corner (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/Configuring Layout_2.png" style="width: 10px;height: 10px;" />), or location near the handle of an existing control. </li>
+        </ol>
+        <p class="Indent1">The properties of the new control are automatically displayed in the Properties pane. </p>
+        <ol MadCap:continue="true">
+            <li>Configure the custom control's properties.</li>
+        </ol>
+        <p class="Indent1">Properties for Text Reference toolbox controls</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>ID</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Identifier used for configuration in <a href="About Advanced View.htm#top">Advanced View for Dynamic Forms Designer</a>. Not editable. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Value</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The current data value of the selected control. For example, if you select the "First Name" control for an individual record of John Smith, "John" is the entry. Not editable. Not available for captions. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Admin ID</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">User-friendly identifier used for configuration of page behavior (<a href="Configuring Page Behavior.htm#top">Dynamic Forms Designer</a>). </p>
+                        <p class="Table_Text">Use alphanumeric and underscore characters only. </p>
+                        <p class="Table_Text">The default Admin ID for a toolbox control begins with "toolbox_" and ends with a digit indicating order of toolbox control creation on the current tab. </p>
+                        <p class="tableNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Onyx recommends that you define unique Admin IDs to facilitate configuration. You can change the Admin ID property at any time. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Tooltip Text</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Text briefly displayed when the user points to the selected control. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Label</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">UI text that is displayed on the page. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Reference Data</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">(Heading only) - this group of properties applies to the Dropdown and Text Reference toolbox controls only. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>-- Field Name</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Field for which to display the value. For example, "incident.priority" indicates the "Priority" field for the incident object. Field names are defined in OES Reference Table Administration. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>-- Parent ID</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Parent field of the selected field name. For example, "3" indicates the sales category for the selected field (related to an incident object). </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Data Binding</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">(Heading only) - this group of properties applies to data-bound toolbox controls only (Date, Dropdown, Text, Textbox, and Text Reference). </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>-- Object</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Logical business object (LBO); page-specific OEAS data binding object. Not editable. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>-- Property</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">LBO property (OEAS property) to which the selected control is bound. Properties are defined in OES Object Designer. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>-- Mode</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Sets the persistence mode for changed values. The selected option for this property determines whether data is persisted to the database when the selected control's value is changed—either by user input or by a "setValue" action configured in Dynamic Forms Designer. </p>
+                        <ul>
+                            <li class="TableList"><b>Read/Write</b> persists the changed value when the page is saved. (This option is selected by default for all data-bound controls.) </li>
+                            <li class="TableList"><b>Read Only</b> does not persist the changed value. The original value is retained. The Read Only setting is typical for the display-only controls Text and Text Reference. </li>
+                        </ul>When you persist multiple controls that are bound to a single property, only the value entered for the most recent toolbox control is written to the record. Toolbox controls override any intrinsic controls, and more recently added toolbox controls override earlier toolbox controls. For example, if you persist two toolbox controls to the companyName property and retain the existing intrinsic control (persisted by default), only the value for the most recently added toolbox control is persisted to the database. </td>
+                </tr>
+            </tbody>
+        </table>
+        <ol MadCap:continue="true">
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> in the Properties pane to apply changes. </li>
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Accessing UCW_1.jpg" style="width: 24px;height: 24px;" /> on the UCW toolbar to save all configurations and exit design mode. </li>
+        </ol>
+        <p class="ProcedureHeading"><a name="Text"></a>To add a custom display-only control that lists the current data (not a lookup value):</p>
+        <ol>
+            <li>Drag <b>Text</b> from the <a href="#About2">Toolbox Controls pane</a> to the desired panel corner (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/Configuring Layout_1.png" style="width: 10px;height: 10px;" />), section corner (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/Configuring Layout_2.png" style="width: 10px;height: 10px;" />), or location near the handle of an existing control. </li>
+        </ol>
+        <p class="Indent1">The properties of the new control are automatically displayed in the Properties pane. </p>
+        <ol MadCap:continue="true">
+            <li>Configure the custom control's properties. </li>
+        </ol>
+        <p class="Indent1">Properties for Text toolbox controls. </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>ID</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Identifier used for configuration in <a href="About Advanced View.htm#top">Advanced View for Dynamic Forms Designer</a>. Not editable. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Value</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The current data value of the selected control. For example, if you select the "First Name" control for an individual record of John Smith, "John" is the entry. Not editable. Not available for captions. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Admin ID</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">User-friendly identifier used for configuration of page behavior (<a href="Configuring Page Behavior.htm#top">Dynamic Forms Designer</a>). </p>
+                        <p class="Table_Text">Use alphanumeric and underscore characters only. </p>
+                        <p class="Table_Text">The default Admin ID for a toolbox control begins with "toolbox_" and ends with a digit indicating order of toolbox control creation on the current tab. </p>
+                        <p class="tableNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Onyx recommends that you define unique Admin IDs to facilitate configuration. You can change the Admin ID property at any time. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Tooltip Text</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Text briefly displayed when the user points to the selected control. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Label</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">UI text that is displayed on the page. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Data Binding</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">(Heading only) - this group of properties applies to data-bound toolbox controls only (Date, Dropdown, Text, Textbox, and Text Reference). </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>-- Object</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Logical business object (LBO); page-specific OEAS data binding object. Not editable. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>-- Property</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">LBO property (OEAS property) to which the selected control is bound. Properties are defined in OES Object Designer. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>-- Mode</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Sets the persistence mode for changed values. The selected option for this property determines whether data is persisted to the database when the selected control's value is changed—either by user input or by a "setValue" action configured in Dynamic Forms Designer. </p>
+                        <ul>
+                            <li class="TableList"><b>Read/Write</b> persists the changed value when the page is saved. (This option is selected by default for all data-bound controls.) </li>
+                            <li class="TableList"><b>Read Only</b> does not persist the changed value. The original value is retained. The Read Only setting is typical for the display-only controls Text and Text Reference. </li>
+                        </ul>
+                        <p class="Table_Text">When you persist multiple controls that are bound to a single property, only the value entered for the most recent toolbox control is written to the record. Toolbox controls override any intrinsic controls, and more recently added toolbox controls override earlier toolbox controls. For example, if you persist two toolbox controls to the companyName property and retain the existing intrinsic control (persisted by default), only the value for the most recently added toolbox control is persisted to the database. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ol MadCap:continue="true">
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> in the Properties pane to apply changes. </li>
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Accessing UCW_1.jpg" style="width: 24px;height: 24px;" /> on the UCW toolbar to save all configurations and exit design mode. </li>
+        </ol>
+        <h4><a name="Adding7"></a>Adding intrinsic controls </h4>
+        <p>You can add intrinsic controls to the page when those controls were previously removed from the page (or, in the case of UDFs, were either newly activated or removed). All data-binding information and referenced fields for intrinsic controls are configured in OES. For more information, see <i>OEAS Technical Reference</i> and <i>OEAS Technical Reference</i>. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">UDFs (User Defined Fields) appear in the Intrinsic Controls pane during design mode when they have been activated using OES Reference Table Administration. For more information on creating and configuring UDFs, see <a href="Creating a Tab.htm#Setting">Setting up UDFs</a>. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">UI text for intrinsic controls can also be modified using the UI Text Editor. </p>
+        <p class="ProcedureHeading">To add an intrinsic control to the page: </p>
+        <ol>
+            <li>Drag the removed control from the <a href="#About">Intrinsic Controls pane</a> to the desired panel corner (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/Configuring Layout_1.png" style="width: 10px;height: 10px;" />), section corner (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/Configuring Layout_2.png" style="width: 10px;height: 10px;" />), or location near the handle of an existing control. </li>
+        </ol>
+        <p class="Indent1">The properties of the moved control are automatically displayed in the Properties pane. </p>
+        <ol MadCap:continue="true">
+            <li>Configure the intrinsic control's properties.</li>
+        </ol>
+        <p class="Indent1">Properties for intrinsic controls (including captions and UDFs). </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>ID</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Identifier used for configuration in <a href="About Advanced View.htm#top">Advanced View for Dynamic Forms Designer</a>. Not editable. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Value</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The current data value of the selected control. For example, if you select the "First Name" control for an individual record of John Smith, "John" is the entry. Not editable. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Admin ID</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">User-friendly identifier used for configuration of page behavior (<a href="Configuring Page Behavior.htm#top">Dynamic Forms Designer</a>). </p>
+                        <p class="Table_Text">Use alphanumeric and underscore characters only. </p>
+                        <p class="tableNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Onyx recommends that you define unique Admin IDs to facilitate configuration. You can change the Admin ID property at any time. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Tooltip Text</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Text briefly displayed when the user points to the selected control. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Label</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">UI text that is displayed on the page. Available for data-bound controls. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Caption</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">UI text that is displayed on the page. Available for default captions only.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ol MadCap:continue="true">
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> in the Properties pane to apply changes. </li>
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Accessing UCW_1.jpg" style="width: 24px;height: 24px;" /> on the UCW toolbar to save all configurations and exit design mode. </li>
+        </ol>
+    </body>
+</html>

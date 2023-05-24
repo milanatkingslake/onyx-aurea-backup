@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" class="" MadCap:lastBlockDepth="6" MadCap:lastHeight="864" MadCap:lastWidth="624">
+    <head><title>CallData XML structure</title>
+        <script language="JavaScript">
+        </script>
+        <link href="../Resources/Stylesheets/Aptean_word.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body onload="onyxOnload()">
+        <h4>CallData XML structure</h4>
+        <p class="BodyText">The CallData Structure contains the details for a specific call. </p>
+        <p class="BodyText">The connector must send this XML structure in response to the following 
+ events: <a href="onCallOffered_event_ICTIConnector_interface.htm">onCallOffered</a>, 
+ <a href="onCallDataOffered_event_ICTIConnector_interface.htm">onCallDataOffered</a>, 
+ and <a href="onCallStatusChange_event_ICTIConnector_interface.htm">OnCallStatusChange</a>. 
+ </p>
+        <MadCap:dropDown>
+            <MadCap:dropDownHead>
+                <MadCap:dropDownHotspot>Example:</MadCap:dropDownHotspot>
+            </MadCap:dropDownHead>
+            <MadCap:dropDownBody>
+                <p style="font-family: 'Courier New';">&lt;call callId=1234 callState=1 callType=1 source=ACD queue=TechSupport destination=5551234567 filterField= filterValue=&gt;)</p>
+                <p style="font-family: 'Courier New';">&#160;&#160;&#160;&lt;actions&gt;</p>
+                <p style="font-family: 'Courier New';">  <![CDATA[ ]]></p>
+                <p style="font-family: 'Courier New';">&#160;&#160;&#160;&lt;/actions&gt;</p>
+                <p style="font-family: 'Courier New';">&lt;/call&gt;</p>
+            </MadCap:dropDownBody>
+        </MadCap:dropDown>
+        <table>
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Element</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">call</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Root element. Contains the call information. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">actions</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Contains a collection of action elements, using the 
+ <a href="ActionData_XML_structure.htm">ActionData XML structure</a>. Absent 
+ for calls without associated actions. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="BodyText">The following table describes the attributes of the CallData XML: </p>
+        <table>
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Attribute</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">callId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies the ID of the call. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">callState </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies the current state of the call. Integer value 
+ corresponding to a call state <a href="Enumeration_file.htm">enumeration 
+ value</a>. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">callType </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies the type of call. <br />Valid values: <br />1  for internal call <br />2  for external call</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">source </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies the source of the call (such as ACD or Internal). 
+ You can enter values that fit your implementation.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">queue </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies the queue ID from which the call originated. 
+ (Incoming calls are assigned to a queue by the CTI system.) &#160;</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">destination</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies the destination of the call (such as an agent 
+ ID, phone number, or queue).</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">filterField </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies the name of a field to be used in a search 
+ of OEP records. This attribute is used to <a href="Automated_display_of_OEP_records.htm">automate 
+ display of OEP records</a>. <br />Valid values: <br />phoneNumber <br />emailAddress</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">filterValue </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies the value to match in a search of OEP records 
+ (used in conjunction with the filterField attribute). This attribute is 
+ used to <a href="Automated_display_of_OEP_records.htm">automate display 
+ of OEP records</a>. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>&#160;<br /></body>
+</html>

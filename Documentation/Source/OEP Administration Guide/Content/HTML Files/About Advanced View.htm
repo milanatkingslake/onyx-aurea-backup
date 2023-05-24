@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="798" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2><a name="top"></a>About Advanced View</h2>
+        <p>You can create code-based action statements using Advanced View of Action Designer in Dynamic Forms Designer. </p>
+        <p>Whenever feasible, use the standard view of Action Designer to create and modify statements to ensure valid, upgradeable configurations. Advanced View is best reserved to create statements that integrate HTML Container toolbox controls, include multiple actions and/or complex conditions, use variables (that are not page variables), or use complex logic (such as XML parsers for new ActiveX objects) outside the scope of the actions and objects available from the standard view. </p>
+        <p>Unlike the standard view of Action Designer, Advanced View is capable of <a href="Advanced Configuration Examples.htm#Bundling">bundling multiple actions</a> and using objects not available in the standard view of Dynamic Forms Designer, such as custom styles. Advanced View can also be used to <a href="Advanced Configuration Examples.htm#Filterin">filter domain data by profile</a>.</p>
+        <p>For more information on objects, events, and statements, see <a href="Dynamic Forms Designer Reference.htm#top">Dynamic Forms Designer reference</a>. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;"> When you confirm changes to a statement during Advanced View, the standard view of Action Designer is no longer available for that statement. To view sample configurations for statements configured in Advanced View, see the <a href="Advanced Configuration Examples.htm#top">Advanced configuration examples</a> book. </p>
+        <h3>Skill set required</h3>
+        <p>To configure statements using Advanced View in Dynamic Forms Designer, you should be familiar with writing, editing, and debugging JavaScript-formatted scripts and style sheets.</p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">See the <a href="Advanced Configuration Examples.htm#top">Advanced configuration examples</a> book for examples of configurations that use Advanced View in Dynamic Forms Designer. </p>
+        <h3><a name="Coding"></a>Coding guidelines for Advanced View </h3>
+        <p>Dynamic Forms Designer does not validate the code entered in Advanced View. Consider validating your code using a tool such as Microsoft Visual Studio. </p>
+        <p>When writing code in Advanced View, take care to ensure that:</p>
+        <ul>
+            <li>Your code complies with JavaScript coding standards. </li>
+            <li>Your code is supported by Internet Explorer. </li>
+            <li>Your code accesses page objects (such as ucf.page.powerpageIndividual) by <a href="invokeAction function.htm#top">invoking the action broker</a> only (no direct access); returns a valid UcfActionReturn object instance when using the action broker. </li>
+            <li>Your code references external Web sites (those located outside YourOEPwebsite/ucf/data) using the <a href="Showing the Controls Panes.htm#Control">HTML Container toolbox control</a>. </li>
+        </ul>
+        <h3>Calling common functions defined on the main application frame</h3>
+        <p>Functions entered in &lt;SCRIPT&gt; blocks on the main application frame are available to all OEP pages. However, the pages cannot call such functions directly. For example, to call a custom function named myCustomFunction() that is defined for the main application frame using the ASP Editor, use the following code:</p>
+        <p><code>moUcfPageContext.getApplicationWindow().myCustomFunction()</code>
+        </p>
+        <p>OEP instantiates the UcfPageContext object for the main application frame (and other UCW-enabled areas) to support Dynamic Forms actions. Because the main application frame always exists when the OEP client is running, its context data is available through the UcfPageContext object. The getApplicationWindow() function on the object references the main application frame so that myCustomFunction() can be accessed.</p>
+        <h3>Procedures</h3>
+        <p>You can enable Advanced View for an action statement and you can display the list of actions that are available during the standard view of Action Designer. Displaying this list of actions enables you to select an action to insert. </p>
+        <p>When you select an action to insert, the code related to the action is inserted at the position of the cursor. If you select (highlight) a portion of code before displaying the list of actions, the code related to the selected action replaces the selected portion of the code. </p>
+        <p class="ProcedureHeading">To enable Advanced View for the selected action statement: </p>
+        <ul>
+            <li>Click<img src="../Resources/Images/ONYX 77 OEP Administration Guide/Adding Statements_1.jpg" style="width: 24px;height: 22px;" />.</li>
+        </ul>
+        <p class="ProcedureHeading">To display the list of actions during Advanced View: </p>
+        <ol>
+            <li>Position the cursor in the Code section. </li>
+            <li>Press CTRL+K.</li>
+        </ol>
+    </body>
+</html>

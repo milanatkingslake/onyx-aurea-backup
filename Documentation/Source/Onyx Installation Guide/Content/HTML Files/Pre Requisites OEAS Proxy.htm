@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="823" MadCap:lastWidth="624">
+    <head><title>Pre Requisites OEAS Proxy Creation</title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2>Pre-Requisites: OEAS Proxy Creation</h2>
+        <ul>
+            <li>Visual C++ Runtime (64-bit) needs to be installed on <b>Client Server Application</b> where OEAS Proxy is installed.</li>
+            <li style="list-style-type: disc;">Enable network COM+ access on the <b>Remote Server Application</b>:</li>
+        </ul>
+        <ul style="list-style-type: circle;">
+            <li class="List_Indent">Press <b>Start</b>, point to&#160;<b>Control Panel</b>, and then click&#160;<b>Add or Remove Programs</b>.</li>
+            <li class="List_Indent">Click&#160;<b>Add/Remove Windows Components</b>.</li>
+            <li class="List_Indent">Select&#160;<b>Application Server</b>, and then click&#160;<b>Details</b>.</li>
+            <li class="List_Indent">Click&#160;<b>Enable network COM+ access</b>, and then click&#160;<b>OK</b>.</li>
+            <li class="List_Indent">Click&#160;<b>Next</b>, and then click&#160;<b>Finish</b>.</li>
+            <li class="List_Indent">Restart the computer.</li>
+        </ul>
+        <p class="ProcedureHeading">To create a proxy connection:</p>
+        <ol>
+            <li>On the OEAS server, create, name, and share a proxy share folder.</li>
+            <li>Open <b>Component Services</b>.</li>
+            <li>Expand <b>Component Services</b>, <b>Computers</b>, <b>My Computer</b>, and <b>COM+ Applications</b>.</li>
+            <li>Right-click <b>OnyxEASApp</b>, and then select <b>Export</b>.</li>
+        </ol>
+        <p class="Indent1">The <b>COM+ Application Export Wizard</b> appears.</p>
+        <ol MadCap:continue="true">
+            <li>Click <b>Next</b>.</li>
+        </ol>
+        <p class="Indent1">The <b>Application Export Information</b> page of the wizard appears.</p>
+        <ol MadCap:continue="true">
+            <li>Specify the name and the location of the application proxy file.</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">Under the prompt to specify the path and file name for the application proxy file, click <b>Browse</b>.</li>
+            <li class="List_Indent">The <b>Export application to File</b> window appears.</li>
+            <li class="List_Indent">Navigate to the shared folder that you created previously, and in the <b>File name</b> box type a name for the application proxy file. The file is created with an extension of .msi.</li>
+            <li class="List_Indent">The application proxy file includes information that points to the OEAS server on which the application proxy was created.</li>
+            <li class="List_Indent">Click <b>Save</b>.</li>
+        </ul>
+        <p class="Indent1">The <b>Export application to File</b> window closes.</p>
+        <p class="Indent1">The <b>Application Export Information</b> page of the wizard displays the location and file name that you specified in the preceding step.</p>
+        <ol start="7">
+            <li>In the <b>Export as</b> area, select <b>Application proxy - Install on other machines to enable access to this machine</b>, and then click <b>Next</b>.</li>
+        </ol>
+        <p class="Indent1">The last page of the wizard appears.</p>
+        <ol MadCap:continue="true">
+            <li>Click <b>Finish</b>.</li>
+        </ol>
+        <p class="Indent1">In the share, you can view the .Msi file and .Cab files, each with the name you specified for the COM+ application.</p>
+        <p class="Indent1">The OEAS server and the OES or OPS server are ready to be connected by MSI.</p>
+        <ol MadCap:continue="true">
+            <li>On the OES or OPS server, delete any OEAS COM+ application that already exists.</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">Open <b>Component Services</b>.</li>
+            <li class="List_Indent">In the left pane of the <b>Component Services</b> window, open <b>Component Services</b>, <b>Computers</b>, <b>My Computer</b>, and <b>COM+ Applications</b>.</li>
+            <li class="List_Indent">If the OnyxEASApp COM+ application is present under <b>COM+ Applications</b>, delete it, and then close <b>Component Services</b>.</li>
+        </ul>
+        <ol start="10">
+            <li>In Windows Explorer, navigate to and open the shared folder that you created on the OEAS server.</li>
+            <li>Double-click the .MSI file.</li>
+        </ol>
+        <p class="Indent1">The .MSI file carries out the MSI installation that connects the two servers in COM+.</p>
+        <ol MadCap:continue="true">
+            <li>Verify the connection with the OEAS server.</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">On the OES or OPS server, open <b>Component Services</b>.</li>
+            <li class="List_Indent">In the left pane of the Component Services window, expand <b>Component Services &gt; Computers &gt; My Computer &gt; COM+ Applications</b>.</li>
+            <li class="List_Indent">Right-click <b>OnyxEASApp</b>, and then click <b>Properties</b>.</li>
+            <li class="List_Indent">In the <b>OnyxEASApp Properties</b> window, click the <b>Activation</b> tab.</li>
+        </ul>
+        <p class="Indent1">The name of the OEAS server appears in the <b>Remote server name</b> box, confirming the application proxy connection is established.</p>
+    </body>
+</html>

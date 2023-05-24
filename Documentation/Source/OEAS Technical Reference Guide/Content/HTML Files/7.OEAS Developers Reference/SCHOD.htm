@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="1102" MadCap:lastWidth="968" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Note_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Handle Output Data</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>
+            <MadCap:keyword term="Handle output data (building step components);Handle Output Data" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />Handle output data</h4>
+        <p>If the data was processed successfully, the step component prepares 
+ it for output and returns control back to the OTM. If an error occurred 
+ during processing, the step component alters the method status of the 
+ step package and inserts the proper error information for use by the calling 
+ client application or other step components.</p>
+        <h4>Populate returnXml</h4>
+        <p>The output portion of the step package begins with the returnXml element. 
+ The OTM returns the entire contents of this element to the calling client 
+ application. The returnXml element contains four children created by the 
+ OTM: otmId, methodStatus, parametersReturn, and customData. Onyx step 
+ components populate these elements as follows:</p>
+        <h4>otmId</h4>
+        <p>The otmId is a GUID that uniquely identifies the method call in the 
+ system. The OTM adds data to this element automatically.</p>
+        <h3>methodStatus</h3>
+        <p>The methodStatus element contains information about the current condition 
+ of the method. The step component can add information to this element 
+ as needed to influence the behavior of the remaining steps and to provide 
+ information to the calling client. In most cases, steps that complete 
+ successfully leave this element untouched. See <a href="OTM_Ret_Status.htm">Returning 
+ status</a> for more information about the standard contents of this element.</p>
+        <h3>parametersReturn</h3>
+        <p>The parametersReturn element contains the output data of the method. 
+ The specific objects and data items the method returns are listed in the 
+ parameters section of the method description in the Object Designer. Output 
+ from custom components must match what is specified there. Information 
+ about the output of standard Onyx business object methods is available 
+ <a href="oeas_methods.htm">here</a>.</p>
+        <p>Step components that are added to default methods must work with the 
+ parameters as used by the existing step components. Step components for 
+ custom business object methods can structure the data according to their 
+ own needs but should return the data so it agrees with the signature in 
+ the OED.</p>
+        <h3>customData</h3>
+        <p>If the step component has any custom data required by the client or 
+ other step components, it can be placed here. Onyx components ignore all 
+ data in the customData element, except for the embeddedXML feature. Onyx 
+ supports the <a href="Using_the_embeddedXml_feature.htm">embeddedXML feature</a> 
+ within the customData element, so you can take advantage of its performance 
+ benefits in your customizations.</p>
+        <h4>Vote on the COM+ transaction</h4>
+        <p>By using the COM+ Services library, a step component that supports transactions 
+ can check to see if it is currently executing within a transaction stream. 
+ If so, the component can vote on the success or failure of the transaction. 
+ A component that votes to fail a transaction should add a failure message 
+ to the methodStatus element and include extended error information.</p>
+        <h4>Return a message to the OTM</h4>
+        <p>The Execute method of the IStep interface must return one of two string 
+ values to the OTM: "stop" or "continue." If the method 
+ returns "stop", the OTM does not proceed to the next step in 
+ the method, but instead closes any open transaction stream and sends the 
+ returnXml element to the client application. The OTM does not consider 
+ a "stop" message evidence of an error, but merely an instruction 
+ to end the current method immediately. To support customization flexibility, 
+ no Onyx step component ever returns a "stop" message. Instead, 
+ if an Onyx component encounters an error, it sets the adds a failure message 
+ to the methodStatus element and returns a "continue" message 
+ to the OTM.</p>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Note_Table_1.css');width: 80%;" class="TableStyle-Aptean_Note_Table_1" cellspacing="2">
+            <col style="width: 0.7cm;" class="TableStyle-Aptean_Note_Table_1-Column-Column1" />
+            <col class="TableStyle-Aptean_Note_Table_1-Column-Column1" style="width: 15.50cm;" />
+            <tbody>
+                <tr class="TableStyle-Aptean_Note_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyB-Column1-Body1" style="text-align: right;">
+                        <p>
+                            <img src="../../Resources/Images/Common/note_image.png" />
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText"><b>Note</b>: The values "stop" and "continue" 
+ must be returned using lower-case letters. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

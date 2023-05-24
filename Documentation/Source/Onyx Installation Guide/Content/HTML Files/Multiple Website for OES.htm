@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="823" MadCap:lastWidth="624">
+    <head><title>Multiple Website for OES</title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h3>Multiple Website for OES</h3>
+        <ol>
+            <li>Make a copy of <b>EnterpriseStudio</b> folder from the following location:</li>
+        </ol>
+        <p class="Indent1"><code>\Program Files (x86)\Onyx</code>
+        </p>
+        <ol MadCap:continue="true">
+            <li>Rename the copied folder to the desired name. For example, OES.</li>
+            <li>Open Internet information Server (IIS)</li>
+            <li>Right-click and then click <b>Add Application</b>.</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">Type the Alias Name to the desired name. For example, OES_Web</li>
+            <li class="List_Indent">Click <b>Select</b>, and then select <b>OESAppPool</b>.</li>
+            <li class="List_Indent">Click <b>Browse</b> to provide the physical path.</li>
+        </ul>
+        <ol start="5">
+            <li>Once the application is created, click <b>New Created Application</b>, and then go to the ASP section.</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">Set <b>Enable Parent Path</b> property to <b>True</b> (default is <b>False</b>).</li>
+            <li class="List_Indent">Set <b>Session</b> property to <b>False</b> (default is <b>True)</b></li>
+        </ul>
+        <ol start="6">
+            <li>Right-click and then click <b>Add Application</b>.</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">Type the Alias Name to the desired name. For example, OES_Window.</li>
+            <li class="List_Indent">Click <b>Select</b> and then select OESAppPool.</li>
+            <li class="List_Indent">Click <b>Browse</b> to provide the physical path.</li>
+        </ul>
+        <ol start="7">
+            <li>Once the application is created, click <b>New Created Application</b>, and then go to the ASP Section.</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">Set the <b>Enable Parent Path</b> property to <b>True</b> (default is <b>False</b>).</li>
+            <li class="List_Indent">Set the <b>Session</b> property to <b>False</b> (default is <b>True</b>).</li>
+            <li class="List_Indent">Click <b>New Created Application</b> and then go to the <b>Authentication Section</b>.</li>
+            <li class="List_Indent">Enable <b>Windows Authentication</b> (default is disabled).</li>
+        </ul>
+        <ol start="8">
+            <li>Make the following changes in the <b>OES</b> folder in the App server.</li>
+        </ol>
+        <p class="Indent1">In <b>Global.asa</b> in the root path:</p>
+        <ul>
+            <li class="List_Indent">Rename the site_id and logical application name</li>
+        </ul>
+        <ul style="list-style-type: circle;">
+            <li class="BulletList2">Application("appName")= "Onyx1"</li>
+            <li class="BulletList2">Application("siteId") = 2</li>
+        </ul>
+        <ol start="9">
+            <li>Restart IIS.</li>
+        </ol>
+    </body>
+</html>

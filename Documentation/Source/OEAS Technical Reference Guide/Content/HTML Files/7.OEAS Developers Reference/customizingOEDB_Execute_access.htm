@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:id="Execute access" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="790" MadCap:lastWidth="647" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Note_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+		<title>Execute access</title>
+    </head>
+    <body>
+               <h5>
+            <MadCap:keyword term="execute;Execute access" />Execute access</h5>
+        <p>All database objects are created with a single user that has been designated 
+ as the database owner. (This user is granted the db_owner role for the 
+ database when the user is created.) Given the access rights granted to 
+ this user by the db_owner role, there are times when a procedure created 
+ by this user should be run under a user with rights that are more limited 
+ than that of the database owner. SQL Server 2005 has implemented a new 
+ feature that allows the execution context of a procedure to be defined 
+ when the procedure is compiled. </p>
+        <p>Onyx has used this feature to restrict access between two classes of 
+ stored procedures: those that perform actions on the database that are 
+ known when the procedure is compiled and those where the actions are unknown 
+ when a procedure is compiled. </p>
+        <h4>Compiled with known action</h4>
+        <p>When you know that you can trust the results of compiling a stored procedure 
+ on the database, compile them with the WITH EXECUTE AS SELF specification</p>
+        <p>An example of a known action may be a select statement written against 
+ the individual table for a retrieveList method. In this case, any user 
+ with access to the retrieveList method should be allowed to execute this 
+ select statement. No additional restrictions are needed for the execution 
+ context, so the procedure may be executed under the context of the Onyx 
+ db_owner user that created the procedure: </p>
+        <p Class="Code" class="code">CREATE PROCEDURE &lt;cpMyProcedure&gt; (...)</p>
+        <p Class="Code" class="code">WITH EXECUTE AS SELF</p>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Note_Table_1.css');width: 80%;" class="TableStyle-Aptean_Note_Table_1" cellspacing="2">
+            <col style="width: 0.7cm;" class="TableStyle-Aptean_Note_Table_1-Column-Column1" />
+            <col class="TableStyle-Aptean_Note_Table_1-Column-Column1" style="width: 15.50cm;" />
+            <tbody>
+                <tr class="TableStyle-Aptean_Note_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyB-Column1-Body1" style="text-align: right;">
+                        <p>
+                            <img src="../../Resources/Images/Common/note_image.png" />
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText"><b>Note</b>: When compiling custom stored procedures for OEAS with the 
+ WITH EXECUTE AS SELF specification, be sure to compile them using either 
+ the 'OnyxDBO' or 'sa' logon ID and follow all other security standards 
+ published in this guide. Otherwise, the stored procedure will generate 
+ an error when executing.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>Compiled with unknown action</h4>
+        <p>An example of an unknown action may be a procedure that accepts an ad-hoc 
+ query string, which it then executes. In this case, we want to only limit 
+ the actions that the ad-hoc query string may perform. For instance, we 
+ may only want the procedure to run under the context of a user who may 
+ only execute select statements against a fixed set of views: </p>
+        <p Class="Code" class="code">CREATE PROCEDURE &lt;cpMyProcedure&gt; (...)</p>
+        <p Class="Code" class="code">WITH EXECUTE AS &lt;User&gt;</p>
+        <p Class="Code" class="code">For example, the List Manager query execution 
+ stored procedure, opSearchQueryExecute, is granted access during OEDB 
+ setup to a limited database login (by default: OnyxLMSql).</p>
+    </body>
+</html>

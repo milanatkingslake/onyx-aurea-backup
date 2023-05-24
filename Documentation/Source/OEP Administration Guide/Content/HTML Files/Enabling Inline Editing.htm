@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="100" MadCap:lastWidth="701">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h3 style="page-break-before: always;"><a name="top"></a>Enabling Inline Editing</h3>
+        <p>You can add inline editing capabilities to a default or a custom field to enable your users to edit records directly in the Navigator Result Grid without having to open the related Onyx page.</p>
+        <p style="font-weight: bold;">To enable inline editing in Navigator:</p>
+        <ul>
+            <li><a href="#Updating">Update the relevant tables in the Persistence database</a>
+            </li>
+            <li style="list-style-type: disc;"><a href="Navigator Search Result Grid.htm#Determin">Make the field available for editing</a>
+            </li>
+        </ul>
+        <h4><a name="Updating"></a>Updating Tables in Persistence Database</h4>
+        <p>Update the Persistence database with information for each field that you want to enable inline editing for. <a href="The EntityGroupMapper table.htm#Example">Read a description and see example values</a> for each table that needs to be modified.</p>
+        <p class="ProcedureHeading">To update tables in the Persistence database:</p>
+        <ol>
+            <li>In the <b>Persistence</b> database, right-click the LboObject table and select Edit Top 200 Rows.</li>
+            <li>Scroll to the bottom of the displayed result grid.</li>
+            <li>Insert one row for each custom entity object that you want to enable inline editing for in Navigator.</li>
+            <li>Note the auto-generated value in the LBOObjectId column that corresponds to each custom entity object that you added a row for.</li>
+            <li>Right-click the navigator_entity_master table and select Edit Top 200 Rows.</li>
+            <li>For each custom entity row enter the corresponding LboObjectId value, which you noted in step 4, in the LboObjectId column. </li>
+            <li>Right-click the LboPropertyMapper table and select Edit Top 200 Rows.</li>
+            <li>Scroll to the bottom of the displayed result grid.</li>
+            <li>Insert one row for each property of each Logical Business Object (LBO) that you added in the LboObject table.</li>
+        </ol>
+    </body>
+</html>

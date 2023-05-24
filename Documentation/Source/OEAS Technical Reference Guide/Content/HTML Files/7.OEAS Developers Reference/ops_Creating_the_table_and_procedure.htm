@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="2060" MadCap:lastWidth="1006" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Creating the table and procedure (OPS)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>
+            <MadCap:keyword term="OPS" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />
+            <MadCap:keyword term="Creating" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />
+            <MadCap:keyword term="Creating:table" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />
+            <MadCap:keyword term="table" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />
+            <MadCap:keyword term="table:Creating" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />
+            <MadCap:keyword term="procedure" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />Creating the table and procedure</h4>
+        <p>While not a requirement, Onyx recommends that you create the table and 
+ procedure in the database before customizing the OED. This makes it easier 
+ and more reliable when you are customizing the physical model, since you 
+ can refer to the actual schema in the database. The source files for the 
+ code in this topic are available in the Samples directory on the product 
+ CD.</p>
+        <h3>Create the table</h3>
+        <p>Using either a database admininstration tool or an SQL analyzer tool 
+ create a table in the database representing a routingPrinter object. This 
+ table represents a domain object and should follow the Onyx guidelines 
+ for domain object tables. The <a href="workingwithoed_properties_and_columns_domain.htm">Properties 
+ and columns</a> topic of the <a href="workingwithoed_creating_domain_objects.htm">Creating 
+ domain objects</a> scenario illustrates these guidelines. In addition, 
+ you should follow the custom naming conventions to prevent your customization 
+ from being overwritten during OEDB upgrades.</p>
+        <p>The country_code and printer_share columns represent the purpose of 
+ this table which is to associate an UNC printer path to a geography code. 
+ You will subsequently install a procedure that uses the country_code data 
+ to insert the printer_share data in a literature_order_detail record.</p>
+        <p>The following SQL script creates a new ct_custom_routing_printer table 
+ in the database. Using your preferred tool, login to the database as the 
+ schema owner and run the following code.</p>
+        <p>Schema Script</p>
+        <p Class="Code" class="code">CREATE&#160;TABLE&#160;ct_custom_routing_printer(</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;country_code&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;NCHAR(4) &#160;&#160;&#160;&#160;&#160; NOT&#160;NULL,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;site_id&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;INT&#160;&#160;&#160;&#160;&#160;&#160; &#160;&#160;&#160;&#160;&#160;NOT&#160;NULL,&#160;&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;printer_share&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;NVARCHAR(255)&#160;&#160;NOT&#160;NULL,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;insert_by&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;NVARCHAR(85)&#160; &#160;NOT&#160;NULL,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;insert_date&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;DATETIME&#160;&#160;&#160;&#160;&#160;&#160;&#160;NOT&#160;NULL,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;update_by&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;NVARCHAR(85) &#160;&#160;NOT&#160;NULL,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;update_date&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;DATETIME&#160;&#160;&#160;&#160;&#160;&#160;&#160;NOT&#160;NULL,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;onyx_timestamp&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ROWVERSION&#160;&#160;&#160; &#160;NOT&#160;NULL,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;record_status&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;BIT &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;NOT&#160;NULL)</p>
+        <p Class="Code" class="code">GO</p>
+        <p Class="Code" class="code">&#160;ALTER&#160;TABLE&#160;ct_custom_routing_printer</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ADD&#160;CONSTRAINT&#160;cpk_custom_routing_printer&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;PRIMARY&#160;KEY CLUSTERED&#160;(country_code,site_id)</p>
+        <p Class="Code" class="code">GO</p>
+        <p Class="Code" class="code">&#160;ALTER&#160;TABLE&#160;ct_custom_routing_printer</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;ADD&#160;CONSTRAINT&#160;cfk_custom_routing_printer</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;FOREIGN&#160;KEY&#160;(country_code,site_id)</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;REFERENCES&#160;country&#160;(country_code,site_id)</p>
+        <p Class="Code" class="code">GO</p>
+        <h3>Create the procedure</h3>
+        <p>The next step is to install the cp_onyx_custom_routing_printer stored 
+ procedure in the database. The purpose of this procedure is to update 
+ the printer_name column of the literature_order_detail table with the 
+ data from the printer_share column of the ct_custom_routing_printer table 
+ for a given literature order line. The procedure only updates the printer_name 
+ if it finds an active routing printer record with the same country_code 
+ and site_id as the literature order.</p>
+        <p>While still logged in as the schema owner, run the following script 
+ to create the procedure in the database.</p>
+        <p>Stored procedure</p>
+        <p Class="Code" class="code">IF EXISTS &#160;(SELECT * FROM sysobjects</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;WHERE name = N'cpCustomRoutingPrinterPost')</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;DROP PROCEDURE cpCustomRoutingPrinterPost</p>
+        <p Class="Code" class="code">GO </p>
+        <p Class="Code" class="code">CREATE PROCEDURE cpCustomRoutingPrinterPost</p>
+        <p Class="Code" class="code">(</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;@literature_order_detail_id &#160;UNIQUEIDENTIFIER</p>
+        <p Class="Code" class="code">) </p>
+        <p Class="Code" class="code">WITH EXECUTE AS SELF</p>
+        <p Class="Code" class="code">AS</p>
+        <p Class="Code" class="code">BEGIN</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;DECLARE @return_code &#160;&#160;&#160;&#160;&#160;INT</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;SET &#160;&#160;&#160;&#160;@return_code &#160;&#160;&#160;&#160;&#160;= 0</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;UPDATE ld</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;SET printer_name = </p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;(SELECT ct.printer_share</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;FROM ct_custom_routing_printer ct</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;JOIN literature_order_header lh</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ON ct.country_code &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;= lh.country_code</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;AND ct.site_id &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;= lh.site_id</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;AND ct.record_status &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;= 1</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;WHERE lh.literature_order_header_id = ld.literature_order_header_id)</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;FROM literature_order_detail ld</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;WHERE ld.literature_order_detail_id = @literature_order_detail_id</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;RETURN @return_code</p>
+        <p Class="Code" class="code">END</p>
+        <p Class="Code" class="code">GO </p>
+        <p Class="Code" class="code">GRANT EXECUTE ON cpCustomRoutingPrinterPost TO OnyxPublic</p>
+        <p Class="Code" class="code">GO </p>
+    </body>
+</html>

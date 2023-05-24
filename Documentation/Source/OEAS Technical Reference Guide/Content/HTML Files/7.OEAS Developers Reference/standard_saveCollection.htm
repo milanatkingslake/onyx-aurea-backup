@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="785" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>saveCollection method</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>
+            <MadCap:keyword term="saveCollection standard method" />
+            <MadCap:keyword term="Standard business object methods:saveCollection" />
+            <MadCap:keyword term="saveCollection" />
+            <MadCap:keyword term="saveCollection method" />saveCollection method</h4>
+        <p>The saveCollection method performs multiple actions in a single OEAS 
+ method call: inserting, updating, and deleting objects, as appropriate.</p>
+        <h5>Parameters</h5>
+        <p>This method accepts an object collection as the input parameter and 
+ returns a "keysOnly" object.</p>
+        <table>
+            <col />
+            <col />
+            <col />
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Direction</th>
+                    <th>Data type</th>
+                    <th>Content in type</th>
+                    <th>Content out type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top">
+                        <p class="Table_Text" style="margin-bottom: 0;">Object name</p>
+                    </td>
+                    <td style="width: 10%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="10%">
+                        <p class="Table_Text" style="margin-bottom: 0;">inOut</p>
+                    </td>
+                    <td style="width: 11%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="11%">
+                        <p class="Table_Text" style="margin-bottom: 0;">object</p>
+                    </td>
+                    <td style="width: 12%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="12%">
+                        <p class="Table_Text" style="margin-bottom: 0;">Depends on the action.</p>
+                    </td>
+                    <td style="width: 14%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="14%">
+                        <p class="Table_Text" style="margin-bottom: 0;">keysOnly</p>
+                    </td>
+                    <td style="width: 40%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="40%">
+                        <p class="Table_Text">On input, the parameter is a collection object consisting 
+ of zero or more objects, each specifying a processing <a href="Data_Access_Attributes.htm">action 
+ attribute</a>—insert, update, or delete.</p>
+                        <p class="Table_Text">The parameter name is the plural form of the object 
+ name for which the saveCollection method was called. For example, the 
+ parameter name for a saveCollection on the address object is addresses.</p>
+                        <p class="Table_Text">On return, the collection object consists 
+ of "keysOnly" objects for each object specified on input. These 
+ objects contain the properties that compose the object's primary key.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h5>Steps</h5>
+        <p>All standard methods call the Onyx Data Validation Step for input data 
+ validation and either directly or indirectly call Onyx Data Manager to 
+ access the data tier. Many methods perform additional steps. For a table 
+ that lists the default steps of a specific business object method, refer 
+ to its method topic under the business object.</p>
+        <h5>Remarks</h5>
+        <p>The behavior of the saveCollection actions are identical to the <a href="standard_insert.htm">insert</a>, 
+ <a href="standard_update.htm">update</a>, and <a href="standard_delete.htm">delete</a> 
+ standard method behaviors. Customizations made to the standard methods 
+ do not affect saveCollection, and vice versa. &#160;For 
+ instance, if you add a custom step to the insert method, it is not going 
+ to apply to the saveCollection insert action unless you also add the step 
+ to the saveCollection method. Refer to <a href="oeas_methods.htm">standard 
+ method topics</a> for information specific to each action.</p>
+        <p>OEAS performs saveCollection actions in the following 
+ order:</p>
+        <ol>
+            <li>delete</li>
+            <li>update</li>
+            <li>insert</li>
+        </ol>
+        <p>The following objects use the OnyxCollectionManager 
+ step component to implement their saveCollection methods:</p>
+        <ul>
+            <li>incident</li>
+            <li>reminder</li>
+            <li>task</li>
+            <li>workTicket</li>
+            <li>scriptText</li>
+            <li>scriptSession</li>
+        </ul>
+        <p>These objects use the OnyxCollectionManager to support partial success 
+ of the method in batch processing scenarios.</p>
+        <p>For objects that do not implement saveCollection with the OnyxCollectionManager 
+ step component, the saveCollection method is atomic. If one or more actions 
+ during a saveCollection call fail, all object actions specified in the 
+ input parameters XML fail.</p>
+        <h5>Example</h5>
+        <p>The following example shows the content of the input parameters and 
+ output parametersReturn used to save a collection of role object instances.</p>
+        <p>
+            Parameters
+        </p>
+        <p Class="Code" class="code">&lt;parameters&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;roles objectType="role" collection="1"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;role objectType="role" action="insert"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;roleId&gt;OEP.ReadOnlyUser&lt;/roleId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;description&gt;OEP.ReadOnlyUser&lt;/description&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/role&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;role objectType="role" action="update"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;roleId&gt;PartnerAdministrator_OPP&lt;/roleId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;description&gt;Partner Admin&lt;/description&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/role&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;role objectType="role" action="delete"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;roleId&gt;Subsidiary&lt;/roleId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/role&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/roles&gt;</p>
+        <p Class="Code" class="code">&lt;/parameters&gt;</p>
+        <p>
+            parametersReturn
+        </p>
+        <p Class="Code" class="code">&lt;parametersReturn&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;roles objectType="role" collection="1" content="keysOnly"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;role objectType="role" action="insert" content="keysOnly"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;roleId&gt;OEP.ReadOnlyUser&lt;/roleId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/role&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;role objectType="role" action="update" content="keysOnly"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;roleId&gt;PartnerAdministrator_OPP&lt;/roleId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/role&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;role objectType="role" action="delete" content="keysOnly"&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&lt;roleId&gt;Subsidiary&lt;/roleId&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&lt;/role&gt;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&lt;/roles&gt;</p>
+        <p Class="Code" class="code">&lt;/parametersReturn&gt;</p>
+    </body>
+</html>

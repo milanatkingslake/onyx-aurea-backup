@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="1027.457" MadCap:lastWidth="652">
+    <head>
+        <link href="../../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head>
+            <link href="../../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" /><title>Collision-Resolution Algorithms</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>Collision-Resolution Algorithms</h4>
+        <p>The Collision Handler attempts to automatically resolve 
+ collisions between versions of the same record when: </p>
+        <ul>
+            <li>The offline user and the online user both make 
+ the same change, such as changing the status of an incident to the same 
+ value. </li>
+            <li>The offline user or the online user saves a record 
+ without making any changes. This situation happens when either the offline 
+ or online user adds work notes to an incident but does not change the 
+ incident header information.</li>
+            <li>The differences between versions are limited to 
+ values in maintenance and read-only fields, which can be configured for 
+ each business object type. </li>
+        </ul>
+        <p>The record that is automatically preserved depends 
+ on uses one of three algorithm settings: </p>
+        <ul>
+            <li>Online wins—the record on the OEDB or staging 
+ server is preserved.</li>
+            <li>Last update wins—the record with the most recent 
+ update date is preserved.</li>
+            <li>Customer—special collision processing for Individuals 
+ and Companies.</li>
+        </ul>
+        <p>Customer is a special algorithm for Companies and Individuals. When 
+ differences between versions are limited to maintenance and read-only 
+ fields of the primary record (Company or Individual) and the secondary 
+ records (Phones and Addresses), the Collision Handler can automatically 
+ resolve collisions. When this resolution is successful, the most recently 
+ updated version of the record is preserved. </p>
+        <p>When the Collision Handler cannot resolve a collision automatically, 
+ it creates a conflict that the user must help to resolve. </p>
+        <p>The default algorithm settings for the record types that users can subscribe 
+ to out of the box are listed in the following table. </p>
+        <table style="mc-table-style: url('../../../Resources/TableStyles/Aptean_Table_1.css');width: 80%;" class="TableStyle-Aptean_Table_1" cellspacing="0">
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 4cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 4cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 8cm;" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_1-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableText">Record type </p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableText">Algorithm </p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadD-Column1-Header1">
+                        <p class="TableText">Comments </p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="color: #000000;">Individual </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="color: #000000;">customer </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="color: #000000;">Various read-only and maintenance fields in 
+ the Individual, Phone, and Address records are ignored and will not cause 
+ collisions. </p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="color: #000000;">Company </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="color: #000000;">customer </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="color: #000000;">Various read-only and maintenance fields in 
+ the Company, Phone, and Address records are ignored and will not cause 
+ collisions. </p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="color: #000000;">Incident </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="color: #000000;">lastUpdateWins </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="color: #000000;">Various read-only and maintenance fields in 
+ the Incident header are ignored and will not cause collisions. </p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="color: #000000;">Task </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="color: #000000;">lastUpdateWins </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="color: #000000;">Various read-only and maintenance fields in 
+ the Task header are ignored and will not cause collisions. </p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="color: #000000;">Forecast </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="color: #000000;">N/A </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="color: #000000;">The Collision Handler is not used. The sync 
+ subsystem creates a conflict when Forecast header and lines are out-of-date. 
+ </p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="color: #000000;">Quote </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText" style="color: #000000;">N/A </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText" style="color: #000000;">The Collision Handler is not used. The sync 
+ subsystem creates a conflict when Quote header and lines are out-of-date. 
+ </p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="color: #000000;">Work note </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText" style="color: #000000;">N/A </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText" style="color: #000000;">The Collision Handler is not used. Work notes 
+ cannot be updated or deleted; they can only be inserted. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>For more information about the Collision Handler settings, see the <span style="font-style: italic;">OEAS</span> <span style="font-style: italic;">Developer’s 
+ Reference</span> and the Help for the Subscription Designer, which is 
+ an Onyx Enterprise Studio (OES) Administration tool. </p>
+    </body>
+</html>

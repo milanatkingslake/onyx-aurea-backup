@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="791" MadCap:lastWidth="624">
+    <head>
+        <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head>
+            <link href="../../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" /><title>includeMask parameter</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>includeMask parameter</h3>
+        <p>When you retrieve data from the database, you can choose to <em class="Emphasis">append</em> 
+ the mask to the data, to <em class="Emphasis">apply</em> the mask to the 
+ data, or to disregard the mask altogether. OEAS uses an input parameter, 
+ called "includeMask" to indicate how the mask should affect 
+ the data upon retrieval, if at all. The following table explains these 
+ options. </p>
+        <p>In OEAS, all includeMask parameters default to “append” 
+ if no value is passed. </p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Mask option </th>
+                    <th>Input parameter </th>
+                    <th>Description </th>
+                    <th>Sample result </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">none</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&lt;includeMask&gt;none&lt;/includeMask&gt; 
+ </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Returns the original data string. </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">5555555555 </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">append </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">&lt;includeMask&gt;append&lt;/includeMask&gt; 
+ </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Returns the original data string, and appends 
+ the mask to the end of the string. The code <b class="Bold">**MASK:</b> 
+ indicates that a mask is appended (in the sample result, the mask is 99.99). 
+ </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">5555555555**MASK:(999)999-9999 </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">apply </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="color: #000000;">&lt;includeMask&gt;apply&lt;/includeMask&gt; 
+ </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Returns the data string formatted according 
+ to the rules of the mask. </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">(555)555-5555 </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The following input XML for the customer retrieveList method shows the 
+ includeMask parameter with a value of 'apply'. </p>
+        <p class="C_Code">&lt;parameters&gt;&#160;</p>
+        <p class="C_Code">&lt;type&gt;9&lt;/type&gt;&#160;</p>
+        <p class="C_Code">&lt;primaryId&gt;&lt;/primaryId&gt;&#160;</p>
+        <p class="C_Code">&lt;secondaryId&gt;&lt;/secondaryId&gt;&#160;</p>
+        <p class="C_Code">&lt;assignedId&gt;&lt;/assignedId&gt;</p>
+        <p class="C_Code">&lt;firstName&gt;&lt;/firstName&gt;</p>
+        <p class="C_Code">&lt;lastName&gt;&lt;/lastName&gt;</p>
+        <p class="C_Code">&lt;companyName&gt;Acme Inc.&lt;/companyName&gt; </p>
+        <p class="C_Code">&lt;emailAddress&gt;&lt;/emailAddress&gt;</p>
+        <p class="C_Code">&lt;city&gt;&lt;/city&gt;</p>
+        <p class="C_Code">&lt;postCode&gt;&lt;/postCode&gt;</p>
+        <p class="C_Code">&lt;phoneNumber&gt;&lt;/phoneNumber&gt;</p>
+        <p class="C_Code">&lt;serialNumber&gt;&lt;/serialNumber&gt;</p>
+        <p class="C_Code">&lt;regionName&gt;&lt;/regionName&gt;</p>
+        <p class="C_Code">&lt;regionCode&gt;&lt;/regionCode&gt;</p>
+        <p class="C_Code">&lt;includeMask&gt;apply&lt;/includeMask&gt;</p>
+        <p class="C_Code">&lt;countryDesc&gt;&lt;/countryDesc&gt;</p>
+        <p class="C_Code">&lt;/parameters&gt;</p>
+    </body>
+</html>

@@ -1,0 +1,609 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="844" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h3>Post action</h3>
+        <p>The Post Action action returns a string that identifies a task performed by the server-side page. This self-post mechanism instructs server-side processes to "post back" information to the client-side OEP page after the server-side request finishes. The post information is accessible through the Post Action action (listed under the Context Data object in the action and condition lists).</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Example post action value</th>
+                    <th>Server-side page action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">insert</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Created a record</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">update</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Updated the record</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">retrieve</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Retrieved the record</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">delete</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Deleted the record</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">load (or empty context data item)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Initially loaded the page</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>An example of using the Post Action context data item is to create a conditional action on a load event that displays a message to users telling them that the update is complete.</p>
+        <h3><a name="Control"></a>Control Actions and Conditions</h3>
+        <p>The Control object in the action and condition lists enumerates the UI controls (including toolbox captions) defined for the current page. The condition list includes only the Get Value action for each control. The action list includes a full range of control actions for each control. The following table lists the control actions. </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Action</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Disable Control</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Makes the control display-only.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Enable Control</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enables the user to change or update the value of a control.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Get Code</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Retrieves a displayed string that is associated with a value contained by the control. This action is available to Tracking Code controls, for example. Retrieve the control's underlying value using the Get Value action.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Get Control Count</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Retrieves the number of controls contained within a collection of controls. Examples of controls that are collection of controls are the Individual_Telephones and Company_Telephones controls on the PowerPage. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Get Label Text</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Retrieves the label of the specified control.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Get Local Date</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Retrieves the date held in the control, converted to the client's local date.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Get Local Time</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Retrieves the time held in the control, converted to the client's local time.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Get Text</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Retrieves the text value that is associated with the underlying integer value contained in the specified control.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Get Value</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Retrieves the underlying integer value contained in the specified control.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Give Focus</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Sets focus on the specified control. For example, if the control is a text box, the cursor is placed in the text box.</p>
+                        <p class="Table_Text">A control cannot be given the focus if it is hidden, or if the body of the page is hidden. For that reason, if you add the Give Focus action under a page's Load event, make sure that the Give Focus action comes after the Show Body action called from the Onyx layer. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Hide</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Hides the specified control.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Hide Details Box</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Hides the primary contact details on the incident edit page.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Hide Item</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Hides the specified item in a collection-based control, such as a toolbar.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Hide Label</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Hides the label of the specified control.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Highlight (Off) </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Turns off highlighting of the specified control.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Highlight (On)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Highlights the specified control.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Is Dirty?</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Returns a Boolean that specifies whether the value of the control has been changed from its binding data. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Is Recall Set?</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Returns a Boolean that specifies whether a reminder is set for the user that is creating or updating an incident or task record. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Is User Reminded?</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Returns a Boolean that specifies whether the OEP user assigned to the incident or task is to receive a reminder for record that is currently displayed in a page.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Link <i>Item</i></p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Displays a window that allows users to associate the record on the page (company, individual, incident, or task) with another record. For instance, link a primary contact (individual record) with the incident record that is displayed on the incident edit page. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Select Item</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Selects the specified item in a collection-based control, such as a toolbar.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Set Control Tooltip</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Changes the tooltip string of the specified control.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Set Label Text</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Changes the label string of the specified control.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Set Local Date</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies the date to send reminder messages. The format of the date string is YYYY-MM-DD, and it is the local date rather than GMT.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Set Local Time</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies the time to send reminder messages. The format of the time string is hh:mm:ss, and it is the local time rather than GMT.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Set Recall</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Adds a reminder to the incident or task currently displayed. The reminder message is sent to the OEP user who is creating or updating the record. When coding this action using Advanced View, the action's argument is typed as a string rather than a Boolean.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Set Reference Data</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Sets the reference data for the specified control. This action is available for toolbox controls only. The value pair for the action argument is "referenceData" and the string of data. When the Reselect Value? argument is Yes, &#160;the control's current value (if any) is removed and the OEP user reselects a value from the new list of values. If the argument is No, the current value is retained even if it does not exist in the new list of values.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Set Required (On)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Displays an asterisk by the specified control to indicate that a value entry or selection is required for the specified control.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Set Required (Off)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Removes a displayed asterisk by the specified control (indicator for required entry or selection).</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Set Tooltip Text</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Changes the tooltip string of the specified control.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Set User Reminder</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Adds a reminder to the incident or task currently displayed that sends a message to the OEP user that the record is assigned to. When coding this action using Advanced View, the action's argument is typed as a string rather than a Boolean.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Set Value</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Changes the value contained in the specified control.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Show</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Displays the specified control.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Show Add Dialog</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Displays a dialog box that lets users choose to add either an individual or a company customer record.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Show Details Box</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Displays the primary contact details on the incident edit page.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Show Item</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Displays the specified item in a collection-based control, such as a toolbar.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Show Keywords Dialog</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Displays a dialog box that lists the keywords for the displayed incident or task.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Show Label</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Display the label of the specified control.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Show Tree</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Display a dialog box that lists items in an hierarchical tree and allows users to select an item.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Unlink <i>Item</i></p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Removes a linked record.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3><a name="Event"></a>Event Arguments</h3>
+        <p>The Event Argument action let you retrieve the argument of the event that an action is responding to. For example, for the Item Click (Item ID) (Item Value) event on a toolbar control, the Event Arguments (Item ID) action compares the ID to the clicked item on a toolbar, according to the selected operator and value.</p>
+        <h3><a name="Page"></a>Page Variable</h3>
+        <p>You can create Dynamic Forms Designer actions that save results to page variables. The page variables appear in both the action list and the condition list. The actions associated with page variables are Get Value and Set Value (only Get Value is available from the condition list). </p>
+        <h3><a name="Page2"></a>Page Actions and Conditions</h3>
+        <p>The following table lists page actions available under the Page object in the action and condition lists. The <i>item</i> varies according to the OEP page that is being configured (individual, company, incident, task, product, or product line). </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Action</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Add New Product Line</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Adds a product line to the current product record.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Add New Product Line and Close Window</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Adds a product line to the current product record and closes the product line items page.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Attach item to Messenger Message</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Opens an OEP messenger composition window and attaches the current record to it.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Change Owner Incident</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Displays the quick search dialog box and lets the user find and specify a different owner record.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Clear Controls</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Removes data from all controls on the page.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Clear Page Changed</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Removes the page dirty indicator for the page.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Delete <i>item</i></p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies that the record contained on the page should be deleted from the Onyx Enterprise Database (OEDB).</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Hide Body</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Hides the HTML document body.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Get Current Context Filter</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Retrieves the context filter string for the page.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Get Current Page ID</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Retrieves the identifier of the OEP page.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Get Current Path to Website Root</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Retrieves the relative path to the root of the OEP website.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Get Opener Window Reference</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Retrieve the reference (name) of the parent of the current page using the opener property of the window object.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Is Design Mode?</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Checks if the page is in design mode.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Link Task Owner</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Displays the quick search dialog box and lets the user find and specify a different owner record.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Print Task</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Prints the current task.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Save <i>item</i></p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Specifies that the record contained on the page should be saved to the OEDB.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Save and Close <i>item</i></p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Saves and closes the page.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Set Alert For <i>item</i></p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Opens the set alert window, which lets the user create an alert message for the current record.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Set Page Changed</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Marks the page as dirty, which causes a not saved warning to appear when a user attempts to navigate away from the page.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Show Body</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Displays the HTML document body.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Update Line Item</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Saves the line item.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3><a name="Section"></a>Section Actions</h3>
+        <p>Section actions include hiding and showing <a href="Working with Sections.htm#top">sections</a>, which are typically used to group UI controls. &#160;The Section object is listed in the action list only. </p>
+        <p>Sections are identified by their Admin ID <a href="Showing the Controls Panes.htm#Control">properties</a>. </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Action</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Hide Section</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Hide the specified section and the UI controls that it contains. A section is an area within a panel.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Show Section</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Display the specified section.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>&#160;</p>
+        <p>&#160;</p>
+    </body>
+</html>

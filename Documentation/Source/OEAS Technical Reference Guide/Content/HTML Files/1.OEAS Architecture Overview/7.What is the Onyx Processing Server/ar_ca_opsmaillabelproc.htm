@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="533" MadCap:lastWidth="678" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Mailing-Label Processing</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>Mailing-Label Processing</h4>
+        <p>You can configure mailing labels to be printed when users order literature 
+ products. The print subsystem is responsible for processing the labels. 
+ Labels are a special case in which multiple order lines for the same literature 
+ product are printed together. This conserves the label printing media 
+ by allowing multiple labels to be printed on a sheet of label stock. </p>
+        <p>When a user places an order for a literature product that has an associated 
+ mailing label, the print subsystem inserts an additional order line into 
+ the order for the label product. When a batch has multiple order lines 
+ for the same label, all the labels are printed together. The following 
+ example illustrates the label processing. </p>
+        <p style="font-weight: bold;">Example: Mailing-label processing </p>
+        <p>In this example, the following occurs: </p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li>You create a label literature product and name 
+ it “Mailing Label 5163”.</li>
+            <li>You create a second literature product, name it 
+ “XB Product Brochure”, and associate it with “Mailing Label 5163”.</li>
+            <li>Six users create literature orders for one “XB 
+ Product Brochure” each. </li>
+        </ol>
+        <p class="Indent1">This results in six literature orders with one 
+ order line each. </p>
+        <ol style="list-style: decimal;list-style-type: decimal;" MadCap:continue="true">
+            <li>A print subsystem retrieves all the orders in 
+ a single batch.</li>
+            <li>The subsystem inserts one additional order line 
+ for “Mailing Label 5163”, which will be inserted into each of these six 
+ orders. </li>
+        </ol>
+        <p class="Indent1">Each order now has two order lines for a total 
+ of twelve order lines. </p>
+        <ol style="list-style: decimal;list-style-type: decimal;" MadCap:continue="true">
+            <li>The subsystem processes the orders, grouping the 
+ six mailing label order lines together and printing the mailing labels 
+ at the same time on the same label sheet.</li>
+        </ol>
+    </body>
+</html>

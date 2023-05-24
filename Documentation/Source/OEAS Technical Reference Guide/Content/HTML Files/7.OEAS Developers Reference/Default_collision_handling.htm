@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="1658" MadCap:lastWidth="675" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Default collision handling</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>
+            <MadCap:keyword term="default;Default collision" />Default collision handling</h4>
+        <p>An identical version of the collision handler, OnyxCollisionHandler.dll, 
+ is registered on the Onyx Processing Server (OPS) and on each OEP-Offline 
+ client machine. The synchronization subsystem may call the collision handler 
+ when a collision occurs between the version of a record in the Onyx Enterprise 
+ Database (OEDB) and the version of the record in the staging server data 
+ store. The offline client may call the collision handler when a collision 
+ occurs between the version of a record in the OEP-Offline client data 
+ store and the version of the record in the staging server data store.</p>
+        <p>For overviews of the <i>Subscription feature</i> 
+ and synchronization processing, see also the <span style="font-style: italic;">OEP-Offline 
+ Implementation Guide</span><span style="font-style: italic;">.</span></p>
+        <p align="left" class="ElementHeader">Types of collisions</p>
+        <p>The collision handler can be called to attempt to resolve, without user 
+ intervention, two types of collisions:</p>
+        <p><span style="font-style: italic;font-weight: normal;">Message collision</span>
+        </p>
+        <p>A collision that occurs between the OEP-Offline 
+ client data store and the staging server data store. A message collision 
+ is the most common type of collision. It occurs when a user modifies a 
+ record in OEP-Offline and a new version of the same record is downsynced 
+ to the staging server before the user upsyncs their change to the staging 
+ server.</p>
+        <p><span style="font-style: italic;font-weight: normal;">Data 
+ collision</span>
+        </p>
+        <p align="left" class="BodyTextIndent_1">A collision that occurs between the staging server data 
+ store and the OEDB. This type of collision occurs when an OEP-Offline 
+ user upsyncs a new version of a record to the staging server and the record 
+ in the OEDB has been changed but not yet downsynced to the staging server.</p>
+        <h3>Message collision scenario</h3>
+        <ol>
+            <li>An OEP-Offline user downsyncs an item and disconnects 
+ from the network. The OEP-Offline user updates the item. A <span style="font-style: italic;">baseline 
+ version</span> of the item is stored that represents the last downsynced 
+ version. The version containing the user's changes is the <span style="font-style: italic;">offline 
+ version</span> of the item.</li>
+            <li>An OEP user updates the same item and saves it 
+ to the OEDB. This is the <span style="font-style: italic;">online version</span> 
+ of the item.</li>
+            <li>The sync subsystem downsyncs the online version 
+ of the item to the staging server data store. The staging server now has 
+ the online version of the item.</li>
+            <li>The OEP-Offline user connects to the network and 
+ attempts to upsync the offline version to the staging server. A message 
+ collision occurs.</li>
+        </ol>
+        <h3>Data collision scenario</h3>
+        <ol>
+            <li>An OEP-Offline user downsyncs an item and disconnects 
+ from the network. The OEP-Offline user updates the item. A <span style="font-style: italic;">baseline 
+ version</span> of the item is stored that represents the last downsynced 
+ version.</li>
+            <li>An OEP user updates the same item and saves it 
+ to the OEDB. This is the <span style="font-style: italic;">online version</span> 
+ of the item.</li>
+            <li>The OEP-Offline user connects to the network and 
+ upsyncs the offline version to the staging server.</li>
+            <li>The sync subsystem attempts to upsync the offline 
+ version of the item to the OEDB. A data collision occurs.</li>
+        </ol>
+        <h4>Definitions</h4>
+        <p>In the topics that describe default collision handling for the various 
+ business objects that can be subscribed in a default installation of OEP-Offline, 
+ the following terms should be understood.</p>
+        <p><span style="font-style: italic;">Watched properties</span>
+        </p>
+        <p>When the value of a watched property differs 
+ among compared versions of the same record, the collision handler may 
+ determine that user intervention is required to resolve collisions.</p>
+        <p><span style="font-style: italic;">Read-only properties</span>
+        </p>
+        <p>Properties whose values the collision handler 
+ might ignore to increase the likelihood of resolving collisions without 
+ user intervention. This means that when their values differ among compared 
+ versions of the same record, it does not cause a conflict.</p>
+        <p><span style="font-style: italic;">Maintenance properties</span>
+        </p>
+        <p>Properties that maintain a history of the 
+ insert and last update of a record. For collision handling, these properties 
+ are typically considered read-only: they do not cause conflicts when their 
+ values differ.</p>
+        <p><span style="font-style: italic;">retry</span>
+        </p>
+        <p>An action that the collision handler returns 
+ to the sync subsystem instructing it to attempt another update using the 
+ updated object instance XML that the collision handler provides. When 
+ the retry action is returned to the OEP-Offline client, it attempts to 
+ upsync the updated message to the staging server.</p>
+        <p><span style="font-style: italic;">noOp</span>
+        </p>
+        <p>An action that the collision handler returns 
+ to the sync subsystem or OEP-Offline client instructing them to do nothing 
+ with the current message.</p>
+        <p><span style="font-style: italic;">conflict</span>
+        </p>
+        <p>An action that the collision handler returns 
+ to the sync subsystem or OEP-Offline client instructing them to set a 
+ conflict for the collision that the user will need to resolve.</p>
+        <h3>Related topics</h3>
+        <p>Collision-resolution algorithms</p>
+        <ul>
+            <li><a href="company_and_individual_collisions.htm">company 
+ and individual collisions</a>
+            </li>
+            <li><a href="incident_and_task_collisions.htm">incident 
+ and task collisions</a>
+            </li>
+            <li><a href="forecast_and_quote_collisions.htm">forecast 
+ and quote collisions</a>
+            </li>
+            <li><a href="workNote_collisions.htm">workNote collisions</a>
+            </li>
+            <li>Subscription</li>
+            <li>Synchronization subsystem</li>
+        </ul>
+    </body>
+</html>

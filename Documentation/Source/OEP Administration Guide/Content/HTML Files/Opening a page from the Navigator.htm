@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="5" MadCap:lastHeight="70" MadCap:lastWidth="701">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h5><a name="top"></a>Opening a page from the Navigator Result Grid</h5>
+        <p>The page that opens when you click a column in the Navigator Result Grid depends on whether the column is hyperlinked or not.</p>
+        <ul>
+            <li>If the column is hyperlinked, then the hyperlinked page opens.</li>
+            <li style="list-style-type: disc;">If the column is not hyperlinked, then the corresponding entity page opens.</li>
+        </ul>
+        <p>For example, for the Product entity, a column Customer in the result grid is a hyperlinked column. If a user clicks the Customer column, then the Customer page should open. However, if a user clicks any other column in the Result Grid, then the Product page should open.</p>
+        <p>The following processes occur when a user clicks a column in the Result Grid:</p>
+        <ol>
+            <li>XML is generated with the root element and all the properties of the selected entity.</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">When a user clicks a hyperlinked column, the hyperlinked entity is the root element in the XML.</li>
+        </ul>
+        <p class="Indent1">For example, Customer</p>
+        <p class="C_Code">&lt;Customer&gt; - root element</p>
+        <p class="C_Code">&lt;Element1&gt;value&lt;/Element1&gt;</p>
+        <p class="C_Code">&lt;Element2&gt;value&lt;/Element2&gt;</p>
+        <p class="C_Code">&lt;Element3&gt;value&lt;/Element3&gt;</p>
+        <p class="C_Code">&lt;Element4&gt;value&lt;/Element4&gt;</p>
+        <p class="C_Code">&lt;Element5&gt;value&lt;/Element5&gt;</p>
+        <p class="C_Code">&lt;/Customer&gt;</p>
+        <ul>
+            <li class="List_Indent">When a user clicks a non-hyperlinked column, the selected entity is the root element in the XML.</li>
+        </ul>
+        <p class="Indent1">For example, Product</p>
+        <p class="C_Code">&lt;Product&gt;- root element</p>
+        <p class="C_Code"> &lt;Element1&gt;value&lt;/Element1&gt;</p>
+        <p class="C_Code"> &lt;Element2&gt;value&lt;/Element2&gt;</p>
+        <p class="C_Code"> &lt;Element3&gt;value&lt;/Element3&gt;</p>
+        <p class="C_Code"> &lt;Element4&gt;value&lt;/Element4&gt;</p>
+        <p class="C_Code"> &lt;Element5&gt;value&lt;/Element5&gt;</p>
+        <p class="C_Code">&lt;/Product&gt;</p>
+        <p>This XML is passed as a parameter to the function ‘jsOpenEntity (entity)’. The default path for this file is C:\Program Files\Onyx\Employeeportal\powerpage\application_main.js</p>
+        <p>The function performs the following actions:</p>
+        <ul>
+            <li>Loads the XML</li>
+            <li style="list-style-type: disc;">Gets the Entity Object</li>
+            <li style="list-style-type: disc;">Gets the Entity Name</li>
+            <li style="list-style-type: disc;">Gets the common Parameter (generally the ‘primaryId’ of the object)</li>
+            <li style="list-style-type: disc;">Checks the value of the ‘HyperLink’ attribute</li>
+            <li style="list-style-type: disc;">Uses the switch case logic for each entity, to make a call to the appropriate function to open the corresponding page</li>
+        </ul>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">In the <b>Navigator Results List Administration</b> window, if you change the order and position of fields, your sorting preferences may be lost. </p>
+    </body>
+</html>

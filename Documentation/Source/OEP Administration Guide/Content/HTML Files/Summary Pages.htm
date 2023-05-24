@@ -1,0 +1,612 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="114" MadCap:lastWidth="701">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h3><a name="top"></a>Summary Pages</h3>
+        <p>Summary pages in Navigator are read-only pages that display essential information for a record selected in Navigator. They provide links to view, add, and modify information about the record.</p>
+        <p style="font-weight: bold;">Company Summary page</p>
+        <p>The Company Summary page includes name, address, phone, email, and primary contact information for company records. It also provides links to view company contacts and incidents. Users can email a company, open the company website, and access incident, task, and other records associated with the company record.</p>
+        <p style="font-weight: bold;">Individual Summary page</p>
+        <p>The Individual Summary page includes name, address, phone, email, and parent company information for individual records. It also provides links to view individual contacts and incidents. Users can email an individual, open the individual website, and access incident, task, and other records associated with the individual record.</p>
+        <p style="font-weight: bold;">Incident Summary page</p>
+        <p>The Incident Summary page includes incident ID, description, priority, status, and primary contact information for incident records. It also provides links to view tasks and work notes associated with incidents. Users can open the owner and primary contact pages, email the primary contact, and access tasks associated with the incident record.</p>
+        <p style="font-weight: bold;">The tasks explained in this topic are:</p>
+        <ul>
+            <li><a href="#About">About XML Files</a>
+            </li>
+            <li style="list-style-type: disc;"><a href="#Configur">Configuring Summary Pages</a>
+            </li>
+        </ul>
+        <h4><a name="About"></a>About XML Files</h4>
+        <p>Onyx uses metadata stored in XML files to control the information that is displayed on the Summary pages within Navigator. You can modify these XML files to add new elements, and to change attributes for existing elements. You can only add LBO properties to your Summary pages if those properties already exist or were previously created in your Onyx CRM system. For information on adding LBO properties to your Onyx CRM system, see the Onyx Technical Guide.</p>
+        <p>The following tables list the XML files used to configure Summary pages, along with a description of what each file is used for. The XML files are located on the OEAS server, within your Onyx Gateway Service installation folder. The default file path is: <code>C:\Program Files\Onyx\AppServer\Applications\Onyx\OnyxGatewayService\App_Data\NavigatorProfiles</code>.</p>
+        <ul>
+            <li>Configuring Summary pages</li>
+        </ul>
+        <p>Do not change the name of an XML file even if you have customized the name of the entity.</p>
+        <p>Files used to configure Summary pages</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>File Name</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">CompanyDetails.xml</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Maps the fields displayed on the Company&#160;Summary page to the linked LBO property.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">IndividualDetals.xml</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Maps the fields displayed on the Individual Summary page to the linked LBO property.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">IncidentDetails.xml</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Maps the fields displayed on the Incident Summary page to the linked LBO property.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4><a name="Configur"></a>Configuring Summary Pages</h4>
+        <p>The fields and actions available on Summary pages depend on the configuration within the XML file that corresponds to the page. Use this information to configure XML files for Company, Individual , and Incident Summary pages.</p>
+        <p>Values you enter in the XML file are case-sensitive.</p>
+        <p class="ProcedureHeading" style="page-break-before: always;">To configure a Summary page:</p>
+        <ol>
+            <li>Open the XML file corresponding to the Customer Summary page that you plan to modify. For a list of XML files and the screens that they correspond to, see <a href="#About">About XML files</a>.</li>
+            <li>Configure attributes for each element within the XML file.</li>
+            <li>Configure attributes for each group within the XML file. You can add or remove groups on this screen.</li>
+            <li>Configure attributes for each field within each group.</li>
+            <li>Configure attributes for each item in the More group. This group contains navigation menu items that open other OEP screens.</li>
+            <li>Save and close the XML file.</li>
+            <li>Log on to OEP, launch the Summary page from Navigator, and verify your changes.</li>
+        </ol>
+        <p style="font-weight: bold;">Elements on a Summary page</p>
+        <p>Use the following table to configure properties for each group and field displayed on a Summary page.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Element</th>
+                    <th>Attribute</th>
+                    <th>Data Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">EntityId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">-</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Numeric</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Do not change this value. This node displays the number corresponding to the entity for which the details are displayed.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">EntityName</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">-</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">String</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Do not change this value. This node displays the name of the LBO that corresponds to the entity.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">PrimaryId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">-</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">-</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"> Do not change this value. This is a placeholder for the primary ID of the LBO that corresponds to the Details screen. This value is retrieved when the Summary page is loaded.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">PageTitle</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">-</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">String</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the text that will appear as the title for the Summary page.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Group</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">-</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">-</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">This element marks a section on the Summary page. Each group has a header and a detail section. You can add or remove groups on the Summary page. However, you cannot add multiple navigation menu groups to a single Summary page.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Group</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Id</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">String</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter a unique group ID for each group in the file. Text within the group is formatted based on the setting for this ID in the Template xml file. Do not change this value for the More group.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Group</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Caption</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">String</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the text that will appear as the caption in the group header.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Group</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">IsCollection</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Boolean</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter True if the group is a collection object in OEAS. Enter False if the group is not a collection object in OEAS. If you have entered True, do not add fields to the group or move fields from such a group to a group where this value is False.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Group</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">IsPrimaryGroup</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Boolean</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Do not change this value.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Group</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">IsCount</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Boolean</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">This attribute is available only for the More group. Enter True to enable users to view the number of records for each menu item in the group. Enter False to hide the record count for all menu items.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Rows</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">This element marks the details to be included for each record within a specific Do More menu item.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Row</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">-</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">-</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">This element marks a row on the Summary page. All fields within a single Row element appear in a single row on the Summary page.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Row</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">FieldSpace</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">This attribute is used to configure the separator for the Individual first name and last name values. The default value for this attribute is ',' (comma).</p>
+                        <p class="Table_Text">You can also use this attribute to separate multiple fields displayed in a single row, for example City, State, Country, and Postal Code.</p>
+                        <p>Enter 'blank' as the value here to maintain a single space between two fields.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Row</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">EntityType</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the entity name for which data is to be retrieved. Currently, this attribute is used to retrieve the entity for a Do More item on the Incident Summary page.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Field</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">-</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">-</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">This element marks a field that is displayed on the Customer Summary page.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Field</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">FieldName</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">String</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the name of the LBO column from which to retrieve data.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Field</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">DisplayName</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">String</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the caption for the field that will be displayed on the page. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Field</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Visible</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Boolean</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter True&#160;to enable users to view this field. Enter False&#160;to hide this field on the page.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Field</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Parent</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">-</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">If the field is a child field, then enter the LBO Column name of the parent field.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Field</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">MaskFormat</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">String</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter a value to specify if the field validates a mask format for the value typed by the user.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Field</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">LboName</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">-</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the name of the LBO object to which the property belongs.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Field</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">PropertyPath</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">-</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the XML node path for the field within the LBO.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Field</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Value</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">-</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Do not edit this field.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Field</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">DataType</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">String</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the data type that is displayed on the screen for this field. The possible values are String, Int, GUIData, and DateTime.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Field</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">LinkColumnName</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">If the field can be tapped to display an OEP record page, enter the FieldName value to which data in this field is linked. This field is not displayed on the screen.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Field</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Hyperlink</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Boolean</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter true if the field is hyperlinked to an OEP page, or to an external link. Enter false if there is no link from the field.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Field</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">DomainData</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">-</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter a value for the domain data. The possible values are referenceLookup, country, region, contactType, and user.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Field</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">IsPrimary</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Boolean</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter 1 for the primary email and phone number field. Enter 0 if the email or phone number is not a primary field. This attribute can be configured only for the email and phone number fields.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">MenuItem</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">MenuItemId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Integer</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter a unique value for each item in the navigation menu.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">MenuItem</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">LBOName</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the LBO name from which to retrieve data for the list.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">MenuItem</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">LBOMethodName</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Displays the name of the LBO method that is used to retrieve data for the list. You can enter the name of the method that you want to use.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">MenuItem</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">DisplayName</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">String</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the text that will appear as the caption for the menu item on the screen.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">MenuItem</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">ResourceId</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">-</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the UI resource ID that is associated with the menu item in OES.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Filter</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Property</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">-</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the name of the LBO column by which to filter data for the menu item. You can enter multiple properties to filter by.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Filter</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Value</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">-</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter the value that corresponds to the parameter that you want to filter the list by.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Filter</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">contextVariable</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">-</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Enter a contextual value for the filter property, if it is dependent on the record displayed on the screen. This value is returned to OGS when a page is loaded. Based on this value received, OGS sends the relevant data for the filter to OEP. For a list of contextual values currently used, see <a href="Understanding Action Values.htm#Understa">Context Variable values</a>.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Field</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">IsExpand</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Boolean</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">This attribute is available only for the More group. By default, True&#160;enables users to expand and view the More section. Enter False&#160;to collapse the More section on this page.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="763" MadCap:lastWidth="624" MadCap:ignoredWords="IncludeCount">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Database table relationships</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>Database table relationships </h4>
+        <p>The underlying database structure that supports the keyWord business 
+ object is illustrated in the following graphic.</p>
+        <p class="Image">
+            <img src="../../Resources/Images/AR_KeywordsDBRelation.png" style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <p>Tags are persisted to the database by the incident, 
+ task, workTicket, company, individual, and customerProduct objects, and details regarding the tags are persisted 
+ to both the key_word_association and key_word tables. </p>
+        <ul>
+            <li>The key_word table contains the actual word or 
+ phrase entered as the tag and the object identifier (object_type_enum) 
+ specifying whether the tag is associated with an incident, task, workTicket, company, individual, or customerProduct object. In the case of an incident or task object, the key_word 
+ table additionally identifies the incident or task category (category_did). 
+ This table contains a single instance of a tag for each object type/category, 
+ no matter how many times that tag is used. Additionally, this table 
+ stores the number of times that a particular tag has been used for 
+ that object type/category (in the use_count field). When an instance of 
+ a tag for a particular object type/category reaches a certain number 
+ (as specified in the Tag<span class="SystemParameter"><span style="color: #000000;">IncludeCount</span></span> 
+ system parameters), that tag becomes a tag lookup value (for that 
+ particular object type/category).</li>
+            <li>The key_word_association table stores the information 
+ that links each tag (stored in the key_word table) to the particular 
+ incident, task, or workTicket object to which it is associated. Based 
+ on this relationship, a particular tag can be associated to many incidents, 
+ tasks, or work tickets. This also enables you to search the OEDB and retrieve 
+ all incidents, tasks, or work tickets associated with a particular tag.</li>
+        </ul>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; &#160;">Tags data is not case sensitive. The tags “procedure” 
+ and “Procedure” are saved as a single instance of a tag.</p>
+    </body>
+</html>

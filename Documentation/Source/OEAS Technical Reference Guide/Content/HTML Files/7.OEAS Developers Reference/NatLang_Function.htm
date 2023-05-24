@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="592" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>NatLang Function</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>
+            <MadCap:keyword term="NatLang Function;National Language" />National language</h3>
+        <p>The National Language (NatLang) feature supports customization and localization 
+ of strings used by the Onyx Enterprise Application Server (OEAS). At run-time, 
+ the OnyxNatLangCache contains a working copy of both the strings that 
+ you customize and the remaining default OEAS strings. You can use the 
+ Table Administration tool of the Onyx Enterprise Studio to customize strings 
+ in the database. These strings can be utilized without having to recompile 
+ components. </p>
+        <h4>
+            <MadCap:keyword term="OnyxNatLangCache component" />OnyxNatLangCache component</h4>
+        <p>The OnyxNatLangCache supports high-performance string retrieval for 
+ OEAS. At run-time, the OnyxNatLangCache component creates a read-only, 
+ in-memory copy of the strings that you customize and the remaining default 
+ OEAS strings. This in-memory copy is called the OnyxNatLangCache. The 
+ cache is accessible through two interfaces, one for step components (<a href="NatLang_Cache.htm">INatLangCache</a>) and the other for client applications 
+ (<a href="NatLangProxyIntro.htm">NatLangProxy</a>). Each of these interfaces 
+ exposes two methods for retrieving strings from the cache. The OnyxNatLangCache 
+ greatly improves performance by eliminating the need to read data from 
+ disk and the need to make round-trips to the database.</p>
+        <p>The OnyxNatLangCache dynamic link library (DLL) contains the implementation 
+ of the OnyxNatLangCache component. OEAS loads the DLL into the COM+ process 
+ space the first time the Onyx Transaction Manager or another component 
+ needs to retrieve a string. When the DLL loads, the OnyxNatLangCache component 
+ creates the in-memory cache and an instance of the OnyxNatLangCache COM 
+ object. The DLL and the cache remain loaded in the process space of the 
+ OEAS COM+ application package for the lifetime of the OEAS application. 
+ After localizing or customizing strings, you must restart the OnyxEASApp 
+ COM+ application to refresh the cache and enable the changes to appear 
+ in the UI.</p>
+    </body>
+</html>

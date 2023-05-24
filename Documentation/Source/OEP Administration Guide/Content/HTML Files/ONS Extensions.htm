@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="757" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h3><a name="top"></a>ONS Extensions</h3>
+        <p>The Onyx application processes and removes all unwanted records from the LBO Adapter/SQL Adapter and this information is stored in the database.</p>
+        <p>By default, the Onyx application provides customers with the following pre-process actions.</p>
+        <ul>
+            <li><a href="#Remove">Remove Embedded XML</a>
+            </li>
+            <li><a href="#Remove2">Remove Child Objects</a>
+            </li>
+            <li><a href="Add ActionType Attribute.htm#top">Add ActionType Attribute</a>
+            </li>
+        </ul>
+        <p>However, customers can write their own extensions or remove existing actions. The path for the configurations is <b>C:\Program Files\Onyx\AppServer\Applications\Onyx\OnyxNotificationService\Config\adapterExtension.config file</b>.</p>
+        <h4><a name="Remove"></a>Remove Embedded XML</h4>
+        <p>In individual and company objects, an embedded xml is found in the CData component. CData contains information of other objects like company, phone etc., which is not required for an individual or company object and can be removed. This is applicable to other objects as well.</p>
+        <p>The out-of-the-box action to remove an embedded xml is:</p>
+        <p><code>&lt;action id="1" name="Remove Embedded Xml" interface="Onyx.ONS.AdapterExtension.Base.ICData" /&gt;</code>
+        </p>
+        <h4><a name="Remove2"></a>Remove Child Objects</h4>
+        <p>In Individual and Company objects, the adapter sends information of the dependent objects along with the main object. To eliminate these dependent objects we can use the Remove Child Objects action.</p>
+        <p>The out-of-the-box action to Remove a Child Object is:</p>
+        <p><code>&lt;action id="2" name="Remove Child Objects" interface="Onyx.ONS.AdapterExtension.Base.IChildObject" &gt;</code>
+        </p>
+        <p><code>&lt;remove&gt;</code>
+        </p>
+        <p><code>&lt;phones/&gt;</code>
+        </p>
+        <p><code>&lt;addresses/&gt;</code>
+        </p>
+        <p><code>&lt;emailAddresses /&gt;</code>
+        </p>
+        <p><code>&lt;/remove&gt;</code>
+        </p>
+        <p><code>&lt;/action&gt;</code>
+        </p>
+    </body>
+</html>

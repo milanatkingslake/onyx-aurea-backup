@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="835" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2>Tips &amp; Tricks</h2>
+        <p>Consider the following tips and tricks for a successful UI configuration.</p>
+        <h4>Plan your implementation</h4>
+        <p><a href="Plan Your OEP Implementation.htm#top">Plan your OEP implementation</a> carefully:</p>
+        <ul>
+            <li>Create mockups of the UI, including each OEP page that you plan to modify, and have your users test them to ensure that the design satisfies their needs.</li>
+            <li>Determine how many custom UIs you think you will need to create. You will likely want to create an OEP profile for each set of users who use OEP to accomplish tasks using a distinctly different work flow.</li>
+            <li>Note that it can be labor intensive to recreate a page if you want to make elaborate changes to its layout, because you may need to delete the page's main canvas and completely rebuild it.</li>
+        </ul>
+        <h4><a name="Configure"></a>Configure the baseline UI first</h4>
+        <p>After you understand how you want to configure each of your custom UIs, determine which configurations belong in the baseline UI (the UI associated with the Global profile) and which configurations belong in each of your profile-specific UIs. Remember that all configurations implemented in the baseline UI (which is accessed by the Global profile when logging on to OEP) are inherited by all profile-specific UIs (which are accessed by their corresponding OEP profile when logging on to OEP). Modify the baseline UI only when you are certain that you want the modification to apply to all other custom UIs, as well. </p>
+        <p>You can configure the baseline UI at any time, regardless of how many custom UIs you are currently configuring or have already published to your test or production environments. Remember, though, that any modifications you make to the baseline UI may impact the configurations you have made to each profile-specific UI.</p>
+        <p>As always, thoroughly test all of your configurations. </p>
+        <h4>If you modify the baseline UI after configuring profile-specific UIs...</h4>
+        <p>If you configure or reset the baseline UI (the UI associated with the Global profile) after configuring a profile-specific UI, be sure to test both the baseline UI and all profile-specific UIs to ensure that everything functions as expected. Because all profile-specific UIs inherit configurations from the baseline UI, changing or resetting page configurations in the baseline UI may produce unpredictable results with corresponding pages in the profile-specific UIs.</p>
+        <p>For instance, hiding, removing, or otherwise modifying the baseline UI's canvases, panels, sections, and UI controls can greatly affect your profile-specific UIs. Modifying action statements or otherwise modifying the behavior of the baseline UI can affect your profile-specific UIs in a more subtle (or equally obvious) fashion.</p>
+        <p>If your modifications to the baseline UI caused problems in your profile-specific UIs, you may need to <a href="Troubleshooting Configuration.htm#top">troubleshoot</a> your changes by disabling custom actions and resetting your configurations.</p>
+        <h4>Consider hiding (rather than deleting) UI elements in the baseline UI</h4>
+        <p>If you are considering deleting a UI element in the baseline UI, consider hiding it instead—particularly if you have already configured any profile-specific UIs. Hiding UI elements generally has fewer repercussions on profile-specific UIs than deleting them.</p>
+        <h4>Test your pages after hiding, removing, deleting, or disabling toolbox controls and intrinsic controls</h4>
+        <p>Before you hide, remove, delete, or disable either a toolbox control or an intrinsic control, consider which action statements depend upon that control in order to function. Then use Dynamic Forms Designer to remove, disable, or modify those action statements, and test your pages as appropriate. </p>
+        <p><b>Toolbox controls</b> can be hidden, disabled, or deleted. If you delete a toolbox control, action statements created in standard view of Dynamic Forms Designer are automatically deleted, as well. Custom action statements created in Advanced View of Dynamic Forms Designer, however, must be removed, disabled, or modified manually.</p>
+        <p>If you hide, remove, or disable a toolbox control in the baseline UI, you must also modify all action statements that reference that control in all profile-specific UIs.</p>
+        <p><b>Intrinsic controls</b> can be hidden, disabled, or removed from the page. Removing an intrinsic control from the page does not have any effect on action statements created in Dynamic Forms Designer. Therefore, if you remove an intrinsic control from the page, you must remove, disable, or modify any action statements associated with that control.</p>
+        <p>If you hide, remove, or disable an intrinsic control in the baseline UI, you must also modify all action statements that reference that control in all profile-specific UIs.</p>
+    </body>
+</html>

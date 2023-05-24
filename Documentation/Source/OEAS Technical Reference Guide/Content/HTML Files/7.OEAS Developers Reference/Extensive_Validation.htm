@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="5" MadCap:lastHeight="695" MadCap:lastWidth="981">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Extensive validation</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5 align="left" class="Heading">
+            <MadCap:keyword term="Extensive validation" />Extensive validation</h5>
+        <p>You can perform an extensive validation on your modifications to the 
+ <a href="Onyx_Enterprise_Dictionary.htm">Onyx Enterprise Dictionary (OED)</a> 
+ at any time after you save your work. Each time you <a href="Validating_Changes_to_the_OED.htm">validate</a> 
+ or <a href="Publishing_your_changes_to_the_OED.htm">publish</a> your modifications, 
+ the following steps occur:</p>
+        <ol>
+            <li>All objects are validated for completeness and 
+ logical validity. If validation fails, processing does not stop, but the 
+ item that fails is saved as invalid. The criteria for determining completeness 
+ and logical validity are:</li>
+        </ol>
+        <ul>
+            <li class="Sec_List">ID values for new elements are generated.</li>
+            <li class="Sec_List">Presence of all required fields.</li>
+            <li class="Sec_List">Maximum length of all fields.</li>
+            <li class="Sec_List">Accepted values for all enumerated properties.</li>
+            <li class="Sec_List">Valid characters in element names.</li>
+            <li class="Sec_List">No duplicate element names.</li>
+        </ul>
+        <ol start="2">
+            <li>All valid, non-disabled objects are checked for 
+ inter-object references. The following references are checked:</li>
+        </ol>
+        <ul>
+            <li class="Sec_List">Reference via property or parameter to a non-existing 
+ object.</li>
+            <li class="Sec_List">Reference via property or parameter to an 
+ object that is disabled or not structurally valid.</li>
+            <li class="Sec_List">Reference via step to a non-existing method.</li>
+            <li class="Sec_List">Reference via step to an object that is disabled 
+ or not structurally valid.</li>
+            <li class="Sec_List">Reference via step to a method that is disabled 
+ (at the method level).</li>
+            <li class="Sec_List">Reference via step to an object that itself 
+ references, directly or indirectly, an object or method that is structurally 
+ invalid or disabled.</li>
+            <li class="Sec_List">Circular reference in a stepType="method" 
+ method call.</li>
+        </ul>
+        <ol start="3">
+            <li>Each object that passes 
+ steps 1 and 2 is saved as valid, otherwise it is saved as invalid. </li>
+        </ol>
+    </body>
+</html>

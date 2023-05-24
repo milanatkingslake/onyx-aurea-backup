@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="844" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2>Customizing Quote Templates</h2>
+        <p>You can customize the quote templates to change the appearance of Onyx quote documents or to change the information that is retrieved from the database. The following template files are installed during setup into the YourOEPwebsite\CustomLetter\Templates directory. Two of the templates are designed for use with Microsoft Word, and can be updated by users after generation from OEP. </p>
+        <table>
+            <col style="width: 160px;" />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>File Name</th>
+                    <th>Output Format</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">printquote.asp</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Microsoft Word is launched within Internet Explorer.</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Use this file for quote documents if Microsoft Word is installed on users' computers. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">printquotemc.asp</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Microsoft Word is launched within Internet Explorer.</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Use this file for quote documents if Microsoft Word is installed on users' computers. This template is designed to support multiple currencies.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">printquote_htm.asp</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">HTML</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Use this file for quote documents if Microsoft Word is not installed on users' computers. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">printquotemc_htm.asp</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">HTML</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Use this file for quote documents if Microsoft Word is not installed on users' computers. This template is designed to support multiple currencies.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The templates are ASP files that generate HTML from the retrieved quote business objects. The other ASP files in the same folder map the quote object properties to the values in the quote documents. &#160;&#160;</p>
+        <h3>Customizing Quote Document Appearance</h3>
+        <p>You can modify the HTML code within the quote templates to change the appearance of the quote documents. To change only the appearance of the documents, modify only the HTML code that appears between the &lt;HTML&gt; and &lt;/HTML&gt; tags.</p>
+        <h4>Setting output mode</h4>
+        <p>OEP uses the quote document filename to determine the destination for the output data. If the filename ends with "_htm.asp", OEP opens the quote ASP file in a new browser window for display as HTML. If the filename has any other ending to it, OEP assumes the output data is intended for a different application and redirects the ASP file output to a hidden IFRAME. The quote document is then responsible for setting its response headers to identify the destination application. The following VBScript function call appears within OEP's MS Word templates to change the content type of the response to application/msword, which instructs the browser to launch Word to accept the data. </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>call SendOutputToWord()</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>The code for this function is located in the file YourOEPwebsite\CustomLetter\Templates\otm_templateheader.asp. Review the code to adapt the function for other applications that can process custom quote documents.</p>
+        <h4>Generating the table of quote line items</h4>
+        <p>The functions vbWriteQuoteHeader and vbWriteQuoteLines generate quote detail information. Use these functions to create the table that lists the items that comprise the quote. You can duplicate or adapt these functions as necessary to create custom configurations. </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Function</th>
+                    <th>Called From</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">vbWriteQuoteHeader</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Within &lt;TR&gt;&lt;/TR&gt; tags.</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&lt;tr id=”Row0” class=”row0”&gt;</p>
+                        <p class="Table_Text">&lt;%=vbWriteQuoteHeader ()%&gt;</p>
+                        <p class="Table_Text">&lt;/tr&gt;</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">vbWriteQuoteLines</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Within &lt;TABLE&gt;&lt;/TABLE&gt; tags, but outside of any &lt;TR&gt;&lt;/TR&gt; tags, as a new table row is generated for each quote line item.</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&lt;table border=”0” cellspacing=”1” cellpadding=”1” width=100%&gt;</p>
+                        <p class="Table_Text">&lt;tr id=”Row0” class=”row0”&gt;</p>
+                        <p class="Table_Text">&lt;%=vbWriteQuoteHeader()%&gt;</p>
+                        <p class="Table_Text">&lt;/tr&gt;</p>
+                        <p class="Table_Text">&lt;%=vbWriteQuoteLines()%&gt;</p>
+                        <p class="Table_Text">&lt;/table&gt;</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

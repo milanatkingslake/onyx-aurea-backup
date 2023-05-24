@@ -1,0 +1,1623 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="108" MadCap:lastWidth="701">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2 style="page-break-before: always;"><a name="top"></a>Creating a Tab</h2>
+        <p>Using <a href="About Design Mode.htm#top">UCW</a>, you can add tabs to <a href="Configuring OEP.htm#UCW">UCW-enabled pages</a> without any programming knowledge. </p>
+        <p>This sample UI configuration demonstrates adding custom tabs to the page, configuring the tab's layout (panels and sections), adding custom captions, and moving UI controls from one tab to another. This configuration also demonstrates configuring the initially displayed tab for a page. </p>
+        <p>Additional sample UI configurations in this book follow the scenario presented here to demonstrate adding the following UI elements: a custom toolbar, custom toolbar items (such as buttons), custom UI controls, and UDFs. </p>
+        <p>The following graphic illustrates the custom tab on the company edit page as it appears after you complete all procedures in this book. The custom toolbar is placed in the middle of the custom tab, above the "Additional Data" caption. To view the related procedure for a UI element, click the element on the graphic. </p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Creating a Tab.jpg" style="width: 549px;height: 418px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <h4>Scenario used in this sample UI configuration </h4>
+        <p>During appointments with clients, account managers sometimes change client contact information using the company edit page. The account managers want to remove sensitive data from view if the data does not relate to contact information. They want to move the "Details" sections to a custom tab (with a new title "Detailed Data"), display the company name and source selection in the new tab, and add additional interactive controls to the new tab. </p>
+        <p>The following graphic illustrates the custom tabs ("Contact" and "Supplemental") and the moved sections under the custom caption "Detailed Data". </p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Creating a Tab_1.jpg" style="width: 626px;height: 192px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <h4>Procedures in this topic</h4>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">These procedures use Navigation Designer, Canvas Designer, and Dynamic Forms Designer. For basic instructions on accessing these windows, see <a href="Using UCW Tools.htm#top">UCW tools</a>.</p>
+        <ul>
+            <li><a href="#Adding4">Add custom tabs to the page ("Contact" and "Supplemental")</a>
+            </li>
+            <li><a href="#Configur">Configure the layout of the custom Supplemental tab</a>
+            </li>
+            <li><a href="#Moving">Move the Details sections to the Supplemental tab</a>
+            </li>
+            <li><a href="#Adding5">Add captions to the Supplemental tab</a>
+            </li>
+            <li><a href="#Configur2">(Optional) Configure the initially displayed tab for the company edit page</a>
+            </li>
+            <li><a href="#Configur2">Complete the additional procedures that use this scenario</a>
+            </li>
+        </ul>
+        <p>Additional referenced procedures enable you to add a toolbar with buttons (and other items) to the custom tab, add UI controls, and set up UDFs. </p>
+        <h3><a name="Adding4"></a>Adding custom tabs to the page ("Contact" and "Supplement") </h3>
+        <p>This procedure adds custom tabs titled "Contact" and "Supplement" to the company edit page. </p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Deleting toolbars.jpg" style="width: 265px;height: 118px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">For basic instructions on adding custom tabs, see <a href="Deleting toolbars.htm#Configur">Configuring tabs</a>. </p>
+        <p class="ProcedureHeading" style="page-break-before: always;">To add the custom tabs "Contact" and "Supplement" to the company edit page: </p>
+        <ul>
+            <li>In Navigation Designer (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/To reset all configurations_6.jpg" style="width: 23px;height: 24px;" />) for the company edit page, add tabs to the company edit page with the following properties. </li>
+        </ul>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Caption (name)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">tabContact</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Contact</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">tabSupp</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Supplemental</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3><a name="Configur"></a>Configuring the layout of the custom Supplement tab </h3>
+        <p>This procedure configures the Supplemental tab created in the <a href="#Adding4">previous procedure</a> as a two-panel-by-four-panel layout, with merged panels for a custom toolbar and a custom caption, and a custom TAB key order for the panels. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">For basic instructions on configuring layout, see <a href="Configuring Layout.htm#top">Configuring layout</a>. To learn about Canvas Designer, see <a href="Using Canvas Designer.htm#top">Working with Canvas Designer</a>. </p>
+        <p class="ProcedureHeading">To configure the layout of the Supplemental tab: </p>
+        <ol>
+            <li>In the Supplemental tab, right-click the panel's handle (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/Configuring Layout_1.png" style="width: 10px;height: 10px;" />) and then select <b>Convert to Canvas</b> to display Canvas Designer; confirm the operation if prompted. </li>
+            <li>Add two rows of panels to the default layout and merge the first and third rows to create the layout of panels depicted as follows. </li>
+        </ol>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Creating a Tab_2.jpg" style="width: 400px;height: 216px;" />
+        </p>
+        <ol MadCap:continue="true">
+            <li>Set the TAB key order to go through the split rows in sequence (the controls go in these panels) and then the merged panels in sequence (a caption and a toolbar go in these panels). </li>
+        </ol>
+        <p class="Indent1">The TAB key order is indicated by the "Tab Order" digit, beginning with zero (0), depicted as follows. </p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Creating a Tab_3.jpg" style="width: 400px;height: 216px;" />
+        </p>
+        <ol MadCap:continue="true">
+            <li>Confirm changes to the layout and then close Canvas Designer. </li>
+        </ol>
+        <h3><a name="Moving"></a>Moving the Details sections to the Supplement tab</h3>
+        <p>This procedure moves the "Details" sections from the Contact tab (original contents of the company edit page) to the Supplemental tab and removes the UI text from the "Details" caption remaining on the Contact tab. These tabs are created in a <a href="#Adding4">previous procedure</a>. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">To learn about sections, see <a href="Working with Sections.htm#top">Working with sections</a>. </p>
+        <p class="ProcedureHeading">To move the Details sections to the Supplement tab: </p>
+        <ol>
+            <li>Move each section under the "Details" caption to the Supplemental tab: While dragging each section corner (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/Configuring Layout_2.png" style="width: 10px;height: 10px;" />), point to the <b>Supplement</b> tab to display the tab, and then continue dragging the section corner to one of the destinations indicated in the following graphic. </li>
+        </ol>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Creating a Tab_4.jpg" style="width: 400px;height: 216px;" />
+        </p>
+        <p class="Indent1">All controls contained in the moved sections now appear in the Supplemental tab. </p>
+        <ol MadCap:continue="true">
+            <li>Remove the UI text from the existing caption from the Contact tab: Right-click the <b>Details</b> caption, select <b>Properties</b>, clear the <b>Caption</b> text box in the Properties pane, and then click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Changing toolbar names.png" style="width: 14px;height: 14px;" /> to apply changes. </li>
+        </ol>
+        <p class="Indent1">The <a href="Showing the Controls Panes.htm#Modifyin">default caption</a> is identified on the page by its Admin ID (because the UI text has been removed). The <b>Admin ID</b> property is visible during design mode only; OEP users do not see the <b>Admin ID</b> property. </p>
+        <p class="Indent1">The next procedure shows how to add the "Detailed Data" caption above the moved sections, along with other custom captions. </p>
+        <h3><a name="Adding5"></a>Adding captions to the Supplement tab</h3>
+        <p>This procedure adds custom captions to panels in the Supplemental tab (created in a <a href="#Adding4">previous procedure</a>). </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">To learn about caption toolbox controls, see Configuring Toolbox controls.</p>
+        <p>To add captions to the Supplement tab:  </p>
+        <ul>
+            <li>Drag <b>Caption</b> from Toolbox Controls to each destination listed in the following table (and indicated in the following graphic) and then type the indicated name in the <b>Label</b> text box (located in the Properties pane). </li>
+        </ul>
+        <table>
+            <thead>
+                <tr>
+                    <th>Destination</th>
+                    <th>Admin ID</th>
+                    <th>Label</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">"A" - Panel above the sections moved from the other tab </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Caption_DetailedData</i>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Detailed Data</i> <![CDATA[ ]]></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">"B" - Bottom row, left panel</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Caption_AdditionalData</i>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Additional Data</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">"C" - Bottom row, right panel</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Caption_UDFs</i>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>UDFs</i> <![CDATA[ ]]></p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Creating a Tab_5.jpg" style="width: 400px;height: 216px;" />
+        </p>
+        <h3><a name="Configur2"></a>Configuring the initially displayed tab for the company edit page (optional)</h3>
+        <p>This procedure configures the Supplemental tab (created in a <a href="#Adding4">previous procedure</a>) as the initially displayed tab for users who log on to OEP with the selected profile. Completion of this procedure is not required for the additional procedures. </p>
+        <h4>Because this procedure uses the Load event, you must reload the page after completing the procedure to see the changes. </h4>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;"> This procedure uses Dynamic Forms Designer. For information on this window, see <a href="Configuring Page Behavior.htm#top">Configuring page behavior</a>. </p>
+        <p class="ProcedureHeading">To configure the initially displayed tab for the company edit page:  </p>
+        <ol>
+            <li>In Dynamic Forms Designer (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/To reset all configurations_8.jpg" style="width: 21px;height: 23px;" />) for the company edit page, add an action statement to the <b>Load</b> event on the <b>Page</b> object; type the description <i>Display Supplemental tab by default</i>.</li>
+            <li>In the <b>Object (Action)</b> drop-down list located in the Actionsection, expand <b>Control</b>, expand <b>Top_Tab</b>, and then select <b>Select Item</b>. </li>
+            <li>From the <b>Item ID Source</b> drop-down list, select <b>User Defined</b>; from the <b>Value</b> drop-down list, select <b>Supplemental</b>.</li>
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> to confirm changes and then close Dynamic Forms Designer. </li>
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Accessing UCW_1.jpg" style="width: 24px;height: 24px;" /> on the UCW toolbar to save all configurations and exit design mode. </li>
+        </ol>
+        <h3>Additional sample UI configurations using the custom Supplemental tab </h3>
+        <p>The following topics in this book contain procedures that use the custom Supplemental tab created within this topic for the company edit page. </p>
+        <ul>
+            <li><a href="#Adding3">Add a custom toolbar to the Supplemental tab</a>
+            </li>
+            <li><a href="#Adding2">Add buttons and other items to the custom toolbar</a>
+            </li>
+            <li><a href="#Adding">Add UI controls to the Supplement tab</a>
+            </li>
+            <li><a href="#Setting">Add UDFs to the Supplement tab</a>
+            </li>
+        </ul>
+        <h4><a name="Adding3"></a>Adding a Toolbar</h4>
+        <p>Using <a href="About Design Mode.htm#top">UCW</a>, you can add a toolbar to <a href="Configuring OEP.htm#UCW">UCW-enabled pages</a> without any programming knowledge. </p>
+        <p>This sample UI configuration demonstrates adding a custom toolbar to the page.</p>
+        <h5>Scenario used in this sample UI configuration </h5>
+        <p>The account managers tell you they want quick access to Google.com and the ability to hide or show the primary tab from the custom (secondary) tab. You decide to add these functions to a custom toolbar at the top of the Supplemental tab. </p>
+        <p>This procedure adds a custom toolbar. The functions (toolbar items) are added in <a href="#Adding2">the next sample UI configuration</a>. </p>
+        <p>The following graphic illustrates the custom toolbar with its title "Supplemental". In this graphic, the custom toolbar buttons and other items have not yet been added. </p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Creating a Tab_6.jpg" style="width: 576px;height: 32px;" />
+        </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">For basic information on adding toolbars, see <a href="Configuring Page Navigation.htm#Configur2">Configuring toolbars</a></p>
+        <p class="ProcedureHeading">To add a custom toolbar to the Supplemental tab: </p>
+        <ol>
+            <li><a href="#top">Follow the procedure for creating the custom Contact and Supplemental tabs on the company edit page.</a>
+            </li>
+            <li>In Navigation Designer (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/To reset all configurations_6.jpg" style="width: 23px;height: 24px;" />) for the company edit page, add a toolbar with the following <b>ID</b> property: toolbarSupp</li>
+            <li>Place a toolbar toolbox control in the third row (second merged panel) on the Supplemental tab: </li>
+        </ol>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Creating a Tab_7.jpg" style="width: 400px;height: 216px;" />
+        </p>
+        <ol MadCap:continue="true">
+            <li>Enter the following property configuration (typed entries are indicated by italics; selected entries are indicated by boldface). &#160;</li>
+        </ol>
+        <p class="Indent1">The Association ID property references the toolbar configuration created in Navigation Designer. The Admin ID property is used in the <a href="#Adding2">Adding toolbar buttons</a> procedure. </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Admin ID</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Toolbar_Supplemental</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Tooltip Text</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Toolbar for the Supplemental tab</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Association ID</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">toolbarSupp</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Title</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Supplemental</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="Indent1"><a href="#Adding2">Click here to go to the next sample UI configuration, which adds toolbar buttons and other items to the custom toolbar. </a>
+        </p>
+        <h4><a name="Adding2"></a>Adding Toolbar Buttons and Other Items</h4>
+        <p>Using <a href="About Design Mode.htm#top">UCW</a>, you can add toolbar buttons and other toolbar items to toolbars on <a href="Configuring OEP.htm#UCW">UCW-enabled pages</a> without any programming knowledge. </p>
+        <p>This sample UI configuration demonstrates adding toolbar items of the following types to a custom toolbar: Button, MultiState, and Action Menu. This topic also demonstrates adding functionality to toolbar items. </p>
+        <p>The Expand/Contract toolbar item type is excluded from this example. </p>
+        <h5>Scenario used in this sample UI configuration </h5>
+        <p>The account managers tell you they want quick access to Google.com and the ability to hide or show the primary tab from the custom (secondary) tab. You decide to add these functions to a custom toolbar at the top of the Supplemental tab. (The custom toolbar was created and added to the page in <a href="#Adding3">the previous sample UI configuration</a>.) </p>
+        <p style="font-weight: bold;">The following graphic illustrates toolbar items on the custom "Supplemental" toolbar:<img src="../Resources/Images/ONYX 77 OEP Administration Guide/Creating a Tab_8.jpg" style="width: 627px;height: 26px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" /></p>
+        <h4>Procedures in this sample UI configuration </h4>
+        <ul>
+            <li><a href="#Adding6">Add toolbar items to the Supplemental toolbar</a>
+            </li>
+            <li><a href="#Adding7">Add functionality to the Button toolbar item to launch Google.com</a>
+            </li>
+            <li><a href="#Adding8">Add functionality to the MultiState toolbar item to hide and show the Contact tab</a>
+            </li>
+        </ul>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">For basic information on adding toolbar items, see <a href="Configuring Page Navigation.htm#Configur2">Configuring toolbars</a>.</p>
+        <h5><a name="Adding6"></a>Adding toolbar items to the Supplemental toolbar</h5>
+        <p>This procedure adds Button, MultiState, and Action Menu toolbar items to the Supplemental toolbar. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">The Button and MultiState toolbar items fulfill the needs defined in <a href="#Scenario">the scenario for this sample UI configuration</a>. The procedure includes the Action Menu toolbar item for demonstration purposes. </p>
+        <p class="ProcedureHeading">To add toolbar items to the Supplemental toolbar: </p>
+        <ol>
+            <li><a href="#Adding3">Follow the procedure for adding the Supplemental toolbar.</a> (This procedure assumes completion of the steps in the <a href="#top">Creating a tab</a> topic.) </li>
+            <li>Copy the sample images from the ../TechnicalGuide/Examples/Images/Toolbar directory on the OEP product CD to the following directory on your OEP Web server: <i>YourOEPwebsite</i>/ucf/data/custom/sample </li>
+        </ol>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Onyx recommends creating a company-specific subdirectory under YourOEPwebsite/ucf/data/custom/ for your own images. </p>
+        <ol MadCap:continue="true">
+            <li>In Navigation Designer (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/To reset all configurations_6.jpg" style="width: 23px;height: 24px;" />) for the company edit page, add the following toolbar items and values to the Supplemental toolbar (identified as "toolbarSupp"), using the indicated configuration entries (typed entries are indicated by italics; selected entries are indicated by boldface). If properties are not listed in the table, leave the default entries. </li>
+        </ol>
+        <table>
+            <col />
+            <col />
+            <col />
+            <col style="width: 104px;" />
+            <col />
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>ID (toolbar item) </th>
+                    <th>ID (toolbar item value)</th>
+                    <th>Property</th>
+                    <th>Entry</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td rowspan="3">
+                        <p class="Table_Text"><b>Button</b>
+                            <br /> (one value) </p>
+                    </td>
+                    <td rowspan="3">
+                        <p class="Table_Text"><i>toolbarItemBtn</i>
+                        </p>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Type</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>ucf/data/custom/sample/iconGoogle0.gif</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="2">
+                        <p class="Table_Text"><i>btnGoogle</i> <![CDATA[ ]]></p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Tooltip</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Hide Contact tab</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Image</b> <![CDATA[ ]]></p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>ucf/data/custom/sample/iconnumber200.gif</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="7">
+                        <p class="Table_Text"><b>MultiState</b>
+                            <br /> (two values) </p>
+                    </td>
+                    <td rowspan="7">
+                        <p class="Table_Text"><i>toolbarItemHideShow</i>
+                        </p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Type</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Show Contact tab</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="3">
+                        <p class="Table_Text"><i>iconHide</i> <![CDATA[ ]]></p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Value</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>ucf/data/custom/sample/iconnumber250.gif</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Tooltip</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Choose the number of widgets </i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Image</b> <![CDATA[ ]]></p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Image Only </b>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="3">
+                        <p class="Table_Text"><i>iconShow</i> <![CDATA[ ]]></p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Value</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Image and Text </b>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Tooltip</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>5 widgets</i> <![CDATA[ ]]></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Image</b> <![CDATA[ ]]></p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>5</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="16">
+                        <p class="Table_Text"><b>Action Menu</b>
+                            <br /> (drop-down list; three values) </p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td rowspan="16">
+                        <p class="Table_Text"><i>toolbarItemWidgets</i>
+                        </p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td rowspan="4">
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Type</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>ucf/data/custom/sample/iconnumber050.gif</i> <![CDATA[ ]]></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Tooltip</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>10 widgets </i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Display Mode</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>10 </i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>List Mode</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>ucf/data/custom/sample/iconnumber100.gif </i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="4">
+                        <p class="Table_Text"><i>option05</i>
+                        </p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Value</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>15 widgets </i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Tooltip</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>15 </i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Caption</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>ucf/data/custom/sample/iconnumber150.gif</i> <![CDATA[ ]]></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Image</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>ucf/data/custom/sample/iconGoogle0.gif</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="4">
+                        <p class="Table_Text"><i>option10</i>
+                        </p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Value</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Hide Contact tab</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Tooltip</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>ucf/data/custom/sample/iconnumber200.gif</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Caption</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Show Contact tab</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Image</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>ucf/data/custom/sample/iconnumber250.gif</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="4">
+                        <p class="Table_Text"><i>option15</i>
+                        </p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                        <p class="Table_Text">&#160;</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Value</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Choose the number of widgets </i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Tooltip</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Image Only </b>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Caption</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Image and Text </b>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Image</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>5 widgets </i>
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h5><a name="Adding7"></a>Adding functionality to the Button toolbar item (launching facebook.com)</h5>
+        <p>This procedure adds functionality to the Button toolbar item on the Supplemental toolbar. The functionality consists of launching Google.com in a separate browser window with a specified height and width of 400 pixels. </p>
+        <p class="ProcedureHeading">To add functionality to the Button toolbar item (launch facebook.com): </p>
+        <ol>
+            <li>In Dynamic Forms Designer (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/To reset all configurations_8.jpg" style="width: 21px;height: 23px;" />) for the company edit page, add an action statement to the Item Click event for the toolbar: Expand <b>Control</b> in the Events pane, expand <b>Toolbar_Supplemental</b> (the toolbar's <b>Admin ID</b> property), and then select the <b>Item Click (Item ID) (Item Value)</b> event.</li>
+            <li>In the <b>Description</b> text box, type: Launch Google.com with toolbarItemBtn</li>
+            <li>Add a condition to specify the Button toolbar item (toolbarItemBtn): </li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">In the <b>Object</b> drop-down list located in the Conditions section, expand <b>Event Arguments</b> and then select <b>Item ID</b>. </li>
+            <li class="List_Indent">From the <b>Operator</b> drop-down list, select <b>Equal</b>; in the <b>Value</b> text box, type: toolbarItemBtn</li>
+            <li class="List_Indent">Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To add a custom drop down.png" style="width: 14px;height: 14px;" /> in the Summary section to add the condition to the action statement. </li>
+        </ol>
+        <p class="Indent2">The toolbar item value does not need to be specified because the Button toolbar item contains only one value. </p>
+        <ol MadCap:continue="true">
+            <li>Configure the action to launch Facebook.com as follows: </li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">From the <b>Object (Action)</b> drop-down list, expand <b>Common</b>, expand <b>UI</b>, and then select <b>Open New Window</b>. </li>
+            <li class="List_Indent">From each <b>Source</b> drop-down list, select <b>User Defined</b>; in the <b>Value</b> text boxes, type the following entries:</li>
+        </ol>
+        <table>
+            <col style="width: 202px;" />
+            <col />
+            <thead>
+                <tr>
+                    <th>Text box</th>
+                    <th>Entry </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>URL</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>http://www.google.com</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Target</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>_blank</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Features</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>height=400,width=400</i> <![CDATA[ ]]></p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ol start="5">
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> to confirm changes. </li>
+        </ol>
+        <h5><a name="Adding8"></a>Adding functionality to the MultiState toolbar item (hiding and showing tabs)</h5>
+        <p>This procedure adds functionality to each toolbar item value for the MultiState toolbar item on the Supplemental toolbar. The functionality consists of hiding and showing the Contact tab on the company edit page. </p>
+        <p class="ProcedureHeading">To add functionality to the MultiState toolbar item (hide and show a tab): </p>
+        <ol>
+            <li>In Dynamic Forms Designer (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/To reset all configurations_8.jpg" style="width: 21px;height: 23px;" />) for the company edit page, add an action statement to the Item Click event for the toolbar: Expand <b>Control</b> in the Events pane, expand <b>Toolbar_Supplemental</b> (the toolbar's <b>Admin ID</b> property), and then select the <b>Item Click (Item ID) (Item Value)</b> event.</li>
+            <li>Add the following conditions to specify the MultiState toolbar item (toolbarItemHideShow) and the iconHide toolbar item value (1):</li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">In the <b>Object</b> drop-down list located in the Conditions section, expand <b>Event Arguments</b> and then select <b>Item ID</b>. </li>
+            <li class="List_Indent">From the <b>Operator</b> drop-down list, select <b>Equal</b>; in the <b>Value</b> text box, type: <i>toolbarItemHideShow</i></li>
+            <li class="List_Indent">Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To add a custom drop down.png" style="width: 14px;height: 14px;" /> in the Summary section to add the condition to the action statement. </li>
+            <li class="List_Indent">In the <b>Object</b> drop-down list located in the Conditions section, expand <b>Event Arguments</b> and then select <b>Item Value</b>. </li>
+            <li class="List_Indent">From the <b>Operator</b> drop-down list, select <b>Equal</b>; in the <b>Value</b> text box, type: <i>1</i></li>
+            <li class="List_Indent">Click the top-most <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To add a custom drop down.png" style="width: 14px;height: 14px;" /> in the Summary section (above the "OR" operator) to add the condition to the action statement. </li>
+            <li class="List_Indent">Both conditions must be satisfied for the action to occur; the conditions have an implicit "AND" operator between them. </li>
+        </ol>
+        <ol start="3">
+            <li>Configure the action to hide the Contact tab as follows: </li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">From the <b>Object (Action)</b> drop-down list, expand <b>Control</b>, expand <b>Top_Tab</b>, and then select <b>Hide Item</b>. </li>
+            <li class="List_Indent">From the <b>Source</b> drop-down list, select <b>User Defined</b>; from the <b>Value</b> drop-down list, select <b>Contact</b>.</li>
+        </ol>
+        <ol start="4">
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> to confirm changes. </li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">Add another action statement to the Item Clickevent. </li>
+            <li class="List_Indent">Add the following conditions to specify the MultiState toolbar item (toolbarItemHideShow) and the iconShow toolbar item value (2):</li>
+            <li class="List_Indent">In the <b>Object</b> drop-down list located in the Conditions section, expand <b>Event Arguments</b> and then select <b>Item ID</b>. </li>
+            <li class="List_Indent">From the <b>Operator</b> drop-down list, select <b>Equal</b>; in the <b>Value</b> text box, type: <i>toolbarItemHideShow</i></li>
+            <li class="List_Indent">Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To add a custom drop down.png" style="width: 14px;height: 14px;" /> in the Summary section to add the condition to the action statement. </li>
+            <li class="List_Indent">In the <b>Object</b> drop-down list located in the Conditions section, expand <b>Event Arguments</b> and then select <b>Item Value</b>. </li>
+            <li class="List_Indent">From the <b>Operator</b> drop-down list, select <b>Equal</b>; in the <b>Value</b> text box, type: <i>2</i></li>
+            <li class="List_Indent">Click the top-most <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To add a custom drop down.png" style="width: 14px;height: 14px;" /> in the Summary section (above the "OR" operator) to add the condition to the action statement. </li>
+        </ol>
+        <p class="Indent2">Both conditions must be satisfied for the action to occur; the conditions have an implicit "AND" operator between them. </p>
+        <ol start="5">
+            <li>Configure the action to show the Contact tab as follows: </li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">From the <b>Object (Action)</b> drop-down list, expand <b>Control</b>, expand <b>Top_Tab</b>, and then select <b>Show Item</b>. </li>
+            <li class="List_Indent">From the <b>Source</b> drop-down list, select <b>User Defined</b>; from the <b>Value</b> drop-down list, select <b>Contact</b>.<br /></li>
+        </ol>
+        <ol>
+            <li value="6">Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> to confirm changes. </li>
+            <li>To confirm toolbar item functionality, save all configurations and exit design mode (click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Accessing UCW_1.jpg" style="width: 24px;height: 24px;" /> on the UCW toolbar) and then redisplay the company edit page. </li>
+        </ol>
+        <h4><a name="Adding"></a>Adding UI Controls</h4>
+        <p>Using <a href="About Design Mode.htm#top">UCW</a>, you can add custom UI controls to <a href="Configuring OEP.htm#UCW">UCW-enabled pages</a>. You can bind UI controls to any property in the Onyx Enterprise Dictionary (OED) for the current page object. </p>
+        <p>This sample UI configuration demonstrates adding user-interactive UI controls (Dropdown, Textbox, and Date) and display-only UI controls (Text and Text Reference) to the page and binding the controls to default and custom properties. This topic also describes the steps required to define custom properties and lookup values. </p>
+        <h5>Scenario used in this sample UI configuration </h5>
+        <p>The account managers ask you to create new UI controls for the Supplemental tab you added to the company edit page (see <a href="#top">Creating a tab</a>). The account managers want to display the company name and selected source on the custom tab. They also want to add controls for their employees to select an ownership type (private or public), enter the number of employees, and enter or select the date on which the company was founded. </p>
+        <p>The following graphic illustrates the custom UI controls under the custom caption "Additional Data". </p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Creating a Tab_9.jpg" style="width: 395px;height: 187px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <h4>Procedures in this sample UI configuration </h4>
+        <ul>
+            <li><a href="#Adding9">Add display-only UI controls (bound to default properties)</a>
+            </li>
+            <li><a href="#Defining">Define custom properties and lookup values</a>
+            </li>
+            <li><a href="#Adding10">Add user-interactive UI controls (bound to custom properties)</a>
+            </li>
+        </ul>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">For basic information on UI controls and properties, see <a href="Configuring UI Controls.htm#top">Configuring UI controls</a> and <a href="Showing the Controls Panes.htm#Control">Control properties reference</a>. </p>
+        <h5><a name="Adding9"></a>Adding display-only UI controls to the page </h5>
+        <p>This procedure adds the display-only UI controls required to display the company name and source in the Supplemental tab, using the toolbox control types <b>Text</b> and <b>Text Reference</b>. Both controls are data-bound to default properties in the OED, and the <b>Text Reference</b> control also references a default field for lookup values. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Default properties are used here for demonstration purposes. You can bind custom UI controls to any property in the OED, whether default or custom. </p>
+        <p class="ProcedureHeading">To add display-only UI controls to the Supplemental tab, bound to default properties: </p>
+        <ol>
+            <li>Create a custom UI control that is bound to the property for the company name: Add a <b>Text</b> toolbox control to the section under the Additional Data caption in the Supplemental tab on the company edit page, using the following configuration entries (typed entries are indicated by italics; selected entries are indicated by boldface).</li>
+        </ol>
+        <table>
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Entry</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Admin ID</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>toolboxName</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Tooltip Text</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Lists the company name entered in the Contact tab</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Label</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Name</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Object</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Company</b>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Property</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>companyName</b>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Mode</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Read-only</b>
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Read-only is the typical Mode setting for display-only controls. For more information, see <a href="Showing the Controls Panes.htm#Control">Control properties reference</a>. </p>
+        <ol MadCap:continue="true">
+            <li>Move the intrinsic control labeled "Source" from the Detailed Data section of the Supplemental tab to an empty panel in the Contact tab. </li>
+        </ol>
+        <p class="Indent1">The next custom UI control displays the data for this control. </p>
+        <ol MadCap:continue="true">
+            <li>Create a custom UI control that is bound to the property for the source and that refers to the corresponding field for its lookup values: Add a <b>Text Reference</b> toolbox control below the existing Name toolbox control (in the section under the Additional Data caption), using the following configuration entries (typed entries are indicated by italics; selected entries are indicated by boldface). </li>
+        </ol>
+        <table>
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Entry</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Admin ID</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>toolboxSource</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Tooltip Text</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Lists the source entered in the Contact tab</i> <![CDATA[ ]]></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Label</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Source</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Field Name</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>company.source</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Object</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Company</b>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Property</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>sourceId</b>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Mode</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Read-only</b>
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Read-only is the typical Mode setting for display-only controls. For more information, see <a href="Showing the Controls Panes.htm#Control">Control properties reference</a>. </p>
+        <ol MadCap:continue="true">
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Accessing UCW_1.jpg" style="width: 24px;height: 24px;" /> on the UCW toolbar to save all configurations and exit design mode. </li>
+            <li>Go to the <a href="#Defining">next procedure</a> to define custom properties and lookup values. </li>
+        </ol>
+        <h5><a name="Defining"></a>Defining custom properties and lookup values </h5>
+        <p>This procedure defines the custom properties required for the requested controls: ownership type (private or public), number of employees, and date on which the company was founded. This procedure also defines the "Private" and "Public" lookup values for the ownership type. </p>
+        <p>A database administration tool is required to add columns to the database table. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">For information on properties, see OEAS Technical Reference; for information on field and lookup values, see <i>OEAS Technical Reference.</i></p>
+        <p class="ProcedureHeading">To define custom properties and lookup values: </p>
+        <ol>
+            <li>Add columns to the database table that represents the company object, using a database administration tool and the following configuration entries. </li>
+        </ol>
+        <table>
+            <thead>
+                <tr>
+                    <th>Column name (database)</th>
+                    <th>Data type</th>
+                    <th>Allow Nulls?</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><i>Ownership</i>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>text</i>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Yes</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><i>number_empl</i>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>int</i>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Yes</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><i>date_founded</i>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>datetime</i>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Yes</i>
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ol MadCap:continue="true">
+            <li>Add corresponding columns to the company object physical model in the OED (Onyx Enterprise Dictionary), using OES Object Designer and the following configuration entries (typed entries are indicated by italics; selected entries are indicated by boldface). Note: Other than case, the OED column name must be identical to the database column name. </li>
+        </ol>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name (OED column)</th>
+                    <th>Description</th>
+                    <th>Column Type</th>
+                    <th>Length</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><i>OWNERSHIP</i>
+                        </p>
+                    </td>
+                    <td style="font-style: italic;">
+                        <p class="Table_Text"><i>Type of ownership for the company.</i>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>TEXT</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>255</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><i>NUMBER_EMPL</i>
+                        </p>
+                    </td>
+                    <td style="font-style: italic;">
+                        <p class="Table_Text"><i>The number of employees working at the company.</i>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>INT</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>5</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><i>DATE_FOUNDED</i>
+                        </p>
+                    </td>
+                    <td style="font-style: italic;">
+                        <p class="Table_Text"><i>The date on which the company was founded. </i>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>DATETIME</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">(leave blank) </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Name (OED column)</p>
+                    </td>
+                    <td style="font-style: italic;">
+                        <p class="Table_Text">Description</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Column Type</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Length</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ol MadCap:continue="true">
+            <li>Add corresponding properties to the company object logical business object (LBO) in the OED, using OES Object Designer and the following configuration entries (typed entries are indicated by italics; selected entries are indicated by boldface).</li>
+        </ol>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name (property)</th>
+                    <th>Description</th>
+                    <th>Data Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><i>ownership</i>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Type of ownership for the company.</i>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>string</b> <![CDATA[ ]]></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><i>numberEmpl</i>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>The number of employees working at the company.</i>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>int</b>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><i>dateFounded</i>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>The date on which the company was founded. </i>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>dateTime</b>
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ol MadCap:continue="true">
+            <li>Add object physical maps to the company object logical business object (LBO) to connect the new logical properties to the new physical columns in the company table, using OES Object Designer and the following configuration entries. </li>
+        </ol>
+        <table>
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Table</th>
+                    <th>Column</th>
+                    <th>Maps (Persistence Map, Retrieval Map, Filter Map) </th>
+                    <th>Type (for all enabled maps)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>ownership</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>COMPANY</b> <![CDATA[ ]]></p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>OWNERSHIP</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Enable</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>direct</b>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>numberEmpl</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>COMPANY</b> <![CDATA[ ]]></p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>NUMBER_EMPL</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Enable</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>direct</b>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>dateFounded</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>COMPANY </b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>DATE_FOUNDED</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Enable</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>direct</b>
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ol MadCap:continue="true">
+            <li>Publish the changes to the OED:</li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Creating a Tab.png" style="width: 20px;height: 20px;" /> to save changes to the OED. </li>
+            <li class="List_Indent">To validate the changes first, click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Creating a Tab_1.png" style="width: 20px;height: 20px;" /> on the upper right of the OES window. </li>
+            <li class="List_Indent">Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Creating a Tab_2.png" style="width: 20px;height: 20px;" /> on the upper right of the OES window to publish the changes; when prompted, confirm the operation. </li>
+        </ol>
+        <ol start="6">
+            <li>Shut down the Onyx EAS COM+ application (OnyxEASApp), using an administrative tool such as "Component Services." (This action causes the OED to be reloaded the next time a client calls the OEAS.) </li>
+            <li>Add a field and lookup values to the company object for the ownership property, using OES Reference Table Administration. </li>
+        </ol>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">For information on field and lookup values, see the OEAS Technical Reference.</p>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">Select Fields on the upper left of the OES window, select the <b>company</b> object, and then click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Creating a Tab_3.png" style="width: 20px;height: 20px;" /> to add a field with the following configuration entries (typed entries are indicated by italics; selected entries are indicated by boldface).</li>
+        </ol>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">The Sequence # entry is ignored on UCW-configured pages; however, an entry is required for new fields. </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Field Name</th>
+                    <th>Caption</th>
+                    <th>Sequence #</th>
+                    <th>Field Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><i>company.ownership</i>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Ownership</i>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">1</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Combo Box</b>
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ol style="list-style-type: lower-alpha;" MadCap:continue="true">
+            <li class="List_Indent">Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Creating a Tab.png" style="width: 20px;height: 20px;" /> to save the field. </li>
+            <li class="List_Indent">Select <b>Lookup Value by Field</b> on the upper left of the OES window, expand the <b>company</b> object, select the <b>company.ownership</b> field, and then click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Creating a Tab_3.png" style="width: 20px;height: 20px;" /> to add a lookup value</li>
+            <li class="List_Indent">In the <b>Lookup Value</b> textbox on the upper right of the window, type <b>Private</b>; click <b>Add Lookup Value</b> to add another lookup value. </li>
+            <li class="List_Indent">In the <b>Lookup Value</b> textbox on the upper right of the window, type <b>Public</b>; click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Creating a Tab.png" style="width: 20px;height: 20px;" /> to save changes.</li>
+        </ol>
+        <ol start="8">
+            <li>Stop and restart the Web server for OEP. Note: You can stop and restart Web servers using administrative tools such as the Internet Information Services (IIS) Manager. </li>
+            <li>Go to the <a href="#Adding10">next procedure</a> to add interactive UI controls to the page for these custom properties and lookup values.</li>
+        </ol>
+        <h5><a name="Adding10"></a>Adding user-interactive UI controls to the page </h5>
+        <p>This procedure adds the user-interactive UI controls required to give users the ownership type options (private and public) and properly formatted text boxes for entering the number of employees and the date on which the company was founded, using the toolbox control types <b>Dropdown</b>, <b>Textbox</b>, and <b>Date</b>, respectively, and placing the controls in the Supplemental tab on the company edit page. This procedure also data-binds the controls to custom properties in the OED and, for the <b>Dropdown</b> control, references a custom field for the "Public" and "Private" lookup values used for the ownership type options. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Custom properties are used here for demonstration purposes. You can bind custom UI controls to any property in the OED (for the page-specific object), whether default or custom. </p>
+        <p class="ProcedureHeading">To add user-interactive UI controls, bound to custom properties: </p>
+        <ol>
+            <li><a href="#Defining">Define the custom properties and lookup values.</a>
+            </li>
+            <li>Add a <b>Dropdown</b> toolbox control below the existing Source toolbox control on the page (under the Additional Data caption), using the following configuration entries (typed entries are indicated by italics; selected entries are indicated by boldface). </li>
+        </ol>
+        <table>
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Entry</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Admin ID</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>toolboxOwnership</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Tooltip Text</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Select the type of ownership for this company </i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Label</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Ownership </i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Field Name</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>company.ownership</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Object</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Company</b>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Property</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Ownership</b>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Mode</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Read/Write</b>
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ol MadCap:continue="true">
+            <li>Add the following toolbox controls below the existing Ownership toolbox control, using the following configuration entries (typed entries are indicated by italics; selected entries are indicated by boldface).</li>
+        </ol>
+        <table>
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th colspan="2">Entry (by type of toolbox control)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Date</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Textbox</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Date</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Admin ID</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>toolboxNumberEmp</i>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>toolboxDateFounded</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Tooltip Text</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Enter the number of employees working at this company </i>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Enter the date on which this company was founded </i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Label</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Number of employees</i>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Date founded </i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Object</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Company</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>company</b>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Property </b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>numberEmpl</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>dateFounded</b>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Mode </b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Read/Write</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Read/Write</b>
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ol MadCap:continue="true">
+            <li>Set the five-character maximum length for the Textbox toolbox control ("Number of employees"). For instructions, see <a href="Showing the Controls Panes.htm#Validati">Validating maximum length (Textbox toolbox controls)</a>. </li>
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Accessing UCW_1.jpg" style="width: 24px;height: 24px;" /> on the UCW toolbar to save all configurations and exit design mode. </li>
+        </ol>
+        <h4><a name="Setting"></a>Setting up UDFs</h4>
+        <p>Using <a href="About Design Mode.htm#top">UCW</a>, you can add previously configured UDFs, or User Defined Fields, to <a href="Configuring OEP.htm#UCW">UCW-enabled pages</a>. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">For troubleshooting information on binding toolbox controls to UDFs, see <a href="Troubleshooting Configuration.htm#Toolbox">the related section in Troubleshooting configuration</a>.</p>
+        <p>Use OES Reference Table Administration to create and configure UDFs. UDFs are useful for creating check box controls, masked controls, and hierarchically related controls. </p>
+        <p>This sample UI configuration demonstrates configuring UDFs in OES and then using UCW to place UDFs on a tab. </p>
+        <h5><a name="Scenario"></a>Scenario used in this sample UI configuration </h5>
+        <p>The account managers ask you to create additional UI controls for the Supplemental tab you added to the company edit page (see <a href="#top">Creating a tab</a>). These controls include a check box to indicate whether or not the information is public, a text box for entry of an identification code that automatically adds intervening dashes, and a hierarchical set of drop-down lists for selection of operating systems and compatible browsers. Because toolbox controls do not include check boxes, masked text boxes, or hierarchical drop-down lists, you decide to use UDFs to satisfy this request. </p>
+        <p>The following graphic illustrates the UDFs under the custom caption "UDFs". </p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Creating a Tab_10.jpg" style="width: 377px;height: 188px;border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <h4>Procedures in this sample UI configuration </h4>
+        <ul>
+            <li><a href="#Configur3">Configure UDFs in OES</a>
+            </li>
+            <li><a href="To configure the set of hierarchically.htm#Place">Add UDFs to the page</a>
+            </li>
+            <li><a href="Configure the toolbar button.htm#top">Configure the toolbar button to clear all UDFs (optional)</a>
+            </li>
+        </ul>
+        <h5><a name="Configur3"></a>Configuring UDFs in OES (check box, masked text box, and hierarchical sets of drop-down lists) </h5>
+        <p>This procedure configures the UDFs in OES, using the formats required for a check box, a masked text box, and a hierarchical set of drop-down lists. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;"> The following settings in OES Reference Table Administration are treated differently on UCW-configured pages. Sequence # (TAB key order) is ignored and captions are overridden by UCW-defined captions (for the selected profile). For basic information on UDFs, see OEAS Technical Reference and OEAS Technical Reference.</p>
+        <p class="ProcedureHeading">To configure the check box UDF in OES: </p>
+        <ol>
+            <li>In OES Reference Table Administration, select the <b>Fields</b> mode option, and then expand the <b>company</b> node to display its UDFs. </li>
+            <li>Select <b>company.user1</b> and configure the check box UDF using the following configuration entries (typed entries are indicated by italics; selected entries are indicated by boldface). </li>
+        </ol>
+        <table>
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Entry</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Caption</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Public</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Active </b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Yes (checked) </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Field Type</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Check Box</b>
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ol MadCap:continue="true">
+            <li>Go to the <a href="#To">next procedure</a> to configure a masked UDF. </li>
+        </ol>
+        <p class="ProcedureHeading" style="page-break-before: always;"><a name="To"></a>To configure the masked UDF in OES: </p>
+        <ol>
+            <li>Select <b>company.user2</b> and configure the masked UDF using the following configuration entries (typed entries are indicated by italics; selected entries are indicated by boldface). Properties not listed can retain their default values. </li>
+        </ol>
+        <table>
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Entry</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Caption</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>Identification Code</i>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Active</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Yes (checked) </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Field Type</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><b>Text Box</b>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><b>Mask</b>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text"><i>999-99-9999</i>
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ol MadCap:continue="true">
+            <li>Go to the <a href="To configure the set of hierarchically.htm#top">next procedure</a> to configure a set of hierarchically related UDFs. </li>
+        </ol>
+    </body>
+</html>

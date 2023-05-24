@@ -1,0 +1,402 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="5478" MadCap:lastWidth="946" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>retrieveListByOwner (externalContact)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="retrieveListByOwner" />retrieveListByOwner method</h2>
+        <p>The retrieveListByOwner method of the <a href="externalContact_object.htm"><MadCap:keyword term="externalContact" />externalContact</a> 
+ object searches the database by ownerId and ownerType and returns a list 
+ of externalContact records.</p>
+        <h3>Parameters</h3>
+        <table>
+            <col style="width: 4cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 3cm;" />
+            <col style="width: 4cm;" />
+            <thead>
+                <tr>
+                    <th>Parameter</th>
+                    <th>Direction</th>
+                    <th>Data type</th>
+                    <th>Content type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>ownerId (required)</td>
+                    <td>in</td>
+                    <td>string</td>
+                    <td>n/a</td>
+                    <td>ID of the owner that owns the list of contacts</td>
+                </tr>
+                <tr>
+                    <td>ownerType<br />(required)</td>
+                    <td>in</td>
+                    <td>i4</td>
+                    <td>n/a</td>
+                    <td>Type of object that owns this list of contacts</td>
+                </tr>
+                <tr>
+                    <td>includeMask</td>
+                    <td>in</td>
+                    <td>string</td>
+                    <td>n/a</td>
+                    <td>Identifies whether the phone number mask 
+ is displayed on the output or not</td>
+                </tr>
+                <tr>
+                    <td>rowSet</td>
+                    <td>out</td>
+                    <td>object</td>
+                    <td>all(out)</td>
+                    <td>A rowSet structure containing the external 
+ contacts information</td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="TableText">Columns returned in the rowSet object
+        </p>
+        <table wrapperparagraphselector="P" style="width: 100%;border-spacing: 0px;border-spacing: 0px;" width="100%">
+            <col style="width: 14.631%;" />
+            <col style="width: 17.867%;" />
+            <col style="width: 39.227%;" />
+            <col style="width: 33.784%;" />
+            <thead>
+                <tr>
+                    <th>columnOrdinal</th>
+                    <th>columnName</th>
+                    <th>Physical column</th>
+                    <th>Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="width: 14.631%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="14.631%">1</td>
+                    <td style="width: 17.867%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="17.867%">contactPrimaryId</td>
+                    <td style="width: 39.227%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="39.227%">external_contact.contact_id</td>
+                    <td style="width: 33.784%;" width="33.784%">
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 14.631%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="14.631%">2</td>
+                    <td style="width: 17.867%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="17.867%">contactSecondaryId</td>
+                    <td style="width: 39.227%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="39.227%">individual.secondary_id or company.secondary_id</td>
+                    <td style="width: 33.784%;" width="33.784%">
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 14.631%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="14.631%">3</td>
+                    <td style="width: 17.867%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="17.867%">vchName</td>
+                    <td style="width: 39.227%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="39.227%">individual.first_name, individual.last_name, 
+ or company.company_name</td>
+                    <td style="width: 33.784%;" width="33.784%">
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 14.631%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="14.631%">4</td>
+                    <td style="width: 17.867%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="17.867%">vchPhoneNumber</td>
+                    <td style="width: 39.227%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="39.227%">phone.phone_number</td>
+                    <td style="width: 33.784%;" width="33.784%">
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 14.631%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="14.631%">5</td>
+                    <td style="width: 17.867%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="17.867%">vchFaxNumber</td>
+                    <td style="width: 39.227%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="39.227%">phone.phone_number</td>
+                    <td style="width: 33.784%;" width="33.784%">
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 14.631%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="14.631%">6</td>
+                    <td style="width: 17.867%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="17.867%">vchCompanyName</td>
+                    <td style="width: 39.227%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="39.227%">individual.company_name or company.company_name</td>
+                    <td style="width: 33.784%;" width="33.784%">
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 14.631%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="14.631%">7</td>
+                    <td style="width: 17.867%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="17.867%">vchTitleDesc</td>
+                    <td style="width: 39.227%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="39.227%">individual.title_desc</td>
+                    <td style="width: 33.784%;" width="33.784%">Null for company rows</td>
+                </tr>
+                <tr>
+                    <td style="width: 14.631%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="14.631%">8</td>
+                    <td style="width: 17.867%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="17.867%">vchEmailAddress</td>
+                    <td style="width: 39.227%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="39.227%">individual.email_address or company.email_address</td>
+                    <td style="width: 33.784%;" width="33.784%">
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 14.631%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="14.631%">9</td>
+                    <td style="width: 17.867%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="17.867%">vchAddress1</td>
+                    <td style="width: 39.227%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="39.227%">address.address1</td>
+                    <td style="width: 33.784%;" width="33.784%">
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 14.631%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="14.631%">10</td>
+                    <td style="width: 17.867%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="17.867%">vchComment</td>
+                    <td style="width: 39.227%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="39.227%">external_contact.comments</td>
+                    <td style="width: 33.784%;" width="33.784%">
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 14.631%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="14.631%">11</td>
+                    <td style="width: 17.867%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="17.867%">TypeOfContact</td>
+                    <td style="width: 39.227%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="39.227%">external_contact.contact_object_id</td>
+                    <td style="width: 33.784%;" width="33.784%">
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 14.631%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="14.631%">12</td>
+                    <td style="width: 17.867%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="17.867%">iContactTypeId</td>
+                    <td style="width: 39.227%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="39.227%">external_contact.contact_type_did</td>
+                    <td style="width: 33.784%;" width="33.784%">
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 14.631%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="14.631%">13</td>
+                    <td style="width: 17.867%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="17.867%">iSysContactId</td>
+                    <td style="width: 39.227%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="39.227%">external_contact.external_contact_id</td>
+                    <td style="width: 33.784%;" width="33.784%">
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 14.631%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="14.631%">14</td>
+                    <td style="width: 17.867%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="17.867%">chContactTypeDesc</td>
+                    <td style="width: 39.227%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="39.227%">contact_type_ml_view.contact_type_desc</td>
+                    <td style="width: 33.784%;" width="33.784%">
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 14.631%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="14.631%">15</td>
+                    <td style="width: 17.867%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="17.867%">customerType</td>
+                    <td style="width: 39.227%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="middle" width="39.227%">contact_type_ml.contact_type_desc</td>
+                    <td style="width: 33.784%;" width="33.784%">Either 1 (individual) or 2 (company).</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Steps</h3>
+        <table>
+            <col style="width: 5cm;" />
+            <col style="width: 5cm;" />
+            <col style="width: 7cm;" />
+            <thead>
+                <tr>
+                    <th>Step data</th>
+                    <th>Step type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>OnyxDataValidationStep.DataValidation</td>
+                    <td>com</td>
+                    <td>Validates input parameters</td>
+                </tr>
+                <tr>
+                    <td>OnyxDM.DataManager</td>
+                    <td>com</td>
+                    <td>Retrieves a list of external contacts information</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Remarks</h3>
+        <p>The retrieveListByOwner search is case sensitive.</p>
+        <p>Owners include company and individual objects.</p>
+        <h3>Example</h3>
+        <p>Parameters
+        </p>
+        <p class="C_Code">&lt;parameters&gt;</p>
+        <p class="C_Code">&lt;ownerId&gt;74CAF57C-238E-42D2-81EF-72392EF3B6A0&lt;/ownerId&gt;</p>
+        <p class="C_Code">&lt;ownerType&gt;2&lt;/ownerType&gt;</p>
+        <p class="C_Code">&lt;includeMask&gt;apply&lt;/includeMask&gt;</p>
+        <p class="C_Code">&lt;/parameters&gt;</p>
+        <p>parametersReturn
+        </p>
+        <p Class="Code" class="C_Code">&lt;parametersReturn&gt;</p>
+        <p Class="Code" class="C_Code">&lt;rowSet objectType="rowSet" rowCount="2" columnCount="15" pageSize=""&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinitions collection="1" objectType="columnDefinition"&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Primary ID&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;contactPrimaryId&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;1&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;16&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;16&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;ID&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;contactSecondaryId&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;2&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;16&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Name&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;vchName&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;3&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;0&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;511&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Phone&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;vchPhoneNumber&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;4&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;87&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Fax&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;vchFaxNumber&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;5&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;87&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Company&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;vchCompanyName&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;6&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Title&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;vchTitleDesc&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;7&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Email&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;vchEmailAddress&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;8&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Address 1&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;vchAddress1&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;9&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Contact Comments&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;vchComment&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;10&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Contact Object ID&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;TypeOfContact&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;11&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;16&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Contact Type ID&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;iContactTypeId&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;12&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;16&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;External Contact Primary ID&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;iSysContactId&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;13&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;16&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;16&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Contact Type Description&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;chContactTypeDesc&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;14&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;96&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;255&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;string&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;255&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnHeading&gt;Type&lt;/columnHeading&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnName&gt;customerType&lt;/columnName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnOrdinal&gt;15&lt;/columnOrdinal&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnFlags&gt;16&lt;/columnFlags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnSize&gt;4&lt;/columnSize&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnType&gt;i4&lt;/columnType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnPrecision&gt;10&lt;/columnPrecision&gt;</p>
+        <p Class="Code" class="C_Code">&lt;columnScale&gt;255&lt;/columnScale&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinition&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/columnDefinitions&gt;</p>
+        <p Class="Code" class="C_Code">&lt;rows collection="1" objectType="row"&gt;</p>
+        <p Class="Code" class="C_Code">&lt;row&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c0&gt;088DB51D-CB95-4DC3-99FF-D39446A138BB&lt;/c0&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c1&gt;2&lt;/c1&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c2&gt;Boo Bah&lt;/c2&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c3&gt;&lt;/c3&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c4&gt;&lt;/c4&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c5 null="1"&gt;&lt;/c5&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c6 null="1"&gt;&lt;/c6&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c7 null="1"&gt;&lt;/c7&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c8 null="1"&gt;&lt;/c8&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c9 null="1"&gt;&lt;/c9&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c10&gt;1&lt;/c10&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c11&gt;5&lt;/c11&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c12&gt;176798F6-117E-4F8A-BF7C-0115E460E0F9&lt;/c12&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c13&gt;Executive&lt;/c13&gt;</p>
+        <p Class="Code" class="C_Code">&lt;c14&gt;1&lt;/c14&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/row&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/rows&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/rowSet&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/parametersReturn&gt;</p>
+        <p> <![CDATA[ ]]></p>
+    </body>
+</html>

@@ -1,0 +1,198 @@
+////////////////////////////////////////////////////////////////////////
+//This script creates a DSN entry for ODBC use.
+//The ODBC drivers.ini is not necessary
+//Include Odbccp32.dll in your setup files.
+////////////////////////////////////////////////////////////////////////
+
+function OCreateDSNEntry(szDSN,szDesc,szServer,szDB,szLogin,szPassword)
+STRING svArg[512],svDriver,szErr[512],svArgSource[512],szNetwork;
+NUMBER nReturn,i,nSize,nLen,nErrNum,nLoop,bDone,nDialog,bLockName;
+LIST lstMyList;
+
+NUMBER nHwnd;
+HWND hInstallHwnd;
+
+begin
+		szNetwork = "dbmssocn";  //TCP/IP sockets
+		//szNetwork = "dbnmpntw";  //named pipes.
+		
+		SdShowMsg("",FALSE);
+		SdShowMsg(@STATUS_CREATE_DSN, TRUE);
+
+        lstMyList = ListCreate(STRINGLIST);
+        svDriver = WINSYSDIR ^ "sqlsrv32.dll" ;
+		if(Is(FILE_EXISTS,svDriver)=FALSE)then
+			gszMsg = @ERROR_DSN1 + svDriver;
+			OLog(gszMsg);
+			MessageBox(gszMsg,SEVERE);
+		endif;
+
+       	if(UseDLL(WINSYSDIR^"ODBCCP32.DLL") < 0) then
+        	MessageBox(@ERROR_LOADDLL+" "+WINSYSDIR^"ODBCCP32.DLL", SEVERE);
+        endif;
+
+		//call the config function, unless in debug mode.
+		if(g_structSetupMode.nDebug = 14)then
+        	StrGetTokens ( lstMyList , svArg , "" );
+        	SdShowInfoList ( "Creating DSN" , @PROMPT_DSN, lstMyList );
+		endif;
+
+		while(nLoop = 0)
+			svArg = "DSN="+szDSN+"|Description="+szDesc+"|Server="+szServer+"|Database="+szDB+"|NETWORK="+szNetwork+"||";
+			svArgSource = svArg;
+		
+			// replace sperators with null characters (for ODBC function)
+    	    nLen = StrLength(svArg);
+    		i=0;
+        	while i < nLen
+            	if svArg[i] == '|' then
+	        		svArg[i]='\0';
+	            endif;
+				i = i + 1;
+        	endwhile;
+
+			//create the puppy!
+    	    //second parameter is type. 1 = user, 4 = system
+        	nReturn = ODBCCP32.SQLConfigDataSource( NULL, 4,"SQL Server",svArg );
+
+	        //optional method.  This function pops up the wizard method.
+    	    //nHwnd = GetWindowHandle (HWND_INSTALL);
+			//ODBCCP32.SQLCreateDataSource(nHwnd,szDSN);
+
+	        if(nReturn = TRUE)then
+    	    	//test connection.
+        		if(OTestDSN(szDSN,szLogin,szPassword) = NEXT)then
+        			nLoop = 1;  //exit loop
+        		else
+        			nReturn = FALSE;
+        		endif;
+	        elseif(nReturn = FALSE)then
+				//can use SQLInstallerError() to obtain error code.
+				nReturn = ODBCCP32.SQLInstallerError(1,nErrNum,szErr,512,nSize);
+				gszMsg = @ERROR_DSN2+" : "+szErr+" : "+svArgSource;
+				OLog(gszMsg);
+        		StrGetTokens(lstMyList , svArg , "" );
+	       		ListSetIndex (lstMyList,LISTFIRST);
+	        	ListAddString(lstMyList,"",BEFORE);
+    	    	ListAddString(lstMyList,szErr,BEFORE);
+   	    		Disable(BACKBUTTON);
+   	    		SdShowMsg("",FALSE);
+	   	    	if(SdShowInfoList(@DSN_NAME ,@ERROR_DSN2,lstMyList )=CANCEL)then
+   		    		OAbort();
+   	    		endif;
+        	endif;
+        	
+        	//if failed above, ask user if they want to enter the DSN info again.
+        	if(nReturn = FALSE)then
+	 			Sprintf(gszMsg,@ERROR_CREATE_TRY_AGAIN,"DSN");
+        		if(AskYesNo(gszMsg,YES)=NO)then
+        			nLoop = 1;
+        		else
+					//ask user for all DSN info again.
+				    nDialog = 0;
+				    bDone = 0;
+				    while (!bDone)
+				        switch (nDialog)
+					        case 0:
+        	        			gszFirstDialog = "";  //will disable back button.
+								nReturn = ODialogShowGetDSNEntry(@DSN_NAME,@DSN_NAME_MSG,&g_structDSN,"");
+				        	case 1:
+					            //Added the extra parameter to specify whether there needs to be a 3rd field for password compare
+					            // Since ODialogShowAccountInfo isn't in common code, this will have to be added to each setup.
+					            nReturn = ODialogShowAccountInfo(@INFO_SQL_ACCOUNT,@MTS_SQL_ACCOUNT,&g_structSQLAccount,0,FALSE,FALSE,TRUE);
+							default:
+    	       					bDone = TRUE;
+					        endswitch;
+		        		if (nReturn = NEXT) then
+        		    		nDialog++;
+			        	else
+    	    		    	nDialog--;
+			        	endif;
+    				endwhile;
+					//redo status.
+					Disable(DIALOGCACHE);
+					SdShowMsg("",FALSE);
+					SdShowMsg(@STATUS_CREATE_DSN, TRUE);
+					
+					//refresh vars with new structure data
+					szDSN=g_structDSN.szName;
+					szServer=g_structDSN.szServer;
+					szDB=g_structDSN.szDatabase;
+					szLogin=g_structSQLAccount.szLogin;
+					szPassword=g_structSQLAccount.szPassword;
+        		endif;
+        	endif;
+		endwhile;
+
+        UnUseDLL(WINSYSDIR^"ODBCCP32.DLL");
+        ListDestroy(lstMyList);
+
+end;
+
+////////////////////////////////////////////////////////////////////////
+//tests an existing DSN connection useing a VB exe called DSNVerify.exe
+//return status in reg using standard Plugin status values
+////////////////////////////////////////////////////////////////////////
+function OTestDSN(szDSN,szLogin,szPassword)
+STRING szExe,szCmdLine,szTemp;
+INT nStatus;
+begin
+	gszMsg = "";
+	szExe = SUPPORTDIR^"DSNVerify.exe";
+	szCmdLine = szDSN+","+szLogin+","+szPassword;
+	//look for exe
+	if(Is(FILE_EXISTS,szExe)=TRUE)then
+		//run plugin
+		nStatus = OLaunchAppAndWait(SUPPORTDIR^"DSNVerify.exe",szCmdLine);
+		if(nStatus = CANCEL)then;
+			Sprintf(szTemp,@ERROR_DSN3,szDSN,szLogin);
+			gszMsg = szTemp+"\n\n"+gszMsg;
+		endif;
+	else
+		Sprintf(gszMsg,@ERROR_COULD_NOT_FIND,szExe);
+	endif;
+	
+	if(nStatus != NEXT)then
+		SdShowMsg("",FALSE);
+		OLog(gszMsg);
+		MessageBox(gszMsg,INFORMATION);
+	endif;
+	
+	return nStatus;
+end;
+
+///////////////////////////////////////////////////////////////////////////////////////
+//looks in the reg for the existence of a DSN entry.
+//If found, returns TRUE and the server and database names assigned to the DSN
+///////////////////////////////////////////////////////////////////////////////////////
+function OCheckForPreviousDSN(szType,szName,szServer,szDatabase)
+INT nvType,nvSize;
+STRING szKey;
+begin
+	szKey = "SOFTWARE\\ODBC\\ODBC.INI\\"+szName;
+	StrToUpper(szType,szType);
+	_SetRegBase("HKCU");  //default to user dsn
+	if(szType = "SYSTEM")then
+		_SetRegBase("HKLM");  //system dsn
+	endif;
+
+	if(RegDBKeyExist(szKey) = 1)then
+		RegDBGetKeyValueEx(szKey,"Server",nvType,szServer,nvSize);
+		RegDBGetKeyValueEx(szKey,"Database",nvType,szDatabase,nvSize);
+		return TRUE;
+	endif;
+	return FALSE;	
+end;
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,685 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:lastBlockDepth="8" MadCap:lastHeight="843" MadCap:lastWidth="624" MadCap:ignoredWords="IsCollection;IsPrimaryGroup;lboname;methodname;PageTitle;PrimaryId;logMark;publishBitMark;MaskFormat" MadCap:conditions="Default.Version_7.6.1" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head><title>Configuring Add/Edit Screens</title>
+    </head>
+    <body>
+        <H3>Configuring Add/Edit Screens</H3>
+        <p>The fields and tasks available on each <b>Add/Edit</b> screen depend on the configuration made within the XML file corresponding to the screen. Use this information to configure XML files for <b>Add/Edit</b> screens.</p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;"> Values you enter in the XML file are case-sensitive.
+</p>
+        <p class="ProcedureHeading">To configure Add/Edit screens:</p>
+        <ol>
+            <li>Open the XML file corresponding to the <b>Add/Edit</b> screen you plan to modify. For a list of XML files and the screens that they correspond to, see <a href="About_metadata_XML_files.htm">Understanding XML files</a>.</li>
+            <li>Configure attributes for each element within the XML file.</li>
+            <li>Configure attributes for each group within the XML file. You cannot add a new group to this screen.</li>
+            <li>Configure attributes for each field within each group.</li>
+        </ol>
+        <blockquote>
+            <blockquote>
+                <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; &#160;">In the <code>WorkNoteMetaData.XML</code> file, do not remove the <b>logMark</b> and <b>publishBitMark</b> fields as these are essential to successfully save work notes.</p>
+            </blockquote>
+        </blockquote>
+        <ol MadCap:continue="true">
+            <li>Save and close the XML file.</li>
+            <li>To format the text displayed on the screen, modify the Templates file for the screen. For more details about modifying the Templates file, see <a href="Formatting_screen_text.htm">Formatting Screen Text</a>.</li>
+            <li>Log on to Onyx Mobile App/Onyx Mobile Web and verify your changes.</li>
+        </ol>
+        <h5>Elements on an Add/Edit screen</h5>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">An administrator can now create a custom entity list by using the <b>Add/Edit&lt;entityname&gt;MetaData.xml</b> format. Ensure that you follow the element structure as the OOTB <b>Add/Edit</b> XML files.</p>
+        <p><span style="color: #000000;">Use the following table to configure properties for each group and field displayed on an </span><b style="color: #000000;">Add/Edit</b> screen:</p>
+        <table>
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 3cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 3cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 3cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 7cm;" />
+            <thead>
+                <tr>
+                    <th>
+                        Element
+                    </th>
+                    <th>
+                        Attribute
+                    </th>
+                    <th>
+                        Data Type
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        EntityId
+                    </td>
+                    <td>
+                        -
+                    </td>
+                    <td>
+                        Numeric
+                    </td>
+                    <td>
+                        Do not change this value.
+                        This node displays the number corresponding to the entity for which the list is displayed.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        EntityName
+                    </td>
+                    <td>
+                        -
+                    </td>
+                    <td>
+                        String
+                    </td>
+                    <td>
+                        Do not change this value.
+                        This node displays the name of LBO that corresponds to the entity.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        PrimaryId
+                    </td>
+                    <td>
+                        -
+                    </td>
+                    <td>&#160;</td>
+                    <td>
+                         Placeholder for the primary ID of LBO that corresponds to the <b>Edit</b> screen. This value is retrieved when the <b>Edit</b> screen is loaded.
+                        Do not edit this value.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        AddPageTitle
+                    </td>
+                    <td>
+                        -
+                    </td>
+                    <td>
+                        String
+                    </td>
+                    <td>
+                        Type the text that will appear as the title for the screen when users open it to add a new record.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        EditPageTitle
+                    </td>
+                    <td>
+                        -
+                    </td>
+                    <td>
+                        String
+                    </td>
+                    <td>
+                        Type the text that will appear as the title for the screen when users open it to edit an existing record.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        EditPermission
+                    </td>
+                    <td>
+                        -
+                    </td>
+                    <td>
+                        -
+                    </td>
+                    <td>&#160;</td>
+                </tr>
+                <tr>
+                    <td>
+                        ResourceId
+                    </td>
+                    <td>
+                        EditPermission
+                    </td>
+                    <td>
+                        -
+                    </td>
+                    <td>
+                        The UI Resource permission for editing the particular entity.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Value
+                    </td>
+                    <td>
+                        EditPermission
+                    </td>
+                    <td>
+                        -
+                    </td>
+                    <td>
+                        By default, there should be no value. This contains the edit permissions of the particular entity.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        LBOMethodName
+                    </td>
+                    <td>
+                        -
+                    </td>
+                    <td>
+                        -
+                    </td>
+                    <td>
+                        Displays the name of the LBO method  used to save data for the screen.
+                        You can type the name of the method that you want to use.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Group
+                    </td>
+                    <td>
+                        -
+                    </td>
+                    <td>&#160;</td>
+                    <td>
+                        This element marks a section on the <b>Edit</b> screen. Each group has a header and a detail section.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Group
+                    </td>
+                    <td>
+                        Id
+                    </td>
+                    <td>
+                        String
+                    </td>
+                    <td>
+                        Type a unique group ID for each group in the file. Text within the group is formatted based on the setting for this ID in the Template XML file.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Group
+                    </td>
+                    <td>
+                        Caption
+                    </td>
+                    <td>
+                        String
+                    </td>
+                    <td>
+                        Type the text that will appear as the caption in the group header.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Group
+                    </td>
+                    <td>
+                        IsCollection
+                    </td>
+                    <td>
+                        Boolean
+                    </td>
+                    <td>
+                        <ul>
+                            <li class="Table_Bullet">Type <b>True</b> if the group is a collection object in OEAS.</li>
+                            <li class="Table_Bullet">Type <b>False</b> if the group is not a collection object in OEAS.</li>
+                        </ul>
+                        You must add fields for a collection object group that users can update.
+                        If you have typed <b>True</b>, do not add fields to the group or move fields from such a group to a group where this value is <b>False</b>.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Group
+                    </td>
+                    <td>
+                        IsPrimaryGroup
+                    </td>
+                    <td>
+                        Boolean
+                    </td>
+                    <td>
+                        Do not change this value.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Field
+                    </td>
+                    <td>
+                        -
+                    </td>
+                    <td>
+                        -
+                    </td>
+                    <td>
+                        This element marks a field that is displayed on the Onyx Mobile App/Onyx Mobile Web screen.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Field
+                    </td>
+                    <td>
+                        ResourceId
+                    </td>
+                    <td>
+                        -
+                    </td>
+                    <td>
+                        Type the UI resource permission value for the  field.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Field
+                    </td>
+                    <td>
+                        FieldName
+                    </td>
+                    <td>
+                        String
+                    </td>
+                    <td>
+                        Type the name of the LBO column from which to retrieve data.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Field
+                    </td>
+                    <td>
+                        DisplayName
+                    </td>
+                    <td>
+                        String
+                    </td>
+                    <td>
+                        Type the caption for the field that will be displayed on the screen. To avoid cropping, we recommend that captions do not exceed 10 characters, including spaces. Do not enter a value if the default value for this attribute is blank.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Field
+                    </td>
+                    <td>
+                        Visible
+                    </td>
+                    <td>
+                        Boolean
+                    </td>
+                    <td>
+                        <ul>
+                            <li class="Table_Bullet">Type <b>True</b>&#160;to enable users to view this field. </li>
+                            <li class="Table_Bullet">Type <b>False</b>&#160;to hide this field on the screen.</li>
+                        </ul>
+                        Do not type a value if the default value for this attribute is blank.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Field
+                    </td>
+                    <td>
+                        Type
+                    </td>
+                    <td>
+                        String
+                    </td>
+                    <td>
+                        Type the data type that is displayed on the screen for this field.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Field
+                    </td>
+                    <td>
+                        Parent
+                    </td>
+                    <td>
+                        String
+                    </td>
+                    <td>
+                        If the field is a child field, type the LBO column name of the parent field.
+                        For example, Country is a parent field for State.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Field
+                    </td>
+                    <td>
+                        ControlType
+                    </td>
+                    <td>
+                        String
+                    </td>
+                    <td>
+                        Type the control type to use for the field. The possible values are TextBox, ComboBox, DropDown, CheckBox, URL, Link,  RadioButton, and Scan.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Field
+                    </td>
+                    <td>
+                        DisableLinkColumn
+                    </td>
+                    <td>
+                        String
+                    </td>
+                    <td>
+                        This attribute is used only for the Primary Contact firstname field.
+                        Type the dependent fieldname that will become uneditable when this field is populated by linking it to another record.
+                        For example, when a company is linked to a primary contact, the primary contact's last name field is populated automatically based on the linked contact's details. At this time, users should not be able to type in a different last name.
+                        The fieldname you enter should also be listed in the DependentFieldName attribute for the field.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Field
+                    </td>
+                    <td>
+                        MaskFormat
+                    </td>
+                    <td>
+                        String
+                    </td>
+                    <td>
+                        Type a value to specify if the field validates a mask format for the value typed by the user. Currently this attribute is used for the postal code and phone fields.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Field
+                    </td>
+                    <td>
+                        IsRequired
+                    </td>
+                    <td>
+                        Boolean
+                    </td>
+                    <td>
+                        <ul>
+                            <li class="Table_Bullet">Type <b>True</b> if a value is needed in the field to save the record.</li>
+                            <li class="Table_Bullet">Type <b>False</b> if the field can be left empty.</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Field
+                    </td>
+                    <td>
+                        IsEditable
+                    </td>
+                    <td>
+                        Boolean
+                    </td>
+                    <td>
+                        <ul>
+                            <li class="Table_Bullet">Type <b>True</b> to enable users to enter values in the field.</li>
+                            <li class="Table_Bullet">Type <b>False</b> to make the field read-only.</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Field
+                    </td>
+                    <td>
+                        CacheName
+                    </td>
+                    <td>
+                        String
+                    </td>
+                    <td>
+                        Type the name of the OEAS Reference Lookup table.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Field
+                    </td>
+                    <td>
+                        CacheParentId
+                    </td>
+                    <td>
+                        -
+                    </td>
+                    <td>
+                        Do not change this value.
+                        In the current implementation, your changes will not be reflected in the application.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Field
+                    </td>
+                    <td>
+                        LboObjectName
+                    </td>
+                    <td>
+                        String
+                    </td>
+                    <td>
+                        Type the name of the LBO object to which the property belongs.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Field
+                    </td>
+                    <td>
+                        PropertyPath
+                    </td>
+                    <td>
+                        String
+                    </td>
+                    <td>
+                        Type the XML node path for the field within  LBO.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Field
+                    </td>
+                    <td>
+                        LboProperty
+                    </td>
+                    <td>
+                        String
+                    </td>
+                    <td>
+                        Type the name of the LBO object to which the property belongs.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Field
+                    </td>
+                    <td>
+                        linkPropertyPath
+                    </td>
+                    <td>
+                        String
+                    </td>
+                    <td>
+                        Type the name of the LBO property for the primary contact ID in the CompanyMetaData.XML file or the parent company ID in the IndividualMetaData.XML file.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Field
+                    </td>
+                    <td>
+                        linkEntity
+                    </td>
+                    <td>
+                        Integer
+                    </td>
+                    <td>
+                        <ul>
+                            <li class="Table_Bullet">Type <b>1</b> to indicate a link to an Individual record.</li>
+                            <li class="Table_Bullet">Type <b>2</b> to indicate a link to a Company record. </li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Field
+                    </td>
+                    <td>
+                        ReadValue
+                    </td>
+                    <td>
+                        String
+                    </td>
+                    <td>
+                        From the Reference Lookup XML, select the attribute name.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Field
+                    </td>
+                    <td>
+                        LinkFieldReadValue
+                    </td>
+                    <td>
+                        String
+                    </td>
+                    <td>
+                        Contains description for the drop-down.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Field
+                    </td>
+                    <td>
+                        TypeIdProperty
+                    </td>
+                    <td>
+                        String
+                    </td>
+                    <td>
+                        Type the LBO property name for the primary value selected for a collection field.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Field
+                    </td>
+                    <td>
+                        TypeIdValue
+                        
+                    </td>
+                    <td>
+                        Integer
+                    </td>
+                    <td>
+                        Type the ID that corresponds to the collection field's lookup value. To get this value, in OES Reference Table Administration, click the <b>Lookup Value</b> field, and copy the value from the ID of <b>Lookup Value</b> field.
+                        This attribute is mandatory to ensure that collection fields display accurate values.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Field
+                    </td>
+                    <td>
+                        LinkFieldName
+                    </td>
+                    <td>
+                        String
+                    </td>
+                    <td>
+                        Type the LBO field name for the primary contact or parent company.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Field
+                    </td>
+                    <td>
+                        DependentFiedName
+                    </td>
+                    <td>
+                        String
+                    </td>
+                    <td>
+                        Type the field name for the primary contact's details from the Company LBO and associate it with the field name for the Individual's details from the Individual LBO, in the format contactFirstName;firstName.
+                        You must enter this data for the following fields: 
+                        <ul><li class="Table_Bullet">First Name</li><li class="Table_Bullet">Last Name</li><li class="Table_Bullet">Department</li><li class="Table_Bullet">Title</li><li class="Table_Bullet">e-mail</li></ul>
+                        All dependent fields should also be present in IndividualDetail.xml.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Field
+                    </td>
+                    <td>
+                        OnyxTimeStamp
+                    </td>
+                    <td>
+                        -
+                    </td>
+                    <td>
+                        Do not change this value.
+                        This value is dynamically populated with the user's Onyx session ID when a call is made to OGS.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Field
+                    </td>
+                    <td>
+                        MaxLength
+                    </td>
+                    <td>
+                        Integer
+                    </td>
+                    <td>
+                        Type the maximum field length.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Field
+                    </td>
+                    <td>
+                        Value
+                    </td>
+                    <td>
+                        -
+                    </td>
+                    <td>
+                        Do not type a value for this field.
+                        The value is retrieved when loading the screen.
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Strings
+                    </td>
+                    <td>
+                        -
+                    </td>
+                    <td>
+                        -
+                    </td>
+                    <td>
+                        This element is not used in the current implementation.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

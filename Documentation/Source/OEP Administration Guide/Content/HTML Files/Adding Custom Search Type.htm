@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="114" MadCap:lastWidth="701">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h3><a name="top"></a>Adding Custom Search Type</h3>
+        <p>You can add a new search type (custom entity) in Navigator that enables you to run a search for an object you created in Onyx.</p>
+        <p style="font-weight: bold;">The tasks explained in this topic are:</p>
+        <ul>
+            <li><a href="#Modifyin">Modifying Onyx Gateway Service Configuration</a>
+            </li>
+            <li style="list-style-type: disc;"><a href="#Insertin">Inserting Custom Entity Information in Persistence Database</a>
+            </li>
+            <li style="list-style-type: disc;"><a href="#Insertin2">Inserting Custom Field Information in Persistence Database</a>
+            </li>
+            <li style="list-style-type: disc;"><a href="#Inactiva">Inactivating an Entity in Persistence Database</a>
+            </li>
+            <li style="list-style-type: disc;"><a href="#Creating">Creating Entity View in Onyx Database</a>
+            </li>
+            <li style="list-style-type: disc;"><a href="#Modifyin2">Modifying Result Grid Properties</a>
+            </li>
+            <li style="list-style-type: disc;"><a href="Adding Navigator Menu or Bookmark.htm#top">Adding Navigator Menu or Bookmark Item</a>
+            </li>
+            <li style="list-style-type: disc;"><a href="Adding Navigator Menu or Bookmark.htm#Entering">Entering Resource String Values</a>
+            </li>
+        </ul>
+        <p>If a custom entity is no longer relevant to your business, you can remove it from Navigator.</p>
+        <h4><a name="Modifyin"></a>Modifying Onyx Gateway Service Configuration</h4>
+        <p class="ProcedureHeading">To modify the Onyx Gateway Service configuration:</p>
+        <ol>
+            <li>On the <b>OEAS</b> server, stop the <b>Onyx Gateway Service</b>.</li>
+            <li>Back up the <b>Onyx Gateway Service installation</b> folder and all its contents. The default installation path is C:\Program Files\Onyx\AppServer\Applications\Onyx.</li>
+            <li>In the OGS installation folder, double-click <b>CustomEntityHelper.exe</b>.</li>
+        </ol>
+        <p class="Indent1">The <b>Custom Entity Helper</b> window appears.</p>
+        <ol MadCap:continue="true">
+            <li>In the <b>Entity Name</b> box, type a name for the custom entity that you want to create. Ensure that the value you enter here matches the value you enter in the <b>entity_name</b> field of the <b>navigator_entity_master</b> table.</li>
+            <li>Click the <b>Create Entity</b> button. This creates a file in the OGS folder with the name &lt;EntityName&gt;.dll, where &lt;EntityName&gt; is the name you entered.</li>
+            <li>After you have created all the entities that you want to use, recreate the CMService.dll to include the new entities.</li>
+        </ol>
+        <ol style="list-style-type: lower-roman;">
+            <li class="List_Indent">In the <b>All Custom Entity Names</b> box, enter all the existing custom entity names, separated by commas.</li>
+        </ol>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; &#160;">Recreating the CMService.dll removes all previously created custom entities, so you must enter all the custom entity names created so far each time you recreate the CMService.dll.</p>
+        <ol style="list-style-type: lower-roman;" MadCap:continue="true">
+            <li class="List_Indent">Verify that one &lt;EntityName&gt;.dll file exists for each custom entity name that you entered in the box.</li>
+            <li class="List_Indent">Click the <b>Create CMService</b> button to recreate the CMService.dll including all the custom entities.</li>
+        </ol>
+        <ol start="7">
+            <li>From the Onyx Gateway Service folder, open the Onyx Gateway Service configuration file, and search for the comment.‘&lt;!—insert custom entity endpoints here --&gt;’.</li>
+            <li>Insert the following endpoint node under the comment ‘&lt;!—insert custom entity endpoints here --&gt;’, where &lt;EntityName&gt; is the value you entered for the entity in step 4.</li>
+        </ol>
+        <p class="C_Code">&lt;endpoint address="ServiceGateway/&lt;EntityName&gt;/"binding="webHttpBinding" contract="CmService.Service.I&lt;EntityName&gt;"/&gt;</p>
+        <ol MadCap:continue="true">
+            <li>Start <b>Onyx Gateway Service</b>.</li>
+            <li>Verify the configuration to test that the custom entity is being called. To do this, in <b>Microsoft Internet Explorer</b>, type the following URL, replacing &lt;entity-name&gt; with a custom entity name you created.</li>
+        </ol>
+        <p class="C_Code">http://&lt;app-server-name&gt;:69/ServiceGateway/&lt;entity-name&gt;/Search/?</p>
+        <p class="Indent1">Onyx should return an error message in the following format, indicating that the call was successful, but that the search failed due to a lack of additional parameters.</p>
+        <p class="C_Code">&lt;returnXml&gt;</p>
+        <p class="C_Code">&lt;methodStatus&gt;</p>
+        <p class="C_Code">&lt;statusType&gt;failure&lt;/statusType&gt;</p>
+        <p class="C_Code">&lt;error&gt;</p>
+        <p class="C_Code">&lt;title&gt;Navigator&lt;/title&gt;</p>
+        <p class="C_Code">&lt;caption&gt;Custom Entity search failed&lt;/caption&gt;</p>
+        <p class="C_Code">&lt;messageHandle&gt;00000000-0000-0000-0000-000000000000&lt;/messageHandle&gt;</p>
+        <p class="C_Code">&lt;severity&gt;failure&lt;/severity&gt;</p>
+        <p class="C_Code">&lt;dialog moreButton="False" /&gt;</p>
+        <p class="C_Code">&lt;/error&gt;</p>
+        <p class="C_Code">&lt;/methodStatus&gt;</p>
+        <p class="C_Code">&lt;/returnXml&gt;</p>
+        <h4><a name="Insertin"></a>Inserting Custom Entity Information in Persistence Database</h4>
+        <p>After creating the view for the custom entity, update the corresponding tables in the Persistence database. <a href="Reserved field names.htm#Example">Read a description and see example values</a> for each table that needs to be modified.</p>
+        <p class="ProcedureHeading">To insert custom entity information in the Persistence database:</p>
+        <ol>
+            <li>In the <b>Persistence</b> database, right-click the <b>navigator_entity_master</b> table and select <b>Edit Top 200 Rows</b>.</li>
+            <li>Scroll to the bottom of the displayed result grid, and insert one row for the entity that you created a view for.</li>
+            <li>Select the <b>navigator_entity_master_ml</b> table and repeat steps 1 and 2.</li>
+        </ol>
+        <h4><a name="Insertin2"></a>Inserting Custom Field Information in Persistence Database</h4>
+        <p>Update the Persistence database with information for each field of each entity that you want to view in the Search Criteria and Search Results windows. Additionally, you must also enter information for each field that is marked as Required for the Logical Business Object corresponding to the entity. <a href="Reserved field names.htm#Example2">Read a description and see example values</a> for each table that needs to be modified.</p>
+        <p class="ProcedureHeading">To insert custom field information in the Persistence database:</p>
+        <ol>
+            <li>In the <b>Persistence</b> database, right-click the <b>navigator_entity_field_master</b> table and select <b>Edit Top 200 Rows</b>.</li>
+            <li>Scroll to the bottom of the displayed result grid.</li>
+            <li>Insert one row for each field that you want to add as a Search Criteria in Navigator.</li>
+            <li>Insert one row for each field that you want to add as a Result Grid column in Navigator.</li>
+        </ol>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">For a field to appear both as a search criterion and as a result grid column, insert two distinct rows for the field. </p>
+        <ol MadCap:continue="true">
+            <li>Insert one row for each field that is marked as Required for the Logical Business Object (LBO). For these fields, enter the value TRUE in the is_transaction column, the value 2 in the use_type column, and the value 0 in the field_state column of the navigator_entity_field_master table.</li>
+        </ol>
+        <p class="ListNote" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Do not add a separate row if you’ve already added a row to include the field as a Result Grid field. However, ensure that you enter the value TRUE in the is_transaction column for such a field. </p>
+        <ol MadCap:continue="true">
+            <li>Insert two rows for the field primaryId with the value TRUE in the is_transaction column and the value 0 in the field_state column. In the use_type column, enter the value 0 in one row, and the value 2 in the second row.</li>
+            <li>Right-click the <b>navigator_entity_field_master_ml</b> table, and repeat steps 2 to 7 above.</li>
+        </ol>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; &#160;">Every field that you add to these tables must also exist in the corresponding view. </p>
+        <h4><a name="Inactiva"></a>Inactivating an Entity in Persistence Database</h4>
+        <p>You can inactivate an entity if it is no longer required. An inactive entity or field is not available in Navigator to perform a search.</p>
+        <p style="font-weight: bold;">To inactivate an entity:</p>
+        <ul>
+            <li>In the <b>navigator_entity_master</b> table in the <b>Persistence</b> database, set the value for the <b>IsActive</b> field for the search type to 0.</li>
+        </ul>
+        <h4><a name="Creating"></a>Creating Entity View in Onyx Database</h4>
+        <p>Create the entity view in the Onyx database to include the custom object and fields. For a list of the default views available in the Onyx database, see to <a href="Reference Values.htm#Entity">Entity Views</a>.</p>
+        <p class="ProcedureHeading">To create an entity view:</p>
+        <ol>
+            <li>In the <b>Onyx database</b>, identify the object for which a view needs to be created. You can select an existing object or create a new object.</li>
+            <li>Create a view for the object.</li>
+        </ol>
+        <p class="Indent1">Include in the view, all the fields that you want to use in the Search Criteria and the Result Grid areas of Navigator. Also include all fields that are required fields for the Logical Business Object (LBO). Ensure that you include languageCode as a field in each view that you create.</p>
+        <ol MadCap:continue="true">
+            <li>If you are adding a reference field to the view, you must include one more line in the view, in the following format:</li>
+        </ol>
+        <p class="Indent1">[ReferenceTableAlias].[field_name] AS [FieldAlias]Sort</p>
+        <p class="Indent1">This will enable the selected Sort By option to be saved when the query is saved.</p>
+        <ol MadCap:continue="true">
+            <li>Execute the newly created view against the Onyx database.</li>
+            <li>Be sure that the newly created view has <b>Select Grant</b> permission for the <b>OnyxLMViews</b> role.</li>
+        </ol>
+        <h4><a name="Modifyin2"></a>Modifying Result Grid Properties</h4>
+        <p>You must modify the Navigator Result Grid properties for a custom entity to ensure that the corresponding page opens when you click a column in the Navigator Result Grid.</p>
+        <p>To understand the process that occurs when a user clicks a column in the Navigator Result Grid, see <a href="Opening a page from the Navigator.htm#top">Opening a page from the Navigator Result Grid</a>.</p>
+        <p class="ProcedureHeading">To modify result grid properties:</p>
+        <ol>
+            <li>Create a new switch case in the JavaScript function for the Custom Entity with two actions, one for a hyperlinked column, and one for a non-hyperlinked column.</li>
+            <li>Get all the required parameters to be passed.</li>
+            <li>Call the function to open the CM page of custom entity/object and pass the required parameters, if any.</li>
+        </ol>
+        <p>Example of a switch case for an entity ‘Customers’</p>
+        <p class="C_Code">case "CUSTOMERS":</p>
+        <p class="C_Code">//Check whether the request is from a hyperLink field or normal field</p>
+        <p class="C_Code">if (bHyperLink != "") {</p>
+        <p class="C_Code">var sCustomerId;</p>
+        <p class="C_Code">var sCustomerType;</p>
+        <p class="C_Code">if (bHyperLink == "true") {</p>
+        <p class="C_Code">if (oRootNode.selectSingleNode("customerId") != null)</p>
+        <p class="C_Code">sCustomerId = oRootNode.selectSingleNode("customerId").text;</p>
+        <p class="C_Code">if (oRootNode.selectSingleNode("customerType") != null)</p>
+        <p class="C_Code">sCustomerType = oRootNode.selectSingleNode("customerType").text;</p>
+        <p class="C_Code">if (sCustomerId != "")</p>
+        <p class="C_Code">jsLoadObjectCustomer(sCustomerId, sCustomerType, "");}</p>
+        <p class="C_Code">else if (bHyperLink == "false") {</p>
+        <p class="C_Code">if (oRootNode.selectSingleNode("customerType") != null)</p>
+        <p class="C_Code">sCustomerType = oRootNode.selectSingleNode("customerType").text;</p>
+        <p class="C_Code">if (sPrimaryId != "")</p>
+        <p class="C_Code">jsLoadObjectCustomer(sPrimaryId, sCustomerType, "");</p>
+        <p class="C_Code">}</p>
+        <p class="C_Code">}</p>
+        <p class="C_Code">break;</p>
+    </body>
+</html>

@@ -1,0 +1,432 @@
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function:  OFindExtraFiles
+//
+//  Purpose:	This function looks for additional file groups that the customer
+//				wants to install with the regular product being installed.
+//				In a nut shell, if the ExtraFiles.ini file exists in the
+//				root of the install CD image, then these groups and there files
+//				will be	installed.
+//				
+//				This function only finds and lists the groups available to install.
+//				Returns 0 or false if ini file not found.
+//
+//				Use OCopyExtraFiles to do the actual coping of these files.
+//
+///////////////////////////////////////////////////////////////////////////////
+function OFindExtraFiles()
+
+STRING szSelectName,szKeyBase,szKeyName,szValue,szTemp;
+INT nCount,nTemp,nDone,nReturn;
+BOOL bHide;
+
+begin
+	//has this already been run once?  If not, populate the list.
+	if(!bDoneOnce)then
+	
+		//set values
+		//have to build up the path one at a time
+		szExtraFilesDir = SRCDIR ^ EXTRA_FILES;
+				
+		szSelectName = SELECT_SECTION;
+		szKeyBase = SELECT_KEY_BASE;
+		nCount = 1;
+		
+		//look for key file
+		szTemp = szExtraFilesDir ^ ALL_LANG;
+		szExtraFilesIni = szTemp ^ EXTRA_FILES_INI;
+		if Is(FILE_EXISTS,szExtraFilesIni)then
+			bExtraFiles = TRUE;  //global var to indicate go/nogo.
+			szExtraFilesDir = szTemp;
+			//MessageBox("Found "+szExtraFilesIni,WARNING);
+			OLog("Found "+szExtraFilesIni);
+		else
+			//next try lang dir
+//OFS 		OGetLanguageDir(szTemp);
+			szTemp = szExtraFilesDir ^ szTemp;
+			szExtraFilesIni = szTemp ^ EXTRA_FILES_INI;
+			if Is(FILE_EXISTS,szExtraFilesIni)then
+				bExtraFiles = TRUE;  //global var to indicate go/nogo.
+				szExtraFilesDir = szTemp;
+				//MessageBox("Found "+szExtraFilesIni,WARNING);
+				OLog("Found "+szExtraFilesIni);
+			else
+				bExtraFiles = FALSE;  //global var to indicate go/nogo.
+				//MessageBox("Could not find "+szExtraFilesIni,WARNING);
+				OLog("Could not find "+szExtraFilesIni);
+			endif;
+		endif;
+	
+		//read in the list of file groups.  Uses global list listGroups
+		Sprintf(szKeyName,szKeyBase+"%d",nCount);
+		nDone = GetProfString(szExtraFilesIni,szSelectName,szKeyName,szValue);
+		if(nDone <0 )then
+			//No group1 entry found.  Assume file is empty, therefore nogo
+			bExtraFiles = FALSE;
+		endif;
+		while(nDone=0)
+		    //check each group section for GO/NOGO
+			_GetGroupItem(szExtraFilesIni,szValue,"SkipGroup",nTemp,NO);
+			if(nTemp = NO)then
+				if(_CheckGroupIntegrity(szExtraFilesIni,szValue))then
+					//checks setup type and adds group and selection state to the each respective list.
+					_AddGroupToLists(szExtraFilesIni,szValue);
+				endif;
+			endif;
+			nCount++;
+			Sprintf(szKeyName,szKeyBase+"%d",nCount);
+			nDone = GetProfString(szExtraFilesIni,szSelectName,szKeyName,szValue);
+		endwhile;
+		
+		//set this so this section isn't done again. (back button stuff)
+		bDoneOnce = TRUE;
+	endif;
+	
+//SdShowInfoList("Extra files","Components listed for installing.",listGroups);
+//SdShowInfoList("Extra files","Components selected state for installing.",listSelectState);
+	nReturn = NEXT;
+	
+	//have to wait until new media was created and populated before doing recovery.
+	if(ORecoveryEvaluation("OFindExtraFiles"))then
+		return NEXT;
+	endif;
+	
+	if(bExtraFiles)then
+		//if a custom install, now display the list of groups to the user for selection changes.
+		_GetGroupItem(szExtraFilesIni,szSelectName,"Hide",nTemp,NO);
+		//only display if HIDE not set and if a custom install.
+		if(nTemp=NO  && OIsSetupTypeCustom(gszSetupType))then
+			nReturn = _DisplayExtraFiles();
+		endif;
+	endif;
+	
+	ORecoverySaveComponents(EXTRA_FILE_MEDIA,"",nReturn);
+	
+	return nReturn;
+end;
+
+//////////////////////////////////////////////////////////////////////////////////////////
+// Adds the passed in extra file group, to both lists.  Also determines the default
+// selection (installation) state of the that group.  Default is for the group to be selected.
+// The state can be set to not selected, by setting a var to NO in the group section of the
+// extrafiles.ini.  There is a var for each setup type.  They are:  TYPICAL, MINIMUM, and CUSTOM.
+//////////////////////////////////////////////////////////////////////////////////////////
+function _AddGroupToLists(szIniFile,szGroup)
+BOOL nSelectState;
+STRING szKey,szTemp;
+INT nSize,nTemp;
+begin
+	//based on the setup type chosen, determine if group should installed.
+	//uses the gszSetupType global var.
+	szTemp = gszSetupType;
+	StrToUpper(szTemp,szTemp);
+	if(szTemp % "TYPICAL")then
+		_GetGroupItem(szIniFile,szGroup,"TYPICAL",nSelectState,YES);
+	elseif(szTemp % "MINIMUM")then
+		_GetGroupItem(szIniFile,szGroup,"MINIMUM",nSelectState,YES);
+	elseif(szTemp % "COMPACT")then
+		_GetGroupItem(szIniFile,szGroup,"MINIMUM",nSelectState,YES);
+	elseif(szTemp % "CUSTOM")then
+		_GetGroupItem(szIniFile,szGroup,"CUSTOM",nSelectState,YES);
+	endif;
+	
+	//override setting if in recovery mode
+	if(gbRecovery)then
+		szKey = "SelectedComponents\\"+EXTRA_FILE_MEDIA;
+		ORecoveryGetString(szKey,szGroup,szTemp);
+		if(szTemp="YES")then
+			nSelectState = YES;
+		else
+			nSelectState = NO;
+		endif;
+    endif;
+	
+	//add item to new media.
+	ComponentAddItem(EXTRA_FILE_MEDIA,szGroup,nSize,nSelectState);
+	
+	//should item be hidden from user?
+	_GetGroupItem(szExtraFilesIni,szGroup,"Hide",nTemp,NO);
+	nSelectState = !nTemp;
+	ComponentSetData(EXTRA_FILE_MEDIA,szGroup,COMPONENT_FIELD_VISIBLE,nSelectState,"");
+	
+	
+end;
+
+//////////////////////////////////////////////////////////////////////////////////////////
+// Displays a list of the extra files found, if custom setup type is chosen.
+// Can be diabled in extrafiles.ini.
+//////////////////////////////////////////////////////////////////////////////////////////
+function _DisplayExtraFiles()
+INT nReturn;
+STRING szTemp,szTitle,szMsg,szSaveMedia;
+begin
+	szTemp = gszSetupType;
+	StrToUpper(szTemp,szTemp);
+	if(szTemp % "CUSTOM")then;
+		szTitle = "Extra Files";
+		szMsg = @EXTRAFILES1;
+		//nReturn = OAskOptionsFromLists(szTitle,szMsg,listGroups,listSelectState,NONEXCLUSIVE);
+		
+		szSaveMedia = MEDIA;
+    	MEDIA = EXTRA_FILE_MEDIA;
+    	nReturn = SdAskOptionsList(szTitle,szMsg,"",NONEXCLUSIVE);
+    	MEDIA = szSaveMedia;
+
+	else
+		nReturn = NEXT;
+	endif;
+	
+	return nReturn;
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function:  OCopyExtraFiles
+//
+//  Purpose:	This function will install additional files the customer
+//				wants to install with the regular product being installed.
+//				In a nut shell, if the ExtraFiles.ini file exists in the
+//				root of the install CD image, then these files will be
+//				installed.  Uses xcopyfiles so these files will be removed
+//				during an uninstall.
+//
+//				Returns 0 or false if ini file not found.
+//
+///////////////////////////////////////////////////////////////////////////////
+function OCopyExtraFiles()
+
+STRING szGroup,szValue,szKeyName,szKeyBase;
+INT nLoopSelect,nLoopGroup,nCount;
+LIST listGroups;
+
+begin
+	//are there files to copy?  Uses Global bool.
+	if(bExtraFiles = FALSE)then
+		return 0;
+	endif;
+	
+	szKeyBase = GROUP_KEY_BASE;
+	listGroups = ListCreate(STRINGLIST);
+
+	//get all components from EXTRA_FILE_MEDIA
+	ComponentListItems(EXTRA_FILE_MEDIA,"",listGroups);
+	
+	//read in the list of file groups.
+	nLoopSelect = ListGetFirstString(listGroups,szGroup);
+	while(nLoopSelect != END_OF_LIST)
+	
+		//if item selected, get the data for all file groups and copy the files.
+		if(ComponentIsItemSelected(EXTRA_FILE_MEDIA,szGroup))then
+			//loop through all groups.
+			nCount=1;
+			Sprintf(szKeyName,szKeyBase+"%d",nCount);
+			nLoopGroup = GetProfString(szExtraFilesIni,szGroup,szKeyName,szValue);
+			while(nLoopGroup=0)
+				_GetGroupDataThenCopy(szExtraFilesIni,szValue);
+				
+				//get the next group.
+				nCount++;
+				Sprintf(szKeyName,szKeyBase+"%d",nCount);
+				nLoopGroup = GetProfString(szExtraFilesIni,szGroup,szKeyName,szValue);
+			endwhile;
+
+		endif;
+		nLoopSelect = ListGetNextString(listGroups,szGroup);
+	endwhile;
+	
+	ListDestroy(listGroups);
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+// This function reads all data for a group from an ini file.
+// and puts the results into the data structure located at where the passed-in
+// pointer is pointing to.
+///////////////////////////////////////////////////////////////////////////////
+function _GetGroupDataThenCopy(szINIFile,szGroup)
+STRING szTitle,szSrcDir,szTargetDir,szTemp;
+STRING szKeyBase,szKeyName,szFile;
+INT nCopyMode,nShared,nRegister,nLocked,nCount,nLoop,nTemp;
+BOOL bDone;
+begin
+	//Init vars.
+	szKeyBase = FILE_KEY_BASE;
+	nCount = 1;
+	
+	//get the remaining parameters of section.
+	//Title
+	if(GetProfString(szINIFile,szGroup,"Title",szTemp)<0 )then
+		szTitle = szGroup;  //use default
+	else
+		szTitle = szTemp;
+	endif;
+	//SourceDir
+	if(GetProfString(szINIFile,szGroup,"SourceDir",szTemp)<0 )then
+		szSrcDir = szExtraFilesDir; //use default
+	else
+		if(OParseMacros(szTemp))then
+			szSrcDir = szTemp;
+		else
+			szSrcDir = SRCDIR ^ szTemp;
+		endif;
+	endif;
+	//InstallDir;
+	if(GetProfString(szINIFile,szGroup,"InstallDir",szTemp)<0 )then
+		szTargetDir = TARGETDIR; //use default
+	else
+		if(OParseMacros(szTemp))then
+			szTargetDir = szTemp;
+		else
+			szTargetDir = TARGETDIR^szTemp;
+		endif;
+	endif;
+	//CopyMode
+	_GetGroupItem(szINIFile,szGroup,"CopyMode",nCopyMode,COMP_NORMAL);  //Return var is the one in the nCopyMode position.
+	//Shared
+	_GetGroupItem(szINIFile,szGroup,"Shared",nTemp,NO);
+	if(nTemp = YES)then
+		nShared = SHAREDFILE;
+	else
+		nLocked = LOCKEDFILE;  //allways set to look for a locked file, if not a shared file.
+	endif;
+	//Register
+	_GetGroupItem(szINIFile,szGroup,"Register",nTemp,NO);
+	if(nTemp = YES)then nRegister = SELFREGISTER;endif;
+
+
+	//setup dirs for this group copy.
+	VarSave(SRCTARGETDIR); //save present setting.
+	SRCDIR = szSrcDir;
+	TARGETDIR = szTargetDir;
+	SetStatusWindow( 0, "Copying extra files..." );
+	//Disable(INDVFILESTATUS);
+	Enable(INDVFILESTATUS);
+    StatusUpdate( ON, 100 );
+
+	//read in the list of files
+	Sprintf(szKeyName,szKeyBase+"%d",nCount);
+	nLoop = GetProfString(szINIFile,szGroup,szKeyName,szFile);
+	if(nLoop <0)then
+		Sprintf(szTemp,@ERROR_EXTRAFILES,szGroup);
+		MessageBox(szTemp,WARNING);
+		OLog(szTemp);
+	endif;
+	while(nLoop=0)
+		//check to see if the file exists.
+		if(!Is(FILE_EXISTS,szSrcDir^szFile))then
+			Sprintf(szTemp,@ERROR_COULD_NOT_FIND,szSrcDir^szFile);
+			MessageBox(szTemp,WARNING);
+			OLog(szTemp);
+		else
+    			
+			//copy files listed in section using XCopyFile.
+			nTemp = XCopyFile(szFile,szFile,nCopyMode|nShared|nRegister|nLocked|INCLUDE_SUBDIR);
+			_HandleCopyFileError(szFile,nTemp);
+			
+		endif;
+		//get the next file.
+		nCount = nCount + 1;
+		Sprintf(szKeyName,szKeyBase+"%d",nCount);
+		nLoop = GetProfString(szINIFile,szGroup,szKeyName,szFile);
+	endwhile;
+	
+	//add any new shortcuts
+	if(GetProfString(szINIFile,szGroup,"ShortCut",szTemp)=0 )then
+		OAddIcon(szTemp);
+	endif;
+	
+	VarRestore(SRCTARGETDIR);
+	
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+// This function reads a string from an ini file and returns a number
+// value if a match is found.  If nothing found, the default number value passed
+// in is returned.  The return var is nValue.
+///////////////////////////////////////////////////////////////////////////////
+function _GetGroupItem(szINIFile,szGroup,szKey,nValue,nDefault)
+STRING szValue,szMsg;
+begin
+	if(GetProfString(szINIFile,szGroup,szKey,szValue)<0 )then
+		nValue = nDefault;
+	else
+		StrToUpper(szValue,szValue);
+		if(szValue = "YES")then
+			nValue = YES;
+		elseif(szValue = "NO")then
+			nValue = NO;
+		elseif(szValue = "ALLWAYS")then
+			nValue = COMP_NORMAL;
+		elseif(szValue = "DATE")then
+			nValue = COMP_UPDATE_DATE;
+		elseif(szValue = "VERSION")then
+			nValue = COMP_UPDATE_VERSION;
+		else
+			Sprintf(gszMsg,@EXTRAFILES2,szINIFile,szGroup);
+			szMsg = gszMsg+"\n"+szKey+" = "+szValue;
+			MessageBox(szMsg,WARNING);
+			OLog(gszMsg);
+		endif;		
+	endif;
+end;	
+
+/*
+XCopyFile Copy modes.
+COMP_NORMAL  copies regardless of date, time, or version.
+COMP_UPDATE_SAME  copies even if the date, time, or version is identical. You must also specify either COMP_UPDATE_DATE or COMP_UPDATE_VERSION with this constant. Otherwise, InstallShield ignores this constant.
+COMP_UPDATE_DATE  copies based on the file date and time.
+COMP_UPDATE_VERSION  copies based on the file version. If version does not exist, date is used. If version does not exist in one file, the file containing version information is the newer.
+SELFREGISTER  runs the self-registration process one the file.
+SHAREDFILE  file is installed as a shared file.
+LOCKEDFILE  makes used files for update when Windows or the system is rebooted.
+EXCLUDE_SUBDIR  do not include subdirectories contained in the source path.
+INCLUDE_SUBDIR  include subdirectories contained in the source path.
+*/
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function: _CheckGroupIntegrity
+//
+//  Purpose: Checks the sections of the ini file for correct structure
+//           Each selectable item must have a section with a Group1=entry
+//			 The Group1 value, must have a section that has a File1=entry.
+//
+///////////////////////////////////////////////////////////////////////////////
+function _CheckGroupIntegrity(szIni,szSection)
+STRING szValue,szTemp;
+BOOL nBad;
+begin
+	Sprintf(gszMsg,@ERROR_COPYFILE_INI1,szIni);
+	gszMsg = gszMsg + "\n";
+	if(GetProfString(szIni,szSection,GROUP_KEY_BASE+"1",szValue)<0 )then
+		Sprintf(gszMsg,@ERROR_COPYFILE_INI2,SELECT_KEY_BASE,GROUP_KEY_BASE);
+		gszMsg = gszMsg + "["+ szSection + "]\n"+ gszMsg;
+		nBad = 1;
+	elseif(GetProfString(szIni,szValue,FILE_KEY_BASE+"1",szTemp)<0 )then	
+		Sprintf(gszMsg,@ERROR_COPYFILE_INI3,GROUP_KEY_BASE,FILE_KEY_BASE);
+		gszMsg = gszMsg + "["+ szValue + "]\n"+ gszMsg;
+		nBad = 1;
+	endif;
+	if(nBad)then
+		MessageBox(gszMsg,WARNING);
+		OLog(gszMsg);
+		return 0;
+	endif;
+	return 1;
+end;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

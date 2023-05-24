@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="761" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>(ActionBatchExecute) parameters XML</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>
+            <MadCap:keyword term="parameters" />
+            <MadCap:keyword term="parameters XML" />parameters XML</h4>
+        <p>
+            <MadCap:keyword term="ActionBatchExecute" />The OnyxActionBatchExecute step component performs the following processing 
+ steps using the actionBatchXml contained in the parameters XML that it 
+ receives from the <a href="actionBatch_execute.htm">actionBatch.execute</a> 
+ method input parameter.</p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">View the <a href="actionBatchXml_schema.htm">actionBatchXml 
+ schema</a> element grid, located in the XML schema library section of 
+ the <a href="OEAS_reference_libraries.htm">Reference libraries</a>, to 
+ assist you in following the OnyxActionBatchExecute processing steps. The 
+ grid indentation signifies hierarchy in the XML structure.</p>
+        <h5>OnyxActionBatchExecute processing steps</h5>
+        <p>Every <a href="actionBatchXml_action.htm">action</a> in 
+ the <a href="actionBatchXml_actions.htm">actions</a> 
+ list is processed at least once. If <a href="actionBatchXML_sourceList.htm">sourceList</a> 
+ items exist, every action in the actions list is processed for each source 
+ list item. If there are no items in the sourceList, 
+ each action in the actions list is 
+ performed once.</p>
+        <p>For each action in the actions 
+ list, the following steps are performed.</p>
+        <ol>
+            <li>The caller is checked for permission to execute 
+ the action’s OEAS method call. If the caller does not have the required 
+ permission, an error is returned in the returnXml 
+ and processing is stopped.</li>
+            <li>For each <a href="actionBatchXml_sourceListMap.htm">sourceListMap</a> 
+ the value pointed to by the <a href="actionBatchXml_sourceListMap_sourceElementPath.htm">sourceElementPath</a> 
+ value is copied to the <a href="actionBatchXml_sourceListMap_targetElementPath.htm">targetElementPath</a>. Or if a <a href="actionBatchXml_sourceListMap_targetCollection.htm">targetCollection</a> 
+ is used the value is copied to each element pointed to by the combination 
+ of <a href="actionBatchXml_sourceListMap_itemPath.htm">targetCollection/itemPath</a> and <a href="actionBatchXml_sourceListMap_elementPath.htm">targetCollection/elementPath</a>. 
+ If the element that targetElementPath or 
+ targetCollection/elementPath points to does not exist, it is created. 
+ These target paths are used to select the location under the <a href="actionBatchXml_methodInputs.htm">methodInputs</a> 
+ node to copy the value to, so the paths must be relative to the methodInputs 
+ node.</li>
+            <li>For each <a href="actionBatchXml_actionReturnMap.htm">actionReturnMap</a> the 
+ value pointed to by the <a href="actionBatchXml_actionReturnMap_sourceElementPath.htm">sourceElementPath</a> value is copied to the <a href="actionBatchXml_actionReturnMap_targetElementPath.htm">targetElementPath</a>. 
+ Or if a <a href="actionBatchXml_actionReturnMap_targetCollection.htm">targetCollection</a> 
+ is used the value is copied to each element pointed to by the combination 
+ of <a href="actionBatchXml_actionReturnMap_itemPath.htm">targetCollection/itemPath</a> 
+ and <a href="actionBatchXml_actionReturnMap_elementPath.htm">targetCollection/elementPath</a>. 
+ If the element that targetElementPath or 
+ targetCollection/elementPath points to does not exist, it is created. 
+ These target paths are used to select the location under the <a href="actionBatchXml_methodInputs.htm">methodInputs</a> 
+ node to copy the value to, so the paths must be relative to the methodInputs 
+ node. If a text value is copied to a target node with a null="1" 
+ attribute, the null="1" on the target is removed.</li>
+            <li>With the updated methodInputs 
+ the OEAS method call is made on the object pointed to by the <a href="actionBatchXml_logicalObjectName.htm">logicalObjectName</a> and 
+ <a href="actionBatchXml_logicalMethodName.htm">logicalMethodName</a>.</li>
+            <li>If the method call fails, the method status of 
+ the actionBatch.execute call is set to failure. If there are no failures 
+ but one or more method calls returns "<a href="statusType_element.htm">successWithInfo</a>," 
+ the method status of the actionBatch.execute call is flagged as "successWithInfo."</li>
+            <li>Regardless of the method call status the input 
+ and output of the OEAS method call just executed is appended to the <a href="actionBatch_statusXml_schema.htm">statusXml</a>.</li>
+            <li>If the OEAS method call fails, the value of <a href="actionBatchXml_onFailure.htm">onFailure</a> under the action 
+ node is used to determine what to do. The following table lists the possible 
+ onFailure values and describes the action processing taken for each value.</li>
+        </ol>
+        <table>
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Value</th>
+                    <th>Action taken</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">continueNextSourceItem</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Stop processing the current source item, 
+ then proceed to process the next source item. If the sourceList is empty, 
+ the batch is stopped.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">continueNextAction</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Stop processing the current action, then 
+ proceed to process the next action 
+ for the same source item.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">stop</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text" style="margin-bottom: 0;">Stop processing 
+ and do not process any further actions or source list items.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="Indent1">For an example of using the OnyxActionBatchExecute 
+ step component by an actionBatch.execute method call, see <a href="actionBatchExecute_sample_overview.htm">How 
+ to use actionBatch.execute to batch OEAS method calls</a>. </p>
+    </body>
+</html>

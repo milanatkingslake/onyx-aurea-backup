@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="736" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Subscription roles</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>Subscription roles </h4>
+        <p>Subscription roles are created using Subscription Designer, where you 
+ assign an organizational role (as defined in Security Administration) 
+ to a subscription relationship. They enable you to assign a subscription 
+ rule to the organizational role so that you can override the default subscription 
+ behavior for subscribers who are members of that role. </p>
+        <p>You can assign the following subscription rules to 
+ a subscription role: </p>
+        <ul>
+            <li>Subscribe primary object and cascade its subscription 
+ relationships.</li>
+            <li>Subscribe secondary object and cascade its subscription 
+ relationships.</li>
+            <li>Cascade only the secondary objects that meet this 
+ filter expression.</li>
+        </ul>
+        <p style="font-weight: bold;">Example: </p>
+        <p>Suppose your organization has offline users from both 
+ the Support team and the Sales team and that these end-users only want 
+ to take the incident records offline that are relevant to their activities. 
+ The solution is to create separate subscription rules for these two groups 
+ such that when they subscribe to a company or individual, cascaded subscriptions 
+ for the support and sales incidents are created for them depending on 
+ whether they are part of the support or sales team. You could apply this 
+ solution by using Security Administration to create the Support role and 
+ the Sales role and adding the support and sales users to these roles respectively 
+ and then setting the rules for those roles in Subscription Designer, as 
+ follows: </p>
+        <ul>
+            <li>Locate the <em class="Emphasis">company owner of 
+ an incident</em> relationship for the subscribable incident object and: 
+ </li>
+        </ul>
+        <ul style="list-style-type: circle;">
+            <li class="Sec_List">Add a new subscription role to the relationship 
+ based on the previously created Security Administration Support role, 
+ and set the <span class="UIElement" style="font-weight: bold;">Cascade only the secondary objects that 
+ meet this filter expression </span>rule to “iCategoryId=1.”</li>
+            <li class="Sec_List">Add a second new subscription role to the 
+ relationship based on the previously created Security Administration Sales 
+ role, and set the <span class="UIElement" style="font-weight: bold;">Cascade only the secondary objects 
+ that meet this filter expression </span>rule to “iCategoryId=3.”</li>
+        </ul>
+        <ul>
+            <li>Locate the <em class="Emphasis">individual owner 
+ of an incident</em> relationship for the subscribable incident object, 
+ and again:</li>
+        </ul>
+        <ul style="list-style-type: circle;">
+            <li class="Sec_List">Add a new subscription role to the relationship 
+ based on the previously created Security Administration Support role, 
+ and set the <span class="UIElement" style="font-weight: bold;">Cascade only the secondary objects that 
+ meet this filter expression </span>rule to “iCategoryId=1.”</li>
+            <li class="Sec_List">Add a second new subscription role to the 
+ relationship based on the previously created Security Administration Sales 
+ role, and set the <span class="UIElement" style="font-weight: bold;">Cascade only the secondary objects 
+ that meet this filter expression </span>rule to “iCategoryId=3.”</li>
+        </ul>
+        <p>With this solution, when a member of the Support team subscribes to 
+ a company or individual, cascaded subscriptions are created for that user 
+ to only the support incidents (and any related objects of those incidents 
+ for which cascade rules apply). And when a member of the Sales team subscribes 
+ to a company or individual, cascaded subscriptions are created for that 
+ user to only the sales incidents (and any related objects of those incidents 
+ for which cascade rules apply). </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">You can also use a subscription role to ensure that certain 
+ objects are not subscribed to members of a particular role. For instance, 
+ suppose you have a subscription relationship between the company and incident 
+ objects with the Cascade the secondary object and cascade its subscription 
+ relationships rule set to true. In this case, end-users who subscribe 
+ to a company have cascaded subscriptions to that company’s incidents. 
+ However, if you had a certain group of people (organizational role) for 
+ whom you did not want cascaded subscriptions to the incidents, you could 
+ create a subscription role for that group, leaving the Cascade the secondary 
+ object and cascade its subscription relationships rule set to false. This 
+ would prevent the cascaded subscriptions to the incidents for this group 
+ of users.</p>
+    </body>
+</html>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="1191" MadCap:lastWidth="783" MadCap:conditions="Default.Main"><head><title>Line-item list customization</title>
+    </head>
+    <body>
+        <h1>Line-item list customization</h1>
+        <p>The columns that display information about the products that comprise 
+ a forecast or quote are defined within the file [YourOEPwebsite]\ForecastQuote\QuoteMain_ListDef.xml 
+ on the OEP server. The columns appear in the same order as they are listed 
+ within the XML. Within the file, each column element contains the attributes 
+ of the column. The following XML fragment is a sample extract from the 
+ file:</p>
+        <p Class="Code" class="code">XML id=xListDef</p>
+        <p Class="Code" class="code">listcols</p>
+        <p Class="Code" class="code">&#160;&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;<coltitle>% = OTMStr2SafeHTML(res_List_Title_Col1) %</coltitle></p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;<datafield>*delete</datafield></p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;<selectable>N</selectable></p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;<sortable>N</sortable></p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;<quotetype>FQ</quotetype></p>
+        <p Class="Code" class="code">&#160;&#160;</p>
+        <p Class="Code" class="code">&#160;&#160;</p>
+        <p Class="Code" class="code">....</p>
+        <p>The data within the file is processed as an ASP script, so dynamic configurations 
+ can be created. The file is processed as part of the QuoteMain.asp file.</p>
+        <p>Each column has five properties that are set within the XML. The properties 
+ and their purpose are described below.</p>
+        <p>
+            View the property description table
+        </p>
+        
+            <table wrapperparagraphselector="P" style="width: 100%;border-spacing: 0px;border-spacing: 0px;" cellspacing="0" width="100%">
+                <tr>
+                    <td style="width: 11%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="11%">
+                        <p class="TableHead" style="margin-bottom: 0;">Property</p>
+                    </td>
+                    <td style="width: 39%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="39%">
+                        <p class="TableHead" style="margin-bottom: 0;">Valid Values</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="TableHead" style="margin-bottom: 0;">Description</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 11%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="11%">
+                        <p class="TableText" style="margin-bottom: 0;">coltitle</p>
+                    </td>
+                    <td style="width: 39%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="39%">
+                        <p class="TableText" style="margin-bottom: 0;"><span style="font-style: italic;">Any</span>
+                        </p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="TableText" style="margin-bottom: 0;">The heading for the column in the UI. Modify 
+ the constants in the file Res\ForecastQuote\QuoteMain_ListDef_res.asp.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 11%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="11%">
+                        <p class="TableText" style="margin-bottom: 0;">datafield</p>
+                    </td>
+                    <td style="width: 39%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="39%">
+                        <p class="TableText">lineid</p>
+                        <p class="TableText">rowid</p>
+                        <p class="TableText">productid</p>
+                        <p class="TableText">description</p>
+                        <p class="TableText">unitprice</p>
+                        <p class="TableText">quantity</p>
+                        <p class="TableText">disctype</p>
+                        <p class="TableText">discvalue</p>
+                        <p class="TableText">confidence</p>
+                        <p class="TableText">shipdate</p>
+                        <p class="TableText">comments</p>
+                        <p class="TableText">updatedby</p>
+                        <p class="TableText">insertedby</p>
+                        <p class="TableText">*delete - show delete check box</p>
+                        <p class="TableText">*discounted - discounted value for line</p>
+                        <p class="TableText">*discamount - discount amount for line</p>
+                        <p class="TableText">*discvalue - discount value entered</p>
+                        <p class="TableText">*extended - extended value for line</p>
+                        <p class="TableText">*updatedate - formatted update date</p>
+                        <p class="TableText">*insertdate - formatted insert date</p>
+                        <p class="TableText">User Defined Fields (UDFs) use the format quotelineudfx 
+ (where x is 1 -10)</p>
+                        <p class="TableText">The following fields are only used if EnableSecondaryCurrency 
+ is set to Yes in the SystemParameters table.</p>
+                        <p class="TableText">unitprice2</p>
+                        <p class="TableText">discamount2</p>
+                        <p class="TableText">discounted2</p>
+                        <p class="TableText" style="margin-bottom: 0;">extended2</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="TableText">The name of the quoteline field.</p>
+                        <p class="TableText">A prefix of * indicates a field that is either calculated 
+ or has special formatting or function.</p>
+                        <p>&#160;</p>
+                        <p class="TableText">UDF datafields can be of the following type:</p>
+                        <p class="TableText">Text box</p>
+                        <p class="TableText">Drop-down</p>
+                        <p class="TableText">Hierarchical drop-down</p>
+                        <p class="TableText">Check box</p>
+                        <p class="TableText">Mask</p>
+                        <p>&#160;</p>
+                        <p class="TableText" style="margin-bottom: 0;">UDF data values correspond to the Reference 
+ Administration Tool QuoteLineItem.UserX fields.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 11%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="11%">
+                        <p class="TableText" style="margin-bottom: 0;">selectable</p>
+                    </td>
+                    <td style="width: 39%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="39%">
+                        <p class="TableText" style="margin-bottom: 0;">Y, N</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="TableText">Y - Enables this field to be selected as a link.</p>
+                        <p class="TableText" style="margin-bottom: 0;">N - This field is not selectable as a link.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 11%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="11%">
+                        <p class="TableText" style="margin-bottom: 0;">sortable</p>
+                    </td>
+                    <td style="width: 39%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="39%">
+                        <p class="TableText" style="margin-bottom: 0;">N, NUMBER, DATE, or STRING</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="TableText">N or the type of the sort.</p>
+                        <p class="TableText" style="margin-bottom: 0;">N defines the column as not sortable. The 
+ type defines the sort to enable.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 11%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="11%">
+                        <p class="TableText" style="margin-bottom: 0;">quotetype</p>
+                    </td>
+                    <td style="width: 39%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="39%">
+                        <p class="TableText" style="margin-bottom: 0;">FQ, F, or Q.</p>
+                    </td>
+                    <td style="width: 55%;padding-left: 2px;padding-top: 2px;padding-right: 2px;padding-bottom: 2px;" valign="top" width="55%">
+                        <p class="TableText">FQ - Configures the column element to appear in both 
+ the Forecast and Quote detail interfaces.</p>
+                        <p class="TableText">F - Appear only in the Forecast detail</p>
+                        <p class="TableText" style="margin-bottom: 0;">Q - Appear only in the Quote detail.</p>
+                    </td>
+                </tr>
+            </table>
+            <p class="Note" style="margin-bottom: 0;" MadCap:autonum="Note: &#160;">To change the column caption on the list 
+ view, you must modify the resource file Res\ForecastQuote\QuoteMain_ListDef_Res.asp. 
+ The default user-defined field captions set through the OEAS Reference 
+ Table Administration tool do not appear in this main quote interface (but 
+ they do appear in the line-item detail window). See <a href="Customizing_Resource_Files.htm">Customizing 
+ resource files</a> for more information about resource files. </p>
+        
+    </body>
+</html>

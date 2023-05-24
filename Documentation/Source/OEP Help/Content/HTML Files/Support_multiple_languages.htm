@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:conditions="Primary.PrintOnly" MadCap:lastBlockDepth="4" MadCap:lastHeight="773" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="../SkinSupport/MadCap.css" rel="stylesheet" type="text/css" /><title>Supporting Multiple Languages</title>
+        <link href="../Resources/TableStyles/Aptean_Note_Table_1.css" rel="stylesheet" />
+        <link href="../Resources/TableStyles/Aptean_Note_Table_3.css" rel="stylesheet" />
+        <link href="../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" />
+    </head>
+    <body>
+        <H2 class="Heading">Supporting Multiple Languages</H2>
+        <p class="BodyText">Navigator is supported on multilingual installations of <span class="CCM variablesProduct - CCM Suite (abbrev)">Onyx</span> in the following topology:</p>
+        <ul>
+            <li class="ListBullet_1" value="1">Single OTDB</li>
+            <li class="ListBullet_1" value="2">Single OEAS with a single logical application with the default site ID</li>
+            <li class="ListBullet_1" value="3">A separate installation of <span class="CCM variablesTier - presentation">OEP</span> for each language</li>
+        </ul>
+        <p class="Warning" MadCap:autonum=" &#160;&#160;&lt;b&gt;Warning:&lt;/b&gt; &#160;"> In the Navigator Results List, the Assigned To field for work tickets and tasks appears blank if the assigned user's language preference is different from the language of the website that you are logged on to. To view the Assigned To user, you must open the record.</p>
+        <p class="BodyText">To support multiple languages in Navigator, you must perform the following steps for each language that you want to support.</p>
+        <ul>
+            <li class="ListBullet_1" value="1"><a href="#Synchron">Modify OTDB to support multiple languages</a>
+            </li>
+            <li class="ListBullet_1" value="2"><a href="#Insert">Insert language-specific data in the Persistence database</a>
+            </li>
+            <li class="ListBullet_1" value="3"><a href="#Localize">Localize Onyx Gateway Service  error messages</a>
+            </li>
+            <li class="ListBullet_1" value="4"><a href="#Localize2">Localize script status and email priority domain data</a>
+            </li>
+            <li class="ListBullet_1" value="5"><a href="#Captions">Localize Navigator UI error messages, tool tips, and captions</a>
+            </li>
+            <li class="ListBullet_1" value="6"><a href="#Update">Update the configuration file for each website</a>
+            </li>
+            <li class="ListBullet_1" value="7"><a href="#LocalizeTelerikControls">Localize Telerik Controls</a>
+            </li>
+        </ul>
+        <p class="ElementHeader"><a name="Synchron"></a>Modify OTDB to support multiple languages</p>
+        <p class="BodyText">You must insert language-specific data into the OTDB in order to support multiple languages. For information on doing this, see <b>Customize Database (OTDB)</b>.</p>
+        <p class="Important" MadCap:autonum=" &lt;b&gt;Important:&lt;/b&gt; ">The language code that you create for each language is case-sensitive. Be sure to enter the language code throughout <span class="CCM variablesProduct - CCM Suite (abbrev)">Onyx</span> using the same case as in the OTDB Language table.</p>
+        <p class="ElementHeader"><a name="Insert"></a>Insert language-specific data in the Persistence database</p>
+        <p class="BodyText">In the Persistence database, domain data is contained in two types of tables: language-independent tables, and language-dependent tables. You must update both these types of tables with data for each language that you intend to support.</p>
+        <p class="TaskHeading">To update the Persistence database tables:</p>
+        <ol>
+            <li class="ListBullet_1" value="1">Ensure that you have synchronized the OTDB and Persistence database so that the latest domain data is available in the Persistence database. For information on doing this, see the <span class="CCM variablesx-ref: CCM Installation Guide">Onyx Installation Guide</span>.</li>
+            <li class="ListBullet_1" value="2">In each language-dependent table, create one row of domain data for each language code.</li>
+        </ol>
+        <p class="BodyTextIndent_2">For example, in the navigator_entity_master_ml table, create one row for 'Companies' with  language code=ENG. Create another row for 'Société' with              language code=FRA, and so on for each language code that you have created.</p>
+        <p class="ElementHeader"><a name="Localize"></a>Localize Onyx Gateway Service  error messages</p>
+        <p class="BodyText">To update error messages that are controlled through the Onyx Gateway Service , you must modify the NavigatorMessages.txt file with the language-appropriate text, and then create a DLL for each language. Before you begin, be sure to have a list of the culture names for each language in which you want to localize Navigator. Perform this process on a computer that has Microsoft Visual Studio 2010 installed.</p>
+        <p class="Note_1" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">To find the culture name for a language, refer to <a href="http://msdn.microsoft.com/en-us/library/system.globalization.cultureinfo(v=vs.80).aspx">http://msdn.microsoft.com/en-us/library/system.globalization.cultureinfo(v=vs.80).aspx</a></p>
+        <p class="TaskHeading">To create the resources DLL:</p>
+        <ol>
+            <li class="ListBullet_1" value="1">In your Onyx installation package, navigate to <b>\Customization Support\CRArchitecture\CMRestGateway</b>, and copy the NavigatorMessages.txt file to a computer on which you have installed Microsoft Visual Studio 2010.</li>
+            <li class="ListBullet_1" value="2">Open <b>.NET SDK Command Prompt</b> and perform the following steps:</li>
+        </ol>
+        <ul>
+            <li class="ListBullet_2" value="1">Enter a command to point to the directory where you copied the NavigatorMessages.txt file.</li>
+            <li class="ListBullet_2" value="2">Execute the following command, substituting the bracketed text with the appropriate values. This converts the NavigatorMessages.txt file into a .resources file.</li>
+        </ul>
+        <p class="BodyTextIndent_2"><code>resgen NavigatorMessages.txt NavigatorMessages.&lt;culture-name&gt;.resources</code>
+        </p>
+        <p class="BodyTextIndent_2">An example of the command: resgen NavigatorMessages.txt NavigatorMessages.ja-jp.resources</p>
+        <ul>
+            <li class="ListBullet_2" value="1">Execute the following command, substituting the bracketed text with the appropriate values. This creates the required DLL.</li>
+        </ul>
+        <p class="BodyTextIndent_2"><code>al /t:lib /embed:NavigatorMessages.&lt;culture-name&gt;.resources /culture:&lt;culture-name&gt;/out:NavigatorMessages.resources.dll</code>
+        </p>
+        <p class="BodyTextIndent_2">An example of the command: &gt;al /t:lib /embed:NavigatorMessages.ja-jp.resources /culture:ja-jp /out:NavigatorMessages.resources.dll</p>
+        <ol start="3">
+            <li class="ListBullet_1" value="3">On the <b>OEAS server computer</b>, navigate to <b>C:\Program Files (x86)\Onyx\AppServer\Applications\Onyx\OnyxGatewayService</b></li>
+            <li class="ListBullet_1" value="4">Create one folder for each language, and name it with the culture name, such as ja-jp for Japanese.</li>
+        </ol>
+        <p class="Note_1" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">When no language-specific dll is present, the culture-neutral dll is used to retrieve error messages..The default location for the culture-neutral dll is C:\Program Files (x86)\Onyx\AppServer\Applications\Onyx\OnyxGatewayService\NavigatorMessages.dll.</p>
+        <ol start="5">
+            <li class="ListBullet_1" value="5">Copy the DLL for each language into the respective language folder.</li>
+            <li class="ListBullet_1" value="6">In an editor such as Notepad, open the <b>CMGateway config.exe</b> file.</li>
+            <li class="ListBullet_1" value="7">Find the text <b>Configuration\AppSettings</b>, and type text in the following format, substituting the bracketed text with the appropriate values.</li>
+        </ol>
+        <p class="BodyTextIndent_2"><code>&lt;add key="&lt;CM-Language-Code&gt;" value="&lt;.net-culture-name&gt;"/&gt;</code>
+        </p>
+        <p class="BodyTextIndent_2">An example of the text: &lt;add key="JPN" value="ja-jp"/&gt;</p>
+        <ol start="8">
+            <li class="ListBullet_1" value="8">Save and close the configuration file.</li>
+            <li class="ListBullet_1" value="9">To modify an error message, make the necessary modifications in the <b>NavigatorMessages.txt</b> file, recreate the DLL, and copy it to the appropriate language folder, following the steps listed above.</li>
+        </ol>
+        <p class="Important" MadCap:autonum=" &lt;b&gt;Important:&lt;/b&gt; "> Be sure to back up the modified .txt file. You will need it when you want to make further modifications and when you want to upgrade to a newer version of <span class="CCM variablesProduct - CCM Suite (abbrev)">Onyx</span>.</p>
+        <p class="ElementHeader"><a name="Localize2"></a>Localize  Email Priority and Script Status domain data</p>
+        <p class="BodyText">You must also modify the XML files for Email Priority and Script Status to include domain data in each language that you want to support.</p>
+        <ol>
+            <li class="ListBullet_1" value="1">On the OEAS server, navigate to the app_data folder within your Onyx Gateway Service  install folder. The default location for this folder is <b>C:\Program Files (x86)\Onyx\AppServer\Applications\Onyx\OnyxGatewayService\App_Data.</b></li>
+            <li class="ListBullet_1" value="2">Open the EmailPriorityDomainData.xml file, and add the domain data for Email Priority in each language that you want to support. The domain data in the default installation language is already present and does not need to be added.</li>
+            <li class="ListBullet_1" value="3">After you've finished adding the data, save and close the file.</li>
+            <li class="ListBullet_1" value="4">Open the ScriptStatusDomainData.xml file, and add the domain data for Script Status in each language that you want to support. The domain data in the default installation language is already present and does not need to be added.</li>
+            <li class="ListBullet_1" value="5">After you've finished adding the data, save and close the file.</li>
+        </ol>
+        <p class="ElementHeader">Localize Navigator UI</p>
+        <p class="BodyText">In a <span class="CCM variablesProduct - CCM Suite (abbrev)">Onyx</span> language pack, the Navigator.Resources.dll file and the Navigator Config.xml file are localized by default in the corresponding language. Perform the following steps only if you want to further modify these files.</p>
+        <p class="ElementHeader"><a name="Captions"></a>Captions, tool tips, and error messages</p>
+        <p class="BodyText">Several captions, tool tips, and error messages used in Navigator are stored on the <span class="CCM variablesTier - presentation">OEP</span> server computer in the Navigator.Resources.dll. The default location for this file is C:\Program Files (x86)\Onyx\EmployeePortal\QuickSearch\ClientBin. To modify these strings, see Entering resource string values.</p>
+        <p class="ElementHeader"><a name="Update"></a>Update the configuration file</p>
+        <ol>
+            <li class="ListBullet_1" value="1">On the <span class="CCM variablesTier - presentation">OEP</span> server computer for each language installation, navigate to the Configuration folder within the <span class="CCM variablesTier - presentation">OEP</span> installation folder. The default location for this folder is <b>C:\Program Files(x86)\Onyx\EmployeePortal\CRArchitecture\Configuration</b>.</li>
+            <li class="ListBullet_1" value="2">Using a text editor such as Notepad, open the Config.xml file.</li>
+            <li class="ListBullet_1" value="3">In the node <b>add.baseAddress</b>,  add the installation language code of the website in the following format: "http://&lt;Fully qualified ComputerName&gt;:69/ServiceGateway/"language="languagecode"/&gt;</li>
+        </ol>
+        <p class="BodyTextIndent_1"><code>&lt;services&gt;</code>
+        </p>
+        <p class="BodyTextIndent_1">&#160; <code> &lt;service name="CmService.Client"&gt;</code></p>
+        <p class="BodyTextIndent_1">&#160;&#160;&#160; <code>&lt;host&gt;</code></p>
+        <p class="BodyTextIndent_1">&#160;&#160;&#160;&#160;&#160;  <code>&lt;baseAddresses&gt;</code></p>
+        <p class="BodyTextIndent_1">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <code>&lt;add baseAddress="http://123.xyz.com:69/ServiceGateway/"language="ENG"/&gt;</code><br />&#160;&#160;&#160;&#160;&#160;  <code>&lt;/baseAddresses&gt;</code></p>
+        <p class="BodyTextIndent_1">&#160;&#160;&#160; <code>&lt;/host&gt;</code></p>
+        <p class="BodyTextIndent_1">&#160;  <code>&lt;/service&gt;</code></p>
+        <p class="BodyTextIndent_1"><code>&lt;/services&gt;</code>
+        </p>
+        <p class="Important" MadCap:autonum=" &lt;b&gt;Important:&lt;/b&gt; ">Be sure to enter the language code using the same case as in the OTDB Language table.</p>
+        <ol MadCap:continue="true">
+            <li class="ListBullet_1" value="4">Save the Config.xml file.</li>
+            <li class="ListBullet_1" value="5">On the <span class="CCM variablesTier - presentation">OEP</span> client computer, clear the temporary internet files and browser cache.</li>
+        </ol>
+        <p class="ElementHeader"><a name="LocalizeTelerikControls"></a>Localize Telerik Controls</p>
+        <p class="BodyText">In a <span class="CCM variablesProduct - CCM Suite (abbrev)">Onyx</span> language pack, the Telerik.Resources.dll file is localized by default in the corresponding language. Perform the following steps only if you want to further modify these files.</p>
+        <p class="TaskHeading">Grid view and Data pager controls</p>
+        <p class="BodyText">The Grid view and data pager controls resources used in Navigator are stored on the <span class="CCM variablesTier - presentation">OEP</span> server computer in the Telerik.Resources.dll. The default location for this file is C:\Program Files (x86)\Onyx\EmployeePortal\QuickSearch\ClientBin. To modify these strings, see Update resource string values.</p>
+        <p class="ElementHeader"><a name="Update"></a>Update the configuration file</p>
+        <ol>
+            <li class="ListBullet_1" value="1">On the <span class="CCM variablesTier - presentation">OEP</span> server computer for each language installation, navigate to the Configuration folder within the <span class="CCM variablesTier - presentation">OEP</span> installation folder. The default location for this folder is <b>C:\Program Files(x86)\Onyx\EmployeePortal\CRArchitecture\Configuration</b>.</li>
+            <li class="ListBullet_1" value="2">Using a text editor such as Notepad, open the Config.xml file.</li>
+            <li class="ListBullet_1" value="3">In the node <b>add.baseAddress</b>,   add the installation language code of the website in the following format: "http://&lt;Fully qualified ComputerName&gt;:69/ServiceGateway/"language="languagecode"/&gt;</li>
+        </ol>
+        <p class="BodyTextIndent_1"><code>&lt;services&gt;</code>
+        </p>
+        <p class="BodyTextIndent_1"><code>&#160;  &lt;service name="CmService.Client"&gt;</code>
+        </p>
+        <p class="BodyTextIndent_1"><code>&#160;&#160;&#160; &lt;host&gt;</code>
+        </p>
+        <p class="BodyTextIndent_1"><code>&#160;&#160;&#160;&#160;&#160;  &lt;baseAddresses&gt;</code>
+        </p>
+        <p class="BodyTextIndent_1">&#160;&#160;&#160;&#160;&#160;&#160;&#160; <code>&lt;add baseAddress="http://123.xyz.com:69/ServiceGateway/"language="ENG"/&gt;</code></p>
+        <p class="BodyTextIndent_1">&#160;&#160;&#160;&#160;&#160;<code>  &lt;/baseAddresses&gt;</code></p>
+        <p class="BodyTextIndent_1">&#160;&#160;&#160;<code> &lt;/host&gt;</code></p>
+        <p class="BodyTextIndent_1"><code>&#160;  &lt;/service&gt;</code>
+        </p>
+        <p class="BodyTextIndent_1"><code>&lt;/services&gt;</code>
+        </p>
+        <p class="Important" MadCap:autonum=" &lt;b&gt;Important:&lt;/b&gt; ">  Be sure to enter the language code using the same case as in the OTDB Language table.</p>
+        <ol MadCap:continue="true">
+            <li class="ListBullet_1" value="4">Save the Config.xml file.</li>
+            <li class="ListBullet_1" value="5">On the <span class="CCM variablesTier - presentation">OEP</span> client computer, clear the temporary internet files and browser cache.</li>
+        </ol>
+    </body>
+</html>

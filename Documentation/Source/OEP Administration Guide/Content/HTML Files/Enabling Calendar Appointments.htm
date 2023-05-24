@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="844" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2><a name="top"></a>Enabling Calendar Appointments</h2>
+        <p>The Calendar Appointments feature is enabled by default. Use this information to re-enable the feature if you have previously disabled it.</p>
+        <p>To disable the Calendar Appointments feature, see <a href="#Disablin">Disabling Calendar Appointments</a>.</p>
+        <p><b>To enable Calendar Appointments: </b>
+        </p>
+        <ol>
+            <li>Show the 'Send to Calendar' control on the Incident and Tasks pages using UCW. </li>
+            <li>On the database server, run the following script on your OTDB to enable the triggers created for the Calendar Appointments feature, replacing [<b>Trigger Name</b>] with the name of each trigger, and [<b>Table Name</b>] with the name of the corresponding table. </li>
+        </ol>
+        <p class="Indent1"><code>enable TRIGGER [Trigger Name] on [Table Name]</code> <![CDATA[ ]]></p>
+        <p class="Indent1">Example script: </p>
+        <p class="Indent1"><code>enable TRIGGER otCalendarAppointmentInsert on Reminder</code> <![CDATA[ ]]></p>
+        <p class="Indent1"><code>enable TRIGGER otCalendarAppointmentUpdate on Reminder </code>
+        </p>
+        <ol MadCap:continue="true">
+            <li>On the OEAS server, start/restart the Notifications services if you had previously stopped them. </li>
+        </ol>
+        <ul>
+            <li class="List_Indent">Go to <b>Control Panel&gt;Administrative Tools&gt; Services</b>. </li>
+            <li class="List_Indent">Start/restart the ONS service. The names of the services are in the format <b>[Onyx Application Name].ONS</b>.</li>
+        </ul>
+        <h3><a name="Disablin"></a>Disabling Calendar Appointments</h3>
+        <p>The Calendar Appointments feature is enabled by default. You can disable this feature if required, based on your organization's needs.</p>
+        <p>To enable the Calendar Appointments feature, see <a href="#top">Enabling Calendar Appointments</a>.</p>
+        <p><b>To disable Calendar Appointments:</b>
+        </p>
+        <ol>
+            <li>Hide the 'Send to Calendar' control on the Incident and Tasks pages using UCW.</li>
+            <li>On the database server, run the following script on your OTDB to disable the triggers created for the Calendar Appointments feature, replacing [Trigger Name] with the name of each trigger, and Table Name with the name of the corresponding table. For a list of trigger names, see <a href="SQL Triggers for Appointments.htm#top">SQL Triggers for Appointments</a>.</li>
+        </ol>
+        <p class="Indent1"><code>disable TRIGGER [Trigger Name] on [Table Name]</code> <![CDATA[ ]]></p>
+        <p class="Indent1">Example script:</p>
+        <p class="Indent1"><code>disable TRIGGER otCalendarAppointmentInsert on Reminder</code>
+        </p>
+        <p class="Indent1"><code>disable TRIGGER otCalendarAppointmentUpdate on Reminder</code>
+        </p>
+        <ol MadCap:continue="true">
+            <li>On the OEAS server, stop/restart the Notifications services.</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">Go to Control Panel&gt;Administrative Tools&gt; Services.</li>
+            <li class="List_Indent">Stop/Restart the ONS and service. The names of the services are in the format [Onyx Application Name].ONS.</li>
+        </ul>
+        <ol start="4">
+            <li>Stop these services only if you intend to disable both, Notifications and Calendar Appointment features.</li>
+        </ol>
+        <p>&#160;</p>
+    </body>
+</html>

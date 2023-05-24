@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="832" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2><a name="top"></a>Customizing Navigator</h2>
+        <p>You can customize Navigator to incorporate the modifications you made to your Onyx system and to enable users to efficiently search for and edit records.</p>
+        <p style="font-weight: bold;">The tasks explained in this topic are:</p>
+        <ul>
+            <li><a href="#Adding">Adding a sample custom entity</a>
+            </li>
+            <li><a href="Customizing_the_tile_view.htm">Customizing the tile view for search results of an entity</a>
+            </li>
+            <li><a href="About Navigator Search Operators.htm#top">About Navigator Search Operators</a>
+            </li>
+            <li><a href="Adding Custom Search Type.htm#top">Adding Custom Search Type</a>
+            </li>
+            <li><a href="Adding Custom Field.htm#top">Adding Custom Field</a>
+            </li>
+            <li><a href="Adding Custom Action Button.htm#top">Adding Custom Action Button</a>
+            </li>
+            <li><a href="InsightCustomization.htm">Detail View and Detail List View Customization</a>
+            </li>
+            <li><a href="InsightCustomization1.htm">Granting or Denying UI Resource Permissions</a>
+            </li>
+            <li><a href="InsightCustomization1.htm#Changing">Changing the sequence of Groups, Fields, and Lists</a>
+            </li>
+            <li><a href="InsightCustomization2.htm">Masking</a>
+            </li>
+            <li><a href="InsightCustomization3.htm">Making Fields Editable</a>
+            </li>
+            <li><a href="Creating New UI Resource and.htm#top">Creating New UI Resource and Granting Permissions</a>
+            </li>
+            <li><a href="Supporting Multiple Languages.htm#top">Supporting Multiple Languages</a>
+            </li>
+            <li><a href="Performing Custom Operations.htm#top">Performing Custom Operations Based on Navigator Queries</a>
+            </li>
+            <li><a href="Reference Values.htm#top">Reference Values</a>
+            </li>
+            <li><a href="Summary Pages.htm#top">Summary Pages</a>
+            </li>
+            <li><a href="ConfiguringBubbleMessageTimeoutValue.htm#top">Configuring Bubble Message Timeout Value</a>
+            </li>
+            <li><a href="NavigatorSearchType.htm">Navigator Search Types</a>
+            </li>
+        </ul>
+        <h4>Prerequisites</h4>
+        <p>Before you begin customizing Navigator:</p>
+        <ul>
+            <li>Install and configure Onyx, along with all the optional components that you need. </li>
+            <li style="list-style-type: disc;">Modify the system as desired. </li>
+            <li style="list-style-type: disc;">In the Onyx database, create the objects and table columns that you want to search by in Navigator.</li>
+        </ul>
+        <p>For information on installing and configuring Onyx, see the Onyx Installation Guide.</p>
+        <h3><a name="Adding"></a>Adding a sample custom entity</h3>
+        <p>This release contains sample scripts that you can use to add Customers as a custom entity in Navigator. You can also use these scripts as a template to create your own scripts.</p>
+        <p>The following scripts are available in the Customer Entity folder, available under Customization Support&gt;Database Server&gt;Navigator Custom Entity Scripts within your installation package:</p>
+        <ul>
+            <li>Customer_navigator_view.sql: Creates the entity view for Customer in the Onyx database.</li>
+            <li style="list-style-type: disc;">Customer_navigator_entity_master.sql: Updates the navigator_entity_master table in the Persistence database.</li>
+            <li style="list-style-type: disc;">Customer_navigator_entity_master_ml.sql: Updates the navigator_entity_master_ml table in the Persistence database.</li>
+            <li style="list-style-type: disc;">Customer_navigator_entity_field_master_and_ml.sql: Updates the navigator_entity_field_master and navigator_entity_field_master_ml tables in the Persistence database.</li>
+            <li style="list-style-type: disc;">CustomerUIResources.sql: Creates a new UI resource.</li>
+        </ul>
+        <p class="ProcedureHeading">To add Customer as a custom entity:</p>
+        <ol>
+            <li>Run the above scripts in the order listed above. This creates the required views in the Onyx database, inserts default data in the Persistence database, and creates UI resources.</li>
+            <li>Modify the Onyx Gateway Service configuration.</li>
+            <li>Modify Result Grid properties.</li>
+            <li>Add a Navigator menu or bookmark item.</li>
+            <li>Enter resource string values.</li>
+            <li>Add custom fields if required.</li>
+            <li>Add a custom action button if required.</li>
+            <li>Enable inline editing if required.</li>
+        </ol>
+    </body>
+</html>

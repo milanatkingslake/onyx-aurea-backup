@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="692" MadCap:lastWidth="668" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <body>
+        <head><title>Basic structure</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>
+            <MadCap:keyword term="Basic structure" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" />Basic structure</h5>
+        <p>The basic structure of the run-time XML consists of 
+ three sections:</p>
+        <ul>
+            <li>Domain data</li>
+            <li>Transactional data</li>
+            <li>Script variables</li>
+        </ul>
+        <p>The run-time XML is a single XML document whose top-level element is 
+ called "root". Each of the three sections above is contained 
+ within an element under the root element, as shown below:</p>
+        <p class="Preformatted-PreCode">&lt;root&gt;</p>
+        <p class="Preformatted-PreCode">&#160;&lt;script&gt;</p>
+        <p class="Preformatted-PreCode">&#160;&#160;...all&#160;domain&#160;data&#160;goes&#160;here</p>
+        <p class="Preformatted-PreCode">&#160;&lt;/script&gt;</p>
+        <p class="Preformatted-PreCode">&#160;&lt;scriptSession objectType="scriptSession" 
+ content="all"&gt;</p>
+        <p class="Preformatted-PreCode">&#160;&#160;...all&#160;transactional&#160;data&#160;goes&#160;here</p>
+        <p class="Preformatted-PreCode">&#160;&lt;/scriptSession&gt;</p>
+        <p class="Preformatted-PreCode">&#160;&lt;variables&gt;</p>
+        <p class="Preformatted-PreCode">&#160;&#160;...script&#160;variable&#160;instances&#160;go&#160;here</p>
+        <p class="Preformatted-PreCode">&#160;&lt;/variables&gt;</p>
+        <p class="Preformatted-PreCode">&lt;/root&gt;</p>
+        <p>In the sample shown above, the scriptSession 
+ object and all of its descendants include objectType and content attributes. 
+ In contrast, the script object and all of its descendants do not. To save 
+ space in the run-time XML, these attributes are not included in any domain 
+ object instances which are created by the script cache or script engine. 
+ As these attributes are not required by OEAS, omitting them has no ill 
+ effects. However, for transactional objects, the engine passes them with 
+ few or no changes to the contents. Since it is the convention in OEP to 
+ include the attributes when calling OEAS, and the convention of OEAS to 
+ return them, they will normally to be present in the run-time XML. </p>
+    </body>
+</html>

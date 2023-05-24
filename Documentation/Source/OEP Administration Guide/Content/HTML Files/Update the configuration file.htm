@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="94" MadCap:lastWidth="701">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h4>Update the configuration file</h4>
+        <ol>
+            <li>On the OEP server computer for each language installation, navigate to the Configuration folder within the OEP installation folder. The default location for this folder is <code>C:\Program Files\Onyx\EmployeePortal\CRArchitecture\Configuration</code>.</li>
+            <li>Using a text editor such as Notepad, open the Config.xml file.</li>
+            <li>In the node <b>add.baseAddress,</b> add the installation language code of the website in the following format: <code>"http://&lt;Fully qualified ComputerName&gt;:69/ServiceGateway/"language="languagecode"/&gt;</code></li>
+        </ol>
+        <p class="C_Code">&lt;services&gt;</p>
+        <p class="C_Code">&#160; &lt;service name="CmService.Client"&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160; &lt;host&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&#160;&#160; &lt;baseAddresses&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&#160;&#160;&#160;&#160; &lt;add baseAddress="http://123.xyz.com:69/ServiceGateway/"language="ENG"/&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160;&#160;&#160; &lt;/baseAddresses&gt;</p>
+        <p class="C_Code">&#160;&#160;&#160; &lt;/host&gt;</p>
+        <p class="C_Code">&#160; &lt;/service&gt;</p>
+        <p class="C_Code">&lt;/services&gt;</p>
+        <p class="Important" MadCap:autonum="&lt;b&gt;Important:&lt;/b&gt; &#160;"> Be sure to enter the language code using the same case as in the OTDB Language table. </p>
+        <ol start="4">
+            <li>Save the Config.xml file.</li>
+            <li>On the OEP client computer, clear the temporary internet files and browser cache.</li>
+        </ol>
+    </body>
+</html>

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="834" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h4>Migrate OEAS modifications</h4>
+        <p>After you have migrated all modifications to the OEDB, proceed to migrate your changes to OEAS.</p>
+        <ol>
+            <li>From your development environment to your production environment, migrate all custom OEAS step components by copying each compiled DLL to your production OEAS server and registering them with COM+.</li>
+            <li>Copy the OED (working copy) from the OEAS server in your development environment to the appropriate location on the OEAS server of your production environment. Then use OES Object Designer to publish the OED.</li>
+        </ol>
+        <p class="Indent1">If your production environment uses more than one OEAS server, use the publish.vbs script that's included with the OES Object Designer to copy the working copy of the OED to your production environment. You must complete all four steps in the script on one (and only one) of the OEAS servers, and then perform all steps except the stored procedure compilation step on your other OEAS servers.</p>
+        <h4>Migrate OEP modifications</h4>
+        <p>After you have migrated all modifications to OEAS and the OEDB, migrate all modifications that you made to OEP (and to any other user interface that you have designed to use the Onyx platform).</p>
+        <ol>
+            <li>From your development environment, migrate to your production OEP server all custom OEP pages (ASP pages, JavaScript pages, and so on) that you customized without using UCW by copying them to the appropriate OEP directories.</li>
+            <li>From your development environment, <a href="Troubleshooting Configuration.htm#Publish">migrate</a> to your production OEP server all OEP pages that you configured using UCW (be sure that your modifications are <a href="Troubleshooting Configuration.htm#Compilin">compiled</a> first).</li>
+            <li>After migrating all modifications to your production environment:</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">Stop and restart your OEP Web server, such as by using the Internet Information Services (IIS) Manager tool or by executing the <a href="http://support.microsoft.com/default.aspx?scid=kb;en-us;202013">IISReset</a> command (via Command Prompt).</li>
+            <li class="List_Indent">Test your OEP system to ensure that everything functions as expected.</li>
+        </ul>
+    </body>
+</html>

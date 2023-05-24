@@ -1,0 +1,3865 @@
+///////////////////////////////////////////////////////////////////////////////
+//
+// Function:  oCheckRequirements
+//				JCG 10/1/98
+//
+//  Purpose:	This function checks all minimum requirements for the
+//          	application being installed.  Only items selected in the IDE
+//				will be checked.  If any fail, then the user
+//          	is informed and the setup is terminated.
+//
+///////////////////////////////////////////////////////////////////////////////
+function oCheckRequirements()
+NUMBER  nvDx, nvDy;
+STRING  svResult,szErr[1024],szTemp[1024],szCopyRight, szVer;
+STRING  svInfo,szOperationComponent;
+STRING	szMsg[1024], szVerFound, szVerNew, szVerNeeded;
+NUMBER  nCheck,nInstall,nResult,bSelected,nLoop;
+BOOL    bDone,bOK;
+LIST	listServices, listInstallBefore;
+STRING szResult;
+begin
+    SdShowMsg(@MSG_CHECKING_REQUIREMENTS, TRUE);
+	OLog("Executing: CheckRequirements");
+	
+    bWinNT           = FALSE;
+    bIsShellExplorer = FALSE;
+
+    if (g_structCmdLine.bDisableReqCheck = TRUE ) then
+		OLog("Command line disabled the requirements checking.");
+		return TRUE;
+    endif;
+
+
+    // Check screen resolution.
+    GetExtents( nvDx, nvDy );
+
+    if (nvDy < 480) then
+        MessageBox( @ERROR_VGARESOLUTION, WARNING );
+        OLog(@ERROR_VGARESOLUTION);
+        abort;
+    endif;
+
+    // set 'setup' operation mode
+    bIs32BitSetup = TRUE;
+    GetSystemInfo( ISTYPE, nResult, svResult );
+    if (nResult = 16) then
+        bIs32BitSetup = FALSE; // running 16-bit setup
+        return 0; // no additional information required
+    endif;
+
+    // --- 32-bit testing after this point ---
+
+    // Determine the target system's operating system.
+    GetSystemInfo( OS, nResult, svResult );
+	g_structSystemData.nOS_Type = nResult;
+	Sprintf(szTemp,"OS Type is: %d",nResult);
+	ODebugDsp(szTemp,2);
+    GetSystemInfo( OSMAJOR, nResult, svResult );
+    GetSystemInfo( OSMINOR, nResult, szTemp );
+	g_structSystemData.szOS_Version = svResult;
+
+//g_structSystemData.szOS_Version = "5.0";
+//g_structSystemData.nOS_Type = IS_WINDOWSNT;
+	
+	Sprintf(szTemp,"OSMAJOR number is: %d\nOSMAJOR string is: %s",nResult,svResult);
+	ODebugDsp(szTemp,2);
+	
+
+    //installshield template stuff.
+    if (g_structSystemData.nOS_Type = IS_WINDOWSNT) then
+        // Running Windows NT.
+        bWinNT = TRUE;
+		// Check to see if the shell being used is EXPLORER shell.
+        if (g_structSystemData.szOS_Version >= "4") then
+                bIsShellExplorer = TRUE;
+        endif;
+    elseif (g_structSystemData.nOS_Type = IS_WINDOWS95 ) then
+        bIsShellExplorer = TRUE;
+    endif;
+
+
+	//Check each of the selected prerequisites in the media
+	nResult = FALSE;
+	listInstallBefore = ListCreate(STRINGLIST);
+	// -----------------------------------------------------------------
+    // Operating Systems	1
+    // -----------------------------------------------------------------
+    if (OIsComponentSelected(COMP_WIN31) = TRUE) then
+      	nCheck = TRUE;  //need to check OS bool.
+        Sprintf(szCopyRight,@COPYRIGHT_WINDOWS,"3.1");
+        if(OCheckDataCatMsg(g_structSystemData.szOS_Version,"3.10",szErr,szCopyRight))then
+           	nResult = TRUE;
+           	ODebugDsp("Found Win 3.1",2);
+        endif;
+   	endif;
+    if (OIsComponentSelected(COMP_WIN95) = TRUE) then
+       	nCheck = TRUE;  //need to fcheck OS bool.
+       	if(g_structSystemData.nOS_Type = IS_WINDOWS95)then
+       	    Sprintf(szCopyRight,@COPYRIGHT_WINDOWS,"95");
+	    	if(OCheckDataCatMsg(g_structSystemData.szOS_Version,"4.0",szErr,szCopyRight))then
+           		nResult = TRUE;
+				ODebugDsp("Found Win 95",2);
+				g_structSystemData.szOS = "WIN95";
+        	endif;
+        endif;
+	endif;
+    if (OIsComponentSelected(COMP_WIN98) = TRUE) then
+       	nCheck = TRUE;  //need to check OS bool.
+        if(g_structSystemData.nOS_Type = IS_WINDOWS95)then
+        	Sprintf(szCopyRight,@COPYRIGHT_WINDOWS,"98");
+        	if(OIsValueGreater("4.0",g_structSystemData.szOS_Version) =0 )then
+        		OCatStrings(szErr," "+@OR+" ",szCopyRight);
+			else
+				nResult = TRUE;
+				ODebugDsp("Found Win 98",2);
+				g_structSystemData.szOS = "WIN98";
+        	endif;
+        endif;
+    endif;
+    if (OIsComponentSelected(COMP_WINNT351WS) = TRUE) then
+       	nCheck = TRUE;  //need to check OS bool.
+        if(g_structSystemData.nOS_Type = IS_WINDOWSNT)then                	
+        	Sprintf(szCopyRight,@COPYRIGHT_WINDOWS_NT,"3.51");
+           	if(OCheckDataCatMsg(g_structSystemData.szOS_Version,"3.51",szErr,szCopyRight))then
+           		nResult = TRUE;
+           		ODebugDsp("Found NT 3.51",2);
+           		g_structSystemData.szOS = "NT3.51";
+           	endif;
+        endif;
+    endif;
+	if (OIsComponentSelected(COMP_WINNT40) = TRUE) then
+       	nCheck = TRUE;  //need to check OS bool.
+        if(_CheckNT(szErr))then
+           	nResult = TRUE;
+           	ODebugDsp("Found Win NT 4.0 or higher",2);
+        endif;
+    endif;
+	if (OIsComponentSelected(COMP_WINNT2K) = TRUE) then
+       	nCheck = TRUE;  //need to check OS bool.
+        if(_CheckWin2k(szErr))then
+           	nResult = TRUE;
+           	ODebugDsp("Found Win2K (5.0) or higher",2);
+		endif;
+    endif;
+	if (OIsComponentSelected(COMP_WINNT2K3) = TRUE) then
+       	nCheck = TRUE;  //need to check OS bool.
+        if(_CheckWin2k3(szErr))then
+           	nResult = TRUE;
+           	ODebugDsp("Found Win2K3 (5.2) or higher",2);
+		endif;
+    endif;
+	
+	_ReqErrorChk(nCheck,nResult,szMsg,szErr);
+    // -----------------------------------------------------------------
+	// ODBC		2
+	// Note:  this is redundant with MDAC test.
+    // -----------------------------------------------------------------
+    if (OIsComponentSelected(COMP_ODBC16) = TRUE) then
+    	//nResult = CheckForODBC16();
+    	MessageBox("CheckForODBC16 not operational at this time",WARNING);
+    	//g_structSystemData.szODBC_Version = "16"; //replace with check item.
+		//nResult = _CheckItem(g_structSystemData.szODBC_Version,"16",szErr,"ODBC 16-bit");
+    endif;
+    if (OIsComponentSelected(COMP_ODBC32) = TRUE) then
+       	nCheck = TRUE;
+       	szTemp = "3.510.3002.23";  //3.510.3002.13 on laptop
+//       	szTemp = "3.510.3002.13";
+        _CheckForODBC32();
+      	if(OCheckDataCatMsg(g_structSystemData.szODBC_Version,szTemp,szErr,"ODBC32.DLL ver "+szTemp))then
+       		nResult = TRUE;
+       	endif;
+   	endif;
+	_ReqErrorChk(nCheck,nResult,szMsg,szErr);
+
+    // -----------------------------------------------------------------
+    // SQL		3
+    // -----------------------------------------------------------------
+	if (OIsComponentSelected(COMP_SQL65) = TRUE) then
+	    //nResult = CheckForSQL65();
+        MessageBox("CheckForSQL65 not operational at this time",WARNING);
+        //g_structSystemData.szSQL_Version = "6.5"; //replace with check item.
+       	//nResult = _CheckItem(g_structSystemData.szSQL_Version,"6.5",szErr,"SQL 6.5");
+   	endif;
+    if (OIsComponentSelected(COMP_SQL70) = TRUE) then
+        //nResult = CheckForSQL70();
+        MessageBox("CheckForSQL70 not operational at this time",WARNING);
+        //g_structSystemData.szSQL_Version = "7.0"; //replace with check item.
+      	//nResult = _CheckItem(g_structSystemData.szSQL_Version,"7.0",szErr,"SQL 7.0");
+   	endif;
+	_ReqErrorChk(nCheck,nResult,szMsg,szErr);
+
+    // -----------------------------------------------------------------
+    // WORD		4
+    // -----------------------------------------------------------------
+   	if (OIsComponentSelected(COMP_WORD_INS) = TRUE) then
+   		nResult = _CheckForWord(szTemp);
+   		if ( nResult = FALSE ) then
+ 	    	Sprintf(svInfo,@WORD_PRINT,szTemp);  			
+			MessageBox (svInfo, INFORMATION);	
+   		endif;
+   	endif;
+	_ReqErrorChk(nCheck,nResult,szMsg,szErr);
+
+    // -----------------------------------------------------------------
+    // EXCEL		5
+	// -----------------------------------------------------------------
+    if (OIsComponentSelected(COMP_EXCEL95) = TRUE) then
+	    //nResult = CheckForEXCEL95();
+        MessageBox("CheckForEXCEL95 not operational at this time",WARNING);
+        //g_structSystemData.szExcel_Version = "95"; //replace with check item.
+       	//nResult = _CheckItem(g_structSystemData.szExcel_Version,"95",szExcel,"Excel 95");
+   	endif;
+    if (OIsComponentSelected(COMP_EXCEL97) = TRUE) then
+	    //nResult = CheckForEXCEL97();
+        MessageBox("CheckForEXCEL97 not operational at this time",WARNING);
+        //g_structSystemData.szExcel_Version = "97"; //replace with check item.
+      	//nResult = _CheckItem(g_structSystemData.szExcel_Version,"97",szExcel,"Excel 97");
+   	endif;
+	_ReqErrorChk(nCheck,nResult,szMsg,szErr);
+
+    // -----------------------------------------------------------------
+    // OCC		6
+    // -----------------------------------------------------------------
+    if (OIsComponentSelected(COMP_OCC40) = TRUE) then
+	    nCheck = _IsItemRequired(COMP_OCC40);
+	    if(_CheckForOCC("OCCClient.Application"))then
+	    	nResult = TRUE;
+	    else
+	    	Sprintf(szErr,@COPYRIGHT_OCC,"4.0");
+	    endif;
+   	endif;
+	_ReqErrorChk(nCheck,nResult,szMsg,szErr);
+
+	if (OIsComponentSelected(COMP_OCC_ADMIN50) = TRUE) then
+	    nCheck = _IsItemRequired(COMP_OCC_ADMIN50);
+	    if(_CheckForOCCAdmin("OCCAdmin.Application"))then
+	    	nResult = TRUE;
+	    else
+	    	Sprintf(szErr,@COPYRIGHT_OCC_ADMIN,"5.0");
+	    endif;
+   	endif;
+	_ReqErrorChk(nCheck,nResult,szMsg,szErr);
+	
+	if (OIsComponentSelected(COMP_ONYX_ADMIN_SNAPIN) = TRUE) then
+//using misc for ver	    nCheck = _IsItemRequired(COMP_ONYX_ADMIN_SNAPIN);
+		szTemp = "";
+	    if(_CheckForOnyxAdminPI(szTemp))then
+	    	nResult = TRUE;
+	    else
+	    	Sprintf(szErr,@COPYRIGHT_ONYX_ADMIN_SNAPIN,szTemp);
+	    endif;
+   	endif;
+	_ReqErrorChk(nCheck,nResult,szMsg,szErr);
+
+	//using check for OCC function for OEP also.  Pass in prog id.
+	if (OIsComponentSelected(COMP_ONYX_EBUSINESS) = TRUE) then
+	    nCheck = _IsItemRequired(COMP_ONYX_EBUSINESS);
+	    if(_CheckForOCC("OnyxTransactionManager.TransactionManager"))then
+	    	nResult = TRUE;
+	    else
+			OGetValueFromINI("Startup", "Version", szVer);
+	    	Sprintf(szErr,@COPYRIGHT_ONYX_EBUSINESS,szVer);
+	    endif;
+   	endif;
+	_ReqErrorChk(nCheck,nResult,szMsg,szErr);
+
+    // -----------------------------------------------------------------
+    // Insight		7
+    // These are not required and therefore do not have error strings
+    // -----------------------------------------------------------------
+    if (OIsComponentSelected(COMP_INSIGHT_SS) = TRUE) then
+      	nCheck = _IsItemRequired(COMP_INSIGHT_SS);
+       	if(_CheckForINSIGHT_SS())then
+			nResult = TRUE;
+		endif;
+    endif;
+	if (OIsComponentSelected(COMP_INSIGHT_SC) = TRUE) then
+      	nCheck = _IsItemRequired(COMP_INSIGHT_SC);
+       	if(_CheckForINSIGHT_SC())then
+			nResult = TRUE;
+		endif;
+    endif;
+   	if (OIsComponentSelected(COMP_INSIGHT_ADMIN) = TRUE) then
+		nCheck = _IsItemRequired(COMP_INSIGHT_ADMIN);
+		if(_CheckForINSIGHT_ADMIN())then
+			nResult = TRUE;
+		endif;
+	endif;
+	_ReqErrorChk(nCheck,nResult,szMsg,szErr);
+
+    // -----------------------------------------------------------------
+    // IIS		8
+    // -----------------------------------------------------------------
+	if (OIsComponentSelected(COMP_IIS6) = TRUE) then
+		nCheck = TRUE;
+        nResult = _CheckForIIS("6");
+		if(nResult = FALSE)then
+			Sprintf(szCopyRight,@COPYRIGHT_IIS,"6.0");
+			OCatStrings(szErr," "+@OR+" ",szCopyRight);
+        endif;
+        //gbIIS7
+        nResult = _CheckForIIS("7");
+        if(nResult = FALSE) then
+        	gbIIS7= FALSE;
+        else
+        	gbIIS7= TRUE;
+ 		endif;
+   	endif;
+	if (OIsComponentSelected(COMP_JVM) = TRUE) then
+		nCheck = TRUE;
+        nResult = _CheckForJVM(szTemp); //returns ver found in szTemp
+		if(nResult = FALSE)then
+			Sprintf(szCopyRight,@COPYRIGHT_JVM,szTemp);
+			OCatStrings(szErr," "+@OR+" ",szCopyRight);
+        endif;
+   	endif;
+	if (OIsComponentSelected(COMP_WSH) = TRUE) then
+		nCheck = TRUE;
+        nResult = _CheckForWSH(szTemp); //returns ver found in szTemp
+		if(nResult = FALSE)then
+			Sprintf(szCopyRight,@COPYRIGHT_WSH,szTemp);
+			OCatStrings(szErr," "+@OR+" ",szCopyRight);
+        endif;
+   	endif;
+	_ReqErrorChk(nCheck,nResult,szMsg,szErr);
+
+    // -----------------------------------------------------------------
+    // MDAC		9
+    // This is an install before item, so no error string.
+    // -----------------------------------------------------------------
+	if (OIsComponentSelected(COMP_MDAC) = TRUE) then
+		nCheck = _IsItemRequired(COMP_MDAC);
+		if(_CheckForMDAC(szTemp) = FALSE)then  //returns ver needed in szTemp
+			if(_InstallBefore(COMP_MDAC, REQ_MDAC+" "+szTemp, listInstallBefore))then
+				nInstall = TRUE;
+				nCheck = FALSE;  //no need to inform user requirement not met.
+			else
+				//inform user it's needed.
+				szErr=@COPYRIGHT_MDAC;
+				OCatStrings(szErr," ",szTemp);
+			endif;
+		endif;
+	endif;
+	_ReqErrorChk(nCheck,nResult,szMsg,szErr);
+
+    // -----------------------------------------------------------------
+    // Index Server		10
+    // -----------------------------------------------------------------
+	if (OIsComponentSelected(COMP_IS20) = TRUE) then
+		nCheck = _IsItemRequired(COMP_IS20);
+		_CheckForIS("2.0");
+		Sprintf(szCopyRight,@COPYRIGHT_IS,"2.0");
+        if(OCheckDataCatMsg(g_structSystemData.szIS_Version,"*",szErr,szCopyRight))then
+            nResult = TRUE;
+        endif;
+    endif;
+	_ReqErrorChk(nCheck,nResult,szMsg,szErr);
+	
+    // -----------------------------------------------------------------
+    // DCOM		11		Distributed Component Object Model
+    // -----------------------------------------------------------------
+	if (OIsComponentSelected(COMP_DCOM12) = TRUE) then
+		nCheck = _IsItemRequired(COMP_DCOM12);
+		if(_CheckForDCOM("1.2") = FALSE)then
+			if(_InstallBefore(COMP_DCOM12,REQ_DCOM +" (DCOM), v1.2",listInstallBefore))then
+				nInstall = TRUE;
+				nCheck = FALSE;  //no need to inform user requirement not met.
+			endif;
+		endif;
+        if(OCheckDataCatMsg(g_structSystemData.szDCOM_Version,"*",szErr,@REQ_DCOM))then
+            nResult = TRUE;
+        endif;
+    endif;
+	_ReqErrorChk(nCheck,nResult,szMsg,szErr);
+
+    // -----------------------------------------------------------------
+    // COMCLT32		12		Component Control DLL
+    // -----------------------------------------------------------------
+	if (OIsComponentSelected(COMP_COMCTL47) = TRUE) then
+		nCheck = _IsItemRequired(COMP_COMCTL47);
+		if(_CheckForCOMCTL32("4.70") = FALSE)then
+//5			if(_InstallBefore(COMP_COMCTL47,REQ_COMCTL32 +" (COMCTL32.DLL), v4.7",listInstallBefore))then
+				nInstall = TRUE;
+				nCheck = FALSE;  //no need to inform user requirement not met.
+//5			endif;
+		endif;
+        if(OCheckDataCatMsg(g_structSystemData.szCOMCTL32_Version,"*",szErr,REQ_COMCTL32+" (COMCTL32.DLL), v4.7"))then
+            nResult = TRUE;
+        endif;
+    endif;
+	_ReqErrorChk(nCheck,nResult,szMsg,szErr);
+
+    // -----------------------------------------------------------------
+    // MTS		13		Microsoft Transaction Server
+    // -----------------------------------------------------------------
+	if (OIsComponentSelected(COMP_MTS2) = TRUE) then
+		nCheck = _IsItemRequired(COMP_MTS2);
+		nResult = _CheckForMTS("1998.8.762.0");
+		if(nResult = FALSE)then
+			Sprintf(szTemp,@SERVICE_PACK,"1");
+			Sprintf(szCopyRight,@COPYRIGHT_MTS,"2.0");
+			OCatStrings(szErr," "+@OR+" ",szCopyRight+" "+szTemp);
+			OCatStrings(szErr,"\n",@ERROR_MTS_VERSION);
+        endif;
+    endif;
+	_ReqErrorChk(nCheck,nResult,szMsg,szErr);
+
+    // -----------------------------------------------------------------
+    // MMC		14
+    // -----------------------------------------------------------------
+	if (OIsComponentSelected(COMP_MMC) = TRUE) then
+		nCheck = _IsItemRequired(COMP_MMC);
+		szTemp = "";
+		if(_CheckForMMC(szTemp) = FALSE)then  //returns ver needed in szTemp
+/*5			if(_InstallBefore(COMP_MMC, REQ_MMC+" "+szTemp, listInstallBefore))then
+				nInstall = TRUE;
+				nCheck = FALSE;  //no need to inform user requirement not met.
+		    else
+		    	Sprintf(szErr,@COPYRIGHT_MMC,szTemp);
+			endif;
+*/
+		else
+	    	nResult = TRUE;
+	    endif;
+   	endif;
+	_ReqErrorChk(nCheck,nResult,szMsg,szErr);
+
+    // -----------------------------------------------------------------
+    // IE		15
+    // -----------------------------------------------------------------
+	if (OIsComponentSelected(COMP_IE) = TRUE) then
+		nCheck = _IsItemRequired(COMP_IE);
+		szTemp = "";
+		if(_CheckForIE(szTemp) = TRUE)then  //returns ver needed in szTemp
+	    	nResult = TRUE;
+	    else
+	    	Sprintf(szErr,@COPYRIGHT_IE,szTemp);
+	    endif;
+   	endif;
+	_ReqErrorChk(nCheck,nResult,szMsg,szErr);
+
+    // -----------------------------------------------------------------
+    // XML Parser	16
+    // -----------------------------------------------------------------
+	if (OIsComponentSelected(COMP_XML_PARSER) = TRUE) then
+		nCheck = _IsItemRequired(COMP_XML_PARSER);
+		szTemp = "";
+		// If msxml3.dll is not installed,
+		// throw a warning dialogue.		
+		if(_CheckForXMLParser(szTemp) = FALSE)then  //returns ver needed in szTemp
+				Sprintf(szErr, @XML_SIDEBYSIDE, szTemp);   		
+	    	while(nLoop = 0)
+				nResult = AskYesNo(szErr,NO);
+				if(nResult = NO)then
+					//exit setup.
+					Do(EXIT);
+				else
+					//if YES, continue with install.
+					nLoop = 1;
+				endif;
+			endwhile;                    	 	
+		endif;
+	    //	nResult = TRUE;
+	//    else
+	//    	szErr = @COPYRIGHT_XML_PARSER;
+	//    	OCatStrings(szErr," ",szTemp);
+	//    endif;
+
+	
+   	endif;
+//	_ReqErrorChk(nCheck,nResult,szMsg,szErr);
+
+	// ------------------------------------------------------------------
+	// OEAS Version Conflicts   17
+	// ------------------------------------------------------------------
+	if (OIsComponentSelected ( COMP_OEAS ) = TRUE ) then
+		//Get version needed from the setup.ini (more coding necessary)
+		
+		if(_CheckPreviousVersion(szVerFound, szVerNew, szVerNeeded) = TRUE) then
+	    	nResult = TRUE;
+	    else
+			nResult=FALSE;
+			szErr = @ERROR_VERSION; //should use a different string than @ERROR_VERSION
+			Sprintf(szErr,@ERROR_VERSION, szVerNeeded, szVerNew);
+		endif;
+		_ReqErrorChk(nCheck, nResult, szMsg, szErr);
+	endif;
+	
+	// ----------------------------------------------------------------
+	//  XML 4.0 Parser
+	// ----------------------------------------------------------------
+	if (OIsComponentSelected ( COMP_XML_PARSER4 ) = TRUE ) then
+		nCheck = _IsItemRequired ( COMP_XML_PARSER4);
+		szTemp = "";
+		if ( _CheckForXMLParser4(szTemp) = TRUE ) then
+		else
+			szErr = @COPYRIGHT_XML_PARSER4;
+		//	OCatStrings(szErr, " " szTemp);
+		endif;
+	endif;
+	_ReqErrorChk ( nCheck, nResult, szMsg, szErr);
+	
+	// ----------------------------------------------------------------
+	//  Check for Extended MAPI Version 1.0.0.1
+	// ----------------------------------------------------------------
+	//check to see if the component is selected
+	nResult = FALSE;
+	if (OIsComponentSelected(COMP_EXTENDED_MAPI) = TRUE ) then
+		//now check to see that this is required
+		nCheck = _IsItemRequired ( COMP_EXTENDED_MAPI);
+		//go in and determine the current mapi version
+		if ( _DetermineMAPIVersion() = TRUE ) then
+			//return true if it is greater or equal
+			nResult = TRUE;
+		else
+			szErr = @COPYRIGHT_EXTENDED_MAPI;
+		//	OCatStrings(szErr, " " szTemp);
+		endif;
+	endif;
+	_ReqErrorChk ( nCheck, nResult, szMsg, szErr);
+	
+	// ----------------------------------------------------------------
+	//  Check for CDO Version
+	// ----------------------------------------------------------------
+	//check to see if the component is selected
+	nResult = FALSE;
+	if (OIsComponentSelected(COMP_CDO) = TRUE ) then
+		//now check to see that this is required
+		nCheck = _IsItemRequired (COMP_CDO);
+		//go in and determine the current mapi version
+		if ( _DetermineCDOVersion() = TRUE ) then
+			//return true if it is greater or equal
+			nResult = TRUE;
+		else
+			szErr = @COPYRIGHT_CDO;
+			nResult = FALSE;
+		endif;
+	endif;
+	_ReqErrorChk ( nCheck, nResult, szMsg, szErr);
+
+	
+	// ----------------------------------------------------------------
+	//  Check for Cognos Version and Path
+	// ----------------------------------------------------------------
+	//check to see if the component is selected
+
+	nResult = FALSE;
+	if (OIsComponentSelected(COMP_COGNOS) = TRUE ) then
+		//now check to see that this is required
+		nCheck = _IsItemRequired (COMP_COGNOS);
+		//go in and determine the current mapi version
+		if ( _CheckForCognos() = TRUE ) then
+			// Cognos is installed, but is this version installed?
+			_PreviousVersionFound();
+			//return true if it is greater or equal
+			nResult = TRUE;
+		else
+			szErr = @ERR_COGNOS;
+			nResult = FALSE;
+		endif;
+	endif;
+	_ReqErrorChk ( nCheck, nResult, szMsg, szErr);
+		
+	// ------------------------------------------------------------------
+	// Check for .Net installation   18
+	// ------------------------------------------------------------------
+	nResult = TRUE;
+	if (OIsComponentSelected(COMP_DOT_NET) = TRUE) then
+		nCheck = _IsItemRequired(COMP_DOT_NET);
+		// throw a warning dialogue.		
+		if(_CheckForDotNetFrameWork() = FALSE)then  //returns ver needed in szTemp
+			Sprintf(szErr,@ERROR_REQUIREMENTS_DOTNET,gszMajorVersion);
+			nResult = FALSE;
+	    endif;
+   	endif;
+	_ReqErrorChk(nCheck,nResult,szMsg,szErr);
+	
+	//
+	// ------------------------------------------------------------------
+	//  Previous Onyx BPS setup has run
+	// ------------------------------------------------------------------
+	
+	if (OIsComponentSelected(COMP_OBPSSETUP) = TRUE ) then
+		nCheck = _IsItemRequired(COMP_OBPSSETUP);
+		szTemp ="";
+		if (_CheckForOBPSSetup(szTemp) = TRUE ) then
+			nResult = TRUE;
+		else
+			szErr = @COPYRIGHT_OBPSSETUP;
+			OCatStrings (szErr, " " , szTemp);
+		endif;
+	endif;
+	_ReqErrorChk ( nCheck, nResult, szMsg, szErr);
+	
+	/////////////////////////////////////////////
+	// All done!
+	/////////////////////////////////////////////
+	
+	//look for previous version of the product being installed.
+	if(g_structSystemData.szPrevious_Path = "")then
+		_CheckForPreviousProduct("");
+	endif;
+	
+	//look for old MTS package files.
+//	if (OIsComponentSelected(COMP_LF_OLD_PAKS) = TRUE) then
+//		OGetListOfOldPackages(g_structSystemData.szPrevious_Path,glistOfOldPackages);
+//	endif;
+	
+	//if req check fails, notify user.
+	if(szMsg != "")then
+//		szMsg = "ERROR:  Setup has failed to find the following prerequisites on this system, and cannot continue without them.\n\n" + szMsg +"\n\nSetup will now exit.";
+		Sprintf(szTemp,@ERROR_REQUIREMENTS1,gszProductName,gszProductName);
+		szMsg = szTemp + "\n\n" + szMsg +"\n\n"+@ERROR_NOW_EXIT;
+		MessageBox(szMsg,SEVERE);
+		OLog(szMsg);
+		
+		//force launcher to exit.
+		if(g_structLauncher.bIsChild = TRUE)then
+			RegDBSetKeyValueEx("Software\\Onyx\\SetupLauncher","Exit",REGDB_STRING,"YES",-1);
+		endif;
+		
+		abort;
+	endif;
+
+	//if something needs to be run before the rest of setup.
+	if(nInstall)then
+		szTemp = @TITLE_INSTALL_BEFORE;
+		szMsg = @ERROR_REQUIREMENTS2;
+		Disable(BACKBUTTON);
+		if(SdStartCopy( szTemp, szMsg, listInstallBefore ) = NEXT )then
+			_RunInstallBefore(listInstallBefore);  //runs {Plugin - Begin Setup}
+		endif;
+		Enable(BACKBUTTON);
+	endif;
+	
+//	SdShowMsg("", FALSE);
+	ListDestroy(listInstallBefore);
+    return TRUE;
+end;
+///////////////////////////////////////////////////////////////////////////////
+// checks for error message and clears vars when done.
+///////////////////////////////////////////////////////////////////////////////
+function _ReqErrorChk(nCheck,nResult,szMsg,szErr)
+begin
+	if(nCheck && !nResult)then
+		OCatStrings(szMsg,"\n",szErr);
+	endif;
+    //rest
+	szErr = "";
+	nResult = FALSE;
+    nCheck = FALSE;
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//checks the specified data and updates the message string if fails.
+//if a "*" passed in for data2, then any value in data1 is valid.
+///////////////////////////////////////////////////////////////////////////////
+function OCheckDataCatMsg(szData1,szData2,szString,szMsg)
+BOOL nResult;
+begin
+    if (szData1 = szData2) then
+    	//exact match
+       	nResult = TRUE;		
+    elseif(szData2 = "*" && szData1 != "")then
+		//check for global
+		nResult = TRUE;
+	else
+		//check for newer version
+		nResult = OIsValueGreater(szData2,szData1);
+	endif;
+
+	if(nResult = FALSE)then
+    	if(szString = "")then
+       		szString = szMsg;
+       	else
+       		szString = szString + " "+@OR+" " + szMsg;
+       	endif;
+    endif;
+return nResult;
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//checks for NT, it's service packs, and even administrator privelages.
+///////////////////////////////////////////////////////////////////////////////
+function _CheckNT(szString)
+STRING szNotUsed,szTemp,szResult,szWindows;
+BOOL nResult,nFound1,nFound2,nSP,nNewerOS,nTemp;
+begin
+	
+//	if(g_structSystemData.nOS_Type != IS_WINDOWSNT)then
+//    	return FALSE;
+//    endif;
+
+    nResult = TRUE;  //default to ok.
+	Sprintf(szWindows,@COPYRIGHT_WINDOWS_NT,"4.0");
+
+    if (OIsComponentSelected(COMP_WINNT40WS) = TRUE) then
+        if(bWinNT)then
+        	if(g_structSystemData.szOS_Version = "4.0")then
+        		nFound1 = TRUE;
+        	else
+        		//look for a newer OS.
+				nFound1 = OIsValueGreater("4.0",g_structSystemData.szOS_Version);
+				if(nFound1)then
+					nNewerOS = TRUE;
+				endif;
+			endif;
+			if(nFound1)then
+				//check for Workstation
+				nFound1 = !_IsNTServer();
+			endif;
+			if(nFound1)then
+	           	g_structSystemData.szOS = "NT4.0 Workstation";
+	        endif;
+		endif;
+		if(nFound1 = FALSE || nFound1 = -1 )then
+			Sprintf(szTemp,@COPYRIGHT_WINDOWS_NT_WORKSTATION,"4.0");
+			OCatStrings(szString," "+@OR+" ",szTemp);
+			ODebugDsp("NT workstation NOT found!",2);
+		else
+			ODebugDsp("NT workstation found!",2);
+		endif;
+    endif;
+    if (OIsComponentSelected(COMP_WINNT40SV) = TRUE) then
+        if(bWinNT)then
+        	if(g_structSystemData.szOS_Version = "4.0")then
+        		nFound2 = TRUE;
+        	else
+        		//look for a newer OS.
+				nFound2 = OIsValueGreater("4.0",g_structSystemData.szOS_Version);
+				if(nFound2)then
+					nNewerOS = TRUE;
+				endif;
+			endif;
+			if(nFound2)then
+				//check for server
+				nFound2 = _IsNTServer();
+			endif;
+			if(nFound2)then
+				g_structSystemData.szOS = "NT4.0 Server";
+			endif;
+		endif;
+		if(nFound2 = FALSE || nFound2 = -1 )then
+			Sprintf(szTemp,@COPYRIGHT_WINDOWS_NT_SERVER,"4.0");
+			OCatStrings(szString," "+@OR+" ",szTemp);
+			ODebugDsp("NT Server NOT found!",2);
+		else
+			ODebugDsp("NT Server found!",2);
+		endif;
+    endif;
+
+    //OR check the two above
+    if((!nFound1 && !nFound2) || (nFound1 = -1 || nFound2 = -1 ))then
+    	nResult = FALSE;
+    	ODebugDsp("A usable version of NT was NOT found!",2);
+    else
+    	szString = ""; //found an os, clear error string.
+    	ODebugDsp("A usable version of NT was found!",2);
+    endif;
+	
+	//check for service pack, but skip if OS on system is newer.
+	//default is SP3 but a newer version can be entered in MISC field of component.
+	if (OIsComponentSelected(COMP_WINNT40SP3) && !nNewerOS) then
+		ComponentGetData (BASE_MEDIA,COMP_WINNT40SP3,COMPONENT_FIELD_MISC,nTemp,szResult);
+       	if(szResult = "")then
+       		Sprintf(szResult,@SERVICE_PACK,"3");
+       	endif;
+    	
+       	nSP = ISCompareServicePack (szResult);
+       	
+       	if( nSP = LESS_THAN )then
+	    	nResult = FALSE;  //AND option
+	    	if(szString = "")then
+	    		Sprintf(szString,@ERROR_NT_OR_HIGHER,szWindows,szResult);
+       		else
+       			Sprintf(szTemp," "+@ERROR_OR_HIGHER,szResult);
+       			szString = szString + szTemp;
+       		endif;
+       	else
+       		Sprintf(szTemp,"%s found!",szResult);
+       		ODebugDsp(szTemp,2);
+       	endif;
+    endif;
+
+    if (OIsComponentSelected(COMP_WINNT40ADMIN)) then
+       	if(Is (USER_ADMINISTRATOR, szNotUsed) = FALSE)then
+      		nResult = FALSE;  //AND option
+	    	if(szString = "")then
+    	   		Sprintf(szString,@ERROR_NT_ADMIN1,szWindows);
+       		else
+       			Sprintf(szString,@ERROR_NT_ADMIN2,szWindows);
+       			szString = szString + " " + @ERROR_NT_ADMIN2;
+       		endif;
+       	else
+       		ODebugDsp("Administrator found!",2);
+       	endif;
+    endif;
+    //check to see if they have to new of OS.
+    if (OIsComponentSelected(COMP_WINNT40ONLY) = TRUE) then
+    	if(nNewerOS = TRUE)then
+	    	//a newer version is not allowed.
+    		Sprintf(szString,@ERROR_REQUIREMENTS4,@COPYRIGHT_WINDOWS_NT);
+    		Sprintf(szString,szString,g_structSystemData.szOS_Version);
+	    	OLog(szString);
+    		MessageBox(szString,SEVERE);
+    		abort;
+        endif;
+    endif;
+    return nResult;
+//return TRUE;    //for testing purposes
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+// checks registry for NT Server or Workstation
+// returns true for server, false for WS, and -1 for error if not one of those.
+///////////////////////////////////////////////////////////////////////////////
+function _IsNTServer()
+INT nvType,nvSize;
+STRING svValue;
+begin
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	RegDBGetKeyValueEx("SYSTEM\\CurrentControlSet\\Control\\ProductOptions","ProductType",nvType,svValue,nvSize);
+//	if(svValue = "SERVERNT")then
+//		return TRUE;
+//	elseif(svValue = "WinNT")then
+	if(svValue = "WinNT")then		//changed because NT server value is not constant (found LANMANNT in one case)
+		return FALSE;
+	else
+		return TRUE;
+//		return -1;
+	endif;
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//checks for win2k, it's service packs, and even administrator privelages.
+///////////////////////////////////////////////////////////////////////////////
+function _CheckWin2k(szString)
+STRING szNotUsed,szTemp,szResult,szWindows;
+BOOL nResult,nFound1,nFound2,nSP,nNewerOS;
+begin
+	
+//	if(g_structSystemData.nOS_Type != IS_WINDOWSNT)then
+//    	return FALSE;
+//    endif;
+
+    nResult = TRUE;  //default to ok.
+	szWindows = @COPYRIGHT_WINDOWS_2K;
+
+        if(bWinNT)then
+			nFound1 = OIsValueEqual("5.0",g_structSystemData.szOS_Version);
+
+			if(nFound1)then
+	           	g_structSystemData.szOS = "Win2k";
+	        endif;
+		endif;
+		if(nFound1 = FALSE || nFound1 = -1 )then
+//			Sprintf(szTemp,@COPYRIGHT_WINDOWS_2K,"5.0");
+			szTemp = @COPYRIGHT_WINDOWS_2K;
+			OCatStrings(szString," "+@OR+" ",szTemp);
+			ODebugDsp("Win2k NOT found!",2);
+		else
+			ODebugDsp("Win2k found!",2);
+		endif;
+
+    //OR check the two above
+    if(!nFound1 || (nFound1 = -1))then
+    	nResult = FALSE;
+    	ODebugDsp("A usable version of Win2k was NOT found!",2);
+    	return FALSE;
+    else
+    	szString = ""; //found an os, clear error string.
+    	ODebugDsp("A usable version of Win2k was found!",2);
+    endif;
+	
+	//check for service pack, but skip if OS on system is newer.
+	//default is SP1 but a newer version can be entered in MISC field of component.
+	if (OIsComponentSelected(COMP_WINNT2KSP)) then
+		ComponentGetData (BASE_MEDIA,COMP_WINNT2KSP,COMPONENT_FIELD_MISC,nResult,szResult);
+       	if(szResult = "")then
+       		Sprintf(szResult,@SERVICE_PACK,"1");
+       	endif;
+       	
+       	nSP = ISCompareServicePack (szResult);
+       	
+       	if( nSP = LESS_THAN )then
+	    	nResult = FALSE;  //AND option
+	    	if(szString = "")then
+	    		Sprintf(szString,@ERROR_NT_OR_HIGHER,szWindows,szResult);
+       		else
+       			Sprintf(szTemp," "+@ERROR_OR_HIGHER,szResult);
+       			szString = szString + szTemp;
+       		endif;
+       	else
+       		Sprintf(szTemp,"%s found!",szResult);
+       		ODebugDsp(szTemp,2);
+       	endif;
+    endif;
+
+    if (OIsComponentSelected(COMP_WINNT2KADMIN)) then
+       	if(Is (USER_ADMINISTRATOR, szNotUsed) = FALSE)then
+      		nResult = FALSE;  //AND option
+	    	if(szString = "")then
+    	   		Sprintf(szString,@ERROR_NT_ADMIN1,szWindows);
+       		else
+       			Sprintf(szString,@ERROR_NT_ADMIN2,szWindows);
+       			szString = szString + " " + @ERROR_NT_ADMIN2;
+       		endif;
+       	else
+       		ODebugDsp("Administrator found!",2);
+       	endif;
+    endif;
+
+    return nResult;
+
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+//checks for win2k3, it's service packs, and even administrator privelages.
+///////////////////////////////////////////////////////////////////////////////
+function _CheckWin2k3(szString)
+STRING szNotUsed,szTemp,szResult,szWindows;
+BOOL nResult,nFound1,nFound2,nSP,nNewerOS;
+begin
+	
+//	if(g_structSystemData.nOS_Type != IS_WINDOWSNT)then
+//    	return FALSE;
+//    endif;
+
+    nResult = TRUE;  //default to ok.
+	szWindows = @COPYRIGHT_WINDOWS_2K3;
+
+        if(bWinNT)then
+			nFound1 = OIsValueEqual("5.2",g_structSystemData.szOS_Version);
+
+			if(nFound1)then
+	           	g_structSystemData.szOS = "Win2k3";
+	        endif;
+		endif;
+		if(nFound1 = FALSE || nFound1 = -1 )then
+//			Sprintf(szTemp,@COPYRIGHT_WINDOWS_2K,"5.2");
+			szTemp = @COPYRIGHT_WINDOWS_2K3;
+			OCatStrings(szString," "+@OR+" ",szTemp);
+			ODebugDsp("Win2k3 NOT found!",2);
+		else
+			ODebugDsp("Win2k3 found!",2);
+		endif;
+
+    //OR check the two above
+    if(!nFound1 || (nFound1 = -1))then
+    	nResult = FALSE;
+    	ODebugDsp("A usable version of Win2k3 was NOT found!",2);
+    	return FALSE;
+    else
+    	szString = ""; //found an os, clear error string.
+    	ODebugDsp("A usable version of Win2k3 was found!",2);
+    endif;
+	
+	//check for service pack, but skip if OS on system is newer.
+	//default is SP1 but a newer version can be entered in MISC field of component.
+	if (OIsComponentSelected(COMP_WINNT2K3SP)) then
+		ComponentGetData (BASE_MEDIA,COMP_WINNT2K3SP,COMPONENT_FIELD_MISC,nResult,szResult);
+       	if(szResult = "")then
+       		Sprintf(szResult,@SERVICE_PACK,"1");
+       	endif;
+       	
+       	nSP = ISCompareServicePack (szResult);
+       	
+       	if( nSP = LESS_THAN )then
+	    	nResult = FALSE;  //AND option
+	    	if(szString = "")then
+	    		Sprintf(szString,@ERROR_NT_OR_HIGHER,szWindows,szResult);
+       		else
+       			Sprintf(szTemp," "+@ERROR_OR_HIGHER,szResult);
+       			szString = szString + szTemp;
+       		endif;
+       	else
+       		Sprintf(szTemp,"%s found!",szResult);
+       		ODebugDsp(szTemp,2);
+       	endif;
+    endif;
+
+    if (OIsComponentSelected(COMP_WINNT2K3ADMIN)) then
+       	if(Is (USER_ADMINISTRATOR, szNotUsed) = FALSE)then
+      		nResult = FALSE;  //AND option
+	    	if(szString = "")then
+    	   		Sprintf(szString,@ERROR_NT_ADMIN1,szWindows);
+       		else
+       			Sprintf(szString,@ERROR_NT_ADMIN2,szWindows);
+       			szString = szString + " " + @ERROR_NT_ADMIN2;
+       		endif;
+       	else
+       		ODebugDsp("Administrator found!",2);
+       	endif;
+    endif;
+
+    return nResult;
+
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+// checks registry for Windows 2000 Server or Advanced Server
+// returns true for server, false for WS, and -1 for error if not one of those.
+///////////////////////////////////////////////////////////////////////////////
+function _IsWin2KServer()
+INT nvType,nvSize;
+STRING svValue;
+LIST listRegEntry;
+begin
+	listRegEntry = ListCreate(STRINGLIST);
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	RegDBGetKeyValueEx("SYSTEM\\CurrentControlSet\\Control\\ProductOptions","ProductSuite",nvType,svValue,nvSize);
+	//need to parse return val because entry is a REGDB_STRING_MULTI
+	if(nvType = REGDB_STRING_MULTI)then
+		StrGetTokens (listRegEntry,svValue,"");
+		ListGetFirstString (listRegEntry,svValue);
+	endif;
+
+	if(svValue = "")then
+		//Professional
+		return 0;
+	elseif("Terminal Server" % svValue)then
+		//Server
+		return 1;
+	elseif("Enterprise Terminal Server" % svValue)then
+		//Advanced Server
+		return 2;
+	else
+		return 3;
+	endif;
+end;
+
+////////////////////////////////////////////
+//
+// check for Windows 2000 Service Pack
+//
+////////////////////////////////////////////
+function _Check2KSP(szVerNeeded)
+	NUMBER nvType, nvSize, nRet;
+	STRING	svValue;
+	
+begin
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	
+	if (RegDBGetKeyValueEx( "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", "CSDVersion", nvType, svValue, nvSize) < 0) then
+		// failure no sp
+		nRet = LESS_THAN;
+	else
+
+		if (svValue < szVerNeeded) then
+			nRet = LESS_THAN;
+		else
+			nRet = EQUALS;
+		endif;
+	endif;
+	return nRet;
+end;
+
+
+/*
+///////////////////////////////////////////////////////////////////////////////
+//cancatinates all strings into the first string szS0 if they are not empty.
+//seperates each string with a line feed.
+///////////////////////////////////////////////////////////////////////////////
+function _CatAllStrings(szS0,szS1,szS2,szS3,szS4,szS5,szS6,szS7,szS8)
+begin
+	if(szS1 != "")then szS0 = szS0 +"\n" +szS1;endif;
+	if(szS2 != "")then szS0 = szS0 +"\n" +szS2;endif;
+	if(szS3 != "")then szS0 = szS0 +"\n" +szS3;endif;
+	if(szS4 != "")then szS0 = szS0 +"\n" +szS4;endif;
+	if(szS5 != "")then szS0 = szS0 +"\n" +szS5;endif;
+	if(szS6 != "")then szS0 = szS0 +"\n" +szS6;endif;
+	if(szS7 != "")then szS0 = szS0 +"\n" +szS7;endif;
+	if(szS8 != "")then szS0 = szS0 +"\n" +szS8;endif;
+end;
+*/
+
+/////////////////////////////////////////////////////////////////////
+// was _DetermineSetupType, but in reality it is determining the Operation, thus the name change.
+// Determines if specific operation types are to be shown.
+// Either OPERATION1, OPERATION2, or OPERATIONx
+// (like NEW INSTALL, UPGRADE, or others listed).
+// Items to check are listed in OPERATION1 misc field.
+// if no data provided, then all will be displayed.
+// returns:	bExclusive
+//			szOperationReturn	;this indicates which operation is to be selected.
+// 			function returns nCount to indicate if the dialog needs to be displayed (ie > 1).
+/////////////////////////////////////////////////////////////////////
+function _DetermineOperation(szMedia,szComponents,szOperationReturn,szDisplayName,bExclusive)
+LIST listAllOperations,listOperations,listOPERATION1Misc,listReqData;
+STRING szOp,szOnlyOp,szResult,szResult2,szOpToCheck,szReq,szVer,szVerFound;
+INT nResult,nLoop1,nLoop2,nCount;
+begin
+
+	//check to see if there is more than one operation to list.
+	listAllOperations = ListCreate( STRINGLIST );
+    ComponentListItems( szMedia, szComponents, listAllOperations );
+
+    nLoop1 = ListGetFirstString(listAllOperations,szOp);
+    nCount = ListCount(listAllOperations);
+    if(nCount < 2)then
+    	//only one option listed
+    	ListDestroy(listAllOperations);
+    	szOperationReturn = szOp;  //the only one.
+    	return FALSE;
+    endif;
+
+    //loop through the operations in the component list in the media
+	//and make a new list of just those operations selected.
+	nCount=0;
+	listOperations = ListCreate( STRINGLIST );
+    while(nLoop1 != END_OF_LIST)
+    	if (OIsComponentSelected(szOp) = TRUE) then
+    		nCount++;
+    		ListAddString(listOperations,szOp,AFTER);
+    		szOnlyOp = szOp;  //save, if only one.
+    	endif;
+		nLoop1 = ListGetNextString(listAllOperations,szOp);    		
+    endwhile;
+
+    //once again, if only one item selected, do not display operation dialog.
+    if(nCount < 2)then
+    	//only one option listed
+    	ListDestroy(listAllOperations);
+    	ListDestroy(listOperations);
+    	szOperationReturn = szOnlyOp;  //the only one.
+    	return FALSE;  //force exit
+    endif;
+
+	//loop through the operations in the component list in the media
+	listOperations = ListCreate( STRINGLIST );
+    ComponentListItems( szMedia, szComponents, listOperations );
+
+    nLoop1 = ListGetFirstString(listOperations,szOp);
+	while( nLoop1 != END_OF_LIST  && nLoop1 != -1)
+    	if(szOp = COMP_OPERATION_OPERATION1)then
+    		//if OPERATION1, read in Misc field
+    		ComponentGetData (szMedia,szOp,COMPONENT_FIELD_MISC,nResult,szResult);
+			ComponentGetData (szMedia,szOp,COMPONENT_FIELD_DISPLAYNAME,nResult,szResult2);
+    		if(szResult != "")then
+	   			//put these entries into a list
+				listOPERATION1Misc = ListCreate( STRINGLIST );
+				StrGetTokens (listOPERATION1Misc,szResult,",");
+//				szOperationReturn = "OPERATION1"; //default when only one is to be available.
+				szOperationReturn = szOp;
+				szDisplayName = szResult2;
+				bExclusive = TRUE;
+//    		    else
+    			  //no data, so allow all operations to be seen.
+//    			      szOperationReturn = "All";
+    		endif;
+    	endif;
+	
+		//loop through all setup types listed in the Misc list
+   			nLoop2 = ListGetFirstString(listOPERATION1Misc,szOpToCheck);
+   			while( nLoop2 != END_OF_LIST && nLoop2 != -1)
+   			//does operation in media matches operation listed in Misc	
+    		if(szOp % szOpToCheck)then
+    			//next check operation requirements.  In it's miscelanious field
+    			ComponentGetData (szMedia,szOp,COMPONENT_FIELD_MISC,nResult,szResult);
+    			ComponentGetData (szMedia,szOp,COMPONENT_FIELD_DISPLAYNAME,nResult,szResult2);
+				if(szResult != "")then
+					//parse data.  Only product check allowed.
+					listReqData = ListCreate( STRINGLIST );
+					StrGetTokens (listReqData,szResult,",");
+					ListGetFirstString(listReqData,szReq);
+					ListGetNextString(listReqData,szVer);
+					ListDestroy(listReqData);
+			
+					//check requirment data
+					nResult = _CheckReqVersion(szReq,szVer,szVerFound);
+//					if(nResult = TRUE)then
+					if(nResult > 0)then
+						//a match!  Set return value to verified operation!
+//		    			szOperationReturn = szOpToCheck;
+						szOperationReturn = szOp;
+						szDisplayName = szResult2;
+						bExclusive = TRUE;
+		    			//exit loops now
+//		    			nLoop1 = END_OF_LIST;
+//		    			nLoop2 = END_OF_LIST;
+					elseif(nResult = -1)then
+						//this setup is older than one on DB.
+						//exit loops now
+		    			nLoop1 = END_OF_LIST;
+		    			nLoop2 = END_OF_LIST;
+					endif;
+				else
+					//should not get here.  If data misc field of OPERATION1,
+					//then data should be in list operation misc field also.
+					szOperationReturn = "All";
+				endif;
+    		endif;
+    		
+    		if(nLoop2 != END_OF_LIST)then
+				nLoop2 = ListGetNextString(listOPERATION1Misc,szOpToCheck);
+			endif;
+    	endwhile;
+
+    	
+    	if(nLoop1 != END_OF_LIST)then
+    		nLoop1 = ListGetNextString(listOperations,szOp);
+    	endif;
+	endwhile;
+	
+	ListDestroy(listOPERATION1Misc);
+	ListDestroy(listOperations);
+	ListDestroy(listAllOperations);
+	
+	//is product to be installed older?
+	if(nResult = -1)then //from _CheckReqVersion above
+		if(g_structSetupMode.bStopIfOlder)then
+			//cannot continue.
+			Sprintf(gszMsg,@ERROR_NEWER_VER_FOUND1,szReq);	
+			gszMsg = gszMsg+"\n"+@VERSION_FOUND+"\n"+@VERSION_INSTALLING+"\n"+@ERROR_CANNOT_CONTINUE;
+			Sprintf(gszMsg,gszMsg,g_structSystemData.szPrevious_Version,g_structSystemData.szCurrent_Version);
+			OLog(gszMsg);
+			MessageBox(gszMsg,SEVERE);
+			abort;
+		else
+			//ask to continue
+			Sprintf(gszMsg,@ERROR_NEWER_VER_FOUND1,szReq);	
+			gszMsg = gszMsg+"\n"+@VERSION_FOUND+"\n"+@VERSION_INSTALLING+"\n"+@ERROR_NEWER_VER_FOUND2;
+			Sprintf(gszMsg,gszMsg,g_structSystemData.szPrevious_Version,g_structSystemData.szCurrent_Version);
+			OLog(gszMsg);
+		
+			//loop till YES is choosen or exit.
+			nLoop1 = 0;
+			while(nLoop1 = 0)
+				nResult = AskYesNo(gszMsg,NO);
+				if(nResult = NO)then
+					//exit setup.  if NO, continue with install, defaults to new install
+					Do(EXIT);
+				else
+					nLoop1 = 1;
+				endif;
+			endwhile;
+		endif;
+	endif;
+	return nCount;
+//return FALSE;   //use this to display all the operations.
+
+end;
+
+/////////////////////////////////////////////////////////////////////
+//checks product and version against data from requirements checking.
+//return of 0 means new install or operation 1.
+/////////////////////////////////////////////////////////////////////
+function _CheckReqVersion(szReq,szVer,szTest)
+STRING szTemp,szFullTest;
+NUMBER nLen,nReturn;
+begin
+	nLen = StrLength(szVer);
+	
+	if(szReq % REQ_OCC)then
+		szFullTest = g_structDatabase.szOCC_Ver;
+		StrSub(szTest,szFullTest,0,nLen);
+	elseif(szReq % REQ_INSIGHT)then
+		szFullTest = g_structDatabase.szInsight_Ver;
+		StrSub(szTest,szFullTest,0,nLen);
+	elseif(szReq % REQ_OEP)then
+		szFullTest = g_structDatabase.szOEP_Ver;
+		StrSub(szTest,szFullTest,0,nLen);
+	elseif(szReq % REQ_MDAC)then
+		szFullTest = g_structSystemData.szMDAC_Version;
+		StrSub(szTest,szFullTest,0,nLen);
+	elseif(szReq % REQ_DCOM)then
+		szFullTest = g_structSystemData.szDCOM_Version;
+		StrSub(szTest,szFullTest,0,nLen);
+	elseif(szReq % REQ_MMC)then
+		szFullTest = g_structSystemData.szMMC_Version;
+		StrSub(szTest,szFullTest,0,nLen);
+	elseif(szReq % REQ_ONYX_ADMIN_16)then
+		szFullTest = g_structSystemData.szOCCAdmin_Version;
+		StrSub(szTest,szFullTest,0,nLen);		
+	elseif(szReq % REQ_ONYX_ADMIN_SNAPIN)then
+		szFullTest = g_structSystemData.szOCCAdminSI_Version;
+		StrSub(szTest,szFullTest,0,nLen);
+	elseif(szReq % "SQL_PRODUCT1_EQUAL")then
+		szFullTest = g_structDatabase.szProductVer1;
+		StrSub(szTest,szFullTest,0,nLen);
+	elseif(szReq % "SQL_PRODUCT2_EQUAL")then
+		szFullTest = g_structDatabase.szProductVer2;
+		StrSub(szTest,szFullTest,0,nLen);
+	
+	//'separated' these next two from the rest of the list so they will return their own
+	// values and not go through all the code below the list.  that code no longer works
+	// with this product since there are several *different* versions from which to upgrade
+	// and we can't rely on the '=' condition to determine the operation.
+	elseif(szReq % "SQL_PRODUCT3_REBUILD")then
+		szFullTest = g_structDatabase.szProductVer3;
+		StrSub(szTest,szFullTest,0,nLen);
+		
+		// if the two versions aren't equal, this isn't a rebuild, so return FALSE
+		// else, return TRUE
+		if(szVer != szTest)then
+			return 0;
+		else
+			return 1;
+		endif;
+
+	elseif(szReq % "SQL_PRODUCT3_UPGRADE")then
+		szFullTest = g_structDatabase.szProductVer3;
+		StrSub(szTest, szFullTest, 0, nLen);
+		
+		// if the version found in the database is less than the version being installed,
+		// this is an upgrade
+		if(OIsValueGreater(szVer, szTest))then
+			return 1;
+		endif;
+
+	elseif(szReq % "SQL_PRODUCT4_EQUAL")then
+		szFullTest = g_structDatabase.szProductVer4;
+		StrSub(szTest,szFullTest,0,nLen);
+	endif;
+	
+	if(szVer = szTest)then
+		nReturn = 2;
+	elseif(OIsValueGreater(szTest,szVer))then
+		nReturn = 1;
+	else
+		//check for CurrentVersion and PreviousVersion in Ver var.
+		OGetValueFromINI("Versions","DataBaseVersion",szTemp);
+		if(szTemp !="")then
+			g_structSystemData.szCurrent_Version = szTemp;
+		else
+			g_structSystemData.szCurrent_Version = gszProductVersion;
+		endif;
+		
+		//check just the length specified in setup.ini
+		nLen = StrLength(g_structSystemData.szCurrent_Version);
+		StrSub(szTest,szFullTest,0,nLen);
+		
+		if(szVer = "UpgradeVersion")then
+			//version found in DB must be greater than version in setup.ini (one being installed)
+			//this one forces a operation1 (new install) if the test fails
+			g_structSystemData.szPrevious_Version = szFullTest;
+			//uses fulltest so 5.00xx is greater than 5.0 as specified in setup.ini
+			nReturn = OIsValueGreater(g_structSystemData.szCurrent_Version,szFullTest);
+		elseif(szVer = "PreviousVersion")then
+			//version found in DB must be lower than one specified in setup.ini
+			g_structSystemData.szPrevious_Version = szFullTest;
+			if(OIsValueGreater(szTest,g_structSystemData.szCurrent_Version))then
+				nReturn = 1;
+			endif;
+		elseif(szVer = "CurrentVersion")then
+			//version found in DB must be equal to one specified in setup.ini
+			g_structSystemData.szPrevious_Version = szFullTest;
+			if(OIsValueEqual(szTest,g_structSystemData.szCurrent_Version))then
+				nReturn = 2;
+			endif;
+		elseif(szVer = "PreviousVersionAndNoOEP")then
+			//version found in DB must be lower than one specified in setup.ini
+			//also, no version of OEP must exist.
+			g_structSystemData.szPrevious_Version = szFullTest;
+			if(OIsValueGreater(szTest,g_structSystemData.szCurrent_Version))then
+				if(g_structDatabase.szOEP_Ver = "")then
+					nReturn = 3;
+				endif;
+			endif;
+		endif;
+		
+		//version found is newer than one being installed.
+		if(OIsValueGreater(g_structSystemData.szCurrent_Version,szTest))then
+			nReturn = -1;
+		endif;
+	endif;
+
+	return nReturn;
+end;
+
+//////////////////////////////////////////////////////////////////////
+// checks for "NOT REQUIRED" in items Misc field of the IDE.
+//////////////////////////////////////////////////////////////////////
+function _IsItemRequired(szItem)
+STRING szResult;
+INT nResult;
+begin
+	ComponentGetData (BASE_MEDIA,szItem,COMPONENT_FIELD_MISC,nResult,szResult);
+	if(szResult != "")then
+		//no data specified
+		StrToUpper(szResult,szResult);
+		if(szResult = "NOT REQUIRED")then
+			return FALSE;
+		endif;
+	endif;
+	return TRUE;
+end;
+
+//////////////////////////////////////////////////////////////////////
+// SQL DB queries.  Looks for versions of SQL, OCC, and Insight
+// Populates data structure and tests for required versions.
+// returns any SQL errs in error string.
+//////////////////////////////////////////////////////////////////////
+function OCheckSQLRequirements(pIns)
+INT nResult,nLoop,nCount;
+STRING szResult,szMsg,szQuery,szErr[1024],szErrItems[1024],szErrVer[1024],szSingle;
+STRING szSQLErr,szInsightErr,szOCCErr,szOEPErr,szTemp,szVerFound, szMajVerFound,szVerNeeded,szVerName;
+STRING szMustExist,szItem,szParameter,szTemp2, szUpgradeVerNeeded;
+STRING szServerCollation, szDBCollation;
+BOOL bOK;
+begin
+	//test for open handle to SQL DB.
+	if(pIns = 0)then
+		gszMsg = @ERROR_SQL_VERSION;
+		MessageBox(gszMsg,WARNING);
+		OLog(gszMsg);
+		return FALSE;
+	endif;
+
+	//next, check to see if setup needs to have specific versions.
+	if (OIsComponentSelected(COMP_DB_SQL_VERSION) = TRUE || OIsComponentSelected(COMP_O1_DB_SQL_VERSION) = TRUE) then
+		_GetSQLVerFromDB(pIns,szSQLErr);
+		if(OIsDataGreaterThanMisc(COMP_DB_SQL_VERSION,g_structDatabase.szSQL_Ver,"SQL Database",szSQLErr) = FALSE)then
+			OCatStrings(szErr,"\n",szSQLErr);
+		endif;
+	endif;
+	if (OIsComponentSelected(COMP_DB_OCC_VERSION) = TRUE || OIsComponentSelected(COMP_O1_DB_OCC_VERSION) = TRUE) then
+		_GetOCCVerFromDB(pIns,szOCCErr);
+		if(OIsDataGreaterThanMisc(COMP_DB_OCC_VERSION,g_structDatabase.szOCC_Ver,"Onyx Customer Center",szOCCErr) = FALSE)then
+			OCatStrings(szErr,"\n",szOCCErr);
+		endif;
+	endif;
+	if (OIsComponentSelected(COMP_DB_INSIGHT_VERSION) = TRUE || OIsComponentSelected(COMP_O1_DB_INSIGHT_VERSION) = TRUE) then
+		_GetInsightVerFromDB(pIns,szInsightErr);
+		if(OIsDataGreaterThanMisc(COMP_DB_INSIGHT_VERSION,g_structDatabase.szInsight_Ver,"Insight",szInsightErr) = FALSE )then
+			OCatStrings(szErr,"\n",szInsightErr);	
+		endif;
+	endif;
+	if (OIsComponentSelected(COMP_DB_OEP_VERSION) = TRUE || OIsComponentSelected(COMP_O1_DB_OEP_VERSION) = TRUE) then
+		_GetOEPVerFromDB(pIns,szOEPErr);
+		if(OIsDataGreaterThanMisc(COMP_DB_OEP_VERSION,g_structDatabase.szOEP_Ver,"Onyx Enterprise Portal",szOEPErr) = FALSE )then
+			OCatStrings(szErr,"\n",szOEPErr);	
+		endif;
+	endif;
+
+	// This gets the language code from the setup.ini file and checks the DB if it's not there
+	if (OIsComponentSelected(COMP_DB_SUPRESS_LANG) = FALSE) then
+		if (szErr="") then
+			_GetLanguageCodeFromDB(pIns,szErr);
+		endif;
+	endif;
+
+
+	
+	//---------------------------------
+	//new way of doing all this.
+	//Uses system param, ver, and type of check using data from setup.ini
+	//can handle upto 4 products
+	//---------------------------------
+
+		
+	if (
+		 (OIsComponentSelected(COMP_DB_PRODUCT_VERSION) = TRUE) ||
+		 (OIsComponentSelected(COMP_O1_DB_OEP_VERSION) = TRUE)
+		) then
+		//first look for SQL version to check, if specified.
+		szVerNeeded="";
+		OGetValueFromINI("SQL1","SQLVersion",szVerNeeded);
+		if(szVerNeeded != "")then
+			//same or newer version found allowed
+			if(OIsValueEqualOrGreater(szVerNeeded,g_structDatabase.szSQL_Ver))then
+				//ok
+			else
+				OGetValueFromINI("SQL1","SQLVersionError",szErrVer);
+				if(szErrVer = "")then
+					szErrVer = @ERROR_REQUIREMENTS3;					
+					Sprintf(szErrItems,szErrVer,"SQL",szVerNeeded,g_structDatabase.szSQL_Ver);
+				else
+					OCatStrings(szErr,"\n",szErrVer);
+				endif;
+			endif;
+		endif;
+
+		_CheckDBCollation(pIns, &g_structDatabase);
+
+
+		//ExecuteQueryA(pIns,"SELECT CONVERT(char, SERVERPROPERTY('collation'))",0,szServerCollation,255,szErr,255);
+		//ExecuteQueryA(pIns,"SELECT CONVERT(char, DATABASEPROPERTYEX('" + g_structDatabase.szDatabase + "', 'collation'))",0,szDBCollation,255,szErr,255);
+
+		// if collations aren't the same between DB and SVR, abort setup
+		if (StrCompare (szServerCollation, szDBCollation) != 0) then
+				Sprintf(szErrVer, @ERROR_COLLATION, szDBCollation, szServerCollation);
+				szErrVer = szErrVer + "\n\n" + @ERROR_NOW_EXIT;
+
+				MessageBox(szErrVer, SEVERE);
+						
+				//force launcher to exit
+				if(g_structLauncher.bIsChild = TRUE)then
+					RegDBSetKeyValueEx("Software\\Onyx\\SetupLauncher","Exit",REGDB_STRING,"YES",-1);
+				endif;
+
+				abort;
+		endif;	
+
+		//loop through all product listed in setup.ini
+		nCount=1;
+		g_structDatabase.szProductVer1="";
+		g_structDatabase.szProductVer2="";
+		g_structDatabase.szProductVer3="";
+		g_structDatabase.szProductVer4="";
+		while nLoop = 0
+			szParameter="";
+			NumToStr(szTemp,nCount);
+			szItem = "SQL_Product"+szTemp;
+
+			//Get system param, ver, and type of check using data from setup.ini
+			OGetValueFromINI(szItem,"VersionKey",szParameter);
+			if (szParameter != "") then //anything to look for?
+				OGetValueFromINI(szItem,"VersionNum",szVerNeeded);
+				OGetValueFromINI(szItem,"Conversion",szTemp);
+				if(szTemp != "")then
+					szVerNeeded = szTemp;
+				endif;
+				OGetValueFromINI(szItem,"VersionName",szVerName);
+				OGetValueFromINI(szItem,"VersionError",szErrVer);
+				szVerFound="";
+				
+				OGetValueFromINI(szItem,"MustExist",szMustExist);
+				StrToUpper(szMustExist,szMustExist);
+				OGetValueFromINI(szItem,"SingleProduct",szSingle);
+				
+				//get info from the DB.
+				nResult = _GetVerFromDB(pIns,szParameter,szVerFound,szErrVer);
+				if(nResult = -1)then
+					//check to see if ok to not have the site id line up with the system parameter.
+					OGetValueFromINI(szItem,"MustHaveSiteIDAligned",szTemp);
+					StrToUpper(szTemp,szTemp);	
+					if(szTemp = "NO")then
+						//ok if site id and system parameter don't align up.
+					else
+						nLoop = 1; //force loop exit.
+						szErrItems = szErrVer;
+						szMustExist = "YES";   //forces error message.
+					endif;
+				endif;
+
+				if(szParameter = "EnterpriseDBVersion" && szVerFound != "") then
+					OGetValueFromINI("Versions", "UpgradeVersion", szUpgradeVerNeeded);
+					if(szUpgradeVerNeeded != "") then
+						StrSub(szMajVerFound, szVerFound, 0, 4);
+						if(!OIsValueEqualOrGreater(szUpgradeVerNeeded, szMajVerFound)) then
+							OGetValueFromINI("Startup", "Version", szTemp);
+							Sprintf(szErrVer, @ERROR_VERSION, szUpgradeVerNeeded, szTemp);
+							MessageBox(szErrVer, SEVERE);
+						
+							//force launcher to exit
+							if(g_structLauncher.bIsChild = TRUE)then
+								RegDBSetKeyValueEx("Software\\Onyx\\SetupLauncher","Exit",REGDB_STRING,"YES",-1);
+							endif;
+
+							abort;
+						endif;
+					endif;
+				endif;
+
+		
+				//if ProductMustExist set to NO in setup.ini, then no previous product needed unless
+				//a version was found in the db.  If so, then the version is checked.
+				if(szMustExist != "NO" || szVerFound != "")then
+					bOK = TRUE; //reset
+					
+					OGetValueFromINI(szItem,"VersionCheck",szTemp);	
+					StrToUpper(szTemp,szTemp);
+					
+					if(szTemp = "NEWER")then
+						//same or newer version found allowed
+						if(OIsValueEqualOrGreater(szVerNeeded,szVerFound))then
+							//ok
+							szErrVer= "";
+						else
+							bOK = FALSE;
+							if(szErrVer = "") then
+								szErrVer = @ERROR_REQUIREMENTS3;  //use string table if ini was empty
+							endif;
+						endif;
+					elseif(szTemp = "OLDER")then
+						//same or older version found allowed
+						if(OIsValueEqualOrLess(szVerNeeded,szVerFound))then
+							//ok
+							szErrVer= "";
+						else
+							bOK = FALSE;
+							if(szErrVer = "") then
+								szErrVer = @ERROR_REQUIREMENTS3OLDER; //use string table if ini was empty
+							endif;
+						endif;			
+					else
+						//default.  same as if(szTemp = "EQUAL")then
+						//must be the same version.
+						if(OIsValueEqual(szVerNeeded,szVerFound))then
+							//ok
+							szErrVer= "";
+						else
+							//now check to see if this product had been upgrade by this setup.
+							szTemp = "";
+							OGetValueFromINI(szItem,"UpgradedVer",szTemp);
+							if(OIsValueEqual(szTemp,szVerFound))then
+								//all is well
+								szErrVer = "";
+							else
+								bOK = FALSE;
+								if(szErrVer = "") then
+									szErrVer = @ERROR_REQUIREMENTS3EQUAL; //use string table if ini was empty
+								endif;
+							endif;
+						endif;
+					endif;
+				
+					if(bOK)then
+						//save ver numbers for use later if needed for setup type selection.
+						if (nCount = 1)then
+							g_structDatabase.szProductVer1 = szVerFound;
+						elseif (nCount = 2)then
+							g_structDatabase.szProductVer2 = szVerFound;						
+						elseif (nCount = 3)then
+							g_structDatabase.szProductVer3 = szVerFound;
+						elseif (nCount = 4)then
+							g_structDatabase.szProductVer4 = szVerFound;
+						endif;
+						
+						//clear error message if single message and no error.
+						if(szSingle = "YES")then
+							szErrItems = "";
+						endif;
+					else	
+						if (szVerFound = "") then
+    						szVerFound = @ERROR_BLANK;
+						endif;
+
+						Sprintf(szErrVer,szErrVer,szVerName,szVerNeeded,szVerFound);			
+				
+						//do we concatinate the error with previous items not found?
+						if(szSingle = "YES")then
+							szErrItems = szErrVer;
+						else
+							OCatStrings(szErrItems,"\n",szErrVer);
+						endif;
+					endif;
+	
+				endif;
+			else
+			 	//force loop exit.
+				nLoop = 1;
+			endif;
+			nCount = nCount + 1;
+		endwhile;
+		
+		if(szErrItems != "") then
+			OCatStrings(szErr,"\n",szErrItems);
+		endif;
+
+	endif;
+	
+//	if(bOK = FALSE || bSQLOK = FALSE)then
+	if(szErr != "")then
+		szMsg = @ERROR_SQL_PREREQ+"\n\n"+szErr;
+		MessageBox(szMsg,SEVERE);
+		OLog(gszMsg);
+		return FALSE;
+	endif;	
+	return TRUE;
+	
+end;
+
+///////////////////////////////////////////////////////////
+//Queries SQL DB for SQL version info.
+//Parses return string and puts into global data structure.
+///////////////////////////////////////////////////////////
+function _GetSQLVerFromDB(pIns,szErr)
+INT nTemp, nLen;
+STRING szResult[255],szTemp;
+BOOL bOK;
+begin
+	g_structDatabase.szSQL_Ver = ""; //clear old value if exists
+	//get SQL version from DB
+//	if(ISExecuteQuery(pIns,"Select @@Version",0,szResult,255,szErr,255) >= 0)then
+	if(ExecuteQueryA(pIns,"Select @@Version",0,szResult,255,szErr,255) >= 0)then
+		// find the "-" then find the version number after it.
+		nTemp = StrFind( szResult, "-" );
+		if(nTemp > 0) then
+			// grab next 16 chars, just to make sure we have the whole thing
+			StrSub( szTemp, szResult, nTemp+2,16 );
+			//Find the end of the version number by looking for the first space
+			nTemp = StrFind( szTemp, " " );
+			if (nTemp > 0) then
+				StrSub( szTemp, szTemp, 0, nTemp );
+			endif;
+			g_structDatabase.szSQL_Ver = szTemp;
+			bOK = TRUE;
+		else
+			szErr = @ERROR_SQL_VER1+"\n\n"+szResult;
+			endif;
+	else
+		Sprintf(szTemp,@ERROR_SQL_VER2,"SQL");
+		szErr = szTemp+"\n\n"+szErr;
+	endif;
+
+	return bOK;
+	//6.50.201     Original SQL Server 6.5 release
+	//6.50.213     SQL Server 6.5 with Service Pack 1
+	//6.50.240     SQL Server 6.5 with Service Pack 2
+	//6.50.258     SQL Server 6.5 with Service Pack 3
+	//6.50.281     SQL Server 6.5 with Service Pack 4
+	//6.50.350     SQL Server with HotFix.
+	//7.00.623    Original SQL Server 7.0 or MSDE 1.0 release
+   	//7.00.699    Database Components SP1
+   	//7.00.842    Database Components SP2
+
+end;
+
+///////////////////////////////////////////////////////////
+//Queries SQL DB for Insight version info.
+//Parses return string and puts into global data structure.
+///////////////////////////////////////////////////////////
+function _GetInsightVerFromDB(pIns,szErr)
+STRING szQuery,szResult[255],szVer,szTest;
+BOOL bOK;
+begin
+	g_structDatabase.szInsight_Ver = ""; //clear old value if exists
+	//first check for sysobjects.
+	szQuery = "select name from sysobjects where name = 'ExtractionProfile' and type = 'U'";
+//	if(ISExecuteQuery(pIns,szQuery,0,szResult,255,szErr,255) >= 0)then
+	if(ExecuteQueryA(pIns,szQuery,0,szResult,255,szErr,255) >= 0)then
+		if(szResult != "")then
+			//Insight here.  Next look for which version.  Two step query.
+    		szQuery = "opSiteRetrieveListSetup 1";
+//			if (ISExecuteQuery(pIns,szQuery,0,szResult,255,szErr,255) >= 0 && szResult != "")then
+			if (ExecuteQueryA(pIns,szQuery,0,szResult,255,szErr,255) >= 0 && szResult != "")then
+//				szQuery = "espsgSystemParameter "+szResult+", \"KBDBVersion\"";
+				szQuery = "ospsgSystemParameter "+szResult+", \"KBDBVersion\"";
+//        		if (ISExecuteQuery(pIns,szQuery,0,szResult,255,szErr,255) >= 0)then
+        		if (ExecuteQueryA(pIns,szQuery,0,szResult,255,szErr,255) >= 0)then
+        			bOK = TRUE;
+        			StrSub(szTest,szResult,0,1);
+        			if(szTest = "3")then
+        				//this is version 3!
+        				szVer = szResult;
+        			else
+        				//blank means verson 2.
+        				szVer = "2.0";
+        			endif;
+	       		endif;
+	   		endif;
+		endif;
+	endif;
+
+    if(bOK)then
+		//save ver info into data structure.
+		g_structDatabase.szInsight_Ver = szVer;  //blank mean no insight on system.
+	else
+		Sprintf(szErr,@ERROR_SQL_VER2,"Insight");
+	endif;
+
+	return bOK;
+	
+end;
+
+///////////////////////////////////////////////////////////
+//Queries SQL DB for OCC version info.
+//Parses return string and puts into global data structure.
+///////////////////////////////////////////////////////////
+function _GetOCCVerFromDB(pIns,szErr)
+STRING szQuery,szResult[255],szVer, szTemp;
+BOOL bOK;
+INT nReturn;
+begin
+	g_structDatabase.szOCC_Ver = ""; //clear old value if exists
+	//OCC here.  Next look for which version.  Two step query.
+	//retrieve site ID first
+	// Fix for 48348
+    szQuery = "opSiteRetrieveListSetup 1";
+	nReturn = ExecuteQueryA(pIns,szQuery,0,szTemp,255,szErr,255);
+	
+	if (nReturn >= 0 && szTemp != "")then
+		szQuery = "opSystemParameter "+szTemp+", \"OnyxDBVersion\"";
+		nReturn = ExecuteQueryA(pIns,szQuery,0,szResult,255,szErr,255);
+
+      	if (nReturn >= 0 && szResult != "")then			
+      		if(szResult != "")then
+      			//this is the latest version!
+      			bOK = TRUE;
+      			szVer = szResult;
+      			szErr = "";	// Fix 48348 - Blank out error, don't want to report to user.
+      		// else - //blank mean no OEP on db.
+			endif;
+		endif;
+	endif;
+
+    if(bOK)then
+		//save ver info into data structure.
+		g_structDatabase.szOCC_Ver = szVer;  //blank mean no OCC on system.
+	else
+		Sprintf(szErr,@ERROR_SQL_VER2,"OCC");
+	endif;
+
+	return bOK;
+	
+end;
+
+///////////////////////////////////////////////////////////
+//Queries SQL DB for Onyx Enterprise Portal version info.
+//Parses return string and puts into global data structure.
+///////////////////////////////////////////////////////////
+function _GetOEPVerFromDB(pIns,szErr)
+STRING szQuery,szResult[255],szVer,szTemp;
+BOOL bOK;
+INT nReturn;
+begin
+	g_structDatabase.szOEP_Ver = ""; //clear old value if exists
+
+    //retrieve site ID first
+    szQuery = "opSiteRetrieveListSetup 1";
+	nReturn = ExecuteQueryA(pIns,szQuery,0,szTemp,255,szErr,255);
+
+	
+	//retrieve version info next
+	if (nReturn >= 0 && szTemp != "")then
+		szQuery = "opSystemParameter "+szTemp+", \"OEPDBVersion\"";
+		nReturn = ExecuteQueryA(pIns,szQuery,0,szResult,255,szErr,255);
+
+      	if (nReturn >= 0 && szResult != "")then
+      		bOK = TRUE;
+      		if(szResult != "" && szResult != "1") then
+      			//this is the latest version!				
+      			szVer = szResult;
+      			szErr = "";	// Fix 48348 - Blank out error, don't want to report to user.
+      		//else - //blank mean no OEP on db.
+			endif;
+  		endif;
+	endif;
+
+    if(bOK)then
+		//save ver info into data structure.
+		g_structDatabase.szOEP_Ver = szVer;  //blank mean no OCC on system.
+	else
+		Sprintf(szErr,@ERROR_SQL_VER2,"Onyx Enterprise Portal");
+	endif;
+
+	return bOK;
+	
+end;
+
+///////////////////////////////////////////////////////////
+//Queries SQL DB for the system parameter item specified.
+//Parses return string and puts into global data structure.
+///////////////////////////////////////////////////////////
+function _GetVerFromDB(pIns,szParam,szReturn,szErr)
+STRING szQuery,szResult[255],szVer,szTemp,szTemp2,szSiteID,szSQLerr;
+INT nOK,nReturn;
+begin
+	//uses site id to establish which parameter to check.
+    //retrieve site ID first
+    szQuery = "opSiteRetrieveListSetup 1";
+	nReturn = ExecuteQueryA(pIns,szQuery,0,szSiteID,255,szSQLerr,255);
+
+	//retrieve version info next
+	if (nReturn >= 0 && szSiteID != "")then
+		
+		//using site ID, retrieve version info
+		szQuery = "";
+		szQuery = "opSystemParameter "+szSiteID+", '"+szParam+"'";
+		nReturn = ExecuteQueryA(pIns,szQuery,0,szResult,255,szSQLerr,255);
+
+      	if (nReturn >= 0 && szResult != "")then
+      		nOK = TRUE;
+      		if(szResult != "" && szResult != "1")then
+      			//this is the latest version!
+      			szVer = szResult;      			
+			endif;
+  		else
+  			//no db values found, but a site id was found, this is a bad db situation.  Display error and go back.
+			szErr = "";
+			Sprintf(szTemp,@ERROR_SQL_NO_VER,szParam,szSiteID);
+			nReturn = StrLength(szTemp);
+			// There appears to be a bug in InstallShield here where the szErr string is not long enough to hold szTemp
+			CopyBytes (szErr, 0, szTemp, 0, nReturn);
+			//szErr = szTemp;
+			nOK = -1;
+  		endif;
+	endif;
+
+    //default to site ID of 1 if no value was found in db
+	if(szSiteID = "")then
+		szSiteID = "1";
+	endif;
+	
+	//store site ID for use later in VWS dialogs.
+	if(g_structVWS3.szSiteId = "")then
+		g_structVWS3.szSiteId = szSiteID;
+		g_structVWS3.szTitle = @LABLE_SITEID;
+		OStoreSharedValueInReg("","SiteID",g_structVWS3.szSiteId); //third struct is for siteid dialog
+	endif;
+
+    if(nOK = TRUE)then
+		//save ver info into data structure.
+		szReturn = szVer;  //blank mean no item on system.
+	
+	else
+		if(szSQLerr != "")then
+			nReturn = Sprintf(szTemp,@ERROR_SQL_VER2,szParam);
+			szTemp = szTemp + "%s";
+			nReturn = Sprintf(szTemp2,szTemp,"\n\n" + szSQLerr);
+			
+			//Had to figure out a way to avoid the InstallShield bug where the string
+			// isn't long enough.  These lines are vestiges of the old way:
+			//szTemp2 = szTemp + "\n\n" + szSQLErr;
+			//OCatStrings(szTemp2,"\n\n",szSQLerr);
+			OLog(szTemp2);
+		endif;
+	endif;
+
+	return nOK;
+	
+end;
+
+
+/*
+///////////////////////////////////////////////////////////////////////////
+// Compares data in the miscelanious field of the specified IDE component
+// and checks it against the specified data.  Cancatinates error string.
+///////////////////////////////////////////////////////////////////////////
+function OIsDataEqualToMisc(szSelectedItem,szTestData,szProduct,szErr)
+STRING szResult,szMsg;
+INT	nResult;
+BOOL bOK;
+begin
+	//get miscelanous data from the IDE media.
+		ComponentGetData (BASE_MEDIA,szSelectedItem,COMPONENT_FIELD_MISC,nResult,szResult);
+		if(szResult = "")then
+			//no version specified, then any version of of product will do.
+			if(szTestData != "")then
+				bOK = TRUE;
+			endif;
+		else
+//was		szMsg =	"Need "+szProduct+" version "+szResult+" or newer, and found "+g_structDatabase.szSQL_Ver+"\n";
+//is now	szMsg = Found %s. Need %s version %s or newer
+			Sprintf(szMsg,@ERROR_REQUIREMENTS3,g_structDatabase.szSQL_Ver,szProduct,szResult);
+			szMsg = szMsg + "\n";
+			bOK = OCheckDataCatMsg(
+				szTestData,
+				szResult,
+				szErr,
+				szMsg
+				);
+		endif;
+	return bOK;
+end;
+*/
+
+///////////////////////////////////////////////////////////////////////////
+// Compares data in the miscelanious field of the specified IDE component
+// and checks it against the specified data.  Cancatinates error string.
+///////////////////////////////////////////////////////////////////////////
+function OIsDataGreaterThanMisc(szSelectedItem,szTestData,szProduct,szErr)
+STRING szResult,szMsg;
+INT	nResult;
+BOOL bOK;
+begin
+	//have to have data.
+	if(szSelectedItem != "" && szTestData != "")then
+		//get miscelanous data from the IDE media.
+		ComponentGetData (BASE_MEDIA,szSelectedItem,COMPONENT_FIELD_MISC,nResult,szResult);
+		if(szResult = "")then
+			//no version specified, then any version of of product will do.
+			if(szTestData != "")then
+				bOK = TRUE;
+			endif;
+		else
+//			if(szResult = szTestData)then
+			if(OIsValueEqual(szResult,szTestData))then
+				bOK = TRUE;
+			elseif(OIsValueGreater(szResult,szTestData) = TRUE)then
+				bOK = TRUE;
+			else
+				Sprintf(szMsg,@ERROR_REQUIREMENTS3,szProduct,szResult,szTestData);
+				OCatStrings(szErr,"\n",szMsg+"\n");
+			endif;
+		endif;
+	endif;
+	return bOK;
+end;
+
+///////////////////////////////////////////////////////////////////////
+// Checks the specified item with product being installed.
+// if so, logs ver, path and name in data structure.
+///////////////////////////////////////////////////////////////////////
+function _IsItemAlreadyInstalled(szComp,szVer,szPath)
+begin
+	if(gszProductName % szComp)then
+		g_structSystemData.szPrevious_Version = szVer;
+		g_structSystemData.szPrevious_Path = szPath;
+		g_structSystemData.szPrevious_Name = szComp;
+		return TRUE;	
+	endif;
+	return FALSE;	
+end;
+
+//////////////////////////////////////////////////////////////////////////////
+// Checks register for Microsoft Internet Information System software
+// ver to check for is the major version number only.
+// if no version specified, and ver number found returns true.
+//////////////////////////////////////////////////////////////////////////////
+function _CheckForIIS(szVer)
+INT nvType,nvSize,nvMajorVersion,nVer;
+STRING svMajorVersion,szPath,szTemp;
+begin
+	if(szVer != "")then
+		StrToNum(nVer,szVer);
+	endif;
+	RegDBSetDefaultRoot ( HKEY_LOCAL_MACHINE );
+	if (RegDBKeyExist ( "SOFTWARE\\Microsoft\\InetMgr" ) >= 0) then
+		//get ver from reg
+		RegDBGetKeyValueEx ( "SOFTWARE\\Microsoft\\InetMgr\\Parameters" ,"MajorVersion" , nvType , svMajorVersion , nvSize );
+		g_structSystemData.szIIS_Version = svMajorVersion;
+		//get path from reg
+		RegDBGetKeyValueEx ( "SOFTWARE\\Microsoft\\InetStp" ,"PathWWWRoot" , nvType , szPath , nvSize );
+		if(szPath = "")then
+			gszMsg = @ERROR_STRING_EMPTY+"\nPathWWWRoot";
+			MessageBox(gszMsg,SEVERE);
+			OLog(gszMsg);
+		endif;
+		g_structSystemData.szIIS_Path = szPath;
+
+		//set IISROOT path value into media for use by destination dirs of components.
+		if(ComponentSetTarget(MEDIA,"<IISROOT>",szPath) <0 )then
+			OComponentError("<IISROOT>");
+		else
+			gszMsg = @MEDIA_STRING+ "\n<IISROOT> = " +szPath;
+			ODebugDsp(gszMsg,20);
+			OLog(gszMsg);
+		endif;
+
+		//now set INETPUB dir also.
+		szTemp = szPath;
+		ORemoveLastDir(szTemp);
+		if(ComponentSetTarget(MEDIA,"<INETPUB>",szTemp) <0 )then
+			OComponentError("<INETPUB>");
+		else
+			gszMsg = @MEDIA_STRING+ "\n<INETPUB> = " +szTemp;
+			ODebugDsp(gszMsg,20);
+			OLog(gszMsg);
+		endif;
+
+		
+		ODebugDsp("IIS ver found: "+svMajorVersion+"\nWWWRoot Path: "+szPath,20);
+ 		StrToNum ( nvMajorVersion , svMajorVersion );
+		if (OIsValueEqualOrGreater(szVer,svMajorVersion) =TRUE )  then
+			return TRUE;
+		elseif(szVer = "" && nvMajorVersion > 0)then
+			return TRUE;
+		endif;
+	endif;
+	return FALSE;
+/*	
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	RegDBGetKeyValueEx("Software\\Microsoft\\InetStp","MajorVersion",nvType,svValue,nvSize);
+	// "MinorVersion" available also
+	if(svValue != "")then
+		g_structSystemData.szIIS_Version = svValue;
+		return TRUE;
+	else
+		return FALSE;
+	endif;
+*/
+end;
+
+///////////////////////////////////////////////////////////////////////
+//looks for Microsoft Java Virtual Machine.
+//gets ver out of setup.ini.  Default version 5.0
+///////////////////////////////////////////////////////////////////////
+function _CheckForJVM(szVerNeeded)
+STRING szVerFound;
+BOOL bFailed;
+begin
+	if (OIsComponentSelected(COMP_JVM) = TRUE) then
+		szVerNeeded = "";
+		//override value needed in setup.ini
+		OGetValueFromINI("JVM","Version",szVerNeeded);		
+		if(szVerNeeded = "")then
+			szVerNeeded = "5.0";
+		endif;
+		
+		if(VerGetFileVersion(WINSYSDIR^"msjava.dll",szVerFound) !=0 )then
+			bFailed = TRUE;
+			OLog("Could not find JVM");
+		else
+			//now check value against required ver from setup.ini
+			if(OIsValueEqualOrGreater(szVerNeeded,szVerFound) = FALSE)then
+				bFailed = TRUE;
+			endif;
+			OLog("Found JVM version "+szVerFound);
+		endif;
+	endif;
+	return !bFailed;
+end;
+///////////////////////////////////////////////////////////////////////
+//looks for Microsoft Windows Scripting Host.
+//gets ver out of setup.ini.  Default version 5.0
+///////////////////////////////////////////////////////////////////////
+function _CheckForWSH(szVerNeeded)
+STRING szVerFound;
+BOOL bFailed;
+begin
+	if (OIsComponentSelected(COMP_JVM) = TRUE) then
+		szVerNeeded = "";
+		//override value needed in setup.ini
+		OGetValueFromINI("WSH","Version",szVerNeeded);		
+		if(szVerNeeded = "")then
+			szVerNeeded = "5.0"; //5.0.531.7
+		endif;
+		
+		if(VerGetFileVersion(WINSYSDIR^"cscript.exe",szVerFound) !=0 )then
+			bFailed = TRUE;
+			OLog("Could not find WSH");
+		else
+			//now check value against required ver from setup.ini
+			if(OIsValueEqualOrGreater(szVerNeeded,szVerFound) = FALSE)then
+				bFailed = TRUE;
+			endif;
+			OLog("Found WSH version "+szVerFound);
+		endif;
+	endif;
+	return !bFailed;
+end;
+///////////////////////////////////////////////////////////////////////
+// checks for ODBC on system running setup.  put value found in data struct.
+///////////////////////////////////////////////////////////////////////
+function _CheckForODBC32()
+STRING szPath,szVer;
+begin
+	szPath = WINSYSDIR^"ODBC32.DLL";
+	if(Is(FILE_EXISTS,szPath))then
+		if(VerGetFileVersion(szPath,szVer) =0 )then
+			g_structSystemData.szODBC_Version = szVer;
+			return TRUE;
+		endif;
+	else
+		return FALSE;
+	endif;
+end;
+
+///////////////////////////////////////////////////////////////////////
+// checks for Insight Admin product
+///////////////////////////////////////////////////////////////////////
+function _CheckForINSIGHT_ADMIN()
+STRING szVer,szFile;
+begin
+	if(_GetProductAppPath("KBadmin.exe",szFile))then
+		//now get file version
+		if(VerGetFileVersion(szFile,szVer) =0 )then
+			g_structSystemData.szInsight_Admin_Version = szVer;
+		endif;
+		//is this the same as product being installed.
+		_IsItemAlreadyInstalled(REQ_INSIGHT_ADMIN,szVer,szFile);
+		g_structSystemData.szInsight_Admin_Path = szFile;
+		return TRUE;
+	endif;
+	return FALSE;
+end;
+
+///////////////////////////////////////////////////////////////////////
+//looks in specific reg location for application exe path.
+///////////////////////////////////////////////////////////////////////
+function _GetProductAppPath(szExe,szPath)
+INT nvType,nvSize;
+begin
+	//look for default value
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	if(RegDBGetKeyValueEx("Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\"+szExe,"",nvType,szPath,nvSize) =0)then
+		//found a value
+		return TRUE;
+	endif;
+	return FALSE;
+end;
+
+///////////////////////////////////////////////////////////////////////
+// look for Insight Search Server
+///////////////////////////////////////////////////////////////////////
+function _CheckForINSIGHT_SS()
+INT nvType,nvSize;
+STRING szPath,szVer;
+begin
+	if(_CheckForPreviousProduct("Path"))then
+		g_structSystemData.szInsight_SC_Version = g_structSystemData.szPrevious_Version;
+		g_structSystemData.szInsight_SC_Path = g_structSystemData.szPrevious_Path;
+		return TRUE;
+	endif;
+	return FALSE;
+/*
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	if(RegDBGetKeyValueEx("System\\CurrentControlSet\\Control\\ContentIndexCommon","",nvType,szPath,nvSize) =0)then
+		//found a value
+		if(Is(FILE_EXISTS,szPath))then
+			//file is friendlyname.txt, no version number
+			szVer = "3.0";
+			g_structSystemData.szInsight_SS_Version = szVer;
+			_IsItemAlreadyInstalled(REQ_INSIGHT_SS,szVer,szPath);
+			g_structSystemData.szInsight_SS_Path = szPath;
+			return TRUE;
+		endif;
+	endif;
+	return FALSE;
+*/
+end;
+
+///////////////////////////////////////////////////////////////////////
+// look for Insight Search Client
+///////////////////////////////////////////////////////////////////////
+function _CheckForINSIGHT_SC()
+INT nvType,nvSize,nLen;
+STRING szPath[512],szVer,szTemp;
+begin
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	if(RegDBGetKeyValueEx("Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\"+gszProductKey,"Path",nvType,szPath,nvSize) =0)then
+//	if(RegDBGetItem(REGDB_APPPATH,szPath) =0 )then
+		//found a value
+		//Parse off first entry
+		nLen = StrFind(szPath,";");
+		StrSub(szPath,szPath,0,nLen);  //path of installdir plus help file.
+		//changed to look for kbsearch.exe for ver
+		szTemp = COMMONFILES ^ "ONYX Shared\\Insight\\kbsearch.exe";
+		if(Is(FILE_EXISTS,szTemp))then
+			if(VerGetFileVersion(szTemp,szVer) =0 )then
+				g_structSystemData.szInsight_SC_Version = szVer;
+			endif;
+			_IsItemAlreadyInstalled(REQ_INSIGHT_SC,szVer,szPath);
+			g_structSystemData.szInsight_SC_Path = szPath;
+			return TRUE;
+		endif;
+	endif;
+	return FALSE;
+end;
+
+////////////////////////////////////////////////////////////////////////////////
+//look for an existing version of the product being installed.
+//first it looks for the reg under AppPath key for a path that contains the
+//product key exe value (PRODUCT_KEY in string table or setup.ini)
+//if not specified, then look in setup.ini for a secondary product to look for.
+//will check reg for previous installation of product based on ver number in setup.ini
+////////////////////////////////////////////////////////////////////////////////
+function _CheckForPreviousProduct(szKey)
+INT nvType,nvSize,nLen;
+STRING szName,szPath[512],szVer,szFileFound,szTemp,szFileNeeded,szCLSID,szValue[512];
+BOOL bReturn;
+begin
+	//used for testing below
+	szFileNeeded = gszProductKey;
+	StrToUpper(szFileNeeded,szFileNeeded);
+
+	//first, look for previous install in setup reg location based on the setups name.
+	_GetPreviousVersionInReg(szName,szPath,szVer);  //returns the previous path and ver if found.
+	
+	//first look for the last version of the product in reg.
+	//only works if product has an uninstall or "App Path" entry in the reg.
+	//no version info here.
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	if(RegDBGetKeyValueEx("Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\"+gszProductKey,szKey,nvType,szValue,nvSize) =0)then
+		//found a value
+		//Parse off first entry if more than one.
+		nLen = StrFind(szValue,";");
+		if(nLen >0 )then
+			StrSub(szValue,szValue,0,nLen);
+		endif;
+
+		LongPathFromShortPath(szValue);
+		ParsePath(szPath,szValue,PATH);//remove file
+		ODebugDsp("Previous product path in registry: "+szPath,2);
+	endif;
+
+	//next look for a CLSID reg entry specified in setup.ini
+	//no version info here also.
+	szTemp = "";
+	OGetValueFromINI("Startup","ProductReg",szTemp);
+	if(szTemp != "")then
+		RegDBSetDefaultRoot(HKEY_CLASSES_ROOT);
+		if(RegDBGetKeyValueEx(szTemp+"\\CLSID","",nvType,szCLSID,nvSize) =0)then
+		if(szCLSID != "")then
+			RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+			if(RegDBGetKeyValueEx("Software\\Microsoft\\Transaction Server\\Components\\"+szCLSID,"Typelib",nvType,szValue,nvSize) =0)then
+				//nt4
+				OLog("Found 'M/TS/C' previous product ProductReg entry: "+szPath);
+			elseif(RegDBGetKeyValueEx("SOFTWARE\\Classes\\CLSID\\"+szCLSID+"\\InprocServer32","",nvType,szValue,nvSize) =0)then
+				//win2000
+				OLog("Found 'classes' previous product ProductReg entry: "+szValue);
+			endif;
+
+			LongPathFromShortPath(szValue);
+			ParsePath(szPath,szValue,PATH); //remove file
+		endif;				
+		endif;
+	endif;
+	
+	//Get the file name from reg szPath value above
+	ParsePath(szFileFound,szValue,FILENAME);
+	StrToUpper(szFileFound,szFileFound);
+	
+	//look for override in setup.ini for product dir and file to look for.
+	//no version yet again.
+	szTemp = "";
+	OGetValueFromINI("Options","PreviousDir",szTemp);
+	if(szTemp != "")then
+		//file
+		OParseMacros(szTemp);  //will replace any place holders with an actual value.
+		OGetValueFromINI("Options","PreviousFile",szFileFound);
+		if(szFileFound != "")then
+			StrToUpper(szFileFound,szFileFound);
+			szFileNeeded = szFileFound;
+		endif;
+		szPath = szTemp^szFileFound;  //path var needs to contains path and exe.
+		ODebugDsp("Previous product path override from setup.ini: "+szPath,2);
+		
+		//previous product name
+		OGetValueFromINI("Options","PreviousName",szName);
+		ODebugDsp("Previous product was named: "+szName,2);
+	endif;
+	
+	//next determine previous product version
+	if(szVer = "" )then;
+		VerGetFileVersion(szPath,szVer);
+	endif;
+
+	//verify the existance of file and path
+	if(szFileFound != "" && szFileNeeded != "")then
+		if(Is(FILE_EXISTS,szValue) = TRUE)then
+			if(szFileFound = szFileNeeded)then
+				bReturn = TRUE;	
+			endif;
+		endif;
+	else
+		if(Is(PATH_EXISTS,szPath) = TRUE)then
+			bReturn = TRUE;	
+		endif;	
+	endif;
+
+	if bReturn = TRUE then
+		g_structSystemData.szPrevious_Version = szVer;
+		g_structSystemData.szPrevious_Path = szPath;
+		g_structSystemData.szPrevious_Name = szName;
+		ODebugDsp("Previous product path verified!: "+szPath,2);
+	endif;	
+		
+	return bReturn;
+end;
+
+/////////////////////////////////////////////////////////////////////////////
+//looks for Microsoft Data Access Components.
+/////////////////////////////////////////////////////////////////////////////
+function _CheckForMDAC(szVerNeeded)
+STRING szTestVer,szVer, szErr;
+BOOL bFailed;
+begin
+	//2.0 check
+	if (OIsComponentSelected(COMP_MDAC20) = TRUE) then
+		szVerNeeded = "";
+		//override value needed in setup.ini
+		OGetValueFromINI("MDAC","Version",szVerNeeded);
+		if(szVerNeeded = "")then
+			szVerNeeded = "2.0.2"; //sp2 is 2.0.2
+		endif;
+		
+		if(OGetStringFromReg("HKLM","SOFTWARE\\Microsoft\\DataAccess","FullInstallVer",szVer) = FALSE)then
+			bFailed = TRUE;
+		else
+			MessageBox(szVerNeeded + ", " + szVer, INFORMATION);
+			if(OIsValueEqualOrGreater(szVerNeeded,szVer) = FALSE )then
+				bFailed = TRUE;
+			else
+				if(OIsValueGreater(szVerNeeded, szVer) = TRUE ) then
+					Sprintf(szErr, @ERROR_MDAC, szVer);
+					MessageBox(szErr, WARNING);
+				endif;
+			endif;
+		endif;
+	
+/*
+		//need to check four files.
+		if(OTestFileVer(COMMONFILES ^ "system\\ado\\msado15.dll","2.0.3002.23") = FALSE )then // now looking for SP2.  Regular v2.0 had file version 2.0.3002.11
+			bFailed = TRUE;
+		endif;
+		if(OTestFileVer(WINSYSDIR ^ "Odbcji32.dll","3.51.1713.0") = FALSE )then // now looking for SP2.  Regular v2.0 had file version 2.0.3002.11
+			bFailed = TRUE;
+		endif;
+		if(OTestFileVer(WINSYSDIR ^ "Odbcjt32.dll","3.51.1713.0") = FALSE )then // now looking for SP2.  Regular v2.0 had file version 2.0.3002.11
+			bFailed = TRUE;
+		endif;
+		if(OTestFileVer(WINSYSDIR ^ "Odbctl32.dll","3.51.1713.0") = FALSE )then // now looking for SP2.  Regular v2.0 had file version 2.0.3002.11
+			bFailed = TRUE;
+		endif;
+*/
+	endif;
+
+	//version in setup.ini check
+	//default to 2.5
+	if (OIsComponentSelected(COMP_MDAC_INI) = TRUE) then
+
+		szVerNeeded = "";
+		//override value needed in setup.ini
+		OGetValueFromINI("MDAC","Version",szVerNeeded);		
+		if(szVerNeeded = "")then
+			szVerNeeded = "2.6";
+		endif;
+		
+		if(OGetStringFromReg("HKLM","SOFTWARE\\Microsoft\\DataAccess","FullInstallVer",szVer) = FALSE)then
+			bFailed = TRUE;
+		else
+			if(OIsValueEqualOrGreater(szVerNeeded,szVer) = FALSE )then
+				bFailed = TRUE;
+			else
+				StrSub(szVer, szVer, 0, 3);
+				if(OIsValueGreater(szVerNeeded, szVer) = TRUE ) then
+					Sprintf(szErr, @ERROR_MDAC, szVerNeeded);
+					szErr = szErr + "\n" + @CONTINUE_QUESTION;
+					if (AskYesNo(szErr, YES) = NO) then
+
+						//force launcher to exit
+						if(g_structLauncher.bIsChild = TRUE)then
+							RegDBSetKeyValueEx("Software\\Onyx\\SetupLauncher","Exit",REGDB_STRING,"YES",-1);
+						endif;
+
+						abort;
+
+					endif;
+				endif;
+			endif;
+		endif;
+	endif;
+
+	//update structure with ver number if one found
+	if(!bFailed)then
+		g_structSystemData.szMDAC_Version = szVer;
+	endif;
+
+	return !bFailed;
+end;
+
+//looks for Microsoft Index Server in reg and assigns version passed in to IS_Version data struct element.
+//shuts down service if found in reg. (this part same functionality as: OLookForNTServiceAndShutdown(ServiceName))
+function _CheckForIS(szVer)
+STRING szResult;
+INT nvType,nvSize;
+begin
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	if(RegDBGetKeyValueEx("SYSTEM\\CurrentControlSet\\Services\\cisvc","ImagePath",nvType,szResult,nvSize) =0)then
+		if(szResult != "")then
+			g_structSystemData.szIS_Version = szVer;
+			OShutDownService("cisvc"); //Content Index
+			return TRUE;
+		endif;
+	endif;
+	return FALSE;
+end;
+
+////////////////////////////////////////////////////////////////////////////////////////
+// looks for ONYX Customer Center in registry via CLSID based on app name passed in.
+////////////////////////////////////////////////////////////////////////////////////////
+function _CheckForOCC(szAppName)
+STRING szCLSID,szPath,szVer;
+STRING svComponentSource,svComponent,svFileGroup,svFile;
+INT nvType,nvSize,nvError,nContinue;
+begin
+	RegDBSetDefaultRoot(HKEY_CLASSES_ROOT);
+	if(RegDBGetKeyValueEx(szAppName+"\\CLSID","",nvType,szCLSID,nvSize) =0)then
+		//found a value
+		RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+		if(RegDBGetKeyValueEx("SOFTWARE\\Classes\\CLSID\\"+szCLSID+"\\LocalServer32","",nvType,szPath,nvSize) =0)then
+			nContinue = TRUE;
+		elseif(RegDBGetKeyValueEx("SOFTWARE\\Classes\\CLSID\\"+szCLSID+"\\InprocServer32","",nvType,szPath,nvSize) =0)then
+			nContinue = TRUE;
+		endif;
+		if(nContinue)then
+			if(Is(FILE_EXISTS,szPath))then
+				if(VerGetFileVersion(szPath,szVer) =0 )then
+					g_structSystemData.szOCC_Version = szVer;
+				endif;
+				_IsItemAlreadyInstalled(REQ_OCC,szVer,szPath);  //updates previouspath and previousversion data structs elements.
+				ParsePath(szPath,szPath,PATH);
+				g_structSystemData.szOCC_Path = szPath;
+
+				//for components that have to go to OCC dir.
+				if(ComponentSetTarget(MEDIA,"<gszOCC>",szPath) <0 )then
+					ComponentError(svComponentSource, svComponent, svFileGroup, svFile, nvError);
+					Sprintf(gszMsg,@ERROR_CHECK_OCC+"\n\n" +
+						"Media Name: %s\nComponent: %s\nFile Group: %s\n" +
+		 				"File: %s\nError Number: %ld",
+						svComponentSource, svComponent, svFileGroup, svFile, nvError);
+						OLog(gszMsg);
+//					MessageBox("Could not set MEDIA path variable <gszOCC>.  These components will not be installed.",WARNING);
+				endif;				
+			
+				return TRUE;
+			endif;
+		endif;
+	endif;
+	return FALSE;
+end;
+
+// looks for ONYX Customer Center Administration
+function _CheckForOCCAdmin(szAppName)
+STRING szCLSID,szPath,szVer;
+STRING svComponentSource,svComponent,svFileGroup,svFile;
+INT nvType,nvSize,nvError;
+begin
+	RegDBSetDefaultRoot(HKEY_CLASSES_ROOT);
+	if(RegDBGetKeyValueEx(szAppName+"\\CLSID","",nvType,szCLSID,nvSize) =0)then
+		//found a value
+		RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+		if(RegDBGetKeyValueEx("SOFTWARE\\Classes\\CLSID\\"+szCLSID+"\\LocalServer","",nvType,szPath,nvSize) =0)then
+			if(Is(FILE_EXISTS,szPath))then
+				if(VerGetFileVersion(szPath,szVer) =0 )then
+					g_structSystemData.szOCCAdmin_Version = szVer;
+				endif;
+				_IsItemAlreadyInstalled(REQ_ONYX_ADMIN_16,szVer,szPath);
+				ParsePath(szPath,szPath,PATH);
+				g_structSystemData.szOCCAdmin_Path = szPath;
+
+				return TRUE;
+			endif;
+		endif;
+	endif;
+	return FALSE;
+end;
+
+// looks for ONYX Administration Snap-In
+function _CheckForOnyxAdminPI(szVer)
+STRING szCLSID,szPath;
+STRING svComponentSource,svComponent,svFileGroup,svFile;
+INT nvType,nvSize,nvError,nResult;
+begin
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	if(RegDBGetKeyValueEx("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\OnyxAdmin.msc","",nvType,szPath,nvSize) =0)then
+		if(Is(FILE_EXISTS,szPath))then
+			ComponentGetData (MEDIA,COMP_ONYX_ADMIN_SNAPIN,COMPONENT_FIELD_MISC,nResult,szVer);
+			if(szVer = "")then
+				szVer = "1.0";
+			endif;
+			g_structSystemData.szOCCAdminSI_Version = szVer;
+			_IsItemAlreadyInstalled(REQ_ONYX_ADMIN_SNAPIN,szVer,szPath);
+			ParsePath(szPath,szPath,PATH);
+			g_structSystemData.szOCCAdminSI_Path = szPath;
+			return TRUE;
+		endif;
+	endif;
+	return FALSE;
+end;
+
+/*
+// looks for Onyx Fulfillment Server - Admin Tool
+function _CheckForOFS()
+STRING szCLSID,szPath,szVer;
+STRING svComponentSource,svComponent,svFileGroup,svFile;
+INT nvType,nvSize,nvError;
+begin
+	RegDBSetDefaultRoot(HKEY_CLASSES_ROOT);
+	if(RegDBGetKeyValueEx("OCCAdmin.Application\\CLSID","",nvType,szCLSID,nvSize) =0)then
+		//found a value
+		RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+		if(RegDBGetKeyValueEx("SOFTWARE\\Classes\\CLSID\\"+szCLSID+"\\LocalServer","",nvType,szPath,nvSize) =0)then
+			if(Is(FILE_EXISTS,szPath))then
+				if(VerGetFileVersion(szPath,szVer) =0 )then
+					g_structSystemData.szOCCAdmin_Version = szVer;
+				endif;
+				_IsItemAlreadyInstalled(REQ_ONYX_ADMIN_16,szVer,szPath);
+				ParsePath(szPath,szPath,PATH);
+				g_structSystemData.szOCCAdmin_Path = szPath;
+
+				return TRUE;
+			endif;
+		endif;
+	endif;
+	return FALSE;
+end;
+*/
+
+//looks for Distributed Component Object Model
+function _CheckForDCOM(szVer)
+STRING szValue;
+INT nzType,nzSize;
+begin
+	//only test if Win95
+	if(g_structSystemData.szOS = "WIN95")then
+		RegDBSetDefaultRoot(HKEY_CLASSES_ROOT);
+		if(RegDBGetKeyValueEx("CLSID\\{bdc67890-4fc0-11d0-a805-00aa006d2ea4}\\InstalledVersion","",nzType,szValue,nzSize) =0)then
+			if(szValue != "")then
+				g_structSystemData.szDCOM_Version = szVer;
+				return TRUE;
+			endif;
+		endif;
+		return FALSE;
+	endif;
+
+//return FALSE; //for testing only	
+	
+	//make it look like DCOM already on system (comes on 98, and NT).
+	g_structSystemData.szDCOM_Version = szVer;
+	return TRUE;
+end;
+
+function _CheckForCOMCTL32(szRefVer)
+STRING szVer;
+BOOL bReturn;
+begin
+	if(g_structSystemData.szOS = "WIN95")then
+		if(VerGetFileVersion(WINSYSDIR ^ "comctl32.dll",szVer) =0 )then
+			if(szVer != "")then
+				if(OIsValueEqual(szRefVer,szVer))then
+					bReturn = TRUE;
+				elseif(OIsValueGreater(szRefVer,szVer))then
+					bReturn = TRUE;
+				endif;
+				if(bReturn)then
+					g_structSystemData.szCOMCTL32_Version = szRefVer;
+				endif;
+			endif;
+		endif;
+	else
+		//make it look like Comctl32 already on system (comes on 98, and NT).
+		g_structSystemData.szCOMCTL32_Version = szRefVer;
+		bReturn = TRUE; //only test if win95
+	endif;
+
+//return FALSE; //for testing only	
+
+	return bReturn;
+end;
+
+///////////////////////////////////////////////////////////////////////////
+// looks for MTS (Microsoft Transaction Server) ver specifed or higher on machine.
+///////////////////////////////////////////////////////////////////////////
+function _CheckForMTS(szRefVer)
+INT nReturn;
+STRING szActualVer;
+begin
+	nReturn = OCheckFileVer(WINSYSDIR ^ "mtx.exe",szRefVer,szActualVer);
+	g_structSystemData.szMTS_Version = szActualVer;
+	if(nReturn != -1 && nReturn != LESS_THAN)then
+		return TRUE;
+	endif;
+	//if win2k, installed by default.
+	if(OIsValueGreater("4.0",g_structSystemData.szOS_Version) = TRUE)then
+		g_structSystemData.szMTS_Version = "5.0";
+		return TRUE;
+	endif;
+	
+	return FALSE;
+end;
+
+///////////////////////////////////////////////////////////////////////
+//looks for Microsoft Management Console.
+//gets ver out of setup.ini.  Default to ver 1.1
+///////////////////////////////////////////////////////////////////////
+function _CheckForMMC(szVerNeeded)
+STRING szTestVer,szVer,szRealVer;
+BOOL bFailed;
+begin
+	if (OIsComponentSelected(COMP_MMC) = TRUE) then
+		szVerNeeded = "";
+		//override value needed in setup.ini
+		OGetValueFromINI("MMC","Version",szVerNeeded);		
+		if(szVerNeeded = "")then
+			szVerNeeded = "1.1";
+		endif;
+		
+		if(VerGetFileVersion(WINSYSDIR^"MMC.EXE",szVer) !=0 )then
+			bFailed = TRUE;
+		else
+			//set actual ver based on file ver.
+			if(OIsValueEqual("5.00.1713.1",szVer) = FALSE)then
+				if(OIsValueGreater("5.00.1713.1",szVer) = TRUE)then
+					szRealVer = "1.0";
+				endif;
+			else
+				szRealVer = "1.0";
+			endif;
+			if(OIsValueEqual("5.0.1920.2",szVer) = FALSE)then
+				if(OIsValueGreater("5.0.1920.2",szVer) = TRUE)then
+					szRealVer = "1.1";
+				endif;
+			else
+				szRealVer = "1.1";
+			endif;
+			if(OIsValueEqual("5.00.2108.1",szVer) = FALSE)then
+				if(OIsValueGreater("5.00.2108.1",szVer) = TRUE)then
+					szRealVer = "1.2";
+				endif;
+			else
+				szRealVer = "1.2";
+			endif;
+		
+			//now check value against required ver from setup.ini
+			if(OIsValueEqual(szVerNeeded,szRealVer) = FALSE)then
+				if(OIsValueGreater(szVerNeeded,szRealVer) = FALSE)then
+					bFailed = TRUE;
+				endif;
+			endif;
+		endif;
+	endif;
+
+	//update structure with ver number if one found
+	g_structSystemData.szMMC_Version = szRealVer;
+	OLog("Found MMC version "+szRealVer);
+	
+	return !bFailed;
+end;
+
+
+///////////////////////////////////////////////////////////////////////
+// looks for Microsoft Internet Explorer
+// Value needed from setup.ini.  Default to ver 4
+///////////////////////////////////////////////////////////////////////
+function _CheckForIE(szVerNeeded)
+STRING szTestVer,szVer,szTemp;
+INT nvIEType, nvVerMajor, nvVerMinor, nvBuild, nvSubBuild;
+BOOL bFailed;
+begin
+	//2.1 check
+	szVerNeeded = "";
+	//override value needed in setup.ini
+	OGetValueFromINI("IE","Version",szVerNeeded);		
+	if(szVerNeeded = "")then
+		szVerNeeded = "6.0";
+	endif;
+		
+	// 0 = got ver
+	if(_GetIEVersion(nvIEType, nvVerMajor, nvVerMinor, nvBuild, nvSubBuild, szVer) >0 )then
+		bFailed = TRUE;
+	else
+		//4.72 is IE version 4.01
+		Sprintf(szTemp,"IE Found:\nIEType: %d\nVerMajor: %d\nVerMinor: %d\nBuild: %d\nSubBuild: %d\nVer: %s",nvIEType, nvVerMajor, nvVerMinor, nvBuild, nvSubBuild, szVer);
+		ODebugDsp(szTemp,2);
+		if(OIsValueEqual(szVerNeeded,szVer) = FALSE)then
+			if(OIsValueGreater(szVerNeeded,szVer) = FALSE)then
+				bFailed = TRUE;
+			endif;
+		endif;
+	endif;
+
+	//update structure with ver number if one found
+	if(!bFailed)then
+		g_structSystemData.szIE_Version = szVer;
+	endif;
+
+	return !bFailed;
+end;
+
+function _CheckForWord(szVerNeeded)
+	STRING	szVerFound, szTemp, svString;
+	BOOL	bValidVersion;
+	LIST	lstVersionsSupported;
+	NUMBER	nResult;
+begin
+	
+	//Get the list of supported Word versions from the setup.ini
+	lstVersionsSupported = ListCreate(STRINGLIST);
+	OGetSectionFromINI("Word", lstVersionsSupported);
+
+	//Loop through the versions and check for each one
+	//It'll stop on the first one it finds, so the order the versions are specified in the
+	// setup.ini will determine which version gets set in the g_structSystemData structure
+	// if multiple versions are installed
+	nResult = ListGetFirstString(lstVersionsSupported, svString);
+	bValidVersion = FALSE;
+	while (nResult != END_OF_LIST && bValidVersion = FALSE)
+		bValidVersion = _GetWordVersion(svString);
+		szVerFound = svString;
+		nResult = ListGetNextString(lstVersionsSupported, svString);
+	endwhile;
+
+	if(bValidVersion)then
+		//update structure with ver number if one found		
+		g_structSystemData.szWord_Version = szVerFound;
+	else
+		//list the valid versions for the warning message
+		szVerNeeded = "";
+		szTemp = "";
+		nResult = ListGetFirstString(lstVersionsSupported, svString);
+		while (nResult != END_OF_LIST)
+			szTemp = szVerNeeded + svString;
+			nResult = ListGetNextString(lstVersionsSupported, svString);
+			szVerNeeded = szTemp;
+			svString = "\n" + svString;
+		endwhile;	
+	endif;
+
+	ListDestroy(lstVersionsSupported);
+
+	//If no versions are specified in the setup.ini, set bValidVersion to true
+	if (szVerFound = "") then
+		bValidVersion = TRUE;
+	endif;
+	return bValidVersion;
+end;
+
+
+function _GetWordVersion(svVerNeeded)
+STRING	szKey, svValue, svVersionFound;
+NUMBER	nvType, nvSize;
+
+begin
+
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	szKey = "Software\\Microsoft\\Office" ^ svVerNeeded;
+	
+	if ( RegDBKeyExist(szKey) != 1 ) then
+		return FALSE;  // Office 9.0 not installed
+	endif;
+	szKey = szKey ^ "Word\\InstallRoot";
+	if ( RegDBKeyExist(szKey) != 1) then
+		return FALSE;	// word not installed
+	endif;
+	if ( RegDBGetKeyValueEx(szKey, "Path", nvType, svValue, nvSize) < 0) then
+		return FALSE;		// no path
+	endif;
+	if (Is(PATH_EXISTS, svValue) = FALSE ) then
+		return FALSE;		// bad path
+	endif;
+	if ( Is(FILE_EXISTS, svValue ^ "WINWORD.EXE") = FALSE) then
+		return FALSE;		//   missing winword.exe
+	endif;
+	if (VerGetFileVersion(svValue ^ "WINWORD.EXE", svVersionFound) < 0 ) then
+		return FALSE;		// couldn't get file version
+	endif;	
+	
+	svVerNeeded = svVersionFound;
+	return TRUE;
+
+end;
+
+
+///////////////////////////////////////////////////////////////////////
+// looks for Microsoft XML Parser
+// File needed from setup.ini.  Default file is MSXML.DLL
+///////////////////////////////////////////////////////////////////////
+function _CheckForXMLParser(szVerNeeded)
+STRING szFileNeeded, szKey;
+BOOL bFailed;
+begin
+
+	bFailed = FALSE;
+
+	if (OIsComponentSelected(COMP_MSXML3) = TRUE) then
+		szFileNeeded = "msxml3.dll";
+		szVerNeeded = "3.0";
+	
+		if(Is(FILE_EXISTS,WINSYSDIR^szFileNeeded)=FALSE)then
+			bFailed = TRUE;
+		endif;
+	endif;
+
+	if(!bFailed && (OIsComponentSelected(COMP_MSXML4) = TRUE)) then
+		szFileNeeded = "msxml4.dll";
+		szVerNeeded = "4.0";
+		if(Is(FILE_EXISTS,WINSYSDIR^szFileNeeded)=FALSE)then
+			bFailed = TRUE;
+		endif;
+	endif;
+
+	return !bFailed;
+end;
+
+///////////////////////////////////////////////////////////////////////
+// looks for Microsoft XML Parser
+// File needed from setup.ini.  Default file is MSXML3.DLL
+// and verify the installation is REPLACE MODE
+///////////////////////////////////////////////////////////////////////
+function _CheckForXMLParser3(szVerNeeded)
+STRING 	szFileNeeded, svProcGUID, szKey, svProcPath, svParsePath, svFoundVer;
+BOOL 	bFailed;
+NUMBER 	nResult, nvSize, nvOp;
+begin
+
+	//value needed in setup.ini
+	OGetValueFromINI("XML3","File",szFileNeeded);		
+	if(szFileNeeded = "")then
+		szFileNeeded = "msxml3.dll";
+	endif;
+	szVerNeeded = "";
+	OGetValueFromINI("XML3","Version",szVerNeeded);		
+	if(szVerNeeded = "")then
+		szVerNeeded = "3.0";
+	endif;
+
+	
+	if ( Is(FILE_EXISTS, WINSYSDIR ^ szFileNeeded ) = FALSE ) then
+		bFailed = TRUE;
+	else
+		if ( nResult < 0 ) then
+			bFailed= TRUE;
+		else
+			svProcPath = WINSYSDIR ^ szFileNeeded;
+			nResult = OCheckFileVer(svProcPath, szVerNeeded, svFoundVer);
+			if (nResult != EQUALS && nResult != GREATER_THAN ) then
+				bFailed = TRUE;
+			endif;
+		endif;
+	endif;
+
+	return !bFailed;
+end;
+
+///////////////////////////////////////////////////////////////////////
+// looks for Microsoft XML Parser
+// File needed from setup.ini.  Default file is MSXML3.DLL
+// and verify the installation is REPLACE MODE
+///////////////////////////////////////////////////////////////////////
+function _CheckForXMLParser4(szVerNeeded)
+STRING 	szFileNeeded, svProcGUID, szKey, svProcPath, svParsePath, svFoundVer;
+BOOL 	bFailed;
+NUMBER 	nResult, nvSize, nvOp;
+begin
+
+	//value needed in setup.ini
+	OGetValueFromINI("XML4","File",szFileNeeded);		
+	if(szFileNeeded = "")then
+		szFileNeeded = "msxml4.dll";
+	endif;
+	szVerNeeded = "";
+	OGetValueFromINI("XML4","Version",szVerNeeded);		
+	if(szVerNeeded = "")then
+		szVerNeeded = "4.0";
+	endif;
+
+	
+	if ( Is(FILE_EXISTS, WINSYSDIR ^ szFileNeeded ) = FALSE ) then
+		bFailed = TRUE;
+	else
+		if ( nResult < 0 ) then
+			bFailed= TRUE;
+		else
+			svProcPath = WINSYSDIR ^ szFileNeeded;
+			nResult = OCheckFileVer(svProcPath, szVerNeeded, svFoundVer);
+			if (nResult != EQUALS && nResult != GREATER_THAN ) then
+				bFailed = TRUE;
+			endif;
+		endif;
+	endif;
+
+	return !bFailed;
+end;
+
+/////////////////////////////////////////////////////////////////
+//
+// Verify that the BPS setup has been run previously
+//
+/////////////////////////////////////////////////////////////////
+
+function _CheckForOBPSSetup(svVersion)
+BOOL	bFailed;
+STRING	szKey, szValue, szKeyFile, szTemp;
+STRING	svValue;
+NUMBER	nvSize, nvType;
+begin
+	
+	bFailed = TRUE;
+	if ( RegDBSetDefaultRoot( HKEY_LOCAL_MACHINE ) = 0 ) then
+		szKey = "SOFTWARE\\Onyx\\ProcessingServer";
+		szValue = "Version";
+		OGetValueFromINI ("Startup", "Version", svVersion );
+		
+		if ( RegDBGetKeyValueEx( szKey, szValue, nvType, svValue, nvSize) = 0 ) then
+			if ( OIsValueEqual ( svVersion, svValue ) = TRUE) then // ||
+	//			( OIsValueGreater ( svVersion, svValue ) = TRUE ) then
+				
+	//				szValue = "AppTarget";
+	//				if ( RegDBGetKeyValueEx ( szKey, szValue, nvType, svValue, nvSize ) = 0 ) then
+	//					OGetValueFromINI ( "Startup", "ProductKey", szKey );
+	//					szTemp = svValue ^ "Components" ^ szKey;
+	//					if ( Is ( FILE_EXISTS, szTemp ) ) then
+							bFailed = FALSE;
+	//					endif;
+	//				endif;
+				//endif;
+			endif;
+		endif;
+	endif;
+	
+	return !bFailed;
+end;
+
+
+////////////////////////////////////////////////////////////
+//
+//  Retrieve version of Microsoft Internet Explorer
+//
+//  Return values:
+//     0 = IE version retrieved successfully
+//    -1 = IE not installed
+//    -2 = IE not properly installed (could not get version)
+//
+//  Notes:
+//    nvIEType returns the IE "family": 1 for IE1, 2 for IE2, 3 for IE3 etc.
+//    while nvVerMajor is 5 for IE5, and 4 for IE1 - IE4
+//
+////////////////////////////////////////////////////////////
+
+function _GetIEVersion(nvIEType, nvVerMajor, nvVerMinor, nvBuild, nvSubBuild, svVersion)
+	STRING svValue, svValue2;
+	NUMBER nvType, nvSize, nListResult;
+	LIST   listVersion;
+begin
+	nvIEType = 0;
+	nvVerMajor = 0;
+	nvVerMinor = 0;
+	nvBuild = 0;
+	nvSubBuild = 0;
+	svVersion = "";
+	
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	if ( RegDBKeyExist("Software\\Microsoft\\Internet Explorer") != 1 ) then
+		return -1;  // IE not installed
+	endif;
+	
+	// Look for IE4/5
+	if ( RegDBGetKeyValueEx("Software\\Microsoft\\Internet Explorer",
+	                        "Version", nvType, svValue, nvSize ) = 0 ) then
+		svVersion = svValue;
+	endif;
+	
+	// Look for IE1-3
+	if ( svVersion = "" ) then
+		if ( RegDBGetKeyValueEx("Software\\Microsoft\\Internet Explorer",
+	                        "IVer", nvType, svValue, nvSize ) != 0 ) then
+			return -2;  // IE not properly installed
+		endif;
+		
+		switch ( svValue )
+			case "100": // IE 1
+				svVersion = "4.40.308";
+			
+			case "101": // IE3/4 for NT4
+				if ( VerGetFileVersion(WINSYSDIR ^ "Shdocvw.dll", svValue2) != 0 ) then
+					return -2;  // IE not properly installed
+				else
+					svVersion = svValue2;
+				endif;
+				
+			case "102": //IE 2
+				if ( RegDBGetKeyValueEx("Software\\Microsoft\\Internet Explorer",
+	                        "Build", nvType, svValue2, nvSize ) != 0 ) then
+					svVersion = "4.40.520";  // default
+				else
+					svVersion = "4.40." + svValue2;
+				endif;
+				
+			case "103": // IE3
+				if ( RegDBGetKeyValueEx("Software\\Microsoft\\Internet Explorer",
+	                        "Build", nvType, svValue2, nvSize ) != 0 ) then
+					return -2;  // IE not properly installed
+				else
+					svVersion = "4.70." + svValue2;
+				endif;
+		endswitch;
+	endif;
+	
+	if ( svVersion = "" ) then
+		return -2;  // IE not properly installed
+	endif;
+	
+	// Convert to numbers
+	listVersion = ListCreate(STRINGLIST);
+	StrGetTokens(listVersion, svVersion, ".");
+	nListResult = ListGetFirstString(listVersion, svValue);
+	if ( nListResult = 0 ) then
+		StrToNum(nvVerMajor, svValue);
+	endif;
+	nListResult = ListGetNextString(listVersion, svValue);
+	if ( nListResult = 0 ) then
+		StrToNum(nvVerMinor, svValue);
+	endif;
+	nListResult = ListGetNextString(listVersion, svValue);
+	if ( nListResult = 0 ) then
+		StrToNum(nvBuild, svValue);
+	endif;
+		nListResult = ListGetNextString(listVersion, svValue);
+	if ( nListResult = 0 ) then
+		StrToNum(nvSubBuild, svValue);
+	endif;
+	ListDestroy(listVersion);
+	
+	// Get IE Type
+	if ( nvVerMajor >= 5 ) then
+		nvIEType = nvVerMajor;
+	else
+		if ( nvVerMinor > 70 ) then
+			nvIEType = 4;
+		elseif ( nvVerMinor > 50 ) then
+			nvIEType = 3;
+		else
+			if ( nvBuild > 500 ) then
+				nvIEType = 2;
+			else
+				nvIEType = 1;
+			endif;
+		endif;
+	endif;
+	
+	return 0;
+end;
+
+///////////////////////////////////////////////////////////////////////////
+// looks in setup reg location for a previous version of a product
+// based on the name of a product passed in.  Returns: Name, Path, and Version.
+///////////////////////////////////////////////////////////////////////////
+function _GetPreviousVersionInReg(szPreviousName,szPreviousPath,szPreviousVer)
+INT nReturn,nLoop,nvType,nvSize;
+begin
+	nReturn = TRUE; //set default
+
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	RegDBGetKeyValueEx("Software\\Onyx\\"+gszProductNameEnglish,
+                       "Path", nvType, szPreviousPath, nvSize );
+	if (szPreviousPath = "" ) then
+		nReturn = FALSE;
+	endif;
+	RegDBGetKeyValueEx("Software\\Onyx\\"+gszProductNameEnglish,
+                       "Version", nvType, szPreviousVer, nvSize );
+	if (szPreviousVer = "" ) then
+		nReturn = FALSE;
+	endif;
+	RegDBGetKeyValueEx("Software\\Onyx\\"+gszProductNameEnglish,
+                       "Name", nvType, szPreviousName, nvSize );
+	if (szPreviousName = "" ) then
+		nReturn = FALSE;
+	endif;
+						
+	return nReturn;
+end;
+
+//////////////////////////////////////////////////////////////
+//sets the version being installed into reg key
+//removes the old entries first.
+//////////////////////////////////////////////////////////////
+function _SetPreviousVersionInReg(szName,szPath,szVer)
+INT nLoop;
+STRING szPrevVer,szKey,szTemp;
+LIST listOfVers;
+begin
+
+	OGetValueFromINI("Options","PreviousVersionRegEntry",szTemp);
+	if(szTemp != "")then
+		StrToUpper(szTemp,szTemp);
+		if(szTemp = "NO")then
+			return FALSE;
+		endif;
+	endif;
+
+	//look in ini for Previous Version info.
+	OGetValueFromINI("Options","PreviousVersions",szTemp);
+	if(szTemp != "")then
+		//parse data
+		listOfVers = ListCreate(STRINGLIST);
+		StrGetTokens(listOfVers,szTemp,",");
+		nLoop = ListGetFirstString(listOfVers,szPrevVer);
+		//loop through data for a match of reg data.
+		while(nLoop != END_OF_LIST)
+			RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+			szKey = "Software\\Onyx\\"+gszProductNameEnglish;
+	
+			//remove old vers
+			if(RegDBKeyExist(szKey+"\\"+szPrevVer) = 1 ) then
+				RegDBDeleteKey(szKey+"\\"+szPrevVer);
+			endif;
+
+			//next ver to look for.
+			nLoop = ListGetNextString(listOfVers,szPrevVer);
+		endwhile;
+		ListDestroy(listOfVers);
+	endif;
+	
+	//Add present product info to setup reg location
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	szKey = "Software\\Onyx";
+	if( RegDBKeyExist (szKey) < 0)then
+		RegDBCreateKeyEx(szKey,"");  //only create key if a key dosn't already exists, or the onyx key will be removed during uninstall.
+	endif;
+	
+	//always use english name for reg entries.
+	szKey = szKey + "\\"+gszProductNameEnglish;
+	if(gszProductNameEnglish != "")then
+		RegDBCreateKeyEx(szKey,"");  //only create key if a value exists, or the onyx key will be removed during uninstall.
+	endif;
+	RegDBSetKeyValueEx(szKey,"Version", REGDB_STRING,szVer,-1);
+	RegDBSetKeyValueEx(szKey,"Path", REGDB_STRING,szPath,-1);	
+	RegDBSetKeyValueEx(szKey,"Name", REGDB_STRING,szName,-1);		
+
+	return TRUE;
+
+end;
+
+function ODetermineOPSPlatform( )
+
+STRING	szDBType;
+INT nReturn;
+
+begin
+
+ OGetValueFromINI("Versions", "PlatformBuild", szDBType);
+
+  if szDBType = "SQLServer" then
+
+   //if the server is actually SQL Then we know not to throw the dialog
+   nReturn = SQL_PLATFORM;
+
+  else
+
+   //if its Oracle then the dialog will be thrown,
+  //if its something else then maybe the setup.ini is incorrect and throw the dialog
+  //anyway, wouldnt hurt anything
+   nReturn = ORACLE_PLATFORM;
+
+  endif;
+
+  return nReturn;
+end;
+function _DetermineMAPIVersion()
+//-----------------------------------------------------------------------------
+// Author	:	ThomasT
+// Purpose 	:	Determines whether the version of MAPI is acceptable
+// Result	: 	TRUE if acceptable, otherwise false
+// Date		:	Wednesday, January 21, 2004
+//-----------------------------------------------------------------------------
+INT nvType,nvSize,nvMajorVersion,nVer;
+STRING svMajorVersion,szTemp, szVer;
+begin
+	//value needed in setup.ini
+	OGetValueFromINI("MAPI","Version",szVer);		
+	if(szVer = "")then
+		szVer = "1.0.0.1";
+	endif;
+	if(szVer != "")then
+		StrToNum(nVer,szVer);
+	endif;
+	RegDBSetDefaultRoot ( HKEY_LOCAL_MACHINE );
+	if (RegDBKeyExist ( "SOFTWARE\\Microsoft\\Windows Messaging Subsystem" ) >= 0) then
+		//get ver from reg
+		RegDBGetKeyValueEx ( "SOFTWARE\\Microsoft\\Windows Messaging Subsystem" ,"MAPIXVER" , nvType , svMajorVersion , nvSize );
+		if (OIsValueEqualOrGreater(szVer,svMajorVersion) =TRUE )  then
+			return TRUE;
+		elseif(szVer = "" && nvMajorVersion > 0)then
+			return TRUE;
+		endif;
+	endif;
+	return FALSE;
+end;
+
+///////////////////////////////////////////////////////////////////////////////
+// Is the previous version of the security provider installed on this machine?
+///////////////////////////////////////////////////////////////////////////////
+function _PreviousVersionFound()
+INT nvType,nvSize;
+STRING svValue,szTemp,szKey;
+begin
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	szKey = "Software\\ONYX\\" + gszProductName;
+	RegDBGetKeyValueEx(szKey,"Version",nvType,svValue,nvSize);
+
+	if(OIsValueEqualOrGreater(svValue,gszProductVersion))then
+   	 	gszMsg = @OPERATION_SECURITY_WARNING1;
+		OCatStrings(gszMsg,"\n\n",@OPERATION_SECURITY_WARNING2);
+		StrToUpper(szTemp,g_structDatabase.szDatabase);
+		Sprintf(gszMsg,gszMsg,gszProductName,gszProductVersion);
+		if(AskYesNo(gszMsg,NO) = NO)then
+			abort;
+		endif;
+		return FALSE;
+	else
+		return TRUE;
+	endif;
+end;
+
+//-----------------------------------------------------------------------------
+// Author	:	ThomasT
+// Purpose 	:	Determines the whether Cognos is installed and whether the
+//				version is correct?. It also sets the global cognos path.
+// Result	: 	TRUE if acceptable, otherwise false
+// Date		:	Wednesday, January 21, 2004
+//-----------------------------------------------------------------------------
+function _CheckForCognos()
+STRING szKey, szBaseKey, svValue, svPath, svItem, szTemp;
+NUMBER nResult, nReturn, nvType, nvSize, nvCount, nviCount;
+LIST lPath, listSubKeys;
+BOOL bFoundIt;
+
+begin
+
+	//the install location is in the services section of the registry, if
+	//that doesnt exist then Cognos isn't installed.
+	
+	// Create the list to hold values returned by RegDBQueryKey.
+    listSubKeys  = ListCreate(STRINGLIST);
+
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	szBaseKey = "\\SYSTEM\\CurrentControlSet\\Services";	
+	// Get the list of subkeys.
+   	nReturn = RegDBQueryKey(szBaseKey, REGDB_KEYS, listSubKeys );
+
+	//Loop through the key names
+	nReturn = ListGetFirstString(listSubKeys, szKey);
+	
+	while (nReturn != END_OF_LIST)
+		//Check to see if "Cognos 8" is at the beginning of the key
+		//  (as per 93113, the port number might be tacked on)
+		if(StrFind(szKey, "Cognos 8")= 0) then
+			//If it is, Cognos 8 is installed
+			szKey = szBaseKey^szKey;
+			bFoundIt = TRUE;
+			nReturn = END_OF_LIST;
+		else
+			nReturn = ListGetNextString(listSubKeys, szKey);			
+		endif;
+	endwhile;
+
+	if (bFoundIt = FALSE) then
+		return FALSE;
+	endif;
+	
+	nvType = REGDB_STRING_EXPAND;
+	
+	nResult = RegDBGetKeyValueEx(szKey, "ImagePath", nvType, svValue, nvSize);
+	if(nResult < 0)then
+		return FALSE;
+	endif;
+	if StrCompare(svValue, "") = 0 then
+		return FALSE;
+	endif;
+	
+	lPath = ListCreate(STRINGLIST);
+	
+	if (StrGetTokens(lPath, svValue, "\\")> 0) then
+		return FALSE;
+	endif;
+	
+	
+	nvCount = ListCount(lPath);
+	ListGetFirstString(lPath, svItem);
+	svPath = svItem+"\\";
+	
+	//the path should include the bin so remove it as well
+	for nviCount = 2 to nvCount - 2
+	    ListGetNextString(lPath, svItem);
+    	svPath = svPath+svItem+"\\";
+	endfor;
+	
+	CopyBytes(gsCmplistPath, 0, svPath, 1, StrLength(svPath));
+	//svPath = svPath+"configuration";
+	//the image path is stored as "C:\
+	//this removes the "
+	CopyBytes(gsApptarget, 0, svPath, 1, StrLength(svPath));
+	
+	nResult = GetProfString (gsCmplistPath ^ "cmplst.txt","Product Information","C8BISRVR_version",svItem);
+	
+	OGetValueFromINI("Versions","Cognos",szTemp);
+	
+	//Check to see if the version read from the cmplst.txt file contains the version read from the setup.ini
+	//That way you can change how sensitive the version check is by making the version in the setup.ini
+	// more or less specific (i.e., putting only the first part of the version number in there)
+	
+	if(StrFind(svItem, szTemp)!= 0) then
+		return FALSE;
+	endif;
+
+	return TRUE;
+end;
+
+
+
+function _DetermineCDOVersion()
+//-----------------------------------------------------------------------------
+// Author	:	ThomasT
+// Purpose 	:	Determines the whether the version of CDO is acceptable
+// Result	: 	TRUE if acceptable, otherwise false
+// Date		:	Wednesday, January 21, 2004
+//-----------------------------------------------------------------------------
+
+INT nvType,nvSize,nvMajorVersion,nVer;
+STRING svCDOGuidVersion,svCDODllPath, svPath,szTemp, szVer;
+STRING svCDOPath, svCLSIDPath, svInProcServer;
+STRING svFoundVer;
+BOOL 	bFailed;
+NUMBER 	nResult;
+
+
+begin
+	//value needed in setup.ini
+	svCDOPath = "CDO.Message\\";
+	svCLSIDPath = "CLSID\\";
+	svInProcServer = "\\InprocServer32";
+
+	OGetValueFromINI("CDO","Version",szVer);		
+	if(szVer = "")then
+		szVer = "5.5.2176.0";
+	endif;
+	if(szVer != "")then
+		StrToNum(nVer,szVer);
+	endif;
+	
+	
+	svPath = svCDOPath + svCLSIDPath;
+	RegDBSetDefaultRoot (HKEY_CLASSES_ROOT);
+	
+	if (RegDBKeyExist (svPath) >= 0) then
+		//get ver from reg
+		RegDBGetKeyValueEx ( svPath ,"" , nvType , svCDOGuidVersion , nvSize );
+		svPath = svCLSIDPath + svCDOGuidVersion + svInProcServer;
+		if (RegDBKeyExist (svPath) >= 0) then
+			RegDBGetKeyValueEx ( svPath ,"", nvType , svCDODllPath , nvSize );
+			if ( Is(FILE_EXISTS, svCDODllPath ) = TRUE ) then
+				//getting file version
+				nResult = OCheckFileVer(svCDODllPath, szVer, svFoundVer);
+				if (OIsValueEqualOrGreater(szVer,svFoundVer) =TRUE )  then
+					return TRUE;	
+				endif;	
+			endif;
+		endif;
+	endif;
+	return FALSE;
+end;
+
+
+///////////////////////////////////////////////////////////////////////
+// Created 5/3/01 for QA #53867
+// Checks registry to make sure Microsoft XML Parser 3.0 has been
+// installed in side-by-side mode.
+///////////////////////////////////////////////////////////////////////
+function _CheckSideBySide()
+string szKey, svClsID, svTarget, svDefault;
+number nvType, nvSize;
+BOOL isSideBySide;
+	
+begin
+	isSideBySide = TRUE;
+	
+	// Set the key to the ClassRootKey.
+	RegDBSetDefaultRoot(HKEY_CLASSES_ROOT);
+	
+	// Set szKey to look for the CLSID, then make sure the key exists
+	szKey = "MSXML.DOMDocument\\CLSID";	
+	if (RegDBKeyExist(szKey) < 0) then
+		isSideBySide = FALSE;
+	endif;
+
+    // Get the default value of the CLSID key
+	if (RegDBGetKeyValueEx(szKey, "", nvType, svClsID, nvSize) < 0) then
+		isSideBySide = FALSE;
+	endif;
+	
+	// Set the default root to Local Machine
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	
+	// Now that we have the CLSID, find where it's pointing
+	szKey = "SOFTWARE\\Classes\\CLSID\\" + svClsID + "\\InProcServer32";
+	if (RegDBKeyExist(szKey) < 0) then
+		isSideBySide = FALSE;
+	endif;
+	
+	// Make sure we get a value back	
+	if (RegDBGetKeyValueEx(szKey, "", nvType, svTarget, nvSize) < 0) then
+		isSideBySide = FALSE;
+	endif;
+	
+	svDefault = "%SystemRoot%\\System32\\msxml.dll";
+
+	// If it's pointing to msxml.dll, it is in side-by-side mode, as we have
+	// already checked to make sure msxml3.dll is on the machine.	
+	if (StrCompare(svTarget, svDefault) != 0) then
+		isSideBySide = FALSE;
+	endif;
+	
+	return isSideBySide;
+
+end;
+
+
+// _CheckPreviousVersion checks to make sure the user isn't trying to perform an
+// unsupported upgrade, such as 3.0 to 3.5.  If the previous version of the product is
+// too old, setup will exit upon return from this function.
+function _CheckPreviousVersion(szVerFound, szVerNew, szVerNeeded)
+STRING szTemp;
+number nvSize, nvType, nvVerFound, nvVerNeeded;
+begin
+
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	if(RegDBGetKeyValueEx ("Software\\Onyx\\AppServer", "Version", nvType, szVerFound, nvSize) < 0) then
+		//no previous version of the AppServer, so no problem
+		return TRUE;
+	else
+		OGetValueFromINI("Startup", "Version", szVerNew);
+		OGetValueFromINI("Versions", "UpgradeVersion", szVerNeeded);
+		
+		if (OIsValueEqualOrGreaterVer(szVerNeeded, szVerFound)) then	
+			return TRUE;
+		else
+			return FALSE;			
+		endif;
+	endif;
+end;
+
+
+function _CheckForDotNetFrameWork()
+
+STRING szTemp, szKey, szMajor, szMinor;
+number nvSize, nvType, nvVerFound, nvVerNeeded, nResult;
+LIST listVersions;
+
+begin
+	
+	//Read the entire [.NET] section from the setup.ini
+	listVersions = ListCreate(STRINGLIST);
+	OGetSectionFromINI(".NET", listVersions);
+	
+	//The [.NET] section should be formatted such that it alternates between
+	// .NetVersionMajor and .NetVersionMinor, with each pair indicating a .NET
+	// framework version to check for, and the primary .NET version (i.e., the one
+	// to use elsewhere in setup, such as to set the ASP .NET framework version, etc.) being
+	// the last pair in the list.
+	
+	//Loop through and do the checks of the various versions
+	nResult = ListGetFirstString(listVersions, szTemp);
+	while (nResult != END_OF_LIST)
+		
+		if (gszMajorVersion = "") then
+			gszMajorVersion = szTemp;
+			nResult = ListGetNextString(listVersions, szTemp);	
+		else
+			//Check for this version
+			gszMinorVersion = szTemp;
+			nvType = REGDB_STRING;
+
+			RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+			szKey = "Software\\Microsoft\\.NetFramework\\policy\\v"+gszMajorVersion;
+			//check and see if the dot net major version key exists
+			if (RegDBKeyExist(szKey) < 0) then
+				return FALSE;
+			endif;
+			//check and see if the dot net minor version key exists
+			if(RegDBGetKeyValueEx (szKey, gszMinorVersion, nvType, szTemp, nvSize) < 0) then
+				return FALSE;
+			endif;
+
+			nResult = ListGetNextString(listVersions, szTemp);
+			if (nResult != END_OF_LIST) then	
+				gszMajorVersion = "";
+				gszMinorVersion = "";
+			endif;
+		endif;
+	endwhile;
+
+	ListDestroy(listVersions);
+
+	//Find the .NET install root
+	szKey = "Software\\Microsoft\\.NetFramework";
+	szTemp = "InstallRoot";
+	if(RegDBGetKeyValueEx (szKey, szTemp, nvType, gszDotNetInstallRoot, nvSize) < 0) then
+		return FALSE;
+	endif;
+
+	gszDotNetInstallRoot = gszDotNetInstallRoot+"v"+gszMajorVersion+"."+gszMinorVersion;
+
+	return TRUE;
+end;
+
+
+//
+// Queries for the LanguageCode
+// A non-null LanguageCode setting under SQLAccount will
+//  override the database setting.
+//
+function _GetLanguageCodeFromDB(pIns, szErr)
+INT nTemp, nReturn;
+STRING szResult[255],szINICode, szTemp, szQuery, szSiteID;
+BOOL bOK;
+begin
+	g_structDatabase.szLanguageCode = ""; //clear old value if exists
+
+	//uses site id to establish which parameter to check.
+    //retrieve site ID first
+    szQuery = "opSiteRetrieveListSetup 1";
+	nReturn = ExecuteQueryA(pIns,szQuery,0,szSiteID,255,szErr,255);
+
+	
+	OGetValueFromINI("SQLAccount","LanguageCode",szINICode);
+	if ( szINICode = "" ) then
+		szQuery = "opSystemParameter " + szSiteID + ", 'SystemLanguageCode'";
+
+		if(ExecuteQueryA(pIns,szQuery,0,szResult,255,szErr,255) >= 0 && szResult != "")then
+			bOK = TRUE;
+			OLog("SystemLanguageCode: " + szResult);
+			g_structDatabase.szLanguageCode = szResult;
+		else
+			Sprintf(szTemp,@ERROR_SQL_VER2,"SQL");
+			szErr = szTemp+"\n\n"+szErr;
+			if (szResult = "") then
+				szErr = szErr + @ERROR_SQL_LANGUAGE_CODE;
+			endif;
+		endif;
+	else
+		OLog("SystemLanguageCode Override: " + szINICode);
+		g_structDatabase.szLanguageCode = szINICode;
+	endif;
+	return bOK;
+
+end;
+
+
+function _CheckDBCollation(pINS, pDB)
+STRING szKey,szLog,szErr[1024],szCheckFile,szDropFile,szResult[1024],szCommand,szTemp,szCount;
+STRING szServerCollation[1024], szDBCollation[1024], szErrVer;
+BOOL bCollationMatches;
+NUMBER nLength;
+INT evOptions,flOptions,nReturn,iStat,nCount,nLoop;
+begin
+	szLog = SUPPORTDIR ^ "sql.log";
+	nReturn = TRUE;
+    evOptions = EV_ERROR + EV_OPERATION + EV_CAUSE + EV_MESSAGE; //values are: 1 + 4 + 8 + 1000H = 100D hex or 4109 dec.
+    flOptions = FL_CRASH_LOG;  //store log info imediately, do not buffer.
+    szResult = " ";
+	szCommand = "opCheckCollation \""+ pDB->szDatabase + "\"";
+
+
+	//open connection
+	ChangeDirectory(SUPPORTDIR);
+   	if (UseDLL(SUPPORTDIR ^ ONYXINSDLL) < 0) then
+    	gszMsg = @ERROR_LOADDLL + " "+ONYXINSDLL;
+   	    MessageBox(gszMsg, SEVERE);
+       	OLog(gszMsg);
+        return FALSE;
+       	ChangeDirectory(SRCDIR);
+   	endif;
+   	iStat = OpenInstallerA(210,pDB->szServer, pDB->szDatabase, pDB->szLogin, pDB->szPassword,szKey, SUPPORTDIR ^ "sql.log",evOptions,flOptions, &pINS, szErr, 512);  //ver 1.4   	
+   	if(iStat < 0)then
+   		gszMsg = @PROMPT_DATABASE_BAD_CONNECTION+"\n\n"+szErr;
+		MessageBox(gszMsg, WARNING);
+		OLog(gszMsg);
+		nReturn = FALSE;
+	endif;
+
+   	if (pINS != 0) then				
+
+		//need for blank entries
+		if(ExecuteStringA(pINS,"set quoted_identifier off",0,szErr,512) < 0)then
+			Sprintf(gszMsg, @ERROR_SQL_QUOTE, iStat, szErr);
+			MessageBox(gszMsg,SEVERE);
+		endif;
+		
+		//run query
+   		iStat = ExecuteQueryA(pINS,szCommand,0,szResult,512,szErr,512);
+   		
+   		if(iStat < 0)then
+			//query failed.
+			gszMsg =  @ERROR_SQL_RUNORDER3+"\n\nString: %s\nError Num: %d\nError Msg: %s";
+			Sprintf(gszMsg,gszMsg,pDB->szDatabase,szCommand,iStat,szErr);
+			OLog(gszMsg);
+			MessageBox(gszMsg,WARNING);
+			return FALSE;
+		else
+			Sprintf(gszMsg,@SQL_STRING+"\nServer %s\nDatabase: %s\nString: %s",pDB->szServer, pDB->szDatabase,"opCheckCollation");
+			ODebugDsp(gszMsg,13);
+		endif;
+		
+
+		//close connection if query was successful
+		if(pINS != 0)then
+		   	CloseInstallerA(pINS, 0, szErr, 255);
+	    	UnUseDLL(SUPPORTDIR ^ ONYXINSDLL);
+		endif;
+		ChangeDirectory(SRCDIR);
+	endif;
+
+
+	// if collation sproc returned "0", abort setup
+	if (szResult != "0") then
+		Sprintf(szErrVer, @ERROR_COLLATION);
+		szErrVer = szErrVer + "\n\n" + @ERROR_NOW_EXIT;
+
+		MessageBox(szErrVer, SEVERE);
+						
+		//force launcher to exit
+		if(g_structLauncher.bIsChild = TRUE)then
+			RegDBSetKeyValueEx("Software\\Onyx\\SetupLauncher","Exit",REGDB_STRING,"YES",-1);
+		endif;
+
+		abort;
+	endif;	
+
+end;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

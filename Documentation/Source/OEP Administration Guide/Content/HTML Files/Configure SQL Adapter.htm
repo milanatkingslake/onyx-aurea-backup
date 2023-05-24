@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="120" MadCap:lastWidth="701">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2><a name="top"></a>Configure SQL&#160;Adapter</h2>
+        <p>The SQL&#160;triggers are not installed out-of-the-box in the Onyx application and need to be configured and enabled if required. For more information on enabling the SQL&#160;Triggers, see Enable / Disable SQL Trigger.</p>
+        <p><b>To configure the SQL&#160;Adapter:</b>
+        </p>
+        <ol>
+            <li>Run utilities\DBASetupScript.sql on the master database and provide input parameter as follows:</li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">SET @onyxDBO = N'onyxDBO'</li>
+            <li class="List_Indent">SET @Pdatabase = N'PersistenceDB71demo'</li>
+            <li class="List_Indent">SET @Odatabase = N'OEDB71demo'</li>
+        </ol>
+        <p class="Indent1">Where <b>@onyxDBO</b> is the OnyxDBO user name in database server, <b>@Pdatabase</b> is the name of persistence DB and <b>@Odatabase</b> is the name of the Onyx Enterprise Database.</p>
+        <ol start="2">
+            <li> If the database server is 64-bit, then run the utilities\DbaSetupScriptOEDBx64.sql file on OEDB else, if database server is 32-bit, then run the utilities\DbaSetupScriptOEDBx86.sql on OEDB. </li>
+            <li>Copy all DLL files from Customization Support\Database Server\CLR Trigger\CLRDlls to C:\Program Files (x86)\Onyx\Notification_CLR in case of 32-bit and C:\Program Files \Onyx\Notification_CLR in case of 64-bit.</li>
+            <li>Edit CreateCLRAssmblyTrigger.SQL to find all $(path) lines and replace with C:\Program Files (x86)\Onyx\Notification_CLR in case of 32-bit and C:\Program Files \Onyx\Notification_CLR in case of 64-BIT. </li>
+        </ol>
+        <p class="Indent1"><b>Example:</b>
+        </p>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">CREATE ASSEMBLY oaOnyxCLRTrigger</li>
+            <li class="List_Indent">AUTHORIZATION [dbo]</li>
+            <li class="List_Indent">From '$(path)\oaOnyxCLRTrigger.dll'</li>
+            <li class="List_Indent">WITH PERMISSION_SET = UNSAFE</li>
+        </ol>
+        <p class="Indent1">In case of 64-bit</p>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">CREATE ASSEMBLY oaOnyxCLRTrigger</li>
+            <li class="List_Indent">AUTHORIZATION [dbo]</li>
+            <li class="List_Indent">From ' C:\Program Files (x86)\Onyx\Notification_CLR\oaOnyxCLRTrigger.dll'</li>
+            <li class="List_Indent">WITH PERMISSION_SET = UNSAFE</li>
+        </ol>
+        <ol start="5">
+            <li>After editing the file, run the file in Onyx Enterprise DataBase.</li>
+        </ol>
+        <p>&#160;</p>
+    </body>
+</html>

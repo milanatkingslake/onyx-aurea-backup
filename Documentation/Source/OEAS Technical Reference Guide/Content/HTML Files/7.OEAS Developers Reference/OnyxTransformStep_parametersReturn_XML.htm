@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:lastBlockDepth="6" MadCap:lastHeight="780" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>parametersReturn XML (OnyxTransformStep)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>
+            <MadCap:keyword term="parametersReturn XML" />parametersReturn XML</h4>
+        <p>
+            <MadCap:keyword term="OnyxTransformStep" />The OnyxTransformStep step component can modify any part of the step 
+ package. The developer of the XSL transform must ensure that the result 
+ is a valid step package that other step components and Onyx Core components 
+ can handle without errors.</p>
+        <p>The OnyxTransformStep step component sets the methodStatus element in 
+ the step package to failure under the following conditions.</p>
+        <table>
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Condition</th>
+                    <th>methodStatus</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">The templatePath specified in the stepAdditionalData 
+ element does not resolve to a valid absolute or relative path on the application 
+ server.</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">failure</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">The escapedNode path in Step Additional Data does not 
+ resolve to a valid path in the stepPackage XML.</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">failure</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Incorrect or nonstandard use of the escapedNode setting 
+ does not always cause failure, but can lead to unexpected results. Some 
+ situations are described below.</p>
+        <ul style="list-style: disc;" type="disc">
+            <li>If the escapedNode points to a valid node the 
+ input XML that is not escaped and there are no other escaped nodes in 
+ the input XML, the OnyxTransformStep proceeds without raising an error 
+ and should work as expected.</li>
+            <li>If the escapedNode points to a valid node the 
+ input XML that is not escaped and there is an escaped node elsewhere in 
+ the input XML, the OnyxTransformStep does not raise an error. However, 
+ such conditions can result in unexpected changes to the structure of the 
+ stepPackage. Steps that follow OnyxTransformStep may fail.</li>
+            <li>If the escapedNode is not specified, but the input 
+ XML has an escaped node, the code will not raise an error but the OnyxTransformStep 
+ step drops the escaped nodes from the parametersReturn XML.</li>
+        </ul>
+        <h5>Logging</h5>
+        <p>To aid troubleshooting the XSL template during its 
+ development, OnyxTransformStep can call OnyxLog, which writes out the 
+ stepPackage at the following junctures:</p>
+        <ul style="list-style: disc;" type="disc">
+            <li>Before OnyxTransformStep begins processing the 
+ stepPackage</li>
+            <li>After the step unescapes the node to be transformed</li>
+            <li>After the step transforms the node</li>
+            <li>After the step escapes the node</li>
+        </ul>
+        <p class="ProcedureHeading">To set up and configure the log file for 
+ OnyxTransformStep troubleshooting:</p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li>Log on to the OEAS server using an account with 
+ local administrative privileges.</li>
+            <li>Open the registry editor, Regedit.exe.</li>
+            <li>In the left pane of the Registry Editor, navigate 
+ to and select the following key:</li>
+        </ol>
+        <p class="Indent1"><span style="font-weight: bold;">HKEY_LOCAL_MACHINE\SOFTWARE\ONYX\AppServer\</span><span style="font-style: italic;font-weight: bold;">appliction_name</span><span style="font-weight: bold;">\OnyxLog</span>
+            <br />
+            <br />where <span style="font-style: italic;">application_name</span> is the 
+ name of the OEAS logical application.</p>
+        <ol start="4" style="list-style: decimal;list-style-type: decimal;">
+            <li>Specify the values for the &#160;following 
+ settings:</li>
+        </ol>
+        <ul>
+            <li class="List_Indent">FileOutput - enter the path of the file to 
+ which the log is written</li>
+            <li class="List_Indent">FileSource - enter to 4194304 to turn on logging 
+ for only OnyxTransformStep</li>
+        </ul>
+        <ol start="5" style="list-style: decimal;list-style-type: decimal;">
+            <li>Close the Registry Editor.</li>
+            <li>Restart the OEAS application using Component Services.</li>
+        </ol>
+    </body>
+</html>

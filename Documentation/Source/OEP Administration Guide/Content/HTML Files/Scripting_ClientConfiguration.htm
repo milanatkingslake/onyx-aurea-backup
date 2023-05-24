@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+    </head>
+    <body>
+        <MadCap:pageBreak />
+        <h1>Client Configuration</h1>
+        <p>Following are the files that are used to do client configuration, and are located at <code>C:\ProgramFiles\Onyx\EmployeePortal\scripting_ngen\configuration</code>:</p>
+        <ul>
+            <li>WebApiConfiguration.js</li>
+            <li>ScriptingWebUIConfiguration.js</li>
+            <li>ScriptingWebApiConstants.js</li>
+            <li>ScriptingMessageConstants.js</li>
+            <li>ScriptingCustomization.js</li>
+            <li>SurveyWebApiConstants.js</li>
+            <li>ScriptingController.js</li>
+        </ul>
+        <h2>WebApiConfiguration.js</h2>
+        <ul>
+            <li>BASE_URI - Web API base URI configuration for scripting application.</li>
+        </ul>
+        <ul style="list-style-type: circle;">
+            <li class="BulletList2">Base URI for OEP scripting (integrated) is “ ../ “</li>
+        </ul>
+        <p class="Indent3"><b>Example:</b> http:// WS003LT0094PRD/OEP_Onyx</p>
+        <ul style="list-style-type: circle;">
+            <li class="BulletList2">Base URI for Scripting stand alone is empty string (“”) that is installed directory.</li>
+        </ul>
+        <ul>
+            <li>REQUEST_TIMEOUT - API request time out.</li>
+        </ul>
+        <h2>ScriptingWebUIConfiguration.js</h2>
+        <p>This file is for any UI configuration that users prefer to change. Currently there is only one configuration added to this file for string casing. This builds over time.</p>
+        <p><b>Example:</b> Contact name may vary all uppercase or all lowercase based on UI_UPPERCASE property set to true or false.</p>
+        <h2>ScriptingWebApiConstants.js</h2>
+        <p>All the API calls to the server for Onyx Scripting is present here as constant. These API calls are set to their default value. If the user wants to make some server side changes, the customized API should be pointed to <code>Onyx.UI.Scripting.Controller.dll</code> file. For more details about scripting related controllers in the scripting server controller, click <a href="Scripting_ServerConfiguration.htm#Scriptin">Scripting Server Controller Extensibility</a>.</p>
+        <h2>ScriptingMessageConstants.js</h2>
+        <p>In case of adding a Sencha extension to the browser, LogStore is created to track any error encountered.</p>
+        <p>The messaging string constants are present in the following image:</p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Scripting_stores.png" style="border-left-style: solid;border-left-width: 1px;border-left-color: ;border-right-style: solid;border-right-width: 1px;border-right-color: ;border-top-style: solid;border-top-width: 1px;border-top-color: ;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: ;" />
+        </p>
+        <p class="Caption" MadCap:autonum="Figure 1: ">LogStore</p>
+        <h2>ScriptingCustomization.js</h2>
+        <p>This file holds the name mapping to the controller that is pulled in dynamically to the application.</p>
+        <p>The default setup is <code>CONTROLLER_NAME: 'ApplicationConfiguration.ScriptingController'</code>. <br /><code>ScriptingController</code> is the file where the custom code goes.</p>
+        <h2>SurveyWebApiConstants.js</h2>
+        <p>All the API calls to the server for Onyx Scripting - Survey Control is present here as constant. These API calls are set to their default value.If the user wants to make some server side changes, the customized API should be pointed to <code>Onyx.UI.Survey.Controller.dll</code> file. For more details about scripting related controllers in the scripting server controller, click <a href="Scripting_ServerConfiguration.htm#Scriptin">Scripting Server Controller Extensibility</a>.</p>
+        <h2>ScriptingController.js</h2>
+        <p>The <code>ApplicationConfiguration.ScriptingController</code> file is defined here. There are three methods provided wherein you can inject logic to change the behavior. Following are the three methods that you can use for customization :</p>
+        <ol>
+            <li><b>InitializeScript</b>
+            </li>
+        </ol>
+        <p class="Indent1">InitializeScript method is used when there is any application level changes required. This method is called after the user is successfully authenticated. <span style="color: #000000;"><code>this.callParent()</code> should be the last line of code for this method.</span></p>
+        <ol MadCap:continue="true">
+            <li><b>AfterRender</b>
+            </li>
+        </ol>
+        <p class="Indent1">AfterRender method is used to customize all the controls that do not use callback or on demand load (Lazying Loading of data). <span style="color: #ff0000;"><code style="color: #000000;">this.callParent()</code><span style="color: #000000;"> should be the last line of code for this method.</span></span>For more details about On Application Load Controls, click <a href="#On">On Application Load Prompts</a>.</p>
+        <ol MadCap:continue="true">
+            <li><b>AfterLazyLoading</b>
+            </li>
+        </ol>
+        <p class="Indent1">AfterLazyLoading method is used to customize all the controls that use callback or on demand load (Lazying Loading of data). For more details about On Lazy Load Controls, click <a href="#On2">On Lazy Loading Prompts</a>.</p>
+        <h3>Example</h3>
+        <p>In the following example, a script is created based on customer type selection in the first step and credit card selection value to be filtered in the second step.</p>
+        <p>In the first step we have an option to select based on the Script Designer configuration as follows:</p>
+        <ul>
+            <li>Customer</li>
+            <li>Prospect</li>
+            <li>Contact</li>
+        </ul>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Scripting_Selectcustomertype.png" style="border-left-style: solid;border-left-width: 1px;border-left-color: ;border-right-style: solid;border-right-width: 1px;border-right-color: ;border-top-style: solid;border-top-width: 1px;border-top-color: ;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: ;" />
+        </p>
+        <p class="Caption" MadCap:autonum="Figure 2: ">Responses for Prompt - Select Customer type</p>
+        <p>The second step has the following configurations for credit card type:</p>
+        <ul>
+            <li>Visa</li>
+            <li>Master</li>
+            <li>Mastro</li>
+            <li>Rupay</li>
+            <li>American Express</li>
+        </ul>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/scripting_DropDown.png" style="border-left-style: solid;border-left-width: 1px;border-left-color: ;border-right-style: solid;border-right-width: 1px;border-right-color: ;border-top-style: solid;border-top-width: 1px;border-top-color: ;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: ;" />
+        </p>
+        <p class="Caption" MadCap:autonum="Figure 3: ">Responses for Prompt - DropDown</p>
+        <MadCap:pageBreak />
+        <p>Inject some custom code to filter the dropdown values for the credit type based on the selection of customer type on the first step.</p>
+        <p>Since the dropdown control is lazy loaded control using Ext.store, we have written the code in AfterLazy.</p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/scripting_CustomCode.png" style="border-left-style: solid;border-left-width: 1px;border-left-color: ;border-right-style: solid;border-right-width: 1px;border-right-color: ;border-top-style: solid;border-top-width: 1px;border-top-color: ;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: ;" />
+        </p>
+        <p class="Caption" MadCap:autonum="Figure 4: ">Custome Code Example</p>
+        <p><b>Step 1:</b> To verify the changes, log on to Scripting and select <b>Customer</b> from ACTION panel as shown in the following image.</p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/scripting_CustomerType.png" style="border-left-style: solid;border-left-width: 1px;border-left-color: ;border-right-style: solid;border-right-width: 1px;border-right-color: ;border-top-style: solid;border-top-width: 1px;border-top-color: ;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: ;" />
+        </p>
+        <p class="Caption" MadCap:autonum="Figure 5: ">Customer type</p>
+        <p><b>Step 2:</b> Based on the injected custom code, the Credit Card type appears as shown in the following image.</p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/scripting_CreditCardType.png" style="border-left-style: solid;border-left-width: 1px;border-left-color: ;border-right-style: solid;border-right-width: 1px;border-right-color: ;border-top-style: solid;border-top-width: 1px;border-top-color: ;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: ;width: 1161px;height: 552px;" />
+        </p>
+        <p class="Caption" MadCap:autonum="Figure 6: ">Credit Card type</p>
+        <MadCap:pageBreak />
+        <h1>Scripting configurations for extensibility</h1>
+        <p>The base layout and component design for the script is as follows:</p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/scripting_Baselayout.png" style="border-left-style: solid;border-left-width: 1px;border-left-color: ;border-right-style: solid;border-right-width: 1px;border-right-color: ;border-top-style: solid;border-top-width: 1px;border-top-color: ;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: ;" />
+        </p>
+        <p class="Caption" MadCap:autonum="Figure 7: ">Base layout and component design</p>
+        <p>The component is divided in a modular manner with all major component set with an Id:</p>
+        <ul>
+            <li><code>Scripting.internal.ScriptIdentifierConstants.SCRIPT_CENTER_CONTAINER = “<span style="color: #b22222;">ScriptingTabPanel</span>”</code> is the tab layout. Where, each tab represents a script step.</li>
+            <li><code>Scripting.internal.ScriptIdentifierConstants.SCRIPT_STEP_PREFIX = “<span style="color: #b22222;">SS_</span>”</code> is the prefix to the Id set to the panel that contains the Script Step view. <span style="color: #b22222;">SS_</span> is concatenated with the Script Step Id generated by the script designer. For example, consider Script Step Id generated by the script designer is <b>100000</b>, then the Id to the Script Step will be set as <b>SS_100000</b>.</li>
+            <li><code>Scripting.internal.ScriptIdentifierConstants.STEP_ACTION_PANEL_PREFIX = “<span style="color: #b22222;">Action_</span>”</code> is the prefix to the Id set to the panel that contains all the Script Prompts (controls). These are on Action panel for each step that is created. <span style="color: #b22222;">Action_</span> is concatenated with the Script Step ID generated by the script designer.  For example, consider Script Step Id generated by the script designer is <b>100000</b>, then the Id to the Action panel will be set as <b>Action_100000</b>.</li>
+            <li><code>Scripting.internal.ScriptIdentifierConstants.SCRIPT_STEP_PROMPT_PREFIX = “<span style="color: #b22222;">SP_</span>”</code> is the prefix to the Id set to the Script Prompts (controls). There can be ‘n’ number of controls in each Action panel for each Step Prompts that is created in the Script Desginer. <span style="color: #b22222;">SP_</span> is concatenated with the Step Prompt Id generated by the script designer for each Prompts.  For example, consider Step Prompt Id generated by the script designer is <b>100000</b>, then the Id to the Step Prompt will be set as <b>SP_100000</b>.</li>
+        </ul>
+        <h1>Scripting Prompts Implementation</h1>
+        <p>Following are the implementations of Scripting Prompts:</p>
+        <h2><a name="On2"></a>On Lazy Loading Prompts</h2>
+        <p>The On Lazy Loading Prompts are loaded on demand once the ‘AfterRender’ of all Sencha components are completed. This helps in loading huge data as you do not have to load the entire data into the application at once. This is done for improving the performance. These controls cannot be customized during the ‘AfterRender’ of the Sencha component. Hence, you are provided with an AfterLazyLoad method for its customization.</p>
+        <p>Following are the On Lazy Load Controls:</p>
+        <ul>
+            <li>Country</li>
+            <li>Drop down list box</li>
+            <li>Incident Product</li>
+            <li>Reference lookup</li>
+            <li>Region</li>
+            <li>User</li>
+            <li>Product</li>
+            <li>Tracking code</li>
+        </ul>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">The User, Product, and Tracking code tree control methods are not customizable for the Onyx 7.9 release.</p>
+        <h2><a name="On"></a>On Application Load Prompts</h2>
+        <p>All the controls except On Lazy Load Controls fall under On Application Load Prompts category. These controls can be customized at  ‘AfterRender’ method.</p>
+        <p>Following are the few exaples of On Application Load Controls:</p>
+        <ul>
+            <li>Text box</li>
+            <li>Muliti line text box</li>
+            <li>Check box</li>
+        </ul>
+    </body>
+</html>

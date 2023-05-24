@@ -1,0 +1,744 @@
+////////////////////////////////////////////////////////////////
+//updates or adds the OLEDB provider entry in reg specified.  Used for QueryEngine to connect to DB.
+//read info from setup.ini and places values in reg.
+////////////////////////////////////////////////////////////////
+function OConfigMiddleTier()
+STRING szEntry,szItem,szKey,szServer,szLogin,szPassword,szDatabase,szTemp;
+INT nvType,nvSize,nTemp;
+BOOL bDoNotOverWrite;
+begin
+	bDoNotOverWrite = TRUE;
+	RegDBSetDefaultRoot(HKEY_LOCAL_MACHINE);
+	
+	// *** update the QE data.
+
+	// first get app name
+	OGetValueFromINI("GetAppData","AppName",szItem);
+	OParseMacros(szItem);
+
+	if(szItem = "")then
+		OLog("OConfigMiddleTier: Error resolving application name in parsemacro.  Value was blank.");
+		return FALSE;
+	endif;
+		
+	//first build the reg key (in steps, for the uninstaller).
+	szKey = "SOFTWARE\\ONYX\\AppServer\\Applications";
+	RegDBCreateKeyEx (szKey, "");
+	szKey = szKey + "\\"+szItem;
+	RegDBCreateKeyEx (szKey, "");
+	
+	// --- Dictionary info		
+	_ReadIniWriteReg("GetAppData","DictionaryName",szKey,"DictionaryName",REGDB_STRING,0);
+	
+	//data struct info from oRunDictionaryInstall below
+	OPutValueInRegIfNew(szKey,"DictionaryPath",g_structSystemData.szKey_File1,REGDB_STRING);
+	OPutValueInRegIfNew(szKey,"DictionarySchemaPath",g_structSystemData.szKey_File2,REGDB_STRING);
+	OPutValueInRegIfNew(szKey,"DictionaryWorkingCopyPath",g_structSystemData.szKey_File3,REGDB_STRING);
+		
+	// --- Database connect info.
+	//get values from setup.ini
+	OGetValueFromINI("GetAppData","DatabaseServer",szServer);
+	OParseMacros(szServer);
+	OGetValueFromINI("GetAppData","DatabaseName",szDatabase);
+	OParseMacros(szDatabase);
+	OGetValueFromINI("GetAppData","DatabaseLogin",szLogin);
+	OParseMacros(szLogin);
+	OGetValueFromINI("GetAppData","DatabasePassword",szPassword);
+	OParseMacros(szPassword);
+	
+	szKey = "SOFTWARE\\ONYX\\AppServer\\Applications\\"+szItem+"\\QE";
+	RegDBCreateKeyEx (szKey, "");
+	//ecrypt the password with OLSF dll.
+	OSLFEncryptString("25FC5090A19949129EA2C0B19418A95D",szPassword,szPassword);
+	RegDBSetKeyValueEx(szKey,"Extra1",REGDB_STRING,szPassword,-1);
+	
+	//put QE connection string into reg.
+//	szEntry = "Provider=SQLOLEDB;data source="+szServer+";uid="+szLogin+";pwd="+szPassword+";initial catalog="+szDatabase;
+	szEntry = "Provider=SQLOLEDB;data source="+szServer+";uid="+szLogin+";initial catalog="+szDatabase;
+	RegDBSetKeyValueEx(szKey,szItem,REGDB_STRING,szEntry,-1);
+	
+	_ReadIniWriteReg("GetAppData","SQLSET",szKey,"SQLSET",REGDB_STRING,0);
+	_ReadIniWriteReg("GetAppData","SQLSETCustom",szKey,"SQLSETCustom",REGDB_STRING,0);
+	_ReadIniWriteReg("GetAppData","ConnectionTimeout",szKey,"ConnectionTimeout",REGDB_NUMBER,0);
+	_ReadIniWriteReg("GetAppData","QueryTimeout",szKey,"QueryTimeout",REGDB_NUMBER,0);
+	_ReadIniWriteReg("GetAppData","MaxRows",szKey,"MaxRows",REGDB_NUMBER,0);
+	_ReadIniWriteReg("GetAppData","Mapping",szKey,"Mapping",REGDB_STRING,0);
+
+	//MTZ config data.  Default is to set to GMT
+	_ReadIniWriteReg("GetAppData","MTZDescription",szKey,"MTZDescription",REGDB_STRING,bDoNotOverWrite);	
+	//only write EnableMTZ if it dosen't already exist.
+	OGetValueFromINI("GetAppData","EnableMTZ",szTemp);
+	OPutValueInRegIfNew(szKey,"EnableMTZ",szTemp,REGDB_NUMBER);
+	_ReadIniWriteReg("GetAppData","Base_Bias",szKey,"Base_Bias",REGDB_NUMBER,bDoNotOverWrite);	
+	_ReadIniWriteReg("GetAppData","Base_Bias_Negative",szKey,"Base_Bias_Negative",REGDB_NUMBER,bDoNotOverWrite);
+	_ReadIniWriteReg("GetAppData","BaseDL_Day",szKey,"BaseDL_Day",REGDB_NUMBER,bDoNotOverWrite);
+	_ReadIniWriteReg("GetAppData","BaseDL_DaylightBias",szKey,"BaseDL_DaylightBias",REGDB_NUMBER,bDoNotOverWrite);
+	_ReadIniWriteReg("GetAppData","BaseDL_DaylightBias_Negative",szKey,"BaseDL_DaylightBias_Negative",REGDB_NUMBER,bDoNotOverWrite);	
+	_ReadIniWriteReg("GetAppData","BaseDL_DayOfWeek",szKey,"BaseDL_DayOfWeek",REGDB_NUMBER,bDoNotOverWrite);
+	_ReadIniWriteReg("GetAppData","BaseDL_Hour",szKey,"BaseDL_Hour",REGDB_NUMBER,bDoNotOverWrite);
+	_ReadIniWriteReg("GetAppData","BaseDL_Milliseconds",szKey,"BaseDL_Milliseconds",REGDB_NUMBER,bDoNotOverWrite);
+	_ReadIniWriteReg("GetAppData","BaseDL_Minute",szKey,"BaseDL_Minute",REGDB_NUMBER,bDoNotOverWrite);
+	_ReadIniWriteReg("GetAppData","BaseDL_Month",szKey,"BaseDL_Month",REGDB_NUMBER,bDoNotOverWrite);
+	_ReadIniWriteReg("GetAppData","BaseDL_Second",szKey,"BaseDL_Second",REGDB_NUMBER,bDoNotOverWrite);
+	_ReadIniWriteReg("GetAppData","BaseDL_Year",szKey,"BaseDL_Year",REGDB_NUMBER,bDoNotOverWrite);
+	_ReadIniWriteReg("GetAppData","BaseSD_Day",szKey,"BaseSD_Day",REGDB_NUMBER,bDoNotOverWrite);
+	_ReadIniWriteReg("GetAppData","BaseSD_DayOfWeek",szKey,"BaseSD_DayOfWeek",REGDB_NUMBER,bDoNotOverWrite);
+	_ReadIniWriteReg("GetAppData","BaseSD_Hour",szKey,"BaseSD_Hour",REGDB_NUMBER,bDoNotOverWrite);
+	_ReadIniWriteReg("GetAppData","BaseSD_Milliseconds",szKey,"BaseSD_Milliseconds",REGDB_NUMBER,bDoNotOverWrite);
+	_ReadIniWriteReg("GetAppData","BaseSD_Minute",szKey,"BaseSD_Minute",REGDB_NUMBER,bDoNotOverWrite);
+	_ReadIniWriteReg("GetAppData","BaseSD_Month",szKey,"BaseSD_Month",REGDB_NUMBER,bDoNotOverWrite);
+	_ReadIniWriteReg("GetAppData","BaseSD_Second",szKey,"BaseSD_Second",REGDB_NUMBER,bDoNotOverWrite);
+	_ReadIniWriteReg("GetAppData","BaseSD_Year",szKey,"BaseSD_Year",REGDB_NUMBER,bDoNotOverWrite);
+	_ReadIniWriteReg("GetAppData","BaseSD_StandardBias",szKey,"BaseSD_StandardBias",REGDB_NUMBER,bDoNotOverWrite);
+
+	// --- Logging
+	szKey = "SOFTWARE\\ONYX\\AppServer\\Applications\\"+szItem+"\\OnyxLog";
+	RegDBCreateKeyEx (szKey, "");	
+	
+	OGetValueFromINI("Logging","GlobalLogSettings",szTemp);
+	OPutValueInRegIfNew(szKey,"GlobalLogSettings",szTemp,REGDB_NUMBER);
+
+	_ReadIniWriteReg("Logging","EventLogSource",szKey,"EventLogSource",REGDB_STRING,0);
+	_ReadIniWriteReg("Logging","OnyxUser",szKey,"OnyxUser",REGDB_NUMBER,0);
+
+	szKey = "SYSTEM\\CurrentControlSet\\Services\\EventLog\\"+szItem;
+	RegDBCreateKeyEx (szKey, "");
+	_ReadIniWriteReg("Logging","MaxSize",szKey,"MaxSize",REGDB_NUMBER,0);
+	_ReadIniWriteReg("Logging","Retention",szKey,"Retention",REGDB_NUMBER,0);
+	_ReadIniWriteReg("Logging","File",szKey,"File",REGDB_STRING,0);
+
+
+ 	_ReadIniWriteReg("Logging","Sources",szKey,"Sources",REGDB_STRING,0);
+
+	szKey = "SYSTEM\\CurrentControlSet\\Services\\EventLog\\"+szItem+"\\"+szItem;
+	RegDBCreateKeyEx (szKey, "");
+	OGetValueFromINI("Logging","CategoryCount",szTemp);
+	RegDBSetKeyValueEx(szKey,"CategoryCount",REGDB_NUMBER,szTemp,-1);
+	_ReadIniWriteReg("Logging","CategoryMessageFile",szKey,"CategoryMessageFile",REGDB_STRING,0);
+	_ReadIniWriteReg("Logging","EventMessageFile",szKey,"EventMessageFile",REGDB_STRING,0);
+	OGetValueFromINI("Logging","TypesSupported",szTemp);
+	RegDBSetKeyValueEx(szKey,"TypesSupported",REGDB_NUMBER,szTemp,-1);
+	
+	//all done
+	OMuteDialogSetStatus(@LABLE_APPNAME,"COMPLETE");
+	return TRUE;
+end;
+
+//////////////////////////////////////////////////////////////////////////
+// Places the account login and password into the specified reg location.
+// encrypts just the password.
+//////////////////////////////////////////////////////////////////////////
+function OEncryptAccountIntoReg(g_struct,szKey,szEncryptKey,szKeyPrefix)
+begin
+	//Encrypt password in reg.
+	OLog("encrypting account into reg with key "+szEncryptKey);
+	OEncryptEntryToReg("HKLM",szKey,szKeyPrefix+"Password",g_struct->szPassword,szEncryptKey);
+	//add username as regular string.
+	OPutStringInReg("HKLM",szKey,szKeyPrefix+"UserId",g_struct->szLogin,REGDB_STRING);
+end;
+
+//////////////////////////////////////////////////////////////////////////
+//looks for OEE application in reg.
+//////////////////////////////////////////////////////////////////////////
+function OCheckForLogicalApp(szAppName)
+//LIST listOfKeys;
+begin
+//	listOfKeys = ListCreate(STRINGLIST);
+//	RegDBQueryKey ("SOFTWARE\\ONYX\\AppServer\\Applications",REGDB_KEYS, listOfKeys);
+//  	SdShowInfoList("List of logical apps","These logical applications exist on the machine", listOfKeys);
+//	ListDestroy(listOfKeys);
+	if(RegDBKeyExist("SOFTWARE\\ONYX\\AppServer\\Applications\\"+szAppName) = 1)then
+		return TRUE;
+	endif;
+	return FALSE;
+end;
+//////////////////////////////////////////////////////////////////////////
+//Run the DictionaryInstall.exe to upgrade the eBusiness XML dictionary file on the target machine.
+//only run in an upgrade situation.
+//////////////////////////////////////////////////////////////////////////
+function oRunDictionaryInstall()
+STRING szSourceDir,szTargetDir,szDicFile,szSchFile,szMesFile,szTemp,szKey,szCount,szWCFile,szUpgrade;
+INT nLoop,nCount;
+BOOL bBackup,bMerge;
+begin
+	VarSave(SRCTARGETDIR);
+	
+	//get dirs
+	OGetValueFromINI("DictionaryInstall","SourceDir",szSourceDir);
+	OParseMacros(szSourceDir);
+	LongPathFromShortPath(szSourceDir);
+	
+	OGetValueFromINI("DictionaryInstall","TargetDir",szTargetDir);
+	OParseMacros(szTargetDir);
+	LongPathFromShortPath(szTargetDir);
+	TARGETDIR = szTargetDir;
+	
+	//read in what files to process
+	OGetValueFromINI("DictionaryInstall","Dictionary",szDicFile);
+	OGetValueFromINI("DictionaryInstall","Schema",szSchFile);
+	OGetValueFromINI("DictionaryInstall","Message",szMesFile);
+	OGetValueFromINI("DictionaryInstall","WorkingCopy",szWCFile);
+	OGetValueFromINI("DictionaryInstall","Upgrade",szUpgrade);
+	StrToUpper(szUpgrade,szUpgrade);
+
+	//look for existing files in targetdir
+	if(Is(FILE_EXISTS,szTargetDir ^ szDicFile) = TRUE )then
+	 	if(szUpgrade = "NO")then
+			//back old files and copy new ones.
+			bBackup = TRUE;
+			bMerge = FALSE;
+		else
+			//prompt user that old copy was found.  Ask if they want to merge or replace the applications copy.
+			//bMerge = PromptForAnswer();
+			bMerge = FALSE;  //temp, replace with above
+			if(bMerge = TRUE)then
+				//
+				bBackup = TRUE;
+			else
+				bBackup = FALSE;
+			endif;
+		endif;
+	endif;
+
+	//copy files
+	SRCDIR = szSourceDir;
+	OCopyFileTryAgain(szDicFile,szDicFile,bBackup); //has error handler and retry dialog.
+	OCopyFileTryAgain(szDicFile,szWCFile,bBackup);
+	OCopyFileTryAgain(szSchFile,szSchFile,bBackup);
+	
+	//if running an upgrade, must do the merge (assuming user wanted to).
+	if(szUpgrade != "NO" && bMerge = TRUE)then
+		//put needed info in Reg for exe
+		szKey = "Software\\Onyx\\Setup\\OnyxDictionaryInstall.exe";
+		OPutStringInReg("HKLM",szKey,"ApplicationName",g_structAppName.szLogin,REGDB_STRING);
+		OPutStringInReg("HKLM",szKey,"DictionaryPath",szTargetDir ^ szDicFile,REGDB_STRING);
+		OPutStringInReg("HKLM",szKey,"MessagePath",szTargetDir ^ szMesFile,REGDB_STRING);
+
+		//run exe
+		OLaunchAppAndWait(SUPPORTDIR ^ "OnyxDictionaryInstall.exe","");
+	endif;
+	
+	//save for later use updateing Registry
+	g_structSystemData.szKey_File1 = szTargetDir ^ szDicFile;
+	g_structSystemData.szKey_File2 = szTargetDir ^ szSchFile;
+	g_structSystemData.szKey_File3 = szTargetDir ^ szWCFile;
+	
+	VarRestore(SRCTARGETDIR);
+end;
+
+//////////////////////////////////////////////////////////////////////////
+// takes passed in value string and encrypts it using Onyx technology.
+// must include OSLFEncrypt.dll which must be installed in the TARGETDIR first.
+// returns a string that is represented as a number in text.
+//////////////////////////////////////////////////////////////////////////
+function OSLFEncryptString(szEncryptKey,szValue,szEncryptReturn)
+INT nReturn,nSize;
+STRING szDLL,szEncryptedVal,szMagicNumber,szDir;
+begin
+	szMagicNumber = "0A0C0641AFAE43DC9E3C65562CD99160"; //SZ_MAGICNUMBER_ENCRYPT value from OSLFEncrypt.h
+	OGetValueFromINI("OSLF","DIR",szDir);
+	if(szDir = "")then
+		szDir = TARGETDIR;
+	else
+		OParseMacros(szDir);
+	endif;
+	szDLL = szDir ^ "OSLFEncrypt.dll";
+	if(UseDLL(szDLL) <0)then
+		//cannot continue without the encryption dll
+		gszMsg = @ERROR_LOADDLL +"\n" + szDLL;
+		MessageBox(gszMsg,SEVERE);
+		OLog(gszMsg);
+		bInstallAborted = TRUE;
+		CleanUpInstall();
+		OAbort();
+	else
+		///////////////////////////////////////////////////////////////////////////////
+		// Method Name:	EncryptStringA
+		// Visibility:	Global - Exported - ASCII
+		// Description:	This method calls the EncryptStringW method to perform the encryption
+		//				or decryption based on the magic number using the key passed in.
+		// Created By:	Jesus Shankar
+		// Creation
+		// Date:		Sept 28, 2000
+		// Input:		const char* szStringIn		//A string which needs to be encrypted/decrypted
+		//				const char* szStrKey		//A string containing the key to perform the encryption/decryption
+		//				const char* szMagicNumber	//A string containing the secret code number. The operation performed depends on this number
+		// Output:		char* pszStringOut			//A string containing the decrypted string
+		// Return:		size_t
+		//					length of decrypted string - if the decryption was successful
+		//					zero - if bad argument, or decryption fails
+		// Exceptions:	None
+		// Notes:		This method is cloaked to perform both encryption and decryption.
+		//				The encryption/decryption depends on the the magic number passed in
+		//				which is available only to QE and Setup.
+
+		nReturn = EncryptStringA(szMagicNumber,szValue,szEncryptKey,szEncryptedVal);
+				
+		//test results.
+		if(nReturn > 0)then
+			szEncryptReturn = szEncryptedVal;
+		else
+			Sprintf(gszMsg,@ERROR_ENCRYPT,szValue);
+			MessageBox(gszMsg,WARNING);
+			OLog(gszMsg);
+		endif;
+
+		UnUseDLL(szDLL);		// Unload the DLL
+	endif;
+	return nReturn;
+end;
+
+//////////////////////////////////////////////////////////////////////////
+// takes passed in value string and Decrypts it using Onyx technology.
+// must include OSLFEncrypt.dll which must be installed in the TARGETDIR first.
+// the only difference from OSLFEncryptString is the magicnumber is for decrypting.
+//////////////////////////////////////////////////////////////////////////
+function OSLFDecryptString(szEncryptKey,szEncryptedVal,szReturnValue)
+INT nReturn,nSize;
+STRING szDLL,szMagicNumber,szDir,szValue;
+begin
+	szMagicNumber = "A0F998223BA54D3A9BAC8BD82ED7CEC7"; //SZ_MAGICNUMBER_DECRYPT value from OSLFEncrypt.h
+	OGetValueFromINI("OSLF","DIR",szDir);
+	if(szDir = "")then
+		szDir = TARGETDIR;
+	else
+		OParseMacros(szDir);
+	endif;
+	szDLL = szDir ^ "OSLFEncrypt.dll";
+	if(UseDLL(szDLL) <0)then
+		//cannot continue without the encryption dll
+		gszMsg = @ERROR_LOADDLL +"\n" + szDLL;
+		MessageBox(gszMsg,SEVERE);
+		OLog(gszMsg);
+		bInstallAborted = TRUE;
+		CleanUpInstall();
+		OAbort();
+	else
+		///////////////////////////////////////////////////////////////////////////////
+		// Method Name:	EncryptStringA
+		// Visibility:	Global - Exported - ASCII
+		// Description:	This method calls the EncryptStringW method to perform the encryption
+		//				or decryption based on the magic number using the key passed in.
+		// Created By:	Jesus Shankar
+		// Creation
+		// Date:		Sept 28, 2000
+		// Input:		const char* szStringIn		//A string which needs to be encrypted/decrypted
+		//				const char* szStrKey		//A string containing the key to perform the encryption/decryption
+		//				const char* szMagicNumber	//A string containing the secret code number. The operation performed depends on this number
+		// Output:		char* pszStringOut			//A string containing the decrypted string
+		// Return:		size_t
+		//					length of decrypted string - if the decryption was successful
+		//					zero - if bad argument, or decryption fails
+		// Exceptions:	None
+		// Notes:		This method is cloaked to perform both encryption and decryption.
+		//				The encryption/decryption depends on the the magic number passed in
+		//				which is available only to QE and Setup.
+
+		nReturn = EncryptStringA(szMagicNumber,szEncryptedVal,szEncryptKey,szValue);
+				
+		//test results.
+		if(nReturn > 0)then
+			szReturnValue = szValue;
+		else
+			Sprintf(gszMsg,@ERROR_ENCRYPT,szEncryptedVal);
+			MessageBox(gszMsg,WARNING);
+			OLog(gszMsg);
+		endif;
+
+		UnUseDLL(szDLL);		// Unload the DLL
+	endif;
+	return nReturn;
+end;
+
+//////////////////////////////////////////////////////////////////////////
+// takes passed user and password strings and encrypts it using Onyx technology.
+// must include OSLFEncrypt.dll with setup build.
+// the build bat file will need to update this file before building setup.
+// returns a string in szEncryptRetrun that is represented as a number in text.
+//////////////////////////////////////////////////////////////////////////
+function OEPEncryptString(szData,szEncryptReturn)
+INT nReturn,nSize;
+STRING szDLL,szEncryptedVal;
+begin
+	if(szData != "")then
+		szDLL = COMMONFILES ^ "ONYX Shared\\OEP\\OEPEncrypt.dll";
+		if(UseDLL(szDLL) <0)then
+			//cannot continue without the encryption dll
+			gszMsg = @ERROR_LOADDLL +"\n" + szDLL;
+			MessageBox(gszMsg,SEVERE);
+			OLog(gszMsg);
+			bInstallAborted = TRUE;
+			CleanUpInstall();
+			OAbort();
+		else	
+
+			nReturn = EncryptA(szData,szEncryptedVal);
+				
+			//test results.
+			if(nReturn > 0)then
+				szEncryptReturn = szEncryptedVal;
+				//MessageBox(szEncryptReturn,WARNING);
+			else
+				Sprintf(gszMsg,@ERROR_ENCRYPT,@LABEL_OEP_LOGIN_INFO);
+				MessageBox(gszMsg,WARNING);
+				OLog(gszMsg);
+			endif;
+	
+			UnUseDLL(szDLL);		// Unload the DLL
+			OLog("OEPEncrypt: Encrypted value is: "+szEncryptedVal);
+		endif;
+	else
+		OLog("OSLFEncrypt: User entry was blank therefore could not be encrypted");
+	endif;
+	return nReturn;
+end;
+
+
+//////////////////////////////////////////////////////////////////////////
+// takes passed user and password strings and encrypts it using Onyx technology.
+// must include OSLFEncrypt.dll with setup build.
+// the build bat file will need to update this file before building setup.
+// returns a string in szEncryptRetrun that is represented as a number in text.
+//////////////////////////////////////////////////////////////////////////
+function OSLFEncryptPassword(szUser,szPassword,szEncryptReturn)
+INT nReturn,nSize;
+STRING szDLL,szEncryptedVal;
+begin
+	if(szUser != "")then
+		szDLL = SUPPORTDIR ^ "OSLFEncrypt.dll";
+		if(UseDLL(szDLL) <0)then
+			//cannot continue without the encryption dll
+			gszMsg = @ERROR_LOADDLL +"\n" + szDLL;
+			MessageBox(gszMsg,SEVERE);
+			OLog(gszMsg);
+			bInstallAborted = TRUE;
+			CleanUpInstall();
+			OAbort();
+		else	
+			///////////////////////////////////////////////////////////////////////////////
+			// Method Name:	EncryptPasswordA
+			// Visibility:	Global - Exported - ASCII
+			// Description:	This method calls the EncryptStringA method to perform the encryption
+			//				using a compound password key created using the user ID passed in.
+			// Created By:	Jesus Shankar
+			// Creation
+			// Date:		July 18, 2000
+			// Input:		const char* szUser		//A string containing the User ID
+			//				const char* szPassword	//A string containing the password for the user
+			// Output:		char* pszEncrypted		//A string containing the encrypted password
+			// Return:		size_t
+			//					length of encrypted string - if the encryption was successful
+			//					zero - if bad argument, or encryption fails
+
+			nReturn = EncryptPasswordA(szUser,szPassword,szEncryptedVal);
+				
+			//test results.
+			if(nReturn > 0)then
+				szEncryptReturn = szEncryptedVal;
+				//MessageBox(szEncryptReturn,WARNING);
+			else
+				Sprintf(gszMsg,@ERROR_ENCRYPT,@LABEL_PASSWORD);
+				MessageBox(gszMsg,WARNING);
+				OLog(gszMsg);
+			endif;
+	
+			UnUseDLL(szDLL);		// Unload the DLL
+			OLog("OSLFEncrypt: Encrypted Password is: "+szEncryptedVal);
+		endif;
+	else
+		OLog("OSLFEncrypt: User entry was blank therefore could not be encrypted");
+	endif;
+	return nReturn;
+end;
+
+function OSetUCFDirectoryPermissions(szName)
+//Sets the permissions on the UCF directories
+	STRING szUCFPublished, szUCFLayers;
+begin
+	//Get the string values from the setup.ini
+	OGetValueFromINI("Setup","UCFPublishedDir",szUCFPublished);
+	OGetValueFromINI("Setup","UCFLayersDir",szUCFLayers);	
+	OParseMacros(szUCFPublished);
+	OParseMacros(szUCFLayers);	
+	
+	//Set the permissions
+	OAddFileAccessRights(szName, szUCFPublished);
+	OAddFileAccessRights(szName, szUCFLayers);
+	
+end;
+
+
+//
+function OSetProductionEnv()
+//Sets the permissions on the UCF directories
+	STRING szFile1Path, szFile2Path, szFindString, szReplaceString;
+	NUMBER nReturn;
+begin
+	szFindString = "DEVELOPMENT_ENVIRONMENT = true";
+	szReplaceString = "DEVELOPMENT_ENVIRONMENT = false";
+	//Get the paths to the files
+	szFile1Path = TARGETDIR ^ "Application\\onyxApplicationConstants.asp";
+	szFile2Path = TARGETDIR ^ "Application\\onyxApplicationConstantsXMLHTTP.asp";
+	
+	//Replace the string in both files
+	nReturn = OReplaceInFile(szFindString, szReplaceString, szFile1Path);
+	if (nReturn < 1) then
+		return FALSE;
+	endif;
+	
+	nReturn = OReplaceInFile(szFindString, szReplaceString, szFile2Path);	
+	if (nReturn < 1) then
+		return FALSE;
+	endif;
+
+	return TRUE;
+end;
+
+/*
+function _RunOFSAdminConfig()
+HWND hHandle;
+begin
+	//load the dll
+    if (UseDLL(TARGETDIR ^ "OFSVCINS.DLL") < 0) then
+    	gszMsg = @ERROR_LOADDLL + " OFSVCINS.DLL";
+        MessageBox(gszMsg, SEVERE);
+        OLog(gszMsg);
+        return FALSE;
+        ChangeDirectory(SRCDIR);
+    endif;
+
+	//run the config
+	SdShowMsg("", FALSE);
+	hHandle = FindWindow("InstallShield_Win","");
+	if(ISAdminConfig(hHandle) =0 )then
+		//user aborted or dll failed
+		abort;
+	endif;
+	
+	//unload the dll
+    UnUseDLL(TARGETDIR ^ "OFSVCINS.DLL");
+end;
+
+///////////////////////////////////////////////////////////
+function _RunOFSISServConfig()
+HWND hHandle;
+begin
+	//load the dll
+    if (UseDLL(TARGETDIR ^ "OFSVCINS.DLL") < 0) then
+    	gszMsg = @ERROR_LOADDLL + " OFSVCINS.DLL";
+        MessageBox(gszMsg, SEVERE);
+        OLog(gszMsg);
+        return FALSE;
+        ChangeDirectory(SRCDIR);
+    endif;
+
+	//run the config
+	SdShowMsg("", FALSE);
+	hHandle = FindWindow("InstallShield_Win","");
+	if(ISSvcConfig(hHandle) =0 )then
+		//user aborted or dll failed
+		abort;
+	endif;
+	
+	//unload the dll
+    UnUseDLL(TARGETDIR ^ "OFSVCINS.DLL");
+end;
+
+///////////////////////////////////////////////////////////////////////////
+// preforms extra functions as listed in the setup.ini
+///////////////////////////////////////////////////////////////////////////
+function OExtraStuff()
+STRING szTemp,szCount;
+INT nCount;
+begin
+	nCount = 1;
+	while(nCount != 0)
+		NumToStr(szCount,nCount);
+		if(GetProfString(SRCDIR ^ "setup.ini","ExtraStuff","Function"+szCount,szTemp) = -1 )then
+			nCount = 0; //exit			
+		else
+			StrToUpper(szTemp,szTemp);
+			//elseif for each special function.
+			if(szTemp = "SEARCHSERVER")then
+				_SearchServerExtras();
+			endif;
+			nCount++;
+		endif;		
+	endwhile;
+end;
+
+///////////////////////////////////////////////////////////////////////////
+// Extra Search Server functions
+// copies files from /DATAFILES subdir of SRCDIR
+///////////////////////////////////////////////////////////////////////////
+function _SearchServerExtras()
+STRING szTemp,szIniFile,szDllFile,szIni,szNew,szRegKey1,szRegKey2,szData;
+STRING szMsg1,szMsg2,szMsg3,szSrc;
+INT nvType,nvSize,nFail,nReturn,nLen,nLoop;
+LIST listMulti;
+begin
+	//init strings
+	szIniFile = "HTMLPROP.INI";
+	szNew = szIniFile;  //default to copy file using same name.
+	szIni = WINSYSDIR ^ szIniFile;
+	StrToUpper(szIni,szIni);
+	szDllFile = "HTMLPROP.DLL";
+	szRegKey1 = "System\\CurrentControlSet\\Control\\ContentIndexCommon";
+	szRegKey2 = "System\\CurrentControlSet\\Control\\ContentIndex";
+	
+	VarSave(SRCTARGETDIR);
+	szSrc = SRCDIR;
+
+	//look for existing reg entry.
+	_SetRegBase("HKLM");
+	RegDBGetKeyValueEx(szRegKey1,"DefaultColumnFile",nvType,szTemp,nvSize);
+	if(szTemp != "")then
+		//if exists, and is not winsys/htmlprop.ini
+		StrToUpper(szTemp,szTemp);
+		if(szTemp != szIni)then
+				//tell user there file is no longer going to be used and to refer to SA guide.
+			szMsg1 = @SEARCH_SERVER1;
+			szMsg2 = @SEARCH_SERVER2;
+			szMsg3 = @SEARCH_SERVER3;
+			Sprintf(gszMsg,szMsg1+"\n\t%s\n\n"+szMsg2+"\n\t%s\n\n"+szMsg3,szTemp,szIni);
+			OLog(gszMsg);
+			MessageBox(gszMsg,WARNING);			
+		endif;			
+	endif;
+
+	//make ini file reg entry
+	if(RegDBSetKeyValueEx(szRegKey1,"DefaultColumnFile",REGDB_STRING,szIni,-1) <0 )then
+		ODebugDsp("Cound not write to registry: HKLM\\"+szRegKey1+"  |  Default = "+szIni,1);
+	endif;
+
+	//look for existing ini in winsys dir, if so ask to overwrite.
+	if(Is(FILE_EXISTS,szIni) = TRUE)then
+		Sprintf(szMsg1,@PROMPT_OLD_FILE1,szIni);
+		szMsg2 = @PROMPT_OLD_FILE2;
+		szMsg3 = @PROMPT_OLD_FILE3;
+		gszMsg = szMsg1+"\n\n"+szMsg2+"\n\n"+szMsg3;
+		ParsePath(szTemp,szIniFile,FILENAME_ONLY);
+		if(AskYesNo(gszMsg,YES) = NO)then
+			//if NO, copy new file to *.new
+			szNew = szTemp+".NEW";
+		else
+			//if YES, make backup (old) file.
+			SRCDIR = WINSYSDIR;
+			TARGETDIR = WINSYSDIR;
+			szTemp = szTemp+".OLD";
+			if(CopyFile(szIniFile,szTemp) <0 )then
+				gszMsg = @ERROR_CREATEFILE + TARGETDIR^szTemp;
+				OLog(gszMsg);
+				MessageBox(gszMsg,WARNING);
+			endif;
+		endif;
+	endif;
+		
+	//Copy the dll and ini file to the winsys dir.
+	SRCDIR = szSrc ^ "DataFiles";
+	TARGETDIR = WINSYSDIR;
+	OCopyFileTryAgain(szIniFile,szNew);
+	OXCopyFileTryAgain(szDllFile,szDllFile,COMP_UPDATE_VERSION);
+	
+	//Add Multi line reg entry for dll.
+	szTemp = WINSYSDIR ^ szDllFile;
+	ORegAddMulti(szRegKey2,"DLLsToRegister","",szTemp,AFTER);
+
+	VarRestore(SRCTARGETDIR);
+end;
+
+//register runtime files for MTS exe for setup.
+function _RegMTSFiles()
+STRING szFile;
+begin
+	//register dll
+	ORegIt(SUPPORTDIR^"VBCore.dll");
+
+	//register tlb file
+	ORegTypeLibraryFile("win.tlb");
+end;
+
+//Creates MTS packages and registers components in them for OEP.  Exe imports *.PAK files.
+function _Create_OEP_Components()
+STRING szCommandline;
+begin
+	SdShowMsg("", FALSE);
+	SdShowMsg(@STATUS_MTS_COMPONENTS, TRUE);
+	
+	//run the exe
+	szCommandline = "/U:"+g_structNTAccount.szLogin+" /P:"+g_structNTAccount.szPassword+" /D:"+TARGETDIR;
+	ODebugDsp("Calling "+SUPPORTDIR^"OnyxMTSsetup.exe "+szCommandline,19);
+	if(OLaunchAppAndWait(SUPPORTDIR^"OnyxMTSsetup.exe",szCommandline) = CANCEL)then
+		SdShowMsg("",FALSE);
+		MessageBox(@ERROR_MTS_IMPORT,SEVERE);
+		OLog(gszMsg);
+	endif;
+	
+	//clean up
+//	_RemoveMTSTempFiles();
+end;
+
+//remove the temp files for MTS external setup exe stuff.
+function _RemoveMTSTempFiles()
+begin
+	VarSave(SRCTARGETDIR);
+	TARGETDIR = SUPPORTDIR;
+	ChangeDirectory(SRCDIR);
+	ODeleteFile("VBCore.dll");
+	ODeleteFile("win.tlb");
+	VarRestore(SRCTARGETDIR);
+end;
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

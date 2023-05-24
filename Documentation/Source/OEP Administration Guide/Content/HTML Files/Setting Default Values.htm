@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="853" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2><a name="top"></a>Setting Default Values</h2>
+        <p>Using <a href="About Design Mode.htm#top">UCW</a>, you can set default values for controls on <a href="Configuring OEP.htm#UCW">UCW-enabled pages</a> without any programming knowledge. </p>
+        <p>This sample UI configuration demonstrates setting a default value for a control when a new record is displayed or when another control's value is changed. </p>
+        <h4>Scenario used in this sample UI configuration </h4>
+        <p>The marketing department wants all new company records and records changed to large company subtypes to automatically indicate an internal source (Internal value for the Source control). This automatic selection reduces the number of required keystrokes. </p>
+        <h4>Procedures in this sample UI configuration </h4>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">These procedures use Dynamic Forms Designer. For basic instructions on using Dynamic Forms Designer, see Adding and modifying action statements.</p>
+        <p>Follow these procedures to set the default value for Source in new or large company records. </p>
+        <ul>
+            <li><a href="#Setting">Set Source to Internal for new records</a>
+            </li>
+            <li><a href="#Setting2">Set Source to Internal for large company records</a>
+            </li>
+            <li><a href="#Setting3">Set Source to empty for other records </a>
+            </li>
+            <li><a href="#Saving">Save all configurations and exit design mode</a>
+            </li>
+        </ul>
+        <h3><a name="Setting"></a>Setting Source to Internal for new records </h3>
+        <p>You can dynamically set the default value for the Source control to Internal when the OEP user displays an "empty" company edit page for addition of a new record. </p>
+        <p>The condition in this procedure checks for an "empty" page by determining the value of the primary ID; if the ID is empty, the page is also empty (containing no record). </p>
+        <p>Because this procedure uses the Load event, you must reload the page after completing the procedure to see the changes. </p>
+        <p class="ProcedureHeading">To set Source to Internal if the record is new:</p>
+        <ol>
+            <li>In Dynamic Forms Designer (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/To reset all configurations_8.jpg" style="width: 21px;height: 23px;" />) for the company edit page, add an action statement to the <b>Load</b> event on the <b>Page</b> object. </li>
+            <li>In the <b>Description</b> text box, type <i>Internal source for new records</i></li>
+            <li>Configure the condition as follows: </li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">From the <b>Object</b> drop-down list, expand <b>Context_Data</b>, expand <b>Primary ID</b>, and then select <b>Get Value</b>. </li>
+            <li class="List_Indent">From the <b>Operator</b> drop-down list, select <b>Is Empty</b>. </li>
+            <li class="List_Indent">Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To add a custom drop down.png" style="width: 14px;height: 14px;" /> in the Summary section to add the condition to the action statement. </li>
+        </ol>
+        <ol MadCap:continue="true">
+            <li>Configure the action as follows: </li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">From the <b>Object (Action)</b> drop-down list, expand <b>Control</b>, expand <b>Source</b>, and then select <b>Set Value</b>. </li>
+            <li class="List_Indent">From the <b>Source</b> drop-down list, select <b>User Defined</b>; from the <b>Value</b> drop-down list, select <b>Internal</b>. </li>
+        </ol>
+        <ol start="5">
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> to confirm changes. </li>
+        </ol>
+        <h3><a name="Setting2"></a>Setting Source to Internal for large customer records </h3>
+        <p>You can dynamically set the default value for the Source control to Internal when the OEP user changes the Subtype control to Large Account. </p>
+        <p>This procedure configures an action statement on the Change event for the Subtype control. </p>
+        <p class="ProcedureHeading">To set Source to Internal when the record subtype is changed to Large Account:</p>
+        <ol>
+            <li>In Dynamic Forms Designer (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/To reset all configurations_8.jpg" style="width: 21px;height: 23px;" />) for the company edit page, add an action statement to the <b>Change</b> event for the <b>Subtype</b> control object (under the <b>Control</b> node).</li>
+            <li>In the <b>Description</b> text box, type Internal source for Large Account records</li>
+            <li>Configure the condition as follows:</li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">From the <b>Object</b> drop-down list, expand <b>Control</b>, expand <b>Subtype</b>, and then select <b>Get Value</b>. </li>
+            <li class="List_Indent">From the <b>Operator</b> drop-down list, select <b>Equal</b>; from the <b>Value</b> drop-down list, click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Default Values.png" style="width: 20px;height: 19px;" /> to display the Hierarchical Value Selector window. </li>
+            <li class="List_Indent">From the <b>Type</b> drop-down list under Parent Control(s), select <b>Customer</b>; from the Subtype drop-down list under Selected Child Control, select <b>Large Account</b>. </li>
+            <li class="List_Indent">Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> to confirm changes and close the Hierarchical Value Selector window. </li>
+            <li class="List_Indent">Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To add a custom drop down.png" style="width: 14px;height: 14px;" /> in the Summary section to add the condition to the action statement. </li>
+        </ol>
+        <ol start="4">
+            <li>Configure the action as follows:</li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">From the <b>Object (Action)</b> drop-down list, expand <b>Control</b>, expand <b>Source</b>, and then select <b>Set Value</b>. </li>
+            <li class="List_Indent">From the <b>Source</b> drop-down list, select <b>User Defined</b>; from the <b>Value</b> drop-down list, select <b>Internal</b>.</li>
+        </ol>
+        <ol start="5">
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> to confirm changes. </li>
+        </ol>
+        <h3><a name="Setting3"></a>Setting Source to empty for other records </h3>
+        <p>You can dynamically set the default value for the Source control to empty (no value) when the OEP user changes the Subtype control to a value other than Large Account. </p>
+        <p>This procedure configures an action statement on the Change event for the Subtype control. </p>
+        <p class="ProcedureHeading">To set Source to empty (no value) when the record subtype is changed to a value other than Large Account: </p>
+        <ol>
+            <li>In Dynamic Forms Designer (<img src="../Resources/Images/ONYX 77 OEP Administration Guide/To reset all configurations_8.jpg" style="width: 21px;height: 23px;" />) for the company edit page, add an action statement to the <b>Change</b> event for the <b>Subtype</b> control object (under the <b>Control</b> node).</li>
+            <li>In the <b>Description</b> text box, type <i>Empty source for other records</i></li>
+            <li>Configure the condition as follows:</li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">From the <b>Object</b> drop-down list, expand <b>Control</b>, expand <b>Subtype</b>, and then select <b>Get Value</b>. </li>
+            <li class="List_Indent">From the <b>Operator</b> drop-down list, select <b>Not Equal</b>; from the <b>Value</b> drop-down list, click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Default Values.png" style="width: 20px;height: 19px;" /> to display the Hierarchical Value Selector window. </li>
+            <li class="List_Indent">From the <b>Type</b> drop-down list under Parent Control(s), select <b>Customer</b>; from the <b>Subtype</b> drop-down list under Selected Child Control, select <b>Large Account</b>. </li>
+            <li class="List_Indent">Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> to confirm changes and close the Hierarchical Value Selector window. </li>
+            <li class="List_Indent">Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/To add a custom drop down.png" style="width: 14px;height: 14px;" /> in the Summary section to add the condition to the action statement. </li>
+        </ol>
+        <ol start="4">
+            <li>Configure the action as follows:</li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">From the <b>Object (Action)</b> drop-down list, expand <b>Control</b>, expand <b>Source</b>, and then select <b>Set Value</b>. </li>
+            <li class="List_Indent">From the <b>Source</b> drop-down list, select <b>User Defined</b>; leave the <b>Value</b> entry empty. </li>
+        </ol>
+        <ol start="5">
+            <li>Click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Setting Page level Properties_1.jpg" style="width: 18px;height: 20px;" /> to confirm changes. </li>
+        </ol>
+        <h3><a name="Saving"></a>Saving all configurations and exiting design mode </h3>
+        <p>When you complete all procedures in this topic, you must save the configurations. </p>
+        <p class="ProcedureHeading">To save all configurations and exit design mode: </p>
+        <ul>
+            <li>Close Dynamic Forms Designer and then click <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Accessing UCW_1.jpg" style="width: 24px;height: 24px;" /> on the UCW toolbar to save all configurations and exit design mode. </li>
+        </ul>
+    </body>
+</html>

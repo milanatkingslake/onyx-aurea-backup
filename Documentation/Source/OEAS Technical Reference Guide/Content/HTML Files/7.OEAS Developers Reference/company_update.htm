@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="4074" MadCap:lastWidth="944" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>update (company)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>
+            <MadCap:keyword term="update" />update method</h2>
+        <p>The update method of the <a href="company_object.htm">company</a> object 
+ persists modifications to an existing object instance.</p>
+        <p><a href="standard_update.htm">update standard method information</a>
+        </p>
+        <h3>Steps</h3>
+        <table>
+            <col style="width: 5cm;" />
+            <col style="width: 5cm;" />
+            <col style="width: 7cm;" />
+            <thead>
+                <tr>
+                    <th>Step data</th>
+                    <th>Step type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>OnyxDataValidationStep.DataValidation</td>
+                    <td>com</td>
+                    <td>Validates input parameters</td>
+                </tr>
+                <tr>
+                    <td>notificationAdapter.preUpdateEvent</td>
+                    <td>com</td>
+                    <td>This step  is added for notification feature. It captures the data before updating the object
+</td>
+                </tr>
+                <tr>
+                    <td>OnyxOptionalForeignKeyStep.OptForeignKey</td>
+                    <td>com</td>
+                    <td>
+                        <p class="TableText">When primaryContactId is NULL, allows method to persist 
+ contactFirstName and contactLastName</p>
+                        <p class="TableText" style="margin-bottom: 0;">When primaryContactId is non-NULL, sets contactFirstName 
+ and contactLastName to NULL</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>OnyxGuidGeneratorStep.GuidGenerator</td>
+                    <td>com</td>
+                    <td>Generates guid, which will be used by opKeyWordPutKeyWordsPost stored procedure defined in core step</td>
+                </tr>
+                <tr>
+                    <td>OnyxDM.DataManager</td>
+                    <td>com</td>
+                    <td>Updates the specified company object</td>
+                </tr>
+                <tr>
+                    <td>phone.saveCollection</td>
+                    <td>method</td>
+                    <td>Insert/update/delete existing phone collection 
+ with the new collection</td>
+                </tr>
+                <tr>
+                    <td>address.saveCollection</td>
+                    <td>method</td>
+                    <td>Insert/update/delete existing address collection 
+ with the new collection</td>
+                </tr>
+                <tr>
+                    <td>emailaddress.saveCollection</td>
+                    <td>method</td>
+                    <td>Insert/update/delete existing email address collection 
+ with the new collection</td>
+                </tr>
+                <tr>
+                    <td>ConsonaCRM.Onyx.BusinessRuleManager</td>
+                    <td>business rule manager</td>
+                    <td>Associate an assignmentTerritory with the company.</td>
+                </tr>
+                <tr>
+                    <td>ConsonaCRM.Onyx.BusinessRuleManager</td>
+                    <td>business rule manager</td>
+                    <td>Assign an assignmentTerritory with the company.</td>
+                </tr>
+                <tr>
+                    <td>notificationAdapter.postInsertEvent</td>
+                    <td>com</td>
+                    <td>This step  is added for notification feature. It  captures the data after saving the object.
+</td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Example</h3>
+        <p>
+            Parameters
+        </p>
+        <p>This example deletes a phone and updates an address of a company.</p>
+        <p Class="Code" class="C_Code">&lt;parameters&gt;<br /></p>
+        <p Class="Code" class="C_Code">&lt;company objectType="company"&gt;</p>
+        <p Class="Code" class="C_Code">&lt;primaryId&gt;&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;secondaryId&gt;&lt;/secondaryId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;locked&gt;&lt;/locked&gt;</p>
+        <p Class="Code" class="C_Code">&lt;assignedId&gt;&lt;/assignedId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;url&gt;&lt;/url&gt;</p>
+        <p Class="Code" class="C_Code">&lt;companyName&gt;&lt;/companyName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;sourceId&gt;&lt;/sourceId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;statusId&gt;&lt;/statusId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;companyTypeCode&gt;&lt;/companyTypeCode&gt;</p>
+        <p Class="Code" class="C_Code">&lt;companySubTypeCode&gt;&lt;/companySubTypeCode&gt;</p>
+        <p Class="Code" class="C_Code">&lt;familyId&gt;&lt;/familyId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;parentId&gt;&lt;/parentId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;parentName&gt;&lt;/parentName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;primaryContactId&gt;&lt;/primaryContactId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;contactFirstName&gt;&lt;/contactFirstName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;contactLastName&gt;&lt;/contactLastName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;divisionCode&gt;&lt;/divisionCode&gt;</p>
+        <p Class="Code" class="C_Code">&lt;sicCode&gt;&lt;/sicCode&gt;</p>
+        <p Class="Code" class="C_Code">&lt;marketSector&gt;&lt;/marketSector&gt;</p>
+        <p Class="Code" class="C_Code">&lt;taxId&gt;&lt;/taxId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;dunnsNumber&gt;&lt;/dunnsNumber&gt;</p>
+        <p Class="Code" class="C_Code">&lt;tags&gt;&lt;/tags&gt;</p>
+        <p Class="Code" class="C_Code">&lt;privateAccess&gt;&lt;/privateAccess&gt;</p>
+        <p Class="Code" class="C_Code">&lt;readOnlyAccess&gt;&lt;/readOnlyAccess&gt;</p>
+        <p Class="Code" class="C_Code">&lt;insertBy&gt;&lt;/insertBy&gt;</p>
+        <p Class="Code" class="C_Code">&lt;insertDate&gt;&lt;/insertDate&gt;</p>
+        <p Class="Code" class="C_Code">&lt;updateBy&gt;&lt;/updateBy&gt;</p>
+        <p Class="Code" class="C_Code">&lt;updateDate&gt;&lt;/updateDate&gt;</p>
+        <p Class="Code" class="C_Code">&lt;lockedBy&gt;&lt;/lockedBy&gt;</p>
+        <p Class="Code" class="C_Code">&lt;alertId&gt;&lt;/alertId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;user1&gt;&lt;/user1&gt;</p>
+        <p Class="Code" class="C_Code">&lt;user2&gt;&lt;/user2&gt;</p>
+        <p Class="Code" class="C_Code">&lt;user3&gt;&lt;/user3&gt;</p>
+        <p Class="Code" class="C_Code">&lt;user4&gt;&lt;/user4&gt;</p>
+        <p Class="Code" class="C_Code">&lt;user5&gt;&lt;/user5&gt;</p>
+        <p Class="Code" class="C_Code">&lt;user6&gt;&lt;/user6&gt;</p>
+        <p Class="Code" class="C_Code">&lt;user7&gt;&lt;/user7&gt;</p>
+        <p Class="Code" class="C_Code">&lt;user8&gt;&lt;/user8&gt;</p>
+        <p Class="Code" class="C_Code">&lt;user9&gt;&lt;/user9&gt;</p>
+        <p Class="Code" class="C_Code">&lt;user10&gt;&lt;/user10&gt;</p>
+        <p Class="Code" class="C_Code">&lt;onyxTimestamp&gt;&lt;/onyxTimestamp&gt;</p>
+        <p Class="Code" class="C_Code">&lt;phones objectType="phone" collection="1"&gt;</p>
+        <p Class="Code" class="C_Code">&lt;phone objectType="phone" action="insert"&gt;</p>
+        <p Class="Code" class="C_Code">&lt;primaryId&gt;&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;primary&gt;&lt;/primary&gt;</p>
+        <p Class="Code" class="C_Code">&lt;ownerId&gt;&lt;/ownerId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;ownerType&gt;&lt;/ownerType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;phoneTypeId&gt;&lt;/phoneTypeId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;phoneNumber&gt;&lt;/phoneNumber&gt;</p>
+        <p Class="Code" class="C_Code">&lt;readOnlyAccess&gt;&lt;/readOnlyAccess&gt;</p>
+        <p Class="Code" class="C_Code">&lt;privateAccess&gt;&lt;/privateAccess&gt;</p>
+        <p Class="Code" class="C_Code">&lt;insertBy&gt;&lt;/insertBy&gt;</p>
+        <p Class="Code" class="C_Code">&lt;insertDate&gt;&lt;/insertDate&gt;</p>
+        <p Class="Code" class="C_Code">&lt;updateBy&gt;&lt;/updateBy&gt;</p>
+        <p Class="Code" class="C_Code">&lt;updateDate&gt;&lt;/updateDate&gt;</p>
+        <p Class="Code" class="C_Code">&lt;locked&gt;&lt;/locked&gt;</p>
+        <p Class="Code" class="C_Code">&lt;onyxTimestamp&gt;&lt;/onyxTimestamp&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/phone&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/phones&gt;</p>
+        <p Class="Code" class="C_Code">&lt;addresses objectType="address" collection="1"&gt;</p>
+        <p Class="Code" class="C_Code">&lt;address objectType="address" action="insert"&gt;</p>
+        <p Class="Code" class="C_Code">&lt;primaryId&gt;&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;primary&gt;&lt;/primary&gt;</p>
+        <p Class="Code" class="C_Code">&lt;ownerId&gt;&lt;/ownerId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;ownerType&gt;&lt;/ownerType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;addressTypeId&gt;&lt;/addressTypeId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;salutation&gt;&lt;/salutation&gt;</p>
+        <p Class="Code" class="C_Code">&lt;firstName&gt;&lt;/firstName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;middleName&gt;&lt;/middleName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;lastName&gt;&lt;/lastName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;suffix&gt;&lt;/suffix&gt;</p>
+        <p Class="Code" class="C_Code">&lt;companyName&gt;&lt;/companyName&gt;</p>
+        <p Class="Code" class="C_Code">&lt;address1&gt;&lt;/address1&gt;</p>
+        <p Class="Code" class="C_Code">&lt;address2&gt;&lt;/address2&gt;</p>
+        <p Class="Code" class="C_Code">&lt;address3&gt;&lt;/address3&gt;</p>
+        <p Class="Code" class="C_Code">&lt;address4&gt;&lt;/address4&gt;</p>
+        <p Class="Code" class="C_Code">&lt;address5&gt;&lt;/address5&gt;</p>
+        <p Class="Code" class="C_Code">&lt;city&gt;&lt;/city&gt;</p>
+        <p Class="Code" class="C_Code">&lt;regionCode&gt;&lt;/regionCode&gt;</p>
+        <p Class="Code" class="C_Code">&lt;countryCode&gt;&lt;/countryCode&gt;</p>
+        <p Class="Code" class="C_Code">&lt;postCode&gt;&lt;/postCode&gt;</p>
+        <p Class="Code" class="C_Code">&lt;validAddress&gt;&lt;/validAddress&gt;</p>
+        <p Class="Code" class="C_Code">&lt;readOnlyAccess&gt;&lt;/readOnlyAccess&gt;</p>
+        <p Class="Code" class="C_Code">&lt;privateAccess&gt;&lt;/privateAccess&gt;</p>
+        <p Class="Code" class="C_Code">&lt;private&gt;&lt;/private&gt;</p>
+        <p Class="Code" class="C_Code">&lt;insertBy&gt;&lt;/insertBy&gt;</p>
+        <p Class="Code" class="C_Code">&lt;insertDate&gt;&lt;/insertDate&gt;</p>
+        <p Class="Code" class="C_Code">&lt;updateBy&gt;&lt;/updateBy&gt;</p>
+        <p Class="Code" class="C_Code">&lt;updateDate&gt;&lt;/updateDate&gt;</p>
+        <p Class="Code" class="C_Code">&lt;locked&gt;&lt;/locked&gt;</p>
+        <p Class="Code" class="C_Code">&lt;onyxTimestamp&gt;&lt;/onyxTimestamp&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/address&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/addresses&gt;</p>
+        <p Class="Code" class="C_Code">&lt;emailAddresses objectType="emailAddress" collection="1"&gt;</p>
+        <p Class="Code" class="C_Code">&lt;emailAddress objectType="emailAddress" action="insert"&gt;</p>
+        <p Class="Code" class="C_Code">&lt;primaryId&gt;&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;primary&gt;&lt;/primary&gt;</p>
+        <p Class="Code" class="C_Code">&lt;ownerId&gt;&lt;/ownerId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;ownerType&gt;&lt;/ownerType&gt;</p>
+        <p Class="Code" class="C_Code">&lt;emailAddressTypeId&gt;&lt;/emailAddressTypeId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;emailAddress&gt;&lt;/emailAddress&gt;</p>
+        <p Class="Code" class="C_Code">&lt;readOnlyAccess&gt;&lt;/readOnlyAccess&gt;</p>
+        <p Class="Code" class="C_Code">&lt;privateAccess&gt;&lt;/privateAccess&gt;</p>
+        <p Class="Code" class="C_Code">&lt;insertBy&gt;&lt;/insertBy&gt;</p>
+        <p Class="Code" class="C_Code">&lt;insertDate&gt;&lt;/insertDate&gt;</p>
+        <p Class="Code" class="C_Code">&lt;updateBy&gt;&lt;/updateBy&gt;</p>
+        <p Class="Code" class="C_Code">&lt;updateDate&gt;&lt;/updateDate&gt;</p>
+        <p Class="Code" class="C_Code">&lt;locked&gt;&lt;/locked&gt;</p>
+        <p Class="Code" class="C_Code">&lt;onyxTimestamp&gt;&lt;/onyxTimestamp&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/emailAddress&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/emailAddresses&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/company&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/parameters&gt;</p>
+        <p>
+            parametersReturn
+        </p>
+        <p Class="Code" class="C_Code">&lt;parametersReturn&gt;</p>
+        <p Class="Code" class="C_Code">&lt;company&#160;objectType="company"&#160;content="keysOnly"&gt;</p>
+        <p Class="Code" class="C_Code">&lt;primaryId&gt;42487758-380C-46D6-B1AB-4236D8324598&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;phones&#160;objectType="phone"&#160;collection="1"&#160;content="keysOnly"&gt;</p>
+        <p Class="Code" class="C_Code">&lt;phone&#160;objectType="phone"&#160;content="keysOnly"&#160;action="delete"&gt;</p>
+        <p Class="Code" class="C_Code">&lt;primaryId&gt;518AF8CB-14AD-4F44-B0A0-795A6D4FF670&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/phone&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/phones&gt;</p>
+        <p Class="Code" class="C_Code">&lt;addresses&#160;objectType="address"&#160;collection="1"&#160;content="keysOnly"&gt;</p>
+        <p Class="Code" class="C_Code">&lt;address&#160;objectType="address"&#160;content="keysOnly"&#160;action="update"&gt;</p>
+        <p Class="Code" class="C_Code">&lt;primaryId&gt;05A8DA0B-601E-47DE-B11E-880D464B45FE&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/address&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/addresses&gt;</p>
+        <p Class="Code" class="C_Code"> &lt;emailAddresses&#160;objectType="emailAddress"&#160;collection="1"&#160;content="keysOnly"&gt;</p>
+        <p Class="Code" class="C_Code">&lt;emailAddress&#160;objectType="emailAddress"&#160;content="keysOnly"&#160;action="update"&gt;</p>
+        <p Class="Code" class="C_Code">&lt;primaryId&gt;688AF8CB-14AD-4F44-B0A0-795A6D4FF690&lt;/primaryId&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/emailAddress&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/emailAddresses&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/company&gt;</p>
+        <p Class="Code" class="C_Code">&lt;/parametersReturn&gt;</p>
+    </body>
+</html>

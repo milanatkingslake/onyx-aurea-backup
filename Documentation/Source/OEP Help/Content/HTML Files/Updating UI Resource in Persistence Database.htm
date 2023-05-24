@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:conditions="Primary.PrintOnly" MadCap:lastBlockDepth="6" MadCap:lastHeight="499" MadCap:lastWidth="676" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="../SkinSupport/MadCap.css" rel="stylesheet" type="text/css" /><title>Updating UI Resource in Persistence Database</title>
+        <link href="../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" />
+        <link href="../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" />
+    </head>
+    <body>
+        <H4 class="Heading">Updating UI Resource in Persistence Database</H4>
+        <p class="BodyText">After creating the UI resource IDs, you must update the appropriate tables in the Persistence database.</p>
+        <p class="BodyText">To do this, from the UI Resource ID, remove the text that specifies the permissions, and copy the remaining text to the ResourceName column  in the appropriate table.</p>
+        <p class="BodyText">For example, if the new UI resource for a custom field is UI:OEP.SupportIncident.PriorityDesc.View, then enter 'UI:OEP.SupportIncident.PriorityDesc' in the ResourceName field in the navigator_entity_field_master table.</p>
+        <table style="width: 100%;mc-table-style: url('../Resources/TableStyles/Aptean_Table_1.css');" class="TableStyle-Aptean_Table_1" cellspacing="0">
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 3cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 3cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 4cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 3cm;" />
+            <col class="TableStyle-Aptean_Table_1-Column-Column1" style="width: 3cm;" />
+            <thead>
+                <tr class="TableStyle-Aptean_Table_1-Head-Header1">
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableText">UI&#160;resource type</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableText">UI resource ID format</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableText">Resource name value to update in Persistence database</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadE-Column1-Header1">
+                        <p class="TableText">Table to update</p>
+                    </th>
+                    <th class="TableStyle-Aptean_Table_1-HeadD-Column1-Header1">
+                        <p class="TableText">Column to update</p>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">Search Type entity name</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">UI:OEP.&lt;Resource Name&gt;.&lt;Resource_Permission&gt;</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">UI:OEP.&lt;Resource Name&gt;</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">navigator_entity_master</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText">EntityResourceName</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">Search criteria field or result grid column</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">UI:OEP.&lt;Resource Name&gt;.&lt;Resource_Permission&gt;</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">UI:OEP.&lt;Resource Name&gt;</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">navigator_entity_field_master</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText">ResourceName</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">Result grid action menu</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">UI:OEP.&lt;Resource Name&gt;.&lt;Resource_Permission&gt;</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">UI:OEP.&lt;Resource Name&gt;</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyE-Column1-Body1">
+                        <p class="TableText">navigator_entity_master</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyD-Column1-Body1">
+                        <p class="TableText">GAMEntityResourceName</p>
+                    </td>
+                </tr>
+                <tr class="TableStyle-Aptean_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText">Result grid action button</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText">UI:OEP.&lt;Resource Name&gt;</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText">UI:OEP.&lt;Resource Name&gt;</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyB-Column1-Body1">
+                        <p class="TableText">ActionButton</p>
+                    </td>
+                    <td class="TableStyle-Aptean_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText">ResourceName</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

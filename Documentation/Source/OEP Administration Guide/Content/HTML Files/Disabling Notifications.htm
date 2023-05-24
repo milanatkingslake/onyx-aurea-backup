@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="5" MadCap:lastHeight="818" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2><a name="top"></a>Disabling Notifications</h2>
+        <p>The Notifications feature is enabled by default. You can disable this feature if required, based on your organization's needs.</p>
+        <ul>
+            <li>To disable one or more notifications, see <a href="#Disablin">Disabling Specific Notifications</a>.</li>
+            <li>To enable the Notifications feature, see <a href="Configuring Notification Processes.htm#Enabling">Enabling Notifications</a>.</li>
+            <li>To enable a previously disabled notification, see <a href="#Enabling">Enabling Specific Notifications</a>.</li>
+        </ul>
+        <p class="ProcedureHeading">To disable Notifications:</p>
+        <ol>
+            <li>Hide the Notifications tab within the User Preferences screen. </li>
+        </ol>
+        <ul>
+            <li class="List_Indent">On the OEP server, navigate to the config.xml file. The default file location is C:\Program Files\Onyx\EmployeePortal\config.xml.</li>
+            <li class="List_Indent">In an editor such as Notepad, open the config.xml file.</li>
+            <li class="List_Indent">Search for the node tabDef:tab id="Notification.</li>
+            <li class="List_Indent">Set the value of the attribute visible to 0.</li>
+            <li class="List_Indent">Save and close the config.xml file.</li>
+        </ul>
+        <p class="Caution" MadCap:autonum=" &#160;&lt;b&gt;Caution:&lt;/b&gt; &#160;">Stop these services only if you intend to disable both, Notifications and Calendar Appointment features. </p>
+        <p class="Caution" MadCap:autonum=" &#160;&lt;b&gt;Caution:&lt;/b&gt; &#160;">Stop these services only if you intend to disable both, Notifications and Calendar Appointment features.</p>
+        <h3><a name="Enabling"></a>Enabling Specific Notifications</h3>
+        <p>You can enable specific notifications that you previously disabled. When you disable a specific notification, all users who have subscribed to the notification are automatically unsubscribed. The notification is no longer visible in the Available Notifications list in OEP. When you re-enable the notification, users must re-subscribe to receive email alerts.</p>
+        <ul>
+            <li>To disable a specific notification, see <a href="#Disablin">Disabling Specific Notifications</a>.</li>
+            <li>To disable the Notifications feature, see <a href="#top">Disabling Notifications</a>.</li>
+            <li>To enable the Notifications feature, see <a href="Configuring Notification Processes.htm#Enabling">Enabling Notifications</a>.</li>
+        </ul>
+        <ol>
+            <li>Restart processing of emails for the notification and make the notification available in the Notification Subscription window in OEP.</li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">In the <b>NotificationType</b> table in Persistence database, note the value in the <b>SecondaryId</b> column that corresponds to the notification that you want to enable.</li>
+            <li class="List_Indent">On Persistence database, run the following SQL script, replacing [value] with the secondaryId value that you previously noted.</li>
+        </ol>
+        <p class="Indent2"><code>/****** Script for SelectTopNRows command from SSMS ******/</code>
+        </p>
+        <p class="Indent2"><code>declare @NotificationTypeId uniqueidentifier</code>
+        </p>
+        <p class="Indent2"><code>select @NotificationTypeId = NotificationTypeId</code>
+        </p>
+        <p class="Indent2"><code>from NotificationType</code>
+        </p>
+        <p class="Indent2"><code>where secondaryId=[value]</code>
+        </p>
+        <p class="Indent2"><code>update NotificationType set RecordStatus = 1 </code>
+        </p>
+        <p class="Indent2"><code>where NotificationTypeId = @NotificationTypeId </code>
+        </p>
+        <h3><a name="Disablin"></a>Disabling Specific Notifications</h3>
+        <p>You can disable specific notifications that do not fit your business needs. When you disable a specific notification, all users who have subscribed to the notification are automatically unsubscribed. The notification is no longer visible in the Available Notifications list in OEP. When you re-enable the notification, users must re-subscribe to start receiving email alerts.</p>
+        <ul>
+            <li>To disable the Notifications feature, see <a href="#top">Disabling Notifications</a>.</li>
+            <li>To enable the Notifications feature, see <a href="Configuring Notification Processes.htm#Enabling">Enabling Notifications</a>.</li>
+            <li>To enable a previously disabled notification, see <a href="#Enabling">Enabling Specific Notifications</a>.</li>
+        </ul>
+        <p class="ProcedureHeading">To disable specific notifications:</p>
+        <ol>
+            <li>Stop processing of any pending emails for the disabled notification, and make the notification unavailable in the Notification Subscription window in OEP.</li>
+        </ol>
+        <ol style="list-style-type: lower-alpha;">
+            <li class="List_Indent">In the NotificationType table in Persistence database, note the value in the SecondaryId column that corresponds to the notification that you want to disable.</li>
+            <li class="List_Indent">On Persistence database, run the following SQL script, replacing the [value] with the secondaryId value that you previously noted.</li>
+        </ol>
+        <p class="Indent2"><code>/****** Script for SelectTopNRows command from SSMS ******/</code>
+        </p>
+        <p class="Indent2"><code>declare @NotificationTypeId uniqueidentifier</code>
+        </p>
+        <p class="Indent2"><code>select @NotificationTypeId = NotificationTypeId</code>
+        </p>
+        <p class="Indent2"><code>from NotificationType</code>
+        </p>
+        <p class="Indent2"><code>where secondaryId=[value]</code>
+        </p>
+        <p class="Indent2"><code>update NotificationType set RecordStatus = 0 where NotificationTypeId = @NotificationTypeId</code> <![CDATA[ ]]></p>
+        <p class="Indent2"><code>Delete from NotificationSubscription where NotificationTypeId = @NotificationTypeId</code>
+        </p>
+    </body>
+</html>

@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="693" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Reset duration considerations</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h5>Reset duration considerations </h5>
+        <p>There are several factors that can affect the duration 
+ of a reset that you should take in to consideration before resetting a 
+ user. These include: </p>
+        <ul>
+            <li>The number of items a user has subscribed to (i.e., 
+ the number of items in the subscription_item table for the user).</li>
+            <li>The maximum number of items the syncServer downsyncs 
+ per cycle for a given user (Maximum Items Downsynced per Cycle). This 
+ value is set to 1000 by default, but you can modify it using OPS Administration. 
+ For more information about changing this setting, see <a href="../5.Using OPS Administration/ar_ops_opsadminaddsynchsub.htm">Adding and configuring 
+ a synchronization subsystem.</a></li>
+            <li>The number of subsystems and threads per subsystem. 
+ </li>
+        </ul>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">Based on these factors, it might take multiple synchronization 
+ cycles to downsync all of the items. </p>
+        <p style="font-weight: bold;">Example </p>
+        <p>Assume the following configuration: </p>
+        <ul>
+            <li>1 subsystem with 4 threads.</li>
+            <li>400 users to synchronize.</li>
+            <li>Run interval set to 3 minutes.</li>
+            <li>A typical cycle with little or no data to synchronize 
+ takes about 3 minutes.</li>
+            <li>Downsyncing 1 item takes about 300 ms. </li>
+        </ul>
+        <p>If you reset a user who has 10,000 items: </p>
+        <ul>
+            <li>The next 10 cycles will each downsync 1,000 items 
+ for this user.</li>
+            <li>This adds 300 seconds (5 minutes) for 1,000 items 
+ on one thread.</li>
+            <li>The 10 cycles will then last 5 to 8 minutes each, 
+ depending on when this user is handled (at the beginning or at the end 
+ of the cycle). </li>
+        </ul>
+        <p>If you reset 12 users at the same time, then the next 10 cycles will 
+ last 18 minutes each (based on the formula of 12/4 threads * 5 minutes 
+ + 3 minutes = 18 minutes). </p>
+    </body>
+</html>

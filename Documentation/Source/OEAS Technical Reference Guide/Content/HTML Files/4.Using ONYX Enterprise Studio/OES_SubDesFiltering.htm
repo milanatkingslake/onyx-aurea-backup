@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="4" MadCap:lastHeight="791" MadCap:lastWidth="624" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Filtering secondary object cascaded subscriptions</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>Filtering secondary object cascaded subscriptions </h4>
+        <p>You can set the <span class="UIElement" style="font-weight: bold;">Cascade only the secondary objects 
+ that meet this filter expression</span> rule for a subscription relationship 
+ at both the relationship level and the role level, as described in <a href="OES_SubDeAddSubRel.htm">Adding a subscription relationship</a>, 
+ and <a href="OES_SubDesAddSubRol.htm">Adding a subscription role</a>. 
+ To set this rule, you can either manually type the filter expression into 
+ the provided text field, or use the filter helper menu to select an appropriate 
+ filter expression. </p>
+        <h5>Adding a filter criteria manually </h5>
+        <p>The text you provide for the <span class="UIElement" style="font-weight: bold;">Cascade 
+ only the secondary objects that meet this filter expression</span> field 
+ is the expression that is used to filter cascaded subscriptions for the 
+ secondary object in the relationship. The expression must be in the following 
+ format: <span class="code">child.&lt;field&gt;&lt;SQL operator&gt;&lt;value&gt;</span>, 
+ where: </p>
+        <ul>
+            <li><em class="Emphasis" style="font-style: italic;">child.</em> represents 
+ the secondary object in the relationship and includes the literal text 
+ "child."; must be placed at the beginning of your expression. 
+ </li>
+            <li><em class="Emphasis" style="font-style: italic;">&lt;field&gt; </em>represents the 
+ column of the database table (which contains the secondary object) on 
+ which you want to filter the cascaded subscriptions. </li>
+            <li><em class="Emphasis" style="font-style: italic;">&lt;SQL operator&gt;</em> 
+ represents a valid SQL comparison or character operator (for example, 
+ <span class="code">=</span>, <span class="code">&lt;</span>, <span class="code">&lt;&gt;</span>, 
+ <span class="code">&lt;=</span>, etc., or <span class="code">BETWEEN</span>, 
+ <span class="code">IN</span>, <span class="code">LIKE</span>, <span class="code">NOT 
+ IN</span>, etc.).</li>
+            <li><em class="Emphasis" style="font-style: italic;">&lt;value&gt; </em>represents the 
+ value you want to filter on.</li>
+        </ul>
+        <p>For instance, suppose you provide the expression child.incident_category_did=1 
+ for a relationship where company is the primary object and incident is 
+ the secondary object. When a company object is subscribed to, cascaded 
+ subscriptions are created only for those incidents where incident_category_did=1 
+ (support incidents). </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">There is no validation performed on filter expressions. 
+ If you provide an expression that is not valid SQL, or that references 
+ a field that does not exist in the secondary object’s underlying database 
+ table, the filter expression could be disregarded, or cascading subscriptions 
+ for that relationship could fail altogether. </p>
+        <h5>Adding a filter criteria using the filter helper menu </h5>
+        <p>A filter helper menu button, <img src="../../Resources/Images/oes_MethodCallDetPathHelper.jpg" />, appears to the right of 
+ the text field for the <span class="UIElement" style="font-weight: bold;">Cascade only the secondary 
+ objects that meet this filter expression</span> attribute. When you click 
+ this button, a filter helper menu appears from which you can select an 
+ appropriate filter for cascading secondary object subscriptions. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">The filter helper menu is enabled only for those relationships 
+ for which a default filter expression exists. To add a default filter 
+ expression to the filter helper menu, see <a href="../3.Configuring OEAS Features/AR_SubConfigFilters.htm">Configuring filters for Subscription Designer’s filter helper menu</a>. </p>
+    </body>
+</html>

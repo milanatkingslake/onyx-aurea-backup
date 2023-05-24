@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="836" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2><a name="top"></a>Migrate Your Modifications</h2>
+        <p>After installing OEP to your production environment, migrate all desired modifications from your development environment to your production environment.</p>
+        <p>To migrate your modifications, begin by migrating all data tier (OEDB) modifications first. Then migrate all modifications that you made to your business logic tier (OEAS), and finally migrate all modifications that you made to your presentation tier (OEP). For a visual depiction of the migration effort, see the <a href="Graphical depiction of migration.htm#top">graphic</a> at the bottom of this page </p>
+        <p>Consider using a source code control application (such as Visual Source Safe or TFS) to help manage these tasks. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;"> If you're upgrading from a previous version of OEP, or if you're deploying your modifications in iterations, be sure to deploy only the necessary/desired modifications and take care not to unintentionally overwrite existing data or components that you want to keep. </p>
+        <h4>Migrate OEDB modifications</h4>
+        <p>Migrate all modifications to the OEDB first.</p>
+        <ol>
+            <li>From your development environment to your production environment, migrate all desired database objects, including all custom stored procedures, retrieveList stored procedures, views, tables, and SQL functions. Then compile these objects, as necessary, in your production database.</li>
+        </ol>
+        <p class="Indent1">For tables, be sure to migrate the definitions of foreign keys and indices as part of the table definition. Also make sure that your scripts differentiate between modifying an existing table (using an ALTER TABLE script) and adding a new table (using a CREATE TABLE script).</p>
+        <ol MadCap:continue="true">
+            <li>Migrate all domain data, including all reference parameters and national language (NatLang) messages, from its master database to your production environment. Make certain that the unique ID of each domain data value remains unchanged. You may want to write scripts to accomplish this.</li>
+            <li>If you chose to set <a href="Setting Default OEP User Preferences.htm#top">default user preferences</a> in your development environment, either migrate all default user preferences to your production environment (you may want to write a script to accomplish this), or re-implement them in your production environment.</li>
+        </ol>
+    </body>
+</html>

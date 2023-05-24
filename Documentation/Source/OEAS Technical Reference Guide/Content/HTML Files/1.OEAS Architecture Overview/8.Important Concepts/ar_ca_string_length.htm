@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="664" MadCap:lastWidth="624">
+    <head>
+        <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head>
+            <link href="../../../Resources/TableStyles/Aptean_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" /><title>String Length</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h2>String Length</h2>
+        <p>When you map properties with a string data type to the database schema, 
+ it is important to understand how the string length relates to the database 
+ column length and how a maximum constraint affects string data handling 
+ in the middle tier. </p>
+        <p>OEDB uses nchar, nvarchar and nvarchar(max) data types for strings. 
+ The column length value should always be supplied for columns defined 
+ by these types. The nvarchar(max) datatype is specified by selecting “NVARCHAR” 
+ for the column type and “MAX” for the length. Onyx uses the nvarchar(max) 
+ data type for large strings.</p>
+        <p>String properties can have maximum constraints applied in the Logical 
+ Business Objects section of the Object Designer. For insert and update 
+ method calls, the data validation component enforces the constraint if 
+ it exists.</p>
+        <p>The following table presents three cases where a string value exceeds 
+ the database column length and the resulting behavior of the Onyx platform. </p>
+        <table style="width: 100%;">
+            <col style="width: 169px;" />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>String data case </th>
+                    <th>Method, action, or procedure type </th>
+                    <th>Result </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">String property value <b>with</b> 
+ maximum constraint exceeds specified length </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">insert or update methods and actions </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The data validation component returns a failure.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">String property value <b>without</b> 
+ maximum constraint exceeds database column length </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">insert or update methods and actions </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">No data validation check; OEDB truncates the 
+ data to the length of the underlying column in the table. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">String parameter or property value exceeds 
+ procedure parameter length in physical model </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">all properties or method parameters mapped 
+ to stored procedure parameters </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">No data validation check; Query engine silently 
+ truncates string to length of parameter specified in Physical Model section 
+ of Object Designer </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,1141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="789" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <p style="page-break-before: always;">Server-side/client-side architecture comparison diagram</p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/Server side client side architecture.png" style="width: 416px;height: 661px;" />
+        </p>
+        <h4>Using the classes</h4>
+        <p>The OTMHelper classes are very versatile. One typical use is demonstrated in the following sequence:</p>
+        <ol>
+            <li>An OTMConnection object is created and initialized to establish communications with the OTM.</li>
+            <li>An OTMLBOCall object is created through the OTMConnection object. The OTMLBOCall object is then initialized by specifying the business object and method that this object will represent.</li>
+            <li>Input data for the method call is created using the OTMLBOCall AddParam and bAddObjParam methods.</li>
+            <li>The OTMLBOCall object's ExecuteLocal or ExecuteRemote method is called, depending on whether the request is running on the client or the server.</li>
+            <li>If the operation results in data retrieval from OEAS, an OTMRowset object contains the XML information in a record-oriented representation.</li>
+        </ol>
+        <h3>OEAS Object Parameter Attributes</h3>
+        <p>The following tables summarize the OTM action and content attributes used on OEAS business objects. See the OEAS Technical Reference for detailed information about the use of these attributes.</p>
+        <h4>action attribute</h4>
+        <p>The action attribute is used with business object saveCollection methods. The value of the attribute indicates the database action for the business object. </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">insert</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Saves the business object data in the Onyx Enterprise Database (OEDB).</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">update</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Updates the existing business object data in the OEDB.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">delete</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Deletes a business object from the OEDB.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>content attribute</h4>
+        <p>The content attribute indicates what properties are present for a business object. </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">all</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Indicates that all the properties defined for the business object in the OED are present. This does not mean that all properties contain data, just that they exist.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">any</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Indicates that a subset of properties defined for the business object in the OED are present and any of them may be of use for the requested action.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">keysOnly</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Indicates that all the properties defined as keys for the business object in the OED are present.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">partial</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Indicates that a specific subset of properties of the business object in the OED are present.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Although 'partial' and 'any' may appear to represent the same thing, they are different. The 'partial' attribute indicates a business object that contains a specific and predetermined set of properties necessary for a business object method. The 'any' attribute indicates a set of properties that can vary between calls to the same business object method. See the OEAS Technical Reference for a more in depth discussion of the content attribute and its possible values. </p>
+        <h3 style="page-break-before: always;">OTMHelper Usage Guidelines</h3>
+        <p>The following guidelines are provided to enable you to use the OTMHelper classes most effectively.</p>
+        <h4>Path to rowSet objects</h4>
+        <p>Use the following syntax to obtain a rowset: </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>oCall.bGetRowset("rowSet", oRst, sMethodStatus)</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>Although it is possible to obtain a rowset using the following syntax, it is not recommended because you are not accessing the full functionality of the OTMRowset object: </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>oCall.bGetRowset("rowSet/rows", oRst, sMethodStatus)</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <h4>Using the sort methods</h4>
+        <p>The bSort and bAdvancedSort methods of the cOTMRowset class have been designed to be as efficient as possible, but their use on the OEP server should be kept to a minimum, as they can put significant resource demands on the server when executing. Check to see if the rowset of the business object is already sorted and use one of the methods only if needed.</p>
+        <p>Both methods support Unicode data sets and honor the locale sort order of the client user, even when running on the server.</p>
+        <h4>Use client-side execution</h4>
+        <p>When used appropriately, client-side execution of business object method calls can reduce server load and improve overall application performance. As mentioned above, rowset sorting can put significant resource demands on the OEP server. By using the client-side versions of the sort methods, you can offload the sorting burden onto the client for improved performance.</p>
+        <p>The OEP Customization Guide contains examples that demonstrate how to perform an equivalent operation using both the server-side and client-side versions of the OTMHelper classes.</p>
+        <h4>Leverage the existing XMLDOMDocument object</h4>
+        <p>Because the cOTMLBOCall class contains an already-parsed XMLDOMDocument object, it is not necessary to create one from the raw XML property. If the cOTMRowset classes do not provide necessary functionality, access the document data directly using the cOTMLBOCall methods bGetXMLDOC and bGetParamNode. </p>
+        <h3>OTMHelper Examples</h3>
+        <p>This section contains simple examples that demonstrate how to perform common operations using the OTMHelper classes. The following examples are provided: </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Example</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#Simple">Simple retrieve</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">How to retrieve a simple data list</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#Multiple">Multiple object retrieve</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">How to retrieve a business object that has collections of child objects </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#Object">Object insert</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">How to insert a business object</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#Object2">Object update</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">How to update a business object</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#Object3">Object delete</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">How to delete a business object</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#Collecti">Collection retrieve</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">How to retrieve a collection</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#Collecti2">Collection insert</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">How to insert an item into a collection</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#Collecti3">Collection update</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">How to update an item in a collection</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#Collecti4">Collection delete</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">How to delete an item in a collection</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text"><a href="#Combined">Combined collection operations</a>
+                        </p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">How to perform mixed operations on multiple items in a collection</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4><a name="Simple"></a>Simple Retrieve Example</h4>
+        <p>The following example demonstrates how to perform a simple retrieval using the OTMHelper classes. This example performs a keyword list retrieval, which is placed into an OTMRowset object for application use. </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>Sub TestCallKeyWord(sApp, sSessID)</code>
+                    </p>
+                    <p><code>Dim oCon, oCall, oRst</code>
+                    </p>
+                    <p><code>Dim sMethodStatus, sStatusType</code>
+                    </p>
+                    <p><code>Set oCon = New cOTMConnection</code>
+                    </p>
+                    <p><code>If oCon Is Nothing Then</code>
+                    </p>
+                    <p><code>' error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>If Not oCon.bInitialize(sApp, sSessID, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>If Not oCon.bCreateLBOCall(oCall, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>' Intialize call object </code>
+                    </p>
+                    <p><code>If Not oCall.bInitialize("keyWord", "retrieveList", "", "", sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>' Add input parameters </code>
+                    </p>
+                    <p><code>oCall.AddParam "incidentCategory", 1</code>
+                    </p>
+                    <p><code>' Make the call </code>
+                    </p>
+                    <p><code>If Not oCall.bExecuteLocal(sStatusType, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>' Get rowset from output params </code>
+                    </p>
+                    <p><code>If Not oCall.bGetRowset("rowSet", oRst, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' error out</code> <![CDATA[ ]]></p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>If Not oRst.BOF Then</code>
+                    </p>
+                    <p><code>' Returned data is in the oRst OTMRowset object</code> <![CDATA[ ]]></p>
+                    <p><code>Else</code>
+                    </p>
+                    <p><code>' No rows in rowset</code> <![CDATA[ ]]></p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>End Sub</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <h4><a name="Multiple"></a>Multiple Object Retrieve Example</h4>
+        <p>The following example demonstrates how to perform a more complex retrieval using the OTMHelper classes. This example performs a retrieval of a company business object and its address and phones collections. The results of this retrieval are placed into separate OTMRowset objects for company, address, and phones information. </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>Sub TestCallCompany(sAppName, sSessID)</code>
+                    </p>
+                    <p><code>Dim oCon, oCall</code>
+                    </p>
+                    <p><code>Dim sMethodStatus, sStatusType</code>
+                    </p>
+                    <p><code>Dim oObjCompany, oObjAddresses, oObjPhones</code>
+                    </p>
+                    <p><code>Dim oRstCompany, oRstAddresses, oRstPhones</code>
+                    </p>
+                    <p><code>Set oCon = New cOTMConnection</code>
+                    </p>
+                    <p><code>If oCon Is Nothing Then</code>
+                    </p>
+                    <p><code>' Error out</code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>If Not oCon.bInitialize(sAppName, sSessID, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' Error out</code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>' Get OTM call object</code>
+                    </p>
+                    <p><code>If Not oCon.bCreateLBOCall(oCall, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' Error out</code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>' Initialize call object</code>
+                    </p>
+                    <p><code>If Not oCall.bInitialize("company", "retrieve", "", "", sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' Error out</code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>' Add input parameters</code>
+                    </p>
+                    <p><code>If Not oCall.bAddObjParam("company", oObjCompany, "keysOnly", False, Null, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' Error out</code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>oObjCompany.AddProp "primaryId", "4B034AC2-0FE6-425F-AEE4-4475A9D80054"</code>
+                    </p>
+                    <p><code>If Not oObjCompany.bAddObjProp("phones", oObjPhones, "partial", True, "phone", sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' Error out</code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>oObjPhones.AddColItem "", "partial"</code>
+                    </p>
+                    <p><code>oObjPhones.AddProp "ownerId", "4B034AC2-0FE6-425F-AEE4-4475A9D80054"</code>
+                    </p>
+                    <p><code>oObjPhones.AddProp "ownerType", "1"</code>
+                    </p>
+                    <p><code>If Not oObjCompany.bAddObjProp("addresses", oObjAddresses, "partial", True, "address", sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' Error out</code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>oObjAddresses.AddColItem "", "partial"</code>
+                    </p>
+                    <p><code>oObjAddresses.AddProp "ownerId", "4B034AC2-0FE6-425F-AEE4-4475A9D80054"</code>
+                    </p>
+                    <p><code>oObjAddresses.AddProp "ownerType", "1"</code>
+                    </p>
+                    <p><code>If Not oCall.bExecuteLocal(sStatusType, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' Error out</code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>' Get the Company rowset from output parameters</code>
+                    </p>
+                    <p><code>If Not oCall.bGetRowset("company", oRstCompany, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' Error out</code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>' Get the Company's Addresses collection and put it in a rowset</code>
+                    </p>
+                    <p><code>If Not oRstCompany.bGetRowset("addresses", oRstAddresses, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>'No reason to error out - there's nothing we can do about it.</code> <![CDATA[ ]]></p>
+                    <p><code>'Just make a note that there are not addresses to display.</code>
+                    </p>
+                    <p><code>Else</code>
+                    </p>
+                    <p><code>' oRstAddresses now holds the rowset for the company's addresses list</code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>' Get the Company's Phones collection and put it in a rowset</code>
+                    </p>
+                    <p><code>If Not oRstCompany.bGetRowset("phones", oRstPhones, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>'No reason to error out - there's nothing we can do about it. </code>
+                    </p>
+                    <p><code>'Just make a note that there are no phones to display.</code>
+                    </p>
+                    <p><code>Else</code>
+                    </p>
+                    <p><code>' oRstPhones now holds the rowset for the company's phones list</code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>End Sub</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <h4><a name="Object"></a>Object Insert Example</h4>
+        <p>The following example demonstrates how to insert a new reminder object.</p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">When inserting a business object, you must provide all of the object's properties even if you don't have data for all of them.</p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>Sub TestInsertReminder(sAppName, sSessionId)</code>
+                    </p>
+                    <p><code>Dim oCon, oCall, oObj, oRst</code>
+                    </p>
+                    <p><code>Dim sMethodStatus, sStatusType</code>
+                    </p>
+                    <p><code>Dim sId ' This will contain the primaryId for the new reminder.</code>
+                    </p>
+                    <p><code>Set oCon = New cOTMConnection</code>
+                    </p>
+                    <p><code>If oCon Is Nothing Then</code>
+                    </p>
+                    <p><code>' Error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>If Not oCon.bInitialize(sAppName, sSessionId, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' Error out</code> <![CDATA[ ]]></p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>' Get OTM call object </code>
+                    </p>
+                    <p><code>If Not oCon.bCreateLBOCall(oCall, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' Error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>If Not oCall.bInitialize("reminder", "insert", "", "", sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' Error out</code> <![CDATA[ ]]></p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>' The input parameters consist of a single reminder object </code>
+                    </p>
+                    <p><code>If Not oCall.bAddObjParam("reminder", oObj, "all", False, "", sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' Error out</code> <![CDATA[ ]]></p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>' Very tedious, but necessary, we must provide all of the properties.</code>
+                    </p>
+                    <p><code>' Many of those left empty will be populated by OEAS when the data is saved. </code>
+                    </p>
+                    <p><code>oObj.AddProp "primaryId", ""</code>
+                    </p>
+                    <p><code>oObj.AddProp "secondaryId", ""</code>
+                    </p>
+                    <p><code>oObj.AddProp "ownerId", "32D55CA1-F091-45D9-B544-3F46CBFDD058"</code>
+                    </p>
+                    <p><code>oObj.AddProp "ownerType", "6"</code>
+                    </p>
+                    <p><code>oObj.AddProp "userId", "sa"</code>
+                    </p>
+                    <p><code>oObj.AddProp "message", "Message text"</code>
+                    </p>
+                    <p><code>oObj.AddProp "dueBy", "2002-10-31 12:15:34"</code>
+                    </p>
+                    <p><code>oObj.AddProp "recurType", 0</code>
+                    </p>
+                    <p><code>oObj.AddProp "recurInterval", 0</code>
+                    </p>
+                    <p><code>oObj.AddProp "alarmActive", 0</code>
+                    </p>
+                    <p><code>oObj.AddProp "insertBy", Null</code>
+                    </p>
+                    <p><code>oObj.AddProp "insertDate", Null</code>
+                    </p>
+                    <p><code>If Not oCall.bExecuteLocal(sStatusType, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' Error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>' The output is also a reminder object, we can treat it as a rowSet with a single row</code> <![CDATA[ ]]></p>
+                    <p><code>If Not oCall.bGetRowset("reminder", oRst, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' Error out </code>
+                    </p>
+                    <p><code>Else </code>
+                    </p>
+                    <p><code>sId = oRst("primaryId")</code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>End Sub </code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <h4><a name="Object2"></a>Object Update Example</h4>
+        <p>The following example demonstrates how to update the message property of a reminder object. The XML from a function call that fetched the original object data to be updated is stored in the variable sXML. By using the bInitializeMerge method instead of the bInitialize method, you can use existing XML data as a basis for the update data.</p>
+        <p>As you can see from this code, updating a single property on an object, while retaining custom properties that your code need not be aware of, is very straightforward when using the OTMHelper classes. </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>Sub TestUpdateReminder(sAppName, sSessionId)</code>
+                    </p>
+                    <p><code>Dim sMethodStatus, sStatusType</code>
+                    </p>
+                    <p><code>Dim sXML, oRst</code>
+                    </p>
+                    <p><code>Dim oCon, oCall</code>
+                    </p>
+                    <p><code>Set oCon = New cOTMConnection</code>
+                    </p>
+                    <p><code>If oCon Is Nothing Then</code>
+                    </p>
+                    <p><code>' Error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>If Not oCon.bInitialize(sAppName, sSessionId, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' Error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>' Get OTM call object </code>
+                    </p>
+                    <p><code>If Not oCon.bCreateLBOCall(oCall, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' Error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>'....</code> <![CDATA[ ]]></p>
+                    <p><code>' sXML is loaded by a retrieve call for a given reminder.</code> <![CDATA[ ]]></p>
+                    <p><code>' See the </code><code href="#_Ref-1131060337"><a href="#Simple">Simple retrieve example</a></code><code> for how this is done.</code><![CDATA[  ]]></p>
+                    <p><code>' sXML = othersource()</code> <![CDATA[ ]]></p>
+                    <p><code>'....</code> <![CDATA[ ]]></p>
+                    <p><code>If Not oCall.bInitializeMerge(sXML, "reminder", "update", "", "", sMethodStatus) then</code>
+                    </p>
+                    <p><code>' Error out</code> <![CDATA[ ]]></p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>' We only have to set the one property, after using bInitializeMerge for the unchanging ones.</code> <![CDATA[ ]]></p>
+                    <p><code>If Not oCall.bGetRowset("reminder", oRst, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' Error out</code> <![CDATA[ ]]></p>
+                    <p><code>Else</code>
+                    </p>
+                    <p><code>oRst.Fields("message") = "New message text!"</code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>If Not oCall.bExecuteLocal(sStatusType, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' Error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>End Sub </code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <h4><a name="Object3"></a>Object Delete Example</h4>
+        <p>The following example demonstrates how to delete a reminder object. The delete method of the reminder business object requires a partial object that contains the primaryId, ownerId, and ownerType properties. </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>Sub TestDeleteReminder(sAppName, sSessionId)</code>
+                    </p>
+                    <p><code>Dim oCon, oCall, oRst, oObj</code>
+                    </p>
+                    <p><code>Dim sMethodStatus, sStatusType</code>
+                    </p>
+                    <p><code>Set oCon = New cOTMConnection</code>
+                    </p>
+                    <p><code>If oCon Is Nothing Then</code>
+                    </p>
+                    <p><code>' Error out</code> <![CDATA[ ]]></p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>If Not oCon.bInitialize(sAppName, sSessionId, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' Error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>If Not oCon.bCreateLBOCall(oCall, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' Error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>If Not oCall.bInitialize("reminder", "delete", "", "", sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' Error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>If Not oCall.bAddObjParam("reminder", oObj, "keysOnly", False, Null, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' Error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>oObj.AddProp "primaryId", B70C3A91-E8DD-4621-B47A-6C4E451B70EF</code>
+                    </p>
+                    <p><code>If Not oCall.bExecuteLocal(sStatusType, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' Error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>End Sub</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <h4><a name="Collecti"></a>Collection Retrieve Example</h4>
+        <p>The following example demonstrates how to retrieve a phones collection. Collection retrievals require the creation of a business object collection that contains a single object with properties that the retrieved items will match. </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>Sub TestCollectionRetrieve(sAppName, sSessionId)</code>
+                    </p>
+                    <p><code>Dim oCon, oCall, oRst, oObj</code>
+                    </p>
+                    <p><code>Dim sMethodStatus, sStatusType</code>
+                    </p>
+                    <p><code>Set oCon = New cOTMConnection</code>
+                    </p>
+                    <p><code>If oCon Is Nothing Then</code>
+                    </p>
+                    <p><code>' Error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>If Not oCon.bInitialize(sAppName, sSessionId, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' Error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>If Not oCon.bCreateLBOCall(oCall, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>'Error out</code> <![CDATA[ ]]></p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>If Not oCall.bInitialize("phone", "retrieveCollection", "", "", sMethodStatus) Then</code>
+                    </p>
+                    <p><code>'Error out</code> <![CDATA[ ]]></p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>'To retrieve a collection of phones, input a single phone object</code> <![CDATA[ ]]></p>
+                    <p><code>'with the ownerId and ownerType properties set. </code>
+                    </p>
+                    <p><code>If Not oCall.bAddObjParam("phones", oObj, "", True, "phone", sMethodStatus) Then</code>
+                    </p>
+                    <p><code>'Error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>oObj.AddColItem "retrieve", "any"</code>
+                    </p>
+                    <p><code>oObj.AddProp "ownerId", 1956C3F4-D725-4B7A-9858-516FB68AA349 </code>
+                    </p>
+                    <p><code>oObj.AddProp "ownerType", 2</code> <![CDATA[ ]]></p>
+                    <p><code>If Not oCall.bExecuteLocal(sStatusType, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>'Error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>If Not oCall.bGetRowset("phones", oRst, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>'Error out </code>
+                    </p>
+                    <p><code>Else</code>
+                    </p>
+                    <p><code>'oRst now holds the rowset for the phones list </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>End Sub</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <h4><a name="Collecti2"></a>Collection Insert Example</h4>
+        <p>The following example assumes that you have already performed a retrieveCollection, and have retained the XML output generated by the call in the variable sXML. A new phone item is inserted into the phones collection, and the primaryId for the newly created phone item is returned in the external variable sPhoneId. </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>Sub TestCollectionInsert(sAppName, sSessionId)</code>
+                    </p>
+                    <p><code>Dim sMethodStatus, sStatusType</code>
+                    </p>
+                    <p><code>Dim sXML, oRst, oCon, oCall</code>
+                    </p>
+                    <p><code>Set oCon = New cOTMConnection</code>
+                    </p>
+                    <p><code>If oCon Is Nothing Then</code>
+                    </p>
+                    <p><code>'Error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>If Not oCon.bInitialize(sAppName, sSessionId, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>'Error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>If Not oCon.bCreateLBOCall(oCall, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>'Error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>' .... </code>
+                    </p>
+                    <p><code>'sXML is set by a retrieve call for an similar collection.</code> <![CDATA[ ]]></p>
+                    <p><code>'See the </code><code href="#_Ref-1167835717"><a href="#Collecti">Collection retrieve</a></code><code> example for how this is done. </code>
+                    </p>
+                    <p><code>'sXML = othersource() </code>
+                    </p>
+                    <p><code>'.... </code>
+                    </p>
+                    <p><code>'Use the XML from the retrieve to build the input data for the save. </code>
+                    </p>
+                    <p><code>If Not oCall.bInitializeMerge(sXML, "phone", "saveCollection", "", "", sMethodStatus) Then</code>
+                    </p>
+                    <p><code>'Error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>If Not oCall.bGetRowset("phones", oRst, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>'Error out</code> <![CDATA[ ]]></p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>'To save OTM some work, Strip out the previously retrieved phone objects from the collection.</code> <![CDATA[ ]]></p>
+                    <p><code>'This does not delete them from the database, only from the working rowset object. </code>
+                    </p>
+                    <p><code>While Not oRst.EOF</code>
+                    </p>
+                    <p><code>If Not oRst.bRemoveRow(sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' Error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>Wend</code>
+                    </p>
+                    <p><code>'Add the new row for the new phone</code> <![CDATA[ ]]></p>
+                    <p><code>If Not oRst.bAddRow("insert", "all", sMethodStatus) Then</code>
+                    </p>
+                    <p><code>'Error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>'Set the new phone object properties </code>
+                    </p>
+                    <p><code>With oRst</code>
+                    </p>
+                    <p><code>.Fields("primaryId") = ""</code>
+                    </p>
+                    <p><code>.Fields("primary") = 0</code>
+                    </p>
+                    <p><code>.Fields("ownerId") = E5CDF90B-2C8E-4DED-9E68-8183622CE8EE</code>
+                    </p>
+                    <p><code>.Fields("ownerType") = 2</code>
+                    </p>
+                    <p><code>.Fields("phoneTypeId") = 115</code>
+                    </p>
+                    <p><code>.Fields("phoneNumber") = "2065551212"</code>
+                    </p>
+                    <p><code>.Fields("readOnlyAccess") = 0</code>
+                    </p>
+                    <p><code>.Fields("privateAccess") = 0</code>
+                    </p>
+                    <p><code>.Fields("insertBy") = ""</code>
+                    </p>
+                    <p><code>.Fields("insertDate") = ""</code>
+                    </p>
+                    <p><code>.Fields("updateBy") = ""</code>
+                    </p>
+                    <p><code>.Fields("updateDate") = ""</code>
+                    </p>
+                    <p><code>.Fields("locked") = ""</code>
+                    </p>
+                    <p><code>.Fields("onyxTimestamp") = ""</code>
+                    </p>
+                    <p><code>End With</code>
+                    </p>
+                    <p><code>If Not oCall.bExecuteLocal(sStatusType, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' Error out</code> <![CDATA[ ]]></p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>'Retrieve the output rowset information to get the new item's primaryId</code> <![CDATA[ ]]></p>
+                    <p><code>If Not oCall.bGetRowset("phones", oRst, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>'Error out </code>
+                    </p>
+                    <p><code>Else</code> <![CDATA[ ]]></p>
+                    <p><code>'Get the ID for the new phone object </code>
+                    </p>
+                    <p><code>sPhoneId = oRst("primaryId") </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>End Sub</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <h4><a name="Collecti3"></a>Collection Update Example</h4>
+        <p>The following example assumes that you have already performed a retrieveCollection, and have retained the XML output generated by the call in the variable sXML. An existing phone item is modified and the phones collection is updated. </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>Sub TestCollectionUpdate(sAppName, sSessionId)</code>
+                    </p>
+                    <p><code>Dim oCon, oCall, oRst, oObj</code>
+                    </p>
+                    <p><code>Dim sMethodStatus, sStatusType</code>
+                    </p>
+                    <p><code>Dim sId 'This is the ID of the phone record to update.</code>
+                    </p>
+                    <p><code>sId = "1"</code>
+                    </p>
+                    <p><code>Set oCon = New cOTMConnection</code>
+                    </p>
+                    <p><code>If oCon Is Nothing Then</code>
+                    </p>
+                    <p><code>'Error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>If Not oCon.bInitialize(sAppName, sSessionId, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>'Error out</code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>If Not oCon.bCreateLBOCall(oCall, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>'Error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>'....</code>
+                    </p>
+                    <p><code>'sXML is set by a retrieve call for an similar collection.</code>
+                    </p>
+                    <p><code>'See the </code><code href="#_Ref-1167835717"><a href="#Collecti">Collection retrieve</a></code><code> example for how this is done</code>
+                    </p>
+                    <p><code>'sXML = othersource()</code>
+                    </p>
+                    <p><code>&gt;'.... </code>
+                    </p>
+                    <p><code>'Use the XML from the retrieve to build the input data for the save.</code>
+                    </p>
+                    <p><code>If Not oCall.bInitializeMerge(sXML, "phone", "saveCollection", "", "", sMethodStatus) Then</code>
+                    </p>
+                    <p><code>'Error out</code> <![CDATA[ ]]></p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>If Not oCall.bGetRowset("phones", oRst, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>'Error out</code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>While Not oRst.EOF</code>
+                    </p>
+                    <p><code>'Step through the rowset looking for the phone we want to update</code>
+                    </p>
+                    <p><code>If oRst.Fields("primaryId") = sId Then</code>
+                    </p>
+                    <p><code>'Found it, update and move on</code>
+                    </p>
+                    <p><code>oRst.Fields("phoneNumber") = "4255551212"</code>
+                    </p>
+                    <p><code>'Tell OTM to update this object</code>
+                    </p>
+                    <p><code>If Not oRst.bSetRowProps("update", "all", sMethodStatus) Then</code>
+                    </p>
+                    <p><code>'Error out</code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>oRst.MoveNext</code>
+                    </p>
+                    <p><code>Else</code>
+                    </p>
+                    <p><code>'To save OTM some work, strip out all the previously retrieved phones</code>
+                    </p>
+                    <p><code>'from the collection, except for the one to be updated.</code> <![CDATA[ ]]></p>
+                    <p><code>'This does not delete them from the database, only from the working rowset object.</code>
+                    </p>
+                    <p><code>If Not oRst.bRemoveRow(sMethodStatus) Then</code>
+                    </p>
+                    <p><code>'Error out</code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>Wend</code>
+                    </p>
+                    <p><code>If Not oCall.bExecuteLocal(sStatusType, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>'Error out</code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>End Sub</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <h4><a name="Collecti4"></a>Collection Delete Example</h4>
+        <p>The following example assumes that you have already performed a retrieveCollection, and have retained the XML output generated by the call in the variable sXML. An existing phone item with a primaryId given in the variable sId is deleted from the phones collection. </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>Sub TestCollectionDelete(sAppName, sSessionId)</code>
+                    </p>
+                    <p><code>Dim oCon, oCall, oRst, oObj</code>
+                    </p>
+                    <p><code>Dim sMethodStatus, sStatusType</code>
+                    </p>
+                    <p><code>Dim sId 'This is the ID of the phone record to delete.</code>
+                    </p>
+                    <p><code>sId = "1"</code>
+                    </p>
+                    <p><code>Set oCon = New cOTMConnection</code>
+                    </p>
+                    <p><code>If oCon Is Nothing Then</code>
+                    </p>
+                    <p><code>'Error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>If Not oCon.bInitialize(sAppName, sSessionId, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>'Error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>If Not oCon.bCreateLBOCall(oCall, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>'Error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>'.... </code>
+                    </p>
+                    <p><code>'sXML is set by a retrieve call for an similar collection. </code>
+                    </p>
+                    <p><code>'See the </code><code href="#_Ref-1167835717"><a href="#Collecti">Collection retrieve</a></code><code> example for how this is done.</code><![CDATA[  ]]></p>
+                    <p><code>'sXML = othersource() </code>
+                    </p>
+                    <p><code>' .... </code>
+                    </p>
+                    <p><code>'Use the XML from the retrieve to build the input data for the delete. </code>
+                    </p>
+                    <p><code>If Not oCall.bInitializeMerge(sXML, "phone", "saveCollection", "", "", sMethodStatus) Then</code>
+                    </p>
+                    <p><code>'Error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>If Not oCall.bGetRowset("phones", oRst, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>'Error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>While Not oRst.EOF</code>
+                    </p>
+                    <p><code>'Step through the rowset looking for the phone we want to update </code>
+                    </p>
+                    <p><code>If oRst.Fields("primaryId") = sId Then</code>
+                    </p>
+                    <p><code>'Tell OTM to delete this object. </code>
+                    </p>
+                    <p><code>'You could also remove the object properties not needed for a delete action</code> <![CDATA[ ]]></p>
+                    <p><code>' before sending the data back to the server, but this is not necessary.</code> <![CDATA[ ]]></p>
+                    <p><code>' The extra properties will just be ignored.</code> <![CDATA[ ]]></p>
+                    <p><code>If Not oRst.bSetRowProps("delete", "partial", sMethodStatus) Then</code>
+                    </p>
+                    <p><code>'Error out</code> <![CDATA[ ]]></p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>oRst.MoveNext</code>
+                    </p>
+                    <p><code>Else</code>
+                    </p>
+                    <p><code>'To save OTM some work, strip out all the previously retrieved phones </code>
+                    </p>
+                    <p><code>'from the collection, except for the one to be deleted. </code>
+                    </p>
+                    <p><code>'This does not delete them from the database, only from the working rowset object.</code> <![CDATA[ ]]></p>
+                    <p><code>If Not oRst.bRemoveRow(sMethodStatus) Then</code>
+                    </p>
+                    <p><code>'Error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>Wend</code>
+                    </p>
+                    <p><code>If Not oCall.bExecuteLocal(sStatusType, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>'Error out</code> <![CDATA[ ]]></p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>End Sub</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <h4><a name="Combined"></a>Combined Collection Operations</h4>
+        <p>You can combine inserts/updates/deletes in a single saveCollection call. The following code fragment shows how to update one object in a collection item while deleting another. </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>' sDeleteId is the primaryId of a phone to delete</code> <![CDATA[ ]]></p>
+                    <p><code>' sUpdateId is the primaryId of a phone to update</code> <![CDATA[ ]]></p>
+                    <p><code>If Not oCon.bCreateLBOCall(oCall, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' Error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>' Use the XML from a retrieve to build the save. </code>
+                    </p>
+                    <p><code>If Not oCall.bInitializeMerge(sXML, "phone", "saveCollection", "", "", sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' Error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>If Not oCall.bGetRowset("phones", oRst, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' Error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>While Not oRst.EOF</code>
+                    </p>
+                    <p><code>' Step through the rowSet looking for the phones identified above.</code> <![CDATA[ ]]></p>
+                    <p><code>Select Case oRst.Fields("primaryId")</code>
+                    </p>
+                    <p><code>Case sDeleteID</code>
+                    </p>
+                    <p><code>' Found the one to delete. Update the action attribute. </code>
+                    </p>
+                    <p><code>If Not oRst.bSetRowProps("delete", "keysOnly", sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' Error out</code> <![CDATA[ ]]></p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>oRst.MoveNext</code>
+                    </p>
+                    <p><code>Case sUpdateId</code>
+                    </p>
+                    <p><code>' Found the one to update. Add the new value(s). </code>
+                    </p>
+                    <p><code>oRst.Fields("phoneNumber") = "4255551212"</code>
+                    </p>
+                    <p><code>' Update the action attribute.. </code>
+                    </p>
+                    <p><code>If Not oRst.bSetRowProps("update", "all", sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' Error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>oRst.MoveNext</code>
+                    </p>
+                    <p><code>Case Else</code>
+                    </p>
+                    <p><code>' To save OTM some work, strip out all the previously retrieved phones </code>
+                    </p>
+                    <p><code>' from the collection, except for the ones to be updated/deleted.</code> <![CDATA[ ]]></p>
+                    <p><code>' This does not delete them from the database, only from the working rowset object.</code> <![CDATA[ ]]></p>
+                    <p><code>If Not oRst.bRemoveRow(sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' Error out</code> <![CDATA[ ]]></p>
+                    <p><code>End If</code>
+                    </p>
+                    <p><code>End Select</code>
+                    </p>
+                    <p><code>Wend</code>
+                    </p>
+                    <p><code>If Not oCall.bExecuteLocal(sStatusType, sMethodStatus) Then</code>
+                    </p>
+                    <p><code>' Error out </code>
+                    </p>
+                    <p><code>End If</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

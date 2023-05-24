@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="614" MadCap:lastWidth="989" xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd">
+    <head>
+        <link href="../../Resources/TableStyles/Aptean_Note_Table_1.css" rel="stylesheet" MadCap:stylesheetType="table" />
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>orderBatch XML (OPS)</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>
+            <MadCap:keyword term="OPS" />
+            <MadCap:keyword term="orderBatch XML" />orderBatch XML structure</h3>
+        <p>You must understand the orderBatch XML structure to customize or create 
+ print or email templates. Whether you are using XSL or Open XML Word, you must know 
+ how to apply XPath expressions to the orderBatch XML. For more information 
+ on XPath, see the W3C Recommendation 16 November 1999 (http://www.w3.org/TR/xpath).</p>
+        <p>The orderBatch XML structure contains the source XML input that your 
+ configured documents use for transformation or substitution rules. The 
+ orderBatch XML includes all the information for the literature orders, 
+ literature products, configured literature printers, and custom XML data 
+ relevant to a batch of orders.</p>
+        <table style="mc-table-style: url('../../Resources/TableStyles/Aptean_Note_Table_1.css');width: 80%;" class="TableStyle-Aptean_Note_Table_1" cellspacing="2">
+            <col style="width: 0.7cm;" class="TableStyle-Aptean_Note_Table_1-Column-Column1" />
+            <col class="TableStyle-Aptean_Note_Table_1-Column-Column1" style="width: 15.50cm;" />
+            <tbody>
+                <tr class="TableStyle-Aptean_Note_Table_1-Body-Body1">
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyB-Column1-Body1" style="text-align: right;">
+                        <p>
+                            <img src="../../Resources/Images/Common/note_image.png" />
+                        </p>
+                    </td>
+                    <td class="TableStyle-Aptean_Note_Table_1-BodyA-Column1-Body1">
+                        <p class="TableText"><b>Note</b>: For a complete orderBatch example, you can look in the Utilities 
+ directory of the product CD for orderBatchEmailSample.xml and orderBatchPrintSample.xml.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>The following XML fragment shows the basic structure of the orderBatch 
+ XML. Click a link for more information.</p>
+        <p Class="Code" class="Code">&lt;orderBatch&gt;</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;&lt;<a href="ops_literatureOrderList.htm">literatureOrders</a>/&gt;</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;&lt;<a href="ops_literatureOrderBatch.htm">literatureOrderBatch</a>/&gt;</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;&lt;<a href="ops_Custom_Data_XML.htm">customData</a>/&gt;</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;&lt;<a href="ops_literatureProductList.htm">literatureProducts</a>/&gt;</p>
+        <p Class="Code" class="Code">&#160;&#160;&#160;&#160;&lt;<a href="ops_literatureServicePrinters.htm">literatureServicePrinters</a>/&gt;</p>
+        <p Class="Code" class="Code">&lt;/orderBatch&gt; </p>
+        <h3>Handling dateTime data in orderBatch</h3>
+        <p>The OEAS stores all dateTime data as UTC. The fulfillment subsystem 
+ passes this data without conversion in the orderBatch XML. If you want 
+ to localize dateTime data, you have two options.</p>
+        <ol>
+            <li>You can create your print or email templates to 
+ label the data as UTC.</li>
+            <li>You can create you print 
+ or email templates to perform a conversion of the data before outputting 
+ it. For email templates you can use the xsl:script element to perform 
+ the conversion. </li>
+        </ol>
+    </body>
+</html>

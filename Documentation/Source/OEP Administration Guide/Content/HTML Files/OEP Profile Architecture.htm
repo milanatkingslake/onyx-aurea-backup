@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="851" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2><a name="top"></a>OEP Profile Architecture</h2>
+        <p>OEP's profile architecture, made possible through UCW, enables you to configure vastly different OEP user interfaces (UIs) using the same installation of OEP. Each profile-specific UI may look and behave entirely differently, or may share as many characteristics as you wish.</p>
+        <p>UCW enables you to modify the OEP UI according to the needs of each group in your organization, creating distinct UIs that are well aligned with each group's unique work flow. As an OEP administrator, you can grant certain users permission to access only the UI that has been designed for them, and you can grant other users—such as those who work in several different groups—permission to access multiple UIs so that they can log on to OEP using whichever OEP profile will best help them accomplish their task at hand. </p>
+        <p>For example, let's say you used UCW to configure two different OEP UIs, one for the sales team and another for your marketing team. Using OES, you can assign members of your sales team to the "Sales" OEP profile, and assign members of your marketing team to the "Marketing" OEP profile. You can then assign the manager of both teams to both profiles, so she can access both UIs.</p>
+        <h3>Terminology</h3>
+        <p>The following key terms are essential for understanding the OEP profile architecture:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Term</th>
+                    <th>Definition</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEP UI</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The Onyx Employee Portal user interface. </p>
+                        <p class="Table_Text">You can configure <a href="Configuring OEP.htm#UCW">various OEP areas</a> using UCW, and you can customize other areas of OEP by writing custom code.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Profile-specific UI<br />(custom UI)</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The OEP UI associated with an OEP profile. </p>
+                        <p class="Table_Text">The appearance, behavior, and other such characteristics of a profile-specific UI depend on the modifications made to both it and the baseline UI. </p>
+                        <p class="Table_Text">The default installation of OEP includes one profile-specific UI: the UI associated with the OEP User profile.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Baseline UI</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The OEP UI associated with the Global profile. </p>
+                        <p class="Table_Text">This UI is not visible to OEP users. Configurations made to the baseline UI apply to all profile-specific UIs, whereas configurations made to a profile-specific UI apply to that UI only. </p>
+                        <p class="Table_Text">UCW includes only one baseline UI: the UI associated with the Global profile. You cannot create alternate baseline UIs.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">OEP profile</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">A security element that provides access to a profile-specific UI.</p>
+                        <p class="Table_Text">Using OES Security Administration, you can create OEP profiles to define a set of users and/or roles with unique UI workflow requirements. One OEP profile, called OEP User, is provided with the installation of OEP. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Global profile</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">A security element that provides access to a special UI that is reserved for UCW designers. </p>
+                        <p class="Table_Text">The UI associated with this profile serves as the baseline configuration for all profile-specific UIs. See "baseline UI," above.</p>This profile is not accessible by OEP users, nor is it listed among the OEP Profiles defined within OES. </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Configuring profile-specific UIs</h3>
+        <p>You can configure a custom UI for each set of users/roles that belong to an OEP profile. You can also configure the baseline UI whose configurations apply to all profile-specific UIs.</p>
+        <p>Within each profile-specific UI, you can configure <a href="Configuring OEP.htm#UCW">various OEP areas</a>, including pages such as Company PowerPage, Individual PowerPage, Company, Individual, Incident, Task, and Products. When your OEP users navigate to pages that have been configured via UCW, the configured pages are served to those users based on their OEP profile (that is, the OEP profile they selected when logging on to OEP). </p>
+        <p>For instance, let's say one of your users belongs to an OEP profile called Sales1. When that user requests the Company PowerPage, the Company PowerPage that you designed specifically for the Sales1 profile will be served to that user, rather than the default non-UCW-configured Company PowerPage. </p>
+        <p>As discussed in the <a href="Best Practices for Configuring.htm#top">best practices for configuring OEP</a>, carefully manage your configurations to the baseline UI and each profile-specific UI. &#160;&#160;</p>
+        <p class="ProcedureHeading">To configure the baseline UI (whose configurations apply to all profile-specific UIs): &#160;</p>
+        <ol>
+            <li>Log on to OEP (in your development environment). When prompted for a profile, select the Global profile. </li>
+            <li>Configure the desired UCW-enabled areas.</li>
+            <li>If desired, <a href="Setting Default User Preferences.htm#top">set default user preferences for all UIs</a>. </li>
+        </ol>
+        <MadCap:pageBreak />
+        <p class="ProcedureHeading">To configure a profile-specific UI: </p>
+        <ol>
+            <li>Using OES Security Administration, create an OEP profile. </li>
+        </ol>
+        <p class="Indent1">You can assign users and/or roles to OEP profiles at any time. </p>
+        <ol MadCap:continue="true">
+            <li>Log on to OEP (in your development environment). When prompted for a profile, select the OEP profile related to the UI you want to design.</li>
+            <li>Configure the desired UCW-enabled areas.</li>
+            <li>If desired, <a href="Setting Default User Preferences_1.htm#top">set default user preferences for that UI</a>.</li>
+        </ol>
+        <h4>The compile process</h4>
+        <p>It's important to understand how UCW generates (compiles) profile-specific UI pages, because the process influences the way in which you might configure those pages. The key is to remember that modifications to the baseline UI (which is accessed via the Global profile) are inherited by all profile-specific UIs, while modifications made to a profile-specific UI belong to that UI only. (Note that this inheritance model works similarly for <a href="Setting Default OEP User Preferences.htm#top">user preferences</a>, except that user preferences established for a profile-specific UI override the settings that it had inherited from the Global profile.) </p>
+        <p>When you <a href="Troubleshooting Configuration.htm#Compilin">compile</a> your changes, UCW merges the changes into their corresponding default OEP pages and generates a set of fully functional ASP pages. During the compile process, UCW first implements all baseline UI modifications (changes made via the Global profile), and then implements all profile-specific UI modifications.</p>
+        <p>Consider the following example: Let's say that Ed configures the Company PowerPage for the Support and Marketing UIs. Ed wants both UIs to hide the Sales tab, so he makes that change to the baseline UI. (He accesses the baseline UI by selecting the Global profile when he logs on to OEP.) He then compiles his changes and logs out of OEP. Ed also wants to add a "Support" caption to the Support UI, and a "Marketing" caption to the Marketing UI, so he makes those changes to the two profile-specific UIs. He first makes his change to the Support UI, compiles his changes, and logs out of OEP. He then makes his change to the Marketing UI, compiles his changes, and logs out of OEP.</p>
+        <p><b>Example</b>
+        </p>
+        <p>The following graphic illustrates the results of configuring the Sales1 UI using the Global profile and a sample OEP profile called Sales1. In this example, the UCW designer has configured four OEP pages using the Global profile; these changes are inherited by the Sales1 UI (and all other profile-specific UIs). The UCW designer has also configured two of those OEP pages—the Company and Products pages—using the OEP profile called Sales1; these modifications apply only to the Sales1 UI.</p>
+        <p>The compile process first applies all changes made to the baseline UI (accessed via the Global profile), and then applies all changes made to Sales1 UI (associated with the custom OEP profile called Sales1). After the pages are migrated to the production environment, the resulting OEP pages are presented to all OEP users who have logged on to OEP using the Sales1 OEP profile.</p>
+        <p>In this example, when your OEP users access the Company and Products pages, the pages presented to them contain changes made to the baseline UI and to the Sales1 UI. When they access the Incidents and Tasks pages, on the other hand, the pages presented to them contain changes made to the baseline UI only. The compile process does not impact the List Manager and Task Manager pages, because those pages are not UCW-enabled and therefore cannot be modified by UCW.</p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">This graphic serves only as an abstraction of the compile process, as seen from an OEP user's perspective. It does not identify all UCW-enabled areas, nor does it attempt to explain the details of the compile process. </p>
+        <p>&#160;</p>
+        <p class="Image">
+            <img src="../Resources/Images/ONYX 77 OEP Administration Guide/OEP Profile Architecture_1.png" style="border-top-style: solid;border-top-width: 1pt;border-bottom-style: solid;border-bottom-width: 1pt;border-left-style: solid;border-left-width: 1pt;border-right-style: solid;border-right-width: 1pt;width: 557px;height: 282px;" />
+        </p>
+    </body>
+</html>

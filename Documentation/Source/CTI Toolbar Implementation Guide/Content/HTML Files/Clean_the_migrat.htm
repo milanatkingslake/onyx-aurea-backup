@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="419" MadCap:lastWidth="644">
+    <head>
+        <link href="../Resources/Stylesheets/consonacrm.css" rel="stylesheet" />
+    </head>
+    <body>
+        <H3 class="Heading">Step 1: Clean the migrated Onyx CTI data for upgrade </H3>
+        <p class="BodyText">If you are upgrading Onyx CTI, you must clean the data in the Onyx CTI tables on the 7.6.1&#160;OEDB before installing Onyx CTI files. Cleaning ensures that data conforms with the 7.6.1&#160;OEDB’s more extensive referential integrity constraints and that the data is thus upgraded. </p>
+        <p class="BodyText">The script used in this step identifies referential integrity issues of data in the Onyx CTI tables. You can then correct the issues and rerun the script until issues are no longer identified, thus ensuring that the data is clean. The script also automatically fixes issues related to the use of the invalid user ID OnyxEASSQL during installation of Onyx CTI&#160;7.6.1. </p>
+        <p class="BodyText">Only the clean data will be upgraded to Onyx CTI 7.6.1. Upgrading of clean data occurs automatically during installation of Onyx CTI files to the OEDB. For more information about this installation step, see <a href="Install CTI to the OEDB.htm" style="text-decoration: none;">Step2: Install Onyx CTI to the OEDB</a>. </p>
+        <p class="TaskHeading">To clean the migrated Onyx CTI data for upgrade: </p>
+        <ol>
+            <li class="ListBullet">Copy the pre-upgrade script from the Onyx CTI product CD to a local machine (the 7.6.1&#160;OEDB server or a separate machine). <br />Full path: &lt;CD&#160;directory&gt;\Onyx&#160;CTI\Setup\Database\source\UpgradeScripts\cti_pre-upgrade.sql </li>
+            <li class="ListBullet">Run the upgrade validation script. </li>
+            <li class="ListBullet">If the output contains errors, update (correct) the related data and rerun the script. Continue until the output contains no errors. </li>
+        </ol>
+    </body>
+</html>

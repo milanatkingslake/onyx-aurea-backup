@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="5" MadCap:lastHeight="858" MadCap:lastWidth="624">
+    <head><title>Configuring the Timage and Unsubscribing Virtual Directory Settings</title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h3>Configuring the Timage and Unsubscribing Virtual Directory Settings</h3>
+        <p class="ProcedureHeading">To configure Timage virtual directory settings:</p>
+        <ol>
+            <li>On the Web server, navigate to the folder containing the files for the TImage virtual directory. The default location for this folder is <b>..\Inetpub\wwwroot\TImage</b>.</li>
+            <li>In an editor such as Notepad, open the <b>web.config</b> file, and change the following settings:</li>
+        </ol>
+        <ul>
+            <li class="List_Indent"><b>Data Source</b>. DATABASE_SERVER_NAME (Enter the name of your database server.)</li>
+            <li class="List_Indent"><b>Initial Catalog</b>. ONYX_DATABASE_NAME (Enter the Onyx database name.)</li>
+            <li class="List_Indent"><b>User ID</b>. DATABASE_USER_NAME (Enter the user ID to log on to the Onyx database.)</li>
+            <li class="List_Indent"><b>Password</b>. DA TABASE_PASSWORD (Enter the password corresponding to the user ID.)</li>
+        </ul>
+        <p class="Indent1" style="font-weight: bold;">Sample code:</p>
+        <table>
+            <tr>
+                <td style="background-color: #dcdcdc;">
+                    <p class="C_Code">&lt;configuration&gt;</p>
+                    <p class="C_Code">&lt;system.web&gt;</p>
+                    <p class="C_Code">&lt;customErrors mode="Off"/&gt;</p>
+                    <p class="C_Code">&lt;httpHandlers&gt;</p>
+                    <p class="C_Code">&lt;add verb="*" path="*.gif"</p>
+                    <p class="C_Code">type="ImageTrackerHandler.ImageHandler,ImageTrackerHandler"/&gt;</p>
+                    <p class="C_Code">&lt;/httpHandlers&gt;</p>
+                    <p class="C_Code">&lt;/system.web&gt;</p>
+                    <p class="C_Code">&lt;appSettings&gt;</p>
+                    <p class="C_Code">&lt;add key="DBCONN_STRING" value="Data Source=DATABASE_SERVER_NAME;Initial</p>
+                    <p class="C_Code">Catalog=ONYX_DATABASE_NAME;User ID=DATABASE_USER_NAME;Password=DATABASE_</p>
+                    <p class="C_Code">PASSWORD" /&gt;</p>
+                    <p class="C_Code">&lt;add key="GIF_FILE" value="/timage/images/space.gif" /&gt;</p>
+                    <p class="C_Code">&lt;add key="SITEID" value="1" /&gt;</p>
+                    <p class="C_Code">&lt;/appSettings&gt;</p>
+                    <p class="C_Code">&lt;/configuration&gt;</p>
+                </td>
+            </tr>
+        </table>
+        <ol start="3">
+            <li>Open <b>Internet Information Services (IIS) Manager</b> from Administrative Tools.</li>
+            <li>Expand the <b>Web Sites</b> folder, and then click <b>Default Web Site</b>. Make sure the Timage and Unsubscribe websites are present.</li>
+            <li>Click the <b>Timage virtual</b> application website, and then click <b>Handler Mappings</b>. Make sure the .gif extension is present for image.</li>
+            <li>Save and close the file.</li>
+        </ol>
+        <p class="ProcedureHeading">To configure Unsubscribe virtual directory settings:</p>
+        <ol>
+            <li>On the Web server, navigate to the folder containing the files for the Timage virtual directory. The default location for this folder is ..\Inetpub\wwwroot\Unsubscribe.</li>
+            <li>In an editor such as Notepad, open the unsubscribe.config file, and change the following settings:</li>
+        </ol>
+        <ul>
+            <li class="List_Indent"><b>User ID</b>. DATABASE_USER_NAME (Enter the user ID to log on to the Onyx database)</li>
+            <li class="List_Indent"><b>Password</b>. DATABASE_PASSWORD (Enter the password corresponding to the user ID)</li>
+            <li class="List_Indent"><b>Initial Catalog</b>. ONYX_DATABASE_NAME (Enter the Onyx database name)</li>
+            <li class="List_Indent"><b>Source</b>. DATABASE_SERVER_NAME (Enter the name of your database server)</li>
+            <li class="List_Indent"><b>ErrorReportEmailAddress</b>. EmailAddress@YourCompany.com (Enter a valid internal email address where all error reports will be sent for further processing.)</li>
+            <li class="List_Indent"><b>ConfirmationURL</b>. http://www.YourCompany.com/unsubscribe/confirmation_sample.asp (Enter the URL for the page that appears to confirm that the Unsubscribe request is successfully processed.)</li>
+            <li class="List_Indent"><b>iSiteID</b>. 1 (Enter the site ID of your Onyx installation).</li>
+        </ul>
+        <p class="Indent1" style="font-weight: bold;">Sample code:</p>
+        <table>
+            <tr>
+                <td style="background-color: #dcdcdc;">
+                    <p class="C_Code">&lt;configuration&gt;</p>
+                    <p class="C_Code">&#160;&#160; &#160;&#160;&lt;DatabaseConnectionString&gt;</p>
+                    <p class="C_Code">&#160;&#160; &#160;&#160;&#160;&#160;Provider=SQLOLEDB.1;Password=DATABASE_PASSWORD;Persist Security Info=True;User ID=DATABASE_USER_ NAME;Initial Catalog=ONYX_DATABASE_NAME;Data</p>
+                    <p class="C_Code">&#160;&#160; &#160;&#160;Source=DATABASE_SERVER_NAME</p>
+                    <p class="C_Code">&#160;&#160; &#160;&#160;&lt;/DatabaseConnectionString&gt;</p>
+                    <p class="C_Code">&#160;&#160; &#160;&#160;&lt;ErrorReportEmailAddress&gt;</p>
+                    <p class="C_Code">&#160;&#160; &#160;&#160;EmailAddress@YourCompany.com</p>
+                    <p class="C_Code">&#160;&#160; &#160;&#160;&lt;/ErrorReportEmailAddress&gt;</p>
+                    <p class="C_Code">&#160;&#160; &#160;&#160;&lt;ConfirmationURL&gt;</p>
+                    <p class="C_Code">&#160;&#160; &#160;&#160;http://www.YourCompany.com/unsubscribe/confirmation_sample.asp</p>
+                    <p class="C_Code">&#160;&#160; &#160;&#160;&lt;/ConfirmationURL&gt;</p>
+                    <p class="C_Code">&#160;&#160; &#160;&#160;&lt;iSiteID&gt;</p>
+                    <p class="C_Code">&#160;&#160; &#160;&#160;1</p>
+                    <p class="C_Code">&#160;&#160; &#160;&#160;&lt;/isiteID&gt;</p>
+                    <p class="C_Code">&lt;/configuration&gt;</p>
+                </td>
+            </tr>
+        </table>
+        <ol start="3">
+            <li>Save and close the file.</li>
+        </ol>
+    </body>
+</html>

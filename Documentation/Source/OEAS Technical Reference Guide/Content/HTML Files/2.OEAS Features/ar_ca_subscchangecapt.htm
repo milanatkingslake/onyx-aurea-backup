@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="6" MadCap:lastHeight="794" MadCap:lastWidth="624">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Change-capture triggers</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h4>Change-capture triggers </h4>
+        <p>Once a transactional object is subscribed and synchronized 
+ to OEP-Offline, any changes made to that object online must be synchronized 
+ to OEP-Offline to keep the offline data up to date. The Subscription feature 
+ tracks online changes to subscribed records using database triggers. Specifically, 
+ triggers that include <em class="Emphasis">change-capture</em> logic are 
+ required on the transactional tables that support those business objects 
+ that have been made subscribable. This change-capture logic updates the 
+ value of the subscription_item sync_action field for the subscribed record 
+ so that the cascade process can re-cascade the record, re-synchronize 
+ the record, or cascade delete the record. The following types of triggers 
+ are used to implement the change-capture logic: </p>
+        <ul>
+            <li><a href="AR_CA_SubscChangeCaptUpd.htm">Insert</a>
+            </li>
+            <li><a href="AR_CA_SubscChangeCaptUpda.htm">Update</a>
+            </li>
+            <li><a href="AR_CA_SubscChangeCaptDel.htm">Delete</a>
+            </li>
+        </ul>
+        <p>Triggers that include the change-capture logic are provided with OEP-Offline 
+ to support the default subscribable objects provided with that product. 
+ They are listed in the following table. </p>
+        <table style="width: 100%;">
+            <col />
+            <col />
+            <col />
+            <col />
+            <thead>
+                <tr>
+                    <th>Table </th>
+                    <th>Trigger name </th>
+                    <th>Trigger type </th>
+                    <th>Includes change-capture logic for: </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">company </p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">etryiCompany </p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">insert/update </p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">Inserts, updates, and logical deletions of 
+ companies. </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">company </p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">etrcdCompany </p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">delete </p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">Physical deletions of companies. </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">individual </p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">etrciIndividual </p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">insert/update </p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">Inserts, updates, and logical deletions of 
+ individuals. </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">individual </p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">etrcdIndividual </p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">delete </p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">Physical deletions of individuals. </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">customerAddress </p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">etraiCustomerAddress </p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">insert/update </p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">Inserts, updates, and logical deletions of 
+ customer addresses. </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">customerPhone </p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">etrciCustomerPhone </p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">insert/update </p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">Inserts, updates, and logical deletions of 
+ customer phones. </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">incident </p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">etriiIncident </p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">insert/update </p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">Inserts, updates, and logical deletions of 
+ incidents and tasks. </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">quoteheader </p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">etrsiQuoteHeader </p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">insert/update </p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">Inserts, updates, and logical deletions of 
+ forecasts and quotes. </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">reminder </p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">etriiReminder </p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">insert/update </p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">Inserts, updates, and logical deletions of 
+ reminders. </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">workNote </p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">etriiIncidentWorknote </p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">insert </p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">Inserts of work notes. </p>
+                    </td>
+                </tr>
+                <tr style="background-color: #ffffff;text-align: left;" bgcolor="#ffffff" align="left">
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">workNote </p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">etridIncidentWorknote </p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">delete </p>
+                    </td>
+                    <td style="padding-left: 1px;padding-top: 1px;padding-right: 1px;padding-bottom: 1px;">
+                        <p class="Table_Text" style="color: #000000;">Physical deletions of work notes. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p>Sample change-capture triggers are described in “Creating change capture 
+ triggers” in the <em class="Emphasis">OEP-Offline Developer’s Reference</em>. </p>
+        <p class="Note" MadCap:autonum="&lt;b&gt;Note:&lt;/b&gt; &#160;">The database triggers that include change-capture logic are 
+ referred to as change-capture triggers throughout the following sections. 
+ Some triggers might also include logic for additional database operations.</p>
+    </body>
+</html>

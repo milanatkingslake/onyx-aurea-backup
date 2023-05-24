@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="4" MadCap:lastHeight="775" MadCap:lastWidth="624">
+    <head>
+        <link href="../../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <head><title>Action Batch Process Flow</title>
+            <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" />
+        </head>
+        <h3>Action Batch Process Flow</h3>
+        <p>This section describes how OPS components work together to process action 
+ batches. The batch subsystem processing begins with a request by the OPS 
+ subsystems for an action batch. The batch subsystems process action batches, 
+ resulting in OEDB updates via method calls to OEAS. The following graphic 
+ depicts the OPS action batch process flow:</p>
+        <p class="Image">
+            <img src="../../../Resources/Images/AR_ops_actionbatchflow.jpg" style="border-left-style: solid;border-left-width: 1px;border-left-color: #000000;border-right-style: solid;border-right-width: 1px;border-right-color: #000000;border-top-style: solid;border-top-width: 1px;border-top-color: #000000;border-bottom-style: solid;border-bottom-width: 1px;border-bottom-color: #000000;" />
+        </p>
+        <ol style="list-style: decimal;list-style-type: decimal;">
+            <li>A user submits a request for actions to be performed 
+ for each member of a list of records. This set of actions is an “action 
+ batch.” Action batch status is set to New.</li>
+            <li>The subsystem requests an action batch from OEAS. 
+ Status is updated to In Process.</li>
+            <li>The subsystem begins processing the action batch. 
+ The batch subsystem places method calls to OEAS to carry out the actions.</li>
+            <li>Any errors that occur during the process are logged 
+ in the Event Log. You can configure the OPS service to send an error notification 
+ via email in addition to logging the event.</li>
+            <li>The subsystem updates the processed action batches’ 
+ status to Completed or Error as appropriate.</li>
+        </ol>
+    </body>
+</html>

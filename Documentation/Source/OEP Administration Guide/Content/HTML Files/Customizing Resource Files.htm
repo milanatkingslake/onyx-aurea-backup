@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:lastBlockDepth="6" MadCap:lastHeight="849" MadCap:lastWidth="624">
+    <head><title></title>
+        <link href="../Resources/Stylesheets/ApteanPDF.css" rel="stylesheet" />
+    </head>
+    <body>
+        <h2><a name="top"></a>Customizing Resource Files</h2>
+        <p>OEP uses resource files to store text strings that appear throughout the OEP user interface. These strings include labels for user interface elements, text for mouse-over tooltips, and dialog box contents. These files simplify the task of configuring and customizing OEP. </p>
+        <p class="Tip" MadCap:autonum="&lt;b&gt;Tip:&lt;/b&gt; &#160;">To edit text strings for <a href="Configuring OEP.htm#UCW">UCW-enabled areas</a>, use the <a href="Configuring UI and Message.htm#Configur">UI Text Editor</a>. Edit resource files only for areas of OEP that are not enabled by UCW.</p>
+        <p>Each server-side executable script file (.asp, .vb, .vbi, .js) that can display text strings to the end user has a corresponding resource file. With the exception of database-generated error messages, which are stored in the National Language table of OEAS, all OEP client text is stored and editable through resource files (to configure database error messages, use the National Language tool in OES Table Administration).</p>
+        <p>Resource files for new features are stored in an XML format. All new end-user OEP features use these files and the XResourceManager JavaScript class. All resource strings for these features are handled in the client browser. </p>
+        <h3><a name="Contents"></a>Contents of the Resource Files</h3>
+        <p>All strings that appear in the user interface are stored in resource files. The strings are used for the following types of interface elements:</p>
+        <ul>
+            <li>Window titles</li>
+            <li>Descriptive captions</li>
+            <li>Image ToolTips</li>
+            <li>Messages (primarily errors that occur outside the database)</li>
+            <li>Column headings for lists</li>
+        </ul>
+        <h4>Resource files from previous versions</h4>
+        <p>The strings are declared as constants in the resource files and applied within the script code. All constants follow a loose naming convention where the prefix “res_” is added to a descriptive name of the item that uses the data. For a column or text box label for example, the text that follows the prefix “res_” is the name of the label itself. If the label is “Name”, then the constant is “res_Name”. For messages, the text that follows the prefix “res_” is a brief description of the message. For example, for the message “Your session has timed out. Please log in again.” the constant is named “res_SessionTimeout”.</p>
+        <p>Some sample names for resource file constants appear in the following table. </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>String type</th>
+                    <th>Description of constant name</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Label</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The name of the label with the prefix "res_"</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">res_Name</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">ToolTip</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The contents of the ToolTip with the prefix "res_"</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">res_AddCompany</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">Message</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">A brief message description with the prefix "res_"</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">res_SessionTimeout</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h4>XML resource files</h4>
+        <p>Resource strings for newer features, pages that use the result list control, and pages that implement UCW are stored in XML resource files. Strings are manipulated using the <a href="#XResourc">XResourceManager</a> object. Strings can also be created dynamically at run time. See the <i href="file:///C:/Users/rmuladharmaveer/Documents/MyJabberFiles/arunkumar.vasam@aptean.com/ONYX 77 OEP Administration Guide.doc#_Ref-1323959712">addString</i> and <i href="file:///C:/Users/rmuladharmaveer/Documents/MyJabberFiles/arunkumar.vasam@aptean.com/ONYX 77 OEP Administration Guide.doc#_Ref-1006656055">setString</i> methods to learn how to create resource strings in the client browser. </p>
+        <p class="Tip" MadCap:autonum="&lt;b&gt;Tip:&lt;/b&gt; &#160;">The resource strings on <a href="Configuring OEP.htm#UCW">UCW-enabled areas</a> should be configured using the UI Text Editor and not with calls to XResourceManager. </p>
+        <p>The following XML document sample shows the element syntax for the resource strings. </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>&lt;?xml version="1.0" ?&gt;</code>
+                    </p>
+                    <p><code>&lt;strings&gt; </code>
+                    </p>
+                    <p><code> &lt;string name="field1" id="" text="Contact type" /&gt;</code>
+                    </p>
+                    <p><code> &lt;string name="field2" id="" text="Contact name" /&gt;</code>
+                    </p>
+                    <p>&#160;&#160;<code>&lt;string name="field3" id="" text="Comment" /&gt;</code></p>
+                    <p><code>&lt;/strings&gt;</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>Each string element has three attributes. These are described in the table below. </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Attribute</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p class="Table_Text">name</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">A unique identifier for the resource string. </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">id</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">Reserved for future use.</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="Table_Text">text</p>
+                    </td>
+                    <td>
+                        <p class="Table_Text">The text of the resource string. This string can contain tokens that can be replaced at run time. </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h3>Location of the Resource Files</h3>
+        <p>During setup, resource files for features from previous versions are installed into the YourOEPwebsite\Res directory. The file structure of the Res folder mirrors the structure of the YourOEPwebsite folder, with files grouped by feature.</p>
+        <p>The names for resource files are identical to the name of the script file to which the strings belong, but with the suffix “res” appended to the file name. For example, the resource file for workticket_core.vbi is named workticket_core_res.vbi. Every script file that generates user interface text has a corresponding resource file.</p>
+        <p>Resource files for new features and those that use the result list control and other onyxCommon components are installed in a directory in YourOEPwebsite\ that identifies the language in use. The English version stores the files in YourOEPwebsite\eng. The directory structure for these resource files matches that of the application, but the files themselves are named to reflect their purpose. This was done as the strings may be used by several different script files simultaneously rather than tied to a single script file. </p>
+        <p>ASP scripts that use resource files reference them with the #include directive. The following example shows how the surveydetails.asp script includes surveys-details_res.asp, and how the reference to a caption string is made within the surveydetails.asp file.</p>
+        <p>The file surveydetails.asp references surveys-details_res.asp: </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>&lt;!-- #include file="res/surveys-details_res.asp"--&gt;</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>Within the ASP code, the text for the caption of the Survey Question column is taken from the value of the variable: </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>&lt;td class="ColumnHeader"&gt;&lt;%=res_Survey_Question%&gt;&lt;/td&gt;</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>The caption is defined as a constant in surveys-details_res.asp: </p>
+        <table>
+            <tr>
+                <td>
+                    <p><code>const res_Survey_Question = "Survey Question"</code>
+                    </p>
+                </td>
+            </tr>
+        </table>
+        <p>Some client-side files have resource strings stored in JavaScript and VBScript files. The naming conventions are the same as those used for ASP files. </p>
+        <h3><a name="XResourc"></a>XResourceManager Class</h3>
+        <p>An instance of the XResourceManager class stores the user interface strings for some OEP features. Resource strings can be loaded from files on the server or added to the class dynamically at run time. </p>
+        <p>To learn more about the properties and methods of the XResourceManager class, see <a href="Customizing Result Lists.htm#XResourc">XResourceManager object</a> in the Programmer's Reference. </p>
+    </body>
+</html>

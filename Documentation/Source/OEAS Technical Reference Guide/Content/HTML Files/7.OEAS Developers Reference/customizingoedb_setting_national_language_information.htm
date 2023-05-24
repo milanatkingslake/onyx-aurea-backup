@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:check_list="Ran Smart Index" MadCap:timeEstimate="0" MadCap:priority="0" MadCap:status="In Progress" MadCap:lastBlockDepth="2" MadCap:lastHeight="435" MadCap:lastWidth="1198">
+    <head>
+        <link href="../../Resources/Stylesheets/ApteanOLH.css" rel="stylesheet" type="text/css" /><title>Setting national language information</title>
+    </head>
+    <body>
+        <h5>
+            <MadCap:keyword term="national language information;National Language" />Returning national language errors</h5>
+        <p>National language errors may be returned using the message_code and 
+ database_message columns described in <a href="customizingOEDB_result_set_interpretation.htm">result 
+ set intperpretation</a> by setting the appropriate variables. The following 
+ sample shows how a national language error might be raised from a replace 
+ procedure: </p>
+        <p Class="Code" class="code"><span style="font-weight: normal;">-- 
+ If the search type (table_id) is NOT an individual, company</span>
+        </p>
+        <p Class="Code" class="code">-- or customer or if it is null then raise 
+ an invalid object error.</p>
+        <p Class="Code" class="code">IF @table_id IS NULL OR @table_id NOT 
+ IN (@INDIVIDUAL_OBJ_TBL_ID,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;@COMPANY_OBJ_TBL_ID,</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;@CUSTOMER_OBJ_TBL_ID) 
+ </p>
+        <p Class="Code" class="code">BEGIN</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;SET 
+ @return_code &#160;= 
+ 2</p>
+        <p Class="Code" class="code">&#160;&#160;&#160;SET 
+ @message_code = 709031</p>
+        <p Class="Code" class="code">END</p>
+        <p>These variables will be used with returning 
+ the error result set described in <a href="customizingOEDB_Behavioral_rules_for_replace_procedures.htm">behavioral 
+ rules for replace procedures</a>.</p>
+    </body>
+</html>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:MadCap="http://www.madcapsoftware.com/Schemas/MadCap.xsd" MadCap:conditions="Default.Main" MadCap:lastBlockDepth="2" MadCap:lastHeight="426" MadCap:lastWidth="835"><head><title>Location of the resource files</title>
+    </head>
+    <body>
+        <h1>
+            <MadCap:keyword term="Location of resource files;Resource files:Location of" />Location of the resource files</h1>
+        <p>During setup, resource files for features from previous versions are 
+ installed into the [YourOEPwebsite]\Res 
+ directory. The file structure of the Res folder mirrors the structure 
+ of the [YourOEPwebsite] folder, 
+ with files grouped by feature.</p>
+        <p>The names for resource files are identical to the name of the script 
+ file to which the strings belong, but with the suffix res appended to 
+ the file name. For example, the resource file for workticket_core.vbi 
+ is named workticket_core_res.vbi. Every script file that generates user 
+ interface text has a corresponding resource file.</p>
+        <p>Resource files for new features and those that use the result list control 
+ and other onyxCommon components are installed in a directory in [YourOEPwebsite]\ that identifies the 
+ language in use. The English version stores the files in [YourOEPwebsite]\eng. 
+ The directory structure for these resource files matches that of the application, 
+ but the files themselves are named to reflect their purpose. This was 
+ done as the strings may be used by several different script files simultaneously 
+ rather than tied to a single script file. </p>
+        <p>ASP scripts that use resource files reference them with the #include 
+ directive. The following example shows how the surveydetails.asp script 
+ includes surveys-details_res.asp, and how the reference to a caption string 
+ is made within the surveydetails.asp file.</p>
+        <p>The file surveydetails.asp references surveys-details_res.asp:</p>
+        <p Class="Code" class="code"><!-- #include file="res/surveys-details_res.asp"--></p>
+        <p>Within the ASP code, the text for the caption of the Survey Question 
+ column is taken from the value of the variable:</p>
+        <p Class="Code" class="code"><td class="ColumnHeader">%=res_Survey_Question%</td></p>
+        <p>The caption is defined as a constant in surveys-details_res.asp:</p>
+        <p Class="Code" class="code">const res_Survey_Question = "Survey Question"</p>
+        <p>Some client-side files have resource strings 
+ stored in JavaScript and VBScript files. The naming conventions are the 
+ same as those used for ASP files. </p>
+    </body>
+</html>
