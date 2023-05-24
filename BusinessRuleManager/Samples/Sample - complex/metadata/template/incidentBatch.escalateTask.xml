@@ -1,0 +1,254 @@
+<!-- Copyright © Aptean 2014. All rights reserved. -->
+<rules>
+	<rule description="Retrieve all service requests that have status = New or In Process, not updated in last week">
+		<otmCall>
+			<object>
+				<literal>incident</literal>
+			</object>
+			<method>
+				<literal>retrieveListByFilterNoDefault</literal>
+			</method>
+			<inputParameters>
+				<addNode description="Category = service requests">
+					<path>
+						<literal>.</literal>
+					</path>
+					<name>
+						<literal>categoryIdList</literal>
+					</name>
+				</addNode>
+				<setNodeValue>
+					<path>
+						<literal>categoryIdList</literal>
+					</path>
+					<value>
+						<literal>2</literal>
+					</value>
+				</setNodeValue>
+				<addNode description="Status = New or In Process">
+					<path>
+						<literal>.</literal>
+					</path>
+					<name>
+						<literal>statusIdList</literal>
+					</name>
+				</addNode>
+				<setNodeValue>
+					<path>
+						<literal>statusIdList</literal>
+					</path>
+					<value>
+						<literal>102103;102107</literal>
+					</value>
+				</setNodeValue>
+				<addNode description="Set update date start to 10 years ago">
+					<path>
+						<literal>.</literal>
+					</path>
+					<name>
+						<literal>updateStart</literal>
+					</name>
+				</addNode>
+				<setNodeValue>
+					<path>
+						<literal>updateStart</literal>
+					</path>
+					<value>
+						<dateAdd>
+							<part>year</part>
+							<number>
+								<literal>-10</literal>
+							</number>
+							<value>
+								<dateNowUTC/>
+							</value>
+						</dateAdd>
+					</value>
+				</setNodeValue>
+				<addNode description="Set update date end to 1 week ago">
+					<path>
+						<literal>.</literal>
+					</path>
+					<name>
+						<literal>updateEnd</literal>
+					</name>
+				</addNode>
+				<setNodeValue>
+					<path>
+						<literal>updateEnd</literal>
+					</path>
+					<value>
+						<dateAdd>
+							<part>week</part>
+							<number>
+								<literal>-1</literal>
+							</number>
+							<value>
+								<dateNowUTC/>
+							</value>
+						</dateAdd>
+					</value>
+				</setNodeValue>
+				<addNode description="Limit results to 10 rows">
+					<path>
+						<literal>.</literal>
+					</path>
+					<name>
+						<literal>rowSet</literal>
+					</name>
+				</addNode>
+				<addNode>
+					<path>
+						<literal>rowSet</literal>
+					</path>
+					<name>
+						<literal>@pageSize</literal>
+					</name>
+				</addNode>
+				<setNodeValue>
+					<path>
+						<literal>rowSet/@pageSize</literal>
+					</path>
+					<value>
+						<literal>10</literal>
+					</value>
+				</setNodeValue>
+			</inputParameters>
+			<outputParameters description="Save results in return parameters">
+				<fieldMap>
+					<source>
+						<literal>rowSet</literal>
+					</source>
+					<target>
+						<literal>//parametersReturn/rowSet</literal>
+					</target>
+				</fieldMap>
+			</outputParameters>
+			<onError>stop</onError>
+		</otmCall>
+	</rule>
+	<rule description="Now add a task for each request">
+		<forEach>
+			<path>
+				<literal>//parametersReturn/rowSet/rows/row</literal>
+			</path>
+			<rules>
+				<objectInstance description="Add task object">
+					<path>
+						<literal>.</literal>
+					</path>
+					<name>
+						<literal>task</literal>
+					</name>
+				</objectInstance>
+				<fieldMaps>
+					<fieldMap description="Set owner ID to incident">
+						<source>
+							<literal>c0</literal>
+						</source>
+						<target>
+							<literal>task/ownerId</literal>
+						</target>
+					</fieldMap>
+					<fieldMap description="Set assigned to = Assigned To from incident">
+						<source>
+							<literal>c23</literal>
+						</source>
+						<target>
+							<literal>task/assignedTo</literal>
+						</target>
+					</fieldMap>
+				</fieldMaps>
+				<setNodeValue description="Set owner type to incident">
+					<path>
+						<literal>task/ownerType</literal>
+					</path>
+					<value>
+						<literal>6</literal>
+					</value>
+				</setNodeValue>
+				<setNodeValue description="Set category ID = Service Task">
+					<path>
+						<literal>task/categoryId</literal>
+					</path>
+					<value>
+						<literal>12</literal>
+					</value>
+				</setNodeValue>
+				<setNodeValue description="Set task description">
+					<path>
+						<literal>task/description1</literal>
+					</path>
+					<value>
+						<literal>Follow up on escalated Service Request</literal>
+					</value>
+				</setNodeValue>
+				<setNodeValue description="Set type = Expedite">
+					<path>
+						<literal>task/typeId</literal>
+					</path>
+					<value>
+						<literal>102221</literal>
+					</value>
+				</setNodeValue>
+				<setNodeValue description="Set status = Open">
+					<path>
+						<literal>task/statusId</literal>
+					</path>
+					<value>
+						<literal>130</literal>
+					</value>
+				</setNodeValue>
+				<setNodeValue description="Set priority = High">
+					<path>
+						<literal>task/priorityId</literal>
+					</path>
+					<value>
+						<literal>118</literal>
+					</value>
+				</setNodeValue>
+				<otmCall description="Insert the task">
+					<object>
+						<literal>task</literal>
+					</object>
+					<method>
+						<literal>insert</literal>
+					</method>
+					<inputParameters>
+						<fieldMap description="Use task object as input">
+							<source>
+								<literal>task</literal>
+							</source>
+							<target>
+								<literal>task</literal>
+							</target>
+						</fieldMap>
+					</inputParameters>
+					<outputParameters description="No need to save any results"/>
+					<onError>stop</onError>
+				</otmCall>
+			</rules>
+		</forEach>
+	</rule>
+	<rule description="Return count of records processed">
+		<returnMessage>
+			<type>message</type>
+			<msgId>2000051</msgId>
+			<arguments>
+				<getNodeValue>
+					<literal>//parametersReturn/rowSet/@rowCount</literal>
+				</getNodeValue>
+			</arguments>
+		</returnMessage>
+	</rule>
+	<rule description="Clean up return parameters">
+		<removeNodes>
+			<path>
+				<literal>//parametersReturn</literal>
+			</path>
+			<name>
+				<literal>rowSet</literal>
+			</name>
+		</removeNodes>
+	</rule>
+</rules>

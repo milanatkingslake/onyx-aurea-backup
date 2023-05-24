@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DC9553B3-AE09-4575-9AAE-96098C65A3A9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ConsonaCRM.BusinessRuleManager.Grammar.Expressions.String</RootNamespace>
+    <AssemblyName>ConsonaCRM.BusinessRuleManager.String</AssemblyName>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>OnyxCRM.snk</AssemblyOriginatorKeyFile>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Concatenate.cs" />
+    <Compile Include="StringLessThan.cs" />
+    <Compile Include="StringLessThanEqualTo.cs" />
+    <Compile Include="StringGreaterThanEqualTo.cs" />
+    <Compile Include="StringGreaterThan.cs" />
+    <Compile Include="StringFormat.cs" />
+    <Compile Include="Decrypt.cs" />
+    <Compile Include="DelimitedString.cs" />
+    <Compile Include="DelimitedStringBase.cs" />
+    <Compile Include="Encrypt.cs" />
+    <Compile Include="ForEachDelimitedString.cs" />
+    <Compile Include="IIf.cs" />
+    <Compile Include="NewGuid.cs" />
+    <Compile Include="Substring.cs" />
+    <Compile Include="StringLength.cs" />
+    <Compile Include="ReplaceRegex.cs" />
+    <Compile Include="StringCompare.cs" />
+    <Compile Include="StringEqualTo.cs" />
+    <Compile Include="LowerCase.cs" />
+    <Compile Include="ReplaceText.cs" />
+    <Compile Include="ToString.cs" />
+    <Compile Include="UpperCase.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BusinessRuleManagerBase\BusinessRuleManagerBase.csproj">
+      <Project>{72AC703E-B13E-421D-ABA0-E5ACA1F9238D}</Project>
+      <Name>BusinessRuleManagerBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BusinessRuleManager\BusinessRuleManager.csproj">
+      <Project>{131FA643-269E-4CEF-B00A-7BB0C0BC0E25}</Project>
+      <Name>BusinessRuleManager</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="OnyxCRM.snk" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>

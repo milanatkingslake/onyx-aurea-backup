@@ -1,0 +1,23 @@
+﻿<!-- Copyright Aptean 2017. All rights reserved. -->
+<rules xmlns="http://www.consonacrm.com/brm"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.consonacrm.com/brm ../../../grammar/onyx/businessRuleManager.grammar.onyx.xsd"
+	   description="Implement Handle Nulls">
+	<if>
+		<test description ="Check for Empty Value">
+			<exists>
+				<literal>valueToCompare[.='']</literal>
+			</exists>
+		</test>
+		<then>
+			<setNodeValue>
+				<path>
+					<literal>./expressionIsTrue</literal>
+				</path>
+				<value>
+					<literal>0</literal>
+				</value>
+			</setNodeValue>
+		</then>
+	</if>
+</rules>

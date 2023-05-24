@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{131FA643-269E-4CEF-B00A-7BB0C0BC0E25}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ConsonaCRM.BusinessRuleManager</RootNamespace>
+    <AssemblyName>ConsonaCRM.BusinessRuleManager</AssemblyName>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>OnyxCRM.snk</AssemblyOriginatorKeyFile>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Cache\Cache.cs" />
+    <Compile Include="Cache\SettingsCache.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="Cache\GrammarDefinition.cs" />
+    <Compile Include="Cache\GrammarDefinitionCache.cs" />
+    <Compile Include="Cache\XmlDocumentCache.cs" />
+    <Compile Include="BusinessRuleManagerContinueException.cs" />
+    <Compile Include="BusinessRuleManagerBreakException.cs" />
+    <Compile Include="Engine.cs" />
+    <Compile Include="InternalEngine.cs" />
+    <Compile Include="Grammar\IGrammarProcess2.cs" />
+    <Compile Include="Grammar\GrammarBase.cs" />
+    <Compile Include="Grammar\IGrammarFloat.cs" />
+    <Compile Include="Grammar\IGrammarInteger.cs" />
+    <Compile Include="Grammar\IGrammarDateTime.cs" />
+    <Compile Include="Grammar\IGrammarString.cs" />
+    <Compile Include="Grammar\IGrammarBoolean.cs" />
+    <Compile Include="Grammar\IGrammarProcess.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DataPackage.cs" />
+    <Compile Include="BusinessRuleManagerException.cs" />
+    <Compile Include="BusinessRuleManagerStopException.cs" />
+    <Compile Include="XmlUtil.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="OnyxCRM.snk" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,0 +1,27 @@
+﻿<!-- Copyright Aptean 2017. All rights reserved. -->
+<rules xmlns="http://www.consonacrm.com/brm"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.consonacrm.com/brm ../../../grammar/onyx/businessRuleManager.grammar.onyx.xsd"
+	   description="Implement isNotEqual Operator">
+	<setNodeValue>
+		<path>
+			<literal>./expressionIsTrue</literal>
+		</path>
+		<value>
+			<not>
+				<stringEqualTo>
+					<left>
+						<getNodeValue>
+							<literal>c3</literal>
+						</getNodeValue>
+					</left>
+					<right>
+						<getNodeValue>
+							<literal>valueToCompare</literal>
+						</getNodeValue>
+					</right>
+				</stringEqualTo>
+			</not>
+		</value>
+	</setNodeValue>
+</rules>

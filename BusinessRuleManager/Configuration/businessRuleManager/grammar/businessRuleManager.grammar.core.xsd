@@ -1,0 +1,714 @@
+<?xml version="1.0"?>
+<!-- Copyright Aptean 2017. All rights reserved. -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		   targetNamespace="http://www.consonacrm.com/brm"
+		   xmlns="http://www.consonacrm.com/brm"
+		   elementFormDefault="qualified">
+
+	<!--Base containers-->
+	<xs:element name="rules" type="processContainer"/>
+	<xs:element name="rule" type="processContainer"/>
+	<xs:element name="fieldMaps" type="processContainer"/>
+	<xs:element name="literal" type="literalBase"/>
+	<xs:element name="getNodeValue" type="singleContainer"/>
+	<xs:element name="getCDataNodeValue" type="singleContainer"/>
+	<xs:element name="getNodeXML" type="singleContainer"/>
+	<xs:element name="getNodeName" type="singleContainer"/>
+	<xs:element name="getNodeCount" type="singleContainer"/>
+
+	<!--Process operations-->
+	<xs:element name="stopProcessing" type="stopProcessing"/>
+	<xs:element name="if" type="if"/>
+	<xs:element name="while" type="while"/>
+	<xs:element name="usePath" type="pathRules"/>
+	<xs:element name="forEach" type="pathRules"/>
+	<xs:element name="addNode" type="pathNameValue"/>
+	<xs:element name="copyNode" type="sourcePathName"/>
+	<xs:element name="removeNodes" type="namePath"/>
+	<xs:element name="setNodeValue" type="pathValue"/>
+	<xs:element name="setNodeXML" type="pathValue"/>
+	<xs:element name="setCDataNodeValue" type="pathValue"/>
+	<xs:element name="fieldMap" type="sourceTarget"/>
+	<xs:element name="saveXML" type="namePathSource"/>
+	<xs:element name="rootPath" type="emptyContainer"/>
+	<xs:element name="subProcess" type="nameArguments"/>
+	<xs:element name="webServiceCall" type="webServiceCall"/>
+	<xs:element name="cacheRead" type="name"/>
+	<xs:element name="cacheWrite" type="nameValueExpires"/>
+	<xs:element name="cacheDelete" type="name"/>
+	<xs:element name="loopBreak" type="emptyContainer"/>
+	<xs:element name="loopContinue" type="emptyContainer"/>
+	<xs:element name="httpPost" type="httpPost"/>
+	<xs:element name="httpGet" type="httpGet"/>
+	<xs:element name="setArgumentValue" type="nameValue"/>
+	<xs:element name="getArgumentValue" type="name"/>
+	<xs:element name="switch" type="switch"/>
+
+	<!--File operations-->
+	<xs:element name="copyFile" type="sourceTarget"/>
+	<xs:element name="deleteFile" type="name"/>
+	<xs:element name="fileExists" type="name"/>
+	<xs:element name="fileInfo" type="nameRules"/>
+	<xs:element name="forEachFileInfo" type="namePathRules"/>
+	<xs:element name="fileInfoName" type="emptyContainer"/>
+	<xs:element name="fileInfoPath" type="emptyContainer"/>
+	<xs:element name="fileInfoSize" type="emptyContainer"/>
+	<xs:element name="fileInfoCreateDate" type="emptyContainer"/>
+	<xs:element name="fileInfoUpdateDate" type="emptyContainer"/>
+	<xs:element name="fileInfoReadOnly" type="emptyContainer"/>
+	<xs:element name="createFolder" type="name"/>
+	<xs:element name="deleteFolder" type="name"/>
+	<xs:element name="folderExists" type="name"/>
+	<xs:element name="folderInfo" type="nameRules"/>
+	<xs:element name="forEachFolderInfo" type="namePathRules"/>
+	<xs:element name="folderInfoName" type="emptyContainer"/>
+	<xs:element name="folderInfoPath" type="emptyContainer"/>
+	<xs:element name="folderInfoCreateDate" type="emptyContainer"/>
+	<xs:element name="folderInfoUpdateDate" type="emptyContainer"/>
+	<xs:element name="textFileWriteOpen" type="nameAppendRules"/>
+	<xs:element name="textFileWrite" type="singleContainer"/>
+	<xs:element name="textFileWriteLine" type="singleContainer"/>
+	<xs:element name="textFileReadOpen" type="nameRules"/>
+	<xs:element name="textFileReadLine" type="emptyContainer"/>
+	<xs:element name="textFileReadEOF" type="emptyContainer"/>
+
+	<!--XML operations (return string)-->
+	<xs:element name="loadXML" type="name"/>
+	<xs:element name="xslt" type="namePath"/>
+
+	<!--Boolean operations-->
+	<xs:element name="exists" type="singleContainer"/>
+	<xs:element name="not" type="singleContainer"/>
+	<xs:element name="and" type="multiContainer"/>
+	<xs:element name="or" type="multiContainer"/>
+
+	<!--Date/time operations-->
+	<xs:element name="toDateTime" type="singleContainer"/>
+	<xs:element name="dateAdd" type="partNumberValue"/>
+	<xs:element name="dateNow" type="emptyContainer"/>
+	<xs:element name="dateNowUTC" type="emptyContainer"/>
+	<xs:element name="localToUTC" type="singleContainer"/>
+	<xs:element name="UTCToLocal" type="singleContainer"/>
+	<xs:element name="dateEqualTo" type="operatorBase"/>
+	<xs:element name="dateLessThan" type="operatorBase"/>
+	<xs:element name="dateLessThanEqualTo" type="operatorBase"/>
+	<xs:element name="dateGreaterThan" type="operatorBase"/>
+	<xs:element name="dateGreaterThanEqualTo" type="operatorBase"/>
+	<xs:element name="datePart" type="partValue"/>
+	<xs:element name="dateDiff" type="partLeftRight"/>
+	<xs:element name="startOfMinute" type="singleContainer"/>
+	<xs:element name="startOfHour" type="singleContainer"/>
+	<xs:element name="startOfDay" type="singleContainer"/>
+	<xs:element name="startOfWeek" type="singleContainer"/>
+	<xs:element name="startOfMonth" type="singleContainer"/>
+	<xs:element name="startOfYear" type="singleContainer"/>
+
+	<!--String operations-->
+	<xs:element name="toString" type="singleContainer"/>
+	<xs:element name="upperCase" type="singleContainer"/>
+	<xs:element name="lowerCase" type="singleContainer"/>
+	<xs:element name="replaceText" type="findReplaceValue"/>
+	<xs:element name="replaceRegex" type="findReplaceValue"/>
+	<xs:element name="concatenate" type="multiContainer"/>
+	<xs:element name="stringEqualTo" type="operatorBase"/>
+	<xs:element name="stringLessThan" type="operatorBase"/>
+	<xs:element name="stringLessThanEqualTo" type="operatorBase"/>
+	<xs:element name="stringGreaterThan" type="operatorBase"/>
+	<xs:element name="stringGreaterThanEqualTo" type="operatorBase"/>
+	<xs:element name="stringLength" type="singleContainer"/>
+	<xs:element name="substring" type="startValueLength"/>
+	<xs:element name="newGuid" type="emptyContainer"/>
+	<xs:element name="encrypt" type="valueKeyVector"/>
+	<xs:element name="decrypt" type="valueKeyVector"/>
+	<xs:element name="iif" type="iif"/>
+	<xs:element name="forEachDelimitedString" type="valueSeparatorRules"/>
+	<xs:element name="delimitedString" type="emptyContainer"/>
+	<xs:element name="stringFormat" type="valueArguments"/>
+
+	<!--Integer operations-->
+	<xs:element name="toInteger" type="singleContainer"/>
+	<xs:element name="integerEqualTo" type="operatorBase"/>
+	<xs:element name="integerLessThan" type="operatorBase"/>
+	<xs:element name="integerLessThanEqualTo" type="operatorBase"/>
+	<xs:element name="integerGreaterThan" type="operatorBase"/>
+	<xs:element name="integerGreaterThanEqualTo" type="operatorBase"/>
+	<xs:element name="integerAdd" type="operatorBase"/>
+	<xs:element name="integerSubtract" type="operatorBase"/>
+	<xs:element name="integerMultiply" type="operatorBase"/>
+	<xs:element name="integerDivide" type="operatorBase"/>
+	<xs:element name="modulo" type="operatorBase"/>
+
+	<!--Floating-point operations-->
+	<xs:element name="toFloat" type="singleContainer"/>
+	<xs:element name="floatEqualTo" type="operatorBase"/>
+	<xs:element name="floatLessThan" type="operatorBase"/>
+	<xs:element name="floatLessThanEqualTo" type="operatorBase"/>
+	<xs:element name="floatGreaterThan" type="operatorBase"/>
+	<xs:element name="floatGreaterThanEqualTo" type="operatorBase"/>
+	<xs:element name="floatAdd" type="operatorBase"/>
+	<xs:element name="floatSubtract" type="operatorBase"/>
+	<xs:element name="floatMultiply" type="operatorBase"/>
+	<xs:element name="floatDivide" type="operatorBase"/>
+	<xs:element name="round" type="valueNumber"/>
+	<xs:element name="floor" type="singleContainer"/>
+	<xs:element name="ceiling" type="singleContainer"/>
+
+	<!--Data operations-->
+	<xs:element name="odbcConnection" type="nameRules"/>
+	<xs:element name="odbcCall" type="odbcCall"/>
+	<xs:element name="odbcAddParameter" type="odbcAddParameter"/>
+	<xs:element name="odbcParameterValue" type="name"/>
+	<xs:element name="odbcColumnCount" type="emptyContainer"/>
+	<xs:element name="odbcRowCount" type="emptyContainer"/>
+	<xs:element name="odbcForEachRow" type="rules"/>
+	<xs:element name="odbcFieldValue" type="odbcFieldValue"/>
+
+	<!--Base attribute set for all grammar-->
+	<xs:attributeGroup name="baseAttributes">
+		<xs:attribute name="description" type="xs:string"/>
+		<xs:attribute name="mode">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="development"/>
+					<xs:enumeration value="test"/>
+					<xs:enumeration value="production"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="active" type="booleanBase"/>
+	</xs:attributeGroup>
+
+	<!--Custom boolean type-->
+	<xs:simpleType name="booleanBase">
+		<xs:restriction base="xs:boolean">
+			<xs:pattern value="1|0"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<!--Base complex grammar-->
+	<xs:complexType name="grammarBase">
+		<xs:attributeGroup ref="baseAttributes"/>
+	</xs:complexType>
+
+	<!--Base operator grammar-->
+	<xs:complexType name="operatorBase">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="left" type="singleContainer"/>
+					<xs:element name="right" type="singleContainer"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!--Base process container-->
+	<xs:complexType name="processContainer">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:sequence>
+					<xs:any minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!--Base container with single child-->
+	<xs:complexType name="singleContainer">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:sequence>
+					<xs:any minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!--Base container with multiple child elements-->
+	<xs:complexType name="multiContainer">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:sequence>
+					<xs:any minOccurs="1" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!--Base grammar with no children-->
+	<xs:complexType name="emptyContainer">
+		<xs:complexContent>
+			<xs:extension base="grammarBase"/>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!--Base literal string-->
+	<xs:complexType name="literalBase">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attributeGroup ref="baseAttributes"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<!--Process grammar-->
+	<xs:simpleType name="stopProcessingReturnEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="stop"/>
+			<xs:enumeration value="continue"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="saveXMLSourceEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="source"/>
+			<xs:enumeration value="target"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="if">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="test" type="singleContainer"/>
+					<xs:element name="then" type="processContainer"/>
+					<xs:element name="else" type="processContainer" minOccurs="0" maxOccurs="1"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="while">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="test" type="singleContainer"/>
+					<xs:element name="rules" type="processContainer"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="rules">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="rules" type="processContainer"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="pathRules">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="path" type="singleContainer"/>
+					<xs:element name="rules" type="processContainer"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="pathNameValue">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="path" type="singleContainer"/>
+					<xs:element name="name" type="singleContainer"/>
+					<xs:element name="value" type="singleContainer" minOccurs="0"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="sourcePathName">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="source" type="singleContainer"/>
+					<xs:element name="path" type="singleContainer"/>
+					<xs:element name="name" type="singleContainer"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="namePath">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="path" type="singleContainer"/>
+					<xs:element name="name" type="singleContainer"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="namePathSource">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="path" type="singleContainer"/>
+					<xs:element name="name" type="singleContainer"/>
+					<xs:element name="source" type="saveXMLSourceEnum" minOccurs="0" maxOccurs="1"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="namePathRules">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="path" type="singleContainer"/>
+					<xs:element name="name" type="singleContainer"/>
+					<xs:element name="rules" type="processContainer"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="nameRules">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="name" type="singleContainer"/>
+					<xs:element name="rules" type="processContainer"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="pathValue">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="path" type="singleContainer"/>
+					<xs:element name="value" type="singleContainer"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="sourceTarget">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="source" type="singleContainer"/>
+					<xs:element name="target" type="singleContainer"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="name">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="name" type="singleContainer"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="webServiceCall">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="wsdl" type="singleContainer"/>
+					<xs:element name="service" type="singleContainer"/>
+					<xs:element name="method" type="singleContainer"/>
+					<xs:element name="inputParameters" type="processContainer"/>
+					<xs:element name="outputParameters" type="processContainer"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="nameValue">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="name" type="singleContainer"/>
+					<xs:element name="value" type="singleContainer"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="nameValueExpires">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="name" type="singleContainer"/>
+					<xs:element name="value" type="singleContainer"/>
+					<xs:element name="expires" type="singleContainer" minOccurs="0" maxOccurs="1"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="httpPost">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="url" type="singleContainer"/>
+					<xs:element name="contentType" type="singleContainer" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="content" type="singleContainer"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="httpGet">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="url" type="singleContainer"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="nameArguments">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="name" type="singleContainer"/>
+					<xs:element name="arguments" type="processContainer" minOccurs="0" maxOccurs="1"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="nameAppendRules">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="name" type="singleContainer"/>
+					<xs:element name="append" type="singleContainer"/>
+					<xs:element name="rules" type="processContainer"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="stopProcessing">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="return" type="stopProcessingReturnEnum" minOccurs="0" maxOccurs="1"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="switch">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:sequence>
+					<xs:element name="case" type="case" minOccurs="1" maxOccurs="unbounded"/>
+					<xs:element name="default" type="rules" minOccurs="0" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="case">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="test" type="singleContainer"/>
+					<xs:element name="rules" type="processContainer"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!--Date grammar-->
+	<xs:simpleType name="partEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="year"/>
+			<xs:enumeration value="month"/>
+			<xs:enumeration value="week"/>
+			<xs:enumeration value="weekday"/>
+			<xs:enumeration value="day"/>
+			<xs:enumeration value="hour"/>
+			<xs:enumeration value="minute"/>
+			<xs:enumeration value="second"/>
+			<xs:enumeration value="millisecond"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="partNumberValue">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="part" type="partEnum"/>
+					<xs:element name="number" type="singleContainer"/>
+					<xs:element name="value" type="singleContainer"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="partValue">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="part" type="partEnum"/>
+					<xs:element name="value" type="singleContainer"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="partLeftRight">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="part" type="partEnum"/>
+					<xs:element name="left" type="singleContainer"/>
+					<xs:element name="right" type="singleContainer"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!--String grammar-->
+	<xs:complexType name="findReplaceValue">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="find" type="singleContainer"/>
+					<xs:element name="replace" type="singleContainer"/>
+					<xs:element name="value" type="singleContainer"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="startValueLength">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="start" type="singleContainer"/>
+					<xs:element name="value" type="singleContainer"/>
+					<xs:element name="length" type="singleContainer" minOccurs="0" maxOccurs="1"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="valueKeyVector">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="value" type="singleContainer"/>
+					<xs:element name="key" type="singleContainer"/>
+					<xs:element name="vector" type="singleContainer"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="iif">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="test" type="singleContainer"/>
+					<xs:element name="then" type="singleContainer"/>
+					<xs:element name="else" type="singleContainer"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="valueSeparatorRules">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="value" type="singleContainer"/>
+					<xs:element name="separator" type="singleContainer"/>
+					<xs:element name="rules" type="processContainer"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="valueArguments">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="value" type="singleContainer"/>
+					<xs:element name="arguments" type="processContainer"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<!--Float grammar-->
+	<xs:complexType name="valueNumber">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="value" type="singleContainer"/>
+					<xs:element name="number" type="singleContainer"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<!--Data grammar-->
+	<xs:simpleType name="odbcTypeEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="BigInt"/>
+			<xs:enumeration value="Binary"/>
+			<xs:enumeration value="Bit"/>
+			<xs:enumeration value="Char"/>
+			<xs:enumeration value="Date"/>
+			<xs:enumeration value="DateTime"/>
+			<xs:enumeration value="Decimal"/>
+			<xs:enumeration value="Double"/>
+			<xs:enumeration value="Image"/>
+			<xs:enumeration value="Int"/>
+			<xs:enumeration value="NChar"/>
+			<xs:enumeration value="NText"/>
+			<xs:enumeration value="Numeric"/>
+			<xs:enumeration value="NVarChar"/>
+			<xs:enumeration value="Real"/>
+			<xs:enumeration value="SmallDateTime"/>
+			<xs:enumeration value="SmallInt"/>
+			<xs:enumeration value="Text"/>
+			<xs:enumeration value="Time"/>
+			<xs:enumeration value="Timestamp"/>
+			<xs:enumeration value="TinyInt"/>
+			<xs:enumeration value="UniqueIdentifier"/>
+			<xs:enumeration value="VarBinary"/>
+			<xs:enumeration value="VarChar"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="odbcParameterDirectionEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Input"/>
+			<xs:enumeration value="InputOutput"/>
+			<xs:enumeration value="Output"/>
+			<xs:enumeration value="ReturnValue"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="odbcCall">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="statement" type="singleContainer"/>
+					<xs:element name="inputParameters" type="processContainer"/>
+					<xs:element name="outputParameters" type="processContainer"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="odbcAddParameter">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="name" type="singleContainer"/>
+					<xs:element name="type">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="literal" type="odbcTypeEnum"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="direction">
+						<xs:complexType>
+							<xs:all>
+								<xs:element name="literal" type="odbcParameterDirectionEnum"/>
+							</xs:all>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="size" type="singleContainer" minOccurs="0" maxOccurs="1"/>
+					<xs:element name="value" type="singleContainer" minOccurs="0" maxOccurs="1"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="odbcFieldValue">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:choice>
+					<xs:element name="name" type="singleContainer"/>
+					<xs:element name="number" type="singleContainer"/>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

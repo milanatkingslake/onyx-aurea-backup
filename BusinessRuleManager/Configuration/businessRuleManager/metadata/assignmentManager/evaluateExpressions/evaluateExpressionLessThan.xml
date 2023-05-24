@@ -1,0 +1,69 @@
+﻿<!-- Copyright Aptean 2017. All rights reserved. -->
+<rules xmlns="http://www.consonacrm.com/brm"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.consonacrm.com/brm ../../../grammar/onyx/businessRuleManager.grammar.onyx.xsd"
+	   description="Implement lessThan Operator">
+	<if>
+		<test description ="Check for integer dataType">
+			<exists>
+				<literal>valueDataType[.='integer']</literal>
+			</exists>
+		</test>
+		<then>
+			<setNodeValue>
+				<path>
+					<literal>./expressionIsTrue</literal>
+				</path>
+				<value>
+					<integerLessThan>
+						<left>
+							<toInteger>
+								<getNodeValue>
+									<literal>valueToCompare</literal>
+								</getNodeValue>
+							</toInteger>
+						</left>
+						<right>
+							<toInteger>
+								<getNodeValue>
+									<literal>c3</literal>
+								</getNodeValue>
+							</toInteger>
+						</right>
+					</integerLessThan>
+				</value>
+			</setNodeValue>
+		</then>
+		<!--Currently only support strings and integers-->
+		<else>
+			<if>
+				<test description ="Check for string dataType">
+					<exists>
+						<literal>valueDataType[.='string']</literal>
+					</exists>
+				</test>
+				<then>
+					<setNodeValue>
+						<path>
+							<literal>./expressionIsTrue</literal>
+						</path>
+						<value>
+							<stringLessThan>
+								<left>
+									<getNodeValue>
+										<literal>valueToCompare</literal>
+									</getNodeValue>
+								</left>
+								<right>
+									<getNodeValue>
+										<literal>c3</literal>
+									</getNodeValue>
+								</right>
+							</stringLessThan>
+						</value>
+					</setNodeValue>
+				</then>
+			</if>
+		</else>
+	</if>
+</rules>

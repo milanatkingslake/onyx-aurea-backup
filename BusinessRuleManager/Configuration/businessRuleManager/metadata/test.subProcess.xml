@@ -1,0 +1,54 @@
+<!-- Copyright Aptean 2017. All rights reserved. -->
+<rules xmlns="http://www.consonacrm.com/brm"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.consonacrm.com/brm ../grammar/onyx/businessRuleManager.grammar.onyx.xsd"
+	description="TEST sub-process rule set">
+	<rule description="Get arguments that are passed, save to file">
+		<addNode>
+			<path>
+				<literal>//parametersReturn</literal>
+			</path>
+			<name>
+				<literal>subProcessTests</literal>
+			</name>
+		</addNode>
+		<addNode>
+			<path>
+				<literal>//parametersReturn/subProcessTests</literal>
+			</path>
+			<name>
+				<literal>argument1</literal>
+			</name>
+			<value>
+				<getArgumentValue>
+					<name>
+						<literal>argument1</literal>
+					</name>
+				</getArgumentValue>
+			</value>
+		</addNode>
+		<addNode>
+			<path>
+				<literal>//parametersReturn/subProcessTests</literal>
+			</path>
+			<name>
+				<literal>argument2</literal>
+			</name>
+			<value>
+				<getArgumentValue>
+					<name>
+						<literal>argument2</literal>
+					</name>
+				</getArgumentValue>
+			</value>
+		</addNode>
+		<saveXML description="Save XML node contents to file">
+			<name>
+				<literal>c:\temp\subProcess.xml</literal>
+			</name>
+			<path>
+				<literal>//parametersReturn/subProcessTests</literal>
+			</path>
+		</saveXML>
+	</rule>
+</rules>

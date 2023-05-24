@@ -1,0 +1,53 @@
+﻿<!-- Copyright Aptean 2017. All rights reserved. -->
+<rules xmlns="http://www.consonacrm.com/brm"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.consonacrm.com/brm ../../../grammar/onyx/businessRuleManager.grammar.onyx.xsd"
+	   description="Implement inList Operator">
+	<setNodeValue>
+		<path>
+			<literal>./expressionIsTrue</literal>
+		</path>
+		<value>
+			<literal>0</literal>
+		</value>
+	</setNodeValue>
+	<forEachDelimitedString>
+		<value>
+			<getNodeValue>
+				<literal>c3</literal>
+			</getNodeValue>
+		</value>
+		<separator>
+			<literal>;</literal>
+		</separator>
+		<rules>
+			<rule>
+				<if>
+					<test>
+						<stringEqualTo>
+							<left>
+								<delimitedString/>
+							</left>
+							<right>
+								<getNodeValue>
+									<literal>valueToCompare</literal>
+								</getNodeValue>
+							</right>
+						</stringEqualTo>
+					</test>
+					<then>
+						<setNodeValue>
+							<path>
+								<literal>./expressionIsTrue</literal>
+							</path>
+							<value>
+								<literal>1</literal>
+							</value>
+						</setNodeValue>
+						<loopBreak/>
+					</then>
+				</if>
+			</rule>
+		</rules>
+	</forEachDelimitedString>
+</rules>

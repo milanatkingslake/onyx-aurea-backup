@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BF3BED6D-6857-4134-A5BB-9304B20EF4D9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Onyx</RootNamespace>
+    <AssemblyName>ConsonaCRM.BusinessRuleManager.Onyx</AssemblyName>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>OnyxCRM.snk</AssemblyOriginatorKeyFile>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="OnyxIStepStringPIA, Version=7.7.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>..\..\..\PrimaryInteropAssembly\Output\GAC\OnyxIStepStringPIA.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="OdbcConvertToRowSet.cs" />
+    <Compile Include="StepAdditionalData.cs" />
+    <Compile Include="LogNode.cs" />
+    <Compile Include="LogValue.cs" />
+    <Compile Include="OnyxStepInterface.cs" />
+    <Compile Include="RemoveSessionItem.cs" />
+    <Compile Include="GetSessionItem.cs" />
+    <Compile Include="HasPermission.cs" />
+    <Compile Include="OTMCall.cs" />
+    <Compile Include="ObjectInstance.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReturnMessage.cs" />
+    <Compile Include="SetSessionItem.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BusinessRuleManagerBase\BusinessRuleManagerBase.csproj">
+      <Project>{72AC703E-B13E-421D-ABA0-E5ACA1F9238D}</Project>
+      <Name>BusinessRuleManagerBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BusinessRuleManagerData\BusinessRuleManagerData.csproj">
+      <Project>{4DA3637F-9D20-4B34-9F49-4620A984CE13}</Project>
+      <Name>BusinessRuleManagerData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BusinessRuleManager\BusinessRuleManager.csproj">
+      <Project>{131FA643-269E-4CEF-B00A-7BB0C0BC0E25}</Project>
+      <Name>BusinessRuleManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StepComponentBase\StepComponentBase.csproj">
+      <Project>{45980D79-B267-4E94-B08B-B5C5D00A3D2F}</Project>
+      <Name>StepComponentBase</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="OnyxCRM.snk" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>

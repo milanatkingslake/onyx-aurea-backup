@@ -1,0 +1,95 @@
+﻿<!-- Copyright Aptean 2017. All rights reserved. -->
+<rules xmlns="http://www.consonacrm.com/brm"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.consonacrm.com/brm ../../grammar/onyx/businessRuleManager.grammar.onyx.xsd">
+	<rule>
+		<if>
+			<test description ="Check if operatorList has been added to DOM in main ruleSet">
+				<not>
+					<exists>
+						<literal>/stepPackage/parameters/_helpers/operatorList</literal>
+					</exists>
+				</not>
+			</test>
+			<then description ="Add operatorList and Cache">
+				<addNode>
+					<path>
+						<literal>/stepPackage/parameters/_helpers</literal>
+					</path>
+					<name>
+						<literal>operatorList</literal>
+					</name>
+					<value>
+						<concatenate>
+							<rootPath/>
+							<literal>\metadata\assignmentManager\properties.operators.xml</literal>
+						</concatenate>
+					</value>
+				</addNode>
+				<usePath>
+					<path>
+						<literal>/stepPackage/parameters/_helpers/operatorList</literal>
+					</path>
+					<rules>
+						<subProcess>
+							<name>
+								<literal>assignmentManager\properties.cache.xml</literal>
+							</name>
+						</subProcess>
+					</rules>
+				</usePath>
+			</then>
+		</if>
+	</rule>
+	<rule>
+		<if>
+			<test description ="Check for allowNulls">
+				<and>
+					<stringEqualTo>
+						<left>
+							<literal>false</literal>
+						</left>
+						<right>
+							<getNodeValue>
+								<concatenate>
+									<literal>/stepPackage/parameters/_helpers/operatorList/expressions/expression[@value='</literal>
+									<getNodeValue>
+										<literal>c5</literal>
+									</getNodeValue>
+									<literal>']/@allowNulls</literal>
+								</concatenate>
+							</getNodeValue>
+						</right>
+					</stringEqualTo>
+					<exists>
+						<literal>valueToCompare[.='']</literal>
+					</exists>
+				</and>
+			</test>
+			<then description ="Handle Nulls and Return">
+				<subProcess>
+					<name>
+						<getNodeValue>
+							<literal>/stepPackage/parameters/_helpers/operatorList/expressions/expression[@value='handleNull']/@ruleSetPath</literal>
+						</getNodeValue>
+					</name>
+				</subProcess>
+			</then>
+			<else description ="Evaluate the Expression">
+				<subProcess>
+					<name>
+						<getNodeValue>
+							<concatenate>
+								<literal>/stepPackage/parameters/_helpers/operatorList/expressions/expression[@value='</literal>
+								<getNodeValue>
+									<literal>c5</literal>
+								</getNodeValue>
+								<literal>']/@ruleSetPath</literal>
+							</concatenate>
+						</getNodeValue>
+					</name>
+				</subProcess>
+			</else>
+		</if>
+	</rule>
+</rules>

@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<!-- Copyright Aptean 2017. All rights reserved. -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		   targetNamespace="http://www.consonacrm.com/brm"
+		   xmlns="http://www.consonacrm.com/brm"
+		   elementFormDefault="qualified">
+
+	<!--Include BRM core grammar-->
+	<xs:include schemaLocation="../businessRuleManager.grammar.core.xsd"/>
+
+	<!--Onyx-specific operations-->
+	<xs:element name="returnMessage" type="returnMessage"/>
+	<xs:element name="objectInstance" type="namePath"/>
+	<xs:element name="otmCall" type="otmCall"/>
+	<xs:element name="hasPermission" type="singleContainer"/>
+	<xs:element name="setSessionItem" type="nameValue"/>
+	<xs:element name="getSessionItem" type="name"/>
+	<xs:element name="removeSessionItem" type="name"/>
+	<xs:element name="logValue" type="nameValue"/>
+	<xs:element name="logNode" type="namePath"/>
+	<xs:element name="stepAdditionalData" type="name"/>
+	<xs:element name="odbcConvertToRowSet" type="pathMsgId"/>
+
+
+	<!--Enumerations-->
+	<xs:simpleType name="returnValueTypeEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="error"/>
+			<xs:enumeration value="warning"/>
+			<xs:enumeration value="message"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="onErrorEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="continue"/>
+			<xs:enumeration value="stop"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<!--Complex types-->
+	<xs:complexType name="returnMessage">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="type" type="returnValueTypeEnum"/>
+					<xs:element name="msgId" type="xs:positiveInteger"/>
+					<xs:element name="arguments" type="processContainer" minOccurs="0"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="otmCall">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="object" type="singleContainer"/>
+					<xs:element name="method" type="singleContainer"/>
+					<xs:element name="inputParameters" type="processContainer"/>
+					<xs:element name="outputParameters" type="processContainer"/>
+					<xs:element name="mergeMethodStatus" type="booleanBase" minOccurs="0"/>
+					<xs:element name="onError" type="onErrorEnum" minOccurs="0"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="pathMsgId">
+		<xs:complexContent>
+			<xs:extension base="grammarBase">
+				<xs:all>
+					<xs:element name="path" type="singleContainer"/>
+					<xs:element name="msgId" type="singleContainer"/>
+				</xs:all>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

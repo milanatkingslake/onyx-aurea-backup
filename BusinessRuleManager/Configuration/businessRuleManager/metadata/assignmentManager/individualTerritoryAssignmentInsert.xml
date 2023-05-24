@@ -1,0 +1,135 @@
+﻿<!-- Copyright Aptean 2017. All rights reserved. -->
+<rules xmlns="http://www.consonacrm.com/brm"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.consonacrm.com/brm ../../grammar/onyx/businessRuleManager.grammar.onyx.xsd">
+	<if description="Check for existence of assignmentAssociation node">
+		<test>
+			<exists>
+				<literal>//parameters/_persist/assignmentAssociationInsertReplace</literal>
+			</exists>
+		</test>
+		<then>
+			<otmCall description="Create assignmentAssociation record for the individual">
+				<object>
+					<literal>assignmentAssociation</literal>
+				</object>
+				<method>
+					<literal>insertReplace</literal>
+				</method>
+				<inputParameters>
+					<fieldMap>
+						<source>
+							<literal>//parameters/_persist/assignmentAssociationInsertReplace</literal>
+						</source>
+						<target>
+							<literal>.</literal>
+						</target>
+					</fieldMap>
+					<fieldMap>
+						<source>
+							<literal>//parametersReturn/individual/primaryId</literal>
+						</source>
+						<target>
+							<literal>./assignmentAssociation/associatedWithId</literal>
+						</target>
+					</fieldMap>
+				</inputParameters>
+				<outputParameters description="Save return values from assignmentAssociation object">
+					<fieldMap description="Save assignmentCondition">
+						<source>
+							<literal>assignmentAssociation</literal>
+						</source>
+						<target>
+							<literal>//parameters/_helpers/assignmentAssociationInsertReplaceResults</literal>
+						</target>
+					</fieldMap>
+				</outputParameters>
+				<onError>stop</onError>
+			</otmCall>
+			<if description="Check for at least one internalContact to save">
+				<test>
+					<exists>
+						<literal>//parameters/_persist/internalContactSaveCollection/internalContacts/internalContact</literal>
+					</exists>
+				</test>
+				<then>
+					<otmCall description="Save any internalContacts for the individual">
+						<object>
+							<literal>internalContact</literal>
+						</object>
+						<method>
+							<literal>saveCollection</literal>
+						</method>
+						<inputParameters>
+							<fieldMap>
+								<source>
+									<literal>//parameters/_persist/internalContactSaveCollection</literal>
+								</source>
+								<target>
+									<literal>.</literal>
+								</target>
+							</fieldMap>
+							<fieldMap>
+								<source>
+									<literal>//parametersReturn/individual/primaryId</literal>
+								</source>
+								<target>
+									<literal>./internalContacts/internalContact/ownerId</literal>
+								</target>
+							</fieldMap>
+						</inputParameters>
+						<outputParameters description="Save return values from internalContact object">
+							<fieldMap description="Save internalContact">
+								<source>
+									<literal>internalContacts</literal>
+								</source>
+								<target>
+									<literal>//parameters/_helpers/internalContactSaveCollectionResults</literal>
+								</target>
+							</fieldMap>
+						</outputParameters>
+						<onError>stop</onError>
+					</otmCall>
+				</then>
+			</if>
+		</then>
+	</if>
+	<!--<rule description ="Save XML" mode="development">
+		<saveXML description="Save XML node contents to file">
+			<name>
+				<literal>c:\temp\individualInsertLoggingPostStepOTMCalls.xml</literal>
+			</name>
+			<path>
+				<literal>/stepPackage</literal>
+			</path>
+		</saveXML>
+	</rule>-->
+	<rule description="Cleanup">
+		<removeNodes description="Remove _helpers node">
+			<path>
+				<literal>//parameters</literal>
+			</path>
+			<name>
+				<literal>_helpers</literal>
+			</name>
+		</removeNodes>
+		<removeNodes description="Remove _helpers node">
+			<path>
+				<literal>//parameters</literal>
+			</path>
+			<name>
+				<literal>_persist</literal>
+			</name>
+		</removeNodes>
+	</rule>
+	<!--<rule description ="Save XML" mode="development">
+		<saveXML description="Save XML node contents to file">
+			<name>
+				<literal>c:\temp\individualInsertLoggingPostStep.xml</literal>
+			</name>
+			<path>
+				<literal>/stepPackage</literal>
+			</path>
+		</saveXML>
+	</rule>-->
+</rules>

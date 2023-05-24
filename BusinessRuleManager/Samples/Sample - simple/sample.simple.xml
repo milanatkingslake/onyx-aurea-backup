@@ -1,0 +1,123 @@
+<!-- Copyright © Aptean 2014. All rights reserved. -->
+<rules description="sample.simple.xml - On incident.update, create a task">
+	<saveXML mode="development" description="Log the input XML">
+		<name>
+			<literal>c:\temp\sample.simple__INPUT.xml</literal>
+		</name>
+		<path>
+			<literal>/stepPackage</literal>
+		</path>
+	</saveXML>
+
+	<otmCall description="Call task.insert">
+		<object>
+			<literal>task</literal>
+		</object>
+		<method>
+			<literal>insert</literal>
+		</method>
+		<inputParameters description="Add parameters to for the insert of the task">
+			<objectInstance description="Get an empty XML for task">
+				<path>
+					<literal>.</literal>
+				</path>
+				<name>
+					<literal>task</literal>
+				</name>
+			</objectInstance>
+			<setNodeValue description="Set owner ID to incident-ID">
+				<path>
+					<literal>task/ownerId</literal>
+				</path>
+				<value>
+					<getNodeValue>
+						<literal>//parameters/incident/primaryId</literal>
+					</getNodeValue>
+				</value>
+			</setNodeValue>
+			<setNodeValue description="Set assigned to = Assigned To from incident">
+				<path>
+					<literal>task/assignedTo</literal>
+				</path>
+				<value>
+					<getNodeValue>
+						<literal>//parameters/incident/assignedTo</literal>
+					</getNodeValue>
+				</value>
+			</setNodeValue>
+
+			<setNodeValue description="Set owner type to incident">
+				<path>
+					<literal>task/ownerType</literal>
+				</path>
+				<value>
+					<literal>6</literal>
+				</value>
+			</setNodeValue>
+			<setNodeValue description="Set category ID = Sales Task">
+				<path>
+					<literal>task/categoryId</literal>
+				</path>
+				<value>
+					<literal>13</literal>
+				</value>
+			</setNodeValue>
+			<setNodeValue description="Set task description">
+				<path>
+					<literal>task/description1</literal>
+				</path>
+				<value>
+					<literal>Auto-created via incident.update</literal>
+				</value>
+			</setNodeValue>
+			<setNodeValue description="Set type = Follow-up">
+				<path>
+					<literal>task/typeId</literal>
+				</path>
+				<value>
+					<literal>192</literal>
+				</value>
+			</setNodeValue>
+			<setNodeValue description="Set status = Open">
+				<path>
+					<literal>task/statusId</literal>
+				</path>
+				<value>
+					<literal>130</literal>
+				</value>
+			</setNodeValue>
+			<setNodeValue description="Set priority = High">
+				<path>
+					<literal>task/priorityId</literal>
+				</path>
+				<value>
+					<literal>118</literal>
+				</value>
+			</setNodeValue>
+
+			<saveXML mode="development" description="Log target contents to file">
+				<name>
+					<literal>c:\temp\otmCall.task.insert.target.xml</literal>
+				</name>
+				<path>
+					<literal>.</literal>
+				</path>
+				<source>target</source>
+			</saveXML>
+
+		</inputParameters>
+		<outputParameters description="Work on result from task.insert">
+
+			<saveXML mode="development" description="Log result contents to file">
+				<name>
+					<literal>c:\temp\otmCall.task.insert.result.xml</literal>
+				</name>
+				<path>
+					<literal>.</literal>
+				</path>
+			</saveXML>
+
+		</outputParameters>
+		<onError>stop</onError>
+	</otmCall>
+</rules>

@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4B49580F-458A-4BA4-A7AA-348A925A665F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Process</RootNamespace>
+    <AssemblyName>ConsonaCRM.BusinessRuleManager.Process</AssemblyName>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>OnyxCRM.snk</AssemblyOriginatorKeyFile>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AddNode.cs" />
+    <Compile Include="CacheWrite.cs" />
+    <Compile Include="CacheDelete.cs" />
+    <Compile Include="SwitchCase.cs" />
+    <Compile Include="HTTPGet.cs" />
+    <Compile Include="GetArgumentValue.cs" />
+    <Compile Include="HTTPPost.cs" />
+    <Compile Include="LoopContinue.cs" />
+    <Compile Include="LoopBreak.cs" />
+    <Compile Include="CopyNode.cs" />
+    <Compile Include="CacheRead.cs" />
+    <Compile Include="SetArgumentValue.cs" />
+    <Compile Include="SubProcessBase.cs" />
+    <Compile Include="WebServiceCall.cs" />
+    <Compile Include="While.cs" />
+    <Compile Include="RootPath.cs" />
+    <Compile Include="SetCDataNodeValue.cs" />
+    <Compile Include="SetNodeXML.cs" />
+    <Compile Include="SubProcess.cs" />
+    <Compile Include="XSLT.cs" />
+    <Compile Include="LoadXML.cs" />
+    <Compile Include="FieldMap.cs" />
+    <Compile Include="SaveXML.cs" />
+    <Compile Include="SetNodeValue.cs" />
+    <Compile Include="RemoveNodes.cs" />
+    <Compile Include="ForEach.cs" />
+    <Compile Include="UsePath.cs" />
+    <Compile Include="If.cs" />
+    <Compile Include="StopProcessing.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BusinessRuleManagerBase\BusinessRuleManagerBase.csproj">
+      <Project>{72AC703E-B13E-421D-ABA0-E5ACA1F9238D}</Project>
+      <Name>BusinessRuleManagerBase</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BusinessRuleManager\BusinessRuleManager.csproj">
+      <Project>{131FA643-269E-4CEF-B00A-7BB0C0BC0E25}</Project>
+      <Name>BusinessRuleManager</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="OnyxCRM.snk" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>

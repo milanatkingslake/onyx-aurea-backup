@@ -1,0 +1,318 @@
+<!-- Copyright © Aptean 2014. All rights reserved. -->
+<rules description="sample.moderate.xml - On individual.insert and company.insert, create an incident">
+
+
+	<addNode description="create a node to store the input parameters for the incident in parameters/_helpers">
+		<path>
+			<literal>//parameters</literal>
+		</path>
+		<name>
+			<literal>_helpers</literal>
+		</name>
+	</addNode>
+	<objectInstance>
+		<path>
+			<literal>//parameters/_helpers</literal>
+		</path>
+		<name>
+			<literal>incident</literal>
+		</name>
+	</objectInstance>
+	<addNode description="create a node to store whetrher we want to create an incident based on the input properties">
+		<path>
+			<literal>//parameters/_helpers</literal>
+		</path>
+		<name>
+			<literal>_doCreateIncident</literal>
+		</name>
+	</addNode>
+	<setNodeValue>
+		<path>
+			<literal>//parameters/_helpers/_doCreateIncident</literal>
+		</path>
+		<value description="set default: 0 == NO">
+			<literal>0</literal>
+		</value>
+	</setNodeValue>
+
+	<saveXML mode="development" description="Log the input XML">
+		<name>
+			<literal>c:\temp\sample.moderate__INPUT.xml</literal>
+		</name>
+		<path>
+			<literal>/stepPackage</literal>
+		</path>
+	</saveXML>
+
+
+
+	<if description="COMPANY">
+		<test>
+			<and>
+				<exists description="Check result of insert">
+					<literal>//returnXml/methodStatus/statusType[.!='failure']</literal>
+				</exists>
+				<exists description="Check for company">
+					<literal>//returnXml/parametersReturn/company[@objectType='company']</literal>
+				</exists>
+				<exists description="Check for type=Customer">
+					<literal>//parameters/company/companyTypeCode[.='100325']</literal>
+				</exists>
+			</and>
+		</test>
+		<then>
+			<setNodeValue>
+				<path>
+					<literal>//parameters/_helpers/_doCreateIncident</literal>
+				</path>
+				<value description="set flag to YES, do create the incident">
+					<literal>1</literal>
+				</value>
+			</setNodeValue>
+			<setNodeValue>
+				<path>
+					<literal>//parameters/_helpers/incident/ownerId</literal>
+				</path>
+				<value>
+					<getNodeValue>
+						<literal>//returnXml/parametersReturn/company/primaryId</literal>
+					</getNodeValue>
+				</value>
+			</setNodeValue>
+			<setNodeValue>
+				<path>
+					<literal>//parameters/_helpers/incident/ownerType</literal>
+				</path>
+				<value>
+					<literal>2</literal>
+				</value>
+			</setNodeValue>
+			<if>
+				<test description="If this is a large account, set immediate priority">
+					<exists description="Check for subType=Large Account">
+						<literal>//parameters/company/companySubTypeCode[.='101280']</literal>
+					</exists>
+				</test>
+				<then>
+					<setNodeValue>
+						<path>
+							<literal>//parameters/_helpers/incident/priorityId</literal>
+						</path>
+						<value>
+							<literal>117</literal>
+						</value>
+					</setNodeValue>
+				</then>
+				<else description="Use medium priority">
+					<setNodeValue>
+						<path>
+							<literal>//parameters/_helpers/incident/priorityId</literal>
+						</path>
+						<value>
+							<literal>127</literal>
+						</value>
+					</setNodeValue>
+				</else>
+			</if>
+
+		</then>
+	</if>
+
+	<if description="INDIVIDUAL">
+		<test>
+			<and>
+				<exists description="Check result of insert">
+					<literal>//returnXml/methodStatus/statusType[.!='failure']</literal>
+				</exists>
+				<exists description="Check for individual">
+					<literal>//returnXml/parametersReturn/individual[@objectType='individual']</literal>
+				</exists>
+				<exists description="Check for type=Customer">
+					<literal>//parameters/individual/userTypeId[.='100325']</literal>
+				</exists>
+				<exists description="Check for source=Referral">
+					<literal>//parameters/individual/sourceId[.='337']</literal>
+				</exists>
+			</and>
+		</test>
+		<then>
+			<setNodeValue>
+				<path>
+					<literal>//parameters/_helpers/_doCreateIncident</literal>
+				</path>
+				<value description="set flag to YES, do create the incident">
+					<literal>1</literal>
+				</value>
+			</setNodeValue>
+			<setNodeValue>
+				<path>
+					<literal>//parameters/_helpers/incident/ownerId</literal>
+				</path>
+				<value>
+					<getNodeValue>
+						<literal>//returnXml/parametersReturn/individual/primaryId</literal>
+					</getNodeValue>
+				</value>
+			</setNodeValue>
+			<setNodeValue>
+				<path>
+					<literal>//parameters/_helpers/incident/ownerType</literal>
+				</path>
+				<value>
+					<literal>1</literal>
+				</value>
+			</setNodeValue>
+			<if>
+				<test description="If this is a large account, set immediate priority">
+					<exists description="Check for subType=Large Account">
+						<literal>//parameters/individual/userSubTypeId[.='101280']</literal>
+					</exists>
+				</test>
+				<then>
+					<setNodeValue>
+						<path>
+							<literal>//parameters/_helpers/incident/priorityId</literal>
+						</path>
+						<value>
+							<literal>117</literal>
+						</value>
+					</setNodeValue>
+				</then>
+				<else description="Use medium priority">
+					<setNodeValue>
+						<path>
+							<literal>//parameters/_helpers/incident/priorityId</literal>
+						</path>
+						<value>
+							<literal>127</literal>
+						</value>
+					</setNodeValue>
+				</else>
+			</if>
+
+		</then>
+	</if>
+
+
+	<if description="Fill the remaining incident fields if an incident should be created.">
+		<test>
+			<exists description="Check flag whether we should create an incident">
+				<literal>//parameters/_helpers/_doCreateIncident[.='1']</literal>
+			</exists>
+		</test>
+		<then>
+			<setNodeValue description="category: sales incident">
+				<path>
+					<literal>//parameters/_helpers/incident/categoryId</literal>
+				</path>
+				<value>
+					<literal>3</literal>
+				</value>
+			</setNodeValue>
+
+
+			<setNodeValue description="category: sales incident">
+				<path>
+					<literal>//parameters/_helpers/incident/typeId</literal>
+				</path>
+				<value>
+					<literal>3</literal>
+				</value>
+			</setNodeValue>
+
+			<setNodeValue description="Product: default">
+				<path>
+					<literal>//parameters/_helpers/incident/productId</literal>
+				</path>
+				<value>
+					<literal>salesProd</literal>
+				</value>
+			</setNodeValue>
+			
+			<setNodeValue description="description1: Auto-created incident for Customer">
+				<path>
+					<literal>//parameters/_helpers/incident/description1</literal>
+				</path>
+				<value>
+					<literal>Auto-created incident for Customer</literal>
+				</value>
+			</setNodeValue>
+			
+			<setNodeValue description="Source: Mail">
+				<path>
+					<literal>//parameters/_helpers/incident/sourceId</literal>
+				</path>
+				<value>
+					<literal>132</literal>
+				</value>
+			</setNodeValue>
+			
+			<setNodeValue description="status: Open">
+				<path>
+					<literal>//parameters/_helpers/incident/statusId</literal>
+				</path>
+				<value>
+					<literal>130</literal>
+				</value>
+			</setNodeValue>
+
+			<setNodeValue description="assignedTo: sa">
+				<path>
+					<literal>//parameters/_helpers/incident/assignedTo</literal>
+				</path>
+				<value>
+					<literal>sa</literal>
+				</value>
+			</setNodeValue>
+
+			<saveXML mode="development" description="Log the incident.insert input XML">
+				<name>
+					<literal>c:\temp\sample.moderate__incident.insert.xml</literal>
+				</name>
+				<path>
+					<literal>/stepPackage</literal>
+				</path>
+			</saveXML>
+
+			<otmCall>
+				<object>
+					<literal>incident</literal>
+				</object>
+				<method>
+					<literal>insert</literal>
+				</method>
+				<inputParameters>
+					<addNode>
+						<path>
+							<literal>//parameters</literal>
+						</path>
+						<name>
+							<literal>incident</literal>
+						</name>
+					</addNode>
+					<fieldMap>
+						<source>
+							<literal>//parameters/_helpers/incident</literal>
+						</source>
+						<target>
+							<literal>incident</literal>
+						</target>
+					</fieldMap>
+					<saveXML mode="development" description="Log OTM call contents to file">
+						<name>
+							<literal>c:\temp\otmCall.incident.insert.xml</literal>
+						</name>
+						<path>
+							<literal>.</literal>
+						</path>
+						<source>target</source>
+					</saveXML>
+				</inputParameters>
+				<outputParameters></outputParameters>
+				<onError>stop</onError>
+			</otmCall>
+
+		</then>
+	</if>
+
+</rules>

@@ -1,0 +1,175 @@
+<!-- Copyright Aptean 2017. All rights reserved. -->
+<businessRuleManager>
+	<!--List of all assemblies that contain grammar classes.-->
+	<modules>
+		<module name="Base" assembly="ConsonaCRM.BusinessRuleManager.Base" />
+		<module name="Process" assembly="ConsonaCRM.BusinessRuleManager.Process" />
+		<module name="File" assembly="ConsonaCRM.BusinessRuleManager.File" />
+		<module name="Date" assembly="ConsonaCRM.BusinessRuleManager.Date" />
+		<module name="Boolean" assembly="ConsonaCRM.BusinessRuleManager.Boolean" />
+		<module name="String" assembly="ConsonaCRM.BusinessRuleManager.String" />
+		<module name="Integer" assembly="ConsonaCRM.BusinessRuleManager.Integer" />
+		<module name="Float" assembly="ConsonaCRM.BusinessRuleManager.Float" />
+		<module name="Data" assembly="ConsonaCRM.BusinessRuleManager.Data" />
+	</modules>
+	<!--List of all grammar keywords and the class that handles them.-->
+	<grammar>
+		<!--Base containers-->
+		<keyword name="rules" module="Base" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Process.ProcessContainer"/>
+		<keyword name="rule" module="Base" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Process.ProcessContainer"/>
+		<keyword name="fieldMaps" module="Base" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Process.ProcessContainer"/>
+		<keyword name="literal" module="Base" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Literal"/>
+		<keyword name="getNodeValue" module="Base" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.GetNodeValue"/>
+		<keyword name="getCDataNodeValue" module="Base" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.GetCDataNodeValue"/>
+		<keyword name="getNodeXML" module="Base" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.GetNodeXML"/>
+		<keyword name="getNodeName" module="Base" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.GetNodeName"/>
+		<keyword name="getNodeCount" module="Base" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.GetNodeCount"/>
+
+		<!--Process operations-->
+		<keyword name="stopProcessing" module="Process" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Process.StopProcessing"/>
+		<keyword name="if" module="Process" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Process.If"/>
+		<keyword name="while" module="Process" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Process.While"/>
+		<keyword name="usePath" module="Process" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Process.UsePath"/>
+		<keyword name="forEach" module="Process" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Process.ForEach"/>
+		<keyword name="addNode" module="Process" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Process.AddNode"/>
+		<keyword name="copyNode" module="Process" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Process.CopyNode"/>
+		<keyword name="removeNodes" module="Process" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Process.RemoveNodes"/>
+		<keyword name="setNodeValue" module="Process" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Process.SetNodeValue"/>
+		<keyword name="setNodeXML" module="Process" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Process.SetNodeXML"/>
+		<keyword name="setCDataNodeValue" module="Process" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Process.SetCDataNodeValue"/>
+		<keyword name="fieldMap" module="Process" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Process.FieldMap"/>
+		<keyword name="saveXML" module="Process" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Process.SaveXML"/>
+		<keyword name="rootPath" module="Process" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.RootPath"/>
+		<keyword name="subProcess" module="Process" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Process.SubProcess"/>
+		<keyword name="webServiceCall" module="Process" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Process.WebServiceCall"/>
+		<keyword name="cacheRead" module="Process" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Process.CacheRead"/>
+		<keyword name="cacheWrite" module="Process" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Process.CacheWrite"/>
+		<keyword name="cacheDelete" module="Process" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Process.CacheDelete"/>
+		<keyword name="loopBreak" module="Process" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Process.LoopBreak"/>
+		<keyword name="loopContinue" module="Process" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Process.LoopContinue"/>
+		<keyword name="setArgumentValue" module="Process" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Process.SetArgumentValue"/>
+		<keyword name="getArgumentValue" module="Process" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Process.GetArgumentValue"/>
+		<keyword name="httpPost" module="Process" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Process.HTTPPost"/>
+		<keyword name="httpGet" module="Process" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Process.HTTPGet"/>
+		<keyword name="switch" module="Process" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Process.Switch"/>
+
+		<!--File operations-->
+		<keyword name="copyFile" module="File" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.File.CopyFile"/>
+		<keyword name="deleteFile" module="File" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.File.DeleteFile"/>
+		<keyword name="fileExists" module="File" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.File.FileExists"/>
+		<keyword name="fileInfo" module="File" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.File.FileInfo"/>
+		<keyword name="forEachFileInfo" module="File" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.File.ForEachFileInfo"/>
+		<keyword name="fileInfoName" module="File" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.File.FileInfoName"/>
+		<keyword name="fileInfoPath" module="File" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.File.FileInfoPath"/>
+		<keyword name="fileInfoSize" module="File" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.File.FileInfoSize"/>
+		<keyword name="fileInfoCreateDate" module="File" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.File.FileInfoCreateDate"/>
+		<keyword name="fileInfoUpdateDate" module="File" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.File.FileInfoUpdateDate"/>
+		<keyword name="fileInfoReadOnly" module="File" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.File.FileInfoReadOnly"/>
+		<keyword name="createFolder" module="File" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.File.CreateFolder"/>
+		<keyword name="deleteFolder" module="File" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.File.DeleteFolder"/>
+		<keyword name="folderExists" module="File" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.File.FolderExists"/>
+		<keyword name="folderInfo" module="File" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.File.FolderInfo"/>
+		<keyword name="forEachFolderInfo" module="File" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.File.ForEachFolderInfo"/>
+		<keyword name="folderInfoName" module="File" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.File.FolderInfoName"/>
+		<keyword name="folderInfoPath" module="File" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.File.FolderInfoPath"/>
+		<keyword name="folderInfoCreateDate" module="File" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.File.FolderInfoCreateDate"/>
+		<keyword name="folderInfoUpdateDate" module="File" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.File.FolderInfoUpdateDate"/>
+		<keyword name="textFileWriteOpen" module="File" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.File.TextFileWriteOpen"/>
+		<keyword name="textFileWrite" module="File" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.File.TextFileWrite"/>
+		<keyword name="textFileWriteLine" module="File" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.File.TextFileWriteLine"/>
+		<keyword name="textFileReadOpen" module="File" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.File.TextFileReadOpen"/>
+		<keyword name="textFileReadLine" module="File" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.File.TextFileReadLine"/>
+		<keyword name="textFileReadEOF" module="File" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.File.TextFileReadEOF"/>
+
+		<!--XML operations (return string)-->
+		<keyword name="loadXML" module="Process" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Process.LoadXML"/>
+		<keyword name="xslt" module="Process" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Process.XSLT"/>
+
+		<!--Boolean operations-->
+		<keyword name="exists" module="Boolean" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Boolean.Exists"/>
+		<keyword name="not" module="Boolean" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Boolean.Not"/>
+		<keyword name="and" module="Boolean" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Boolean.And"/>
+		<keyword name="or" module="Boolean" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Boolean.Or"/>
+
+		<!--Date/time operations-->
+		<keyword name="toDateTime" module="Date" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Date.ToDateTime"/>
+		<keyword name="dateAdd" module="Date" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Date.DateAdd"/>
+		<keyword name="dateNow" module="Date" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Date.DateNow"/>
+		<keyword name="dateNowUTC" module="Date" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Date.DateNowUTC"/>
+		<keyword name="localToUTC" module="Date" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Date.LocalToUTC"/>
+		<keyword name="UTCToLocal" module="Date" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Date.UTCToLocal"/>
+		<keyword name="dateEqualTo" module="Date" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Date.DateEqualTo"/>
+		<keyword name="dateLessThan" module="Date" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Date.DateLessThan"/>
+		<keyword name="dateLessThanEqualTo" module="Date" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Date.DateLessThanEqualTo"/>
+		<keyword name="dateGreaterThan" module="Date" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Date.DateGreaterThan"/>
+		<keyword name="dateGreaterThanEqualTo" module="Date" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Date.DateGreaterThanEqualTo"/>
+		<keyword name="datePart" module="Date" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Date.DatePart"/>
+		<keyword name="dateDiff" module="Date" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Date.DateDiff"/>
+		<keyword name="startOfMinute" module="Date" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Date.StartOfMinute"/>
+		<keyword name="startOfHour" module="Date" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Date.StartOfHour"/>
+		<keyword name="startOfDay" module="Date" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Date.StartOfDay"/>
+		<keyword name="startOfWeek" module="Date" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Date.StartOfWeek"/>
+		<keyword name="startOfMonth" module="Date" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Date.StartOfMonth"/>
+		<keyword name="startOfYear" module="Date" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Date.StartOfYear"/>
+
+		<!--String operations-->
+		<keyword name="toString" module="String" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.String.ToString"/>
+		<keyword name="upperCase" module="String" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.String.UpperCase"/>
+		<keyword name="lowerCase" module="String" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.String.LowerCase"/>
+		<keyword name="replaceText" module="String" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.String.ReplaceText"/>
+		<keyword name="replaceRegex" module="String" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.String.ReplaceRegex"/>
+		<keyword name="concatenate" module="String" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.String.Concatenate"/>
+		<keyword name="stringEqualTo" module="String" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.String.StringEqualTo"/>
+		<keyword name="stringLessThan" module="String" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.String.StringLessThan"/>
+		<keyword name="stringLessThanEqualTo" module="String" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.String.StringLessThanEqualTo"/>
+		<keyword name="stringGreaterThan" module="String" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.String.StringGreaterThan"/>
+		<keyword name="stringGreaterThanEqualTo" module="String" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.String.StringGreaterThanEqualTo"/>
+		<keyword name="stringLength" module="String" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.String.StringLength"/>
+		<keyword name="substring" module="String" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.String.Substring"/>
+		<keyword name="newGuid" module="String" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.String.NewGuid"/>
+		<keyword name="encrypt" module="String" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.String.Encrypt"/>
+		<keyword name="decrypt" module="String" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.String.Decrypt"/>
+		<keyword name="iif" module="String" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.String.IIf"/>
+		<keyword name="forEachDelimitedString" module="String" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.String.ForEachDelimitedString"/>
+		<keyword name="delimitedString" module="String" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.String.DelimitedString"/>
+		<keyword name="stringFormat" module="String" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.String.StringFormat"/>
+
+		<!--Integer operations-->
+		<keyword name="toInteger" module="Integer" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Integer.ToInteger"/>
+		<keyword name="integerEqualTo" module="Integer" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Integer.IntegerEqualTo"/>
+		<keyword name="integerLessThan" module="Integer" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Integer.IntegerLessThan"/>
+		<keyword name="integerLessThanEqualTo" module="Integer" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Integer.IntegerLessThanEqualTo"/>
+		<keyword name="integerGreaterThan" module="Integer" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Integer.IntegerGreaterThan"/>
+		<keyword name="integerGreaterThanEqualTo" module="Integer" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Integer.IntegerGreaterThanEqualTo"/>
+		<keyword name="integerAdd" module="Integer" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Integer.IntegerAdd"/>
+		<keyword name="integerSubtract" module="Integer" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Integer.IntegerSubtract"/>
+		<keyword name="integerMultiply" module="Integer" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Integer.IntegerMultiply"/>
+		<keyword name="integerDivide" module="Integer" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Integer.IntegerDivide"/>
+		<keyword name="modulo" module="Integer" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Integer.Modulo"/>
+
+		<!--Floating-point operations-->
+		<keyword name="toFloat" module="Float" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Float.ToFloat"/>
+		<keyword name="floatEqualTo" module="Float" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Float.FloatEqualTo"/>
+		<keyword name="floatLessThan" module="Float" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Float.FloatLessThan"/>
+		<keyword name="floatLessThanEqualTo" module="Float" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Float.FloatLessThanEqualTo"/>
+		<keyword name="floatGreaterThan" module="Float" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Float.FloatGreaterThan"/>
+		<keyword name="floatGreaterThanEqualTo" module="Float" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Float.FloatGreaterThanEqualTo"/>
+		<keyword name="floatAdd" module="Float" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Float.FloatAdd"/>
+		<keyword name="floatSubtract" module="Float" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Float.FloatSubtract"/>
+		<keyword name="floatMultiply" module="Float" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Float.FloatMultiply"/>
+		<keyword name="floatDivide" module="Float" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Float.FloatDivide"/>
+		<keyword name="round" module="Float" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Float.Round"/>
+		<keyword name="floor" module="Float" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Float.Floor"/>
+		<keyword name="ceiling" module="Float" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Float.Ceiling"/>
+
+		<!--Data operations-->
+		<keyword name="odbcConnection" module="Data" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Data.OdbcConnection"/>
+		<keyword name="odbcCall" module="Data" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Data.OdbcCall"/>
+		<keyword name="odbcAddParameter" module="Data" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Data.OdbcAddParameter"/>
+		<keyword name="odbcParameterValue" module="Data" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Data.OdbcParameterValue"/>
+		<keyword name="odbcColumnCount" module="Data" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Data.OdbcColumnCount"/>
+		<keyword name="odbcRowCount" module="Data" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Data.OdbcRowCount"/>
+		<keyword name="odbcForEachRow" module="Data" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Data.OdbcForEachRow"/>
+		<keyword name="odbcFieldValue" module="Data" class="ConsonaCRM.BusinessRuleManager.Grammar.Expressions.Data.OdbcFieldValue"/>
+	</grammar>
+</businessRuleManager>

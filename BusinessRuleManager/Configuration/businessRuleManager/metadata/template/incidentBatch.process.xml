@@ -1,0 +1,35 @@
+<!-- Copyright Aptean 2017. All rights reserved. -->
+<rules xmlns="http://www.consonacrm.com/brm"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.consonacrm.com/brm ../../grammar/onyx/businessRuleManager.grammar.onyx.xsd">
+	<rule description="Check that required parameters were entered">
+		<if description="processName is required">
+			<test>
+				<not>
+					<exists>
+						<literal>processName[.!='']</literal>
+					</exists>
+				</not>
+			</test>
+			<then>
+				<returnMessage description="Return error message and stop">
+					<type>error</type>
+					<msgId>2000050</msgId>
+					<arguments>
+						<literal>processName</literal>
+					</arguments>
+				</returnMessage>
+				<stopProcessing/>
+			</then>
+		</if>
+	</rule>
+	<rule description="Execute named sub-process">
+		<subProcess>
+			<name>
+				<getNodeValue>
+					<literal>processName</literal>
+				</getNodeValue>
+			</name>
+		</subProcess>
+	</rule>
+</rules>

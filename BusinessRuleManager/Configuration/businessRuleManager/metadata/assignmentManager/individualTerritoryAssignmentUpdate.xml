@@ -1,0 +1,120 @@
+﻿<!-- Copyright Aptean 2017. All rights reserved. -->
+<rules xmlns="http://www.consonacrm.com/brm"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.consonacrm.com/brm ../../grammar/onyx/businessRuleManager.grammar.onyx.xsd">
+	<if description="Check for existence of assignmentAssociation node">
+		<test>
+			<exists>
+				<literal>//parameters/_persist/assignmentAssociationInsertReplace</literal>
+			</exists>
+		</test>
+		<then>
+			<otmCall description="Create assignmentAssociation record for the individual">
+				<object>
+					<literal>assignmentAssociation</literal>
+				</object>
+				<method>
+					<literal>insertReplace</literal>
+				</method>
+				<inputParameters>
+					<fieldMap>
+						<source>
+							<literal>//parameters/_persist/assignmentAssociationInsertReplace</literal>
+						</source>
+						<target>
+							<literal>.</literal>
+						</target>
+					</fieldMap>
+					<fieldMap>
+						<source>
+							<literal>//parameters/individual/primaryId</literal>
+						</source>
+						<target>
+							<literal>./assignmentAssociation/associatedWithId</literal>
+						</target>
+					</fieldMap>
+				</inputParameters>
+				<outputParameters description="Save return values from assignmentAssociation object">
+					<fieldMap description="Save assignmentCondition">
+						<source>
+							<literal>assignmentAssociation</literal>
+						</source>
+						<target>
+							<literal>//parameters/_helpers/assignmentAssociationInsertReplaceResults</literal>
+						</target>
+					</fieldMap>
+				</outputParameters>
+				<onError>stop</onError>
+			</otmCall>
+		</then>
+		<else description="No condition was true">
+			<otmCall description="Delete any existing assignmentAssociation record for the individual">
+				<object>
+					<literal>assignmentAssociation</literal>
+				</object>
+				<method>
+					<literal>deleteByAssociatedWith</literal>
+				</method>
+				<inputParameters>
+					<fieldMap>
+						<source>
+							<literal>//parameters/individual/primaryId</literal>
+						</source>
+						<target>
+							<literal>associatedWithId</literal>
+						</target>
+					</fieldMap>
+				</inputParameters>
+				<outputParameters description="Save return values from assignmentAssociation object">
+					<fieldMap description="Delete assignmentAssociation">
+						<source>
+							<literal>//returnXml</literal>
+						</source>
+						<target>
+							<literal>//parameters/_helpers/assignmentAssociationDeleteResults</literal>
+						</target>
+					</fieldMap>
+				</outputParameters>
+				<!-- Ignore errors and failures, to avoid roundtrip -->
+				<mergeMethodStatus>0</mergeMethodStatus>
+				<onError>continue</onError>
+			</otmCall>
+		</else>
+	</if>
+	<!--<rule>
+		<saveXML mode="development" description="Save XML node contents to file">
+			<name>
+				<literal>c:\temp\individualLoggingPostStepOTMCalls.xml</literal>
+			</name>
+			<path>
+				<literal>/stepPackage</literal>
+			</path>
+		</saveXML>
+	</rule>-->
+	<removeNodes description="Remove _helpers node">
+		<path>
+			<literal>//parameters</literal>
+		</path>
+		<name>
+			<literal>_helpers</literal>
+		</name>
+	</removeNodes>
+	<removeNodes description="Remove _helpers node">
+		<path>
+			<literal>//parameters</literal>
+		</path>
+		<name>
+			<literal>_persist</literal>
+		</name>
+	</removeNodes>
+	<!--<rule>
+		<saveXML mode="development" description="Save XML node contents to file">
+			<name>
+				<literal>c:\temp\individualLoggingPostStep.xml</literal>
+			</name>
+			<path>
+				<literal>/stepPackage</literal>
+			</path>
+		</saveXML>
+	</rule>-->
+</rules>
