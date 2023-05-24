@@ -1,0 +1,589 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="export" id="20161017-084916">
+
+        <!-- DOCUMENT TYPES -->
+
+        <insert tableName="DOCTYPES">
+            <column name="GUID" value="07f353e4-fa46-11e5-b70e-c534f083c0c6"/>
+            <column name="DISPLAY_NAME" value="Individual"/>
+            <column name="DISPLAY_ICON" value="icon-businessperson2"/>
+            <column name="TAB_PRIORITY" value="2"/>
+            <column name="BACKGROUND_COLOR" value="438fbc"/>
+        </insert>
+        <insert tableName="DOCTYPES">
+            <column name="GUID" value="56137af5-fa46-11e5-b70e-61a8b482608e"/>
+            <column name="DISPLAY_NAME" value="Sales Opportunity"/>
+            <column name="DISPLAY_ICON" value="icon-revenue"/>
+            <column name="TAB_PRIORITY" value="0"/>
+            <column name="BACKGROUND_COLOR" value="438fbc"/>
+        </insert>
+        <insert tableName="DOCTYPES">
+            <column name="GUID" value="66ba2cf6-fa46-11e5-b70e-2b085493ecb8"/>
+            <column name="DISPLAY_NAME" value="Service Incidents"/>
+            <column name="DISPLAY_ICON" value="icon-bell"/>
+            <column name="TAB_PRIORITY" value="0"/>
+            <column name="BACKGROUND_COLOR" value="438fbc"/>
+        </insert>
+        <insert tableName="DOCTYPES">
+            <column name="GUID" value="74200bd7-fa46-11e5-b70e-5fbafc3eba8f"/>
+            <column name="DISPLAY_NAME" value="Support Operations"/>
+            <column name="DISPLAY_ICON" value="icon-user-earth"/>
+            <column name="TAB_PRIORITY" value="0"/>
+            <column name="BACKGROUND_COLOR" value="438fbc"/>
+        </insert>
+        <insert tableName="DOCTYPES">
+            <column name="GUID" value="90c592a8-fa46-11e5-b70e-df2c59fceb53"/>
+            <column name="DISPLAY_NAME" value="Sales Tasks"/>
+            <column name="DISPLAY_ICON" value="icon-cash-flow"/>
+            <column name="TAB_PRIORITY" value="0"/>
+            <column name="BACKGROUND_COLOR" value="438fbc"/>
+        </insert>
+        <insert tableName="DOCTYPES">
+            <column name="GUID" value="9ea3aec9-fa46-11e5-b70e-0f1912cc9f37"/>
+            <column name="DISPLAY_NAME" value="Service Tasks"/>
+            <column name="DISPLAY_ICON" value="icon-megaphone"/>
+            <column name="TAB_PRIORITY" value="0"/>
+            <column name="BACKGROUND_COLOR" value="438fbc"/>
+        </insert>
+        <insert tableName="DOCTYPES">
+            <column name="GUID" value="be0dd3da-fa46-11e5-b70e-679bfc454fe8"/>
+            <column name="DISPLAY_NAME" value="Support Tasks"/>
+            <column name="DISPLAY_ICON" value="icon-box-software"/>
+            <column name="TAB_PRIORITY" value="0"/>
+            <column name="BACKGROUND_COLOR" value="438fbc"/>
+        </insert>
+        <insert tableName="DOCTYPES">
+            <column name="GUID" value="d02553eb-fa46-11e5-b70e-15762f087056"/>
+            <column name="DISPLAY_NAME" value="WorkTickets"/>
+            <column name="DISPLAY_ICON" value="icon-clipboard-check-edit"/>
+            <column name="TAB_PRIORITY" value="0"/>
+            <column name="BACKGROUND_COLOR" value="438fbc"/>
+        </insert>
+        <insert tableName="DOCTYPES">
+            <column name="GUID" value="e021e33c-fa46-11e5-b70e-5bc6f72d9544"/>
+            <column name="DISPLAY_NAME" value="Emails"/>
+            <column name="DISPLAY_ICON" value="icon-mail"/>
+            <column name="TAB_PRIORITY" value="0"/>
+            <column name="BACKGROUND_COLOR" value="438fbc"/>
+        </insert>
+        <insert tableName="DOCTYPES">
+            <column name="GUID" value="e605b843-fa45-11e5-b70e-d5c5f14d6d72"/>
+            <column name="DISPLAY_NAME" value="Company"/>
+            <column name="DISPLAY_ICON" value="icon-office-building2"/>
+            <column name="TAB_PRIORITY" value="1"/>
+            <column name="BACKGROUND_COLOR" value="438fbc"/>
+        </insert>
+
+        <!-- SERVERS -->
+
+        <insert tableName="SERVERS">
+            <column name="GUID" value="1d6ef11d-fa47-11e5-b70e-0b27556a8f72"/>
+            <column name="NAME" value="Insight"/>
+            <column name="SERVER_TYPE" value="SOLR_STANDALONE"/>
+            <column name="SOLR_CORE_NAME" value="insight"/>
+            <column name="API_URL" value="http://localhost:8983/solr"/>
+            <column name="UI_URL" value="http://localhost:8983/solr"/>
+            <column name="IS_DEFAULT_SOLR_SERVER" value="Y"/>
+        </insert>
+        <insert tableName="SERVERS">
+            <column name="GUID" value="6af7b76c-1676-11e6-96e0-fdfa68fbc9ad"/>
+            <column name="NAME" value="ManifoldServer"/>
+            <column name="SERVER_TYPE" value="MANIFOLD"/>
+            <column name="API_URL" value="http://localhost:8345"/>
+            <column name="UI_URL" value="http://localhost:8345/mcf-crawler-ui"/>
+            <column name="IS_DEFAULT_SOLR_SERVER" value="N"/>
+        </insert>
+
+        <!-- PRODUCT CRAWLERS -->
+
+        <insert tableName="DATA_DEFINITIONS">
+            <column name="GUID" value="21b41bc2-12ae-11e6-a27d-efbc763acfa3"/>
+            <column name="SOLR_SERVER_GUID" value="1d6ef11d-fa47-11e5-b70e-0b27556a8f72"/>
+            <column name="DATASOURCE_JNDI" value="java:jboss/datasources/OnyxDS"/>
+            <column name="IS_ENABLED" value="Y"/>
+            <column name="DESCRIPTION" value="Service Incident"/>
+            <column name="IS_BINARY" value="N"/>
+            <column name="METADATA_QUERY" value="select * from incident_service_insight_meta_data_query_view"/>
+            <column name="DATA_QUERY" value="select * from incident_service_insight_data_query_view&#10;where search_external_id in ({IDS})"/>
+            <column name="URL_PATTERN" value=""/>
+            <column name="PERMISSION_QUERY" value=""/>
+            <column name="PERMISSION_FIELD" value=""/>
+            <column name="SYNC_INTERVAL" value="1"/>
+            <column name="SYNC_INTERVAL_TYPE" value="HOURS"/>
+            <column name="FAILURE_THRESHOLD" value="10"/>
+            <column name="SUMMARY_TEMPLATE" value="&lt;div class=&quot;Field1&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_secondary_id!}&lt;/font&gt;&lt;/div&gt;&#10;&lt;div class=&quot;SummaryCell1&quot;&gt;&#10;  &lt;div class=&quot;Field2Header&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Status&lt;/font&gt;&lt;/div&gt;&#10;  &lt;div class=&quot;Field2Value&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;&lt;a style=&quot;color:#6d6e70&quot; href=&quot;#Insight/search/${xfield_status_desc!?url('utf-8')!}&quot; &gt;${xfield_status_desc!}&lt;/a&gt;&lt;/font&gt;&lt;/div&gt;&#10;&lt;/div&gt;&#10;&lt;div class=&quot;SummaryCell2&quot;&gt;&#10;  &lt;div class=&quot;Field3Header&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Customer&lt;/font&gt;&lt;/div&gt;&#10;  &lt;div class=&quot;Field3Value&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_customer_name!}&lt;/font&gt;&lt;/div&gt;&#10;&lt;/div&gt;&#10;&lt;div class=&quot;relevancy&quot;&gt;&#10;  &lt;div class=&quot;relevancyScore&quot;&gt;&lt;font color=&quot;#438fbc&quot;&gt;Relevance hit:&lt;/font&gt;&lt;/div&gt;&#10;  &lt;div class=&quot;relevancyPercentage&quot;&gt;&lt;font color=&quot;#438fbc&quot;&gt;${result.normalizedScore}%&lt;/font&gt;&lt;/div&gt;&#10;&lt;/div&gt;"/>
+            <column name="DETAIL_TEMPLATE" value="&lt;table class=&quot;detailTable&quot;&gt;&#10;  &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Id:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_secondary_id!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;  &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Assigned To:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_user_name!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;  &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Type:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_type_desc!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Priority:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_priority_desc!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Status:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_status_desc!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Source:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_source_desc!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Tags:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_tags!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Tracking Description:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_trackingDesc!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Resolution Code1:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_resolutionDesc1!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Resolution Code2:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_resolutionDesc2!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Resolution Code3:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_resolutionDesc3!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Resolution Code4:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_resolutionDesc4!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;&lt;/table&gt;"/>
+            <column name="DOCTYPE_GUID" value="66ba2cf6-fa46-11e5-b70e-2b085493ecb8"/>
+            <column name="CRAWLER_TYPE" value="DATABASE"/>
+        </insert>
+        <insert tableName="DATA_DEFINITIONS">
+            <column name="GUID" value="3d14d11e-12af-11e6-a27d-c94d0e1da884"/>
+            <column name="SOLR_SERVER_GUID" value="1d6ef11d-fa47-11e5-b70e-0b27556a8f72"/>
+            <column name="DATASOURCE_JNDI" value="java:jboss/datasources/OnyxDS"/>
+            <column name="IS_ENABLED" value="Y"/>
+            <column name="DESCRIPTION" value="Service Tasks"/>
+            <column name="IS_BINARY" value="N"/>
+            <column name="METADATA_QUERY" value="select * from task_service_insight_meta_data_query_view"/>
+            <column name="DATA_QUERY" value="select * from task_service_insight_data_query_view&#10;where search_external_id in ({IDS})"/>
+            <column name="URL_PATTERN" value=""/>
+            <column name="PERMISSION_QUERY" value=""/>
+            <column name="PERMISSION_FIELD" value=""/>
+            <column name="SYNC_INTERVAL" value="1"/>
+            <column name="SYNC_INTERVAL_TYPE" value="HOURS"/>
+            <column name="FAILURE_THRESHOLD" value="10"/>
+            <column name="SUMMARY_TEMPLATE" value="&lt;div class=&quot;Field1&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_customerName!}&lt;/font&gt;&lt;/div&gt;&#10;&lt;div class=&quot;SummaryCell1&quot;&gt;&#10;  &lt;div class=&quot;Field2Header&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Type&lt;/font&gt;&lt;/div&gt;&#10;  &lt;div class=&quot;Field2Value&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;&lt;a style=&quot;color:#6d6e70&quot; href=&quot;#Insight/search/${xfield_type_desc!?url('utf-8')!}&quot; &gt;${xfield_type_desc!}&lt;/a&gt;&lt;/font&gt;&lt;/div&gt;&#10;&lt;/div&gt;&#10;&lt;div class=&quot;SummaryCell2&quot;&gt;&#10;  &lt;div class=&quot;Field3Header&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Incident Id&lt;/font&gt;&lt;/div&gt;&#10;  &lt;div class=&quot;Field3Value&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_ownerSecondaryId!}&lt;/font&gt;&lt;/div&gt;&#10;&lt;/div&gt;&#10;&lt;div class=&quot;relevancy&quot;&gt;&#10;  &lt;div class=&quot;relevancyScore&quot;&gt;&lt;font color=&quot;#438fbc&quot;&gt;Relevance hit:&lt;/font&gt;&lt;/div&gt;&#10;  &lt;div class=&quot;relevancyPercentage&quot;&gt;&lt;font color=&quot;#438fbc&quot;&gt;${result.normalizedScore}%&lt;/font&gt;&lt;/div&gt;&#10;&lt;/div&gt;"/>
+            <column name="DETAIL_TEMPLATE" value="&lt;table class=&quot;detailTable&quot;&gt;&#10;  &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Task Id&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${attr_secondary_id!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Type&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_type_desc!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;  &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Assigned To&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_user_name!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Status&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_status_desc!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;  &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Priority&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_priority_desc!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Tags&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_tags!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;UpdateDate&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${attr_last_modified!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;RecallDate&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${attr_recallDateTime!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Customer&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_customerName!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;IncidentId&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_ownerSecondaryId!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;&lt;/table&gt;"/>
+            <column name="DOCTYPE_GUID" value="9ea3aec9-fa46-11e5-b70e-0f1912cc9f37"/>
+            <column name="CRAWLER_TYPE" value="DATABASE"/>
+        </insert>
+        <insert tableName="DATA_DEFINITIONS">
+            <column name="GUID" value="5b88c22b-12ad-11e6-a27d-655eda8a65b0"/>
+            <column name="SOLR_SERVER_GUID" value="1d6ef11d-fa47-11e5-b70e-0b27556a8f72"/>
+            <column name="DATASOURCE_JNDI" value="java:jboss/datasources/OnyxDS"/>
+            <column name="IS_ENABLED" value="Y"/>
+            <column name="DESCRIPTION" value="Sale Opportunity"/>
+            <column name="IS_BINARY" value="N"/>
+            <column name="METADATA_QUERY" value="select * from incident_sales_insight_meta_data_query_view"/>
+            <column name="DATA_QUERY" value="select * from incident_sales_insight_data_query_view&#10;where search_external_id in ({IDS})"/>
+            <column name="URL_PATTERN" value=""/>
+            <column name="PERMISSION_QUERY" value=""/>
+            <column name="PERMISSION_FIELD" value=""/>
+            <column name="SYNC_INTERVAL" value="1"/>
+            <column name="SYNC_INTERVAL_TYPE" value="HOURS"/>
+            <column name="FAILURE_THRESHOLD" value="10"/>
+            <column name="SUMMARY_TEMPLATE" value="&lt;div class=&quot;Field1&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_secondary_id!}&lt;/font&gt;&lt;/div&gt;&#10;&lt;div class=&quot;SummaryCell1&quot;&gt;&#10;  &lt;div class=&quot;Field2Header&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Status&lt;/font&gt;&lt;/div&gt;&#10;  &lt;div class=&quot;Field2Value&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;&lt;a style=&quot;color:#6d6e70&quot; href=&quot;#Insight/search/${xfield_status_desc!?url('utf-8')!}&quot; &gt;${xfield_status_desc!}&lt;/a&gt;&lt;/font&gt;&lt;/div&gt;&#10;&lt;/div&gt;&#10;&lt;div class=&quot;SummaryCell2&quot;&gt;&#10;  &lt;div class=&quot;Field3Header&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Customer&lt;/font&gt;&lt;/div&gt;&#10;  &lt;div class=&quot;Field3Value&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_customer_name!}&lt;/font&gt;&lt;/div&gt;&#10;&lt;/div&gt;&#10;&lt;div class=&quot;relevancy&quot;&gt;&#10;  &lt;div class=&quot;relevancyScore&quot;&gt;&lt;font color=&quot;#438fbc&quot;&gt;Relevance hit:&lt;/font&gt;&lt;/div&gt;&#10;  &lt;div class=&quot;relevancyPercentage&quot;&gt;&lt;font color=&quot;#438fbc&quot;&gt;${result.normalizedScore}%&lt;/font&gt;&lt;/div&gt;&#10;&lt;/div&gt;"/>
+            <column name="DETAIL_TEMPLATE" value="&lt;table class=&quot;detailTable&quot;&gt;&#10;  &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Id:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_secondary_id!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;  &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Assigned To:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_user_name!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;  &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Type:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_type_desc!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Priority:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_priority_desc!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Status:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_status_desc!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Source:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_source_desc!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Tags:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_tags!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Tracking Description:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_trackingDesc!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Resolution Code1:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_resolutionDesc1!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Resolution Code2:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_resolutionDesc2!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Resolution Code3:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_resolutionDesc3!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Resolution Code4:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_resolutionDesc4!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;&lt;/table&gt;"/>
+            <column name="DOCTYPE_GUID" value="56137af5-fa46-11e5-b70e-61a8b482608e"/>
+            <column name="CRAWLER_TYPE" value="DATABASE"/>
+        </insert>
+        <insert tableName="DATA_DEFINITIONS">
+            <column name="GUID" value="5e492445-12ae-11e6-a27d-4b3231e06a5c"/>
+            <column name="SOLR_SERVER_GUID" value="1d6ef11d-fa47-11e5-b70e-0b27556a8f72"/>
+            <column name="DATASOURCE_JNDI" value="java:jboss/datasources/OnyxDS"/>
+            <column name="IS_ENABLED" value="Y"/>
+            <column name="DESCRIPTION" value="Individual"/>
+            <column name="IS_BINARY" value="N"/>
+            <column name="METADATA_QUERY" value="select * from individual_insight_meta_data_query_view"/>
+            <column name="DATA_QUERY" value="select * from individual_insight_data_query_view&#10;Where search_external_id in ({IDS})"/>
+            <column name="URL_PATTERN" value=""/>
+            <column name="PERMISSION_QUERY" value=""/>
+            <column name="PERMISSION_FIELD" value=""/>
+            <column name="SYNC_INTERVAL" value="1"/>
+            <column name="SYNC_INTERVAL_TYPE" value="HOURS"/>
+            <column name="FAILURE_THRESHOLD" value="10"/>
+            <column name="SUMMARY_TEMPLATE" value="&lt;div class=&quot;Field1&quot;&gt;&lt;a style=&quot;color:#6d6e70&quot; href=&quot;#Insight/search/${field_secondary_id!?url('utf-8')!}&quot; &gt;${field_secondary_id!}&lt;/a&gt;&lt;/div&gt;&#10;&lt;div class=&quot;SummaryCell1&quot;&gt;&#10;  &lt;div class=&quot;Field2Header&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Email&lt;/font&gt;&lt;/div&gt;&#10;  &lt;div class=&quot;Field2Value&quot;&gt;&lt;a href=&quot;mailto:${attr_email_address!}&quot; style=&quot;color:#6d6e70&quot;&gt;${attr_email_address!}&lt;/a&gt;&lt;/div&gt;&#10;&lt;/div&gt;&#10;&lt;div class=&quot;SummaryCell2&quot;&gt;&#10;  &lt;div class=&quot;Field3Header&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Country&lt;/font&gt;&lt;/div&gt;&#10;  &lt;div class=&quot;Field3Value&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;&lt;a style=&quot;text-decoration:none; color:#6d6e70&quot; href=&quot;#Insight/search/${field_country_desc!?url('utf-8')!}&quot; &gt;${field_country_desc!}&lt;/a&gt;&lt;/font&gt;&lt;/div&gt;&#10;&lt;/div&gt;&#10;&lt;div class=&quot;relevancy&quot;&gt;&#10;  &lt;div class=&quot;relevancyScore&quot;&gt;&lt;font color=&quot;#438fbc&quot;&gt;Relevance hit:&lt;/font&gt;&lt;/div&gt;&#10;  &lt;div class=&quot;relevancyPercentage&quot;&gt;&lt;font color=&quot;#438fbc&quot;&gt;${result.normalizedScore}%&lt;/font&gt;&lt;/div&gt;&#10;&lt;/div&gt;"/>
+            <column name="DETAIL_TEMPLATE" value="&lt;table class=&quot;detailTable&quot;&gt;&#10;  &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;6d6e70&quot;&gt;Id: &lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;6d6e70&quot;&gt;${field_secondary_id!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;  &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;6d6e70&quot;&gt;Company Name: &lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;6d6e70&quot;&gt;${xfield_company_name!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;  &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;6d6e70&quot;&gt;Address: &lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;6d6e70&quot;&gt;${xfield_address1!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;6d6e70&quot;&gt;${attr_prod_location!}, ${xfield_post_code!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;6d6e70&quot;&gt;State: &lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;6d6e70&quot;&gt;${field_region_name!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;6d6e70&quot;&gt;Country: &lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;6d6e70&quot;&gt;${field_country_desc!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;6d6e70&quot;&gt;Status: &lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;6d6e70&quot;&gt;${xfield_status_desc!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;6d6e70&quot;&gt;Type: &lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;6d6e70&quot;&gt;${xfield_type_desc!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;6d6e70&quot;&gt;SubType: &lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;6d6e70&quot;&gt;${xfield_subtype_desc!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;6d6e70&quot;&gt;${field_email_desc!}: &lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;6d6e70&quot;&gt;${attr_email_address!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;  &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;6d6e70&quot;&gt;${attr_phone_type_desc!}: &lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;6d6e70&quot;&gt;${attr_phone_number_masked!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;&lt;/table&gt;"/>
+            <column name="DOCTYPE_GUID" value="07f353e4-fa46-11e5-b70e-c534f083c0c6"/>
+            <column name="CRAWLER_TYPE" value="DATABASE"/>
+        </insert>
+        <insert tableName="DATA_DEFINITIONS">
+            <column name="GUID" value="7e294741-12af-11e6-a27d-533ffb6b03cd"/>
+            <column name="SOLR_SERVER_GUID" value="1d6ef11d-fa47-11e5-b70e-0b27556a8f72"/>
+            <column name="DATASOURCE_JNDI" value="java:jboss/datasources/OnyxDS"/>
+            <column name="IS_ENABLED" value="Y"/>
+            <column name="DESCRIPTION" value="Support Tasks"/>
+            <column name="IS_BINARY" value="N"/>
+            <column name="METADATA_QUERY" value="select * from task_support_insight_meta_data_query_view"/>
+            <column name="DATA_QUERY" value="select * from task_support_insight_data_query_view&#10;where search_external_id in ({IDS})"/>
+            <column name="URL_PATTERN" value=""/>
+            <column name="PERMISSION_QUERY" value=""/>
+            <column name="PERMISSION_FIELD" value=""/>
+            <column name="SYNC_INTERVAL" value="1"/>
+            <column name="SYNC_INTERVAL_TYPE" value="HOURS"/>
+            <column name="FAILURE_THRESHOLD" value="10"/>
+            <column name="SUMMARY_TEMPLATE" value="&lt;div class=&quot;Field1&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_customerName!}&lt;/font&gt;&lt;/div&gt;&#10;&lt;div class=&quot;SummaryCell1&quot;&gt;&#10;  &lt;div class=&quot;Field2Header&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Type&lt;/font&gt;&lt;/div&gt;&#10;  &lt;div class=&quot;Field2Value&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;&lt;a style=&quot;color:#6d6e70&quot; href=&quot;#Insight/search/${xfield_type_desc!?url('utf-8')!}&quot; &gt;${xfield_type_desc!}&lt;/a&gt;&lt;/font&gt;&lt;/div&gt;&#10;&lt;/div&gt;&#10;&lt;div class=&quot;SummaryCell2&quot;&gt;&#10;  &lt;div class=&quot;Field3Header&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Incident Id&lt;/font&gt;&lt;/div&gt;&#10;  &lt;div class=&quot;Field3Value&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_ownerSecondaryId!}&lt;/font&gt;&lt;/div&gt;&#10;&lt;/div&gt;&#10;&lt;div class=&quot;relevancy&quot;&gt;&#10;  &lt;div class=&quot;relevancyScore&quot;&gt;&lt;font color=&quot;#438fbc&quot;&gt;Relevance hit:&lt;/font&gt;&lt;/div&gt;&#10;  &lt;div class=&quot;relevancyPercentage&quot;&gt;&lt;font color=&quot;#438fbc&quot;&gt;${result.normalizedScore}%&lt;/font&gt;&lt;/div&gt;&#10;&lt;/div&gt;"/>
+            <column name="DETAIL_TEMPLATE" value="&lt;table class=&quot;detailTable&quot;&gt;&#10;  &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Task Id&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${attr_secondary_id!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Type&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_type_desc!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;  &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Assigned To&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_user_name!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Status&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_status_desc!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;  &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Priority&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_priority_desc!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Tags&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_tags!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;UpdateDate&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${attr_last_modified!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;RecallDate&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${attr_recallDateTime!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Customer&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_customerName!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;IncidentId&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_ownerSecondaryId!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;&lt;/table&gt;"/>
+            <column name="DOCTYPE_GUID" value="be0dd3da-fa46-11e5-b70e-679bfc454fe8"/>
+            <column name="CRAWLER_TYPE" value="DATABASE"/>
+        </insert>
+        <insert tableName="DATA_DEFINITIONS">
+            <column name="GUID" value="82c7dde5-12ac-11e6-a27d-8b28e00f9dce"/>
+            <column name="SOLR_SERVER_GUID" value="1d6ef11d-fa47-11e5-b70e-0b27556a8f72"/>
+            <column name="DATASOURCE_JNDI" value="java:jboss/datasources/OnyxDS"/>
+            <column name="IS_ENABLED" value="Y"/>
+            <column name="DESCRIPTION" value="Company"/>
+            <column name="IS_BINARY" value="N"/>
+            <column name="METADATA_QUERY" value="select * from company_insight_meta_data_query_view"/>
+            <column name="DATA_QUERY" value="select * from company_insight_data_query_view&#10;where search_external_id in ({IDS})"/>
+            <column name="URL_PATTERN" value=""/>
+            <column name="PERMISSION_QUERY" value=""/>
+            <column name="PERMISSION_FIELD" value=""/>
+            <column name="SYNC_INTERVAL" value="1"/>
+            <column name="SYNC_INTERVAL_TYPE" value="HOURS"/>
+            <column name="FAILURE_THRESHOLD" value="10"/>
+            <column name="SUMMARY_TEMPLATE" value="&lt;div class=&quot;Field1&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;&lt;a style=&quot;color:#6d6e70&quot; href=&quot;#Insight/search/${field_secondary_id!?url('utf-8')!}&quot; &gt;${field_secondary_id!}&lt;/a&gt;&lt;/font&gt;&lt;/div&gt;&#10;&lt;div class=&quot;SummaryCell1&quot;&gt;&#10;  &lt;div class=&quot;Field2Header&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;URL&lt;/font&gt;&lt;/div&gt;&#10;  &lt;div class=&quot;Field2Value&quot;&gt;&lt;a href=&quot;http://${field_url!}&quot; target=&quot;blank&quot; style=&quot;color:#6d6e70&quot;&gt;${field_url!}&lt;/a&gt;&lt;/div&gt;&#10;&lt;/div&gt;&#10;&lt;div class=&quot;SummaryCell2&quot;&gt;&#10;  &lt;div class=&quot;Field3Header&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Country&lt;/font&gt;&lt;/div&gt;&#10;  &lt;div class=&quot;Field3Value&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;&lt;a style=&quot;text-decoration:none; color:#6d6e70&quot; href=&quot;#Insight/search/${field_country_desc!?url('utf-8')!}&quot; &gt;${field_country_desc!}&lt;/a&gt;&lt;/font&gt;&lt;/div&gt;&#10;&lt;/div&gt;&#10;&lt;div class=&quot;relevancy&quot;&gt;&#10;  &lt;div class=&quot;relevancyScore&quot;&gt;&lt;font color=&quot;#438fbc&quot;&gt;Relevance hit:&lt;/font&gt;&lt;/div&gt;&#10;  &lt;div class=&quot;relevancyPercentage&quot;&gt;&lt;font color=&quot;#438fbc&quot;&gt;${result.normalizedScore}%&lt;/font&gt;&lt;/div&gt;&#10;&lt;/div&gt;"/>
+            <column name="DETAIL_TEMPLATE" value="&lt;table class=&quot;detailTable&quot;&gt;&#10;&lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Company Name:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_company_name!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;&lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;ID:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_secondary_id!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;&lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Address:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_address1!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;&lt;tr&gt;&lt;th&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${attr_prod_location!}, ${field_post_code!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;&lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;State:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_region_name!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;&lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Country:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_country_desc!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;&lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;URL:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_url!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;&lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Source:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_source!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;&lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Type:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_type_desc!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;&lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Subtype:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_subtype_desc!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;&lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Market Sector:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_marketSector!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;&lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_email_desc!}:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_email_address!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;&lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_phone_type_desc!}:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${attr_phone_number_masked!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &#10;&lt;/table&gt;"/>
+            <column name="DOCTYPE_GUID" value="e605b843-fa45-11e5-b70e-d5c5f14d6d72"/>
+            <column name="CRAWLER_TYPE" value="DATABASE"/>
+        </insert>
+        <insert tableName="DATA_DEFINITIONS">
+            <column name="GUID" value="b2e0b868-12ae-11e6-a27d-31e52b5b73c3"/>
+            <column name="SOLR_SERVER_GUID" value="1d6ef11d-fa47-11e5-b70e-0b27556a8f72"/>
+            <column name="DATASOURCE_JNDI" value="java:jboss/datasources/OnyxDS"/>
+            <column name="IS_ENABLED" value="Y"/>
+            <column name="DESCRIPTION" value="Support Operations"/>
+            <column name="IS_BINARY" value="N"/>
+            <column name="METADATA_QUERY" value="select * from incident_support_insight_meta_data_query_view"/>
+            <column name="DATA_QUERY" value="select * from incident_support_insight_data_query_view&#10;where search_external_id in ({IDS})"/>
+            <column name="URL_PATTERN" value=""/>
+            <column name="PERMISSION_QUERY" value=""/>
+            <column name="PERMISSION_FIELD" value=""/>
+            <column name="SYNC_INTERVAL" value="1"/>
+            <column name="SYNC_INTERVAL_TYPE" value="HOURS"/>
+            <column name="FAILURE_THRESHOLD" value="10"/>
+            <column name="SUMMARY_TEMPLATE" value="&lt;div class=&quot;Field1&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_secondary_id!}&lt;/font&gt;&lt;/div&gt;&#10;&lt;div class=&quot;SummaryCell1&quot;&gt;&#10;  &lt;div class=&quot;Field2Header&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Status&lt;/font&gt;&lt;/div&gt;&#10;  &lt;div class=&quot;Field2Value&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;&lt;a style=&quot;color:#6d6e70&quot; href=&quot;#Insight/search/${xfield_status_desc!?url('utf-8')!}&quot; &gt;${xfield_status_desc!}&lt;/a&gt;&lt;/font&gt;&lt;/div&gt;&#10;&lt;/div&gt;&#10;&lt;div class=&quot;SummaryCell2&quot;&gt;&#10;  &lt;div class=&quot;Field3Header&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Customer&lt;/font&gt;&lt;/div&gt;&#10;  &lt;div class=&quot;Field3Value&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_customer_name!}&lt;/font&gt;&lt;/div&gt;&#10;&lt;/div&gt;&#10;&lt;div class=&quot;relevancy&quot;&gt;&#10;  &lt;div class=&quot;relevancyScore&quot;&gt;&lt;font color=&quot;#438fbc&quot;&gt;Relevance hit:&lt;/font&gt;&lt;/div&gt;&#10;  &lt;div class=&quot;relevancyPercentage&quot;&gt;&lt;font color=&quot;#438fbc&quot;&gt;${result.normalizedScore}%&lt;/font&gt;&lt;/div&gt;&#10;&lt;/div&gt;"/>
+            <column name="DETAIL_TEMPLATE" value="&lt;table class=&quot;detailTable&quot;&gt;&#10;  &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Id:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_secondary_id!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;  &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Assigned To:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_user_name!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;  &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Type:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_type_desc!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Priority:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_priority_desc!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Status:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_status_desc!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Source:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_source_desc!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Tags:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_tags!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Tracking Description:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_trackingDesc!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Resolution Code1:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_resolutionDesc1!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Resolution Code2:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_resolutionDesc2!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Resolution Code3:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_resolutionDesc3!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Resolution Code4:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_resolutionDesc4!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;&lt;/table&gt;"/>
+            <column name="DOCTYPE_GUID" value="74200bd7-fa46-11e5-b70e-5fbafc3eba8f"/>
+            <column name="CRAWLER_TYPE" value="DATABASE"/>
+        </insert>
+        <insert tableName="DATA_DEFINITIONS">
+            <column name="GUID" value="e8d6c50f-12ad-11e6-a27d-dfc3e89632ed"/>
+            <column name="SOLR_SERVER_GUID" value="1d6ef11d-fa47-11e5-b70e-0b27556a8f72"/>
+            <column name="DATASOURCE_JNDI" value="java:jboss/datasources/OnyxDS"/>
+            <column name="IS_ENABLED" value="Y"/>
+            <column name="DESCRIPTION" value="Email"/>
+            <column name="IS_BINARY" value="N"/>
+            <column name="METADATA_QUERY" value="select * from email_insight_meta_data_query_view"/>
+            <column name="DATA_QUERY" value="select * from email_insight_data_query_view  &#10;where search_external_id in ({IDS})"/>
+            <column name="URL_PATTERN" value=""/>
+            <column name="PERMISSION_QUERY" value=""/>
+            <column name="PERMISSION_FIELD" value=""/>
+            <column name="SYNC_INTERVAL" value="1"/>
+            <column name="SYNC_INTERVAL_TYPE" value="HOURS"/>
+            <column name="FAILURE_THRESHOLD" value="10"/>
+            <column name="SUMMARY_TEMPLATE" value="&lt;div class=&quot;Field1&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${attr_secondary_id!}&lt;/font&gt;&lt;/div&gt;&#10;&lt;div class=&quot;SummaryCell1&quot;&gt;&#10;  &lt;div class=&quot;Field2Header&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Sent By&lt;/font&gt;&lt;/div&gt;&#10;  &lt;div class=&quot;Field2Value&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;&lt;a style=&quot;color:#6d6e70&quot; href=&quot;mailto:${xfield_form_email_address!}&quot; &gt;${xfield_form_email_address!!}&lt;/a&gt;&lt;/font&gt;&lt;/div&gt;&#10;&lt;/div&gt;&#10;&lt;div class=&quot;SummaryCell2&quot;&gt;&#10;  &lt;div class=&quot;Field2Header&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Sent On&lt;/font&gt;&lt;/div&gt;&#10;  &lt;div class=&quot;Field2Value&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_sent_date!}&lt;/font&gt;&lt;/div&gt;&#10;&lt;/div&gt;&#10;&lt;div class=&quot;relevancy&quot;&gt;&#10;  &lt;div class=&quot;relevancyScore&quot;&gt;&lt;font color=&quot;#438fbc&quot;&gt;Relevance hit:&lt;/font&gt;&lt;/div&gt;&#10;  &lt;div class=&quot;relevancyPercentage&quot;&gt;&lt;font color=&quot;#438fbc&quot;&gt;${result.normalizedScore}%&lt;/font&gt;&lt;/div&gt;&#10;&lt;/div&gt;"/>
+            <column name="DETAIL_TEMPLATE" value="&lt;table class=&quot;detailTable&quot;&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Follow Up: &lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_followup!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;	Sent: &lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_sent!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;From: &lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;	${xfield_display_name!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th style=&quot;vertical-align:top;&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;	To: &lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;	${xfield_update_by!}&lt;/font&gt;&lt;/td&gt;&#10;    &lt;/tr&gt; &#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;	Date: &lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_sent_date!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;&lt;/table&gt;"/>
+            <column name="DOCTYPE_GUID" value="e021e33c-fa46-11e5-b70e-5bc6f72d9544"/>
+            <column name="CRAWLER_TYPE" value="DATABASE"/>
+        </insert>
+        <insert tableName="DATA_DEFINITIONS">
+            <column name="GUID" value="f5691cb8-12ac-11e6-a27d-c528d2c53020"/>
+            <column name="SOLR_SERVER_GUID" value="1d6ef11d-fa47-11e5-b70e-0b27556a8f72"/>
+            <column name="DATASOURCE_JNDI" value="java:jboss/datasources/OnyxDS"/>
+            <column name="IS_ENABLED" value="Y"/>
+            <column name="DESCRIPTION" value="WorkTicket"/>
+            <column name="IS_BINARY" value="N"/>
+            <column name="METADATA_QUERY" value="select * from workticket_insight_meta_data_query_view"/>
+            <column name="DATA_QUERY" value="select * from workticket_insight_data_query_view&#10;where search_external_id in ({IDS})"/>
+            <column name="URL_PATTERN" value=""/>
+            <column name="PERMISSION_QUERY" value=""/>
+            <column name="PERMISSION_FIELD" value=""/>
+            <column name="SYNC_INTERVAL" value="1"/>
+            <column name="SYNC_INTERVAL_TYPE" value="HOURS"/>
+            <column name="FAILURE_THRESHOLD" value="10"/>
+            <column name="SUMMARY_TEMPLATE" value="&lt;div class=&quot;Field1&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${attr_secondary_id!}&lt;/font&gt;&lt;/div&gt;&#10;&lt;div class=&quot;SummaryCell1&quot;&gt;&#10;  &lt;div class=&quot;Field2Header&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Assigned To&lt;/font&gt;&lt;/div&gt;&#10;  &lt;div class=&quot;Field2Value&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;&lt;a style=&quot;color:#6d6e70&quot; href=&quot;#Insight/search/${xfield_user_name!?url('utf-8')!}&quot; &gt;${xfield_user_name!}&lt;/a&gt;&lt;/font&gt;&lt;/div&gt;&#10;&lt;/div&gt;&#10;&lt;div class=&quot;SummaryCell2&quot;&gt;&#10;  &lt;div class=&quot;Field3Header&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Status&lt;/font&gt;&lt;/div&gt;&#10;  &lt;div class=&quot;Field3Value&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;&lt;a style=&quot;color:#5D5A59&quot; href=&quot;#Insight/search/${xfield_status_desc!?url('utf-8')!}&quot; &gt;${xfield_status_desc!}&lt;/a&gt;&lt;/font&gt;&lt;/div&gt;&#10;&lt;/div&gt;&#10;&lt;div class=&quot;relevancy&quot;&gt;&#10;  &lt;div class=&quot;relevancyScore&quot;&gt;&lt;font color=&quot;#438fbc&quot;&gt;Relevance hit:&lt;/font&gt;&lt;/div&gt;&#10;  &lt;div class=&quot;relevancyPercentage&quot;&gt;&lt;font color=&quot;#438fbc&quot;&gt;${result.normalizedScore}%&lt;/font&gt;&lt;/div&gt;&#10;&lt;/div&gt;"/>
+            <column name="DETAIL_TEMPLATE" value="&lt;table class=&quot;detailTable&quot;&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Id:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${attr_secondary_id!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;  &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Assigned To:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_user_name!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;  &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Product:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_description1!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;  &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Source:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_source_desc!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Status:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_status_desc!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Priority:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_priority_desc!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Severity:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_severity_desc!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Version Found:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_versionFound!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Version Fixed:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_versionFixed!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Version Shipped:&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_versionShipped!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;&lt;/table&gt;"/>
+            <column name="DOCTYPE_GUID" value="d02553eb-fa46-11e5-b70e-15762f087056"/>
+            <column name="CRAWLER_TYPE" value="DATABASE"/>
+        </insert>
+        <insert tableName="DATA_DEFINITIONS">
+            <column name="GUID" value="faa9a49b-12ae-11e6-a27d-8d615e6a6069"/>
+            <column name="SOLR_SERVER_GUID" value="1d6ef11d-fa47-11e5-b70e-0b27556a8f72"/>
+            <column name="DATASOURCE_JNDI" value="java:jboss/datasources/OnyxDS"/>
+            <column name="IS_ENABLED" value="Y"/>
+            <column name="DESCRIPTION" value="Sales Tasks"/>
+            <column name="IS_BINARY" value="N"/>
+            <column name="METADATA_QUERY" value="select * from task_sales_insight_meta_data_query_view"/>
+            <column name="DATA_QUERY" value="select * from task_sales_insight_data_query_view&#10;where search_external_id in ({IDS})"/>
+            <column name="URL_PATTERN" value=""/>
+            <column name="PERMISSION_QUERY" value=""/>
+            <column name="PERMISSION_FIELD" value=""/>
+            <column name="SYNC_INTERVAL" value="1"/>
+            <column name="SYNC_INTERVAL_TYPE" value="HOURS"/>
+            <column name="FAILURE_THRESHOLD" value="10"/>
+            <column name="SUMMARY_TEMPLATE" value="&lt;div class=&quot;Field1&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_customerName!}&lt;/font&gt;&lt;/div&gt;&#10;&lt;div class=&quot;SummaryCell1&quot;&gt;&#10;  &lt;div class=&quot;Field2Header&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Type&lt;/font&gt;&lt;/div&gt;&#10;  &lt;div class=&quot;Field2Value&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;&lt;a style=&quot;color:#6d6e70&quot; href=&quot;#Insight/search/${xfield_type_desc!?url('utf-8')!}&quot; &gt;${xfield_type_desc!}&lt;/a&gt;&lt;/font&gt;&lt;/div&gt;&#10;&lt;/div&gt;&#10;&lt;div class=&quot;SummaryCell2&quot;&gt;&#10;  &lt;div class=&quot;Field3Header&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Incident Id&lt;/font&gt;&lt;/div&gt;&#10;  &lt;div class=&quot;Field3Value&quot;&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_ownerSecondaryId!}&lt;/font&gt;&lt;/div&gt;&#10;&lt;/div&gt;&#10;&lt;div class=&quot;relevancy&quot;&gt;&#10;  &lt;div class=&quot;relevancyScore&quot;&gt;&lt;font color=&quot;#438fbc&quot;&gt;Relevance hit:&lt;/font&gt;&lt;/div&gt;&#10;  &lt;div class=&quot;relevancyPercentage&quot;&gt;&lt;font color=&quot;#438fbc&quot;&gt;${result.normalizedScore}%&lt;/font&gt;&lt;/div&gt;&#10;&lt;/div&gt;"/>
+            <column name="DETAIL_TEMPLATE" value="&lt;table class=&quot;detailTable&quot;&gt;&#10;  &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Task Id&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${attr_secondary_id!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Type&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_type_desc!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;  &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Assigned To&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_user_name!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Status&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_status_desc!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;  &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Priority&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_priority_desc!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Tags&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_tags!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;UpdateDate&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${attr_last_modified!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;RecallDate&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${attr_recallDateTime!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;Customer&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${xfield_customerName!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;    &lt;tr&gt;&lt;th&gt;&lt;font color=&quot;#6d6e70&quot;&gt;IncidentId&lt;/font&gt;&lt;/th&gt;&lt;td&gt;&lt;font color=&quot;#6d6e70&quot;&gt;${field_ownerSecondaryId!}&lt;/font&gt;&lt;/td&gt;&lt;/tr&gt;&#10;&lt;/table&gt;"/>
+            <column name="DOCTYPE_GUID" value="90c592a8-fa46-11e5-b70e-df2c59fceb53"/>
+            <column name="CRAWLER_TYPE" value="DATABASE"/>
+        </insert>
+
+        <!-- LIVE VIEWS -->
+
+        <insert tableName="LIVE_VIEWS">
+            <column name="GUID" value="003bb125-fc85-11e5-a5bc-836e5c75c996"/>
+            <column name="QUERY_TYPE" value="SQL"/>
+            <column name="NAME" value="All Support Operations"/>
+            <column name="DISPLAY_NAME" value="All Support Operations"/>
+            <column name="DATA_QUERY" value="select * from incident_support_all_insight_lv_view&#10;where owner_id='${attr_primary_id}'"/>
+            <column name="DATASOURCE_JNDI" value="java:jboss/datasources/OnyxDS"/>
+            <column name="QUERY_PATTERN" value="support"/>
+            <column name="TEMPLATE" value="&lt;#list records&gt;&#10;&lt;table class = &quot;lvtable&quot;&gt;&#10;  &lt;tr&gt;&#10;    &lt;th class = &quot;lvtable-header&quot;&gt;ID&lt;/th&gt;&#10;    &lt;th class = &quot;lvtable-header&quot;&gt;DESCRIPTION&lt;/th&gt;&#10;    &lt;th class = &quot;lvtable-header&quot;&gt;ASSIGNED TO&lt;/th&gt;&#10;  &lt;/tr&gt;&#10;&lt;#items as rec&gt;&#10;  &lt;tr&gt;&#10;    &lt;td class = &quot;lvtable-row&quot;&gt;${rec.secondary_id!}&lt;/td&gt;&#10;    &lt;td class = &quot;lvtable-row&quot;&gt;${rec.desc1!}&lt;/td&gt;&#10;    &lt;td class = &quot;lvtable-row&quot;&gt;${rec.user_name!}&lt;/td&gt;&#10;  &lt;/tr&gt;&#10;  &lt;/#items&gt;&#10;  &lt;#else&gt;&#10;    None.&#10;&lt;/table&gt;&#10;&lt;/#list&gt;"/>
+            <column name="IS_ENABLED" value="Y"/>
+            <column name="ORDINAL" value="6"/>
+        </insert>
+        <insert tableName="LIVEVIEW_DOCTYPES">
+            <column name="GUID" value="4eb0348f-9352-4fae-98ea-155e97a8c6d6"/>
+            <column name="LIVEVIEW_GUID" value="003bb125-fc85-11e5-a5bc-836e5c75c996"/>
+            <column name="DOCTYPE_GUID" value="07f353e4-fa46-11e5-b70e-c534f083c0c6"/>
+        </insert>
+        <insert tableName="LIVEVIEW_DOCTYPES">
+            <column name="GUID" value="92aef982-6d1f-4970-9e49-e33b4dfdc1d3"/>
+            <column name="LIVEVIEW_GUID" value="003bb125-fc85-11e5-a5bc-836e5c75c996"/>
+            <column name="DOCTYPE_GUID" value="e605b843-fa45-11e5-b70e-d5c5f14d6d72"/>
+        </insert>
+        <insert tableName="LIVE_VIEWS">
+            <column name="GUID" value="0ac62ad7-fc84-11e5-a5bc-132e7eb171d7"/>
+            <column name="QUERY_TYPE" value="SQL"/>
+            <column name="NAME" value="All Tasks"/>
+            <column name="DISPLAY_NAME" value="All Tasks"/>
+            <column name="DATA_QUERY" value="select * from task_all_insight_lv_view&#10;where tOwner= '${attr_primary_id}' Or incOwner= '${attr_primary_id}'"/>
+            <column name="DATASOURCE_JNDI" value="java:jboss/datasources/OnyxDS"/>
+            <column name="QUERY_PATTERN" value="tasks"/>
+            <column name="TEMPLATE" value="&lt;#list records&gt;&#10;&lt;table class = &quot;lvtable&quot;&gt;&#10;  &lt;tr&gt;&#10;    &lt;th class = &quot;lvtable-header&quot;&gt;DESCRIPTION&lt;/th&gt;&#10;    &lt;th class = &quot;lvtable-header&quot;&gt;STATUS&lt;/th&gt;&#10;    &lt;th class = &quot;lvtable-header&quot;&gt;ASSIGNED TO&lt;/th&gt;&#10;  &lt;/tr&gt;&#10;&lt;#items as rec&gt;&#10;  &lt;tr&gt;&#10;    &lt;td class = &quot;lvtable-row &quot;&gt;${rec.desc1!}&lt;/td&gt;&#10;    &lt;td class = &quot;lvtable-row &quot;&gt;${rec.xfield_staus_desc!}&lt;/td&gt;&#10;    &lt;td class = &quot;lvtable-row &quot;&gt;${rec.xfield_assigned_name!}&lt;/td&gt;&#10;  &lt;/tr&gt;&#10;  &lt;/#items&gt;&#10;  &lt;#else&gt;&#10;    None.&#10;&lt;/table&gt;&#10;&lt;/#list&gt;&#10;"/>
+            <column name="IS_ENABLED" value="Y"/>
+            <column name="ORDINAL" value="7"/>
+        </insert>
+        <insert tableName="LIVEVIEW_DOCTYPES">
+            <column name="GUID" value="ab8a1c4c-d270-454d-b74a-8bebbc63d9a0"/>
+            <column name="LIVEVIEW_GUID" value="0ac62ad7-fc84-11e5-a5bc-132e7eb171d7"/>
+            <column name="DOCTYPE_GUID" value="07f353e4-fa46-11e5-b70e-c534f083c0c6"/>
+        </insert>
+        <insert tableName="LIVEVIEW_DOCTYPES">
+            <column name="GUID" value="cfa31eed-70fc-40dd-8708-5599b4af0cac"/>
+            <column name="LIVEVIEW_GUID" value="0ac62ad7-fc84-11e5-a5bc-132e7eb171d7"/>
+            <column name="DOCTYPE_GUID" value="e605b843-fa45-11e5-b70e-d5c5f14d6d72"/>
+        </insert>
+        <insert tableName="LIVEVIEW_DOCTYPES">
+            <column name="GUID" value="39862a16-8870-4f0c-a1ae-c47a27a6bd4e"/>
+            <column name="LIVEVIEW_GUID" value="0ac62ad7-fc84-11e5-a5bc-132e7eb171d7"/>
+            <column name="DOCTYPE_GUID" value="56137af5-fa46-11e5-b70e-61a8b482608e"/>
+        </insert>
+        <insert tableName="LIVEVIEW_DOCTYPES">
+            <column name="GUID" value="094359b5-ae4a-4176-a254-d606784959c1"/>
+            <column name="LIVEVIEW_GUID" value="0ac62ad7-fc84-11e5-a5bc-132e7eb171d7"/>
+            <column name="DOCTYPE_GUID" value="66ba2cf6-fa46-11e5-b70e-2b085493ecb8"/>
+        </insert>
+        <insert tableName="LIVEVIEW_DOCTYPES">
+            <column name="GUID" value="e5961a9d-a2e3-49fa-bd5c-d38fc3d51898"/>
+            <column name="LIVEVIEW_GUID" value="0ac62ad7-fc84-11e5-a5bc-132e7eb171d7"/>
+            <column name="DOCTYPE_GUID" value="74200bd7-fa46-11e5-b70e-5fbafc3eba8f"/>
+        </insert>
+        <insert tableName="LIVE_VIEWS">
+            <column name="GUID" value="0bd2bc1b-fc88-11e5-a5bc-b1ccb3d76482"/>
+            <column name="QUERY_TYPE" value="SQL"/>
+            <column name="NAME" value="Open Service Incidents"/>
+            <column name="DISPLAY_NAME" value="Open Service Incidents"/>
+            <column name="DATA_QUERY" value="select * from incident_service_open_insight_lv_view&#10;where owner_id='${attr_primary_id}'"/>
+            <column name="DATASOURCE_JNDI" value="java:jboss/datasources/OnyxDS"/>
+            <column name="QUERY_PATTERN" value="service"/>
+            <column name="TEMPLATE" value="&lt;#list records&gt;&#10;&lt;table class = &quot;lvtable&quot;&gt;&#10;  &lt;tr&gt;&#10;    &lt;th class = &quot;lvtable-header&quot;&gt;ID&lt;/th&gt;&#10;    &lt;th class = &quot;lvtable-header&quot;&gt;DESCRIPTION&lt;/th&gt;&#10;    &lt;th class = &quot;lvtable-header&quot;&gt;ASSIGNED TO&lt;/th&gt;&#10;  &lt;/tr&gt;&#10;&lt;#items as rec&gt;&#10;  &lt;tr&gt;&#10;    &lt;td class = &quot;lvtable-row &quot;&gt;${rec.secondary_id!}&lt;/td&gt;&#10;    &lt;td class = &quot;lvtable-row &quot;&gt;${rec.desc1!}&lt;/td&gt;&#10;    &lt;td class = &quot;lvtable-row &quot;&gt;${rec.user_name!}&lt;/td&gt;&#10;  &lt;/tr&gt;&#10;  &lt;/#items&gt;&#10;  &lt;#else&gt;&#10;    None.&#10;&lt;/table&gt;&#10;&lt;/#list&gt;&#10;"/>
+            <column name="IS_ENABLED" value="Y"/>
+            <column name="ORDINAL" value="3"/>
+        </insert>
+        <insert tableName="LIVEVIEW_DOCTYPES">
+            <column name="GUID" value="ff3022fe-8587-469f-97e9-8b1a65378428"/>
+            <column name="LIVEVIEW_GUID" value="0bd2bc1b-fc88-11e5-a5bc-b1ccb3d76482"/>
+            <column name="DOCTYPE_GUID" value="07f353e4-fa46-11e5-b70e-c534f083c0c6"/>
+        </insert>
+        <insert tableName="LIVEVIEW_DOCTYPES">
+            <column name="GUID" value="c4ed1650-4801-4278-a2b0-634737a9334d"/>
+            <column name="LIVEVIEW_GUID" value="0bd2bc1b-fc88-11e5-a5bc-b1ccb3d76482"/>
+            <column name="DOCTYPE_GUID" value="e605b843-fa45-11e5-b70e-d5c5f14d6d72"/>
+        </insert>
+        <insert tableName="LIVE_VIEWS">
+            <column name="GUID" value="49bcf462-fc88-11e5-a5bc-05092171fb8d"/>
+            <column name="QUERY_TYPE" value="SQL"/>
+            <column name="NAME" value="Open Support Operations"/>
+            <column name="DISPLAY_NAME" value="Open Support Operations"/>
+            <column name="DATA_QUERY" value="select * from incident_support_open_insight_lv_view&#10;where owner_id='${attr_primary_id}'"/>
+            <column name="DATASOURCE_JNDI" value="java:jboss/datasources/OnyxDS"/>
+            <column name="QUERY_PATTERN" value="support"/>
+            <column name="TEMPLATE" value="&lt;#list records&gt;&#10;&lt;table class = &quot;lvtable&quot;&gt;&#10;  &lt;tr&gt;&#10;    &lt;th class = &quot;lvtable-header&quot;&gt;ID&lt;/th&gt;&#10;    &lt;th class = &quot;lvtable-header&quot;&gt;DESCRIPTION&lt;/th&gt;&#10;    &lt;th class = &quot;lvtable-header&quot;&gt;ASSIGNED TO&lt;/th&gt;&#10;  &lt;/tr&gt;&#10;&lt;#items as rec&gt;&#10;  &lt;tr&gt;&#10;    &lt;td class = &quot;lvtable-row &quot;&gt;${rec.secondary_id!}&lt;/td&gt;&#10;    &lt;td class = &quot;lvtable-row &quot;&gt;${rec.desc1!}&lt;/td&gt;&#10;    &lt;td class = &quot;lvtable-row &quot;&gt;${rec.user_name!}&lt;/td&gt;&#10;  &lt;/tr&gt;&#10;  &lt;/#items&gt;&#10;  &lt;#else&gt;&#10;    None.&#10;&lt;/table&gt;&#10;&lt;/#list&gt;&#10;"/>
+            <column name="IS_ENABLED" value="Y"/>
+            <column name="ORDINAL" value="5"/>
+        </insert>
+        <insert tableName="LIVEVIEW_DOCTYPES">
+            <column name="GUID" value="30d504f3-27ea-4050-bd01-1cda375987a7"/>
+            <column name="LIVEVIEW_GUID" value="49bcf462-fc88-11e5-a5bc-05092171fb8d"/>
+            <column name="DOCTYPE_GUID" value="07f353e4-fa46-11e5-b70e-c534f083c0c6"/>
+        </insert>
+        <insert tableName="LIVEVIEW_DOCTYPES">
+            <column name="GUID" value="027766d8-66d6-457f-addb-fdbc5cfb345d"/>
+            <column name="LIVEVIEW_GUID" value="49bcf462-fc88-11e5-a5bc-05092171fb8d"/>
+            <column name="DOCTYPE_GUID" value="e605b843-fa45-11e5-b70e-d5c5f14d6d72"/>
+        </insert>
+        <insert tableName="LIVE_VIEWS">
+            <column name="GUID" value="548800dd-fc84-11e5-a5bc-b518b8be3964"/>
+            <column name="QUERY_TYPE" value="SQL"/>
+            <column name="NAME" value="All Sales Opportunity"/>
+            <column name="DISPLAY_NAME" value="All Sales Opportunity"/>
+            <column name="DATA_QUERY" value="select * from incident_sales_all_insight_lv_view where owner_id='${attr_primary_id}'"/>
+            <column name="DATASOURCE_JNDI" value="java:jboss/datasources/OnyxDS"/>
+            <column name="QUERY_PATTERN" value="sales"/>
+            <column name="TEMPLATE" value="&lt;#list records&gt;&#10;&lt;table class = &quot;lvtable&quot;&gt;&#10;  &lt;tr&gt;&#10;    &lt;th class = &quot;lvtable-header&quot;&gt;ID&lt;/th&gt;&#10;    &lt;th class = &quot;lvtable-header&quot;&gt;DESCRIPTION&lt;/th&gt;&#10;    &lt;th class = &quot;lvtable-header&quot;&gt;ASSIGNED TO&lt;/th&gt;&#10;  &lt;/tr&gt;&#10;&lt;#items as rec&gt;&#10;  &lt;tr&gt;&#10;    &lt;td class = &quot;lvtable-row &quot;&gt;${rec.secondary_id!}&lt;/td&gt;&#10;    &lt;td class = &quot;lvtable-row &quot;&gt;${rec.desc1!}&lt;/td&gt;&#10;    &lt;td class = &quot;lvtable-row &quot;&gt;${rec.user_name!}&lt;/td&gt;&#10;  &lt;/tr&gt;&#10;  &lt;/#items&gt;&#10;  &lt;#else&gt;&#10;    None.&#10;&lt;/table&gt;&#10;&lt;/#list&gt;&#10;"/>
+            <column name="IS_ENABLED" value="Y"/>
+            <column name="ORDINAL" value="2"/>
+        </insert>
+        <insert tableName="LIVEVIEW_DOCTYPES">
+            <column name="GUID" value="95242435-eb72-438a-b878-12fd493f2b4e"/>
+            <column name="LIVEVIEW_GUID" value="548800dd-fc84-11e5-a5bc-b518b8be3964"/>
+            <column name="DOCTYPE_GUID" value="07f353e4-fa46-11e5-b70e-c534f083c0c6"/>
+        </insert>
+        <insert tableName="LIVEVIEW_DOCTYPES">
+            <column name="GUID" value="adfa3a53-2b90-47be-ab20-2858e4a1cfdb"/>
+            <column name="LIVEVIEW_GUID" value="548800dd-fc84-11e5-a5bc-b518b8be3964"/>
+            <column name="DOCTYPE_GUID" value="e605b843-fa45-11e5-b70e-d5c5f14d6d72"/>
+        </insert>
+        <insert tableName="LIVE_VIEWS">
+            <column name="GUID" value="79c87445-fc88-11e5-a5bc-c14aeb245763"/>
+            <column name="QUERY_TYPE" value="SQL"/>
+            <column name="NAME" value="Last 3 Comments"/>
+            <column name="DISPLAY_NAME" value="Last 3 Comments"/>
+            <column name="DATA_QUERY" value="SELECT TOP 3 * from comments_last_three_insight_lv_view where cmtOwner ='${attr_primary_id}' order by entry_date desc"/>
+            <column name="DATASOURCE_JNDI" value="java:jboss/datasources/OnyxDS"/>
+            <column name="QUERY_PATTERN" value="comments"/>
+            <column name="TEMPLATE" value="&lt;#list records&gt;&#10;&lt;table class = &quot;lvtable&quot;&gt;&#10;  &lt;tr&gt;&#10;    &lt;th class = &quot;lvtable-header&quot;&gt;ENTERED BY&lt;/th&gt;&#10;    &lt;th class = &quot;lvtable-header&quot;&gt;ENTRY DATE&lt;/th&gt;&#10;    &lt;th class = &quot;lvtable-header&quot;&gt;WORKNOTES&lt;/th&gt;&#10;  &lt;/tr&gt;&#10;&lt;#items as rec&gt;&#10;  &lt;tr&gt;&#10;    &lt;td class = &quot;lvtable-row&quot;&gt;${rec.user_name!}&lt;/td&gt;&#10;    &lt;td class = &quot;lvtable-row&quot;&gt;${rec.entry_date!}&lt;/td&gt;&#10;    &lt;td class = &quot;lvtable-row&quot;&gt;${rec.work_note_text!}&lt;/td&gt;&#10;  &lt;/tr&gt;&#10;  &lt;/#items&gt;&#10;  &lt;#else&gt;&#10;    None.&#10;&lt;/table&gt;&#10;&lt;/#list&gt;"/>
+            <column name="IS_ENABLED" value="Y"/>
+            <column name="ORDINAL" value="9"/>
+        </insert>
+        <insert tableName="LIVEVIEW_DOCTYPES">
+            <column name="GUID" value="b1fa00a4-f928-43f8-a1cf-4e7e78116189"/>
+            <column name="LIVEVIEW_GUID" value="79c87445-fc88-11e5-a5bc-c14aeb245763"/>
+            <column name="DOCTYPE_GUID" value="56137af5-fa46-11e5-b70e-61a8b482608e"/>
+        </insert>
+        <insert tableName="LIVEVIEW_DOCTYPES">
+            <column name="GUID" value="b7eec5a6-1b9e-4d78-999a-2a04df82d92d"/>
+            <column name="LIVEVIEW_GUID" value="79c87445-fc88-11e5-a5bc-c14aeb245763"/>
+            <column name="DOCTYPE_GUID" value="66ba2cf6-fa46-11e5-b70e-2b085493ecb8"/>
+        </insert>
+        <insert tableName="LIVEVIEW_DOCTYPES">
+            <column name="GUID" value="0eb7acaf-0bf9-41f2-b1a1-a22cda46c5b1"/>
+            <column name="LIVEVIEW_GUID" value="79c87445-fc88-11e5-a5bc-c14aeb245763"/>
+            <column name="DOCTYPE_GUID" value="74200bd7-fa46-11e5-b70e-5fbafc3eba8f"/>
+        </insert>
+        <insert tableName="LIVEVIEW_DOCTYPES">
+            <column name="GUID" value="5a4e4871-e73b-413f-8142-ad9b1ce39001"/>
+            <column name="LIVEVIEW_GUID" value="79c87445-fc88-11e5-a5bc-c14aeb245763"/>
+            <column name="DOCTYPE_GUID" value="90c592a8-fa46-11e5-b70e-df2c59fceb53"/>
+        </insert>
+        <insert tableName="LIVEVIEW_DOCTYPES">
+            <column name="GUID" value="f973e3ab-992a-4e40-a4b6-903a8ca5bb79"/>
+            <column name="LIVEVIEW_GUID" value="79c87445-fc88-11e5-a5bc-c14aeb245763"/>
+            <column name="DOCTYPE_GUID" value="9ea3aec9-fa46-11e5-b70e-0f1912cc9f37"/>
+        </insert>
+        <insert tableName="LIVEVIEW_DOCTYPES">
+            <column name="GUID" value="392c79a5-f21c-4f94-a236-36468388bd1d"/>
+            <column name="LIVEVIEW_GUID" value="79c87445-fc88-11e5-a5bc-c14aeb245763"/>
+            <column name="DOCTYPE_GUID" value="be0dd3da-fa46-11e5-b70e-679bfc454fe8"/>
+        </insert>
+        <insert tableName="LIVEVIEW_DOCTYPES">
+            <column name="GUID" value="f661d024-41ce-4585-95bc-92366daf996d"/>
+            <column name="LIVEVIEW_GUID" value="79c87445-fc88-11e5-a5bc-c14aeb245763"/>
+            <column name="DOCTYPE_GUID" value="d02553eb-fa46-11e5-b70e-15762f087056"/>
+        </insert>
+        <insert tableName="LIVE_VIEWS">
+            <column name="GUID" value="b0fde510-fc84-11e5-a5bc-9f485212145d"/>
+            <column name="QUERY_TYPE" value="SQL"/>
+            <column name="NAME" value="All Service Incidents"/>
+            <column name="DISPLAY_NAME" value="All Service Incidents"/>
+            <column name="DATA_QUERY" value="select * from incident_service_all_insight_lv_view&#10;where owner_id='${attr_primary_id}'"/>
+            <column name="DATASOURCE_JNDI" value="java:jboss/datasources/OnyxDS"/>
+            <column name="QUERY_PATTERN" value="services"/>
+            <column name="TEMPLATE" value="&lt;#list records&gt;&#10;&lt;table class = &quot;lvtable&quot;&gt;&#10;  &lt;tr&gt;&#10;    &lt;th class = &quot;lvtable-header&quot;&gt;ID&lt;/th&gt;&#10;    &lt;th class = &quot;lvtable-header&quot;&gt;DESCRIPTION&lt;/th&gt;&#10;    &lt;th class = &quot;lvtable-header&quot;&gt;ASSIGNED TO&lt;/th&gt;&#10;  &lt;/tr&gt;&#10;&lt;#items as rec&gt;&#10;  &lt;tr&gt;&#10;    &lt;td class = &quot;lvtable-row&quot;&gt;${rec.secondary_id!}&lt;/td&gt;&#10;    &lt;td class = &quot;lvtable-row&quot;&gt;${rec.desc1!}&lt;/td&gt;&#10;    &lt;td class = &quot;lvtable-row&quot;&gt;${rec.user_name!}&lt;/td&gt;&#10;  &lt;/tr&gt;&#10;  &lt;/#items&gt;&#10;  &lt;#else&gt;&#10;    None.&#10;&lt;/table&gt;&#10;&lt;/#list&gt;"/>
+            <column name="IS_ENABLED" value="Y"/>
+            <column name="ORDINAL" value="4"/>
+        </insert>
+        <insert tableName="LIVEVIEW_DOCTYPES">
+            <column name="GUID" value="8d093b6f-c65e-402c-9284-6b72c18261b9"/>
+            <column name="LIVEVIEW_GUID" value="b0fde510-fc84-11e5-a5bc-9f485212145d"/>
+            <column name="DOCTYPE_GUID" value="07f353e4-fa46-11e5-b70e-c534f083c0c6"/>
+        </insert>
+        <insert tableName="LIVEVIEW_DOCTYPES">
+            <column name="GUID" value="ce385e5d-2207-4a81-9640-311a6e06ec68"/>
+            <column name="LIVEVIEW_GUID" value="b0fde510-fc84-11e5-a5bc-9f485212145d"/>
+            <column name="DOCTYPE_GUID" value="e605b843-fa45-11e5-b70e-d5c5f14d6d72"/>
+        </insert>
+        <insert tableName="LIVE_VIEWS">
+            <column name="GUID" value="b698d81d-fc88-11e5-a5bc-d5d46a3e2d2f"/>
+            <column name="QUERY_TYPE" value="SQL"/>
+            <column name="NAME" value="External Contacts"/>
+            <column name="DISPLAY_NAME" value="External Contacts"/>
+            <column name="DATA_QUERY" value="select * from external_contacts_insight_lv_view&#10;where contact_for_id='${attr_primary_id}'"/>
+            <column name="DATASOURCE_JNDI" value="java:jboss/datasources/OnyxDS"/>
+            <column name="QUERY_PATTERN" value="contacts"/>
+            <column name="TEMPLATE" value="&lt;#list records&gt;&#10;&lt;table class = &quot;lvtable&quot;&gt;&#10;  &lt;tr&gt;&#10;    &lt;th class = &quot;lvtable-header&quot;&gt;CONTACT TYPE&lt;/th&gt;&#10;    &lt;th class = &quot;lvtable-header&quot;&gt;CONTACT NAME&lt;/th&gt;&#10;    &lt;th class = &quot;lvtable-header&quot;&gt;EMAIL&lt;/th&gt;&#10;  &lt;/tr&gt;&#10;&lt;#items as rec&gt;&#10;  &lt;tr&gt;&#10;    &lt;td class = &quot;lvtable-row&quot;&gt;${rec.contact_type_desc!}&lt;/td&gt;&#10;    &lt;td class = &quot;lvtable-row&quot;&gt;${rec.xfield_excontact_name!}&lt;/td&gt;&#10;    &lt;td class = &quot;lvtable-row&quot;&gt;${rec.email_address!}&lt;/td&gt;&#10;  &lt;/tr&gt;&#10;  &lt;/#items&gt;&#10;  &lt;#else&gt;&#10;    None.&#10;&lt;/table&gt;&#10;&lt;/#list&gt;"/>
+            <column name="IS_ENABLED" value="Y"/>
+            <column name="ORDINAL" value="8"/>
+        </insert>
+        <insert tableName="LIVEVIEW_DOCTYPES">
+            <column name="GUID" value="78904082-49e1-4f68-ace1-31b987c3809e"/>
+            <column name="LIVEVIEW_GUID" value="b698d81d-fc88-11e5-a5bc-d5d46a3e2d2f"/>
+            <column name="DOCTYPE_GUID" value="07f353e4-fa46-11e5-b70e-c534f083c0c6"/>
+        </insert>
+        <insert tableName="LIVEVIEW_DOCTYPES">
+            <column name="GUID" value="45013c2a-0b43-4f13-9a46-fc130eaf9540"/>
+            <column name="LIVEVIEW_GUID" value="b698d81d-fc88-11e5-a5bc-d5d46a3e2d2f"/>
+            <column name="DOCTYPE_GUID" value="e605b843-fa45-11e5-b70e-d5c5f14d6d72"/>
+        </insert>
+        <insert tableName="LIVE_VIEWS">
+            <column name="GUID" value="c05d1b98-fc87-11e5-a5bc-dd70ad9d14c1"/>
+            <column name="QUERY_TYPE" value="SQL"/>
+            <column name="NAME" value="Open Sales Opportunity"/>
+            <column name="DISPLAY_NAME" value="Open Sales Opportunity"/>
+            <column name="DATA_QUERY" value="select * from incident_sales_open_insight_lv_view&#10;where owner_id='${attr_primary_id}'"/>
+            <column name="DATASOURCE_JNDI" value="java:jboss/datasources/OnyxDS"/>
+            <column name="QUERY_PATTERN" value="sales"/>
+            <column name="TEMPLATE" value="&lt;#list records&gt;&#10;&lt;table class = &quot;lvtable&quot;&gt;&#10;  &lt;tr&gt;&#10;    &lt;th class = &quot;lvtable-header&quot;&gt;ID&lt;/th&gt;&#10;    &lt;th class = &quot;lvtable-header&quot;&gt;DESCRIPTION&lt;/th&gt;&#10;    &lt;th class = &quot;lvtable-header&quot;&gt;ASSIGNED TO&lt;/th&gt;&#10;  &lt;/tr&gt;&#10;&lt;#items as rec&gt;&#10;  &lt;tr&gt;&#10;    &lt;td class = &quot;lvtable-row &quot;&gt;${rec.secondary_id!}&lt;/td&gt;&#10;    &lt;td class = &quot;lvtable-row &quot;&gt;${rec.desc1!}&lt;/td&gt;&#10;    &lt;td class = &quot;lvtable-row &quot;&gt;${rec.user_name!}&lt;/td&gt;&#10;  &lt;/tr&gt;&#10;  &lt;/#items&gt;&#10;  &lt;#else&gt;&#10;    None.&#10;&lt;/table&gt;&#10;&lt;/#list&gt;&#10;"/>
+            <column name="IS_ENABLED" value="Y"/>
+            <column name="ORDINAL" value="1"/>
+        </insert>
+        <insert tableName="LIVEVIEW_DOCTYPES">
+            <column name="GUID" value="75fd0632-f389-45c2-b0ee-a9fc6d7cfef9"/>
+            <column name="LIVEVIEW_GUID" value="c05d1b98-fc87-11e5-a5bc-dd70ad9d14c1"/>
+            <column name="DOCTYPE_GUID" value="e605b843-fa45-11e5-b70e-d5c5f14d6d72"/>
+        </insert>
+        <insert tableName="LIVEVIEW_DOCTYPES">
+            <column name="GUID" value="af1ab593-4d05-4d6c-b085-a35179deec19"/>
+            <column name="LIVEVIEW_GUID" value="c05d1b98-fc87-11e5-a5bc-dd70ad9d14c1"/>
+            <column name="DOCTYPE_GUID" value="07f353e4-fa46-11e5-b70e-c534f083c0c6"/>
+        </insert>
+
+        <!-- ACTIONS -->
+
+        <insert tableName="ACTIONS">
+            <column name="GUID" value="e8e122ed-74da-11e6-b3cf-ffe4b788d572"/>
+            <column name="NAME" value="Google"/>
+            <column name="DISPLAY_NAME" value="Google"/>
+            <column name="DISPLAY_ICON" value="icon-compass"/>
+            <column name="ACTION_TYPE" value="HYPERLINK"/>
+            <column name="URL_TEMPLATE" value="http://www.google.co.in"/>
+            <column name="ORDINAL" value="0"/>
+            <column name="IS_ENABLED" value="Y"/>
+        </insert>
+        <insert tableName="ACTION_DOCTYPES">
+            <column name="GUID" value="1b1d5686-80f3-4268-ba1e-7e83ece52a59"/>
+            <column name="ACTION_GUID" value="e8e122ed-74da-11e6-b3cf-ffe4b788d572"/>
+            <column name="DOCTYPE_GUID" value="07f353e4-fa46-11e5-b70e-c534f083c0c6"/>
+        </insert>
+        <insert tableName="ACTION_DOCTYPES">
+            <column name="GUID" value="ab9ad3b5-dea2-4792-b5be-467f1730d859"/>
+            <column name="ACTION_GUID" value="e8e122ed-74da-11e6-b3cf-ffe4b788d572"/>
+            <column name="DOCTYPE_GUID" value="e605b843-fa45-11e5-b70e-d5c5f14d6d72"/>
+        </insert>
+
+        <!-- Update Preference: Supported Locales -->
+        <update tableName="SYSTEM_PREFS">
+            <column name="VALUE" value="en_US"/>
+            <where>GUID = '00000000-1010-42d1-b2f5-4e5a4dcd0001'</where>
+        </update>
+
+        <!-- Update Preference: Company Name -->
+        <update tableName="SYSTEM_PREFS">
+            <column name="VALUE" value="Insight"/>
+            <where>GUID = '00000000-1010-42d1-b2f5-4e5a4dcd0002'</where>
+        </update>
+
+        <!-- Update Preference: Company Logo -->
+        <update tableName="SYSTEM_PREFS">
+            <column name="VALUE" value="extensions/Insight_Logo.png"/>
+            <where>GUID = '00000000-1010-42d1-b2f5-4e5a4dcd0003'</where>
+        </update>
+
+        <!-- Update Preference: Search Results Pane -->
+        <update tableName="SYSTEM_PREFS">
+            <column name="VALUE" value="60"/>
+            <where>GUID = '00000000-1010-42d1-b2f5-4e5a4dcd0004'</where>
+        </update>
+    </changeSet>
+</databaseChangeLog>
