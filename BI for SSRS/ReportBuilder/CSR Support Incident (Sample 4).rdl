@@ -1,0 +1,771 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2005/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <Language>en-US</Language>
+  <BottomMargin>0.5in</BottomMargin>
+  <RightMargin>0.5in</RightMargin>
+  <rd:GridSpacing>0.125in</rd:GridSpacing>
+  <DataSets>
+    <DataSet Name="dataSet">
+      <Query>
+        <DataSourceName>dataSource1</DataSourceName>
+        <CommandText>&lt;SemanticQuery xmlns="http://schemas.microsoft.com/sqlserver/2004/10/semanticmodeling" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rb="http://schemas.microsoft.com/sqlserver/2004/11/reportbuilder" xmlns:qd="http://schemas.microsoft.com/sqlserver/2004/11/semanticquerydesign"&gt;
+  &lt;Hierarchies&gt;
+    &lt;Hierarchy&gt;
+      &lt;BaseEntity&gt;
+        &lt;!--Support Incident--&gt;
+        &lt;EntityID&gt;G134958ff-6b59-4883-938c-bcdc0561cc0f&lt;/EntityID&gt;
+      &lt;/BaseEntity&gt;
+      &lt;Groupings&gt;
+        &lt;Grouping Name="expr2"&gt;
+          &lt;Expression Name="expr2"&gt;
+            &lt;Path&gt;
+              &lt;RolePathItem&gt;
+                &lt;!--Assigned To--&gt;
+                &lt;RoleID&gt;Gde27eef8-7a0a-422f-9be3-57a4a236a041&lt;/RoleID&gt;
+              &lt;/RolePathItem&gt;
+            &lt;/Path&gt;
+            &lt;EntityRef&gt;
+              &lt;!--User--&gt;
+              &lt;EntityID&gt;G07cae74d-6f78-4f8a-8a4a-25cf99bd70aa&lt;/EntityID&gt;
+            &lt;/EntityRef&gt;
+          &lt;/Expression&gt;
+          &lt;Details&gt;
+            &lt;Expression Name="Assigned To User ID"&gt;
+              &lt;AttributeRef&gt;
+                &lt;!--User ID--&gt;
+                &lt;AttributeID&gt;G52697a0b-e5ed-47d5-b1ff-258da4706d15&lt;/AttributeID&gt;
+              &lt;/AttributeRef&gt;
+            &lt;/Expression&gt;
+            &lt;Expression Name="Assigned To Name"&gt;
+              &lt;AttributeRef&gt;
+                &lt;!--Name--&gt;
+                &lt;AttributeID&gt;G2aac49e0-e009-472e-9691-fab5a7c6a200&lt;/AttributeID&gt;
+              &lt;/AttributeRef&gt;
+            &lt;/Expression&gt;
+          &lt;/Details&gt;
+        &lt;/Grouping&gt;
+        &lt;Grouping Name="Type"&gt;
+          &lt;Expression Name="Type"&gt;
+            &lt;Path&gt;
+              &lt;RolePathItem&gt;
+                &lt;!--Type--&gt;
+                &lt;RoleID&gt;G42df1981-d999-4e48-a850-60d3caffea73&lt;/RoleID&gt;
+              &lt;/RolePathItem&gt;
+            &lt;/Path&gt;
+            &lt;EntityRef&gt;
+              &lt;!--Support Incident Type--&gt;
+              &lt;EntityID&gt;G2e43f940-ac79-4fb2-b8a1-83b5c751d679&lt;/EntityID&gt;
+            &lt;/EntityRef&gt;
+          &lt;/Expression&gt;
+          &lt;Details&gt;
+            &lt;Expression Name="Type1"&gt;
+              &lt;AttributeRef&gt;
+                &lt;!--Parameter Desc--&gt;
+                &lt;AttributeID&gt;G2acbbcd8-b9e1-4633-9d6a-a17fb87741ef&lt;/AttributeID&gt;
+              &lt;/AttributeRef&gt;
+            &lt;/Expression&gt;
+            &lt;Expression Name="expr3"&gt;
+              &lt;AttributeRef&gt;
+                &lt;!--Seq Num--&gt;
+                &lt;AttributeID&gt;G6a5cb151-40c1-4b8b-8f90-b9e2341b0f88&lt;/AttributeID&gt;
+              &lt;/AttributeRef&gt;
+            &lt;/Expression&gt;
+          &lt;/Details&gt;
+        &lt;/Grouping&gt;
+        &lt;Grouping Name="Support Incident1"&gt;
+          &lt;Expression Name="Support Incident1"&gt;
+            &lt;EntityRef&gt;
+              &lt;!--Support Incident--&gt;
+              &lt;EntityID&gt;G134958ff-6b59-4883-938c-bcdc0561cc0f&lt;/EntityID&gt;
+            &lt;/EntityRef&gt;
+          &lt;/Expression&gt;
+          &lt;Details&gt;
+            &lt;Expression Name="Support Incident ID"&gt;
+              &lt;AttributeRef&gt;
+                &lt;!--Support Incident ID--&gt;
+                &lt;AttributeID&gt;G331a00f1-4f0e-4b8d-9b48-fe27ac97f5ce&lt;/AttributeID&gt;
+              &lt;/AttributeRef&gt;
+            &lt;/Expression&gt;
+            &lt;Expression Name="Support Incident Description"&gt;
+              &lt;AttributeRef&gt;
+                &lt;!--Support Incident Description--&gt;
+                &lt;AttributeID&gt;G6f6640f9-6b32-4039-bb64-7f45a857ed7d&lt;/AttributeID&gt;
+              &lt;/AttributeRef&gt;
+            &lt;/Expression&gt;
+          &lt;/Details&gt;
+        &lt;/Grouping&gt;
+      &lt;/Groupings&gt;
+      &lt;Filter&gt;
+        &lt;Expression Name="expr4"&gt;
+          &lt;Function&gt;
+            &lt;FunctionName&gt;Equals&lt;/FunctionName&gt;
+            &lt;Arguments&gt;
+              &lt;Expression&gt;
+                &lt;Path&gt;
+                  &lt;RolePathItem&gt;
+                    &lt;!--Assigned To--&gt;
+                    &lt;RoleID&gt;Gde27eef8-7a0a-422f-9be3-57a4a236a041&lt;/RoleID&gt;
+                  &lt;/RolePathItem&gt;
+                &lt;/Path&gt;
+                &lt;AttributeRef&gt;
+                  &lt;!--Network User ID--&gt;
+                  &lt;AttributeID&gt;Ge43cc3ec-3b5c-4420-9810-7243a2535051&lt;/AttributeID&gt;
+                &lt;/AttributeRef&gt;
+              &lt;/Expression&gt;
+              &lt;Expression&gt;
+                &lt;Function&gt;
+                  &lt;FunctionName&gt;GetUserID&lt;/FunctionName&gt;
+                &lt;/Function&gt;
+              &lt;/Expression&gt;
+            &lt;/Arguments&gt;
+          &lt;/Function&gt;
+          &lt;CustomProperties&gt;
+            &lt;CustomProperty Name="qd:ExpressionCondition" /&gt;
+            &lt;CustomProperty Name="qd:FilterCondition" /&gt;
+            &lt;CustomProperty Name="qd:Filter" /&gt;
+            &lt;CustomProperty Name="qd:ContextEntityID"&gt;
+              &lt;Value xsi:type="xsd:string"&gt;G134958ff-6b59-4883-938c-bcdc0561cc0f&lt;/Value&gt;
+            &lt;/CustomProperty&gt;
+            &lt;CustomProperty Name="qd:AutoChangeBaseEntity" /&gt;
+            &lt;CustomProperty Name="qd:Design"&gt;
+              &lt;Value xsi:type="xsd:string"&gt;expr5&lt;/Value&gt;
+            &lt;/CustomProperty&gt;
+          &lt;/CustomProperties&gt;
+        &lt;/Expression&gt;
+      &lt;/Filter&gt;
+    &lt;/Hierarchy&gt;
+  &lt;/Hierarchies&gt;
+  &lt;CalculatedAttributes&gt;
+    &lt;Expression Name="expr5"&gt;
+      &lt;Function&gt;
+        &lt;FunctionName&gt;And&lt;/FunctionName&gt;
+        &lt;Arguments&gt;
+          &lt;Expression&gt;
+            &lt;Function&gt;
+              &lt;FunctionName&gt;Equals&lt;/FunctionName&gt;
+              &lt;Arguments&gt;
+                &lt;Expression&gt;
+                  &lt;Path&gt;
+                    &lt;RolePathItem&gt;
+                      &lt;!--Assigned To--&gt;
+                      &lt;RoleID&gt;Gde27eef8-7a0a-422f-9be3-57a4a236a041&lt;/RoleID&gt;
+                    &lt;/RolePathItem&gt;
+                  &lt;/Path&gt;
+                  &lt;AttributeRef&gt;
+                    &lt;!--Network User ID--&gt;
+                    &lt;AttributeID&gt;Ge43cc3ec-3b5c-4420-9810-7243a2535051&lt;/AttributeID&gt;
+                  &lt;/AttributeRef&gt;
+                &lt;/Expression&gt;
+                &lt;Expression&gt;
+                  &lt;Function&gt;
+                    &lt;FunctionName&gt;GetUserID&lt;/FunctionName&gt;
+                  &lt;/Function&gt;
+                &lt;/Expression&gt;
+              &lt;/Arguments&gt;
+            &lt;/Function&gt;
+            &lt;CustomProperties&gt;
+              &lt;CustomProperty Name="qd:ExpressionCondition" /&gt;
+              &lt;CustomProperty Name="qd:FilterCondition" /&gt;
+            &lt;/CustomProperties&gt;
+          &lt;/Expression&gt;
+          &lt;Expression&gt;
+            &lt;Null /&gt;
+            &lt;CustomProperties&gt;
+              &lt;CustomProperty Name="qd:Unspecified" /&gt;
+            &lt;/CustomProperties&gt;
+          &lt;/Expression&gt;
+        &lt;/Arguments&gt;
+      &lt;/Function&gt;
+      &lt;CustomProperties&gt;
+        &lt;CustomProperty Name="qd:Filter" /&gt;
+        &lt;CustomProperty Name="qd:ContextEntityID"&gt;
+          &lt;Value xsi:type="xsd:string"&gt;G134958ff-6b59-4883-938c-bcdc0561cc0f&lt;/Value&gt;
+        &lt;/CustomProperty&gt;
+        &lt;CustomProperty Name="qd:AutoChangeBaseEntity" /&gt;
+      &lt;/CustomProperties&gt;
+    &lt;/Expression&gt;
+  &lt;/CalculatedAttributes&gt;
+&lt;/SemanticQuery&gt;</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="expr2">
+          <DataField>expr2</DataField>
+        </Field>
+        <Field Name="AssignedToUserID">
+          <DataField>Assigned To User ID</DataField>
+        </Field>
+        <Field Name="AssignedToName">
+          <DataField>Assigned To Name</DataField>
+        </Field>
+        <Field Name="Type">
+          <DataField>Type</DataField>
+        </Field>
+        <Field Name="Type1">
+          <DataField>Type1</DataField>
+        </Field>
+        <Field Name="expr3">
+          <DataField>expr3</DataField>
+        </Field>
+        <Field Name="SupportIncident1">
+          <DataField>Support Incident1</DataField>
+        </Field>
+        <Field Name="SupportIncidentID">
+          <DataField>Support Incident ID</DataField>
+        </Field>
+        <Field Name="SupportIncidentDescription">
+          <DataField>Support Incident Description</DataField>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <DataSources>
+    <DataSource Name="dataSource1">
+      <DataSourceReference>/Models/OnyxOEDB</DataSourceReference>
+	  <rd:DataSourceID>cdffc9df-0119-4e41-99ee-898cca6f2685</rd:DataSourceID></DataSource>
+  </DataSources>
+  <PageHeight>11in</PageHeight>
+  <LeftMargin>0.5in</LeftMargin>
+  <TopMargin>0.5in</TopMargin>
+  <Width>7.5in</Width>
+  <Body>
+    <Height>0in</Height>
+    <ReportItems>
+      <Textbox Name="Title">
+        <Left>0.25in</Left>
+        <Top>0.5in</Top>
+        <CanGrow>true</CanGrow>
+        <Width>3.5in</Width>
+        <Value>Support Incidents for User: </Value>
+        <Style>
+          <FontSize>18pt</FontSize>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+          <FontFamily>Tahoma</FontFamily>
+        </Style>
+        <CustomProperties>
+          <CustomProperty>
+            <Name>rb:Watermark</Name>
+            <Value>Click to add title</Value>
+          </CustomProperty>
+        </CustomProperties>
+        <Height>0.5in</Height>
+      </Textbox>
+      <Table Name="table">
+        <Top>1.5in</Top>
+        <TableGroups>
+          <TableGroup>
+            <Sorting>
+              <SortBy>
+                <SortExpression>=IIf(True, Fields!AssignedToUserID.Value, Nothing)</SortExpression>
+              </SortBy>
+              <SortBy>
+                <SortExpression>=IIf(True, Fields!AssignedToName.Value, Nothing)</SortExpression>
+              </SortBy>
+            </Sorting>
+            <Grouping Name="table_expr2">
+              <GroupExpressions>
+                <GroupExpression>=Fields!expr2.Value</GroupExpression>
+              </GroupExpressions>
+            </Grouping>
+          </TableGroup>
+          <TableGroup>
+            <Sorting>
+              <SortBy>
+                <SortExpression>=IIf(True, Fields!expr3.Value, Nothing)</SortExpression>
+              </SortBy>
+            </Sorting>
+            <Grouping Name="table_Type">
+              <GroupExpressions>
+                <GroupExpression>=Fields!Type.Value</GroupExpression>
+              </GroupExpressions>
+            </Grouping>
+          </TableGroup>
+        </TableGroups>
+        <Details>
+          <TableRows>
+            <TableRow>
+              <TableCells>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="AssignedToUserID_Value">
+                      <DataElementOutput>Output</DataElementOutput>
+                      <CanGrow>true</CanGrow>
+                      <HideDuplicates>table_expr2</HideDuplicates>
+                      <Value>=Fields!AssignedToUserID.Value</Value>
+                      <Style>
+                        <BackgroundColor>White</BackgroundColor>
+                        <FontSize>8pt</FontSize>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <BorderColor>
+                          <Default>#c0c0c0</Default>
+                        </BorderColor>
+                        <BorderStyle>
+                          <Left>Solid</Left>
+                          <Right>Solid</Right>
+                          <Bottom>=Iif( RowNumber("table_expr2") = CountRows("table_expr2"), "Solid", Nothing)</Bottom>
+                        </BorderStyle>
+                        <FontFamily>Tahoma</FontFamily>
+                        <Language>en-US</Language>
+                      </Style>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="AssignedToName_Value">
+                      <DataElementOutput>Output</DataElementOutput>
+                      <CanGrow>true</CanGrow>
+                      <HideDuplicates>table_expr2</HideDuplicates>
+                      <Value>=Fields!AssignedToName.Value</Value>
+                      <Style>
+                        <BackgroundColor>White</BackgroundColor>
+                        <FontSize>8pt</FontSize>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <BorderColor>
+                          <Default>#c0c0c0</Default>
+                        </BorderColor>
+                        <BorderStyle>
+                          <Left>Solid</Left>
+                          <Right>Solid</Right>
+                          <Bottom>=Iif( RowNumber("table_expr2") = CountRows("table_expr2"), "Solid", Nothing)</Bottom>
+                        </BorderStyle>
+                        <FontFamily>Tahoma</FontFamily>
+                        <Language>en-US</Language>
+                      </Style>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="Type_Value">
+                      <DataElementOutput>Output</DataElementOutput>
+                      <CanGrow>true</CanGrow>
+                      <HideDuplicates>table_Type</HideDuplicates>
+                      <Action>
+                        <Drillthrough>
+                          <ReportName>=DataSources!dataSource1.DataSourceReference</ReportName>
+                          <Parameters>
+                            <Parameter Name="rs:EntityID">
+                              <Value>G2e43f940-ac79-4fb2-b8a1-83b5c751d679</Value>
+                            </Parameter>
+                            <Parameter Name="rs:DrillType">
+                              <Value>Detail</Value>
+                            </Parameter>
+                            <Parameter Name="rs:Command">
+                              <Value>Drillthrough</Value>
+                            </Parameter>
+                            <Parameter Name="DrillthroughSourceQuery">
+                              <Value>=DataSets!dataSet.RewrittenCommandText</Value>
+                            </Parameter>
+                            <Parameter Name="DrillthroughContext">
+                              <Value>=CreateDrillthroughContext()</Value>
+                            </Parameter>
+                          </Parameters>
+                        </Drillthrough>
+                      </Action>
+                      <Value>=Fields!Type1.Value</Value>
+                      <Style>
+                        <BackgroundColor>White</BackgroundColor>
+                        <FontSize>8pt</FontSize>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <BorderColor>
+                          <Default>#c0c0c0</Default>
+                        </BorderColor>
+                        <BorderStyle>
+                          <Left>Solid</Left>
+                          <Right>Solid</Right>
+                          <Bottom>=Iif( RowNumber("table_Type") = CountRows("table_Type"), "Solid", Nothing)</Bottom>
+                        </BorderStyle>
+                        <FontFamily>Tahoma</FontFamily>
+                        <Language>en-US</Language>
+                      </Style>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="SupportIncidentID_Value">
+                      <DataElementOutput>Output</DataElementOutput>
+                      <CanGrow>true</CanGrow>
+                      <Action>
+                        <Drillthrough>
+                          <ReportName>=DataSources!dataSource1.DataSourceReference</ReportName>
+                          <Parameters>
+                            <Parameter Name="rs:EntityID">
+                              <Value>G134958ff-6b59-4883-938c-bcdc0561cc0f</Value>
+                            </Parameter>
+                            <Parameter Name="rs:DrillType">
+                              <Value>Detail</Value>
+                            </Parameter>
+                            <Parameter Name="rs:Command">
+                              <Value>Drillthrough</Value>
+                            </Parameter>
+                            <Parameter Name="DrillthroughSourceQuery">
+                              <Value>=DataSets!dataSet.RewrittenCommandText</Value>
+                            </Parameter>
+                            <Parameter Name="DrillthroughContext">
+                              <Value>=CreateDrillthroughContext()</Value>
+                            </Parameter>
+                          </Parameters>
+                        </Drillthrough>
+                      </Action>
+                      <Value>=Fields!SupportIncidentID.Value</Value>
+                      <Style>
+                        <BackgroundColor>White</BackgroundColor>
+                        <FontSize>8pt</FontSize>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <BorderColor>
+                          <Default>#c0c0c0</Default>
+                        </BorderColor>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <FontFamily>Tahoma</FontFamily>
+                        <Format>g</Format>
+                        <Language>en-US</Language>
+                      </Style>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="SupportIncidentDescription_Value">
+                      <DataElementOutput>Output</DataElementOutput>
+                      <CanGrow>true</CanGrow>
+                      <Action>
+                        <Drillthrough>
+                          <ReportName>=DataSources!dataSource1.DataSourceReference</ReportName>
+                          <Parameters>
+                            <Parameter Name="rs:EntityID">
+                              <Value>G134958ff-6b59-4883-938c-bcdc0561cc0f</Value>
+                            </Parameter>
+                            <Parameter Name="rs:DrillType">
+                              <Value>Detail</Value>
+                            </Parameter>
+                            <Parameter Name="rs:Command">
+                              <Value>Drillthrough</Value>
+                            </Parameter>
+                            <Parameter Name="DrillthroughSourceQuery">
+                              <Value>=DataSets!dataSet.RewrittenCommandText</Value>
+                            </Parameter>
+                            <Parameter Name="DrillthroughContext">
+                              <Value>=CreateDrillthroughContext()</Value>
+                            </Parameter>
+                          </Parameters>
+                        </Drillthrough>
+                      </Action>
+                      <Value>=Fields!SupportIncidentDescription.Value</Value>
+                      <Style>
+                        <BackgroundColor>White</BackgroundColor>
+                        <FontSize>8pt</FontSize>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <BorderColor>
+                          <Default>#c0c0c0</Default>
+                        </BorderColor>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <FontFamily>Tahoma</FontFamily>
+                        <Language>en-US</Language>
+                      </Style>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.25in</Height>
+            </TableRow>
+          </TableRows>
+          <Grouping Name="table_SupportIncident1">
+            <GroupExpressions>
+              <GroupExpression>=Fields!SupportIncident1.Value</GroupExpression>
+            </GroupExpressions>
+          </Grouping>
+          <Sorting>
+            <SortBy>
+              <SortExpression>=IIf(True, Fields!SupportIncidentID.Value, Nothing)</SortExpression>
+            </SortBy>
+            <SortBy>
+              <SortExpression>=IIf(True, Fields!SupportIncidentDescription.Value, Nothing)</SortExpression>
+            </SortBy>
+          </Sorting>
+        </Details>
+        <Style />
+        <Width>0in</Width>
+        <Height>0in</Height>
+        <NoRows>No data was found that matched your report criteria.</NoRows>
+        <DataSetName>dataSet</DataSetName>
+        <TableColumns>
+          <TableColumn>
+            <Width>0.96689in</Width>
+            <Visibility>
+              <Hidden>=Fields!AssignedToUserID.IsMissing</Hidden>
+            </Visibility>
+          </TableColumn>
+          <TableColumn>
+            <Width>1.50849in</Width>
+            <Visibility>
+              <Hidden>=Fields!AssignedToName.IsMissing</Hidden>
+            </Visibility>
+          </TableColumn>
+          <TableColumn>
+            <Width>0.82892in</Width>
+            <Visibility>
+              <Hidden>=Fields!Type1.IsMissing</Hidden>
+            </Visibility>
+          </TableColumn>
+          <TableColumn>
+            <Width>0.93516in</Width>
+            <Visibility>
+              <Hidden>=Fields!SupportIncidentID.IsMissing</Hidden>
+            </Visibility>
+          </TableColumn>
+          <TableColumn>
+            <Width>3.49103in</Width>
+            <Visibility>
+              <Hidden>=Fields!SupportIncidentDescription.IsMissing</Hidden>
+            </Visibility>
+          </TableColumn>
+        </TableColumns>
+        <Header>
+          <TableRows>
+            <TableRow>
+              <TableCells>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="AssignedToUserID_Header">
+                      <CanGrow>true</CanGrow>
+                      <UserSort>
+                        <SortExpression>=Fields!AssignedToUserID.Value</SortExpression>
+                        <SortExpressionScope>table_expr2</SortExpressionScope>
+                      </UserSort>
+                      <Value>Assigned To User ID</Value>
+                      <Style>
+                        <Color>White</Color>
+                        <BackgroundColor>#528ae7</BackgroundColor>
+                        <FontSize>8pt</FontSize>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <BorderColor>
+                          <Default>#c0c0c0</Default>
+                        </BorderColor>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                        <Language>en-US</Language>
+                      </Style>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="AssignedToName_Header">
+                      <CanGrow>true</CanGrow>
+                      <UserSort>
+                        <SortExpression>=Fields!AssignedToName.Value</SortExpression>
+                        <SortExpressionScope>table_expr2</SortExpressionScope>
+                      </UserSort>
+                      <Value>Assigned To Name</Value>
+                      <Style>
+                        <Color>White</Color>
+                        <BackgroundColor>#528ae7</BackgroundColor>
+                        <FontSize>8pt</FontSize>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <BorderColor>
+                          <Default>#c0c0c0</Default>
+                        </BorderColor>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                        <Language>en-US</Language>
+                      </Style>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="Type_Header">
+                      <CanGrow>true</CanGrow>
+                      <UserSort>
+                        <SortExpression>=Fields!Type1.Value</SortExpression>
+                        <SortExpressionScope>table_Type</SortExpressionScope>
+                      </UserSort>
+                      <Value>Type</Value>
+                      <Style>
+                        <Color>White</Color>
+                        <BackgroundColor>#528ae7</BackgroundColor>
+                        <FontSize>8pt</FontSize>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <BorderColor>
+                          <Default>#c0c0c0</Default>
+                        </BorderColor>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                        <Language>en-US</Language>
+                      </Style>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="SupportIncidentID_Header">
+                      <CanGrow>true</CanGrow>
+                      <UserSort>
+                        <SortExpression>=Fields!SupportIncidentID.Value</SortExpression>
+                        <SortExpressionScope>table_SupportIncident1</SortExpressionScope>
+                      </UserSort>
+                      <Value>Support Incident ID</Value>
+                      <Style>
+                        <Color>White</Color>
+                        <BackgroundColor>#528ae7</BackgroundColor>
+                        <FontSize>8pt</FontSize>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <BorderColor>
+                          <Default>#c0c0c0</Default>
+                        </BorderColor>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                        <Language>en-US</Language>
+                      </Style>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="SupportIncidentDescription_Header">
+                      <CanGrow>true</CanGrow>
+                      <UserSort>
+                        <SortExpression>=Fields!SupportIncidentDescription.Value</SortExpression>
+                        <SortExpressionScope>table_SupportIncident1</SortExpressionScope>
+                      </UserSort>
+                      <Value>Support Incident Description</Value>
+                      <Style>
+                        <Color>White</Color>
+                        <BackgroundColor>#528ae7</BackgroundColor>
+                        <FontSize>8pt</FontSize>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <BorderColor>
+                          <Default>#c0c0c0</Default>
+                        </BorderColor>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                        <Language>en-US</Language>
+                      </Style>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.47179in</Height>
+            </TableRow>
+          </TableRows>
+          <RepeatOnNewPage>true</RepeatOnNewPage>
+          <FixedHeader>true</FixedHeader>
+        </Header>
+        <Left>0.5in</Left>
+      </Table>
+      <Textbox Name="TotalRows">
+        <Left>0.5in</Left>
+        <Top>3in</Top>
+        <CanGrow>true</CanGrow>
+        <Width>6.5in</Width>
+        <Value>=String.Format("Total Support Incidents" &amp; Chr(58) &amp; " {0}", COUNTROWS("dataSet"))</Value>
+        <Style>
+          <FontSize>8pt</FontSize>
+          <PaddingLeft>3pt</PaddingLeft>
+          <PaddingRight>3pt</PaddingRight>
+          <PaddingTop>3pt</PaddingTop>
+          <PaddingBottom>3pt</PaddingBottom>
+        </Style>
+        <CustomProperties>
+          <CustomProperty>
+            <Name>rb:SpecialContent</Name>
+            <Value>TotalRows</Value>
+          </CustomProperty>
+        </CustomProperties>
+        <Height>0.25in</Height>
+      </Textbox>
+      <Textbox Name="FilterDescription">
+        <Left>0.5in</Left>
+        <Top>3.5in</Top>
+        <CanGrow>true</CanGrow>
+        <Width>6.5in</Width>
+        <Value>Filter: Support Incidents with: Assigned To Network User ID = GETUSERID()</Value>
+        <Style>
+          <FontSize>8pt</FontSize>
+          <PaddingLeft>3pt</PaddingLeft>
+          <PaddingRight>3pt</PaddingRight>
+          <PaddingTop>3pt</PaddingTop>
+          <PaddingBottom>3pt</PaddingBottom>
+        </Style>
+        <CustomProperties>
+          <CustomProperty>
+            <Name>rb:SpecialContent</Name>
+            <Value>FilterDescription</Value>
+          </CustomProperty>
+        </CustomProperties>
+        <Height>0.25in</Height>
+      </Textbox>
+      <Textbox Name="textbox2">
+        <Left>3.75in</Left>
+        <Top>0.5in</Top>
+        <CanGrow>true</CanGrow>
+        <Width>2.125in</Width>
+        <Value>=User!UserID</Value>
+        <Style>
+          <FontSize>18pt</FontSize>
+          <PaddingLeft>3pt</PaddingLeft>
+          <PaddingRight>3pt</PaddingRight>
+          <PaddingTop>3pt</PaddingTop>
+          <PaddingBottom>3pt</PaddingBottom>
+          <FontFamily>Tahoma</FontFamily>
+        </Style>
+        <Height>0.5in</Height>
+      </Textbox>
+    </ReportItems>
+    <Style />
+  </Body>
+  <PageWidth>8.5in</PageWidth>
+</Report>

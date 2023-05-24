@@ -1,0 +1,450 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\NUnit3TestAdapter.3.12.0\build\net35\NUnit3TestAdapter.props" Condition="Exists('..\packages\NUnit3TestAdapter.3.12.0\build\net35\NUnit3TestAdapter.props')" />
+  <Import Project="..\packages\NUnit.3.10.1\build\NUnit.props" Condition="Exists('..\packages\NUnit.3.10.1\build\NUnit.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{14C4337D-8260-4D46-8E4D-12EAD8AC7C97}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Avolin.Onyx.Part08.AUT.Tests</RootNamespace>
+    <AssemblyName>Avolin.Onyx.Part08.AUT.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AUT.ConfigureTestProjects, Version=5.4.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AUT.ConfigureTestProjects.5.4.4\lib\net462\AUT.ConfigureTestProjects.dll</HintPath>
+    </Reference>
+    <Reference Include="AUT.TestProjects.GenV3, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AUT.TestProjects.GenV3.1.4.0\lib\net452\AUT.TestProjects.GenV3.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoFixture, Version=4.5.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoFixture.4.5.0\lib\net452\AutoFixture.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoFixture.AutoMoq, Version=4.5.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoFixture.AutoMoq.4.5.0\lib\net452\AutoFixture.AutoMoq.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoFixture.NUnit3, Version=4.5.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoFixture.NUnit3.4.5.0\lib\net452\AutoFixture.NUnit3.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.4.3.1\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="CMService">
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\CMService.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Fare, Version=2.1.0.0, Culture=neutral, PublicKeyToken=ea68d375bf33a7c8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Fare.2.1.1\lib\net35\Fare.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Practices.Unity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq, Version=4.10.0.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\packages\Moq.4.10.0\lib\net45\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=3.10.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.10.1\lib\net45\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.Constants">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.Constants.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.LoggerService, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.LoggerService.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Core">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Core.Constants">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Core.Constants.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Core.CoreController">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Core.CoreController.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Core.Interface">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Core.Interface.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Core.Model">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Core.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Core.Security">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Core.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Core.SecurityController">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Core.SecurityController.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Form.BusinessLayer">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Form.BusinessLayer.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Form.Controller">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Form.Controller.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Form.Helper">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Form.Helper.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Form.Interface">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Form.Interface.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Navigator.BusinessLayer">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Navigator.BusinessLayer.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Navigator.Controller">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Navigator.Controller.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Navigator.Interface">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Navigator.Interface.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Navigator.Model">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Navigator.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Navigator.Resources">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Navigator.Resources.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Navigator.ServiceLayer">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Navigator.ServiceLayer.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Notification.BusinessLayer">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Notification.BusinessLayer.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Notification.Controller">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Notification.Controller.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Notification.Interface">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Notification.Interface.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Notification.Model">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Notification.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Scripting.BusinessLayer">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Scripting.BusinessLayer.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Scripting.BusinessModel">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Scripting.BusinessModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Scripting.Constants">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Scripting.Constants.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Scripting.Controller">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Scripting.Controller.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Scripting.Helper">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Scripting.Helper.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Scripting.Interface">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Scripting.Interface.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Scripting.Model">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Scripting.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Scripting.Resources">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Scripting.Resources.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Scripting.ScriptingException">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Scripting.ScriptingException.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Survey.BusinessLayer">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Survey.BusinessLayer.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Survey.Constants">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Survey.Constants.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Survey.Controller">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Survey.Controller.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Survey.Helper">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Survey.Helper.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Survey.Interface">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Survey.Interface.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Survey.Model">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Survey.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Survey.Resources">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Survey.Resources.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.UI.Survey.SurveyException">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Onyx.UI.Survey.SurveyException.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxSDK.Public.Configuration, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\OnyxSDK.Public.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxSDK.Public.Constants">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\OnyxSDK.Public.Constants.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxSDK.Public.Core">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\OnyxSDK.Public.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxSDK.Public.Helper, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\OnyxSDK.Public.Helper.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxSDK.Public.Interface, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\OnyxSDK.Public.Interface.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxSDK.Public.OnyxException, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\OnyxSDK.Public.OnyxException.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxSDK.Public.Types">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\OnyxSDK.Public.Types.dll</HintPath>
+    </Reference>
+    <Reference Include="PasswordEncryptLibrary, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\PasswordEncryptLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Service">
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\Service.dll</HintPath>
+    </Reference>
+    <Reference Include="Shouldly, Version=3.0.0.0, Culture=neutral, PublicKeyToken=6042cbcb05cbc941, processorArchitecture=MSIL">
+      <HintPath>..\packages\Shouldly.3.0.0\lib\net451\Shouldly.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Net.Http.Formatting">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.1\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Cors">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\System.Web.Cors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.Cors">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\System.Web.Http.Cors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Unity.WebApi">
+      <HintPath>..\..\Onyx.UI\BuildScripts\Output\Unity.WebApi.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\FilterConfigTest.cs" />
+    <Compile Include="UI\Navigator\Resources\CMLocalizedResourcesTest.cs" />
+    <Compile Include="UI\Navigator\Resources\LocalResourceDesignerTest.cs" />
+    <Compile Include="UI\Navigator\ServiceLayer\AssemblyLoaderTest.cs" />
+    <Compile Include="UI\Navigator\ServiceLayer\AuthenticationTypeConstantsTest.cs" />
+    <Compile Include="UI\Navigator\ServiceLayer\CommonConstantsTest.cs" />
+    <Compile Include="UI\Navigator\ServiceLayer\CommonTest.cs" />
+    <Compile Include="UI\Navigator\ServiceLayer\ConstantsTest.cs" />
+    <Compile Include="UI\Navigator\ServiceLayer\CookieDetailsTest.cs" />
+    <Compile Include="UI\Navigator\ServiceLayer\HttpWebRequestHandlerTest.cs" />
+    <Compile Include="UI\Navigator\ServiceLayer\LoggerConstantsTest.cs" />
+    <Compile Include="UI\Navigator\ServiceLayer\NavigatorManifestTest.cs" />
+    <Compile Include="UI\Navigator\ServiceLayer\OGSServerConfigurationConstantsTest.cs" />
+    <Compile Include="UI\Navigator\ServiceLayer\OnyxGatewayServiceConfigurationsSectionTest.cs" />
+    <Compile Include="UI\Navigator\ServiceLayer\OnyxGatewayServiceConfigurationsTest.cs" />
+    <Compile Include="UI\Navigator\ServiceLayer\OnyxGatewayServiceConfigurationTest.cs" />
+    <Compile Include="UI\Navigator\ServiceLayer\RequestHelperTest.cs" />
+    <Compile Include="UI\Navigator\ServiceLayer\RequestParamsTest.cs" />
+    <Compile Include="UI\Navigator\ServiceLayer\RequestTypeConstantsTest.cs" />
+    <Compile Include="UI\Navigator\ServiceLayer\ServiceExceptionTest.cs" />
+    <Compile Include="UI\Navigator\ServiceLayer\ServiceResponseTest.cs" />
+    <Compile Include="UI\Navigator\ViewModel\ResourceViewModelTest.cs" />
+    <Compile Include="UI\Navigator\ViewModel\ResponseViewModelTest.cs" />
+    <Compile Include="UI\Notification\BusinessLayer\NotificationBusinessLayerTest.cs" />
+    <Compile Include="UI\Notification\BusinessLayer\XmlToObjectTest.cs" />
+    <Compile Include="UI\Notification\Controller\HelperTest.cs" />
+    <Compile Include="UI\Notification\Controller\NotificationControllerTest.cs" />
+    <Compile Include="UI\Notification\Model\CMNavigatorCacheTest.cs" />
+    <Compile Include="UI\Notification\Model\ForwardedNotificationTest.cs" />
+    <Compile Include="UI\Notification\Model\ForwardedUsersTest.cs" />
+    <Compile Include="UI\Notification\Model\HierarchicalDataSourceTest.cs" />
+    <Compile Include="UI\Notification\Model\NotificationDeliveryTypeTest.cs" />
+    <Compile Include="UI\Notification\Model\NotificationDetailsTest.cs" />
+    <Compile Include="UI\Notification\Model\NotificationTypeTest.cs" />
+    <Compile Include="UI\Notification\Model\SubscribedDetailsTest.cs" />
+    <Compile Include="UI\Notification\Model\SubscribedNotificationTest.cs" />
+    <Compile Include="UI\Notification\Model\TreeDataTest.cs" />
+    <Compile Include="UI\Notification\ViewModel\ResourceViewModelTest.cs" />
+    <Compile Include="UI\Notification\ViewModel\ResponseViewModelTest.cs" />
+    <Compile Include="UI\Scripting\BusinessLayer\CountryBusinessLayerTest.cs" />
+    <Compile Include="UI\Scripting\BusinessLayer\CustomerBusinessLayerTest.cs" />
+    <Compile Include="UI\Scripting\BusinessLayer\IncidentBusinessLayerTest.cs" />
+    <Compile Include="UI\Scripting\BusinessLayer\IncidentProductBusinessLayerTest.cs" />
+    <Compile Include="UI\Scripting\BusinessLayer\ProductBusinessLayerTest.cs" />
+    <Compile Include="UI\Scripting\BusinessLayer\ReferenceLookupBusinessLayerTest.cs" />
+    <Compile Include="UI\Scripting\BusinessLayer\RegionBusinessLayerTest.cs" />
+    <Compile Include="UI\Scripting\BusinessLayer\ScriptBusinessLayerTest.cs" />
+    <Compile Include="UI\Scripting\BusinessLayer\ScriptingBusinessLayerTest.cs" />
+    <Compile Include="UI\Scripting\BusinessLayer\ScriptSessionBusinessLayerTest.cs" />
+    <Compile Include="UI\Scripting\BusinessLayer\TrackingCodeBusinessLayerTest.cs" />
+    <Compile Include="UI\Scripting\BusinessLayer\UnityConfigTest.cs" />
+    <Compile Include="UI\Scripting\BusinessLayer\UserBusinessLayerTest.cs" />
+    <Compile Include="UI\Scripting\BusinessLayer\XmlTransformerBusinessLayerTest.cs" />
+    <Compile Include="UI\Scripting\BusinessModel\CustomerBusinessModelTest.cs" />
+    <Compile Include="UI\Scripting\BusinessModel\IncidentBusinessModelTest.cs" />
+    <Compile Include="UI\Scripting\Constants\CustomerIndexRowSetParameterConstantsTest.cs" />
+    <Compile Include="UI\Scripting\Constants\IncidentCategoryIdConstantsTest.cs" />
+    <Compile Include="UI\Scripting\Constants\PreloginStringsConstantsTest.cs" />
+    <Compile Include="UI\Scripting\Constants\ScriptIndexRowSetParameterConstantsTest.cs" />
+    <Compile Include="UI\Scripting\Constants\ScriptingSecurityResourcesConstantsTest.cs" />
+    <Compile Include="UI\Scripting\Constants\ScriptingSystemParametersConstantsTest.cs" />
+    <Compile Include="UI\Scripting\Constants\ScriptSessionVariableConstantsTest.cs" />
+    <Compile Include="UI\Scripting\Constants\UIMessagingConstantsTest.cs" />
+    <Compile Include="UI\Scripting\Constants\WebAPIConstantsTest.cs" />
+    <Compile Include="UI\Scripting\Controller\CountryControllerTest.cs" />
+    <Compile Include="UI\Scripting\Controller\CustomerControllerTest.cs" />
+    <Compile Include="UI\Scripting\Controller\IncidentControllerTest.cs" />
+    <Compile Include="UI\Scripting\Controller\IncidentProductControllerTest.cs" />
+    <Compile Include="UI\Scripting\Controller\ProductControllerTest.cs" />
+    <Compile Include="UI\Scripting\Controller\ReferenceLookupControllerTest.cs" />
+    <Compile Include="UI\Scripting\Controller\RegionControllerTest.cs" />
+    <Compile Include="UI\Scripting\Controller\ScriptControllerTest.cs" />
+    <Compile Include="UI\Scripting\Controller\ScriptingControllerTest.cs" />
+    <Compile Include="UI\Scripting\Controller\ScriptSessionControllerTest.cs" />
+    <Compile Include="UI\Scripting\Controller\TrackingCodeControllerTest.cs" />
+    <Compile Include="UI\Scripting\Controller\UserControllerTest.cs" />
+    <Compile Include="UI\Scripting\Controller\XmlTransformerControllerTest.cs" />
+    <Compile Include="UI\Scripting\Helper\Mapper\ModelMapperFromJsonTest.cs" />
+    <Compile Include="UI\Scripting\Helper\OnyxConvertTest.cs" />
+    <Compile Include="UI\Scripting\Helper\OnyxExceptionHelperUITest.cs" />
+    <Compile Include="UI\Scripting\Helper\UnityConfigTest.cs" />
+    <Compile Include="UI\Scripting\Model\CountryModelTest.cs" />
+    <Compile Include="UI\Scripting\Model\CustomerModelTest.cs" />
+    <Compile Include="UI\Scripting\Model\CustomerSearchModelTest.cs" />
+    <Compile Include="UI\Scripting\Model\IncidentModelTest.cs" />
+    <Compile Include="UI\Scripting\Model\IncidentProductModelTest.cs" />
+    <Compile Include="UI\Scripting\Model\ProductModelTest.cs" />
+    <Compile Include="UI\Scripting\Model\ReferenceLookupModelTest.cs" />
+    <Compile Include="UI\Scripting\Model\RegionModelTest.cs" />
+    <Compile Include="UI\Scripting\Model\ScriptControlMetadataModelTest.cs" />
+    <Compile Include="UI\Scripting\Model\ScriptMetadataModelTest.cs" />
+    <Compile Include="UI\Scripting\Model\ScriptMethodCallMetadataModelTest.cs" />
+    <Compile Include="UI\Scripting\Model\ScriptModelTest.cs" />
+    <Compile Include="UI\Scripting\Model\ScriptOegRefModelTest.cs" />
+    <Compile Include="UI\Scripting\Model\ScriptSessionOwnerModelTest.cs" />
+    <Compile Include="UI\Scripting\Model\ScriptSessionPromptResponseModelTest.cs" />
+    <Compile Include="UI\Scripting\Model\ScriptSessionStepModelTest.cs" />
+    <Compile Include="UI\Scripting\Model\ScriptStepMetadataModelTest.cs" />
+    <Compile Include="UI\Scripting\Model\ScriptStepPromptMetadataModelTest.cs" />
+    <Compile Include="UI\Scripting\Model\ScriptStepPromptResponseMetadataModelTest.cs" />
+    <Compile Include="UI\Scripting\Model\ScriptStepRuleMetadataModelTest.cs" />
+    <Compile Include="UI\Scripting\Model\ScriptVariableMetadataModelTest.cs" />
+    <Compile Include="UI\Scripting\Model\ScriptVariableModelTest.cs" />
+    <Compile Include="UI\Scripting\Model\ScriptVariableValueModelTest.cs" />
+    <Compile Include="UI\Scripting\Model\TrackingCampaignTypeCodeModelTest.cs" />
+    <Compile Include="UI\Scripting\Model\UserGroupModelTest.cs" />
+    <Compile Include="UI\Scripting\Model\UserModelTest.cs" />
+    <Compile Include="UI\Scripting\Model\UserPreferenceModelTest.cs" />
+    <Compile Include="UI\Scripting\Model\UserSearchModelTest.cs" />
+    <Compile Include="UI\Scripting\Model\XmlTransformerModelTest.cs" />
+    <Compile Include="UI\Scripting\Resources\ScriptingUIResourceDesignerTest.cs" />
+    <Compile Include="UI\Scripting\ScriptingException\ScriptingBaseExceptionTest.cs" />
+    <Compile Include="UI\Scripting\ScriptingException\ScriptingBusinessLayerRewindExceptionTest.cs" />
+    <Compile Include="UI\Scripting\ScriptingException\ScriptingRewindExceptionTest.cs" />
+    <Compile Include="UI\Scripting\ScriptSession\ScriptCPTLBusinessModelTest.cs" />
+    <Compile Include="UI\Scripting\ScriptSession\ScriptMetadataCPTLBusinessModelTest.cs" />
+    <Compile Include="UI\Scripting\ScriptSession\ScriptRootCPTLBusinessModelTest.cs" />
+    <Compile Include="UI\Scripting\ScriptSession\ScriptRootSerializationCPTLBusinessModelTest.cs" />
+    <Compile Include="UI\Scripting\ScriptSession\ScriptSessionCPTLBusinessModelTest.cs" />
+    <Compile Include="UI\Scripting\ScriptSession\ScriptSessionStepCPTLBusinessModelTest.cs" />
+    <Compile Include="UI\Scripting\ScriptSession\ScriptSessionStepPromptResponseCPTLBusinessModelTest.cs" />
+    <Compile Include="UI\Scripting\ScriptSession\ScriptSessionStepPromptResponsesCPTLBusinessModelTest.cs" />
+    <Compile Include="UI\Scripting\ScriptSession\ScriptSessionStepsCPTLBusinessModelTest.cs" />
+    <Compile Include="UI\Scripting\ScriptSession\ScriptStepMetadataCPTLBusinessModelTest.cs" />
+    <Compile Include="UI\Scripting\ScriptSession\ScriptStepPromptMetadataCPTLBusinessModelTest.cs" />
+    <Compile Include="UI\Scripting\ScriptSession\ScriptStepPromptResponseMetadataCPTLBusinessModelTest.cs" />
+    <Compile Include="UI\Scripting\ScriptSession\VariableCPTLBusinessModelTest.cs" />
+    <Compile Include="UI\Scripting\ScriptSession\VariableItemCPTLBusinessModelTest.cs" />
+    <Compile Include="UI\Scripting\ScriptSession\VariableListCPTLBusinessModelTest.cs" />
+    <Compile Include="UI\Scripting\ScriptSession\VariablesCPTLBusinessModelTest.cs" />
+    <Compile Include="UI\Scripting\ScriptSession\VariablesRootCPTLBusinessModelTest.cs" />
+    <Compile Include="UI\Scripting\ViewModel\ResourceViewModelTest.cs" />
+    <Compile Include="UI\Scripting\ViewModel\ResponseViewModelTest.cs" />
+    <Compile Include="UI\Survey\BusinessLayer\SurveyBusinessLayerTest.cs" />
+    <Compile Include="UI\Survey\Constants\SurveySecurityResourcesConstantsTest.cs" />
+    <Compile Include="UI\Survey\Controller\SurveyControllerTest.cs" />
+    <Compile Include="UI\Survey\Helper\OnyxExceptionHelperUITest.cs" />
+    <Compile Include="UI\Survey\Model\QuestionMetadataTest.cs" />
+    <Compile Include="UI\Survey\Model\ResponseMetadataTest.cs" />
+    <Compile Include="UI\Survey\Model\ResponseViewModelTest.cs" />
+    <Compile Include="UI\Survey\Model\SurveyMetadataTest.cs" />
+    <Compile Include="UI\Survey\Model\SurveyOwnerAssociationTest.cs" />
+    <Compile Include="UI\Survey\Model\SurveyOwnerQuestionResponseTest.cs" />
+    <Compile Include="UI\Survey\Resources\SurveyUIResourceDesignerTest.cs" />
+    <Compile Include="UI\Survey\SurveyException\SurveyBaseExceptionTest.cs" />
+    <Compile Include="UI\Survey\SurveyException\SurveyBusinessLayerRewindExceptionTest.cs" />
+    <Compile Include="UI\Survey\SurveyException\SurveyRewindExceptionTest.cs" />
+    <Compile Include="UI\UnityConfigTest.cs" />
+    <Compile Include="UI\WebApiConfigTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\NUnit.3.10.1\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit.3.10.1\build\NUnit.props'))" />
+    <Error Condition="!Exists('..\packages\NUnit3TestAdapter.3.12.0\build\net35\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit3TestAdapter.3.12.0\build\net35\NUnit3TestAdapter.props'))" />
+  </Target>
+</Project>

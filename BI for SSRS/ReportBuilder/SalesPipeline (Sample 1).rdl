@@ -1,0 +1,1032 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2005/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <Language>en-US</Language>
+  <BottomMargin>0.5in</BottomMargin>
+  <RightMargin>0.5in</RightMargin>
+  <rd:GridSpacing>0.125in</rd:GridSpacing>
+  <DataSets>
+    <DataSet Name="dataSet">
+      <Query>
+        <DataSourceName>dataSource1</DataSourceName>
+        <CommandText>&lt;SemanticQuery xmlns="http://schemas.microsoft.com/sqlserver/2004/10/semanticmodeling" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rb="http://schemas.microsoft.com/sqlserver/2004/11/reportbuilder" xmlns:qd="http://schemas.microsoft.com/sqlserver/2004/11/semanticquerydesign"&gt;
+  &lt;Hierarchies&gt;
+    &lt;Hierarchy&gt;
+      &lt;BaseEntity&gt;
+        &lt;!--Sales Opportunity--&gt;
+        &lt;EntityID&gt;G7556bad9-7627-4c4e-9a03-8e4fa9eaad82&lt;/EntityID&gt;
+      &lt;/BaseEntity&gt;
+      &lt;Groupings&gt;
+        &lt;Grouping Name="Assigned To Group Name"&gt;
+          &lt;Expression Name="Assigned To Group Name"&gt;
+            &lt;Path&gt;
+              &lt;RolePathItem&gt;
+                &lt;!--Assigned To--&gt;
+                &lt;RoleID&gt;Gd43173be-e8a0-4aff-97d8-752938b15319&lt;/RoleID&gt;
+              &lt;/RolePathItem&gt;
+            &lt;/Path&gt;
+            &lt;AttributeRef&gt;
+              &lt;!--Group Name--&gt;
+              &lt;AttributeID&gt;G80d4bc29-75c3-4e1f-b813-9faba40249e7&lt;/AttributeID&gt;
+            &lt;/AttributeRef&gt;
+          &lt;/Expression&gt;
+        &lt;/Grouping&gt;
+        &lt;Grouping Name="Status"&gt;
+          &lt;Expression Name="Status"&gt;
+            &lt;Path&gt;
+              &lt;RolePathItem&gt;
+                &lt;!--Status--&gt;
+                &lt;RoleID&gt;Gdbeac45a-4408-4824-8d75-deb2389b6cd0&lt;/RoleID&gt;
+              &lt;/RolePathItem&gt;
+            &lt;/Path&gt;
+            &lt;AttributeRef&gt;
+              &lt;!--Parameter Desc--&gt;
+              &lt;AttributeID&gt;Gc0d067ff-0427-4ba9-8636-0573da8ec12d&lt;/AttributeID&gt;
+            &lt;/AttributeRef&gt;
+          &lt;/Expression&gt;
+        &lt;/Grouping&gt;
+      &lt;/Groupings&gt;
+      &lt;Filter&gt;
+        &lt;Expression Name="expr1"&gt;
+          &lt;Function&gt;
+            &lt;FunctionName&gt;And&lt;/FunctionName&gt;
+            &lt;Arguments&gt;
+              &lt;Expression&gt;
+                &lt;Function&gt;
+                  &lt;FunctionName&gt;NotEquals&lt;/FunctionName&gt;
+                  &lt;Arguments&gt;
+                    &lt;Expression&gt;
+                      &lt;Path&gt;
+                        &lt;RolePathItem&gt;
+                          &lt;!--Status--&gt;
+                          &lt;RoleID&gt;Gdbeac45a-4408-4824-8d75-deb2389b6cd0&lt;/RoleID&gt;
+                        &lt;/RolePathItem&gt;
+                      &lt;/Path&gt;
+                      &lt;AttributeRef&gt;
+                        &lt;!--Extra Data--&gt;
+                        &lt;AttributeID&gt;G748aa18a-7946-4392-a932-6ac6ad544e07&lt;/AttributeID&gt;
+                      &lt;/AttributeRef&gt;
+                    &lt;/Expression&gt;
+                    &lt;Expression&gt;
+                      &lt;Literal&gt;
+                        &lt;DataType&gt;String&lt;/DataType&gt;
+                        &lt;Value&gt;CLOSED&lt;/Value&gt;
+                      &lt;/Literal&gt;
+                    &lt;/Expression&gt;
+                  &lt;/Arguments&gt;
+                &lt;/Function&gt;
+                &lt;CustomProperties&gt;
+                  &lt;CustomProperty Name="qd:FilterCondition" /&gt;
+                &lt;/CustomProperties&gt;
+              &lt;/Expression&gt;
+              &lt;Expression&gt;
+                &lt;Function&gt;
+                  &lt;FunctionName&gt;And&lt;/FunctionName&gt;
+                  &lt;Arguments&gt;
+                    &lt;Expression&gt;
+                      &lt;Function&gt;
+                        &lt;FunctionName&gt;Equals&lt;/FunctionName&gt;
+                        &lt;Arguments&gt;
+                          &lt;Expression&gt;
+                            &lt;Path&gt;
+                              &lt;RolePathItem&gt;
+                                &lt;!--Resolution Code 1--&gt;
+                                &lt;RoleID&gt;G4c67fb0a-ee48-47ce-93ee-9e751104b7f8&lt;/RoleID&gt;
+                              &lt;/RolePathItem&gt;
+                            &lt;/Path&gt;
+                            &lt;EntityRef&gt;
+                              &lt;!--Sales Opportunity Resolution Code 1--&gt;
+                              &lt;EntityID&gt;G7a89accf-d2db-4e7b-a663-d3737d7156bf&lt;/EntityID&gt;
+                            &lt;/EntityRef&gt;
+                          &lt;/Expression&gt;
+                          &lt;Expression&gt;
+                            &lt;Null /&gt;
+                          &lt;/Expression&gt;
+                        &lt;/Arguments&gt;
+                      &lt;/Function&gt;
+                      &lt;CustomProperties&gt;
+                        &lt;CustomProperty Name="qd:FilterCondition" /&gt;
+                      &lt;/CustomProperties&gt;
+                    &lt;/Expression&gt;
+                    &lt;Expression&gt;
+                      &lt;Function&gt;
+                        &lt;FunctionName&gt;In&lt;/FunctionName&gt;
+                        &lt;Arguments&gt;
+                          &lt;Expression&gt;
+                            &lt;Path&gt;
+                              &lt;RolePathItem&gt;
+                                &lt;!--Assigned To--&gt;
+                                &lt;RoleID&gt;Gd43173be-e8a0-4aff-97d8-752938b15319&lt;/RoleID&gt;
+                              &lt;/RolePathItem&gt;
+                            &lt;/Path&gt;
+                            &lt;AttributeRef&gt;
+                              &lt;!--Group Name--&gt;
+                              &lt;AttributeID&gt;G80d4bc29-75c3-4e1f-b813-9faba40249e7&lt;/AttributeID&gt;
+                            &lt;/AttributeRef&gt;
+                          &lt;/Expression&gt;
+                          &lt;Expression&gt;
+                            &lt;ParameterRef&gt;
+                              &lt;ParameterName&gt;Assigned To Group Name&lt;/ParameterName&gt;
+                            &lt;/ParameterRef&gt;
+                          &lt;/Expression&gt;
+                        &lt;/Arguments&gt;
+                      &lt;/Function&gt;
+                      &lt;CustomProperties&gt;
+                        &lt;CustomProperty Name="qd:FilterCondition" /&gt;
+                      &lt;/CustomProperties&gt;
+                    &lt;/Expression&gt;
+                  &lt;/Arguments&gt;
+                &lt;/Function&gt;
+              &lt;/Expression&gt;
+            &lt;/Arguments&gt;
+          &lt;/Function&gt;
+          &lt;CustomProperties&gt;
+            &lt;CustomProperty Name="qd:Filter" /&gt;
+            &lt;CustomProperty Name="qd:ContextEntityID"&gt;
+              &lt;Value xsi:type="xsd:string"&gt;G7556bad9-7627-4c4e-9a03-8e4fa9eaad82&lt;/Value&gt;
+            &lt;/CustomProperty&gt;
+            &lt;CustomProperty Name="qd:AutoChangeBaseEntity" /&gt;
+            &lt;CustomProperty Name="qd:Design"&gt;
+              &lt;Value xsi:type="xsd:string"&gt;expr2&lt;/Value&gt;
+            &lt;/CustomProperty&gt;
+          &lt;/CustomProperties&gt;
+        &lt;/Expression&gt;
+      &lt;/Filter&gt;
+    &lt;/Hierarchy&gt;
+  &lt;/Hierarchies&gt;
+  &lt;MeasureGroups&gt;
+    &lt;MeasureGroup&gt;
+      &lt;BaseEntity&gt;
+        &lt;!--Sales Opportunity--&gt;
+        &lt;EntityID&gt;G7556bad9-7627-4c4e-9a03-8e4fa9eaad82&lt;/EntityID&gt;
+      &lt;/BaseEntity&gt;
+      &lt;Measures&gt;
+        &lt;Expression Name="# Sales Opportunities_Count"&gt;
+          &lt;Function&gt;
+            &lt;FunctionName&gt;Count&lt;/FunctionName&gt;
+            &lt;Arguments&gt;
+              &lt;Expression&gt;
+                &lt;EntityRef&gt;
+                  &lt;!--Sales Opportunity--&gt;
+                  &lt;EntityID&gt;G7556bad9-7627-4c4e-9a03-8e4fa9eaad82&lt;/EntityID&gt;
+                &lt;/EntityRef&gt;
+              &lt;/Expression&gt;
+            &lt;/Arguments&gt;
+          &lt;/Function&gt;
+          &lt;CustomProperties&gt;
+            &lt;CustomProperty Name="qd:Design"&gt;
+              &lt;Value xsi:type="xsd:string"&gt;# Sales Opportunities&lt;/Value&gt;
+            &lt;/CustomProperty&gt;
+          &lt;/CustomProperties&gt;
+        &lt;/Expression&gt;
+        &lt;Expression Name="Total Revenue_Sum"&gt;
+          &lt;Function&gt;
+            &lt;FunctionName&gt;Sum&lt;/FunctionName&gt;
+            &lt;Arguments&gt;
+              &lt;Expression&gt;
+                &lt;Path&gt;
+                  &lt;RolePathItem&gt;
+                    &lt;!--Forecast--&gt;
+                    &lt;RoleID&gt;Gcf76bc33-1e9b-4494-9642-1fa7e0d8beb9&lt;/RoleID&gt;
+                  &lt;/RolePathItem&gt;
+                  &lt;RolePathItem&gt;
+                    &lt;!--Forecast Line Items--&gt;
+                    &lt;RoleID&gt;Gd9bcbd61-1eea-4b1f-901d-e5ee3c4e7cd9&lt;/RoleID&gt;
+                  &lt;/RolePathItem&gt;
+                &lt;/Path&gt;
+                &lt;AttributeRef&gt;
+                  &lt;!--Extended--&gt;
+                  &lt;AttributeID&gt;G49881536-9247-44e3-ba62-68b1de7d1ff3&lt;/AttributeID&gt;
+                &lt;/AttributeRef&gt;
+              &lt;/Expression&gt;
+            &lt;/Arguments&gt;
+          &lt;/Function&gt;
+          &lt;CustomProperties&gt;
+            &lt;CustomProperty Name="qd:Design"&gt;
+              &lt;Value xsi:type="xsd:string"&gt;Total Revenue&lt;/Value&gt;
+            &lt;/CustomProperty&gt;
+          &lt;/CustomProperties&gt;
+        &lt;/Expression&gt;
+      &lt;/Measures&gt;
+    &lt;/MeasureGroup&gt;
+  &lt;/MeasureGroups&gt;
+  &lt;CalculatedAttributes&gt;
+    &lt;Expression Name="# Sales Opportunities"&gt;
+      &lt;AttributeRef&gt;
+        &lt;!--# Sales Opportunities--&gt;
+        &lt;AttributeID&gt;Gb7e7f0a2-a8ff-4cf8-8009-1b07d0fdc6a3&lt;/AttributeID&gt;
+      &lt;/AttributeRef&gt;
+      &lt;CustomProperties&gt;
+        &lt;CustomProperty Name="qd:ContextEntityID"&gt;
+          &lt;Value xsi:type="xsd:string"&gt;G7556bad9-7627-4c4e-9a03-8e4fa9eaad82&lt;/Value&gt;
+        &lt;/CustomProperty&gt;
+      &lt;/CustomProperties&gt;
+    &lt;/Expression&gt;
+    &lt;Expression Name="Total Revenue"&gt;
+      &lt;Function&gt;
+        &lt;FunctionName&gt;Aggregate&lt;/FunctionName&gt;
+        &lt;Arguments&gt;
+          &lt;Expression&gt;
+            &lt;Path&gt;
+              &lt;RolePathItem&gt;
+                &lt;!--Forecast--&gt;
+                &lt;RoleID&gt;Gcf76bc33-1e9b-4494-9642-1fa7e0d8beb9&lt;/RoleID&gt;
+              &lt;/RolePathItem&gt;
+            &lt;/Path&gt;
+            &lt;AttributeRef&gt;
+              &lt;!--Total Revenue--&gt;
+              &lt;AttributeID&gt;G02715b76-429a-43af-8593-9d19098e4bc6&lt;/AttributeID&gt;
+            &lt;/AttributeRef&gt;
+          &lt;/Expression&gt;
+        &lt;/Arguments&gt;
+      &lt;/Function&gt;
+      &lt;CustomProperties&gt;
+        &lt;CustomProperty Name="qd:ContextEntityID"&gt;
+          &lt;Value xsi:type="xsd:string"&gt;G7556bad9-7627-4c4e-9a03-8e4fa9eaad82&lt;/Value&gt;
+        &lt;/CustomProperty&gt;
+      &lt;/CustomProperties&gt;
+    &lt;/Expression&gt;
+  &lt;/CalculatedAttributes&gt;
+  &lt;Parameters&gt;
+    &lt;Parameter Name="Assigned To Group Name"&gt;
+      &lt;DataType&gt;String&lt;/DataType&gt;
+      &lt;Cardinality&gt;Many&lt;/Cardinality&gt;
+    &lt;/Parameter&gt;
+  &lt;/Parameters&gt;
+&lt;/SemanticQuery&gt;</CommandText>
+        <QueryParameters>
+          <QueryParameter Name="Assigned To Group Name">
+            <Value>=Parameters!AssignedToGroupName.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+      </Query>
+      <Fields>
+        <Field Name="AssignedToGroupName">
+          <DataField>Assigned To Group Name</DataField>
+        </Field>
+        <Field Name="Status">
+          <DataField>Status</DataField>
+        </Field>
+        <Field Name="xSalesOpportunities_Count">
+          <DataField># Sales Opportunities_Count</DataField>
+        </Field>
+        <Field Name="TotalRevenue_Sum">
+          <DataField>Total Revenue_Sum</DataField>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="paramDataSet">
+      <Query>
+        <DataSourceName>dataSource1</DataSourceName>
+        <CommandText>&lt;SemanticQuery xmlns="http://schemas.microsoft.com/sqlserver/2004/10/semanticmodeling" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:qd="http://schemas.microsoft.com/sqlserver/2004/11/semanticquerydesign"&gt;
+  &lt;Hierarchies&gt;
+    &lt;Hierarchy&gt;
+      &lt;BaseEntity&gt;
+        &lt;!--User--&gt;
+        &lt;EntityID&gt;G07cae74d-6f78-4f8a-8a4a-25cf99bd70aa&lt;/EntityID&gt;
+      &lt;/BaseEntity&gt;
+      &lt;Groupings&gt;
+        &lt;Grouping Name="value"&gt;
+          &lt;Expression Name="value"&gt;
+            &lt;AttributeRef&gt;
+              &lt;!--Group Name--&gt;
+              &lt;AttributeID&gt;G80d4bc29-75c3-4e1f-b813-9faba40249e7&lt;/AttributeID&gt;
+            &lt;/AttributeRef&gt;
+          &lt;/Expression&gt;
+        &lt;/Grouping&gt;
+      &lt;/Groupings&gt;
+    &lt;/Hierarchy&gt;
+  &lt;/Hierarchies&gt;
+&lt;/SemanticQuery&gt;</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="value">
+          <DataField>value</DataField>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <DataSources>
+    <DataSource Name="dataSource1">
+      <DataSourceReference>/Models/OnyxOEDB</DataSourceReference>
+    </DataSource>
+  </DataSources>
+  <PageHeight>11in</PageHeight>
+  <LeftMargin>0.5in</LeftMargin>
+  <ReportParameters>
+    <ReportParameter Name="AssignedToGroupName">
+      <DataType>String</DataType>
+      <Prompt>Assigned To Group Name</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>paramDataSet</DataSetName>
+          <ValueField>value</ValueField>
+          <LabelField>value</LabelField>
+        </DataSetReference>
+      </ValidValues>
+      <MultiValue>true</MultiValue>
+    </ReportParameter>
+  </ReportParameters>
+  <TopMargin>0.5in</TopMargin>
+  <Width>7.5in</Width>
+  <Body>
+    <Height>0in</Height>
+    <ReportItems>
+      <Textbox Name="Title">
+        <Left>0.5in</Left>
+        <Top>0.5in</Top>
+        <CanGrow>true</CanGrow>
+        <Width>6.5in</Width>
+        <Value>Sales Pipeline</Value>
+        <Style>
+          <FontSize>18pt</FontSize>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+          <FontFamily>Tahoma</FontFamily>
+        </Style>
+        <CustomProperties>
+          <CustomProperty>
+            <Name>rb:Watermark</Name>
+            <Value>Click to add title</Value>
+          </CustomProperty>
+        </CustomProperties>
+        <Height>0.5in</Height>
+      </Textbox>
+      <Table Name="table">
+        <Footer>
+          <TableRows>
+            <TableRow>
+              <TableCells>
+                <TableCell>
+                  <ColSpan>2</ColSpan>
+                  <ReportItems>
+                    <Textbox Name="AssignedToGroupName_SubtotalHeader">
+                      <CanGrow>true</CanGrow>
+                      <Value>Total</Value>
+                      <Style>
+                        <BackgroundColor>#c6dbff</BackgroundColor>
+                        <FontSize>8pt</FontSize>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <BorderColor>
+                          <Default>#c0c0c0</Default>
+                        </BorderColor>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <FontFamily>Tahoma</FontFamily>
+                      </Style>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="xSalesOpportunities_Total_2_2_2">
+                      <CanGrow>true</CanGrow>
+                      <Action>
+                        <Drillthrough>
+                          <ReportName>=DataSources!dataSource1.DataSourceReference</ReportName>
+                          <Parameters>
+                            <Parameter Name="rs:EntityID">
+                              <Value>G7556bad9-7627-4c4e-9a03-8e4fa9eaad82</Value>
+                            </Parameter>
+                            <Parameter Name="rs:DrillType">
+                              <Value>List</Value>
+                            </Parameter>
+                            <Parameter Name="rs:Command">
+                              <Value>Drillthrough</Value>
+                            </Parameter>
+                            <Parameter Name="DrillthroughSourceQuery">
+                              <Value>=DataSets!dataSet.RewrittenCommandText</Value>
+                            </Parameter>
+                            <Parameter Name="DrillthroughContext">
+                              <Value>=CreateDrillthroughContext()</Value>
+                            </Parameter>
+                          </Parameters>
+                        </Drillthrough>
+                      </Action>
+                      <Value>=SUM(Fields!xSalesOpportunities_Count.Value)</Value>
+                      <Style>
+                        <BackgroundColor>#c6dbff</BackgroundColor>
+                        <FontSize>8pt</FontSize>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <BorderColor>
+                          <Default>#c0c0c0</Default>
+                        </BorderColor>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <FontFamily>Tahoma</FontFamily>
+                        <Format>n0</Format>
+                        <Language>en-US</Language>
+                      </Style>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="TotalRevenue_Total_2_2_2">
+                      <CanGrow>true</CanGrow>
+                      <Action>
+                        <Drillthrough>
+                          <ReportName>=DataSources!dataSource1.DataSourceReference</ReportName>
+                          <Parameters>
+                            <Parameter Name="rs:EntityID">
+                              <Value>G093a37d4-99e7-4772-a576-0c6c1ae494f1</Value>
+                            </Parameter>
+                            <Parameter Name="rs:DrillType">
+                              <Value>List</Value>
+                            </Parameter>
+                            <Parameter Name="rs:Command">
+                              <Value>Drillthrough</Value>
+                            </Parameter>
+                            <Parameter Name="DrillthroughSourceQuery">
+                              <Value>=DataSets!dataSet.RewrittenCommandText</Value>
+                            </Parameter>
+                            <Parameter Name="DrillthroughContext">
+                              <Value>=CreateDrillthroughContext()</Value>
+                            </Parameter>
+                          </Parameters>
+                        </Drillthrough>
+                      </Action>
+                      <Value>=SUM(Fields!TotalRevenue_Sum.Value)</Value>
+                      <Style>
+                        <BackgroundColor>#c6dbff</BackgroundColor>
+                        <FontSize>8pt</FontSize>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <BorderColor>
+                          <Default>#c0c0c0</Default>
+                        </BorderColor>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <FontFamily>Tahoma</FontFamily>
+                        <Language>en-US</Language>
+                      </Style>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.25in</Height>
+            </TableRow>
+          </TableRows>
+        </Footer>
+        <Top>1.5in</Top>
+        <TableGroups>
+          <TableGroup>
+            <Footer>
+              <TableRows>
+                <TableRow>
+                  <TableCells>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="blank">
+                          <CanGrow>true</CanGrow>
+                          <Value />
+                          <Style>
+                            <BackgroundColor>White</BackgroundColor>
+                            <FontSize>8pt</FontSize>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                            <BorderColor>
+                              <Default>#c0c0c0</Default>
+                            </BorderColor>
+                            <BorderStyle>
+                              <Left>Solid</Left>
+                              <Right>Solid</Right>
+                              <Bottom>Solid</Bottom>
+                            </BorderStyle>
+                            <FontFamily>Tahoma</FontFamily>
+                            <Language>en-US</Language>
+                          </Style>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="textbox3">
+                          <CanGrow>true</CanGrow>
+                          <Value>Total</Value>
+                          <Style>
+                            <BackgroundColor>#c6dbff</BackgroundColor>
+                            <FontSize>8pt</FontSize>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                            <BorderColor>
+                              <Default>#c0c0c0</Default>
+                            </BorderColor>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <FontFamily>Tahoma</FontFamily>
+                          </Style>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="xSalesOpportunities_Total_2_2_1">
+                          <CanGrow>true</CanGrow>
+                          <Action>
+                            <Drillthrough>
+                              <ReportName>=DataSources!dataSource1.DataSourceReference</ReportName>
+                              <Parameters>
+                                <Parameter Name="rs:EntityID">
+                                  <Value>G7556bad9-7627-4c4e-9a03-8e4fa9eaad82</Value>
+                                </Parameter>
+                                <Parameter Name="rs:DrillType">
+                                  <Value>List</Value>
+                                </Parameter>
+                                <Parameter Name="rs:Command">
+                                  <Value>Drillthrough</Value>
+                                </Parameter>
+                                <Parameter Name="DrillthroughSourceQuery">
+                                  <Value>=DataSets!dataSet.RewrittenCommandText</Value>
+                                </Parameter>
+                                <Parameter Name="DrillthroughContext">
+                                  <Value>=CreateDrillthroughContext()</Value>
+                                </Parameter>
+                              </Parameters>
+                            </Drillthrough>
+                          </Action>
+                          <Value>=SUM(Fields!xSalesOpportunities_Count.Value)</Value>
+                          <Style>
+                            <BackgroundColor>#c6dbff</BackgroundColor>
+                            <FontSize>8pt</FontSize>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                            <BorderColor>
+                              <Default>#c0c0c0</Default>
+                            </BorderColor>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <FontFamily>Tahoma</FontFamily>
+                            <Format>n0</Format>
+                            <Language>en-US</Language>
+                          </Style>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                    <TableCell>
+                      <ReportItems>
+                        <Textbox Name="TotalRevenue_Total_2_2_1">
+                          <CanGrow>true</CanGrow>
+                          <Action>
+                            <Drillthrough>
+                              <ReportName>=DataSources!dataSource1.DataSourceReference</ReportName>
+                              <Parameters>
+                                <Parameter Name="rs:EntityID">
+                                  <Value>G093a37d4-99e7-4772-a576-0c6c1ae494f1</Value>
+                                </Parameter>
+                                <Parameter Name="rs:DrillType">
+                                  <Value>List</Value>
+                                </Parameter>
+                                <Parameter Name="rs:Command">
+                                  <Value>Drillthrough</Value>
+                                </Parameter>
+                                <Parameter Name="DrillthroughSourceQuery">
+                                  <Value>=DataSets!dataSet.RewrittenCommandText</Value>
+                                </Parameter>
+                                <Parameter Name="DrillthroughContext">
+                                  <Value>=CreateDrillthroughContext()</Value>
+                                </Parameter>
+                              </Parameters>
+                            </Drillthrough>
+                          </Action>
+                          <Value>=SUM(Fields!TotalRevenue_Sum.Value)</Value>
+                          <Style>
+                            <BackgroundColor>#c6dbff</BackgroundColor>
+                            <FontSize>8pt</FontSize>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                            <BorderColor>
+                              <Default>#c0c0c0</Default>
+                            </BorderColor>
+                            <BorderStyle>
+                              <Default>Solid</Default>
+                            </BorderStyle>
+                            <FontFamily>Tahoma</FontFamily>
+                            <Language>en-US</Language>
+                          </Style>
+                        </Textbox>
+                      </ReportItems>
+                    </TableCell>
+                  </TableCells>
+                  <Height>0.25in</Height>
+                </TableRow>
+              </TableRows>
+            </Footer>
+            <Grouping Name="table_AssignedToGroupName">
+              <GroupExpressions>
+                <GroupExpression>=Fields!AssignedToGroupName.Value</GroupExpression>
+              </GroupExpressions>
+            </Grouping>
+          </TableGroup>
+        </TableGroups>
+        <Details>
+          <TableRows>
+            <TableRow>
+              <TableCells>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="AssignedToGroupName_Value">
+                      <DataElementOutput>Output</DataElementOutput>
+                      <CanGrow>true</CanGrow>
+                      <HideDuplicates>table_AssignedToGroupName</HideDuplicates>
+                      <Value>=Fields!AssignedToGroupName.Value</Value>
+                      <Style>
+                        <BackgroundColor>White</BackgroundColor>
+                        <FontSize>8pt</FontSize>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <BorderColor>
+                          <Default>#c0c0c0</Default>
+                        </BorderColor>
+                        <BorderStyle>
+                          <Left>Solid</Left>
+                          <Right>Solid</Right>
+                        </BorderStyle>
+                        <FontFamily>Tahoma</FontFamily>
+                        <Language>en-US</Language>
+                      </Style>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="Status_Value">
+                      <DataElementOutput>Output</DataElementOutput>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!Status.Value</Value>
+                      <Style>
+                        <BackgroundColor>White</BackgroundColor>
+                        <FontSize>8pt</FontSize>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <BorderColor>
+                          <Default>#c0c0c0</Default>
+                        </BorderColor>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <FontFamily>Tahoma</FontFamily>
+                        <Language>en-US</Language>
+                      </Style>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="xSalesOpportunities_Value">
+                      <DataElementOutput>Output</DataElementOutput>
+                      <CanGrow>true</CanGrow>
+                      <Action>
+                        <Drillthrough>
+                          <ReportName>=DataSources!dataSource1.DataSourceReference</ReportName>
+                          <Parameters>
+                            <Parameter Name="rs:EntityID">
+                              <Value>G7556bad9-7627-4c4e-9a03-8e4fa9eaad82</Value>
+                            </Parameter>
+                            <Parameter Name="rs:DrillType">
+                              <Value>List</Value>
+                            </Parameter>
+                            <Parameter Name="rs:Command">
+                              <Value>Drillthrough</Value>
+                            </Parameter>
+                            <Parameter Name="DrillthroughSourceQuery">
+                              <Value>=DataSets!dataSet.RewrittenCommandText</Value>
+                            </Parameter>
+                            <Parameter Name="DrillthroughContext">
+                              <Value>=CreateDrillthroughContext()</Value>
+                            </Parameter>
+                          </Parameters>
+                        </Drillthrough>
+                      </Action>
+                      <Value>=Fields!xSalesOpportunities_Count.Value</Value>
+                      <Style>
+                        <BackgroundColor>White</BackgroundColor>
+                        <FontSize>8pt</FontSize>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <BorderColor>
+                          <Default>#c0c0c0</Default>
+                        </BorderColor>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <FontFamily>Tahoma</FontFamily>
+                        <Format>n0</Format>
+                        <Language>en-US</Language>
+                      </Style>
+                      <CustomProperties>
+                        <CustomProperty>
+                          <Name>rb:Group</Name>
+                          <Value>table_Status</Value>
+                        </CustomProperty>
+                      </CustomProperties>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="TotalRevenue_Value">
+                      <DataElementOutput>Output</DataElementOutput>
+                      <CanGrow>true</CanGrow>
+                      <Action>
+                        <Drillthrough>
+                          <ReportName>=DataSources!dataSource1.DataSourceReference</ReportName>
+                          <Parameters>
+                            <Parameter Name="rs:EntityID">
+                              <Value>G093a37d4-99e7-4772-a576-0c6c1ae494f1</Value>
+                            </Parameter>
+                            <Parameter Name="rs:DrillType">
+                              <Value>List</Value>
+                            </Parameter>
+                            <Parameter Name="rs:Command">
+                              <Value>Drillthrough</Value>
+                            </Parameter>
+                            <Parameter Name="DrillthroughSourceQuery">
+                              <Value>=DataSets!dataSet.RewrittenCommandText</Value>
+                            </Parameter>
+                            <Parameter Name="DrillthroughContext">
+                              <Value>=CreateDrillthroughContext()</Value>
+                            </Parameter>
+                          </Parameters>
+                        </Drillthrough>
+                      </Action>
+                      <Value>=Fields!TotalRevenue_Sum.Value</Value>
+                      <Style>
+                        <BackgroundColor>White</BackgroundColor>
+                        <FontSize>8pt</FontSize>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <BorderColor>
+                          <Default>#c0c0c0</Default>
+                        </BorderColor>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <FontFamily>Tahoma</FontFamily>
+                        <Language>en-US</Language>
+                      </Style>
+                      <CustomProperties>
+                        <CustomProperty>
+                          <Name>rb:Group</Name>
+                          <Value>table_Status</Value>
+                        </CustomProperty>
+                      </CustomProperties>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.25in</Height>
+            </TableRow>
+          </TableRows>
+          <Grouping Name="table_Status">
+            <GroupExpressions>
+              <GroupExpression>=Fields!Status.Value</GroupExpression>
+            </GroupExpressions>
+          </Grouping>
+          <Sorting>
+            <SortBy>
+              <SortExpression>=IIf(True, Fields!Status.Value, Nothing)</SortExpression>
+            </SortBy>
+          </Sorting>
+        </Details>
+        <Style />
+        <Width>0in</Width>
+        <Height>0in</Height>
+        <NoRows>No data was found that matched your report criteria.</NoRows>
+        <DataSetName>dataSet</DataSetName>
+        <TableColumns>
+          <TableColumn>
+            <Width>1.33869in</Width>
+            <Visibility>
+              <Hidden>=Fields!AssignedToGroupName.IsMissing</Hidden>
+            </Visibility>
+          </TableColumn>
+          <TableColumn>
+            <Width>0.81922in</Width>
+            <Visibility>
+              <Hidden>=Fields!Status.IsMissing</Hidden>
+            </Visibility>
+          </TableColumn>
+          <TableColumn>
+            <Width>1.70413in</Width>
+            <Visibility>
+              <Hidden>=Fields!xSalesOpportunities_Count.IsMissing</Hidden>
+            </Visibility>
+          </TableColumn>
+          <TableColumn>
+            <Width>1.27547in</Width>
+            <Visibility>
+              <Hidden>=Fields!TotalRevenue_Sum.IsMissing</Hidden>
+            </Visibility>
+          </TableColumn>
+        </TableColumns>
+        <Header>
+          <TableRows>
+            <TableRow>
+              <TableCells>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="AssignedToGroupName_Header">
+                      <CanGrow>true</CanGrow>
+                      <UserSort>
+                        <SortExpression>=Fields!AssignedToGroupName.Value</SortExpression>
+                        <SortExpressionScope>table_AssignedToGroupName</SortExpressionScope>
+                      </UserSort>
+                      <Value>Assigned To Group Name</Value>
+                      <Style>
+                        <Color>White</Color>
+                        <BackgroundColor>#528ae7</BackgroundColor>
+                        <FontSize>8pt</FontSize>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <BorderColor>
+                          <Default>#c0c0c0</Default>
+                        </BorderColor>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                        <Language>en-US</Language>
+                      </Style>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="Status_Header">
+                      <CanGrow>true</CanGrow>
+                      <UserSort>
+                        <SortExpression>=Fields!Status.Value</SortExpression>
+                        <SortExpressionScope>table_Status</SortExpressionScope>
+                      </UserSort>
+                      <Value>Status</Value>
+                      <Style>
+                        <Color>White</Color>
+                        <BackgroundColor>#528ae7</BackgroundColor>
+                        <FontSize>8pt</FontSize>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <BorderColor>
+                          <Default>#c0c0c0</Default>
+                        </BorderColor>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                        <Language>en-US</Language>
+                      </Style>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="xSalesOpportunities_Header">
+                      <CanGrow>true</CanGrow>
+                      <UserSort>
+                        <SortExpression>=Fields!xSalesOpportunities_Count.Value</SortExpression>
+                        <SortExpressionScope>table_Status</SortExpressionScope>
+                      </UserSort>
+                      <Value># Sales Opportunities</Value>
+                      <Style>
+                        <Color>White</Color>
+                        <BackgroundColor>#528ae7</BackgroundColor>
+                        <FontSize>8pt</FontSize>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <BorderColor>
+                          <Default>#c0c0c0</Default>
+                        </BorderColor>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                        <Language>en-US</Language>
+                      </Style>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="TotalRevenue_Header">
+                      <CanGrow>true</CanGrow>
+                      <UserSort>
+                        <SortExpression>=Fields!TotalRevenue_Sum.Value</SortExpression>
+                        <SortExpressionScope>table_Status</SortExpressionScope>
+                      </UserSort>
+                      <Value>Total Revenue</Value>
+                      <Style>
+                        <Color>White</Color>
+                        <BackgroundColor>#528ae7</BackgroundColor>
+                        <FontSize>8pt</FontSize>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <BorderColor>
+                          <Default>#c0c0c0</Default>
+                        </BorderColor>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                        <Language>en-US</Language>
+                      </Style>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.47179in</Height>
+            </TableRow>
+          </TableRows>
+          <RepeatOnNewPage>true</RepeatOnNewPage>
+          <FixedHeader>true</FixedHeader>
+        </Header>
+        <Left>0.5in</Left>
+      </Table>
+      <Textbox Name="TotalRows">
+        <Left>0.5in</Left>
+        <Top>3in</Top>
+        <CanGrow>true</CanGrow>
+        <Width>6.5in</Width>
+        <Value>=String.Format("Total rows" &amp; Chr(58) &amp; " {0}", COUNTROWS("dataSet"))</Value>
+        <Style>
+          <FontSize>8pt</FontSize>
+          <PaddingLeft>3pt</PaddingLeft>
+          <PaddingRight>3pt</PaddingRight>
+          <PaddingTop>3pt</PaddingTop>
+          <PaddingBottom>3pt</PaddingBottom>
+        </Style>
+        <CustomProperties>
+          <CustomProperty>
+            <Name>rb:SpecialContent</Name>
+            <Value>TotalRows</Value>
+          </CustomProperty>
+        </CustomProperties>
+        <Height>0.25in</Height>
+      </Textbox>
+      <Textbox Name="FilterDescription">
+        <Left>0.5in</Left>
+        <Top>3.5in</Top>
+        <CanGrow>true</CanGrow>
+        <Width>6.5in</Width>
+        <Value>Filter: Sales Opportunity with: All of (Status Extra Data ≠ "CLOSED", Resolution Code 1 is empty, Assigned To Group Name in (prompted))</Value>
+        <Style>
+          <FontSize>8pt</FontSize>
+          <PaddingLeft>3pt</PaddingLeft>
+          <PaddingRight>3pt</PaddingRight>
+          <PaddingTop>3pt</PaddingTop>
+          <PaddingBottom>3pt</PaddingBottom>
+        </Style>
+        <CustomProperties>
+          <CustomProperty>
+            <Name>rb:SpecialContent</Name>
+            <Value>FilterDescription</Value>
+          </CustomProperty>
+        </CustomProperties>
+        <Height>0.5in</Height>
+      </Textbox>
+    </ReportItems>
+    <Style />
+  </Body>
+  <PageWidth>8.5in</PageWidth>
+</Report>

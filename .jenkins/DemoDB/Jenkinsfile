@@ -1,0 +1,37 @@
+#!/usr/bin/env groovy
+
+pipeline {
+    agent { 
+        label 'onyx-ansible' 
+    }
+    options { 
+        timestamps() 
+        timeout(time: 30, unit: 'MINUTES') 
+    }    
+    stages {        
+        stage('Restore Demo DB') {
+            steps {
+                dir(".jenkins/DemoDB") {
+                    withCredentials([
+                        string(credentialsId: 'onyx-ansible-vault-nonprod', variable: 'NONPROD_VAULT_SECRET')
+                    ]) {
+                        sh """
+                            echo '${NONPROD_VAULT_SECRET}' > nonprod.secret
+                            ansible-playbook \
+                                -vvvv onyx.yml \
+                                -i inventory.${ENV}.yml \
+                                --vault-id nonprod.secret \
+                                --extra-vars "host=${HOST}"
+                            rm nonprod.secret
+                        """
+                    }
+                }
+            }
+        }
+    }
+    post {
+        cleanup {
+            cleanWs()
+        }
+    }
+}

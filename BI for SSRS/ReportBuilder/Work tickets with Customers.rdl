@@ -1,0 +1,762 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2005/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <Language>en-US</Language>
+  <BottomMargin>0.5in</BottomMargin>
+  <RightMargin>0.5in</RightMargin>
+  <rd:GridSpacing>0.125in</rd:GridSpacing>
+  <DataSets>
+    <DataSet Name="dataSet">
+      <Query>
+        <DataSourceName>dataSource1</DataSourceName>
+        <CommandText>&lt;SemanticQuery xmlns="http://schemas.microsoft.com/sqlserver/2004/10/semanticmodeling" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rb="http://schemas.microsoft.com/sqlserver/2004/11/reportbuilder" xmlns:qd="http://schemas.microsoft.com/sqlserver/2004/11/semanticquerydesign"&gt;
+  &lt;Hierarchies&gt;
+    &lt;Hierarchy&gt;
+      &lt;BaseEntity&gt;
+        &lt;!--Work Ticket Association--&gt;
+        &lt;EntityID&gt;G21c9f24e-b06f-4f17-921f-5e12a323ab49&lt;/EntityID&gt;
+      &lt;/BaseEntity&gt;
+      &lt;Groupings&gt;
+        &lt;Grouping Name="Product"&gt;
+          &lt;Expression Name="Product"&gt;
+            &lt;Path&gt;
+              &lt;RolePathItem&gt;
+                &lt;!--Work Ticket--&gt;
+                &lt;RoleID&gt;Gf23639d0-fd55-49d8-8fe9-2dc14e34a492&lt;/RoleID&gt;
+              &lt;/RolePathItem&gt;
+              &lt;RolePathItem&gt;
+                &lt;!--Product--&gt;
+                &lt;RoleID&gt;G2ba052e1-f423-4f88-b19d-3306dffab90c&lt;/RoleID&gt;
+              &lt;/RolePathItem&gt;
+            &lt;/Path&gt;
+            &lt;AttributeRef&gt;
+              &lt;!--Incident Product Desc--&gt;
+              &lt;AttributeID&gt;Gb885da27-df85-4f8e-b2d8-09d8b4098454&lt;/AttributeID&gt;
+            &lt;/AttributeRef&gt;
+          &lt;/Expression&gt;
+        &lt;/Grouping&gt;
+        &lt;Grouping Name="Work Ticket"&gt;
+          &lt;Expression Name="Work Ticket"&gt;
+            &lt;Path&gt;
+              &lt;RolePathItem&gt;
+                &lt;!--Work Ticket--&gt;
+                &lt;RoleID&gt;Gf23639d0-fd55-49d8-8fe9-2dc14e34a492&lt;/RoleID&gt;
+              &lt;/RolePathItem&gt;
+            &lt;/Path&gt;
+            &lt;EntityRef&gt;
+              &lt;!--Work Ticket--&gt;
+              &lt;EntityID&gt;G48582bd8-d6cb-4aa3-b60e-b126adae8643&lt;/EntityID&gt;
+            &lt;/EntityRef&gt;
+          &lt;/Expression&gt;
+          &lt;Details&gt;
+            &lt;Expression Name="Status"&gt;
+              &lt;Path&gt;
+                &lt;RolePathItem&gt;
+                  &lt;!--Status--&gt;
+                  &lt;RoleID&gt;G543f6630-20f2-42dd-a97e-06aa07184f0a&lt;/RoleID&gt;
+                &lt;/RolePathItem&gt;
+              &lt;/Path&gt;
+              &lt;AttributeRef&gt;
+                &lt;!--Parameter Desc--&gt;
+                &lt;AttributeID&gt;G4087a5e0-3209-4db7-9c74-efb559284bc9&lt;/AttributeID&gt;
+              &lt;/AttributeRef&gt;
+            &lt;/Expression&gt;
+            &lt;Expression Name="Work Ticket ID"&gt;
+              &lt;AttributeRef&gt;
+                &lt;!--Work Ticket ID--&gt;
+                &lt;AttributeID&gt;G00822fa9-4e6b-49de-a584-bad07cb020ec&lt;/AttributeID&gt;
+              &lt;/AttributeRef&gt;
+            &lt;/Expression&gt;
+            &lt;Expression Name="Work Ticket (Owner) Work Ticket Description"&gt;
+              &lt;AttributeRef&gt;
+                &lt;!--Work Ticket Description--&gt;
+                &lt;AttributeID&gt;G1227d06c-63b5-4da6-b15f-70ba5d1c462f&lt;/AttributeID&gt;
+              &lt;/AttributeRef&gt;
+            &lt;/Expression&gt;
+          &lt;/Details&gt;
+        &lt;/Grouping&gt;
+        &lt;Grouping Name="Customers"&gt;
+          &lt;Expression Name="Customers"&gt;
+            &lt;Path&gt;
+              &lt;RolePathItem&gt;
+                &lt;!--Customers--&gt;
+                &lt;RoleID&gt;G3972f056-4ee1-4bc1-b2e0-9cc44864ec37&lt;/RoleID&gt;
+              &lt;/RolePathItem&gt;
+            &lt;/Path&gt;
+            &lt;EntityRef&gt;
+              &lt;!--Customer--&gt;
+              &lt;EntityID&gt;G749f6a4d-6fd5-47a5-bdb3-8d9427597271&lt;/EntityID&gt;
+            &lt;/EntityRef&gt;
+          &lt;/Expression&gt;
+          &lt;Details&gt;
+            &lt;Expression Name="Customer Name"&gt;
+              &lt;AttributeRef&gt;
+                &lt;!--Customer Name--&gt;
+                &lt;AttributeID&gt;Gfd860726-783a-4de6-83d5-de81cecf2131&lt;/AttributeID&gt;
+              &lt;/AttributeRef&gt;
+            &lt;/Expression&gt;
+            &lt;Expression Name="expr1"&gt;
+              &lt;AttributeRef&gt;
+                &lt;!--Customer ID--&gt;
+                &lt;AttributeID&gt;Gd2667718-e879-4a45-b8b6-915c7a75b2bd&lt;/AttributeID&gt;
+              &lt;/AttributeRef&gt;
+            &lt;/Expression&gt;
+          &lt;/Details&gt;
+        &lt;/Grouping&gt;
+      &lt;/Groupings&gt;
+      &lt;Filter&gt;
+        &lt;Expression Name="expr2"&gt;
+          &lt;Function&gt;
+            &lt;FunctionName&gt;Or&lt;/FunctionName&gt;
+            &lt;Arguments&gt;
+              &lt;Expression&gt;
+                &lt;Function&gt;
+                  &lt;FunctionName&gt;GreaterThan&lt;/FunctionName&gt;
+                  &lt;Arguments&gt;
+                    &lt;Expression&gt;
+                      &lt;Function&gt;
+                        &lt;FunctionName&gt;Aggregate&lt;/FunctionName&gt;
+                        &lt;Arguments&gt;
+                          &lt;Expression&gt;
+                            &lt;Path&gt;
+                              &lt;RolePathItem&gt;
+                                &lt;!--Customers--&gt;
+                                &lt;RoleID&gt;G3972f056-4ee1-4bc1-b2e0-9cc44864ec37&lt;/RoleID&gt;
+                              &lt;/RolePathItem&gt;
+                            &lt;/Path&gt;
+                            &lt;AttributeRef&gt;
+                              &lt;!--#Customers--&gt;
+                              &lt;AttributeID&gt;G29e1180c-2503-4ab2-a09f-c16b94d13a62&lt;/AttributeID&gt;
+                            &lt;/AttributeRef&gt;
+                          &lt;/Expression&gt;
+                        &lt;/Arguments&gt;
+                      &lt;/Function&gt;
+                    &lt;/Expression&gt;
+                    &lt;Expression&gt;
+                      &lt;Literal&gt;
+                        &lt;DataType&gt;Integer&lt;/DataType&gt;
+                        &lt;Value&gt;0&lt;/Value&gt;
+                      &lt;/Literal&gt;
+                    &lt;/Expression&gt;
+                  &lt;/Arguments&gt;
+                &lt;/Function&gt;
+                &lt;CustomProperties&gt;
+                  &lt;CustomProperty Name="qd:FilterCondition" /&gt;
+                &lt;/CustomProperties&gt;
+              &lt;/Expression&gt;
+              &lt;Expression&gt;
+                &lt;Function&gt;
+                  &lt;FunctionName&gt;Equals&lt;/FunctionName&gt;
+                  &lt;Arguments&gt;
+                    &lt;Expression&gt;
+                      &lt;Path&gt;
+                        &lt;RolePathItem&gt;
+                          &lt;!--Customers--&gt;
+                          &lt;RoleID&gt;G3972f056-4ee1-4bc1-b2e0-9cc44864ec37&lt;/RoleID&gt;
+                        &lt;/RolePathItem&gt;
+                        &lt;RolePathItem&gt;
+                          &lt;!--Customer Type--&gt;
+                          &lt;RoleID&gt;G19b91c71-ad5c-4e8a-9dc7-352f9663bc91&lt;/RoleID&gt;
+                        &lt;/RolePathItem&gt;
+                      &lt;/Path&gt;
+                      &lt;EntityRef&gt;
+                        &lt;!--Customer Type--&gt;
+                        &lt;EntityID&gt;Gd8b15ed5-7d9a-4405-b50b-1732ceb2ad00&lt;/EntityID&gt;
+                      &lt;/EntityRef&gt;
+                    &lt;/Expression&gt;
+                    &lt;Expression&gt;
+                      &lt;Literal&gt;
+                        &lt;DataType&gt;EntityKey&lt;/DataType&gt;
+                        &lt;Value&gt;AOWHAQABAAAABEVORyA=&lt;/Value&gt;
+                      &lt;/Literal&gt;
+                    &lt;/Expression&gt;
+                  &lt;/Arguments&gt;
+                &lt;/Function&gt;
+                &lt;CustomProperties&gt;
+                  &lt;CustomProperty Name="qd:FilterCondition" /&gt;
+                &lt;/CustomProperties&gt;
+              &lt;/Expression&gt;
+            &lt;/Arguments&gt;
+          &lt;/Function&gt;
+          &lt;CustomProperties&gt;
+            &lt;CustomProperty Name="qd:Filter" /&gt;
+            &lt;CustomProperty Name="qd:ContextEntityID"&gt;
+              &lt;Value xsi:type="xsd:string"&gt;G21c9f24e-b06f-4f17-921f-5e12a323ab49&lt;/Value&gt;
+            &lt;/CustomProperty&gt;
+            &lt;CustomProperty Name="qd:AutoChangeBaseEntity" /&gt;
+            &lt;CustomProperty Name="qd:Design"&gt;
+              &lt;Value xsi:type="xsd:string"&gt;expr3&lt;/Value&gt;
+            &lt;/CustomProperty&gt;
+          &lt;/CustomProperties&gt;
+        &lt;/Expression&gt;
+      &lt;/Filter&gt;
+    &lt;/Hierarchy&gt;
+  &lt;/Hierarchies&gt;
+&lt;/SemanticQuery&gt;</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="Product">
+          <DataField>Product</DataField>
+        </Field>
+        <Field Name="WorkTicket">
+          <DataField>Work Ticket</DataField>
+        </Field>
+        <Field Name="Status">
+          <DataField>Status</DataField>
+        </Field>
+        <Field Name="WorkTicketID">
+          <DataField>Work Ticket ID</DataField>
+        </Field>
+        <Field Name="WorkTicketOwnerWorkTicketDescription">
+          <DataField>Work Ticket (Owner) Work Ticket Description</DataField>
+        </Field>
+        <Field Name="Customers">
+          <DataField>Customers</DataField>
+        </Field>
+        <Field Name="CustomerName">
+          <DataField>Customer Name</DataField>
+        </Field>
+        <Field Name="expr1">
+          <DataField>expr1</DataField>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <DataSources>
+    <DataSource Name="dataSource1">
+      <DataSourceReference>/Models/OnyxOEDB</DataSourceReference>
+      <rd:DataSourceID>23da071c-0e9b-4112-9986-4fa4e6abd38e</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <PageHeight>11in</PageHeight>
+  <LeftMargin>0.5in</LeftMargin>
+  <TopMargin>0.5in</TopMargin>
+  <Width>7.5in</Width>
+  <Body>
+    <Height>0in</Height>
+    <ReportItems>
+      <Textbox Name="Title">
+        <Left>0.5in</Left>
+        <Top>0.5in</Top>
+        <CanGrow>true</CanGrow>
+        <Width>6.5in</Width>
+        <Value>Work Tickets with Linked Customers</Value>
+        <Style>
+          <FontSize>18pt</FontSize>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+          <FontFamily>Tahoma</FontFamily>
+        </Style>
+        <CustomProperties>
+          <CustomProperty>
+            <Name>rb:Watermark</Name>
+            <Value>Click to add title</Value>
+          </CustomProperty>
+        </CustomProperties>
+        <Height>0.5in</Height>
+      </Textbox>
+      <Table Name="table">
+        <Top>1.5in</Top>
+        <TableGroups>
+          <TableGroup>
+            <Sorting>
+              <SortBy>
+                <SortExpression>=IIf(True, Fields!Product.Value, Nothing)</SortExpression>
+              </SortBy>
+            </Sorting>
+            <Grouping Name="table_Product">
+              <GroupExpressions>
+                <GroupExpression>=Fields!Product.Value</GroupExpression>
+              </GroupExpressions>
+            </Grouping>
+          </TableGroup>
+          <TableGroup>
+            <Sorting>
+              <SortBy>
+                <SortExpression>=IIf(True, Fields!WorkTicketID.Value, Nothing)</SortExpression>
+              </SortBy>
+              <SortBy>
+                <SortExpression>=IIf(True, Fields!WorkTicketOwnerWorkTicketDescription.Value, Nothing)</SortExpression>
+              </SortBy>
+            </Sorting>
+            <Grouping Name="table_WorkTicket">
+              <GroupExpressions>
+                <GroupExpression>=Fields!WorkTicket.Value</GroupExpression>
+              </GroupExpressions>
+            </Grouping>
+          </TableGroup>
+        </TableGroups>
+        <Details>
+          <TableRows>
+            <TableRow>
+              <TableCells>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="Product_Value">
+                      <DataElementOutput>Output</DataElementOutput>
+                      <CanGrow>true</CanGrow>
+                      <HideDuplicates>table_Product</HideDuplicates>
+                      <Value>=Fields!Product.Value</Value>
+                      <Style>
+                        <BackgroundColor>White</BackgroundColor>
+                        <FontSize>8pt</FontSize>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <BorderColor>
+                          <Default>#c0c0c0</Default>
+                        </BorderColor>
+                        <BorderStyle>
+                          <Left>Solid</Left>
+                          <Right>Solid</Right>
+                          <Bottom>=Iif( RowNumber("table_Product") = CountRows("table_Product"), "Solid", Nothing)</Bottom>
+                        </BorderStyle>
+                        <FontFamily>Tahoma</FontFamily>
+                        <Language>en-US</Language>
+                      </Style>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="Status_Value">
+                      <DataElementOutput>Output</DataElementOutput>
+                      <CanGrow>true</CanGrow>
+                      <HideDuplicates>table_WorkTicket</HideDuplicates>
+                      <Value>=Fields!Status.Value</Value>
+                      <Style>
+                        <BackgroundColor>White</BackgroundColor>
+                        <FontSize>8pt</FontSize>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <BorderColor>
+                          <Default>#c0c0c0</Default>
+                        </BorderColor>
+                        <BorderStyle>
+                          <Left>Solid</Left>
+                          <Right>Solid</Right>
+                          <Bottom>=Iif( RowNumber("table_WorkTicket") = CountRows("table_WorkTicket"), "Solid", Nothing)</Bottom>
+                        </BorderStyle>
+                        <FontFamily>Tahoma</FontFamily>
+                        <Language>en-US</Language>
+                      </Style>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="WorkTicketID_Value">
+                      <DataElementOutput>Output</DataElementOutput>
+                      <CanGrow>true</CanGrow>
+                      <HideDuplicates>table_WorkTicket</HideDuplicates>
+                      <Action>
+                        <Drillthrough>
+                          <ReportName>=DataSources!dataSource1.DataSourceReference</ReportName>
+                          <Parameters>
+                            <Parameter Name="rs:EntityID">
+                              <Value>G48582bd8-d6cb-4aa3-b60e-b126adae8643</Value>
+                            </Parameter>
+                            <Parameter Name="rs:DrillType">
+                              <Value>Detail</Value>
+                            </Parameter>
+                            <Parameter Name="rs:Command">
+                              <Value>Drillthrough</Value>
+                            </Parameter>
+                            <Parameter Name="DrillthroughSourceQuery">
+                              <Value>=DataSets!dataSet.RewrittenCommandText</Value>
+                            </Parameter>
+                            <Parameter Name="DrillthroughContext">
+                              <Value>=CreateDrillthroughContext()</Value>
+                            </Parameter>
+                          </Parameters>
+                        </Drillthrough>
+                      </Action>
+                      <Value>=Fields!WorkTicketID.Value</Value>
+                      <Style>
+                        <BackgroundColor>White</BackgroundColor>
+                        <FontSize>8pt</FontSize>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <BorderColor>
+                          <Default>#c0c0c0</Default>
+                        </BorderColor>
+                        <BorderStyle>
+                          <Left>Solid</Left>
+                          <Right>Solid</Right>
+                          <Bottom>=Iif( RowNumber("table_WorkTicket") = CountRows("table_WorkTicket"), "Solid", Nothing)</Bottom>
+                        </BorderStyle>
+                        <FontFamily>Tahoma</FontFamily>
+                        <Format>g</Format>
+                        <Language>en-US</Language>
+                      </Style>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="WorkTicketOwnerWorkTicketDescription_Value">
+                      <DataElementOutput>Output</DataElementOutput>
+                      <CanGrow>true</CanGrow>
+                      <HideDuplicates>table_WorkTicket</HideDuplicates>
+                      <Action>
+                        <Drillthrough>
+                          <ReportName>=DataSources!dataSource1.DataSourceReference</ReportName>
+                          <Parameters>
+                            <Parameter Name="rs:EntityID">
+                              <Value>G48582bd8-d6cb-4aa3-b60e-b126adae8643</Value>
+                            </Parameter>
+                            <Parameter Name="rs:DrillType">
+                              <Value>Detail</Value>
+                            </Parameter>
+                            <Parameter Name="rs:Command">
+                              <Value>Drillthrough</Value>
+                            </Parameter>
+                            <Parameter Name="DrillthroughSourceQuery">
+                              <Value>=DataSets!dataSet.RewrittenCommandText</Value>
+                            </Parameter>
+                            <Parameter Name="DrillthroughContext">
+                              <Value>=CreateDrillthroughContext()</Value>
+                            </Parameter>
+                          </Parameters>
+                        </Drillthrough>
+                      </Action>
+                      <Value>=Fields!WorkTicketOwnerWorkTicketDescription.Value</Value>
+                      <Style>
+                        <BackgroundColor>White</BackgroundColor>
+                        <FontSize>8pt</FontSize>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <BorderColor>
+                          <Default>#c0c0c0</Default>
+                        </BorderColor>
+                        <BorderStyle>
+                          <Left>Solid</Left>
+                          <Right>Solid</Right>
+                          <Bottom>=Iif( RowNumber("table_WorkTicket") = CountRows("table_WorkTicket"), "Solid", Nothing)</Bottom>
+                        </BorderStyle>
+                        <FontFamily>Tahoma</FontFamily>
+                        <Language>en-US</Language>
+                      </Style>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="CustomerName_Value">
+                      <DataElementOutput>Output</DataElementOutput>
+                      <CanGrow>true</CanGrow>
+                      <Action>
+                        <Drillthrough>
+                          <ReportName>=DataSources!dataSource1.DataSourceReference</ReportName>
+                          <Parameters>
+                            <Parameter Name="rs:EntityID">
+                              <Value>G749f6a4d-6fd5-47a5-bdb3-8d9427597271</Value>
+                            </Parameter>
+                            <Parameter Name="rs:DrillType">
+                              <Value>Detail</Value>
+                            </Parameter>
+                            <Parameter Name="rs:Command">
+                              <Value>Drillthrough</Value>
+                            </Parameter>
+                            <Parameter Name="DrillthroughSourceQuery">
+                              <Value>=DataSets!dataSet.RewrittenCommandText</Value>
+                            </Parameter>
+                            <Parameter Name="DrillthroughContext">
+                              <Value>=CreateDrillthroughContext()</Value>
+                            </Parameter>
+                          </Parameters>
+                        </Drillthrough>
+                      </Action>
+                      <Value>=Fields!CustomerName.Value</Value>
+                      <Style>
+                        <BackgroundColor>White</BackgroundColor>
+                        <FontSize>8pt</FontSize>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <BorderColor>
+                          <Default>#c0c0c0</Default>
+                        </BorderColor>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <FontFamily>Tahoma</FontFamily>
+                        <Language>en-US</Language>
+                      </Style>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.25in</Height>
+            </TableRow>
+          </TableRows>
+          <Grouping Name="table_Customers">
+            <GroupExpressions>
+              <GroupExpression>=Fields!Customers.Value</GroupExpression>
+            </GroupExpressions>
+          </Grouping>
+          <Sorting>
+            <SortBy>
+              <SortExpression>=IIf(True, Fields!expr1.Value, Nothing)</SortExpression>
+            </SortBy>
+            <SortBy>
+              <SortExpression>=IIf(True, Fields!CustomerName.Value, Nothing)</SortExpression>
+            </SortBy>
+          </Sorting>
+        </Details>
+        <Style />
+        <Width>0in</Width>
+        <Height>0in</Height>
+        <NoRows>No data was found that matched your report criteria.</NoRows>
+        <DataSetName>dataSet</DataSetName>
+        <TableColumns>
+          <TableColumn>
+            <Width>1.84845in</Width>
+            <Visibility>
+              <Hidden>=Fields!Product.IsMissing</Hidden>
+            </Visibility>
+          </TableColumn>
+          <TableColumn>
+            <Width>0.99884in</Width>
+            <Visibility>
+              <Hidden>=Fields!Status.IsMissing</Hidden>
+            </Visibility>
+          </TableColumn>
+          <TableColumn>
+            <Width>0.80034in</Width>
+            <Visibility>
+              <Hidden>=Fields!WorkTicketID.IsMissing</Hidden>
+            </Visibility>
+          </TableColumn>
+          <TableColumn>
+            <Width>2.35822in</Width>
+            <Visibility>
+              <Hidden>=Fields!WorkTicketOwnerWorkTicketDescription.IsMissing</Hidden>
+            </Visibility>
+          </TableColumn>
+          <TableColumn>
+            <Width>1.73517in</Width>
+            <Visibility>
+              <Hidden>=Fields!CustomerName.IsMissing</Hidden>
+            </Visibility>
+          </TableColumn>
+        </TableColumns>
+        <Header>
+          <TableRows>
+            <TableRow>
+              <TableCells>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="Product_Header">
+                      <CanGrow>true</CanGrow>
+                      <UserSort>
+                        <SortExpression>=Fields!Product.Value</SortExpression>
+                        <SortExpressionScope>table_Product</SortExpressionScope>
+                      </UserSort>
+                      <Value>Product</Value>
+                      <Style>
+                        <Color>White</Color>
+                        <BackgroundColor>#528ae7</BackgroundColor>
+                        <FontSize>8pt</FontSize>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <BorderColor>
+                          <Default>#c0c0c0</Default>
+                        </BorderColor>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                        <Language>en-US</Language>
+                      </Style>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="Status_Header">
+                      <CanGrow>true</CanGrow>
+                      <UserSort>
+                        <SortExpression>=Fields!Status.Value</SortExpression>
+                        <SortExpressionScope>table_WorkTicket</SortExpressionScope>
+                      </UserSort>
+                      <Value>Status</Value>
+                      <Style>
+                        <Color>White</Color>
+                        <BackgroundColor>#528ae7</BackgroundColor>
+                        <FontSize>8pt</FontSize>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <BorderColor>
+                          <Default>#c0c0c0</Default>
+                        </BorderColor>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                        <Language>en-US</Language>
+                      </Style>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="WorkTicketID_Header">
+                      <CanGrow>true</CanGrow>
+                      <UserSort>
+                        <SortExpression>=Fields!WorkTicketID.Value</SortExpression>
+                        <SortExpressionScope>table_WorkTicket</SortExpressionScope>
+                      </UserSort>
+                      <Value>Work Ticket ID</Value>
+                      <Style>
+                        <Color>White</Color>
+                        <BackgroundColor>#528ae7</BackgroundColor>
+                        <FontSize>8pt</FontSize>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <BorderColor>
+                          <Default>#c0c0c0</Default>
+                        </BorderColor>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                        <Language>en-US</Language>
+                      </Style>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="WorkTicketOwnerWorkTicketDescription_Header">
+                      <CanGrow>true</CanGrow>
+                      <UserSort>
+                        <SortExpression>=Fields!WorkTicketOwnerWorkTicketDescription.Value</SortExpression>
+                        <SortExpressionScope>table_WorkTicket</SortExpressionScope>
+                      </UserSort>
+                      <Value>Work Ticket (Owner) Work Ticket Description</Value>
+                      <Style>
+                        <Color>White</Color>
+                        <BackgroundColor>#528ae7</BackgroundColor>
+                        <FontSize>8pt</FontSize>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <BorderColor>
+                          <Default>#c0c0c0</Default>
+                        </BorderColor>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                        <Language>en-US</Language>
+                      </Style>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="CustomerName_Header">
+                      <CanGrow>true</CanGrow>
+                      <UserSort>
+                        <SortExpression>=Fields!CustomerName.Value</SortExpression>
+                        <SortExpressionScope>table_Customers</SortExpressionScope>
+                      </UserSort>
+                      <Value>Customer Name</Value>
+                      <Style>
+                        <Color>White</Color>
+                        <BackgroundColor>#528ae7</BackgroundColor>
+                        <FontSize>8pt</FontSize>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                        <BorderColor>
+                          <Default>#c0c0c0</Default>
+                        </BorderColor>
+                        <BorderStyle>
+                          <Default>Solid</Default>
+                        </BorderStyle>
+                        <FontFamily>Tahoma</FontFamily>
+                        <FontWeight>Bold</FontWeight>
+                        <Language>en-US</Language>
+                      </Style>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.47179in</Height>
+            </TableRow>
+          </TableRows>
+          <RepeatOnNewPage>true</RepeatOnNewPage>
+          <FixedHeader>true</FixedHeader>
+        </Header>
+        <Left>0.5in</Left>
+      </Table>
+      <Textbox Name="TotalRows">
+        <Left>0in</Left>
+        <Top>0in</Top>
+        <CanGrow>true</CanGrow>
+        <Width>6.5in</Width>
+        <Value>=String.Format("Total rows" &amp; Chr(58) &amp; " {0}", COUNTROWS("dataSet"))</Value>
+        <Style>
+          <FontSize>8pt</FontSize>
+          <PaddingLeft>3pt</PaddingLeft>
+          <PaddingRight>3pt</PaddingRight>
+          <PaddingTop>3pt</PaddingTop>
+          <PaddingBottom>3pt</PaddingBottom>
+        </Style>
+        <CustomProperties>
+          <CustomProperty>
+            <Name>rb:SpecialContent</Name>
+            <Value>TotalRows</Value>
+          </CustomProperty>
+        </CustomProperties>
+        <Height>0.25in</Height>
+      </Textbox>
+      <Textbox Name="FilterDescription">
+        <Left>0in</Left>
+        <Top>0.25in</Top>
+        <CanGrow>true</CanGrow>
+        <Width>6.5in</Width>
+        <Value>Filter: Work Ticket Association with: Any of (#Customers &gt; 0, Customer Type = Customer)</Value>
+        <Style>
+          <FontSize>8pt</FontSize>
+          <PaddingLeft>3pt</PaddingLeft>
+          <PaddingRight>3pt</PaddingRight>
+          <PaddingTop>3pt</PaddingTop>
+          <PaddingBottom>3pt</PaddingBottom>
+        </Style>
+        <CustomProperties>
+          <CustomProperty>
+            <Name>rb:SpecialContent</Name>
+            <Value>FilterDescription</Value>
+          </CustomProperty>
+        </CustomProperties>
+        <Height>0.25in</Height>
+      </Textbox>
+    </ReportItems>
+    <Style />
+  </Body>
+  <PageWidth>8.5in</PageWidth>
+</Report>

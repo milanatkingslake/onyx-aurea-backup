@@ -1,0 +1,167 @@
+pipeline { 
+	agent {
+		node {
+			label "onyx-rc"
+			customWorkspace "e:/ws/${BRANCH_NAME}/${BUILD_NUMBER}"
+		}
+	}
+	options {
+		timestamps()
+       	timeout(time: 2, unit: 'HOURS') 
+   	}
+    environment {
+        BUILD_ZERO_PAD=String.format('%05d',"${BUILD_NUMBER}".toInteger())
+        VERSION = "${RELEASE_NUMBER}.${BUILD_ZERO_PAD}"
+        ONYX_PACKAGED=".jenkins/installers/${VERSION}.zip"
+        ONYX_INSTALLERS="./.jenkins/installers/packages"
+        CUSTOM_WS="e:\\ws\\${BRANCH_NAME}\\${BUILD_NUMBER}" 
+        STAGING_AREA="c:/StageingPhase7.9"
+        PREVIOUS_VERSIONS="e:\\installers\\PreviousOnyxVersion"
+    }
+	stages {
+		stage('Build') {
+			when {
+				expression {
+					return "${DO_BUILD}".toBoolean() == true
+				}
+	        }			
+            steps {
+                script {
+			        currentBuild.description = "Branch: ${BRANCH_NAME}<br>Env: ${ENV}"
+			    }
+                
+			    dir('.jenkins/scripts') {
+                    devfactory (portfolio: 'Avolin', product: 'Onyx', types: 'generic', languages: 'C_CPP,JS', processTests: false, scmRelativeDir: '../..') {
+                        bat "powershell.exe -NonInteractive -ExecutionPolicy Bypass -Command .\\CompileGroups.ps1"
+                    }
+			    }
+			}
+		}
+		stage('Run Unit-Tests') {
+			steps {
+                devfactory (portfolio: 'Avolin', product: 'Onyx', types: '.Net', processTests: true) {
+                    //bat "powershell.exe -NonInteractive -ExecutionPolicy Bypass -Command .\\.jenkins\\scripts\\UTWithCoverage\\UTWithCoverage.ps1"
+                    bat "powershell.exe -NonInteractive -ExecutionPolicy Bypass -Command .\\.jenkins\\scripts\\UTWithCoverage\\HUTWithCoverage.ps1"
+                }
+			}
+		}        
+        stage('Copy artifacts to staging area') {
+            steps {
+			    dir('.jenkins/scripts') {
+                    echo "Running CopyToStagingArea.js..."
+                    bat "CScript.exe CopyToStagingArea.js ${CUSTOM_WS} ${STAGING_AREA}"
+                    echo "Running CopyOEPWToStagingArea.bat..."
+                    bat "CopyOEPWToStagingArea.bat ${CUSTOM_WS} ${STAGING_AREA}"
+                    echo "Running CopyToStagingArea2.bat..."
+                    bat "CopyToStagingArea2.bat ${CUSTOM_WS} ${STAGING_AREA}"
+			    }
+            }
+        }
+        stage('Copy previous versions') {
+            steps {
+                bat "xcopy ${PREVIOUS_VERSIONS} .\\installers\\ /s /e"
+            }
+        }
+        stage('Generate Installers') {
+            steps {
+                dir ('./Installers/BuildScripts') {
+                    echo "Starting to generate installers..."
+                    bat """
+                        SET BUILDVERSION=${VERSION}
+                        All2014InstallerSolution.bat
+                        if %errorlevel% NEQ 0 exit 1
+                    """
+                    echo "Installers generation finished"
+                }                
+            }
+        }
+        stage('Copy installation files to the final folder') {
+            steps {
+                echo "Copy EXE to Platform Components"
+                bat ".\\.jenkins\\scripts\\CopyInstallers.bat ${CUSTOM_WS} ${ONYX_INSTALLERS}"
+            }
+        }
+        stage('Zip Installers') {
+            steps {
+                echo "Compressing '${ONYX_INSTALLERS}' to ${ONYX_PACKAGED}"
+                zip archive: true, dir: "${ONYX_INSTALLERS}", glob: '', zipFile: "${ONYX_PACKAGED}"
+            }
+        }
+        stage('Upload to Nexus') {
+			when {
+				expression {
+					return "${DO_UPLOAD_NEXUS}".toBoolean() == true
+				}
+	        }
+            steps {
+                withCredentials([[
+                    $class : 'UsernamePasswordMultiBinding', credentialsId: 'central.jnk.nexus',
+                    usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD'
+                ]]) {
+                    echo "Uploading '${ONYX_PACKAGED}' to 'nexus.devfactory.com/repository/${NEXUS_REPO}/${VERSION}/'"
+                    bat """
+                        curl --show-error --fail -k -X PUT -s -S -u "$USERNAME:$PASSWORD" --upload-file "${ONYX_PACKAGED}" "https://nexus.devfactory.com/repository/${NEXUS_REPO}/${ENV}/${VERSION}/"
+                    """
+                    echo "Generating latext.txt with ${VERSION}"
+                    writeFile file: "latest.txt", text: "${VERSION}", encoding: "UTF-8"
+                    echo "Uploading latext.txt with ${VERSION} to 'nexus.devfactory.com/repository/${NEXUS_REPO}/'"
+                    bat """
+                        curl --show-error --fail -k -X PUT -s -S -u "$USERNAME:$PASSWORD" --upload-file "latest.txt" "https://nexus.devfactory.com/repository/${NEXUS_REPO}/${ENV}/"
+                    """
+                }
+                echo "Deleting localy generated installers and zips as we don't need them anymore on this machine..."
+                bat "rmdir .\\.jenkins\\installers /s /q"
+            }
+        }
+		stage('Restore Demo DB') {
+			when {
+				expression {
+					return "${RESTORE_DEMO_DB}".toBoolean() == true
+				}
+	        }			
+            steps {
+			    build job: 'Avolin/Onyx/Restore Demo Database/avolin-onyx-restoredb', parameters: [
+                                    [$class: 'StringParameterValue', name: 'BRANCH_NAME', value: "${BRANCH_NAME}"],
+                                    [$class: 'StringParameterValue', name: 'ENV', value: "${ENV}"]
+                                ], wait: true
+			}
+		}
+        stage('Call deploy build') {
+            steps {
+                build job: 'Avolin/Onyx/Deploy/avolin-onyx-7.9', parameters: [
+                                    [$class: 'StringParameterValue', name: 'BRANCH_NAME', value: "${BRANCH_NAME}"],
+                                    [$class: 'StringParameterValue', name: 'ENV', value: "${ENV}"],
+                                    [$class: 'StringParameterValue', name: 'HOST', value: "${HOST}"],
+                                    [$class: 'StringParameterValue', name: 'NEXUS_REPO', value: "${NEXUS_REPO}"],
+                                    [$class: 'StringParameterValue', name: 'INSTALL_MODE', value: "${INSTALL_MODE}"]
+                                ], wait: true
+            }
+        }
+        stage('Health Check') {
+           steps {
+                  build job: 'Avolin/Onyx/Onyx QA Automation Jobs/Health Test', wait: true				  
+           }
+       }
+       stage('Smoke Check') {
+           steps {
+                  build job: 'Avolin/Onyx/Onyx QA Automation Jobs/Smoke Test', wait: true
+           }
+       }
+       stage('Regression Check') {
+           steps {
+                  build job: 'Avolin/Onyx/Onyx QA Automation Jobs/Regression Test', wait: true, propagate: false
+           }
+       }
+	}
+
+   	post {
+		always {
+			step([
+				$class: 'MSTestPublisher',
+				testResultsFile: 'buildlogs/HUTresults/vstestlog/*.trx',
+				failOnError: false,
+				keepLongStdio: true
+    		])            
+		}
+	}
+}

@@ -1,0 +1,78 @@
+pipeline { 
+	agent {
+		node {
+			label "onyx-windows"
+			customWorkspace "e:/ws/${BRANCH_NAME}/${BUILD_NUMBER}"
+		}
+	}
+
+  // We  started to create a debug build for Onyx, but it does not work still, so we disable it 
+  // just to make things simpler
+  parameters {
+		  booleanParam(name: 'run_auto_ut', description: 'Run automatic UT (AUT)', defaultValue: false)
+		  booleanParam(name: 'run_manual_ut', description: 'Run hand written UT', defaultValue: true)
+		  booleanParam(name: 'buildCoreOEAS', description: 'Build Core OEAS', defaultValue: false)
+	}
+
+	options {
+		timestamps()
+       	timeout(time: 1, unit: 'HOURS') 
+   	}
+	stages {
+		stage('Build') {
+			steps {
+			    dir('.jenkins/scripts') {
+                    bat "powershell.exe -NonInteractive -ExecutionPolicy Bypass -Command .\\CompileGroups.ps1 -buildCoreOEAS ${params.buildCoreOEAS}"
+			    }
+			}
+		}
+    stage('Run Unit-Tests') {
+      steps {
+        bat "powershell.exe -NonInteractive -ExecutionPolicy Bypass -Command .\\.jenkins\\scripts\\UTWithCoverage\\UTWithCoverage.ps1  -run_auto_ut ${params.run_auto_ut} -run_manual_ut ${params.run_manual_ut}"
+        publishHTML(target: [
+          allowMissing         : false,
+          alwaysLinkToLastBuild: false,
+          keepAll              : true,
+          reportDir            : 'buildlogs/UTresults/coverage-reports',
+          reportFiles          : 'summary.htm',
+          reportName           : "AUTO UT Coverage"
+       ])
+	   
+	   bat "powershell.exe -NonInteractive -ExecutionPolicy Bypass -Command .\\.jenkins\\scripts\\UTWithCoverage\\HUTWithCoverage.ps1  -run_auto_ut ${params.run_auto_ut} -run_manual_ut ${params.run_manual_ut}"
+        publishHTML(target: [
+          allowMissing         : false,
+          alwaysLinkToLastBuild: false,
+          keepAll              : true,
+          reportDir            : 'buildlogs/HUTresults/coverage-reports',
+          reportFiles          : 'summary.htm',
+          reportName           : "HUT Coverage"
+       ])
+       }		
+    }
+  }
+	post {
+		always {					
+			script {
+                def committerDetails = bat ( 
+                    script: 'git --no-pager show -s --format=%%ae', 
+                    returnStdout: true
+                )
+
+                def arr = committerDetails.tokenize('\n')
+                def committerEmail = arr[2].trim()
+				bat "echo Committer email: ${committerEmail}"
+				step([$class: 'Mailer',
+					recipients: "${committerEmail}",
+					notifyEveryUnstableBuild: true
+				])
+			}
+
+			step([
+				$class: 'MSTestPublisher',
+				testResultsFile: 'buildlogs/HUTresults/vstestlog/*.trx',
+				failOnError: false,
+				keepLongStdio: true
+    		])            
+		}
+	}
+}

@@ -1,0 +1,38 @@
+- name: Onyx Deployment
+  hosts: "{{ host | default('all')}}"
+  tasks:
+    - name: Close previous msiexec instances
+      win_shell: taskkill /F /IM msiexec.exe /FI "STATUS eq UNKNOWN"
+    - name: Cleanup previous installers
+      win_file:
+        path: c:\installers
+        state: absent
+    - name: Copy zip Installers
+      win_copy:
+        src: ../../onyx-installers.zip
+        dest: c:\installers\
+    - name: Copy Scripts
+      win_copy:
+        src: "{{ item }}"
+        dest: c:\installers\
+      with_items:
+        - ../../latest.txt
+        - ../scripts/OnyxClientSilentInstaller.vbs
+        - ../scripts/OnyxSilentInstaller.vbs
+        - ../scripts/CloseLockedFile.ps1
+        - ../scripts/OnyxClientSilentInstaller.vbs
+    - name: Copy StartDeploy Scripts
+      win_copy:
+        src: "{{ item }}"
+        dest: c:\installers\
+      with_fileglob:
+        - ../scripts/StartDeploy.*.ps1
+    - name: Unzip Installers
+      win_unzip:
+        src: c:\installers\onyx-installers.zip
+        dest: c:\installers
+        delete_archive: yes
+    - name: Run close locked file
+      win_shell: c:/installers/CloseLockedFile.ps1
+    - name: Run silent installer script
+      win_shell: c:/installers/StartDeploy.{{ env }}.ps1 {{ host_type |  default('server') }} {{ install_mode |  default('Production') }} {{ setup_oeas |  default('False') }} {{ setup_ofa |  default('False') }}

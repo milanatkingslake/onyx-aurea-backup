@@ -1,0 +1,51 @@
+#!/usr/bin/env groovy
+
+pipeline {
+    agent { 
+        label 'onyx-ansible' 
+    }
+    options { 
+        timestamps() 
+        timeout(time: 90, unit: 'MINUTES') 
+    }
+    stages {
+        stage('Download From Nexus') {
+            steps {
+                echo 'Check latest version and download from Nexus'
+                sh '''
+                    echo Downloading latest.txt
+                    curl -k -f https://nexus.devfactory.com/repository/${NEXUS_REPO}/${ENV}/latest.txt -o latest.txt
+                    
+                    latest=$(cat latest.txt)
+                    echo Downloading ${latest}
+
+                    curl -k -f https://nexus.devfactory.com/repository/${NEXUS_REPO}/${ENV}/${latest}/${latest}.zip -o onyx-installers.zip
+                '''
+            }
+        }
+        stage('Deploy') {
+            steps {
+                dir(".jenkins/deploy") {
+                    withCredentials([
+                        string(credentialsId: 'onyx-ansible-vault-nonprod', variable: 'NONPROD_VAULT_SECRET')
+                    ]) {
+                        sh """
+                            echo '${NONPROD_VAULT_SECRET}' > nonprod.secret
+                            ansible-playbook \
+                                -vvvv onyx.yml \
+                                -i inventory.${ENV}.yml \
+                                --vault-id nonprod.secret \
+                                --extra-vars "install_mode=${INSTALL_MODE} setup_oeas=${SETUP_OEAS} setup_ofa=${SETUP_OFA} host=${HOST}"
+                            rm nonprod.secret
+                        """
+                    }
+                }
+            }
+        }
+    }
+    post {
+        cleanup {
+            cleanWs()
+        }
+    }
+}

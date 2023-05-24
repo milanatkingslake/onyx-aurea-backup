@@ -1,0 +1,39 @@
+pipeline { 
+	agent {
+		node {
+			label "onyx-mac"
+			customWorkspace "/users/administrator/jenkins/workspace/${BRANCH_NAME}/${BUILD_NUMBER}"
+		}
+	}
+	options {
+		timestamps()
+       	timeout(time: 1, unit: 'HOURS') 
+   	}
+	stages {
+		stage('Build') {
+			steps {	
+				dir('onyxmobile/ios/onyxmobile') {
+                    sh """
+						appc logout
+						appc run --platform ios -b -f --sdk 6.0.2.GA --username brittny.white@avolin.com --password avolin123
+					"""
+			    }   
+			}
+		}  		
+	}
+	post {
+        always {
+            script {
+                def comitterEmail = sh (
+                    script: "git rev-parse HEAD | git show --format='%ae' | grep -m1 ''",
+                    returnStdout: true
+                ).trim()
+                
+                step([$class: 'Mailer',
+                    recipients: "${comitterEmail}",
+                    notifyEveryUnstableBuild: true
+                ])
+            }            
+        }
+    }	
+}

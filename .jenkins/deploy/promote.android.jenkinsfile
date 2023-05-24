@@ -1,0 +1,50 @@
+#!/usr/bin/env groovy
+
+pipeline {
+    agent { 
+        label 'onyx-ansible' 
+    }
+    options { 
+        timestamps() 
+        timeout(time: 120, unit: 'MINUTES') 
+    }
+    environment {
+        SNAPSHOT_REPOSITORY="onyx-raw-snapshots"  
+        RELEASE_REPOSITORY="onyx-raw-releases"  
+    }
+    stages {
+        stage('Download From Nexus (snapshots repository)') {
+            steps {
+                echo 'Check latest version and download from Nexus'
+                sh '''
+                    echo Downloading latest.txt
+                    curl -k -f https://nexus.devfactory.com/repository/${SNAPSHOT_REPOSITORY}/AndroidMobileApp/${FROM_ENV}/latest.txt -o latest.txt
+                    
+                    latest=$(cat latest.txt)
+                    echo Downloading ${latest}
+
+                    curl -k -f https://nexus.devfactory.com/repository/${SNAPSHOT_REPOSITORY}/AndroidMobileApp/${FROM_ENV}/${latest}/OnyxMobile.apk -o ${PROD_RELEASE_NUMBER}.apk
+                '''
+            }
+        }
+		stage('Upload to Nexus (releases repository') {
+            steps {
+                withCredentials([[
+                    $class : 'UsernamePasswordMultiBinding', credentialsId: 'central.jnk.nexus',
+                    usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD'
+                ]]) {
+                    echo "Uploading package from ${FROM_ENV} to 'nexus.devfactory.com/repository/${RELEASE_REPOSITORY}/AndroidMobileApp/${PROD_ENV}/${PROD_RELEASE_NUMBER}.apk'"
+                    sh '''
+                        curl --show-error --fail -k -X PUT -s -S -u "$USERNAME:$PASSWORD" --upload-file "${PROD_RELEASE_NUMBER}.apk" "https://nexus.devfactory.com/repository/${RELEASE_REPOSITORY}/AndroidMobileApp/${PROD_ENV}/"
+                    '''
+                }
+            }
+        }
+
+    }
+    post {
+        cleanup {
+            cleanWs()
+        }
+    }
+}

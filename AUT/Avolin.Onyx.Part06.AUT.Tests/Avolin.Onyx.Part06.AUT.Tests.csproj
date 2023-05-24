@@ -1,0 +1,220 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\NUnit3TestAdapter.3.12.0\build\net35\NUnit3TestAdapter.props" Condition="Exists('..\packages\NUnit3TestAdapter.3.12.0\build\net35\NUnit3TestAdapter.props')" />
+  <Import Project="..\packages\NUnit.3.10.1\build\NUnit.props" Condition="Exists('..\packages\NUnit.3.10.1\build\NUnit.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FB0FF104-C747-4F21-941F-A0920B73CDFB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Avolin.Onyx.Part06.AUT.Tests</RootNamespace>
+    <AssemblyName>Avolin.Onyx.Part06.AUT.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AUT.ConfigureTestProjects, Version=5.4.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AUT.ConfigureTestProjects.5.4.4\lib\net462\AUT.ConfigureTestProjects.dll</HintPath>
+    </Reference>
+    <Reference Include="AUT.TestProjects.GenV3, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AUT.TestProjects.GenV3.1.4.0\lib\net452\AUT.TestProjects.GenV3.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoFixture, Version=4.5.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoFixture.4.5.0\lib\net452\AutoFixture.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoFixture.AutoMoq, Version=4.5.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoFixture.AutoMoq.4.5.0\lib\net452\AutoFixture.AutoMoq.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoFixture.NUnit3, Version=4.5.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoFixture.NUnit3.4.5.0\lib\net452\AutoFixture.NUnit3.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.4.3.1\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="CMService">
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\CMService.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Fare, Version=2.1.0.0, Culture=neutral, PublicKeyToken=ea68d375bf33a7c8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Fare.2.1.1\lib\net35\Fare.dll</HintPath>
+    </Reference>
+    <Reference Include="GemBox.Document">
+      <HintPath>..\..\OEAS\LBOAdapters\BuildScripts\Output\GemBox.Document.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq, Version=4.10.0.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\packages\Moq.4.10.0\lib\net45\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=3.10.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.10.1\lib\net45\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.Ucf.Common">
+      <HintPath>..\..\OEP_UI\Online\source\LanguageIndependent\DLLs\ucf\BuildScripts\Output\Onyx.Ucf.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.Ucf.DeltaMerge">
+      <HintPath>..\..\OEP_UI\Online\source\LanguageIndependent\DLLs\ucf\BuildScripts\Output\Onyx.Ucf.DeltaMerge.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.Ucf.DeltaMergeAsp">
+      <HintPath>..\..\OEP_UI\Online\source\LanguageIndependent\DLLs\ucf\BuildScripts\Output\Onyx.Ucf.DeltaMergeAsp.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.Ucf.MergePersist">
+      <HintPath>..\..\OEP_UI\Online\source\LanguageIndependent\DLLs\ucf\UcfDynamicForms\BuildScripts\Output\Onyx.Ucf.MergePersist.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.Ucf.ScriptCreator">
+      <HintPath>..\..\OEP_UI\Online\source\LanguageIndependent\DLLs\ucf\UcfDeltaMerge\BuildScripts\Output\Onyx.Ucf.ScriptCreator.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.Ucf.ScriptCreatorAsp">
+      <HintPath>..\..\OEP_UI\Online\source\LanguageIndependent\DLLs\ucf\UcfDynamicForms\BuildScripts\Output\Onyx.Ucf.ScriptCreatorAsp.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxAuthenticatePIA, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxAuthenticatePIA.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxAuthNTPIA, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxAuthNTPIA.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxGetAppDataPIA, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\OEAS\LBOAdapters\BuildScripts\Output\OnyxGetAppDataPIA.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxISAPI">
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxISAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxLogPIA, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\OEAS\LBOAdapters\BuildScripts\Output\OnyxLogPIA.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxMessageSubsystem, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxMessageSubsystem.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxOEASService, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxOEASService.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxQASIntegration, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxQASIntegration.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxSDK.Public.OGSOEASServiceContract">
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxSDK.Public.OGSOEASServiceContract.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxSMPIA, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxSMPIA.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxSocial, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxSocial.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxTMPIA, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxTMPIA.dll</HintPath>
+    </Reference>
+    <Reference Include="PasswordEncryptLibrary, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\PasswordEncryptLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Service">
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\Service.dll</HintPath>
+    </Reference>
+    <Reference Include="Shouldly, Version=3.0.0.0, Culture=neutral, PublicKeyToken=6042cbcb05cbc941, processorArchitecture=MSIL">
+      <HintPath>..\packages\Shouldly.3.0.0\lib\net451\Shouldly.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.1\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UcfDeltaMergeHarness">
+      <HintPath>..\..\OEP_UI\Online\source\LanguageIndependent\DLLs\ucf\UcfDeltaMerge\BuildScripts\Output\UcfDeltaMergeHarness.exe</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Ucf\ConstantsTest.cs" />
+    <Compile Include="Ucf\DeltaMergeAspComWrapperTest.cs" />
+    <Compile Include="Ucf\DeltaMergeAspTest.cs" />
+    <Compile Include="Ucf\DeltaMergeCompileTest.cs" />
+    <Compile Include="Ucf\DeltaMergeIncludeHelperTest.cs" />
+    <Compile Include="Ucf\DeltaMergePersistTest.cs" />
+    <Compile Include="Ucf\FormMainDesignerTest.cs" />
+    <Compile Include="Ucf\FormMainTest.cs" />
+    <Compile Include="Ucf\LoggerTest.cs" />
+    <Compile Include="Ucf\OnyxResourceManagerTest.cs" />
+    <Compile Include="Ucf\PageContextTest.cs" />
+    <Compile Include="Ucf\ProgramTest.cs" />
+    <Compile Include="Ucf\Properties\ResourcesDesignerTest.cs" />
+    <Compile Include="Ucf\Properties\SettingsDesignerTest.cs" />
+    <Compile Include="Ucf\ResourceLockerTest.cs" />
+    <Compile Include="Ucf\ScriptCreatorErrorCollectionTest.cs" />
+    <Compile Include="Ucf\ScriptCreatorResourceDesignerTest.cs" />
+    <Compile Include="Ucf\UcfExceptionTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\NUnit.3.10.1\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit.3.10.1\build\NUnit.props'))" />
+    <Error Condition="!Exists('..\packages\NUnit3TestAdapter.3.12.0\build\net35\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit3TestAdapter.3.12.0\build\net35\NUnit3TestAdapter.props'))" />
+  </Target>
+</Project>

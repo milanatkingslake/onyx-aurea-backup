@@ -1,0 +1,968 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2005/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <Language>en-US</Language>
+  <BottomMargin>0.5in</BottomMargin>
+  <RightMargin>0.5in</RightMargin>
+  <rd:GridSpacing>0.125in</rd:GridSpacing>
+  <DataSets>
+    <DataSet Name="dataSet">
+      <Query>
+        <DataSourceName>dataSource1</DataSourceName>
+        <CommandText>&lt;SemanticQuery xmlns="http://schemas.microsoft.com/sqlserver/2004/10/semanticmodeling" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rb="http://schemas.microsoft.com/sqlserver/2004/11/reportbuilder" xmlns:qd="http://schemas.microsoft.com/sqlserver/2004/11/semanticquerydesign"&gt;
+  &lt;Hierarchies&gt;
+    &lt;Hierarchy&gt;
+      &lt;BaseEntity&gt;
+        &lt;!--Sales Opportunity--&gt;
+        &lt;EntityID&gt;G7556bad9-7627-4c4e-9a03-8e4fa9eaad82&lt;/EntityID&gt;
+      &lt;/BaseEntity&gt;
+      &lt;Groupings&gt;
+        &lt;Grouping Name="Parent User Group"&gt;
+          &lt;Expression Name="Parent User Group"&gt;
+            &lt;Path&gt;
+              &lt;RolePathItem&gt;
+                &lt;!--Assigned To--&gt;
+                &lt;RoleID&gt;Gd43173be-e8a0-4aff-97d8-752938b15319&lt;/RoleID&gt;
+              &lt;/RolePathItem&gt;
+              &lt;RolePathItem&gt;
+                &lt;!--Group--&gt;
+                &lt;RoleID&gt;G89ca23c8-16ea-4c78-89ea-db640ebc15d2&lt;/RoleID&gt;
+              &lt;/RolePathItem&gt;
+              &lt;RolePathItem&gt;
+                &lt;!--Parent User Group--&gt;
+                &lt;RoleID&gt;Ga364e867-97d0-4b20-a242-835a661168ff&lt;/RoleID&gt;
+              &lt;/RolePathItem&gt;
+            &lt;/Path&gt;
+            &lt;EntityRef&gt;
+              &lt;!--User Group--&gt;
+              &lt;EntityID&gt;Ge293a8b5-4be2-4b35-8af4-83abf78189c1&lt;/EntityID&gt;
+            &lt;/EntityRef&gt;
+          &lt;/Expression&gt;
+          &lt;Details&gt;
+            &lt;Expression Name="Parent User Group1"&gt;
+              &lt;AttributeRef&gt;
+                &lt;!--Group Desc--&gt;
+                &lt;AttributeID&gt;G819cf1c6-d068-4eef-84fd-e6ad023c8c17&lt;/AttributeID&gt;
+              &lt;/AttributeRef&gt;
+            &lt;/Expression&gt;
+            &lt;Expression Name="expr2"&gt;
+              &lt;AttributeRef&gt;
+                &lt;!--Group Code--&gt;
+                &lt;AttributeID&gt;G4bea6241-7d8c-414d-8686-0cffdd2ad8ae&lt;/AttributeID&gt;
+              &lt;/AttributeRef&gt;
+            &lt;/Expression&gt;
+          &lt;/Details&gt;
+        &lt;/Grouping&gt;
+        &lt;Grouping Name="Group"&gt;
+          &lt;Expression Name="Group"&gt;
+            &lt;Path&gt;
+              &lt;RolePathItem&gt;
+                &lt;!--Assigned To--&gt;
+                &lt;RoleID&gt;Gd43173be-e8a0-4aff-97d8-752938b15319&lt;/RoleID&gt;
+              &lt;/RolePathItem&gt;
+              &lt;RolePathItem&gt;
+                &lt;!--Group--&gt;
+                &lt;RoleID&gt;G89ca23c8-16ea-4c78-89ea-db640ebc15d2&lt;/RoleID&gt;
+              &lt;/RolePathItem&gt;
+            &lt;/Path&gt;
+            &lt;EntityRef&gt;
+              &lt;!--User Group--&gt;
+              &lt;EntityID&gt;Ge293a8b5-4be2-4b35-8af4-83abf78189c1&lt;/EntityID&gt;
+            &lt;/EntityRef&gt;
+          &lt;/Expression&gt;
+          &lt;Details&gt;
+            &lt;Expression Name="User Group"&gt;
+              &lt;AttributeRef&gt;
+                &lt;!--Group Desc--&gt;
+                &lt;AttributeID&gt;G819cf1c6-d068-4eef-84fd-e6ad023c8c17&lt;/AttributeID&gt;
+              &lt;/AttributeRef&gt;
+            &lt;/Expression&gt;
+            &lt;Expression Name="expr3"&gt;
+              &lt;AttributeRef&gt;
+                &lt;!--Group Code--&gt;
+                &lt;AttributeID&gt;G4bea6241-7d8c-414d-8686-0cffdd2ad8ae&lt;/AttributeID&gt;
+              &lt;/AttributeRef&gt;
+            &lt;/Expression&gt;
+          &lt;/Details&gt;
+        &lt;/Grouping&gt;
+        &lt;Grouping Name="User"&gt;
+          &lt;Expression Name="User"&gt;
+            &lt;Path&gt;
+              &lt;RolePathItem&gt;
+                &lt;!--Assigned To--&gt;
+                &lt;RoleID&gt;Gd43173be-e8a0-4aff-97d8-752938b15319&lt;/RoleID&gt;
+              &lt;/RolePathItem&gt;
+            &lt;/Path&gt;
+            &lt;EntityRef&gt;
+              &lt;!--User--&gt;
+              &lt;EntityID&gt;G07cae74d-6f78-4f8a-8a4a-25cf99bd70aa&lt;/EntityID&gt;
+            &lt;/EntityRef&gt;
+          &lt;/Expression&gt;
+          &lt;Details&gt;
+            &lt;Expression Name="Assigned To Name"&gt;
+              &lt;AttributeRef&gt;
+                &lt;!--Name--&gt;
+                &lt;AttributeID&gt;G2aac49e0-e009-472e-9691-fab5a7c6a200&lt;/AttributeID&gt;
+              &lt;/AttributeRef&gt;
+            &lt;/Expression&gt;
+            &lt;Expression Name="expr4"&gt;
+              &lt;AttributeRef&gt;
+                &lt;!--User ID--&gt;
+                &lt;AttributeID&gt;G52697a0b-e5ed-47d5-b1ff-258da4706d15&lt;/AttributeID&gt;
+              &lt;/AttributeRef&gt;
+            &lt;/Expression&gt;
+          &lt;/Details&gt;
+        &lt;/Grouping&gt;
+        &lt;Grouping Name="Status"&gt;
+          &lt;Expression Name="Status"&gt;
+            &lt;Path&gt;
+              &lt;RolePathItem&gt;
+                &lt;!--Status--&gt;
+                &lt;RoleID&gt;Gdbeac45a-4408-4824-8d75-deb2389b6cd0&lt;/RoleID&gt;
+              &lt;/RolePathItem&gt;
+            &lt;/Path&gt;
+            &lt;EntityRef&gt;
+              &lt;!--Sales Opportunity Status--&gt;
+              &lt;EntityID&gt;G690eef50-453f-4dac-bd59-786e9a4dfdd7&lt;/EntityID&gt;
+            &lt;/EntityRef&gt;
+          &lt;/Expression&gt;
+          &lt;Details&gt;
+            &lt;Expression Name="Status2"&gt;
+              &lt;AttributeRef&gt;
+                &lt;!--Parameter Desc--&gt;
+                &lt;AttributeID&gt;Gc0d067ff-0427-4ba9-8636-0573da8ec12d&lt;/AttributeID&gt;
+              &lt;/AttributeRef&gt;
+            &lt;/Expression&gt;
+            &lt;Expression Name="expr5"&gt;
+              &lt;AttributeRef&gt;
+                &lt;!--Seq Num--&gt;
+                &lt;AttributeID&gt;G85106f6b-0b53-4230-a573-c4efc8f8f719&lt;/AttributeID&gt;
+              &lt;/AttributeRef&gt;
+            &lt;/Expression&gt;
+          &lt;/Details&gt;
+        &lt;/Grouping&gt;
+      &lt;/Groupings&gt;
+      &lt;Filter&gt;
+        &lt;Expression Name="expr6"&gt;
+          &lt;Function&gt;
+            &lt;FunctionName&gt;NotEquals&lt;/FunctionName&gt;
+            &lt;Arguments&gt;
+              &lt;Expression&gt;
+                &lt;Path&gt;
+                  &lt;RolePathItem&gt;
+                    &lt;!--Status--&gt;
+                    &lt;RoleID&gt;Gdbeac45a-4408-4824-8d75-deb2389b6cd0&lt;/RoleID&gt;
+                  &lt;/RolePathItem&gt;
+                &lt;/Path&gt;
+                &lt;AttributeRef&gt;
+                  &lt;!--Extra Data--&gt;
+                  &lt;AttributeID&gt;G748aa18a-7946-4392-a932-6ac6ad544e07&lt;/AttributeID&gt;
+                &lt;/AttributeRef&gt;
+              &lt;/Expression&gt;
+              &lt;Expression&gt;
+                &lt;Literal&gt;
+                  &lt;DataType&gt;String&lt;/DataType&gt;
+                  &lt;Value&gt;CLOSED&lt;/Value&gt;
+                &lt;/Literal&gt;
+              &lt;/Expression&gt;
+            &lt;/Arguments&gt;
+          &lt;/Function&gt;
+          &lt;CustomProperties&gt;
+            &lt;CustomProperty Name="qd:FilterCondition" /&gt;
+            &lt;CustomProperty Name="qd:Filter" /&gt;
+            &lt;CustomProperty Name="qd:ContextEntityID"&gt;
+              &lt;Value xsi:type="xsd:string"&gt;G7556bad9-7627-4c4e-9a03-8e4fa9eaad82&lt;/Value&gt;
+            &lt;/CustomProperty&gt;
+            &lt;CustomProperty Name="qd:AutoChangeBaseEntity" /&gt;
+            &lt;CustomProperty Name="qd:Design"&gt;
+              &lt;Value xsi:type="xsd:string"&gt;expr7&lt;/Value&gt;
+            &lt;/CustomProperty&gt;
+          &lt;/CustomProperties&gt;
+        &lt;/Expression&gt;
+      &lt;/Filter&gt;
+    &lt;/Hierarchy&gt;
+  &lt;/Hierarchies&gt;
+  &lt;MeasureGroups&gt;
+    &lt;MeasureGroup&gt;
+      &lt;BaseEntity&gt;
+        &lt;!--Sales Opportunity--&gt;
+        &lt;EntityID&gt;G7556bad9-7627-4c4e-9a03-8e4fa9eaad82&lt;/EntityID&gt;
+      &lt;/BaseEntity&gt;
+      &lt;Measures&gt;
+        &lt;Expression Name="# Sales Opportunities_Count"&gt;
+          &lt;Function&gt;
+            &lt;FunctionName&gt;Count&lt;/FunctionName&gt;
+            &lt;Arguments&gt;
+              &lt;Expression&gt;
+                &lt;EntityRef&gt;
+                  &lt;!--Sales Opportunity--&gt;
+                  &lt;EntityID&gt;G7556bad9-7627-4c4e-9a03-8e4fa9eaad82&lt;/EntityID&gt;
+                &lt;/EntityRef&gt;
+              &lt;/Expression&gt;
+            &lt;/Arguments&gt;
+          &lt;/Function&gt;
+          &lt;CustomProperties&gt;
+            &lt;CustomProperty Name="qd:Design"&gt;
+              &lt;Value xsi:type="xsd:string"&gt;# Sales Opportunities&lt;/Value&gt;
+            &lt;/CustomProperty&gt;
+          &lt;/CustomProperties&gt;
+        &lt;/Expression&gt;
+      &lt;/Measures&gt;
+    &lt;/MeasureGroup&gt;
+  &lt;/MeasureGroups&gt;
+  &lt;CalculatedAttributes&gt;
+    &lt;Expression Name="expr7"&gt;
+      &lt;Function&gt;
+        &lt;FunctionName&gt;And&lt;/FunctionName&gt;
+        &lt;Arguments&gt;
+          &lt;Expression&gt;
+            &lt;Function&gt;
+              &lt;FunctionName&gt;NotEquals&lt;/FunctionName&gt;
+              &lt;Arguments&gt;
+                &lt;Expression&gt;
+                  &lt;Path&gt;
+                    &lt;RolePathItem&gt;
+                      &lt;!--Status--&gt;
+                      &lt;RoleID&gt;Gdbeac45a-4408-4824-8d75-deb2389b6cd0&lt;/RoleID&gt;
+                    &lt;/RolePathItem&gt;
+                  &lt;/Path&gt;
+                  &lt;AttributeRef&gt;
+                    &lt;!--Extra Data--&gt;
+                    &lt;AttributeID&gt;G748aa18a-7946-4392-a932-6ac6ad544e07&lt;/AttributeID&gt;
+                  &lt;/AttributeRef&gt;
+                &lt;/Expression&gt;
+                &lt;Expression&gt;
+                  &lt;Literal&gt;
+                    &lt;DataType&gt;String&lt;/DataType&gt;
+                    &lt;Value&gt;CLOSED&lt;/Value&gt;
+                  &lt;/Literal&gt;
+                &lt;/Expression&gt;
+              &lt;/Arguments&gt;
+            &lt;/Function&gt;
+            &lt;CustomProperties&gt;
+              &lt;CustomProperty Name="qd:FilterCondition" /&gt;
+            &lt;/CustomProperties&gt;
+          &lt;/Expression&gt;
+          &lt;Expression&gt;
+            &lt;Null /&gt;
+            &lt;CustomProperties&gt;
+              &lt;CustomProperty Name="qd:Unspecified" /&gt;
+            &lt;/CustomProperties&gt;
+          &lt;/Expression&gt;
+        &lt;/Arguments&gt;
+      &lt;/Function&gt;
+      &lt;CustomProperties&gt;
+        &lt;CustomProperty Name="qd:Filter" /&gt;
+        &lt;CustomProperty Name="qd:ContextEntityID"&gt;
+          &lt;Value xsi:type="xsd:string"&gt;G7556bad9-7627-4c4e-9a03-8e4fa9eaad82&lt;/Value&gt;
+        &lt;/CustomProperty&gt;
+        &lt;CustomProperty Name="qd:AutoChangeBaseEntity" /&gt;
+      &lt;/CustomProperties&gt;
+    &lt;/Expression&gt;
+    &lt;Expression Name="# Sales Opportunities"&gt;
+      &lt;AttributeRef&gt;
+        &lt;!--# Sales Opportunities--&gt;
+        &lt;AttributeID&gt;Gb7e7f0a2-a8ff-4cf8-8009-1b07d0fdc6a3&lt;/AttributeID&gt;
+      &lt;/AttributeRef&gt;
+      &lt;CustomProperties&gt;
+        &lt;CustomProperty Name="qd:ContextEntityID"&gt;
+          &lt;Value xsi:type="xsd:string"&gt;G7556bad9-7627-4c4e-9a03-8e4fa9eaad82&lt;/Value&gt;
+        &lt;/CustomProperty&gt;
+      &lt;/CustomProperties&gt;
+    &lt;/Expression&gt;
+  &lt;/CalculatedAttributes&gt;
+&lt;/SemanticQuery&gt;</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="ParentUserGroup">
+          <DataField>Parent User Group</DataField>
+        </Field>
+        <Field Name="ParentUserGroup1">
+          <DataField>Parent User Group1</DataField>
+        </Field>
+        <Field Name="expr2">
+          <DataField>expr2</DataField>
+        </Field>
+        <Field Name="Group">
+          <DataField>Group</DataField>
+        </Field>
+        <Field Name="UserGroup">
+          <DataField>User Group</DataField>
+        </Field>
+        <Field Name="expr3">
+          <DataField>expr3</DataField>
+        </Field>
+        <Field Name="User">
+          <DataField>User</DataField>
+        </Field>
+        <Field Name="AssignedToName">
+          <DataField>Assigned To Name</DataField>
+        </Field>
+        <Field Name="expr4">
+          <DataField>expr4</DataField>
+        </Field>
+        <Field Name="Status">
+          <DataField>Status</DataField>
+        </Field>
+        <Field Name="Status2">
+          <DataField>Status2</DataField>
+        </Field>
+        <Field Name="expr5">
+          <DataField>expr5</DataField>
+        </Field>
+        <Field Name="xSalesOpportunities_Count">
+          <DataField># Sales Opportunities_Count</DataField>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <DataSources>
+    <DataSource Name="dataSource1">
+      <DataSourceReference>/Models/OnyxOEDB</DataSourceReference>
+      <rd:DataSourceID>cdffc9df-0119-4e41-99ee-898cca6f2685</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <PageHeight>11in</PageHeight>
+  <LeftMargin>0.5in</LeftMargin>
+  <TopMargin>0.5in</TopMargin>
+  <Width>7.5in</Width>
+  <Body>
+    <Height>0in</Height>
+    <ReportItems>
+      <Textbox Name="Title">
+        <Left>0.5in</Left>
+        <Top>0.5in</Top>
+        <CanGrow>true</CanGrow>
+        <Width>6.5in</Width>
+        <Value>Enterprise Pipeline Report - Matrix</Value>
+        <Style>
+          <FontSize>18pt</FontSize>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+          <FontFamily>Tahoma</FontFamily>
+        </Style>
+        <CustomProperties>
+          <CustomProperty>
+            <Name>rb:Watermark</Name>
+            <Value>Click to add title</Value>
+          </CustomProperty>
+        </CustomProperties>
+        <Height>0.5in</Height>
+      </Textbox>
+      <Matrix Name="matrix">
+        <MatrixRows>
+          <MatrixRow>
+            <Height>0.25in</Height>
+            <MatrixCells>
+              <MatrixCell>
+                <ReportItems>
+                  <Textbox Name="xSalesOpportunities_Value">
+                    <DataElementOutput>Output</DataElementOutput>
+                    <CanGrow>true</CanGrow>
+                    <Action>
+                      <Drillthrough>
+                        <ReportName>=DataSources!dataSource1.DataSourceReference</ReportName>
+                        <Parameters>
+                          <Parameter Name="rs:EntityID">
+                            <Value>G7556bad9-7627-4c4e-9a03-8e4fa9eaad82</Value>
+                          </Parameter>
+                          <Parameter Name="rs:DrillType">
+                            <Value>List</Value>
+                          </Parameter>
+                          <Parameter Name="rs:Command">
+                            <Value>Drillthrough</Value>
+                          </Parameter>
+                          <Parameter Name="DrillthroughSourceQuery">
+                            <Value>=DataSets!dataSet.RewrittenCommandText</Value>
+                          </Parameter>
+                          <Parameter Name="DrillthroughContext">
+                            <Value>=CreateDrillthroughContext()</Value>
+                          </Parameter>
+                        </Parameters>
+                      </Drillthrough>
+                    </Action>
+                    <Value>=SUM(Fields!xSalesOpportunities_Count.Value)</Value>
+                    <Style>
+                      <BackgroundColor>White</BackgroundColor>
+                      <FontSize>8pt</FontSize>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                      <PaddingBottom>2pt</PaddingBottom>
+                      <BorderColor>
+                        <Default>#c0c0c0</Default>
+                      </BorderColor>
+                      <BorderStyle>
+                        <Default>Solid</Default>
+                      </BorderStyle>
+                      <FontFamily>Tahoma</FontFamily>
+                      <Format>n0</Format>
+                      <Language>en-US</Language>
+                    </Style>
+                    <CustomProperties>
+                      <CustomProperty>
+                        <Name>rb:DisplayName</Name>
+                        <Value># Sales Opportunities</Value>
+                      </CustomProperty>
+                    </CustomProperties>
+                  </Textbox>
+                </ReportItems>
+              </MatrixCell>
+            </MatrixCells>
+          </MatrixRow>
+        </MatrixRows>
+        <RowGroupings>
+          <RowGrouping>
+            <Width>1.73517in</Width>
+            <FixedHeader>true</FixedHeader>
+            <DynamicRows>
+              <Subtotal>
+                <ReportItems>
+                  <Textbox Name="ParentUserGroup_SubtotalHeader">
+                    <CanGrow>true</CanGrow>
+                    <Value>Total</Value>
+                    <Style>
+                      <BackgroundColor>#c6dbff</BackgroundColor>
+                      <FontSize>8pt</FontSize>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                      <PaddingBottom>2pt</PaddingBottom>
+                      <BorderColor>
+                        <Default>#c0c0c0</Default>
+                      </BorderColor>
+                      <BorderStyle>
+                        <Default>Solid</Default>
+                      </BorderStyle>
+                      <FontFamily>Tahoma</FontFamily>
+                    </Style>
+                  </Textbox>
+                </ReportItems>
+                <Style>
+                  <BackgroundColor>White</BackgroundColor>
+                  <FontSize>8pt</FontSize>
+                  <PaddingLeft>2pt</PaddingLeft>
+                  <PaddingRight>2pt</PaddingRight>
+                  <PaddingTop>2pt</PaddingTop>
+                  <PaddingBottom>2pt</PaddingBottom>
+                  <BorderColor>
+                    <Default>#c0c0c0</Default>
+                  </BorderColor>
+                  <BorderStyle>
+                    <Default>Solid</Default>
+                  </BorderStyle>
+                  <FontFamily>Tahoma</FontFamily>
+                </Style>
+              </Subtotal>
+              <ReportItems>
+                <Textbox Name="GroupDesc_Value2">
+                  <DataElementOutput>Output</DataElementOutput>
+                  <CanGrow>true</CanGrow>
+                  <Action>
+                    <Drillthrough>
+                      <ReportName>=DataSources!dataSource1.DataSourceReference</ReportName>
+                      <Parameters>
+                        <Parameter Name="rs:EntityID">
+                          <Value>Ge293a8b5-4be2-4b35-8af4-83abf78189c1</Value>
+                        </Parameter>
+                        <Parameter Name="rs:DrillType">
+                          <Value>Detail</Value>
+                        </Parameter>
+                        <Parameter Name="rs:Command">
+                          <Value>Drillthrough</Value>
+                        </Parameter>
+                        <Parameter Name="DrillthroughSourceQuery">
+                          <Value>=DataSets!dataSet.RewrittenCommandText</Value>
+                        </Parameter>
+                        <Parameter Name="DrillthroughContext">
+                          <Value>=CreateDrillthroughContext()</Value>
+                        </Parameter>
+                      </Parameters>
+                    </Drillthrough>
+                  </Action>
+                  <Value>=Fields!ParentUserGroup1.Value</Value>
+                  <Style>
+                    <BackgroundColor>#c6dbff</BackgroundColor>
+                    <FontSize>8pt</FontSize>
+                    <PaddingLeft>2pt</PaddingLeft>
+                    <PaddingRight>2pt</PaddingRight>
+                    <PaddingTop>2pt</PaddingTop>
+                    <PaddingBottom>2pt</PaddingBottom>
+                    <BorderColor>
+                      <Default>#c0c0c0</Default>
+                    </BorderColor>
+                    <BorderStyle>
+                      <Default>Solid</Default>
+                    </BorderStyle>
+                    <FontFamily>Tahoma</FontFamily>
+                    <Language>en-US</Language>
+                  </Style>
+                </Textbox>
+              </ReportItems>
+              <Sorting>
+                <SortBy>
+                  <SortExpression>=IIf(True, Fields!expr2.Value, Nothing)</SortExpression>
+                </SortBy>
+                <SortBy>
+                  <SortExpression>=IIf(True, Fields!ParentUserGroup1.Value, Nothing)</SortExpression>
+                </SortBy>
+              </Sorting>
+              <Grouping Name="matrix_ParentUserGroup">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!ParentUserGroup.Value</GroupExpression>
+                </GroupExpressions>
+              </Grouping>
+            </DynamicRows>
+          </RowGrouping>
+          <RowGrouping>
+            <Width>1.73517in</Width>
+            <FixedHeader>true</FixedHeader>
+            <DynamicRows>
+              <Subtotal>
+                <ReportItems>
+                  <Textbox Name="Group_SubtotalHeader">
+                    <CanGrow>true</CanGrow>
+                    <Value>Total</Value>
+                    <Style>
+                      <BackgroundColor>#c6dbff</BackgroundColor>
+                      <FontSize>8pt</FontSize>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                      <PaddingBottom>2pt</PaddingBottom>
+                      <BorderColor>
+                        <Default>#c0c0c0</Default>
+                      </BorderColor>
+                      <BorderStyle>
+                        <Default>Solid</Default>
+                      </BorderStyle>
+                      <FontFamily>Tahoma</FontFamily>
+                    </Style>
+                  </Textbox>
+                </ReportItems>
+                <Style>
+                  <BackgroundColor>White</BackgroundColor>
+                  <FontSize>8pt</FontSize>
+                  <PaddingLeft>2pt</PaddingLeft>
+                  <PaddingRight>2pt</PaddingRight>
+                  <PaddingTop>2pt</PaddingTop>
+                  <PaddingBottom>2pt</PaddingBottom>
+                  <BorderColor>
+                    <Default>#c0c0c0</Default>
+                  </BorderColor>
+                  <BorderStyle>
+                    <Default>Solid</Default>
+                  </BorderStyle>
+                  <FontFamily>Tahoma</FontFamily>
+                </Style>
+              </Subtotal>
+              <Visibility>
+                <ToggleItem>GroupDesc_Value2</ToggleItem>
+                <Hidden>true</Hidden>
+              </Visibility>
+              <ReportItems>
+                <Textbox Name="GroupDesc_Value">
+                  <DataElementOutput>Output</DataElementOutput>
+                  <CanGrow>true</CanGrow>
+                  <Action>
+                    <Drillthrough>
+                      <ReportName>=DataSources!dataSource1.DataSourceReference</ReportName>
+                      <Parameters>
+                        <Parameter Name="rs:EntityID">
+                          <Value>Ge293a8b5-4be2-4b35-8af4-83abf78189c1</Value>
+                        </Parameter>
+                        <Parameter Name="rs:DrillType">
+                          <Value>Detail</Value>
+                        </Parameter>
+                        <Parameter Name="rs:Command">
+                          <Value>Drillthrough</Value>
+                        </Parameter>
+                        <Parameter Name="DrillthroughSourceQuery">
+                          <Value>=DataSets!dataSet.RewrittenCommandText</Value>
+                        </Parameter>
+                        <Parameter Name="DrillthroughContext">
+                          <Value>=CreateDrillthroughContext()</Value>
+                        </Parameter>
+                      </Parameters>
+                    </Drillthrough>
+                  </Action>
+                  <Value>=Fields!UserGroup.Value</Value>
+                  <Style>
+                    <BackgroundColor>#c6dbff</BackgroundColor>
+                    <FontSize>8pt</FontSize>
+                    <PaddingLeft>2pt</PaddingLeft>
+                    <PaddingRight>2pt</PaddingRight>
+                    <PaddingTop>2pt</PaddingTop>
+                    <PaddingBottom>2pt</PaddingBottom>
+                    <BorderColor>
+                      <Default>#c0c0c0</Default>
+                    </BorderColor>
+                    <BorderStyle>
+                      <Default>Solid</Default>
+                    </BorderStyle>
+                    <FontFamily>Tahoma</FontFamily>
+                    <Language>en-US</Language>
+                  </Style>
+                </Textbox>
+              </ReportItems>
+              <Sorting>
+                <SortBy>
+                  <SortExpression>=IIf(True, Fields!expr3.Value, Nothing)</SortExpression>
+                </SortBy>
+                <SortBy>
+                  <SortExpression>=IIf(True, Fields!UserGroup.Value, Nothing)</SortExpression>
+                </SortBy>
+              </Sorting>
+              <Grouping Name="matrix_AssignedToGroup">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!Group.Value</GroupExpression>
+                </GroupExpressions>
+              </Grouping>
+            </DynamicRows>
+          </RowGrouping>
+          <RowGrouping>
+            <Width>1.16876in</Width>
+            <FixedHeader>true</FixedHeader>
+            <DynamicRows>
+              <Subtotal>
+                <ReportItems>
+                  <Textbox Name="User_SubtotalHeader">
+                    <CanGrow>true</CanGrow>
+                    <Value>Total</Value>
+                    <Style>
+                      <BackgroundColor>#c6dbff</BackgroundColor>
+                      <FontSize>8pt</FontSize>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                      <PaddingBottom>2pt</PaddingBottom>
+                      <BorderColor>
+                        <Default>#c0c0c0</Default>
+                      </BorderColor>
+                      <BorderStyle>
+                        <Default>Solid</Default>
+                      </BorderStyle>
+                      <FontFamily>Tahoma</FontFamily>
+                    </Style>
+                  </Textbox>
+                </ReportItems>
+                <Style>
+                  <BackgroundColor>White</BackgroundColor>
+                  <FontSize>8pt</FontSize>
+                  <PaddingLeft>2pt</PaddingLeft>
+                  <PaddingRight>2pt</PaddingRight>
+                  <PaddingTop>2pt</PaddingTop>
+                  <PaddingBottom>2pt</PaddingBottom>
+                  <BorderColor>
+                    <Default>#c0c0c0</Default>
+                  </BorderColor>
+                  <BorderStyle>
+                    <Default>Solid</Default>
+                  </BorderStyle>
+                  <FontFamily>Tahoma</FontFamily>
+                </Style>
+              </Subtotal>
+              <Visibility>
+                <ToggleItem>GroupDesc_Value</ToggleItem>
+                <Hidden>true</Hidden>
+              </Visibility>
+              <ReportItems>
+                <Textbox Name="Name_Value">
+                  <DataElementOutput>Output</DataElementOutput>
+                  <CanGrow>true</CanGrow>
+                  <Value>=Fields!AssignedToName.Value</Value>
+                  <Style>
+                    <BackgroundColor>#c6dbff</BackgroundColor>
+                    <FontSize>8pt</FontSize>
+                    <PaddingLeft>2pt</PaddingLeft>
+                    <PaddingRight>2pt</PaddingRight>
+                    <PaddingTop>2pt</PaddingTop>
+                    <PaddingBottom>2pt</PaddingBottom>
+                    <BorderColor>
+                      <Default>#c0c0c0</Default>
+                    </BorderColor>
+                    <BorderStyle>
+                      <Default>Solid</Default>
+                    </BorderStyle>
+                    <FontFamily>Tahoma</FontFamily>
+                    <Language>en-US</Language>
+                  </Style>
+                </Textbox>
+              </ReportItems>
+              <Sorting>
+                <SortBy>
+                  <SortExpression>=IIf(True, Fields!expr4.Value, Nothing)</SortExpression>
+                </SortBy>
+                <SortBy>
+                  <SortExpression>=IIf(True, Fields!AssignedToName.Value, Nothing)</SortExpression>
+                </SortBy>
+              </Sorting>
+              <Grouping Name="matrix_AssignedTo">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!User.Value</GroupExpression>
+                </GroupExpressions>
+              </Grouping>
+            </DynamicRows>
+          </RowGrouping>
+        </RowGroupings>
+        <Top>1.5in</Top>
+        <MatrixColumns>
+          <MatrixColumn>
+            <Width>1.54554in</Width>
+          </MatrixColumn>
+        </MatrixColumns>
+        <Corner>
+          <ReportItems>
+            <Rectangle Name="matrix_corner">
+              <Style />
+              <ReportItems>
+                <Textbox Name="textbox4">
+                  <Value />
+                  <Style>
+                    <BackgroundColor>White</BackgroundColor>
+                    <FontSize>8pt</FontSize>
+                    <PaddingLeft>2pt</PaddingLeft>
+                    <PaddingRight>2pt</PaddingRight>
+                    <PaddingTop>2pt</PaddingTop>
+                    <PaddingBottom>2pt</PaddingBottom>
+                    <FontFamily>Tahoma</FontFamily>
+                  </Style>
+                  <Height>0.25in</Height>
+                </Textbox>
+                <Textbox Name="GroupDesc_Header2">
+                  <Left>0in</Left>
+                  <Top>0.25in</Top>
+                  <Width>1.73517in</Width>
+                  <UserSort>
+                    <SortExpression>=Fields!ParentUserGroup1.Value</SortExpression>
+                    <SortExpressionScope>matrix_ParentUserGroup</SortExpressionScope>
+                  </UserSort>
+                  <Value>Parent User Group</Value>
+                  <Style>
+                    <Color>White</Color>
+                    <BackgroundColor>#528ae7</BackgroundColor>
+                    <FontSize>8pt</FontSize>
+                    <PaddingLeft>2pt</PaddingLeft>
+                    <PaddingRight>2pt</PaddingRight>
+                    <PaddingTop>2pt</PaddingTop>
+                    <PaddingBottom>2pt</PaddingBottom>
+                    <BorderColor>
+                      <Default>#c0c0c0</Default>
+                    </BorderColor>
+                    <BorderStyle>
+                      <Default>Solid</Default>
+                    </BorderStyle>
+                    <FontFamily>Tahoma</FontFamily>
+                    <FontWeight>Bold</FontWeight>
+                    <Language>en-US</Language>
+                  </Style>
+                  <Height>0.25in</Height>
+                </Textbox>
+                <Textbox Name="GroupDesc_Header">
+                  <Left>1.73517in</Left>
+                  <Top>0.25in</Top>
+                  <Width>1.73517in</Width>
+                  <UserSort>
+                    <SortExpression>=Fields!UserGroup.Value</SortExpression>
+                    <SortExpressionScope>matrix_AssignedToGroup</SortExpressionScope>
+                  </UserSort>
+                  <Value>User Group</Value>
+                  <Style>
+                    <Color>White</Color>
+                    <BackgroundColor>#528ae7</BackgroundColor>
+                    <FontSize>8pt</FontSize>
+                    <PaddingLeft>2pt</PaddingLeft>
+                    <PaddingRight>2pt</PaddingRight>
+                    <PaddingTop>2pt</PaddingTop>
+                    <PaddingBottom>2pt</PaddingBottom>
+                    <BorderColor>
+                      <Default>#c0c0c0</Default>
+                    </BorderColor>
+                    <BorderStyle>
+                      <Default>Solid</Default>
+                    </BorderStyle>
+                    <FontFamily>Tahoma</FontFamily>
+                    <FontWeight>Bold</FontWeight>
+                    <Language>en-US</Language>
+                  </Style>
+                  <Height>0.25in</Height>
+                </Textbox>
+                <Textbox Name="Name_Header">
+                  <Left>3.47034in</Left>
+                  <Top>0.25in</Top>
+                  <Width>1.16876in</Width>
+                  <UserSort>
+                    <SortExpression>=Fields!AssignedToName.Value</SortExpression>
+                    <SortExpressionScope>matrix_AssignedTo</SortExpressionScope>
+                  </UserSort>
+                  <Value>Assigned To Name</Value>
+                  <Style>
+                    <Color>White</Color>
+                    <BackgroundColor>#528ae7</BackgroundColor>
+                    <FontSize>8pt</FontSize>
+                    <PaddingLeft>2pt</PaddingLeft>
+                    <PaddingRight>2pt</PaddingRight>
+                    <PaddingTop>2pt</PaddingTop>
+                    <PaddingBottom>2pt</PaddingBottom>
+                    <BorderColor>
+                      <Default>#c0c0c0</Default>
+                    </BorderColor>
+                    <BorderStyle>
+                      <Default>Solid</Default>
+                    </BorderStyle>
+                    <FontFamily>Tahoma</FontFamily>
+                    <FontWeight>Bold</FontWeight>
+                    <Language>en-US</Language>
+                  </Style>
+                  <Height>0.25in</Height>
+                </Textbox>
+              </ReportItems>
+            </Rectangle>
+          </ReportItems>
+        </Corner>
+        <Style />
+        <Width>0in</Width>
+        <Height>0in</Height>
+        <NoRows>No data was found that matched your report criteria.</NoRows>
+        <DataSetName>dataSet</DataSetName>
+        <ColumnGroupings>
+          <ColumnGrouping>
+            <DynamicColumns>
+              <ReportItems>
+                <Textbox Name="textbox2">
+                  <DataElementOutput>Output</DataElementOutput>
+                  <Value>Status (# Sales Opportunities)</Value>
+                  <Style>
+                    <Color>White</Color>
+                    <BackgroundColor>#528ae7</BackgroundColor>
+                    <FontSize>8pt</FontSize>
+                    <PaddingLeft>2pt</PaddingLeft>
+                    <PaddingRight>2pt</PaddingRight>
+                    <PaddingTop>2pt</PaddingTop>
+                    <PaddingBottom>2pt</PaddingBottom>
+                    <BorderColor>
+                      <Default>#c0c0c0</Default>
+                    </BorderColor>
+                    <BorderStyle>
+                      <Default>Solid</Default>
+                    </BorderStyle>
+                    <FontFamily>Tahoma</FontFamily>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </Textbox>
+              </ReportItems>
+              <Grouping Name="matrix_ColumnGroupsHeader">
+                <GroupExpressions>
+                  <GroupExpression>ColumnGroupsHeader</GroupExpression>
+                </GroupExpressions>
+              </Grouping>
+            </DynamicColumns>
+            <Height>0.25in</Height>
+            <FixedHeader>true</FixedHeader>
+          </ColumnGrouping>
+          <ColumnGrouping>
+            <DynamicColumns>
+              <Subtotal>
+                <ReportItems>
+                  <Textbox Name="Status_SubtotalHeader">
+                    <CanGrow>true</CanGrow>
+                    <Value>Total</Value>
+                    <Style>
+                      <BackgroundColor>#c6dbff</BackgroundColor>
+                      <FontSize>8pt</FontSize>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                      <PaddingBottom>2pt</PaddingBottom>
+                      <BorderColor>
+                        <Default>#c0c0c0</Default>
+                      </BorderColor>
+                      <BorderStyle>
+                        <Default>Solid</Default>
+                      </BorderStyle>
+                      <FontFamily>Tahoma</FontFamily>
+                    </Style>
+                  </Textbox>
+                </ReportItems>
+                <Style>
+                  <BackgroundColor>White</BackgroundColor>
+                  <FontSize>8pt</FontSize>
+                  <PaddingLeft>2pt</PaddingLeft>
+                  <PaddingRight>2pt</PaddingRight>
+                  <PaddingTop>2pt</PaddingTop>
+                  <PaddingBottom>2pt</PaddingBottom>
+                  <BorderColor>
+                    <Default>#c0c0c0</Default>
+                  </BorderColor>
+                  <BorderStyle>
+                    <Default>Solid</Default>
+                  </BorderStyle>
+                  <FontFamily>Tahoma</FontFamily>
+                </Style>
+              </Subtotal>
+              <ReportItems>
+                <Textbox Name="Status_Value">
+                  <DataElementOutput>Output</DataElementOutput>
+                  <Value>=Fields!Status2.Value</Value>
+                  <Style>
+                    <BackgroundColor>#c6dbff</BackgroundColor>
+                    <FontSize>8pt</FontSize>
+                    <PaddingLeft>2pt</PaddingLeft>
+                    <PaddingRight>2pt</PaddingRight>
+                    <PaddingTop>2pt</PaddingTop>
+                    <PaddingBottom>2pt</PaddingBottom>
+                    <BorderColor>
+                      <Default>#c0c0c0</Default>
+                    </BorderColor>
+                    <BorderStyle>
+                      <Default>Solid</Default>
+                    </BorderStyle>
+                    <FontFamily>Tahoma</FontFamily>
+                    <Language>en-US</Language>
+                  </Style>
+                </Textbox>
+              </ReportItems>
+              <Sorting>
+                <SortBy>
+                  <SortExpression>=IIf(True, Fields!expr5.Value, Nothing)</SortExpression>
+                </SortBy>
+              </Sorting>
+              <Grouping Name="matrix_Status">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!Status.Value</GroupExpression>
+                </GroupExpressions>
+              </Grouping>
+            </DynamicColumns>
+            <Height>0.25in</Height>
+            <FixedHeader>true</FixedHeader>
+          </ColumnGrouping>
+        </ColumnGroupings>
+        <Left>0.5in</Left>
+      </Matrix>
+      <Textbox Name="FilterDescription">
+        <Left>0.5in</Left>
+        <Top>3.5in</Top>
+        <CanGrow>true</CanGrow>
+        <Width>6.5in</Width>
+        <Value>Filter: Sales Opportunity with: Status Extra Data ≠ "CLOSED"</Value>
+        <Style>
+          <FontSize>8pt</FontSize>
+          <PaddingLeft>3pt</PaddingLeft>
+          <PaddingRight>3pt</PaddingRight>
+          <PaddingTop>3pt</PaddingTop>
+          <PaddingBottom>3pt</PaddingBottom>
+        </Style>
+        <CustomProperties>
+          <CustomProperty>
+            <Name>rb:SpecialContent</Name>
+            <Value>FilterDescription</Value>
+          </CustomProperty>
+        </CustomProperties>
+        <Height>0.25in</Height>
+      </Textbox>
+    </ReportItems>
+    <Style />
+  </Body>
+  <PageWidth>8.5in</PageWidth>
+</Report>

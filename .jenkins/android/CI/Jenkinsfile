@@ -1,0 +1,39 @@
+pipeline { 
+	agent {
+		node {
+			label "onyx-android"
+			customWorkspace "e:/ws/${BRANCH_NAME}/${BUILD_NUMBER}"
+		}
+	}
+	options {
+		timestamps()
+       	timeout(time: 1, unit: 'HOURS') 
+   	}
+	stages {
+		stage('Build') {
+			steps {	
+				dir('OnyxMobile/Android/OnyxMobile') {
+                    bat "appc run --platform android -b -f --sdk 6.0.2.GA --no-launch --username brittny.white@avolin.com --password avolin123"
+			    }   
+			}
+		}  		
+	}
+	post {
+		always {
+			script {
+                def committerDetails = bat ( 
+                    script: 'git --no-pager show -s --format=%%ae', 
+                    returnStdout: true
+                )
+
+                def arr = committerDetails.tokenize('\n')
+                def committerEmail = arr[2].trim()
+				bat "echo Committer email: ${committerEmail}"
+				step([$class: 'Mailer',
+					recipients: "${committerEmail}",
+					notifyEveryUnstableBuild: true
+				])
+			}            
+		}
+	}	
+}

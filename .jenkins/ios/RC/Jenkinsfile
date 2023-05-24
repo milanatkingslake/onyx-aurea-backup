@@ -1,0 +1,57 @@
+pipeline { 
+	agent {
+		node {
+			label "onyx-mac"
+			customWorkspace "/users/administrator/jenkins/workspace/${BRANCH_NAME}/${BUILD_NUMBER}"
+		}
+	}
+	options {
+		timestamps()
+       	timeout(time: 2, unit: 'HOURS') 
+   	}
+    environment {
+        VERSION = "${RELEASE_NUMBER}.${GIT_COMMIT[0..7]}"
+        IOS_APP_PACKAGED="/Users/Administrator/Documents/onyxmobileapp/OnyxMobile.ipa"           
+    }
+	stages {
+		stage('Build') {
+			steps {	
+				dir('onyxmobile/ios/onyxmobile') {
+                    sh """
+                        appc logout
+                        security unlock-keychain -p GeqgM3bA /Users/administrator/Library/Keychains/login.keychain-db & appc run --platform ios --username brittny.white@avolin.com --password avolin123 -f --sdk 6.0.2.GA --target dist-adhoc --keychain /Users/administrator/Library/Keychains/login.keychain-db --output-dir /Users/administrator/Documents/onyxmobileapp --pp-uuid 4588c85c-264c-485c-8f93-4fe50f405686 --distribution-name 'Avolin Inc (97T89359R6)' --log-level trace
+                    """
+			    }   
+			}
+		}        
+        stage('Upload to Nexus') {
+			when {
+				expression {
+					return "${DO_UPLOAD_NEXUS}".toBoolean() == true
+				}
+	        }
+            steps {
+                withCredentials([[
+                    $class : 'UsernamePasswordMultiBinding', credentialsId: 'central.jnk.nexus',
+                    usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD'
+                ]]) {
+                    echo "Uploading '${IOS_APP_PACKAGED}' to 'nexus.devfactory.com/repository/${NEXUS_REPO}/iOSMobileApp/${ENV}/${VERSION}/'"
+                    sh """
+                        curl --show-error --fail -k -X PUT -s -S -u "$USERNAME:$PASSWORD" --upload-file "${IOS_APP_PACKAGED}" "https://nexus.devfactory.com/repository/${NEXUS_REPO}/iOSMobileApp/${ENV}/${VERSION}/"
+                    """
+                    echo "Generating latest.txt with ${VERSION}"
+                    writeFile file: "latest.txt", text: "${VERSION}", encoding: "UTF-8"
+                    echo "Uploading latest.txt with ${VERSION} to 'nexus.devfactory.com/repository/${NEXUS_REPO}/iOSMobileApp/${ENV}/'"
+                    sh """
+                        curl --show-error --fail -k -X PUT -s -S -u "$USERNAME:$PASSWORD" --upload-file "latest.txt" "https://nexus.devfactory.com/repository/${NEXUS_REPO}/iOSMobileApp/${ENV}/"
+                    """
+                }                
+            }
+        }
+        stage('Call deploy build') {
+            steps {
+                echo "Call deploy build"
+            }
+        }        
+	}
+}

@@ -1,0 +1,57 @@
+pipeline { 
+	agent {
+		node {
+			label "onyx-android"
+			customWorkspace "e:/ws/${BRANCH_NAME}/${BUILD_NUMBER}"
+		}
+	}
+	options {
+		timestamps()
+       	timeout(time: 1, unit: 'HOURS') 
+   	}
+    environment {
+        VERSION = "${RELEASE_NUMBER}.${GIT_COMMIT[0..7]}"
+        ANDROID_APP_PACKAGED = "c:/androidapp/OnyxMobile.apk"
+		KEYSTORE_PATH = "\\OnyxMobile\\Android\\App Upload\\Onyx.keystore"
+    }
+	stages {
+		stage('Build') {
+			steps {	
+				dir('OnyxMobile/Android/OnyxMobile') {					
+                    bat """appc run --platform android --force --sdk 6.0.2.GA --no-launch --username brittny.white@avolin.com --password avolin123 --output-dir c:/androidapp --target dist-playstore --keystore "e:/ws/${BRANCH_NAME}/${BUILD_NUMBER}/OnyxMobile/Android/App Upload/Onyx.keystore" --store-password onyxonyx --alias OnyxMobile"""
+			    }   
+			}
+		}        
+        stage('Upload to Nexus') {
+			when {
+				expression {
+					return "${DO_UPLOAD_NEXUS}".toBoolean() == true
+				}
+	        }
+            steps {
+                withCredentials([[
+                    $class : 'UsernamePasswordMultiBinding', credentialsId: 'central.jnk.nexus',
+                    usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD'
+                ]]) {
+                    echo "Uploading '${ANDROID_APP_PACKAGED}' to 'nexus.devfactory.com/repository/${NEXUS_REPO}/AndroidMobileApp/${ENV}/${VERSION}/'"
+                    bat """
+                        curl --show-error --fail -k -X PUT -s -S -u "$USERNAME:$PASSWORD" --upload-file "${ANDROID_APP_PACKAGED}" "https://nexus.devfactory.com/repository/${NEXUS_REPO}/AndroidMobileApp/${ENV}/${VERSION}/"
+                    """
+                    echo "Generating latest.txt with ${VERSION}"
+                    writeFile file: "latest.txt", text: "${VERSION}", encoding: "UTF-8"
+                    echo "Uploading latest.txt with ${VERSION} to 'nexus.devfactory.com/repository/${NEXUS_REPO}/AndroidMobileApp/${ENV}/'"
+                    bat """
+                        curl --show-error --fail -k -X PUT -s -S -u "$USERNAME:$PASSWORD" --upload-file "latest.txt" "https://nexus.devfactory.com/repository/${NEXUS_REPO}/AndroidMobileApp/${ENV}/"
+                    """
+                }  
+				echo "Deleting localy generated android app as we don't need them anymore on this machine..."
+                bat "rmdir c:\\androidapp /s /q"				
+            }
+        }
+        stage('Call deploy build') {
+            steps {
+                echo "Call deploy build"
+            }
+        }        
+	}
+}

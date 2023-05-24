@@ -1,0 +1,409 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\NUnit3TestAdapter.3.12.0\build\net35\NUnit3TestAdapter.props" Condition="Exists('..\packages\NUnit3TestAdapter.3.12.0\build\net35\NUnit3TestAdapter.props')" />
+  <Import Project="..\packages\NUnit.3.10.1\build\NUnit.props" Condition="Exists('..\packages\NUnit.3.10.1\build\NUnit.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C7BA7C17-EA01-46FA-8836-21E23241484E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Avolin.Onyx.Part15.AUT.Tests</RootNamespace>
+    <AssemblyName>Avolin.Onyx.Part15.AUT.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AUT.ConfigureTestProjects, Version=5.4.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AUT.ConfigureTestProjects.5.4.4\lib\net462\AUT.ConfigureTestProjects.dll</HintPath>
+    </Reference>
+    <Reference Include="AUT.TestProjects.GenV3, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AUT.TestProjects.GenV3.1.4.0\lib\net452\AUT.TestProjects.GenV3.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoFixture, Version=4.5.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoFixture.4.5.0\lib\net452\AutoFixture.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoFixture.AutoMoq, Version=4.5.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoFixture.AutoMoq.4.5.0\lib\net452\AutoFixture.AutoMoq.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoFixture.NUnit3, Version=4.5.0.0, Culture=neutral, PublicKeyToken=b24654c590009d4f, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoFixture.NUnit3.4.5.0\lib\net452\AutoFixture.NUnit3.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Castle.Core.4.3.1\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="CMService">
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\CMService.dll</HintPath>
+    </Reference>
+    <Reference Include="CmService.ServiceBrokerProxy">
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\CmService.ServiceBrokerProxy.dll</HintPath>
+    </Reference>
+    <Reference Include="CustomEntityHelper">
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\CustomEntityHelper.exe</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Fare, Version=2.1.0.0, Culture=neutral, PublicKeyToken=ea68d375bf33a7c8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Fare.2.1.1\lib\net35\Fare.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention">
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Moq, Version=4.10.0.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\packages\Moq.4.10.0\lib\net45\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="NavigatorMessages">
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\NavigatorMessages.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=3.10.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.10.1\lib\net45\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.Constants, Version=7.9.0.0, Culture=neutral, PublicKeyToken=986c716335af6023, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\Onyx.Constants.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.CrossOriginSupportData">
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\Onyx.CrossOriginSupportData.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.CrossOriginSupportService">
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\Onyx.CrossOriginSupportService.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.CustomAuthentication">
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\Onyx.CustomAuthentication.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.Gateway.Data">
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\Onyx.Gateway.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.Gateway.SharedLibrary">
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\Onyx.Gateway.SharedLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.GatewayContract, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\Onyx.GatewayContract.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.GatewayService.UnitTests">
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\Onyx.GatewayService.UnitTests.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.LoggerService, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\Onyx.LoggerService.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.OGS.EMFExtension.Base, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\Onyx.OGS.EMFExtension.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.OGS.EMFExtension.Core, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\Onyx.OGS.EMFExtension.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Onyx.OGS.EMFExtension.Template">
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\Onyx.OGS.EMFExtension.Template.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxAuthenticatePIA, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxAuthenticatePIA.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxAuthNTPIA, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxAuthNTPIA.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxDictionaryCacheProxyPIA, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxDictionaryCacheProxyPIA.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxEASServicesTMPIA, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxEASServicesTMPIA.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxFileAgent, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxFileAgent.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxGatewayService">
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxGatewayService.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxGatewayServiceHost">
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxGatewayServiceHost.exe</HintPath>
+    </Reference>
+    <Reference Include="OnyxGatewayWindowsService">
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxGatewayWindowsService.exe</HintPath>
+    </Reference>
+    <Reference Include="OnyxISAPI, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxISAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxMessageSubsystem, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxMessageSubsystem.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxNatLangProxyPIA, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxNatLangProxyPIA.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxOEASService, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxOEASService.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxQASIntegration, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxQASIntegration.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxSDK.Private.Metadata, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxSDK.Private.Metadata.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxSDK.Private.OEASService, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxSDK.Private.OEASService.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxSDK.Private.OGSService, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxSDK.Private.OGSService.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxSDK.Public.Communication, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxSDK.Public.Communication.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxSDK.Public.Configuration, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxSDK.Public.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxSDK.Public.Constants, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxSDK.Public.Constants.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxSDK.Public.Core, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxSDK.Public.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxSDK.Public.EnterpriseService, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxSDK.Public.EnterpriseService.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxSDK.Public.Helper, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxSDK.Public.Helper.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxSDK.Public.Interface, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxSDK.Public.Interface.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxSDK.Public.OGSOEASContract, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxSDK.Public.OGSOEASContract.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxSDK.Public.OGSOEASService, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxSDK.Public.OGSOEASService.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxSDK.Public.OGSOEASServiceContract, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxSDK.Public.OGSOEASServiceContract.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxSDK.Public.OnyxException, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxSDK.Public.OnyxException.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxSDK.Public.OnyxResources, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxSDK.Public.OnyxResources.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxSDK.Public.Types, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxSDK.Public.Types.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxSMPIA, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxSMPIA.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxSocial, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxSocial.dll</HintPath>
+    </Reference>
+    <Reference Include="OnyxTMPIA, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\OnyxTMPIA.dll</HintPath>
+    </Reference>
+    <Reference Include="PasswordEncryptLibrary, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\PasswordEncryptLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Service, Version=7.9.0.0, Culture=neutral, PublicKeyToken=206c397fab0ffa11, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\Service.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceBroker.Common">
+      <HintPath>..\..\OnyxGatewayService\BuildScripts\Output\ServiceBroker.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Shouldly, Version=3.0.0.0, Culture=neutral, PublicKeyToken=6042cbcb05cbc941, processorArchitecture=MSIL">
+      <HintPath>..\packages\Shouldly.3.0.0\lib\net451\Shouldly.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.1\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="OnyxGatewayWindowsService\OnyxServiceDesignerTest.cs" />
+    <Compile Include="OnyxGatewayWindowsService\OnyxServiceTest.cs" />
+    <Compile Include="OnyxGatewayWindowsService\ProgramTest.cs" />
+    <Compile Include="OnyxMessageSubsystem\OnyxExceptionTest.cs" />
+    <Compile Include="OnyxMessageSubsystem\OnyxLogHelperTest.cs" />
+    <Compile Include="OnyxMessageSubsystem\OnyxSerializableExceptionTest.cs" />
+    <Compile Include="OnyxMessageSubsystem\SubscribeNotificationServices\ContextDataTest.cs" />
+    <Compile Include="OnyxMessageSubsystem\SubscribeNotificationServices\EventManifestTest.cs" />
+    <Compile Include="OnyxMessageSubsystem\SubscribeNotificationServices\PublishEventClientTest.cs" />
+    <Compile Include="OnyxMessageSubsystem\SubscribeNotificationServices\PublishStatusTest.cs" />
+    <Compile Include="OnyxMessageSubsystem\SubscribeNotificationServices\SubscribeNotificationClientTest.cs" />
+    <Compile Include="OnyxMessageSubsystem\SubscribeNotificationServices\SubscriptionDataTest.cs" />
+    <Compile Include="OnyxMessageSubsystem\SubscribeNotificationServices\SystemDataTest.cs" />
+    <Compile Include="OnyxQASIntegration\CredentialsTest.cs" />
+    <Compile Include="OnyxQASIntegration\PartnerPlatform\AuthenticationHeaderTest.cs" />
+    <Compile Include="OnyxQASIntegration\PartnerPlatform\BatchEmailRequestTest.cs" />
+    <Compile Include="OnyxQASIntegration\PartnerPlatform\BatchEmailResponseTest.cs" />
+    <Compile Include="OnyxQASIntegration\PartnerPlatform\BatchRequestTest.cs" />
+    <Compile Include="OnyxQASIntegration\PartnerPlatform\BatchResponseTest.cs" />
+    <Compile Include="OnyxQASIntegration\PartnerPlatform\DoBatchEmailRequestTest.cs" />
+    <Compile Include="OnyxQASIntegration\PartnerPlatform\DoBatchEmailResponseTest.cs" />
+    <Compile Include="OnyxQASIntegration\PartnerPlatform\DoBatchValidateRequestTest.cs" />
+    <Compile Include="OnyxQASIntegration\PartnerPlatform\DoBatchValidateResponseTest.cs" />
+    <Compile Include="OnyxQASIntegration\PartnerPlatform\DoEmailRequestTest.cs" />
+    <Compile Include="OnyxQASIntegration\PartnerPlatform\DoEmailResponseTest.cs" />
+    <Compile Include="OnyxQASIntegration\PartnerPlatform\DoRefineRequestTest.cs" />
+    <Compile Include="OnyxQASIntegration\PartnerPlatform\DoRefineResponseTest.cs" />
+    <Compile Include="OnyxQASIntegration\PartnerPlatform\DoSearchRequestTest.cs" />
+    <Compile Include="OnyxQASIntegration\PartnerPlatform\DoSearchResponseTest.cs" />
+    <Compile Include="OnyxQASIntegration\PartnerPlatform\DoValidateRequestTest.cs" />
+    <Compile Include="OnyxQASIntegration\PartnerPlatform\DoValidateResponseTest.cs" />
+    <Compile Include="OnyxQASIntegration\PartnerPlatform\EmailRequestTest.cs" />
+    <Compile Include="OnyxQASIntegration\PartnerPlatform\EmailResponseTest.cs" />
+    <Compile Include="OnyxQASIntegration\PartnerPlatform\FieldTest.cs" />
+    <Compile Include="OnyxQASIntegration\PartnerPlatform\InformationTest.cs" />
+    <Compile Include="OnyxQASIntegration\PartnerPlatform\LookupRequestTest.cs" />
+    <Compile Include="OnyxQASIntegration\PartnerPlatform\LookupResponseTest.cs" />
+    <Compile Include="OnyxQASIntegration\PartnerPlatform\PartnerClientTest.cs" />
+    <Compile Include="OnyxQASIntegration\PartnerPlatform\ValidateRequestTest.cs" />
+    <Compile Include="OnyxQASIntegration\PartnerPlatform\ValidateResponseTest.cs" />
+    <Compile Include="OnyxQASIntegration\ProgramTest.cs" />
+    <Compile Include="OnyxQASIntegration\SearchAddressTest.cs" />
+    <Compile Include="OnyxQASIntegration\SearchEmailAddressTest.cs" />
+    <Compile Include="OnyxQASIntegration\UtilitiesTest.cs" />
+    <Compile Include="OnyxSocial\TwitterApiTest.cs" />
+    <Compile Include="OnyxWindowsService\OnyxServiceInstallerDesignerTest.cs" />
+    <Compile Include="OnyxWindowsService\OnyxServiceInstallerTest.cs" />
+    <Compile Include="Onyx\CustomAuthentication\OnyxGatewayServiceUserNamePasswordValidatorTest.cs" />
+    <Compile Include="Onyx\CustomAuthentication\WindowsAuthenticationValidateTest.cs" />
+    <Compile Include="Onyx\OEASService\LogHelperTest.cs" />
+    <Compile Include="Onyx\OEASService\ObjectArrayTest.cs" />
+    <Compile Include="Onyx\OEASService\OEASHelperTest.cs" />
+    <Compile Include="Onyx\OEASService\OEASOnyxAuthenticateTest.cs" />
+    <Compile Include="Onyx\OEASService\OEASOnyxTransactionManagerTest.cs" />
+    <Compile Include="Onyx\OEASService\OnyxContextDataTest.cs" />
+    <Compile Include="Onyx\OGS\EMFExtension\Base\BusinessRuleCoreTest.cs" />
+    <Compile Include="Onyx\OGS\EMFExtension\Base\BusinessRuleTest.cs" />
+    <Compile Include="Onyx\OGS\EMFExtension\Base\CustomerEmailDataProfileTest.cs" />
+    <Compile Include="Onyx\OGS\EMFExtension\Base\ExtensionHelperTest.cs" />
+    <Compile Include="Onyx\OGS\EMFExtension\Base\IAmWatchingBRTest.cs" />
+    <Compile Include="Onyx\OGS\EMFExtension\Base\IncidentEmailDataProfileTest.cs" />
+    <Compile Include="Onyx\OGS\EMFExtension\Base\IncidentFromWorkNoteBRTest.cs" />
+    <Compile Include="Onyx\OGS\EMFExtension\Base\MyFavoriteBRTest.cs" />
+    <Compile Include="Onyx\OGS\EMFExtension\Base\TaskEmailDataProfileTest.cs" />
+    <Compile Include="Onyx\OGS\EMFExtension\Core\EMFExtensionFactoryTest.cs" />
+    <Compile Include="Onyx\OGS\EMFExtension\Core\ExtensionExceptionTest.cs" />
+    <Compile Include="Onyx\OGS\EMFExtension\Template\BusinessRuleExtensionTest.cs" />
+    <Compile Include="Onyx\OGS\EMFExtension\Template\CustomerEmailDataProfileExtensionTest.cs" />
+    <Compile Include="Onyx\OGS\EMFExtension\Template\IncidentEmailDataProfileExtensionTest.cs" />
+    <Compile Include="Onyx\OGS\EMFExtension\Template\TaskEmailDataProfileExtensionExtensionTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\NUnit.3.10.1\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit.3.10.1\build\NUnit.props'))" />
+    <Error Condition="!Exists('..\packages\NUnit3TestAdapter.3.12.0\build\net35\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit3TestAdapter.3.12.0\build\net35\NUnit3TestAdapter.props'))" />
+  </Target>
+</Project>
